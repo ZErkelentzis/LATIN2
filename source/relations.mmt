@@ -1,0 +1,27 @@
+namespace latin:/❚
+
+fixmeta ur:?LF❚
+
+theory Relation =
+  A : type❙
+  rel : A ⟶ A ⟶ type❘# 1 $ 2 prec 30❘role Judgment❙
+❚
+
+theory Reflexivity =
+  include ?Relation❙
+  refl : {x} x$x❙
+❚
+
+theory Symmetry =
+  include ?Relation❙
+  sym : {x,y} x$y ⟶ y$x❙
+❚
+
+theory Transitivity =
+  include ?Relation❙
+  trans    : {x,y,z} x$y ⟶ y$z ⟶ x$z❘# 4 trans 5❙
+  trans3   : {w,x,y,z} w$x ⟶ x$y ⟶ y$z ⟶ w$z❘
+           = [w,x,y,z,p,q,r] p trans q trans r❙
+  trans4   : {v,w,x,y,z} v$w ⟶ w$x ⟶ x$y ⟶ y$z ⟶ v$z❘
+           = [v,w,x,y,z,p,q,r,s] trans3 (p trans q) r s❙
+❚

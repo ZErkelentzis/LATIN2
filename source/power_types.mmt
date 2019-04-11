@@ -1,0 +1,164 @@
+namespace latin:/❚
+
+fixmeta ur:?LF❚
+
+theory PowerTypes =
+  include ?TypedEquality❙
+  include ?Equivalence❙
+  
+  power : tp ⟶ tp❘# ℘ 1 prec 100❙
+  in    : {A} tm A  ⟶ tm ℘A ⟶ prop❘# 2 ∈ 3 prec 30❙
+  filter: {A} (tm A ⟶ prop) ⟶ tm ℘A❘# filter 2 prec 50❙
+  
+  compute : {A,P,x: tm A} ⊦ x ∈ filter P ⇔ P x❙
+  expand  : {A,S:tm ℘A} ⊦ S ≐ filter[x]x∈S❙
+  
+  filterI : {A,P,x: tm A} ⊦ P x ⟶ ⊦ x ∈ filter P❘
+  				= [A,P,x,p] compute equivEr p❙
+  filterE : {A,P,x: tm A} ⊦ x ∈ filter P ⟶ ⊦ P x❘# 4 filterE ❘ 
+  				= [A,P,x,p] compute equivEl p❙
+❚
+
+theory Equality =
+  include ?PowerTypes❙
+  include ?TypedEquality❙
+  include ?TypedUniversalQuantification❙
+
+  extensionality  : {A,S,T:tm ℘A} ⊦(∀[x:tm A] x∈S ⇔ x∈T) ⟶ ⊦ S≐T❙
+  extensionalityI : {A,S,T:tm ℘A} ({x}⊦x∈S⟶⊦x∈T) ⟶ ({x}⊦x∈T⟶⊦x∈S) ⟶ ⊦ S≐T❙
+❚
+  
+theory Subset =
+  include ?PowerTypes❙
+  include ?Implication❙
+  include ?TypedUniversalQuantification❙
+  include ?TypedEquality❙
+
+  subset : {A} tm ℘A ⟶ tm ℘A ⟶ prop❘	
+         = [A,S,T] ∀[x] x∈S ⇒ x∈T❘
+         # 2 ⊆ 3 prec 30❙
+  subset_refl  : {A,S:tm ℘A} ⊦ S⊆S❙
+  subset_trans : {A,R,S,T:tm ℘A} ⊦ R⊆S ⟶ ⊦ S⊆T ⟶ ⊦ R⊆T❙
+  subset_antisym : {A,S,T:tm ℘A} ⊦ S⊆T ⟶ ⊦ T⊆S ⟶ ⊦ S≐T❙
+❚
+
+theory FullSet =
+  include ?PowerTypes❙
+  include ?Truth❙
+
+  full  : {A} tm ℘A❘
+        = [A] filter [x] true❘
+        # fullset %I1 prec 50❙
+  fullI : {A,x} ⊦ x ∈ full A ❘ 
+  		  = [A,x] filterI trueI❙
+❚
+
+theory EmptySet =
+  include ?PowerTypes❙
+  include ?Falsity❙
+
+  empty : {A} tm ℘A❘
+        = [A] filter [x] false❘
+        # ∅ %I1 prec 50❙
+  emptyE : {A,x} ⊦ x ∈ empty A ⟶ ↯ ❘ 
+  			 = [A,x,p] p filterE falseE❙
+❚
+
+theory Complement =
+  include ?PowerTypes❙
+  include ?Negation❙
+
+  compl : {A} tm ℘A ⟶ tm ℘A ❘
+        = [A,S] filter [x] ¬ x∈S ❘
+        # 2 ⁻ prec 50❙
+  complI : {A,S,x:tm A} (⊦x∈S ⟶ ↯) ⟶ ⊦ x∈S⁻ ❘ 
+  			 = [A,S,x,p] filterI notI p ❙
+  complE : {A,S,x:tm A} ⊦ x∈S⁻ ⟶ ⊦ x∈S ⟶ ↯ ❘ 
+  			 = [A,S,x,p,q] p filterE notE q ❙
+❚
+
+theory Intersection =
+  include ?PowerTypes❙
+  include ?Conjunction❙
+
+  inter : {A} tm ℘A ⟶ tm ℘A ⟶ tm ℘A❘ 
+  			= [A,S,T] filter [x] x∈S ∧ x∈T❘
+  			# 2 ∩ 3 prec 40❙
+  intersEl : {A,S,T,x:tm A} ⊦ x ∈ S∩T ⟶ ⊦ x∈S❘
+  				 = [A,S,T, x, p] p filterE andEl❙
+  intersEr : {A,S,T,x:tm A} ⊦ x ∈ S∩T ⟶ ⊦ x∈T❘
+  				 = [A,S,T,x,p] p filterE andEr❙
+  intersI  : {A,S,T,x:tm A} ⊦ x∈S ⟶ ⊦ x∈T ⟶ ⊦ x ∈ S∩T❘
+  				 = [A,S,T,x,p,q] filterI andI p q❙
+❚
+
+theory Union =
+  include ?PowerTypes❙
+  include ?Disjunction❙
+
+  union : {A} tm ℘A ⟶ tm ℘A ⟶ tm ℘A ❘ 
+  				= [A,S,T] filter [x] x∈S ∨ x∈T❘
+  				# 2 ∪ 3 prec 40❙
+  unionIl: {A,S,T,x:tm A} ⊦ x∈S ⟶ ⊦ x ∈ S∪T❘
+         = [A,S,T,x,p] filterI orIl p❙
+  unionIr: {A,S,T,x:tm A} ⊦ x∈T ⟶ ⊦ x ∈ S∪T❘
+         = [A,S,T,x,p] filterI orIr p❙
+  unionE : {A,S,T,x:tm A,C} ⊦ x ∈ S∪T ⟶ (⊦x∈S⟶⊦C) ⟶ (⊦x∈T⟶⊦C) ⟶ ⊦ C❘
+  			 = [A,S,T,x,C,p,q,r] p filterE orE q r❙
+❚
+
+theory BigIntersection =
+  include ?PowerTypes❙
+  include ?Implication❙
+  include ?TypedUniversalQuantification❙
+
+  biginter : {A} tm ℘℘A ⟶ tm ℘A ❘ 
+    			 = [A,K] filter [x] ∀[S] S∈K ⇒ x∈S ❘
+    			 # ⋂ 2❙
+  biginterI : {A,K,x:tm A} ({S}⊦S∈K⟶⊦x∈S) ⟶ ⊦ x∈⋂K ❘ 
+  				  = [A,K,x,f] filterI (forallI [S] impI [p] f S p)❙
+  biginterE : {A,K,x:tm A,S} ⊦ x∈⋂K ⟶ ⊦S∈K ⟶ ⊦x∈S❘ 
+  				  = [A,K,x,S,p,q] p filterE forallE S impE q❙
+❚
+
+theory BigUnion =
+  include ?PowerTypes❙
+  include ?Conjunction❙
+  include ?TypedExistentialQuantification❙
+
+  bigunion : {A} tm ℘℘A ⟶ tm ℘A ❘ 
+  				 = [A,K] filter [x] ∃ [S] S∈K ∧ x∈S ❘
+  				 # ⋃ 2 ❙
+  bigunionI : {A,K,S,x:tm A} ⊦ S∈K ⟶ ⊦ x∈S ⟶ ⊦ x∈⋃K ❘ 
+  				  = [A,K,S,x,p,q] filterI (existsI S (andI p q))❙
+  bigunionE : {A,K,x:tm A,C} ⊦ x∈⋃K ⟶ ({S}⊦S∈K⟶⊦x∈S⟶⊦C) ⟶ ⊦ C❘ 
+  				  = [A,K,x,C,p,f] p filterE existsE [S,rs] f S (rs andEl) (rs andEr)❙
+❚
+
+theory Lattice =
+  include ?Equality❙
+  include ?Subset❙
+  include ?FullSet❙
+  include ?EmptySet❙
+  include ?Complement❙
+  include ?Intersection❙
+  include ?Union❙
+  include ?BigIntersection❙
+  include ?BigUnion❙
+❚
+
+theory ComplementRules =
+  include ?Lattice❙
+  compl_empty : {A} ⊦ (empty A)⁻ ≐ full A❙
+  compl_full  : {A} ⊦ (full A)⁻ ≐ empty A❙
+  compl_union : {A, S,T: tm ℘A} ⊦ (S ∪ T)⁻ ≐ S⁻ ∩ T⁻❙
+  compl_inter : {A, S,T: tm ℘A} ⊦ (S ∩ T)⁻ ≐ S⁻ ∪ T⁻❙
+  compl_compl : {A, S:tm ℘A} ⊦ S⁻⁻ ≐ S❙
+❚
+
+theory PowerSFOL =
+   include ?SFOLEQ❙
+   include ?PowerTypes❙
+   include ?Lattice❙
+   include ?ComplementRules❙
+❚

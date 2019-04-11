@@ -1,0 +1,22 @@
+defined includes
+ diamond: if multiple defined includes, they must agree; first include is used in elaboration
+
+variable type reservations
+ interpretation hint, in a theory
+ should this be local?
+
+abstraction: variables are bound in order of use (is that unique if there are second-level implicit bindings?)
+
+definitional theory extensions
+
+disable all jedit painting to chase down painting error
+
+multiple notations for a constant
+
+hardcode andrewsdotright; add operator that does not eat lambda/Pi
+
+duplicate module must throw error
+
+structures with parameters, e.g.,
+structure equal {A: tp} : ?Equality = term = tm A
+(may not be implicit?)

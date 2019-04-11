@@ -1,0 +1,38 @@
+namespace latin:/❚
+
+fixmeta ur:?LF❚
+
+theory Propositions =
+  prop  : type ❙
+  ded   : prop ⟶ type❘# ⊦ 1  prec -5❘role Judgment❙
+  
+  contra : type❘= {a} ⊦ a❘# ↯❙ 
+❚
+
+theory Terms =
+  term : type❙
+❚
+
+theory TypedTerms =
+  tp: type❙
+  tm: tp ⟶ type❘# tm 1 prec -5❙
+❚
+
+theory UntypedLogic =
+  include ?Propositions❙
+  include ?Terms❙
+❚
+
+theory TypedLogic =
+  include ?Propositions❙
+  include ?TypedTerms❙
+❚
+
+theory InternalLogic =
+  include ?TypedTerms❙
+  bool: tp❙
+  implicit structure props : ?Propositions =
+    prop = tm bool❘@ Bool❙
+    ded # ⊦ 1 prec -5❙
+  ❚
+❚

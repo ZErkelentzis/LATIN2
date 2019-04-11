@@ -1,0 +1,81 @@
+namespace latin:/❚
+
+import rules scala://lf.mmt.kwarc.info❚
+fixmeta ur:?LF❚
+
+theory ProofIrrelevance =
+  include ?Propositions❙
+  rule rules?TermIrrelevanceRule ded❙
+❚
+
+theory Classical =
+  include ?Propositions❙
+  dne : {A} ((⊦ A ⟶ ↯) ⟶ ↯) ⟶ ⊦ A❙
+❚
+
+theory Truth =
+  include ?Propositions❙
+  true  : prop❙
+  trueI : ⊦ true❙
+❚
+
+theory Falsity =
+  include ?Propositions❙
+  false  : prop❙
+  falseE : ⊦ false ⟶ ↯❘# 1 falseE❙
+❚
+
+theory Negation =
+  include ?Propositions❙
+  not   : prop ⟶ prop❘# ¬ 1   prec 20❙
+  notI  : {A} (⊦ A ⟶ ↯) ⟶ ⊦ ¬ A❘# notI 2❙
+  notE  : {A} ⊦ ¬ A ⟶ ⊦ A ⟶ ↯❘# 2 notE 3❘role ForwardRule❙
+❚
+
+theory Conjunction =
+  include ?Propositions❙
+  and   : prop ⟶ prop ⟶ prop❘# 1 ∧ 2 prec 15❙
+  andI  : {A,B} ⊦ A ⟶ ⊦ B ⟶ ⊦ A ∧ B❙
+  andEl : {A,B} ⊦ A ∧ B ⟶ ⊦ A❘# 3 andEl❘role ForwardRule❙
+  andEr : {A,B} ⊦ A ∧ B ⟶ ⊦ B❘# 3 andEr❘role ForwardRule❙
+❚
+
+theory Disjunction =
+  include ?Propositions❙
+  or    : prop ⟶ prop ⟶ prop❘# 1 ∨ 2 prec 15❙
+  orIl  : {A,B} ⊦ A ⟶ ⊦ A ∨ B❙
+  orIr  : {A,B} ⊦ B ⟶ ⊦ A ∨ B❙
+  orE   : {A,B,C} ⊦ A ∨ B ⟶ (⊦ A ⟶ ⊦ C) ⟶ (⊦ B ⟶ ⊦ C) ⟶ ⊦ C❘# 4 orE 5 6❙
+❚
+
+theory Implication =
+  include ?Propositions❙
+  impl  : prop ⟶ prop ⟶ prop❘# 1 ⇒ 2 prec 10❙
+  impI  : {A,B} (⊦ A ⟶ ⊦ B) ⟶ ⊦ A ⇒ B❙
+  impE  : {A,B} ⊦ A ⇒ B ⟶ ⊦ A ⟶ ⊦ B❘# 3 impE 4❘role ForwardRule❙
+❚
+
+theory Equivalence =
+  include ?Propositions❙
+  equiv : prop ⟶ prop ⟶ prop❘# 1 ⇔ 2 prec 10❙
+  equivI : {A,B} (⊦ A ⟶ ⊦ B) ⟶ (⊦ B ⟶ ⊦ A) ⟶ ⊦ A ⇔ B❙
+  equivEl : {A,B} ⊦ A ⇔ B ⟶ ⊦ A ⟶ ⊦ B❘# 3 equivEl 4❘role ForwardRule❙
+  equivEr : {A,B} ⊦ A ⇔ B ⟶ ⊦ B ⟶ ⊦ A❘# 3 equivEr 4❘role ForwardRule❙
+❚
+
+theory IPL =
+  include ?Propositions❙
+  include ?Truth❙
+  include ?Falsity❙
+  include ?Negation❙
+  include ?Conjunction❙
+  include ?Disjunction❙
+  include ?Implication❙
+  include ?Equivalence❙
+❚
+
+theory PL =
+  include ?IPL❙
+  include ?ProofIrrelevance❙
+  include ?Classical❙
+❚

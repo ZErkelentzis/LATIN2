@@ -1,0 +1,61 @@
+namespace latin:/❚
+
+fixmeta ur:?LF❚
+
+theory UniversalQuantification =
+  include ?UntypedLogic❙
+  forall : (term ⟶ prop) ⟶ prop❘# ∀ 1❘## ∀ V1 2❙
+  forallI  : {P} ({x} ⊦ (P x)) ⟶ ⊦ ∀ P❙
+  forallE  : {P} ⊦ ∀ P ⟶ {x} ⊦ (P x)❘# 2 forallE 3❘role ForwardRule❙
+❚
+
+theory ExistentialQuantification =
+  include ?UntypedLogic❙
+  exists : (term ⟶ prop) ⟶ prop❘# ∃ 1❘## ∃ V1 2❙
+  existsI  : {P,x} ⊦ P x ⟶ ⊦ ∃ P❘# existsI 2 3❙
+  existsE  : {P,C} ⊦ ∃ P ⟶ ({x} ⊦ (P x) ⟶ ⊦ C) ⟶ ⊦ C❘# 3 existsE 4❙
+❚
+
+theory IFOL =
+  include ?IPL❙
+  include ?UniversalQuantification❙
+  include ?ExistentialQuantification❙
+❚
+
+theory FOL =
+  include ?PL❙ 
+  include ?IFOL❙
+❚
+
+theory Equality =
+  include ?UntypedLogic❙
+  equal : term ⟶ term ⟶ prop❘# 1 ≐ 2 prec 30❙
+  refl  : {x} ⊦ x ≐ x❘# refl %I1❙
+  congT : {x,y} ⊦ x ≐ y ⟶ {T: term ⟶ term} ⊦ T x  ≐   T y❘# 3 congT 4❙
+  congP : {x,y} ⊦ x ≐ y ⟶ {P: term ⟶ prop} ⊦ P x ⟶ ⊦ P y❘# 3 congP 4 5❙
+  
+  view equalityRelation : ?Relation -> ?Equality =
+    A = term❙
+    rel = [x,y] ⊦ x≐y❙
+  ❚
+
+  view eqrefl : ?Reflexivity -> ?Equality =
+    include ?Equality/equalityRelation❙
+    refl = [x] refl❙
+  ❚
+  
+  implicit view eqsym : ?Symmetry -> ?Equality =
+    include ?Equality/equalityRelation❙
+    sym = [x,y,p] p congP ([u]u≐x) refl❙
+  ❚
+  
+  implicit view eqtrans : ?Transitivity -> ?Equality =
+    include ?Equality/equalityRelation❙
+    trans = [x,y,z,p,q] q congP ([u]x≐u) p❙
+  ❚
+❚
+
+theory FOLEQ =
+  include ?FOL❙
+  include ?Equality❙
+❚

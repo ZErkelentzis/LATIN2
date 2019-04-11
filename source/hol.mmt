@@ -1,0 +1,35 @@
+namespace latin:/❚
+
+fixmeta ur:?LF❚
+
+theory SimpleFunctions =
+  include ?InternalLogic❙
+  include ?TypedEquality❙
+  fun : tp ⟶ tp ⟶ tp❘# 1 → 2❙
+  lambda: {A,B} (tm A ⟶ tm B) ⟶ tm A → B❘# λ 3❙
+  apply: {A,B} tm A → B ⟶ tm A ⟶ tm B❘# 3 @ 4 prec 50❙
+  beta : {A,B,F: tm A ⟶ tm B, X} ⊦ (λ F) @ X ≐ F X❙
+❚
+
+theory InternalEquality =
+  include ?SimpleFunctions❙
+  include ?TypedEquality❙
+  equalConstant : {A} tm A → (A → bool)❘= [A]λ[x]λ[y]x≐y❙
+❚
+
+theory HOL =
+  include ?SimpleFunctions❙
+  include ?InternalEquality❙
+  include ?SFOL❙
+❚
+
+theory PowerHOL =
+  include ?HOL❙
+  implicit view power : ?PowerTypes -> ?PowerHOL =
+    include ?TypedEquality❙
+    include ?Equivalence❙
+     power = [a] a → bool❙
+     filter = [A,P] λ P❙
+     in = [A,S,x] S @ x❙
+   ❚
+❚
