@@ -69,7 +69,7 @@ theory EmptySet =
   empty : {A} tm ℘A❘
         = [A] filter [x] false❘
         # ∅ %I1 prec 50❙
-  emptyE : {A,x} ⊦ x ∈ empty A ⟶ ↯ ❘ 
+  emptyE : {A,x} ⊦ x ∈ empty A ⟶ ↯❘ 
   			 = [A,x,p] p filterE falseE❙
 ❚
 
