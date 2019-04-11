@@ -19,7 +19,7 @@ theory PowerTypes =
   				= [A,P,x,p] compute equivEl p❙
 ❚
 
-theory Equality =
+theory Extensionality =
   include ?PowerTypes❙
   include ?TypedEquality❙
   include ?TypedUniversalQuantification❙
@@ -30,6 +30,7 @@ theory Equality =
   
 theory Subset =
   include ?PowerTypes❙
+  include ?Extensionality❙
   include ?Implication❙
   include ?TypedUniversalQuantification❙
   include ?TypedEquality❙
@@ -37,9 +38,17 @@ theory Subset =
   subset : {A} tm ℘A ⟶ tm ℘A ⟶ prop❘	
          = [A,S,T] ∀[x] x∈S ⇒ x∈T❘
          # 2 ⊆ 3 prec 30❙
-  subset_refl  : {A,S:tm ℘A} ⊦ S⊆S❙
-  subset_trans : {A,R,S,T:tm ℘A} ⊦ R⊆S ⟶ ⊦ S⊆T ⟶ ⊦ R⊆T❙
-  subset_antisym : {A,S,T:tm ℘A} ⊦ S⊆T ⟶ ⊦ T⊆S ⟶ ⊦ S≐T❙
+  
+  subsetI: {A,S,T} ({x: tm A} ⊦x∈S ⟶ ⊦ x∈T) ⟶ ⊦ S⊆T❘
+         = [A,S,T,f] forallI [x] impI [p] f x p❙
+  subsetE: {A,S,T,x:tm A} ⊦ S⊆T ⟶ ⊦ x∈S ⟶ ⊦ x∈T❘
+         = [A,S,T,x,p,q] p forallE x impE q❙
+  subset_refl : {A,S:tm ℘A} ⊦ S⊆S❘
+              = [A,S] subsetI [x,p]p❙
+  subset_trans : {A,R,S,T:tm ℘A} ⊦ R⊆S ⟶ ⊦ S⊆T ⟶ ⊦ R⊆T❘
+               = [A,R,S,T,p,q] subsetI [x,r] subsetE q (subsetE p r)❙
+  subset_antisym : {A,S,T:tm ℘A} ⊦ S⊆T ⟶ ⊦ T⊆S ⟶ ⊦ S≐T❘
+                 = [A,S,T,p,q] extensionalityI ([x,r] subsetE p r) ([x,r] subsetE q r)❙
 ❚
 
 theory FullSet =
@@ -71,9 +80,9 @@ theory Complement =
   compl : {A} tm ℘A ⟶ tm ℘A ❘
         = [A,S] filter [x] ¬ x∈S ❘
         # 2 ⁻ prec 50❙
-  complI : {A,S,x:tm A} (⊦x∈S ⟶ ↯) ⟶ ⊦ x∈S⁻ ❘ 
+  complI : {A,S,x:tm A} (⊦x∈S ⟶ ↯) ⟶ ⊦ x∈S⁻❘ 
   			 = [A,S,x,p] filterI notI p ❙
-  complE : {A,S,x:tm A} ⊦ x∈S⁻ ⟶ ⊦ x∈S ⟶ ↯ ❘ 
+  complE : {A,S,x:tm A} ⊦ x∈S⁻ ⟶ ⊦ x∈S ⟶ ↯❘ 
   			 = [A,S,x,p,q] p filterE notE q ❙
 ❚
 
