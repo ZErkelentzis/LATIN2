@@ -25,11 +25,11 @@ theory HOL =
 
 theory PowerHOL =
   include ?HOL❙
-  implicit view power : ?PowerTypes -> ?PowerHOL =
+  implicit view power : powertypes?PowerTypes -> ?PowerHOL =
     include ?TypedEquality❙
     include ?Equivalence❙
-     power = [a] a → bool❙
-     filter = [A,P] λ P❙
-     in = [A,S,x] S @ x❙
-   ❚
+    power = [a] a → bool❙
+    filter = [A,P] λ P❙
+    in = [A,S,x] S @ x❙
+  ❚
 ❚

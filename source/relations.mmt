@@ -1,10 +1,14 @@
 namespace latin:/❚
 
-fixmeta ur:?LF❚
+fixmeta ur:?PLF❚
+
+theory OneTyped =
+  carrier : type❙
+❚
 
 theory Relation =
-  A : type❙
-  rel : A ⟶ A ⟶ type❘# 1 $ 2 prec 30❘role Judgment❙
+  include ?OneTyped❙
+  rel : carrier ⟶ carrier ⟶ type❘# 1 $ 2 prec 30❘role Judgment❙
 ❚
 
 theory Reflexivity =
@@ -24,4 +28,50 @@ theory Transitivity =
            = [w,x,y,z,p,q,r] p trans q trans r❙
   trans4   : {v,w,x,y,z} v$w ⟶ w$x ⟶ x$y ⟶ y$z ⟶ v$z❘
            = [v,w,x,y,z,p,q,r,s] trans3 (p trans q) r s❙
+❚
+
+theory Preorder =
+  include ?Reflexivity❙
+  include ?Transitivity❙
+❚
+
+theory EquivalenceRelation =
+  include ?Preorder❙
+  include ?Symmetry❙
+❚
+
+theory EquivalenceCongruence =
+  include ?EquivalenceRelation❙
+  cong : {x,y} x$y ⟶ {A: carrier ⟶ type} A x ⟶ A y❘# 3 cong 4 5❙
+  congT: {x,y} x$y ⟶ {T: carrier ⟶ carrier} T x $ T y ❘# 3 congT 4❘
+       = [x,y,p,T] p cong ([u]T x $ T u) refl❙
+❚
+
+theory EqualityType =
+  include ?OneTyped❙
+  structure equalityRel : ?EquivalenceRelation =
+    include ?OneTyped❙
+    rel # 1 = 2❙
+    refl @ refl❙
+    sym @ sym❙
+    trans @ trans❙
+    trans3 @ trans3❙
+    trans4 @ trans4❙
+  ❚
+❚
+
+theory CongruentEqualityType =
+  include ?EqualityType❙
+  congT: {x,y} x=y ⟶ {T: carrier ⟶ carrier} T x = T y ❘# 3 congT 4❙
+❚
+
+theory AntiSymmetry =
+  include ?EqualityType❙
+  include ?Relation❙
+  antisym : {x,y} x$y ⟶ y$x ⟶ x = y❙
+❚
+
+theory Order =
+  include ?Preorder❙
+  include ?AntiSymmetry❙
 ❚

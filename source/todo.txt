@@ -1,22 +1,35 @@
+duplicate module must throw error;
+ -> done, needs testing
+
 defined includes
  diamond: if multiple defined includes, they must agree; first include is used in elaboration
+ ideally, a view is checked like a theory with one extra include (codomain) and a final totality check (domain)
+-> done, needs testing; needs update of documentation in ElaborationBasedSimplifier
+ 
+disable all jedit painting to chase down painting error
+  gutter extensions disabled, needs testing, not compiled yet
+
+need convenient way to access structure-include-constant
+ 
+multiple notations for a constant
+
+realization = view into current theory ('include view' in analogy to 'include theory')
+
+hardcode andrewsdotright
+ -> done, needs testing
+
+add andrewsDotRight variant that does not eat lambda/Pi
 
 variable type reservations
  interpretation hint, in a theory
  should this be local?
 
-abstraction: variables are bound in order of use (is that unique if there are second-level implicit bindings?)
-
 definitional theory extensions
 
-disable all jedit painting to chase down painting error
-
-multiple notations for a constant
-
-hardcode andrewsdotright; add operator that does not eat lambda/Pi
-
-duplicate module must throw error
+parametric views, e.g., for power set lattice
 
 structures with parameters, e.g.,
 structure equal {A: tp} : ?Equality = term = tm A
 (may not be implicit?)
+
+abstraction: variables are bound in order of use (is that unique if there are second-level implicit bindings?)

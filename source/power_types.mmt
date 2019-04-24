@@ -1,10 +1,10 @@
-namespace latin:/❚
+namespace latin:/powertypes❚
 
 fixmeta ur:?LF❚
 
 theory PowerTypes =
-  include ?TypedEquality❙
-  include ?Equivalence❙
+  include latin:/?TypedEquality❙
+  include latin:/?Equivalence❙
   
   power : tp ⟶ tp❘# ℘ 1 prec 100❙
   in    : {A} tm A  ⟶ tm ℘A ⟶ prop❘# 2 ∈ 3 prec 30❙
@@ -21,19 +21,24 @@ theory PowerTypes =
 
 theory Extensionality =
   include ?PowerTypes❙
-  include ?TypedEquality❙
-  include ?TypedUniversalQuantification❙
+  include latin:/?TypedEquality❙
+  include latin:/?TypedUniversalQuantification❙
 
   extensionality  : {A,S,T:tm ℘A} ⊦(∀[x:tm A] x∈S ⇔ x∈T) ⟶ ⊦ S≐T❙
-  extensionalityI : {A,S,T:tm ℘A} ({x}⊦x∈S⟶⊦x∈T) ⟶ ({x}⊦x∈T⟶⊦x∈S) ⟶ ⊦ S≐T❙
+  extensionalityI : {A,S,T:tm ℘A} ({x}⊦x∈S⟶⊦x∈T) ⟶ ({x}⊦x∈T⟶⊦x∈S) ⟶ ⊦ S≐T❘
+                  = [A,S,T,f,g] extensionality (forallI [x] equivI ([p] f x p) ([q] g x q))❙
+  eq_in_left : {A,S,T,x:tm A} ⊦ S≐T ⟶ ⊦ x∈S ⟶ ⊦ x∈T❘
+        = [A,S,T,x,p,q] p congP ([u]x∈u) q❙
+  eq_in_right : {A,S,T,x:tm A} ⊦ S≐T ⟶ ⊦ x∈T ⟶ ⊦ x∈S❘
+        = [A,S,T,x,p,q] p sym congP ([u]x∈u) q❙
 ❚
   
 theory Subset =
   include ?PowerTypes❙
   include ?Extensionality❙
-  include ?Implication❙
-  include ?TypedUniversalQuantification❙
-  include ?TypedEquality❙
+  include latin:/?Implication❙
+  include latin:/?TypedUniversalQuantification❙
+  include latin:/?TypedEquality❙
 
   subset : {A} tm ℘A ⟶ tm ℘A ⟶ prop❘	
          = [A,S,T] ∀[x] x∈S ⇒ x∈T❘
@@ -53,29 +58,31 @@ theory Subset =
 
 theory FullSet =
   include ?PowerTypes❙
-  include ?Truth❙
+  include latin:/?Truth❙
 
   full  : {A} tm ℘A❘
         = [A] filter [x] true❘
         # fullset %I1 prec 50❙
   fullI : {A,x} ⊦ x ∈ full A ❘ 
   		  = [A,x] filterI trueI❙
+
 ❚
 
 theory EmptySet =
   include ?PowerTypes❙
-  include ?Falsity❙
+  include latin:/?Falsity❙
 
   empty : {A} tm ℘A❘
         = [A] filter [x] false❘
         # ∅ %I1 prec 50❙
   emptyE : {A,x} ⊦ x ∈ empty A ⟶ ↯❘ 
-  			 = [A,x,p] p filterE falseE❙
+  			 = [A,x,p] p filterE falseE❘
+  			 # emptyE 3❙
 ❚
 
 theory Complement =
   include ?PowerTypes❙
-  include ?Negation❙
+  include latin:/?Negation❙
 
   compl : {A} tm ℘A ⟶ tm ℘A ❘
         = [A,S] filter [x] ¬ x∈S ❘
@@ -88,7 +95,7 @@ theory Complement =
 
 theory Intersection =
   include ?PowerTypes❙
-  include ?Conjunction❙
+  include latin:/?Conjunction❙
 
   inter : {A} tm ℘A ⟶ tm ℘A ⟶ tm ℘A❘ 
   			= [A,S,T] filter [x] x∈S ∧ x∈T❘
@@ -103,7 +110,7 @@ theory Intersection =
 
 theory Union =
   include ?PowerTypes❙
-  include ?Disjunction❙
+  include latin:/?Disjunction❙
 
   union : {A} tm ℘A ⟶ tm ℘A ⟶ tm ℘A ❘ 
   				= [A,S,T] filter [x] x∈S ∨ x∈T❘
@@ -118,8 +125,8 @@ theory Union =
 
 theory BigIntersection =
   include ?PowerTypes❙
-  include ?Implication❙
-  include ?TypedUniversalQuantification❙
+  include latin:/?Implication❙
+  include latin:/?TypedUniversalQuantification❙
 
   biginter : {A} tm ℘℘A ⟶ tm ℘A ❘ 
     			 = [A,K] filter [x] ∀[S] S∈K ⇒ x∈S ❘
@@ -132,8 +139,8 @@ theory BigIntersection =
 
 theory BigUnion =
   include ?PowerTypes❙
-  include ?Conjunction❙
-  include ?TypedExistentialQuantification❙
+  include latin:/?Conjunction❙
+  include latin:/?TypedExistentialQuantification❙
 
   bigunion : {A} tm ℘℘A ⟶ tm ℘A ❘ 
   				 = [A,K] filter [x] ∃ [S] S∈K ∧ x∈S ❘
@@ -145,7 +152,7 @@ theory BigUnion =
 ❚
 
 theory Lattice =
-  include ?Equality❙
+  include ?Extensionality❙
   include ?Subset❙
   include ?FullSet❙
   include ?EmptySet❙
@@ -165,8 +172,18 @@ theory ComplementRules =
   compl_compl : {A, S:tm ℘A} ⊦ S⁻⁻ ≐ S❙
 ❚
 
+theory SubsetRules =
+  include ?Lattice❙
+
+  subset_full : {A,S} ⊦ S ⊆ full A❘
+              = [A,S] subsetI [x,p] fullI❙
+  subset_empty : {A,S} ⊦ empty A ⊆ S❘
+               = [A,S] subsetI [x,p] (emptyE p) (x ∈ S)❙
+❚
+
+
 theory PowerSFOL =
-   include ?SFOLEQ❙
+   include latin:/?SFOLEQ❙
    include ?PowerTypes❙
    include ?Lattice❙
    include ?ComplementRules❙

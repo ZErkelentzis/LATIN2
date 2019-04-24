@@ -35,7 +35,7 @@ theory Equality =
   congP : {x,y} ⊦ x ≐ y ⟶ {P: term ⟶ prop} ⊦ P x ⟶ ⊦ P y❘# 3 congP 4 5❙
   
   view equalityRelation : ?Relation -> ?Equality =
-    A = term❙
+    carrier = term❙
     rel = [x,y] ⊦ x≐y❙
   ❚
 

@@ -10,7 +10,7 @@ theory ProofIrrelevance =
 
 theory Classical =
   include ?Propositions❙
-  dne : {A} ((⊦ A ⟶ ↯) ⟶ ↯) ⟶ ⊦ A❙
+  dne : {F} ((⊦ F ⟶ ↯) ⟶ ↯) ⟶ ⊦ F❙
 ❚
 
 theory Truth =
@@ -28,39 +28,54 @@ theory Falsity =
 theory Negation =
   include ?Propositions❙
   not   : prop ⟶ prop❘# ¬ 1   prec 20❙
-  notI  : {A} (⊦ A ⟶ ↯) ⟶ ⊦ ¬ A❘# notI 2❙
-  notE  : {A} ⊦ ¬ A ⟶ ⊦ A ⟶ ↯❘# 2 notE 3❘role ForwardRule❙
+  notI  : {F} (⊦ F ⟶ ↯) ⟶ ⊦ ¬ F❘# notI 2❙
+  notE  : {F} ⊦ ¬ F ⟶ ⊦ F ⟶ ↯❘# 2 notE 3❘role ForwardRule❙
 ❚
 
 theory Conjunction =
   include ?Propositions❙
   and   : prop ⟶ prop ⟶ prop❘# 1 ∧ 2 prec 15❙
-  andI  : {A,B} ⊦ A ⟶ ⊦ B ⟶ ⊦ A ∧ B❙
-  andEl : {A,B} ⊦ A ∧ B ⟶ ⊦ A❘# 3 andEl❘role ForwardRule❙
-  andEr : {A,B} ⊦ A ∧ B ⟶ ⊦ B❘# 3 andEr❘role ForwardRule❙
+  andI  : {F,G} ⊦ F ⟶ ⊦ G ⟶ ⊦ F ∧ G❙
+  andEl : {F,G} ⊦ F ∧ G ⟶ ⊦ F❘# 3 andEl❘role ForwardRule❙
+  andEr : {F,G} ⊦ F ∧ G ⟶ ⊦ G❘# 3 andEr❘role ForwardRule❙
 ❚
 
 theory Disjunction =
   include ?Propositions❙
   or    : prop ⟶ prop ⟶ prop❘# 1 ∨ 2 prec 15❙
-  orIl  : {A,B} ⊦ A ⟶ ⊦ A ∨ B❙
-  orIr  : {A,B} ⊦ B ⟶ ⊦ A ∨ B❙
-  orE   : {A,B,C} ⊦ A ∨ B ⟶ (⊦ A ⟶ ⊦ C) ⟶ (⊦ B ⟶ ⊦ C) ⟶ ⊦ C❘# 4 orE 5 6❙
+  orIl  : {F,G} ⊦ F ⟶ ⊦ F ∨ G❙
+  orIr  : {F,G} ⊦ G ⟶ ⊦ F ∨ G❙
+  orE   : {F,G,C} ⊦ F ∨ G ⟶ (⊦ F ⟶ ⊦ C) ⟶ (⊦ G ⟶ ⊦ C) ⟶ ⊦ C❘# 4 orE 5 6❙
 ❚
 
 theory Implication =
   include ?Propositions❙
   impl  : prop ⟶ prop ⟶ prop❘# 1 ⇒ 2 prec 10❙
-  impI  : {A,B} (⊦ A ⟶ ⊦ B) ⟶ ⊦ A ⇒ B❙
-  impE  : {A,B} ⊦ A ⇒ B ⟶ ⊦ A ⟶ ⊦ B❘# 3 impE 4❘role ForwardRule❙
+  impI  : {F,G} (⊦ F ⟶ ⊦ G) ⟶ ⊦ F ⇒ G❙
+  impE  : {F,G} ⊦ F ⇒ G ⟶ ⊦ F ⟶ ⊦ G❘# 3 impE 4❘role ForwardRule❙
+  
+  view impl_preorder : ?Preorder -> ?Implication =
+    carrier = prop❙
+    rel = [x,y] ⊦ x ⇒ y❙
+    refl = [F] impI [f] f❙
+    trans = [F,G,H,fg,gh] impI [f] gh impE (fg impE f)❙ 
+  ❚
 ❚
 
 theory Equivalence =
   include ?Propositions❙
   equiv : prop ⟶ prop ⟶ prop❘# 1 ⇔ 2 prec 10❙
-  equivI : {A,B} (⊦ A ⟶ ⊦ B) ⟶ (⊦ B ⟶ ⊦ A) ⟶ ⊦ A ⇔ B❙
-  equivEl : {A,B} ⊦ A ⇔ B ⟶ ⊦ A ⟶ ⊦ B❘# 3 equivEl 4❘role ForwardRule❙
-  equivEr : {A,B} ⊦ A ⇔ B ⟶ ⊦ B ⟶ ⊦ A❘# 3 equivEr 4❘role ForwardRule❙
+  equivI : {F,G} (⊦ F ⟶ ⊦ G) ⟶ (⊦ G ⟶ ⊦ F) ⟶ ⊦ F ⇔ G❙
+  equivEl : {F,G} ⊦ F ⇔ G ⟶ ⊦ F ⟶ ⊦ G❘# 3 equivEl 4❘role ForwardRule❙
+  equivEr : {F,G} ⊦ F ⇔ G ⟶ ⊦ G ⟶ ⊦ F❘# 3 equivEr 4❘role ForwardRule❙
+  
+  view equiv_equivalence : ?EquivalenceRelation -> ?Equivalence =
+    carrier = prop❙
+    rel = [x,y] ⊦ equiv x y❙
+    refl = [F] equivI ([p]p) ([p]p)❙
+    sym  = [F,G,p] equivI ([q] p equivEr q) ([q] p equivEl q)❙
+    trans = [F,G,H,fg,gh] equivI ([f] gh equivEl (fg equivEl f))
+                                 ([h] fg equivEr (gh equivEr h))❙
 ❚
 
 theory IPL =
@@ -72,6 +87,11 @@ theory IPL =
   include ?Disjunction❙
   include ?Implication❙
   include ?Equivalence❙
+  
+  view impl_order : ?Order -> ?IPL =
+    include ?Implication/impl_preorder❙ 
+    structure equalityRel = ?Equivalence/equiv_equivalence❙
+    antisym = [F,G,fg,gf] equivI ([f] fg impE f) ([g] gf impE g)❙
 ❚
 
 theory PL =
