@@ -10,7 +10,7 @@ theory ProofIrrelevance =
 
 theory Classical =
   include ?Propositions❙
-  dne : {F} ((⊦ F ⟶ ↯) ⟶ ↯) ⟶ ⊦ F❙
+  classical : {F} ((⊦ F ⟶ ↯) ⟶ ↯) ⟶ ⊦ F❘# classical 2❙
 ❚
 
 theory Truth =
@@ -43,8 +43,8 @@ theory Conjunction =
 theory Disjunction =
   include ?Propositions❙
   or    : prop ⟶ prop ⟶ prop❘# 1 ∨ 2 prec 15❙
-  orIl  : {F,G} ⊦ F ⟶ ⊦ F ∨ G❙
-  orIr  : {F,G} ⊦ G ⟶ ⊦ F ∨ G❙
+  orIl  : {F,G} ⊦ F ⟶ ⊦ F ∨ G❘# 3 orIl❙
+  orIr  : {F,G} ⊦ G ⟶ ⊦ F ∨ G❘# 3 orIr❙
   orE   : {F,G,C} ⊦ F ∨ G ⟶ (⊦ F ⟶ ⊦ C) ⟶ (⊦ G ⟶ ⊦ C) ⟶ ⊦ C❘# 4 orE 5 6❙
 ❚
 
@@ -76,6 +76,7 @@ theory Equivalence =
     sym  = [F,G,p] equivI ([q] p equivEr q) ([q] p equivEl q)❙
     trans = [F,G,H,fg,gh] equivI ([f] gh equivEl (fg equivEl f))
                                  ([h] fg equivEr (gh equivEr h))❙
+  ❚
 ❚
 
 theory IPL =
@@ -88,14 +89,23 @@ theory IPL =
   include ?Implication❙
   include ?Equivalence❙
   
+  not_or_left : {F,G} ⊦ ¬(F∨G) ⟶ ⊦¬F ❘= [F,G,p] notI [q] p notE (q orIl)❙
+  not_or_right : {F,G} ⊦ ¬(F∨G) ⟶ ⊦¬G ❘= [F,G,p] notI [q] p notE (q orIr)❙
+  nntnd : {F} ⊦¬¬(F∨¬F)❘= [F] notI [p] (not_or_right p) notE (not_or_left p)❙
+
   view impl_order : ?Order -> ?IPL =
     include ?Implication/impl_preorder❙ 
     structure equalityRel = ?Equivalence/equiv_equivalence❙
     antisym = [F,G,fg,gf] equivI ([f] fg impE f) ([g] gf impE g)❙
+  ❚
 ❚
 
 theory PL =
   include ?IPL❙
   include ?ProofIrrelevance❙
   include ?Classical❙
+
+  indirect : {F} (⊦¬F ⟶ ↯) ⟶ ⊦ F❘= [F,h] classical [q] h (notI q)❘# indirect 2❙  
+  dne : {F} ⊦¬¬F ⟶ ⊦F❘= [F,p] indirect [q] p notE q❙
+  tnd : {F} ⊦F∨¬F❘= [F] dne nntnd❙
 ❚

@@ -6,7 +6,8 @@ theory Propositions =
   prop  : type ❙
   ded   : prop ⟶ type❘# ⊦ 1  prec -5❘role Judgment❙
   
-  contra : type❘= {a} ⊦ a❘# ↯❙ 
+  contra : type❘= {a} ⊦ a❘# ↯❙
+  contraE : contra ⟶ {a} ⊦ a❘# 1 contraE %I2❙
 ❚
 
 theory Terms =
