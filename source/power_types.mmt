@@ -19,6 +19,18 @@ theory PowerTypes =
   				= [A,P,x,p] compute equivEl p❙
 ❚
 
+theory Map = 
+  include ?PowerTypes❙
+  include latin:/?Conjunction❙
+  include latin:/?TypedExistentialQuantification❙
+  map : {A,B} (tm A ⟶ tm B) ⟶ tm ℘A ⟶ tm ℘B❘
+      = [A,B,f,S] filter[b] ∃[a] a∈S ∧ (b ≐ f a)❘# 4 map 3 prec 40❙
+  mapI : {A,B,f:tm A ⟶ tm B,S,x} ⊦ x ∈ S ⟶ ⊦ f x ∈ S map f❘
+       = [A,B,f,S,x,p] filterI existsI x andI p refl❙
+  mapE : {A,B,f:tm A ⟶ tm B,S,x,C} ⊦ x ∈ S map f ⟶ ({a} ⊦ a∈S ⟶ ⊦ x ≐ f a ⟶ ⊦C) ⟶ ⊦ C❘
+       = [A,B,f,S,x,C,p,q] p filterE existsE [a,r] q a (r andEl) (r andEr)❙
+❚
+
 theory Extensionality =
   include ?PowerTypes❙
   include latin:/?TypedEquality❙
@@ -32,7 +44,21 @@ theory Extensionality =
   eq_in_right : {A,S,T,x:tm A} ⊦ S≐T ⟶ ⊦ x∈T ⟶ ⊦ x∈S❘
         = [A,S,T,x,p,q] p sym congP ([u]x∈u) q❙
 ❚
+
+theory FiniteSets = 
+  include ?PowerTypes❙
+  include latin:/?Disjunction❙
+  singleton : {A} tm A ⟶ tm ℘A❘= [A,x] filter [u] u≐x❘# % 2 prec 100❙
+  singletonI : {A,x: tm A} ⊦ x ∈ %x❘= [A,x] filterI refl❙ 
+  singletonE : {A,x,y: tm A} ⊦ x ∈ %y ⟶ ⊦ x≐y❙
   
+  uopair : {A} tm A ⟶ tm A ⟶ tm ℘A❘= [A,x,y] filter [u]u≐x ∨ u≐y❘# 2 ,, 3 prec 40❙
+  uopairI_left  : {A,x,y: tm A} ⊦ x ∈ x,,y❘= [A,x,y] filterI (refl orIl)❙
+  uopairI_right : {A,x,y: tm A} ⊦ y ∈ x,,y❘= [A,x,y] filterI (refl orIr)❙
+  uopairE : {A,x,y,u:tm A,C} ⊦ u ∈ x,,y ⟶ (⊦u≐x ⟶ ⊦ C) ⟶ (⊦u≐y ⟶ ⊦ C) ⟶ ⊦C❘
+          = [A,x,y,u,C,p,q,r] p filterE orE q r❙
+❚
+
 theory Subset =
   include ?PowerTypes❙
   include ?Extensionality❙
@@ -219,6 +245,8 @@ theory SubsetRules =
 theory PowerSFOL =
    include latin:/?SFOLEQ❙
    include ?PowerTypes❙
+   include ?FiniteSets❙
+   include ?Map❙
    include ?Lattice❙
    include ?ComplementRules❙
    include ?SubsetRules❙
