@@ -23,6 +23,7 @@ add andrewsDotRight variant that does not eat lambda/Pi
 variable type reservations
  interpretation hint, in a theory
  should this be local?
+delimiters, lexing rules as document level interpretation hints; document formats as interpretation hint preambles chosen by file ending
 
 definitional theory extensions
 
@@ -33,3 +34,7 @@ structure equal {A: tp} : ?Equality = term = tm A
 (may not be implicit?)
 
 abstraction: variables are bound in order of use (is that unique if there are second-level implicit bindings?)
+
+preview method in presenter
+
+formalize group's with single axioms, see McCune's work at https://www.cs.unm.edu/~mccune/projects/gtsax/

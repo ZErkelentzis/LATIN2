@@ -3,16 +3,6 @@ namespace latin:/❚
 import rules scala://lf.mmt.kwarc.info❚
 fixmeta ur:?LF❚
 
-theory ProofIrrelevance =
-  include ?Propositions❙
-  rule rules?TermIrrelevanceRule ded❙
-❚
-
-theory Classical =
-  include ?Propositions❙
-  classical : {F} ((⊦ F ⟶ ↯) ⟶ ↯) ⟶ ⊦ F❘# classical 2❙
-❚
-
 theory Truth =
   include ?Propositions❙
   true  : prop❙
@@ -98,6 +88,16 @@ theory IPL =
     structure equalityRel = ?Equivalence/equiv_equivalence❙
     antisym = [F,G,fg,gf] equivI ([f] fg impE f) ([g] gf impE g)❙
   ❚
+❚
+
+theory Classical =
+  include ?Propositions❙
+  classical : {F} ((⊦ F ⟶ ↯) ⟶ ↯) ⟶ ⊦ F❘# classical 2❙
+❚
+
+theory ProofIrrelevance =
+  include ?Propositions❙
+  rule rules?TermIrrelevanceRule ded❙
 ❚
 
 theory PL =
