@@ -35,6 +35,15 @@ structure equal {A: tp} : ?Equality = term = tm A
 
 abstraction: variables are bound in order of use (is that unique if there are second-level implicit bindings?)
 
+every var decl has list of conditions, e.g., sub/supertype bound, guards, ranges
+concrete syntax unclear, but can be used internally
+bound variables could be introduced through their condition: "x in A" becomes "x with x in A"; similar to how we anyway turn attributed variables into vardecls
+
 preview method in presenter
+
+infer type covered before subtyping; allows for type coercions
+T:Thy -> Mod(T), a: set -> Elem abstraction
+
+resolve names dynamically in parsing (no notations for unapplied constants)
 
 formalize group's with single axioms, see McCune's work at https://www.cs.unm.edu/~mccune/projects/gtsax/

@@ -189,15 +189,6 @@ theory Lattice =
   include ?BigUnion❙
 ❚
 
-theory ComplementRules =
-  include ?Lattice❙
-  compl_empty : {A} ⊦ (empty A)⁻ ≐ full A❙
-  compl_full  : {A} ⊦ (full A)⁻ ≐ empty A❙
-  compl_union : {A, S,T: tm ℘A} ⊦ (S ∪ T)⁻ ≐ S⁻ ∩ T⁻❙
-  compl_inter : {A, S,T: tm ℘A} ⊦ (S ∩ T)⁻ ≐ S⁻ ∪ T⁻❙
-  compl_compl : {A, S:tm ℘A} ⊦ S⁻⁻ ≐ S❙
-❚
-
 theory SubsetRules =
   include ?Lattice❙
 
@@ -229,17 +220,49 @@ theory SubsetRules =
                   = [A,K,S,p] subsetI [x,q] biginterE q p❙ 
   subset_biginter_glb : {A,K,C: tm ℘A} ({S} ⊦ S ∈ K ⟶ ⊦ C ⊆ S) ⟶ ⊦ C ⊆ ⋂ K❘
                       = [A,K,C,f] subsetI [x,p] biginterI [S,q] subsetE (f S q) p❙
-  
+  subset_compl : {A,S,T: tm ℘A} ⊦ S⊆T ⟶ ⊦ T⁻⊆S⁻❘
+               = [A,S,T,p] subsetI [x,q] complI [r] complE q (subsetE p r)❙
+❚
+
+theory ComplementRules =
+  include ?Lattice❙
+  include ?SubsetRules❙
+  compl_empty : {A} ⊦ (empty A)⁻ ≐ full A❘
+              = [A] extensionalityI ([x,p] fullI) ([x,p] complI [q] emptyE q)❙
+  compl_full  : {A} ⊦ (full A)⁻ ≐ empty A❘
+              = [A] extensionalityI ([x,p] (complE p fullI) contraE) ([x,p] (emptyE p) contraE)❙
+  compl_union : {A, S,T: tm ℘A} ⊦ (S ∪ T)⁻ ≐ S⁻ ∩ T⁻❘
+              = [A,S,T] extensionalityI
+                    ([x,p] interI (complI [q] complE p (unionIl q))
+                                  (complI [q] complE p (unionIr q))
+                    )
+                    ([x,p] complI [q,C] unionE q ([r] complE (interEl p) r contraE)
+                                                 ([r] complE (interEr p) r contraE)
+                    )❙
+
   inter_compl : {A,S} ⊦ S ∩ S⁻ ≐ empty A❘
               = [A,S] extensionalityI ([x,p] (complE (interEr p) (interEl p)) contraE)
                                       ([x,p] (emptyE p) contraE)❙
 
+  compl_not : {A,S,x:tm A} ⊦¬x∈S ⟶ ⊦x∈S⁻❘= [A,S,x,p] complI [q] p notE q❙
+
   include latin:/?PL❙
-  compl_not : {A,S,x:tm A} ⊦¬x∈S ⟶ ⊦x∈S⁻❘= [A,S,x,p] complI [q] p notE q❙  
   union_compl : {A,S} ⊦ S ∪ S⁻ ≐ full A❘
               = [A,S] extensionalityI
                    ([x,p] fullI)
-                   ([x,p] tnd orE ([q] unionIl q) ([q] unionIr (compl_not q)))❙     
+                   ([x,p] tnd orE ([q] unionIl q) ([q] unionIr (compl_not q)))❙
+  compl_tnd   : {A,S,x: tm A} ⊦ x∈S ∨ x∈S⁻❘
+              = [A,S,x] (eq_in_right union_compl fullI) filterE❙
+  
+  compl_inter : {A, S,T: tm ℘A} ⊦ (S ∩ T)⁻ ≐ S⁻ ∪ T⁻❘
+              = [A,S,T] extensionalityI
+                    ([x,p] compl_tnd orE ([q] compl_tnd orE ([r] complE p (interI q r) contraE) ([r] unionIr r)) ([r] unionIl r))
+                    ([x,p] unionE p ([q] subsetE (subset_compl subset_inter_left) q)
+                                    ([q] subsetE (subset_compl subset_inter_right) q)
+                    )❙
+  
+  compl_compl : {A, S:tm ℘A} ⊦ S⁻⁻ ≐ S❘
+              = [A,S] extensionalityI ([x,p] compl_tnd orE ([q] q) ([q] complE p q contraE)) ([x,p] complI [q] complE q p)❙
 ❚
 
 theory PowerSFOL =
