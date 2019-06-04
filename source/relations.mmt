@@ -40,16 +40,30 @@ theory EquivalenceRelation =
   include ?Symmetry❙
 ❚
 
+theory Congruence =
+  include ?Relation❙
+  congT: {x,y} x$y ⟶ {T: carrier ⟶ carrier} T x $ T y ❘# 3 congT 4❙
+❚
+
 theory EquivalenceCongruence =
   include ?EquivalenceRelation❙
+  include ?Congruence❙
+❚
+
+/T Equality is an equivalence-congruence.
+   But semantic equality is even stronger: it allows substitution in objects of any type so that equal objects can never be distinguished.
+   This is different from the syntactic equality used inside a logic, where equal objets cannot be distinguished by logical formulas but might be distinguishable by other judgments.❚
+theory SemanticEquality =
+  include ?EquivalenceRelation❙
   cong : {x,y} x$y ⟶ {A: carrier ⟶ type} A x ⟶ A y❘# 3 cong 4 5❙
+  // realizes Congruence❙
   congT: {x,y} x$y ⟶ {T: carrier ⟶ carrier} T x $ T y ❘# 3 congT 4❘
        = [x,y,p,T] p cong ([u]T x $ T u) refl❙
 ❚
 
 theory EqualityType =
   include ?OneTyped❙
-  structure equalityRel : ?EquivalenceRelation =
+  structure equalityRel : ?EquivalenceCongruence =
     include ?OneTyped❙
     rel # 1 = 2❙
     refl @ refl❙
@@ -57,12 +71,8 @@ theory EqualityType =
     trans @ trans❙
     trans3 @ trans3❙
     trans4 @ trans4❙
+    congT # 3 congT 4❙
   ❚
-❚
-
-theory CongruentEqualityType =
-  include ?EqualityType❙
-  congT: {x,y} x=y ⟶ {T: carrier ⟶ carrier} T x = T y ❘# 3 congT 4❙
 ❚
 
 theory AntiSymmetry =

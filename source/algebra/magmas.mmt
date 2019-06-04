@@ -3,7 +3,7 @@ namespace latin:/algebraic❚
 fixmeta ur:?LF❚
 
 theory Magma =
-  include latin:/?CongruentEqualityType❙
+  include latin:/?EqualityType❙
   op : carrier ⟶ carrier ⟶ carrier ❘# 1 ∘ 2 prec 50❙
 ❚
 
@@ -31,7 +31,7 @@ theory Commutative =
 theory Neutral =
   include ?Magma❙
   e  : carrier ❙  
-  neutLeft: {x} x∘e = x❙
+  neutLeft: {x} e∘x = x❙
   neutRight: {x} x∘e = x❙
 ❚
 

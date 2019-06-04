@@ -44,6 +44,10 @@ preview method in presenter
 infer type covered before subtyping; allows for type coercions
 T:Thy -> Mod(T), a: set -> Elem abstraction
 
-resolve names dynamically in parsing (no notations for unapplied constants)
+resolve names dynamically in parsing (no notations for unapplied constants); use to skip in include steps in qualified names (also use this for names in views)
 
 formalize group's with single axioms, see McCune's work at https://www.cs.unm.edu/~mccune/projects/gtsax/
+
+mark structure/include in view as implicit; effect: only composed morphism is implicit, not the whole strucutre
+
+aliases and notations in include must be allowed

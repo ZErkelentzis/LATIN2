@@ -31,7 +31,6 @@ theory Equality =
   include ?UntypedLogic❙
   equal : term ⟶ term ⟶ prop❘# 1 ≐ 2 prec 30❙
   refl  : {x} ⊦ x ≐ x❘# refl %I1❙
-  congT : {x,y} ⊦ x ≐ y ⟶ {T: term ⟶ term} ⊦ T x  ≐   T y❘# 3 congT 4❙
   congP : {x,y} ⊦ x ≐ y ⟶ {P: term ⟶ prop} ⊦ P x ⟶ ⊦ P y❘# 3 congP 4 5❙
   
   view equalityRelation : ?Relation -> ?Equality =
@@ -53,6 +52,12 @@ theory Equality =
     include ?Equality/equalityRelation❙
     trans = [x,y,z,p,q] q congP ([u]x≐u) p❙
   ❚
+  
+  implicit view eqcong : ?Congruence -> ?Equality =
+    include ?Equality/equalityRelation❙
+    congT = [x,y,p,T] p congP ([u] T x ≐ T u) refl❙
+  ❚
+
 ❚
 
 theory FOLEQ =
