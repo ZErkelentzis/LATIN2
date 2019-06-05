@@ -1,10 +1,8 @@
-id: MMT/examples
-narration-base: http://docs.omdoc.org/examples
-ns : http://cds.omdoc.org/examples
+id: MMT/LATIN2
+narration-base: latin:/
+ns : latin:/
 dependencies: MMT/urtheories
-classpath: bin
-scala: scala scala_realizations export/scala export/lf-scala
 responsible: florian.rabe@kwarc.info
-title: MMT examples
-teaser: various examples for MMT's native source syntax
+title: LATIN logic atlas v.2
+teaser: a modern redesing of the LATIN logic atlas
 description: ../source/desc.html
