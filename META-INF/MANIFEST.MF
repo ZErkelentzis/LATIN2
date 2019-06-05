@@ -1,0 +1,10 @@
+id: MMT/examples
+narration-base: http://docs.omdoc.org/examples
+ns : http://cds.omdoc.org/examples
+dependencies: MMT/urtheories
+classpath: bin
+scala: scala scala_realizations export/scala export/lf-scala
+responsible: florian.rabe@kwarc.info
+title: MMT examples
+teaser: various examples for MMT's native source syntax
+description: ../source/desc.html
