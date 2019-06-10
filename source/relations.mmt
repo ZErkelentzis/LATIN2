@@ -63,7 +63,7 @@ theory SemanticEquality =
 
 theory EqualityType =
   include ?OneTyped❙
-  structure equalityRel : ?EquivalenceCongruence =
+  structure equalityRel : ?EquivalenceRelation =
     include ?OneTyped❙
     rel # 1 = 2❙
     refl @ refl❙
@@ -71,7 +71,6 @@ theory EqualityType =
     trans @ trans❙
     trans3 @ trans3❙
     trans4 @ trans4❙
-    congT # 3 congT 4❙
   ❚
 ❚
 

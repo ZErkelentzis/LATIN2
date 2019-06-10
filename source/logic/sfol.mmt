@@ -49,3 +49,25 @@ theory SFOLEQ =
   include ?SFOL ❙
   include ?TypedEquality❙
 ❚
+
+theory TypedUniqueExistentialQuantification =
+  include ?TypedExistentialQuantification❙
+  include ?TypedEquality❙
+  existsUnique  : {A} (tm A ⟶ prop) ⟶ prop❘# ∃¹ 2❙
+  existsUniqueI : {A,P} {x: tm A} ⊦ P x ⟶ ({y} ⊦ P y ⟶ ⊦ x ≐ y) ⟶ ⊦ ∃¹ P❘# existsUniqueI 3 4 5❙
+  existsUniqueE : {A,P,C} ⊦ ∃¹ P ⟶ ({x: tm A} ⊦ P x ⟶ ({y} ⊦ P y ⟶ ⊦ x ≐ y) ⟶ ⊦ C) ⟶ ⊦ C❘# 4 existsUniqueE 5❘❙
+❚
+
+theory TypedDescription =
+  include ?TypedLogic❙
+  include ?TypedUniqueExistentialQuantification❙
+  the : {A} {P:tm A ⟶ prop} ⊦ ∃¹ P ⟶ tm A❘# the 2 3❙
+  the_prop : {A,P: tm A ⟶ prop,p} ⊦ P (the P p)❙
+❚
+
+theory TypedChoice =
+  include ?TypedLogic❙
+  include ?TypedExistentialQuantification❙
+  some : {A} {P:tm A ⟶ prop} ⊦ ∃ P ⟶ tm A❘# some 2 3❙
+  some_prop : {A,P: tm A ⟶ prop,p} ⊦ P (some P p)❙
+❚

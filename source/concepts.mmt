@@ -4,36 +4,54 @@ fixmeta ur:?LF❚
 
 theory Propositions =
   prop  : type ❙
+❚
+
+theory Proofs =
+  include ?Propositions❙
   ded   : prop ⟶ type❘# ⊦ 1  prec -5❘role Judgment❙
   
   contra : type❘= {a} ⊦ a❘# ↯❙
-  contraE : contra ⟶ {a} ⊦ a❘# 1 contraE %I2❙
+  contraE : contra ⟶ {a} ⊦ a❘= [p,a] p a❘# 1 contraE %I2❙
+❚
+
+theory Logic =
+  include ?Propositions❙
+  include ?Proofs❙
 ❚
 
 theory Terms =
   term : type❙
 ❚
 
-theory TypedTerms =
+theory Types =
   tp: type❙
+❚
+
+theory TypedTerms =
+  include ?Types❙
   tm: tp ⟶ type❘# tm 1 prec -5❙
 ❚
 
+theory SoftTypedTerms =
+  include ?Terms❙
+  include ?Types❙
+  of : term ⟶ tp ⟶ type❘# 1 ∈ 2 prec 30❙
+❚
+
 theory UntypedLogic =
-  include ?Propositions❙
+  include ?Logic❙
   include ?Terms❙
 ❚
 
 theory TypedLogic =
-  include ?Propositions❙
+  include ?Logic❙
   include ?TypedTerms❙
 ❚
 
 theory InternalLogic =
   include ?TypedTerms❙
   bool: tp❙
-  implicit structure props : ?Propositions =
-    prop = tm bool❘@ Bool❙
-    ded # ⊦ 1 prec -5❙
-  ❚
+  realize ?Propositions❙
+  prop = tm bool❙
+  include ?Proofs❙
 ❚

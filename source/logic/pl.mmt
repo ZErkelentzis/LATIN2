@@ -4,26 +4,26 @@ import rules scala://lf.mmt.kwarc.info❚
 fixmeta ur:?LF❚
 
 theory Truth =
-  include ?Propositions❙
+  include ?Logic❙
   true  : prop❙
   trueI : ⊦ true❙
 ❚
 
 theory Falsity =
-  include ?Propositions❙
+  include ?Logic❙
   false  : prop❙
   falseE : ⊦ false ⟶ ↯❘# 1 falseE❙
 ❚
 
 theory Negation =
-  include ?Propositions❙
+  include ?Logic❙
   not   : prop ⟶ prop❘# ¬ 1   prec 20❙
   notI  : {F} (⊦ F ⟶ ↯) ⟶ ⊦ ¬ F❘# notI 2❙
   notE  : {F} ⊦ ¬ F ⟶ ⊦ F ⟶ ↯❘# 2 notE 3❘role ForwardRule❙
 ❚
 
 theory Conjunction =
-  include ?Propositions❙
+  include ?Logic❙
   and   : prop ⟶ prop ⟶ prop❘# 1 ∧ 2 prec 15❙
   andI  : {F,G} ⊦ F ⟶ ⊦ G ⟶ ⊦ F ∧ G❙
   andEl : {F,G} ⊦ F ∧ G ⟶ ⊦ F❘# 3 andEl❘role ForwardRule❙
@@ -31,7 +31,7 @@ theory Conjunction =
 ❚
 
 theory Disjunction =
-  include ?Propositions❙
+  include ?Logic❙
   or    : prop ⟶ prop ⟶ prop❘# 1 ∨ 2 prec 15❙
   orIl  : {F,G} ⊦ F ⟶ ⊦ F ∨ G❘# 3 orIl❙
   orIr  : {F,G} ⊦ G ⟶ ⊦ F ∨ G❘# 3 orIr❙
@@ -39,7 +39,7 @@ theory Disjunction =
 ❚
 
 theory Implication =
-  include ?Propositions❙
+  include ?Logic❙
   impl  : prop ⟶ prop ⟶ prop❘# 1 ⇒ 2 prec 10❙
   impI  : {F,G} (⊦ F ⟶ ⊦ G) ⟶ ⊦ F ⇒ G❙
   impE  : {F,G} ⊦ F ⇒ G ⟶ ⊦ F ⟶ ⊦ G❘# 3 impE 4❘role ForwardRule❙
@@ -53,7 +53,7 @@ theory Implication =
 ❚
 
 theory Equivalence =
-  include ?Propositions❙
+  include ?Logic❙
   equiv : prop ⟶ prop ⟶ prop❘# 1 ⇔ 2 prec 10❙
   equivI : {F,G} (⊦ F ⟶ ⊦ G) ⟶ (⊦ G ⟶ ⊦ F) ⟶ ⊦ F ⇔ G❙
   equivEl : {F,G} ⊦ F ⇔ G ⟶ ⊦ F ⟶ ⊦ G❘# 3 equivEl 4❘role ForwardRule❙
@@ -70,7 +70,7 @@ theory Equivalence =
 ❚
 
 theory IPL =
-  include ?Propositions❙
+  include ?Logic❙
   include ?Truth❙
   include ?Falsity❙
   include ?Negation❙
@@ -91,12 +91,12 @@ theory IPL =
 ❚
 
 theory Classical =
-  include ?Propositions❙
+  include ?Logic❙
   classical : {F} ((⊦ F ⟶ ↯) ⟶ ↯) ⟶ ⊦ F❘# classical 2❙
 ❚
 
 theory ProofIrrelevance =
-  include ?Propositions❙
+  include ?Logic❙
   rule rules?TermIrrelevanceRule ded❙
 ❚
 
@@ -108,4 +108,33 @@ theory PL =
   indirect : {F} (⊦¬F ⟶ ↯) ⟶ ⊦ F❘= [F,h] classical [q] h (notI q)❘# indirect 2❙  
   dne : {F} ⊦¬¬F ⟶ ⊦F❘= [F,p] indirect [q] p notE q❙
   tnd : {F} ⊦F∨¬F❘= [F] dne nntnd❙
+❚
+
+/T Conjunction where the second conjunct's well-formedness may assume the truth of the first conjunct
+   Curry-Howard analogue of Sigma types❙
+theory DependentConjunction =
+  include ?Logic❙
+  dand   : {F} (⊦ F ⟶ prop) ⟶ prop❘# 1 ∧- 2 prec 10❙
+  dandI  : {F,G} {p:⊦ F} ⊦ G p ⟶ ⊦ F ∧- G❙
+  dandEl : {F,G} ⊦ F ∧- G ⟶ ⊦ F❘# 3 dandEl❘role ForwardRule❙
+  dandEr : {F,G} {p: ⊦ F ∧- G} ⊦ G (p dandEl)❘# 3 dandEr❘role ForwardRule❙
+❚
+
+/T Conjunction where the second disjunct's well-formedness may assume the falsity of the first disjunct
+   Curry-Howard analogue of an usual union type where the second argument is only considered if the first one is empty❙
+theory DependentDisjunction =
+  include ?Logic❙
+  dor    : {F} ((⊦ F ⟶ ↯) ⟶ prop) ⟶ prop❘# 1 ∨- 2 prec 10❙
+  dorIl  : {F,G} ⊦ F ⟶ ⊦ F ∨- G❘# 3 dorIl❙
+  dorIr  : {F,G} ({p:⊦ F ⟶ ↯} ⊦ G p) ⟶ ⊦ F ∨- G❘# 3 dorIr❙
+  dorE   : {F,G,C} ⊦ F ∨- G ⟶ (⊦ F ⟶ ⊦ C) ⟶ ({p: ⊦ F ⟶ ↯} ⊦ G p ⟶ ⊦ C) ⟶ ⊦ C❘# 4 dorE 5 6❙
+❚
+
+/T Implication where the implicate's well-formedness may assume the truth of the implicant
+   Curry-Howard analogue of Pi types❙
+theory DependentImplication =
+  include ?Logic❙
+  dimpl  : {F} (⊦ F ⟶ prop) ⟶ prop❘# 1 ⇒- 2 prec 10❙
+  dimpI  : {F,G} ({p} ⊦ G p) ⟶ ⊦ F ⇒- G❙
+  dimpE  : {F,G} ⊦ F ⇒- G ⟶ {p:⊦ F} ⊦ G p❘# 3 dimpE 4❘role ForwardRule❙
 ❚
