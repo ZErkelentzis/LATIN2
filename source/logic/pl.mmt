@@ -61,7 +61,7 @@ theory Equivalence =
   
   view equiv_equivalence : ?EquivalenceRelation -> ?Equivalence =
     carrier = prop❙
-    rel = [x,y] ⊦ equiv x y❙
+    rel = [x,y] ⊦ x ⇔ y❙
     refl = [F] equivI ([p]p) ([p]p)❙
     sym  = [F,G,p] equivI ([q] p equivEr q) ([q] p equivEl q)❙
     trans = [F,G,H,fg,gh] equivI ([f] gh equivEl (fg equivEl f))
