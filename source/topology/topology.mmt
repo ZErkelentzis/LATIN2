@@ -16,7 +16,7 @@ theory ClosureOperator =
   closure : tm ℘X ⟶ tm ℘X❘ # cl 1 prec 50❙
   
   extensive    : {A} ⊦ A ⊆ cl A❙
-  monotonous   : {A,B} ⊦ A ⊆ B ⟶ ⊦ cl A ⊆ cl B❙
+  monotone     : {A,B} ⊦ A ⊆ B ⟶ ⊦ cl A ⊆ cl B❙
   idempotent   : {A} ⊦ cl (cl A) ≐ cl A❙
 ❚
 
