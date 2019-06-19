@@ -25,7 +25,7 @@ axioms and extensions
 
 Related theories: loop, froop, quandle, rack, etc.
 
-Multiple axiomatizations of groups: 3 operations, 1 operation+existential axioms, based on division, 1 operation + a single axiom
+Multiple axiomatizations of groups: 3 operations, 1 operation+existential axioms, based on division, 1 operation + a single axiom (see McCune's work at https://www.cs.unm.edu/~mccune/projects/gtsax/)
 
 General constructions
  notation change: additive, multiplicative, join, meet
