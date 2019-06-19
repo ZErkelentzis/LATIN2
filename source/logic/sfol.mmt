@@ -5,7 +5,7 @@ fixmeta ur:?LF❚
 theory TypedUniversalQuantification =
   include ?TypedLogic❙
   forall : {A} (tm A ⟶ prop) ⟶ prop❘# ∀ 2❙
-  forallI  : {A,P} ({x: tm A} ⊦ P x) ⟶ ⊦ ∀ P❙
+  forallI  : {A,P} ({x: tm A} ⊦ P x) ⟶ ⊦ ∀ [x] P x❙
   forallE  : {A,P} ⊦ ∀ P ⟶ {x: tm A} ⊦ P x❘# 3 forallE 4❘role ForwardRule❙
 ❚
 

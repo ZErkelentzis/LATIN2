@@ -3,7 +3,7 @@ namespace latin:/❚
 fixmeta ur:?LF❚
 
 theory Propositions =
-  prop  : type ❙
+  prop  : type❙
 ❚
 
 theory Proofs =
@@ -48,10 +48,14 @@ theory TypedLogic =
   include ?TypedTerms❙
 ❚
 
-theory InternalLogic =
+theory InternalPropositions =
   include ?TypedTerms❙
   bool: tp❙
   realize ?Propositions❙
   prop = tm bool❙
+❚
+
+theory InternalLogic =
+  include ?InternalPropositions❙
   include ?Proofs❙
 ❚

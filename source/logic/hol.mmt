@@ -9,20 +9,21 @@ theory InternalEquality =
   equalConstant : {A} tm A → (A → bool)❘= [A]λ[x]λ[y]x≐y❙
 ❚
 
-theory HOL =
+theory IHOL =
   include ?InternalEquality❙
   include ?SimpleFunctions❙
-  include ?SFOL❙
+  include ?ISFOL❙
+❚
+
+theory HOL =
+  include ?IHOL❙
+  include ?Classical❙
 ❚
 
 theory PowerHOL =
   include ?HOL❙
-  implicit view power : powertypes?PowerTypes -> ?PowerHOL =
-    include ?InternalLogic/props❙
-    include ?TypedEquality❙
-    include ?Equivalence❙
-    power = [a] a → bool❙
-    filter = [A,P] λ P❙
-    in = [A,x,S] S @ x❙
-  ❚
+  realize powertypes?PowerTypes❙
+  power = [a] a → bool❙
+  filter = [A,P] λ P❙
+  in = [A,x,S] S @ x❙
 ❚
