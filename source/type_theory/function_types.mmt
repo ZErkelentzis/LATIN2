@@ -72,8 +72,8 @@ theory DependentFunctionsEta =
   eta: {A,B, F:tm Π[x:tm A] B x} ⊦ (λ[x] F @ x) ≐ F❙
 ❚
 
-theory UntypedFunctionsEta =
-  include ?UntypedFunctions❙
+theory SoftTypedFunctionsEta =
+  include ?SoftTypedFunctions❙
   eta: {F} ⊦ (λ[x] F @ x) ≐ F❙
 ❚
 

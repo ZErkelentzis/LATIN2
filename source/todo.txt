@@ -13,7 +13,7 @@ hardcode andrewsdotright
  add andrewsDotRight variant that does not eat lambda/Pi
 
 disable all jedit painting to chase down painting error
-  gutter extensions disabled, needs testing, not compiled yet
+  all extensions disabled, seems not to help; now line invalidation disabled
 
 multiple notations for a constant
 

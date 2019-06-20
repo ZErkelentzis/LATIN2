@@ -33,31 +33,14 @@ theory Equality =
   refl  : {x} ⊦ x ≐ x❘# refl %I1❙
   congP : {x,y} ⊦ x ≐ y ⟶ {P: term ⟶ prop} ⊦ P x ⟶ ⊦ P y❘# 3 congP 4 5❙
   
-  view equalityRelation : ?Relation -> ?Equality =
+  total structure eq : ?EquivalenceCongruence =
     carrier = term❙
     rel = [x,y] ⊦ x≐y❙
-  ❚
-
-  view eqrefl : ?Reflexivity -> ?Equality =
-    include ?Equality/equalityRelation❙
     refl = [x] refl❙
-  ❚
-  
-  implicit view eqsym : ?Symmetry -> ?Equality =
-    include ?Equality/equalityRelation❙
     sym = [x,y,p] p congP ([u]u≐x) refl❙
-  ❚
-  
-  implicit view eqtrans : ?Transitivity -> ?Equality =
-    include ?Equality/equalityRelation❙
     trans = [x,y,z,p,q] q congP ([u]x≐u) p❙
-  ❚
-  
-  implicit view eqcong : ?Congruence -> ?Equality =
-    include ?Equality/equalityRelation❙
     congT = [x,y,p,T] p congP ([u] T x ≐ T u) refl❙
   ❚
-
 ❚
 
 theory SoftTypedEquality =
