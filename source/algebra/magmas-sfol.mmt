@@ -3,8 +3,8 @@ namespace latin:/algebraic❚
 fixmeta latin:/?SFOLEQ ❚
 
 theory Set = 
-  universe : tp ❙
-  U = tm universe ❙
+  universe : tp❙
+  U = tm universe❙
 ❚
 
 theory Magma = 
@@ -12,51 +12,78 @@ theory Magma =
   op : U ⟶ U ⟶ U ❘# 1 ∘ 2 prec 50 ❙
 ❚
 
-theory AbMagma = 
+theory Commutative = 
   include ?Magma ❙
-  axiom_comm : ⊦ ∀[x] ∀[y] x ∘ y ≐ y ∘ x ❙
+  comm : ⊦ ∀[x]∀[y] x∘y ≐ y∘x❙
 ❚
 
 theory Semigroup = 
-  include ?Magma ❙
-  axiom_assoc : ⊦ ∀[x] ∀[y] ∀[z] (x ∘ y) ∘ z ≐ x ∘ (y ∘ z) ❙
+  include ?Magma❙
+  assoc : ⊦ ∀[x]∀[y]∀[z] (x∘y)∘z ≐ x∘(y∘z)❙
 ❚
 
-theory AbSemigroup = 
-  include ?CommMagma ❙
-  include ?Semigroup ❙
+theory CommSemigroup = 
+  include ?Commutative❙
+  include ?Semigroup❙
+❚
+
+theory Pointed = 
+  include ?Set❙
+  elem : U ❘# e❙
+❚
+
+theory RightNeutral =
+  include ?Magma❙
+  include ?Pointed❙
+  neutralR : ⊦ ∀[x]x∘e ≐ x❙
+❚
+
+theory LeftNeutral = 
+  include ?Magma❙
+  include ?Pointed❙
+  neutralL : ⊦ ∀[x]e∘x ≐ x❙
 ❚
 
 theory Monoid = 
-  include ?Semigroup ❙
-  unit : U ❘# e ❙
-  axiom_unit_right : ⊦ ∀[x] x ∘ e ≐ x ❙
-  axiom_unit_left  : ⊦ ∀[x] e ∘ x ≐ x ❙
+  include ?Semigroup❙
+  include ?RightNeutral❙
+  include ?LeftNeutral❙
 ❚
 
-theory AbMonoid = 
-  include ?CommMagma ❙
-  include ?Monoid ❙
+theory CommMonoid = 
+  include ?Commutative❙
+  include ?Monoid❙
 ❚
 
 theory Quasigroup = 
   include ?Magma ❙
-  axiom_division: {x,y} ⊦ ∃[a] ∃[b] (a ∘ x ≐ y) ∧ (x ∘ b ≐ y) ❙ 
+  divisibility: ⊦ ∀[x]∀[y]∃[a]∃[b] (a∘x ≐ y) ∧ (x∘b ≐ y)❙ 
 ❚
 
 theory Loop = 
   include ?Quasigroup ❙
-  unit : U ❘# e ❙
-  axiom_unit_right : ⊦ ∀[x] x ∘ e ≐ x ❙
-  axiom_unit_left  : ⊦ ∀[x] e ∘ x ≐ x ❙
+  include ?Monoid❙
+❚
+
+theory InverseFun = 
+  include ?Monoid❙
+  inv : U ⟶ U❘# 1 ⁻ prec 60❙
+  inverseLeft:  ⊦ ∀[x] x⁻∘x ≐ e❙
+  inverseRight: ⊦ ∀[x] x∘x⁻ ≐ e❙
+❚
+
+theory InverseExistence = 
+  include ?Monoid ❙
+  inverseLeft:  ⊦ ∀[x]∃[i] i∘x ≐ e❙
+  inverseRight: ⊦ ∀[x]∃[i] x∘i ≐ e❙
 ❚
 
 theory Group = 
   include ?Monoid ❙
-  axiom_inverse: {x} ⊦ ∃[y] y ∘ x ≐ e ❙
+  include ?InverseFun❙
 ❚
 
-theory AbGroup = 
-  include ?AbMagma ❙
-  include ?Group ❙
+theory CommGroup = 
+  include ?Group❙
+  include ?Commutative❙
 ❚
