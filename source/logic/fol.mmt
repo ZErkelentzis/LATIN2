@@ -70,3 +70,30 @@ theory FOLEQ =
   include ?FOL❙
   include ?Equality❙
 ❚
+
+theory UniqueExistentialQuantification =
+  include ?ExistentialQuantification❙
+  include ?Equality❙
+  existsUnique  : (term ⟶ prop) ⟶ prop❘# ∃¹ 1❙
+  existsUniqueI : {P} {x} ⊦ P x ⟶ ({y} ⊦ P y ⟶ ⊦ x ≐ y) ⟶ ⊦ ∃¹ P❘# existsUniqueI 3 4 5❙
+  existsUniqueE : {P,C} ⊦ ∃¹ P ⟶ ({x} ⊦ P x ⟶ ({y} ⊦ P y ⟶ ⊦ x ≐ y) ⟶ ⊦ C) ⟶ ⊦ C❘# 4 existsUniqueE 5❘❙
+❚
+
+theory Description =
+  include ?Logic❙
+  include ?UniqueExistentialQuantification❙
+  the : {P} ⊦ ∃¹ P ⟶ term❘# the 1 2❙
+  the_prop : {P,p} ⊦ P (the P p)❙
+❚
+
+theory Choice =
+  include ?Logic❙
+  include ?ExistentialQuantification❙
+  some : {P} ⊦ ∃ P ⟶ term❘# some 1 2❙
+  some_prop : {P,p} ⊦ P (some P p)❙
+❚
+
+theory FOLEQDesc = 
+  include ?FOLEQ❙
+  include ?Description❙
+❚

@@ -1,0 +1,103 @@
+namespace latin:/❚
+
+fixmeta ?FOLEQ❚
+
+theory Sets =
+  set = term❙
+  in : set ⟶ set ⟶ prop❘# 1 ∈ 2 prec 30❙
+❚
+
+theory RelativizedUniversalQuantification =
+  include ?Sets❙
+  rforall : set ⟶ (set ⟶ prop) ⟶ prop❘= [A,P] ∀[x] x∈A ⇒ P x❘# ∀' 1 2❙
+  rforallI : {A,F} ({x} ⊦x∈A ⟶ ⊦ F x) ⟶ ⊦ ∀' A F❘= [A,F,P] forallI [x] impI [xa] P x xa❙
+  rforallE : {A,F} ⊦ ∀' A F ⟶ {x} ⊦x∈A ⟶ ⊦ F x❘= [A,F,p,x,xa] p forallE x impE xa❙
+❚
+
+theory RelativizedExistentialQuantification =
+  include ?Sets❙
+  rexists : set ⟶ (set ⟶ prop) ⟶ prop❘= [A,P] ∃[x] x∈A ∧ P x❘# ∃' 1 2❙
+  rexistsI : {A,F} {x} ⊦x∈A ⟶ ⊦ F x ⟶ ⊦ ∃' A F❘= [A,F,x,xa,p] existsI x andI xa p❙
+  rexistsE : {A,F,C} ⊦ ∃' A F ⟶ ({x} ⊦x∈A ⟶ ⊦ F x ⟶ ⊦ C) ⟶ ⊦ C❘= [A,F,C,p,P] p existsE [x,q] P x (q andEl) (q andEr)❙
+❚
+
+theory SetFOL =
+  include ?FOLEQ❙
+  include ?Description❙
+  include ?Sets❙
+  include ?RelativizedUniversalQuantification❙
+  include ?RelativizedExistentialQuantification❙
+❚
+
+fixmeta ?SetFOL❚
+
+theory Empty =
+  isempty : set ⟶ prop❘= [x] ¬ ∃[y] y ∈ x❙
+  empty : set❘# ∅❙
+  empty_prop : ⊦ isempty ∅❙
+  emptyE : {x} ⊦ x∈∅ ⟶ ↯❘= [x,p] empty_prop notE (existsI x p)❙
+❚
+
+theory UnorderedPairs =
+  uopair : set ⟶ set ⟶ set❙
+  uopairIL : {X,Xˈ} ⊦ X ∈ uopair X Xˈ❙
+  uopairIR : {X,Xˈ} ⊦ X ∈ uopair X Xˈ❙
+  uopairE  : {U,X,Xˈ} ⊦ U ∈ uopair X Xˈ ⟶ ⊦ U≐X ∨ U≐Xˈ❙
+❚
+
+theory Singletons =
+  singleton : set ⟶ set❙
+  singletonI : {x} ⊦ x ∈ singleton x❙
+  singletonE : {x,u} ⊦ u ∈ singleton x ⟶ ⊦ u≐x❙
+  
+  issingleton : set ⟶ prop❘= [x] ∃¹[u]u∈x❙
+  singleton_the : {x} ⊦ issingleton x ⟶ set❘= [x,p] the ([u] u ∈ x) p❙
+❚
+
+view SelfPair : ?Singletons → ?UnorderedPairs =
+  singleton = [x] uopair x x❙
+  singletonI = [x] uopairIL❙
+  singletonE = [x,u,p] uopairE p orE ([q] q) ([q] q)❙
+❚
+
+theory OrderedPairs =
+  opair : set ⟶ set ⟶ set❙
+  pi1 : set ⟶ set❙
+  pi2 : set ⟶ set❙
+  opairE1 : {x,y} ⊦ pi1 (opair x y) ≐ x❙
+  opairE2 : {x,y} ⊦ pi2 (opair x y) ≐ y❙
+  opair_expand : {x} ⊦ x ≐ opair (pi1 x) (pi2 x)❙
+  opair_exten : {x,xˈ} ⊦ pi1 x ≐ pi1 xˈ ⟶ ⊦ pi2 x ≐ pi2 xˈ ⟶ ⊦ x ≐ xˈ❙
+❚
+
+view Kuratowski : ?OrderedPairs → ?UnorderedPairs =
+  opair = [x,y] uopair x (uopair x y)❙
+❚
+
+theory Comprehension =
+  comprehend  : set ⟶ (set ⟶ prop) ⟶ set❘# 1 | 2 prec 40❙
+  comprehendI : {A,P,X} ⊦ X∈A ⟶ ⊦ P X ⟶ ⊦ X ∈ A|P❙
+  comprehend_sub : {A,P,X} ⊦ X ∈ A|P ⟶ ⊦ X∈A❙
+  comprehendE : {A,P,X} ⊦ X ∈ A|P ⟶ ⊦ P X❙
+❚
+
+theory Replacement =
+  replace  : set ⟶ (set ⟶ set) ⟶ set❘# 1 map 2 prec 40❙
+  replaceI : {A,F,X} ⊦ X∈A ⟶ ⊦ (F X) ∈ A map F❙
+  replaceE : {A,F,X} ⊦ X ∈ A map F ⟶ ⊦ ∃'A [x] (F x) ≐ X❙
+❚
+
+theory BigUnion =
+  bigunion : set ⟶ set❘# ⋃ 1❙
+  bigunionI : {A,X,x} ⊦ x∈X ⟶ ⊦ X∈A ⟶ ⊦ x ∈ ⋃A❙
+  bigunionE : {A,X,x,C} ⊦ x ∈ ⋃A ⟶ (⊦ X∈A ⟶ ⊦ x∈X ⟶ ⊦ C) ⟶ ⊦ C❙
+❚
+
+theory PowerSets =
+  power : set ⟶ set❘# ℘ 1 prec 60❙
+  powerI : {X,A} ({u} ⊦u∈X ⟶ ⊦u∈A) ⟶ ⊦X∈℘ A❙
+  powerE : {X,A} ⊦X∈℘A ⟶ {u} ⊦u∈X ⟶ ⊦u∈A❙
+❚
+
+theory Infinite =
+❚
