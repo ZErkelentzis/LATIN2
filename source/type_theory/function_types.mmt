@@ -38,7 +38,7 @@ theory UntypedFunctions =
   include ?Equality❙
   lambda: (term ⟶ term) ⟶ term❘# λ 1 prec 40❙
   apply : term ⟶ term ⟶ term❘# 1 @ 2 prec 50❙
-  beta  : {A,F,X} ⊦ (λ A F) @ X ≐ F X❙
+  beta  : {F,X} ⊦ (λ F) @ X ≐ F X❙
 ❚
 
 theory SoftTypedSimpleFunctions =
@@ -53,4 +53,19 @@ theory SoftTypedDependentFunctions =
   include ?UntypedFunctions❙
   include ?SoftDependentFunctionTypes❙
   fun_typing : {A,B,F} ({x} x∈A ⟶ (F x)∈(B x)) ⟶ λ F ∈ Π A B❙
+❚
+
+theory SimpleFunctionsEta =
+  include ?SimpleFunctions❙
+  eta: {A,B,F:tm A → B} ⊦ (λ[x] F @ x) ≐ F❙
+❚
+
+theory DependentFunctionsEta =
+  include ?DependentFunctions❙
+  eta: {A,B, F:tm Π[x:tm A] B x} ⊦ (λ[x] F @ x) ≐ F❙
+❚
+
+theory UntypedFunctionsEta =
+  include ?UntypedFunctions❙
+  eta: {F} ⊦ (λ[x] F @ x) ≐ F❙
 ❚

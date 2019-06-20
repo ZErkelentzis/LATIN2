@@ -1,3 +1,8 @@
+MoC for implicit moprhisms is completely flawed, e.g., includes acquire definies based on implicit morphisms from previos processing of the theory; or an implicit view is used while rechecking that very view
+Better (?): every theory stores its incoming implicits (flattening; note that implicit structures may have to generate implicit structures); implicit views are tracked separately; only allow implicits among unions of named theories
+cycle-check only needed after an implicit view
+problem: how to handle dependency relation between modules?
+
 ideally, a view is checked like a theory with one extra include (codomain) and a final totality check (domain)
 
 realization = view into current theory ('include view' in analogy to 'include theory')
@@ -42,3 +47,5 @@ resolve names dynamically in parsing (no notations for unapplied constants); use
 mark structure/include in view as implicit; effect: only composed morphism is implicit, not the whole strucutre
 
 aliases and notations in include must be allowed
+
+with T = {a conservative extension of parent+T} 
