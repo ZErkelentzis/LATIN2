@@ -27,6 +27,10 @@ theory Types =
   tp: type❙
 ❚
 
+theory Kinds =
+  kd : type❙
+❚
+
 theory TypedTerms =
   include ?Types❙
   tm: tp ⟶ type❘# tm 1 prec -5❙
@@ -38,6 +42,14 @@ theory SoftTypedTerms =
   of : term ⟶ tp ⟶ type❘# 1 ∈ 2 prec 30❙
 ❚
 
+theory KindedTypes =
+  include ?Kinds❙
+  tf : kd ⟶ type❘# tf 1 prec -5❙
+  tpk : kd❙
+  realize ?Types❙
+  tp = tf tpk❙
+❚
+
 theory UntypedLogic =
   include ?Logic❙
   include ?Terms❙
@@ -47,6 +59,12 @@ theory TypedLogic =
   include ?Logic❙
   include ?TypedTerms❙
 ❚
+
+theory SoftTypedLogic =
+  include ?SoftTypedTerms❙
+  include ?UntypedLogic❙
+  wff : prop ⟶ type❘# wff 1 prec -5❙
+❚         
 
 theory InternalPropositions =
   include ?TypedTerms❙

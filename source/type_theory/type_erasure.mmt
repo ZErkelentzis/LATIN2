@@ -1,0 +1,28 @@
+namespace latin:/❚
+
+view TypeErasTerms : ?TypedTerms → ?SoftTypedTerms =
+  include ?Types❙
+  tm = [A] term❙
+❚
+
+view TypeErasEquality : ?TypedEquality → ?SoftTypedEquality =
+  include ?TypeErasTerms❙
+  include ?Logic❙
+  equal = [A,x,y] x≐y❙
+❚
+
+view TypeErasSimpleFunctions : ?SimpleFunctions → ?SoftTypedSimpleFunctions =
+  include ?TypeErasTerms❙
+  include ?TypeErasEquality❙
+  simpfun = [A,B] A → B❙
+  simplambda = [A,B,F] λ F❙
+  simpapply = [A,B,F,X] F @ X❙
+❚
+
+view TypeErasDependentFunctions : ?DependentFunctions → ?SoftTypedDependentFunctions =
+  include ?TypeErasTerms❙ 
+  include ?TypeErasEquality❙
+  depfun = [A,B] Π A B❙
+  deplambda = [A,B,F] λ F❙
+  depapply = [A,B,F,X] F @ X❙
+❚

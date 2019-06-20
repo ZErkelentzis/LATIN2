@@ -36,6 +36,6 @@ theory PowerHOL =
   power = [a] a → bool❙
   filter = [A,P] λ P❙
   in = [A,x,S] S @ x❙
-  compute = [A,P,x] eq_equiv beta❙
+  compute = [A,P,x] eq_equiv simpbeta❙
   expand = [A,S] eta sym❙
 ❚

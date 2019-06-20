@@ -60,6 +60,12 @@ theory Equality =
 
 ❚
 
+theory SoftTypedEquality =
+  include ?SoftTypedLogic❙
+  include ?Equality❙
+  eq_wff : {A,X,Y} X∈A ⟶ Y∈A ⟶ wff X≐Y❙
+❚  
+
 theory FOLEQ =
   include ?FOL❙
   include ?Equality❙
