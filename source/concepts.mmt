@@ -39,7 +39,8 @@ theory TypedTerms =
 theory SoftTypedTerms =
   include ?Terms❙
   include ?Types❙
-  of : term ⟶ tp ⟶ type❘# 1 ∈ 2 prec 30❙
+  include ?Propositions❙
+  of : term ⟶ tp ⟶ prop❘# 1 ⦂ 2 prec 30❙
 ❚
 
 theory KindedTypes =
@@ -62,8 +63,7 @@ theory TypedLogic =
 
 theory SoftTypedLogic =
   include ?SoftTypedTerms❙
-  include ?UntypedLogic❙
-  wff : prop ⟶ type❘# wff 1 prec -5❙
+  include ?Logic❙
 ❚         
 
 theory InternalPropositions =
@@ -76,4 +76,19 @@ theory InternalPropositions =
 theory InternalLogic =
   include ?InternalPropositions❙
   include ?Proofs❙
+❚
+
+theory InternalTypes =
+  include ?UntypedLogic❙
+  in : term ⟶ term ⟶ prop❘# 1 ∈ 2 prec 30❙
+  realize ?Types❙
+  tp = term❙
+  include ?SoftTypedTerms❙
+  
+  total structure typesAsPredicates : ?SoftTypedTerms =
+    include ?Terms❙
+    include ?Propositions❙
+    tp = term ⟶ prop❙
+    of = [X,A] A X❙
+  ❚
 ❚

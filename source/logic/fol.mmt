@@ -46,12 +46,27 @@ theory Equality =
 theory SoftTypedEquality =
   include ?SoftTypedLogic❙
   include ?Equality❙
-  eq_wff : {A,X,Y} X∈A ⟶ Y∈A ⟶ wff X≐Y❙
-❚  
+❚
 
 theory FOLEQ =
   include ?FOL❙
   include ?Equality❙
+❚
+
+theory RelativizedUniversalQuantification =
+  include ?SoftTypedTerms❙
+  include ?FOLEQ❙
+  rforall : tp ⟶ (term ⟶ prop) ⟶ prop❘= [A,P] ∀[x] x⦂A ⇒ P x❘# ∀' 1 2❙
+  rforallI : {A,F} ({x} ⊦x⦂A ⟶ ⊦ F x) ⟶ ⊦ ∀' A F❘= [A,F,P] forallI [x] impI [xa] P x xa❙
+  rforallE : {A,F} ⊦ ∀' A F ⟶ {x} ⊦x⦂A ⟶ ⊦ F x❘= [A,F,p,x,xa] p forallE x impE xa❙
+❚
+
+theory RelativizedExistentialQuantification =
+  include ?SoftTypedTerms❙
+  include ?FOLEQ❙
+  rexists : tp ⟶ (term ⟶ prop) ⟶ prop❘= [A,P] ∃[x] x⦂A ∧ P x❘# ∃' 1 2❙
+  rexistsI : {A,F} {x} ⊦x⦂A ⟶ ⊦ F x ⟶ ⊦ ∃' A F❘= [A,F,x,xa,p] existsI x andI xa p❙
+  rexistsE : {A,F,C} ⊦ ∃' A F ⟶ ({x} ⊦x⦂A ⟶ ⊦ F x ⟶ ⊦ C) ⟶ ⊦ C❘= [A,F,C,p,P] p existsE [x,q] P x (q andEl) (q andEr)❙
 ❚
 
 theory UniqueExistentialQuantification =

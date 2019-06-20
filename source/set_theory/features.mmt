@@ -1,30 +1,10 @@
 namespace latin:/❚
 
-fixmeta ?FOLEQ❚
-
-theory Sets =
-  set = term❙
-  in : set ⟶ set ⟶ prop❘# 1 ∈ 2 prec 30❙
-❚
-
-theory RelativizedUniversalQuantification =
-  include ?Sets❙
-  rforall : set ⟶ (set ⟶ prop) ⟶ prop❘= [A,P] ∀[x] x∈A ⇒ P x❘# ∀' 1 2❙
-  rforallI : {A,F} ({x} ⊦x∈A ⟶ ⊦ F x) ⟶ ⊦ ∀' A F❘= [A,F,P] forallI [x] impI [xa] P x xa❙
-  rforallE : {A,F} ⊦ ∀' A F ⟶ {x} ⊦x∈A ⟶ ⊦ F x❘= [A,F,p,x,xa] p forallE x impE xa❙
-❚
-
-theory RelativizedExistentialQuantification =
-  include ?Sets❙
-  rexists : set ⟶ (set ⟶ prop) ⟶ prop❘= [A,P] ∃[x] x∈A ∧ P x❘# ∃' 1 2❙
-  rexistsI : {A,F} {x} ⊦x∈A ⟶ ⊦ F x ⟶ ⊦ ∃' A F❘= [A,F,x,xa,p] existsI x andI xa p❙
-  rexistsE : {A,F,C} ⊦ ∃' A F ⟶ ({x} ⊦x∈A ⟶ ⊦ F x ⟶ ⊦ C) ⟶ ⊦ C❘= [A,F,C,p,P] p existsE [x,q] P x (q andEl) (q andEr)❙
-❚
-
-theory SetFOL =
+theory SetFOL : ur:?LF =
   include ?FOLEQ❙
+  set = term❙
+  include ?InternalTypes❙
   include ?Description❙
-  include ?Sets❙
   include ?RelativizedUniversalQuantification❙
   include ?RelativizedExistentialQuantification❙
 ❚
@@ -58,20 +38,6 @@ view SelfPair : ?Singletons → ?UnorderedPairs =
   singleton = [x] uopair x x❙
   singletonI = [x] uopairIL❙
   singletonE = [x,u,p] uopairE p orE ([q] q) ([q] q)❙
-❚
-
-theory OrderedPairs =
-  opair : set ⟶ set ⟶ set❙
-  pi1 : set ⟶ set❙
-  pi2 : set ⟶ set❙
-  opairE1 : {x,y} ⊦ pi1 (opair x y) ≐ x❙
-  opairE2 : {x,y} ⊦ pi2 (opair x y) ≐ y❙
-  opair_expand : {x} ⊦ x ≐ opair (pi1 x) (pi2 x)❙
-  opair_exten : {x,xˈ} ⊦ pi1 x ≐ pi1 xˈ ⟶ ⊦ pi2 x ≐ pi2 xˈ ⟶ ⊦ x ≐ xˈ❙
-❚
-
-view Kuratowski : ?OrderedPairs → ?UnorderedPairs =
-  opair = [x,y] uopair x (uopair x y)❙
 ❚
 
 theory Comprehension =
