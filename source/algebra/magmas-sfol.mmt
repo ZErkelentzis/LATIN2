@@ -1,0 +1,62 @@
+namespace latin:/algebraic❚
+
+fixmeta latin:/?SFOLEQ ❚
+
+theory Set = 
+  universe : tp ❙
+  U = tm universe ❙
+❚
+
+theory Magma = 
+  include ?Set ❙
+  op : U ⟶ U ⟶ U ❘# 1 ∘ 2 prec 50 ❙
+❚
+
+theory AbMagma = 
+  include ?Magma ❙
+  axiom_comm : ⊦ ∀[x] ∀[y] x ∘ y ≐ y ∘ x ❙
+❚
+
+theory Semigroup = 
+  include ?Magma ❙
+  axiom_assoc : ⊦ ∀[x] ∀[y] ∀[z] (x ∘ y) ∘ z ≐ x ∘ (y ∘ z) ❙
+❚
+
+theory AbSemigroup = 
+  include ?CommMagma ❙
+  include ?Semigroup ❙
+❚
+
+theory Monoid = 
+  include ?Semigroup ❙
+  unit : U ❘# e ❙
+  axiom_unit_right : ⊦ ∀[x] x ∘ e ≐ x ❙
+  axiom_unit_left  : ⊦ ∀[x] e ∘ x ≐ x ❙
+❚
+
+theory AbMonoid = 
+  include ?CommMagma ❙
+  include ?Monoid ❙
+❚
+
+theory Quasigroup = 
+  include ?Magma ❙
+  axiom_division: {x,y} ⊦ ∃[a] ∃[b] (a ∘ x ≐ y) ∧ (x ∘ b ≐ y) ❙ 
+❚
+
+theory Loop = 
+  include ?Quasigroup ❙
+  unit : U ❘# e ❙
+  axiom_unit_right : ⊦ ∀[x] x ∘ e ≐ x ❙
+  axiom_unit_left  : ⊦ ∀[x] e ∘ x ≐ x ❙
+❚
+
+theory Group = 
+  include ?Monoid ❙
+  axiom_inverse: {x} ⊦ ∃[y] y ∘ x ≐ e ❙
+❚
+
+theory AbGroup = 
+  include ?AbMagma ❙
+  include ?Group ❙
+❚
