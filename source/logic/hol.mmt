@@ -15,9 +15,19 @@ theory IHOL =
   include ?ISFOL❙
 ❚
 
+theory PropositionalExtensionality =
+  include ?InternalEquality❙
+  propext: {F,G} (⊦ F ⟶ ⊦ G) ⟶ (⊦ G ⟶ ⊦ F) ⟶ ⊦ F≐G❙
+❚
+
 theory HOL =
   include ?IHOL❙
+  include ?PropositionalExtensionality❙
+  include ?SimpleFunctionsEta❙
   include ?Classical❙
+  
+  eq_equiv: {F,G} ⊦F≐G ⟶ ⊦F⇔G❘= [F,G,p] equivI ([q] p congP ([u]u) q) ([q] (p sym) congP ([u]u) q)❙
+  equiv_eq: {F,G} ⊦F⇔G ⟶ ⊦F≐G❘= [F,G,p] propext ([q] p equivEl q) ([q] p equivEr q)❙
 ❚
 
 theory PowerHOL =
@@ -26,4 +36,6 @@ theory PowerHOL =
   power = [a] a → bool❙
   filter = [A,P] λ P❙
   in = [A,x,S] S @ x❙
+  compute = [A,P,x] eq_equiv simpbeta❙
+  expand = [A,S] eta sym❙
 ❚

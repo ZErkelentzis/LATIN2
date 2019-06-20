@@ -4,53 +4,90 @@ fixmeta ur:?LF❚
 
 theory SimpleFunctionTypes =
   include ?Types❙
-  fun : tp ⟶ tp ⟶ tp❘# 1 → 2 prec 50❙
+  simpfun : tp ⟶ tp ⟶ tp❘# 1 → 2 prec 50❙
 ❚
 
 theory DependentFunctionTypes =
   include ?TypedTerms❙
-  fun : {A} (tm A ⟶ tp) ⟶ tp❘# Π 2 prec 40❙
+  depfun : {A} (tm A ⟶ tp) ⟶ tp❘# Π 2 prec 40❙
+  realize ?SimpleFunctionTypes❙
+  simpfun = [A,B] Π [x: tm A] B❙
 ❚
 
 theory SoftDependentFunctionTypes =
   include ?SoftTypedTerms❙
-  fun : tp ⟶ (term ⟶ tp) ⟶ tp❘# Π 1 2 prec 40❙
+  softfun : tp ⟶ (term ⟶ tp) ⟶ tp❘# Π 1 2 prec 40❙
 ❚
 
 theory SimpleFunctions =
   include ?SimpleFunctionTypes❙
   include ?TypedEquality❙
-  lambda: {A,B} (tm A ⟶ tm B) ⟶ tm A → B❘# λ 3 prec 40❙
-  apply: {A,B} tm A → B ⟶ tm A ⟶ tm B❘# 3 @ 4 prec 50❙
-  beta : {A,B,F: tm A ⟶ tm B, X} ⊦ (λ F) @ X ≐ F X❙
+  simplambda: {A,B} (tm A ⟶ tm B) ⟶ tm A → B❘# λ 3 prec 40❙
+  simpapply: {A,B} tm A → B ⟶ tm A ⟶ tm B❘# 3 @ 4 prec 50❙
+  simpbeta : {A,B,F: tm A ⟶ tm B, X} ⊦ (λ F) @ X ≐ F X❙
 ❚
 
 theory DependentFunctions =
   include ?DependentFunctionTypes❙
   include ?TypedEquality❙
-  lambda: {A,B} ({x: tm A} tm B x) ⟶ tm Π B❘# λ 3 prec 40❙
-  apply: {A,B} tm Π B ⟶ {x: tm A} tm B x ❘# 3 @ 4 prec 50❙
-  beta : {A,B,F:{x:tm A} tm B x, X} ⊦ (λ F) @ X ≐ F X❙
+  deplambda: {A,B} ({x: tm A} tm B x) ⟶ tm Π B❘# λ 3 prec 40❙
+  depapply: {A,B} tm Π B ⟶ {x: tm A} tm B x ❘# 3 @ 4 prec 50❙
+  depbeta : {A,B,F:{x:tm A} tm B x, X} ⊦ (λ F) @ X ≐ F X❙
+  
+  // realize ?SimpleFunctions❙
+  // simplambda = [A,B,F] λ[x:tm A] F x❙
+  // simpapply = [A,B,F,X] F @ X❙
+  // simpbeta = [A,B,F,X] depbeta❙
 ❚
 
-theory UntypedFunctions =
+theory SoftTypedFunctions =
   include ?Terms❙
-  include ?Equality❙
+  include ?SoftTypedEquality❙
   lambda: (term ⟶ term) ⟶ term❘# λ 1 prec 40❙
   apply : term ⟶ term ⟶ term❘# 1 @ 2 prec 50❙
-  beta  : {A,F,X} ⊦ (λ A F) @ X ≐ F X❙
+  beta  : {F,X} ⊦ (λ F) @ X ≐ F X❙
 ❚
 
 theory SoftTypedSimpleFunctions =
   include ?SoftTypedTerms❙
-  include ?UntypedFunctions❙
+  include ?SoftTypedFunctions❙
   include ?SimpleFunctionTypes❙
   fun_typing : {A,B,F} ({x} x∈A ⟶ (F x)∈B) ⟶ λ F ∈ A → B❙
 ❚
 
 theory SoftTypedDependentFunctions =
   include ?SoftTypedTerms❙
-  include ?UntypedFunctions❙
+  include ?SoftTypedFunctions❙
   include ?SoftDependentFunctionTypes❙
   fun_typing : {A,B,F} ({x} x∈A ⟶ (F x)∈(B x)) ⟶ λ F ∈ Π A B❙
+❚
+
+theory SimpleFunctionsEta =
+  include ?SimpleFunctions❙
+  eta: {A,B,F:tm A → B} ⊦ (λ[x] F @ x) ≐ F❙
+❚
+
+theory DependentFunctionsEta =
+  include ?DependentFunctions❙
+  eta: {A,B, F:tm Π[x:tm A] B x} ⊦ (λ[x] F @ x) ≐ F❙
+❚
+
+theory UntypedFunctionsEta =
+  include ?UntypedFunctions❙
+  eta: {F} ⊦ (λ[x] F @ x) ≐ F❙
+❚
+
+theory SimpleFunctionsExtensionality =
+  include ?SimpleFunctions❙
+  exten: {A,B,F,G:tm A → B} ({x} ⊦ F@x ≐ G@x) ⟶ ⊦ F≐G❙
+❚
+
+theory DependentFunctionsExtensionality =
+  include ?DependentFunctions❙
+  exten: {A,B, F,G:tm Π[x:tm A] B x} ({x} ⊦ F@x ≐ G@x) ⟶ ⊦ F≐G❙
+❚
+
+theory SofttypedFunctionsExtensionality =
+  include ?SoftTypedFunctions❙
+  eta: {F,G} ({x} ⊦ F@x ≐ G@x) ⟶ ⊦ F≐G❙
 ❚
