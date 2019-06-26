@@ -1,0 +1,65 @@
+namespace latin:/algebraic ❚
+
+fixmeta latin:/?SFOLEQ ❚
+
+theory Ringoid =
+  include ?Set ❙
+  U = tm universe ❙
+  structure A : ?Commutative = 
+    universe = universe ❙
+    op @ plus ❘# 1 + 2 prec 10 ❙
+  ❚
+
+  structure M : ?Magma = 
+    universe = universe ❙
+    op @ mult ❘# 1 ⋅ 2 prec 10 ❙
+  ❚
+  
+  // left_distrib: ∀[r]∀[x]∀[y] r ⋅ (x + y) ≐ (r ⋅ x) + (r ⋅ y) ❙
+  // right_distrib: ∀[r]∀[x]∀[y] (x + y) ⋅ r ≐ (x ⋅ r) + (y ⋅ r) ❙
+
+❚
+
+theory Semiring = 
+	include ?Ringoid ❙
+	structure A : ?Monoid 
+	  elem @ zero ❙
+	❚
+	structure M : ?Monoid = 
+	  elem @ one ❙
+	❚
+❚
+
+theory NearRing = 
+  include ?Semiring ❙
+  structure A : ?Group =
+    inv @ minus ❘# -1 prec 10 ❙
+  ❚
+❚
+
+theory Ring = 
+  include ?Semiring ❙
+  structure A : ?CommGroup =
+  ❚
+❚
+
+theory BooleanRing = 
+  include ?Ring ❙
+  structure M : ?Monoid = 
+    include ?Idempotent ❙
+  ❚
+❚
+
+theory LieRing = 
+  include ?Ringoid ❙
+  structure A : ?CommGroup = 
+    elem @ zero ❙
+  ❚
+  
+  bracket: [x,y] (x ⋅ y) - (y ⋅ x) ❙
+  linear_arg_1: ⊦ ∀[x]∀[y]∀[z] (bracket (x + y) z) ≐ (bracket x z) + (bracket y z) ❙
+  linear_arg_2: ⊦ ∀[x]∀[y]∀[z] (bracket x (y + z)) ≐ (bracket x y) + (bracket x z) ❙
+  jacobi: ⊦ ∀[x]∀[y]∀[z] (bracket x (bracket y z)) + (bracket y (bracket z x)) + (bracket z (bracket x y)) ≐ O ❙
+  alternating: ⊦ ∀[x] (bracket x x) ≐ O ❙
+ 
+❚
