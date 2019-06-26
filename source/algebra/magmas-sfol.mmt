@@ -17,9 +17,32 @@ theory Commutative =
   comm : ⊦ ∀[x]∀[y] x∘y ≐ y∘x❙
 ❚
 
+view OppositeMagma : ?Magma → ?Magma = 
+  universe = universe ❙
+  U = U ❙
+  op = [x, y] y ∘ x ❙
+❚
+
+theory Idempotent = 
+  include ?Magma ❙
+  idem: ⊦ ∀[x] (x ∘ x) ≐ x ❙
+❚
+
+view OppositeCommMagma : ?Commutative → ?Commutative =
+  include ?OppositeMagma ❙
+  op = op ❙
+  comm = comm ❙
+❚
+
 theory Semigroup = 
-  include ?Magma❙
+  include ?Magma ❙
   assoc : ⊦ ∀[x]∀[y]∀[z] (x∘y)∘z ≐ x∘(y∘z)❙
+❚
+
+view OppositeSemigroup : ?Semigroup → ?Semigroup = 
+  include ?OppositeMagma ❙
+  op = op ❙
+  assoc = assoc ❙
 ❚
 
 theory CommSemigroup = 
@@ -60,6 +83,11 @@ theory Quasigroup =
   divisibility: ⊦ ∀[x]∀[y]∃[a]∃[b] (a∘x ≐ y) ∧ (x∘b ≐ y)❙ 
 ❚
 
+theory Band = 
+  include ?Idempotent ❙
+  include ?Semigroup ❙
+❚
+
 theory Loop = 
   include ?Quasigroup ❙
   include ?Monoid❙
@@ -70,6 +98,11 @@ theory InverseFun =
   inv : U ⟶ U❘# 1 ⁻ prec 60❙
   inverseLeft:  ⊦ ∀[x] x⁻∘x ≐ e❙
   inverseRight: ⊦ ∀[x] x∘x⁻ ≐ e❙
+❚
+
+theory SemiLattice = 
+  include ?Semigroup ❙
+  include ?Idempotent ❙
 ❚
 
 theory InverseExistence = 
@@ -86,4 +119,8 @@ theory Group =
 theory CommGroup = 
   include ?Group❙
   include ?Commutative❙
+  zero = e ❘# O ❙
+  add = op ❘# 1 + 2 prec 70 ❙
+  minus = inv ❘# -1 prec 40 ❙
+  sub = [x,y] op x (inv y) ❘# 1 - 2 prec 70 ❙
 ❚
