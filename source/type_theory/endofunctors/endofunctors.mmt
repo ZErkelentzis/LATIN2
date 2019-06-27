@@ -3,7 +3,7 @@ namespace latin:/❚
 fixmeta ?TypedEquality❚
 
 theory TypeOperator =
-  applyType: tp ⟶ tp❘# & 1❙
+  applyType: tp ⟶ tp❘# & 1 prec 60❙
 ❚
 
 theory EndoFunctor =
@@ -11,4 +11,36 @@ theory EndoFunctor =
   applyFun: {a,b} (tm a ⟶ tm b) ⟶ tm &a ⟶ tm &b❘# 4 map 3 prec 50❙
   applyId : {a,xs: tm &a} ⊦ xs map ([x] x) ≐ xs❙
   applyComp : {a,b,c,f:tm a ⟶ tm b, g: tm b ⟶ tm c, xs: tm &a} ⊦ xs map f map g ≐ xs map [x] g (f x)❙
+❚
+
+fixmeta ?HOL❚
+
+theory Category = 
+  obj: type❙
+  hom: obj ⟶ obj ⟶ tp❙
+  Hom: obj ⟶ obj ⟶ type❘= [a,b] tm (hom a b)❙
+  id : {a} Hom a a❙
+  comp : {a,b,c} Hom a b ⟶ Hom b c ⟶ Hom a c❘# 4 ; 5 prec 50❙
+
+  neutLeft : {a,b,f:Hom a b} ⊦ (id a);f ≐ f❙
+  neutRight : {a,b,f:Hom a b} ⊦ f;(id b) ≐ f❙
+  assoc: {a,b,c,d, f:Hom a b, g:Hom b c, h:Hom c d} ⊦ f;(g;h) ≐ (f;g);h❙ 
+❚
+
+implicit view CategoryOfTypes : ?Category → ?HOL =
+  obj = tp❙
+  hom = [a,b] a→b❙
+  id = [a] λ[x]x❙
+  comp = [a,b,c,f,g] λ[x] g@(f@x)❙
+❚
+
+theory InternalEndoFunctor =
+  include ?TypeOperator❙
+  fmap : {a,b} tm a→b ⟶ tm &a→&b❘# fmap 3 prec 50❙
+  fmapApply : {a,b} tm a→b ⟶ tm &a ⟶ tm &b❘= [a,b,f,x] (fmap f)@x❘# 3 <$> 4❙
+  fmapId : {a} ⊦ fmap (id a) ≐ id (&a)❙
+  fmapComp : {a,b,c,f:tm a→b,g:tm b→c} ⊦ fmap (f;g) ≐ (fmap f);(fmap g)❙
+  
+  realize ?EndoFunctor❙
+  applyFun = [a,b,f:tm a ⟶ tm b,x] (fmap λ f) @ x❙
 ❚
