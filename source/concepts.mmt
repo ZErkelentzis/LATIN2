@@ -81,9 +81,9 @@ theory InternalLogic =
 theory InternalTypes =
   include ?UntypedLogic❙
   in : term ⟶ term ⟶ prop❘# 1 ∈ 2 prec 30❙
-  realize ?Types❙
+  realize ?SoftTypedTerms❙
   tp = term❙
-  include ?SoftTypedTerms❙
+  of = in❙
   
   total structure typesAsPredicates : ?SoftTypedTerms =
     include ?Terms❙

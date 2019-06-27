@@ -33,7 +33,7 @@ theory TypedEquality =
   equal  : {A} tm A ⟶ tm A ⟶ prop❘# 2 ≐ 3 prec 30❙
   refl   : {A,x: tm A} ⊦ x ≐ x❙
   congP  : {A,  x,y} ⊦ x ≐ y ⟶ {P: tm A ⟶ prop} ⊦ P x ⟶ ⊦ P y❘# 4 congP 5 6❙
-  congT  : {A,B,x,y} ⊦ x ≐ y ⟶ {T: tm A ⟶ tm B} ⊦ T x  ≐  T y ❘# 3 congT 4❘
+  congT  : {A,B,x,y} ⊦ x ≐ y ⟶ {T: tm A ⟶ tm B} ⊦ T x  ≐  T y ❘# 5 congT 6❘
          = [A,B,x,y,p,T] p congP ([u] T x ≐ T u) refl❙
   
   sym    : {A, x,y: tm A} ⊦ x ≐ y ⟶ ⊦ y ≐ x❘# 4 sym❘

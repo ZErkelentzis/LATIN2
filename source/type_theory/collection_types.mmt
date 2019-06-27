@@ -1,0 +1,47 @@
+namespace latin:/❚
+
+fixmeta ?TypedEquality❚
+
+theory Collection =
+  include ?EndoMagma❙
+  include ?EndoNeutral❙
+
+  singleton : {a} tm a ⟶ tm &a❘# S 2 prec 60❙
+  cons : {a} tm a ⟶ tm &a ⟶ tm &a❘= [a,x,xs] S x ∘ xs❙
+❚
+
+theory ListSpec =
+  include ?Collection❙
+  include ?EndoMonoid❙
+❚
+
+theory MultisetSpec =
+  include ?ListSpec❙
+  include ?EndoIdempotent❙
+❚
+
+theory FiniteSetSpec =
+  include ?MultisetSpec❙
+  include ?EndoCommutative❙
+❚
+
+theory Lists =
+  structure list : ?ListSpec =
+    op # 2 concat 3❙
+    singleton # List 2❙
+ ❚
+❚
+
+theory Multisets =
+  structure multiset : ?MultisetSpec =
+    op # 2 munion 3❙
+    singleton # Multiset 2❙
+ ❚
+❚
+
+theory FiniteSets =
+  structure finset : ?FiniteSetSpec =
+    op # 2 union 3❙
+    singleton # FinSet 2❙
+ ❚
+❚

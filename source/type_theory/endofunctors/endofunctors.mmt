@@ -1,0 +1,14 @@
+namespace latin:/❚
+
+fixmeta ?TypedEquality❚
+
+theory TypeOperator =
+  applyType: tp ⟶ tp❘# & 1❙
+❚
+
+theory EndoFunctor =
+  include ?TypeOperator❙
+  applyFun: {a,b} (tm a ⟶ tm b) ⟶ tm &a ⟶ tm &b❘# 4 map 3 prec 50❙
+  applyId : {a,xs: tm &a} ⊦ xs map ([x] x) ≐ xs❙
+  applyComp : {a,b,c,f:tm a ⟶ tm b, g: tm b ⟶ tm c, xs: tm &a} ⊦ xs map f map g ≐ xs map [x] g (f x)❙
+❚

@@ -1,9 +1,10 @@
 namespace latin:/algebraic❚
 
 fixmeta ur:?LF❚
+rule scala://parser.api.mmt.kwarc.info?MMTURILexer❚
 
 theory Magma =
-  include latin:/?EqualityType❙
+  include `latin:/?EqualityType❙
   op : carrier ⟶ carrier ⟶ carrier ❘# 1 ∘ 2 prec 50❙
 ❚
 
@@ -58,7 +59,6 @@ theory Band =
 theory CommMonoid =
   include ?Monoid❙
   include ?CommSemigroup❙
-
 ❚
 
 theory Semilattice =

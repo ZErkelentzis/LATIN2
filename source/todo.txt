@@ -49,3 +49,10 @@ mark structure/include in view as implicit; effect: only composed morphism is im
 aliases and notations in include must be allowed
 
 with T = {a conservative extension of parent+T} 
+
+diagram operators
+ - diag relativize context, e.g., Magmas relativize a:tp; should also use parametric structures
+
+structure, view take list of theory names
+
+external notations, use in structures, e.g., with %i
