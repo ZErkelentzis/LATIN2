@@ -24,15 +24,21 @@ theory Ringoid =
 theory CommRingoid =
   include ?Ringoid ❙
   structure M : ?Commutative =
+    universe = universe ❙
+    U = U ❙
   ❚
 ❚
 
 theory Semiring = 
 	include ?Ringoid ❙
 	structure A : ?CommMonoid =
+	  universe = universe ❙
+	  U = U ❙
 	  elem @ zero ❙
 	❚
-	structure M : ?Monoid = 
+	structure M : ?Monoid =
+	  universe = universe ❙
+	  U = U ❙
 	  elem @ one ❙
 	❚
 ❚
@@ -45,6 +51,8 @@ theory CommSemiring =
 theory NearRing = 
   include ?Semiring ❙
   structure A : ?Group =
+    universe = universe ❙
+    U = U ❙
   ❚
 ❚
 
@@ -56,13 +64,43 @@ theory CommNearRing =
 theory Ring = 
   include ?Semiring ❙
   structure A : ?CommGroup =
+    universe = universe ❙
+    U = U ❙
   ❚
 ❚
 
 theory BooleanRing = 
   include ?Ring ❙
   structure M : ?IdempotentMonoid =
+    universe = universe ❙
+    U = U ❙
   ❚
+❚
+
+theory CommRing = 
+  include ?CommRingoid ❙
+  include ?Ring ❙
+❚
+
+theory IntegralDomain =  
+  include ?CommRing ❙
+  no_zero_div: ⊦ ∀[x]∀[y] (x⋅y ≐ zero) ⇒ ((x ≐ zero) ∨ (y ≐ zero)) ❙
+❚
+
+theory SkewField = 
+  include ?Ring ❙
+  structure M : ?Group = 
+    universe = universe ❙
+    U = U ❙
+  ❚
+  neq01: ⊦ ¬(zero ≐ one) ❙
+❚
+
+theory DivisionRing = SkewField ❚
+
+theory Field = 
+  include ?SkewField ❙
+  include ?CommRingoid ❙
 ❚
 
 theory BilinearRingoid = 
@@ -78,9 +116,10 @@ theory LieRing =
     universe = universe ❙
     U = U ❙
     inv @ minus ❙
+    sub # 1 - 2 prec 50 ❙
   ❚
   bracket = f ❙ 
   bracket_defn: ⊦ ∀[x]∀[y] (bracket x y) ≐ (mult x y) - (mult y x) ❙
-  jacobi: ⊦ ∀[x]∀[y]∀[z] (bracket x (bracket y z)) + (bracket y (bracket z x)) + (bracket z (bracket x y)) ≐ O ❙
-  alternating: ⊦ ∀[x] (bracket x x) ≐ O ❙
+  jacobi: ⊦ ∀[x]∀[y]∀[z] (bracket x (bracket y z)) + (bracket y (bracket z x)) + (bracket z (bracket x y)) ≐ zero ❙
+  alternating: ⊦ ∀[x] (bracket x x) ≐ zero ❙
 ❚
