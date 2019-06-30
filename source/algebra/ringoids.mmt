@@ -4,25 +4,32 @@ fixmeta latin:/?SFOLEQ ❚
 
 theory Ringoid =
   include ?Set ❙
-  U = tm universe ❙
   structure A : ?Commutative = 
     universe = universe ❙
-    op @ plus ❘# 1 + 2 prec 10 ❙
+    U = U ❙
+    op @ plus ❘# 1 + 2 prec 40 ❙
   ❚
 
-  structure M : ?Magma = 
+  structure M : ?Magma =
     universe = universe ❙
-    op @ mult ❘# 1 ⋅ 2 prec 10 ❙
+    U = U ❙
+    op @ mult ❘# 1 ⋅ 2 prec 50 ❙
   ❚
   
-  // left_distrib: ∀[r]∀[x]∀[y] r ⋅ (x + y) ≐ (r ⋅ x) + (r ⋅ y) ❙
-  // right_distrib: ∀[r]∀[x]∀[y] (x + y) ⋅ r ≐ (x ⋅ r) + (y ⋅ r) ❙
+  left_distrib: ⊦ ∀[r]∀[x]∀[y] r ⋅ (x + y) ≐ r⋅x + r ⋅ y ❙
+  right_distrib: ⊦ ∀[r]∀[x]∀[y] (x + y) ⋅ r ≐ x ⋅ r + y ⋅ r ❙
 
+❚
+
+theory CommRingoid =
+  include ?Ringoid ❙
+  structure M : ?Commutative =
+  ❚
 ❚
 
 theory Semiring = 
 	include ?Ringoid ❙
-	structure A : ?Monoid 
+	structure A : ?CommMonoid =
 	  elem @ zero ❙
 	❚
 	structure M : ?Monoid = 
@@ -30,11 +37,20 @@ theory Semiring =
 	❚
 ❚
 
+theory CommSemiring = 
+  include ?CommRingoid ❙
+  include ?Semiring ❙
+❚
+
 theory NearRing = 
   include ?Semiring ❙
   structure A : ?Group =
-    inv @ minus ❘# -1 prec 10 ❙
   ❚
+❚
+
+theory CommNearRing = 
+  include ?CommRingoid ❙
+  include ?NearRing ❙
 ❚
 
 theory Ring = 
@@ -45,21 +61,26 @@ theory Ring =
 
 theory BooleanRing = 
   include ?Ring ❙
-  structure M : ?Monoid = 
-    include ?Idempotent ❙
+  structure M : ?IdempotentMonoid =
   ❚
 ❚
 
-theory LieRing = 
+theory BilinearRingoid = 
   include ?Ringoid ❙
+  f: U ⟶ U ⟶ U ❙
+  bilinear: ⊦ ∀[x]∀[y]∀[z] (f (x + y) z) ≐ (f x z) + (f y z) ∧ (f x (y + z)) ≐ (f x y) + (f y z) ❙
+  homogen: ⊦ ∀[r]∀[x]∀[y] f (r⋅x) y ≐ r⋅ (f x y) ∧ f x (r⋅y) ≐ r⋅(f x y) ❙
+❚
+
+theory LieRing = 
+  include ?BilinearRingoid ❙
   structure A : ?CommGroup = 
-    elem @ zero ❙
+    universe = universe ❙
+    U = U ❙
+    inv @ minus ❙
   ❚
-  
-  bracket: [x,y] (x ⋅ y) - (y ⋅ x) ❙
-  linear_arg_1: ⊦ ∀[x]∀[y]∀[z] (bracket (x + y) z) ≐ (bracket x z) + (bracket y z) ❙
-  linear_arg_2: ⊦ ∀[x]∀[y]∀[z] (bracket x (y + z)) ≐ (bracket x y) + (bracket x z) ❙
+  bracket = f ❙ 
+  bracket_defn: ⊦ ∀[x]∀[y] (bracket x y) ≐ (mult x y) - (mult y x) ❙
   jacobi: ⊦ ∀[x]∀[y]∀[z] (bracket x (bracket y z)) + (bracket y (bracket z x)) + (bracket z (bracket x y)) ≐ O ❙
   alternating: ⊦ ∀[x] (bracket x x) ≐ O ❙
- 
 ❚
