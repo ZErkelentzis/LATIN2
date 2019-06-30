@@ -73,6 +73,11 @@ theory Monoid =
   include ?LeftNeutral❙
 ❚
 
+theory IdempotentMonoid = 
+  include ?Idempotent ❙
+  include ?Monoid ❙
+❚
+
 theory CommMonoid = 
   include ?Commutative❙
   include ?Monoid❙
