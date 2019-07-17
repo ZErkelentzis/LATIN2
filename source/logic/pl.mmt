@@ -44,7 +44,7 @@ theory Implication =
   impI  : {F,G} (⊦ F ⟶ ⊦ G) ⟶ ⊦ F ⇒ G❙
   impE  : {F,G} ⊦ F ⇒ G ⟶ ⊦ F ⟶ ⊦ G❘# 3 impE 4❘role ForwardRule❙
   
-  total structure impl_preorder : ?Preorder -> ?Implication =
+  total structure impl_preorder : ?Preorder =
     carrier = prop❙
     rel = [x,y] ⊦ x ⇒ y❙
     refl = [F] impI [f] f❙
@@ -59,7 +59,7 @@ theory Equivalence =
   equivEl : {F,G} ⊦ F ⇔ G ⟶ ⊦ F ⟶ ⊦ G❘# 3 equivEl 4❘role ForwardRule❙
   equivEr : {F,G} ⊦ F ⇔ G ⟶ ⊦ G ⟶ ⊦ F❘# 3 equivEr 4❘role ForwardRule❙
   
-  view equiv_equivalence : ?EquivalenceRelation -> ?Equivalence =
+  total structure equiv_equivalence : ?EquivalenceRelation =
     carrier = prop❙
     rel = [x,y] ⊦ x ⇔ y❙
     refl = [F] equivI ([p]p) ([p]p)❙
@@ -83,7 +83,7 @@ theory IPL =
   not_or_right : {F,G} ⊦ ¬(F∨G) ⟶ ⊦¬G ❘= [F,G,p] notI [q] p notE (q orIr)❙
   nntnd : {F} ⊦¬¬(F∨¬F)❘= [F] notI [p] (not_or_right p) notE (not_or_left p)❙
 
-  view impl_order : ?Order -> ?IPL =
+  total structure impl_order : ?Order =
     include ?Implication/impl_preorder❙ 
     structure equalityRel = ?Equivalence/equiv_equivalence❙
     antisym = [F,G,fg,gf] equivI ([f] fg impE f) ([g] gf impE g)❙
