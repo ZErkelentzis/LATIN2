@@ -7,9 +7,28 @@ theory Set =
   U = tm universe❙
 ❚
 
+theory Hom = 
+   structure domain : ?Set =
+   ❚
+   structure codomain : ?Set =
+   ❚
+   U : domain/U ⟶ codomain/U ❙
+❚
+
 theory Magma = 
   include ?Set ❙
   op : U ⟶ U ⟶ U ❘# 1 ∘ 2 prec 50 ❙
+❚
+
+theory MagmaHom = 
+  include ?Hom ❙
+  structure domain : ?Magma =
+    U = domain/U ❙
+  ❚
+  structure codomain : ?Magma = 
+    U = codomain/U ❙
+  ❚
+  // op : ⊦ ∀[x]∀[y] domain/op x y ≐ codomain/op (U x) (U y) ❙
 ❚
 
 theory Commutative = 
@@ -116,16 +135,3 @@ theory InverseExistence =
   inverseRight: ⊦ ∀[x]∃[i] x∘i ≐ e❙
 ❚
 
-theory Group = 
-  include ?Monoid ❙
-  include ?InverseFun❙
-❚
-
-theory CommGroup = 
-  include ?Group❙
-  include ?Commutative❙
-  zero = e ❘# O ❙
-  add = op ❘# 1 + 2 prec 70 ❙
-  minus = inv ❘# -1 prec 40 ❙
-  sub = [x,y] op x (inv y) ❘# 1 - 2 prec 70 ❙
-❚

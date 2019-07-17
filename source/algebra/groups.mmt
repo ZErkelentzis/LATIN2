@@ -1,0 +1,29 @@
+namespace latin:/algebraic❚
+
+fixmeta latin:/?SFOLEQ ❚
+
+theory Group = 
+  include ?Monoid ❙
+  include ?InverseFun ❙
+❚
+
+theory CommGroup = 
+  include ?Group❙
+  include ?Commutative❙
+  zero = e ❘# O ❙
+  add = op ❘# 1 + 2 prec 70 ❙
+  minus = inv ❘# -1 prec 40 ❙
+  sub = [x,y] op x (inv y) ❘# 1 - 2 prec 70 ❙
+❚
+
+theory GroupHom = 
+  include ?MagmaHom ❙
+  structure domain : ?Group =
+    U = domain/U ❙
+  ❚
+  structure codoamin : ?Group = 
+    U = codomain/U ❙
+  ❚
+  // e: ⊦ U domain/e ≐ codomain/e ❙
+❚
+  

@@ -24,21 +24,18 @@ theory Ringoid =
 theory CommRingoid =
   include ?Ringoid ❙
   structure M : ?Commutative =
-    universe = universe ❙
-    U = U ❙
+    include ?Ringoid/M ❙
   ❚
 ❚
 
 theory Semiring = 
 	include ?Ringoid ❙
 	structure A : ?CommMonoid =
-	  universe = universe ❙
-	  U = U ❙
+	  include ?Ringoid/A ❙
 	  elem @ zero ❙
 	❚
 	structure M : ?Monoid =
-	  universe = universe ❙
-	  U = U ❙
+	  include ?Ringoid/M ❙
 	  elem @ one ❙
 	❚
 ❚
@@ -51,8 +48,7 @@ theory CommSemiring =
 theory NearRing = 
   include ?Semiring ❙
   structure A : ?Group =
-    universe = universe ❙
-    U = U ❙
+    // include ?Ringoid/A ❙
   ❚
 ❚
 
@@ -96,7 +92,9 @@ theory SkewField =
   neq01: ⊦ ¬(zero ≐ one) ❙
 ❚
 
-theory DivisionRing = SkewField ❚
+theory DivisionRing = 
+  include ?SkewField ❙
+❚
 
 theory Field = 
   include ?SkewField ❙
@@ -113,8 +111,8 @@ theory BilinearRingoid =
 theory LieRing = 
   include ?BilinearRingoid ❙
   structure A : ?CommGroup = 
-    universe = universe ❙
-    U = U ❙
+    include ?Ringoid/A ❙
+    elem @ zero ❙
     inv @ minus ❙
     sub # 1 - 2 prec 50 ❙
   ❚
