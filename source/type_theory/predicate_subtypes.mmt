@@ -1,0 +1,14 @@
+namespace latin:/❚
+
+fixmeta ur:?LF❚
+
+theory PredicateSubtypes =
+  include ?Subtyping❙
+  include ?SubtypeInjections❙
+  
+  predsub : {A} (tm A ⟶ prop) ⟶ tp❘# ⦃ 2 ⦄  prec -10050❙
+  in      : {A,P, x:tm A}  ⊦ P x ⟶ tm ⦃P⦄❙
+  
+  predsub_sub: {A,P: tm A ⟶ prop} ⊦ ⦃P⦄ ⪽ A❙
+  predsub_prop: {A,P: tm A ⟶ prop, x: tm ⦃P⦄} ⊦ P (x↑predsub_sub)❙
+❚
