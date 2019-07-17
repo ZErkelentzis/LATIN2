@@ -44,7 +44,7 @@ theory Implication =
   impI  : {F,G} (⊦ F ⟶ ⊦ G) ⟶ ⊦ F ⇒ G❙
   impE  : {F,G} ⊦ F ⇒ G ⟶ ⊦ F ⟶ ⊦ G❘# 3 impE 4❘role ForwardRule❙
   
-  view impl_preorder : ?Preorder -> ?Implication =
+  total structure impl_preorder : ?Preorder -> ?Implication =
     carrier = prop❙
     rel = [x,y] ⊦ x ⇒ y❙
     refl = [F] impI [f] f❙

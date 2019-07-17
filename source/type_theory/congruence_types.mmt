@@ -1,0 +1,23 @@
+namespace latin:/powertypes❚
+
+import rules scala://parser.api.mmt.kwarc.info❚
+//rule rules:?UnicodeReplacer❚
+rule rules:?MMTURILexer❚
+
+fixmeta ur:?LF❚
+
+theory CongruenceTypes =
+  include `latin:/?TypedEquality❙
+  include `latin:/?Equivalence❙
+  
+  Cong : tp ⟶ tp❘# Cong 1 prec 100❙
+  is_cong : {A} tm Cong A  ⟶ tm A ⟶ tm A ⟶ prop❘# 3 ≡ 4 mod 2 prec 30❙
+  cong  : {A} (tm A ⟶ tm A ⟶ prop) ⟶ tm Cong A❘# cong 2 prec 50❙
+  
+  compute : {A,R,x,y: tm A} ⊦ x ≡ y mod (cong R) ⇔ R x y❙
+  expand  : {A,C:tm Cong A} ⊦ C ≐ cong [x,y] x≡y mod C❙
+ 
+  cong_refl : {A, C: tm Cong A, x} ⊦ x≡x mod C❙
+  cong_sym  : {A, C: tm Cong A, x, y} ⊦ x≡y mod C ⟶ ⊦ y≡x mod C❙
+  cong_trans : {A, C: tm Cong A, x,y,z} ⊦ x≡y mod C ⟶ ⊦ y≡z mod C ⟶  ⊦ x≡z mod C❙
+❚

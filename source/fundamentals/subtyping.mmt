@@ -1,0 +1,25 @@
+namespace latin:/❚
+
+fixmeta ur:?LF❚
+
+theory Subtyping =
+  include ?Types❙
+  include ?Logic❙
+  subtype : tp ⟶ tp ⟶ prop❘# 1 ⪽ 2 prec 30❙
+  
+  structure subtype_preorder : ?Preorder =
+    carrier = tp❙
+    rel = [A,B] ⊦ A⪽B❙
+  ❚
+❚
+
+theory SubtypeInjections =
+  include ?TypedTerms❙
+  include ?Subtyping❙
+  include ?TypedEquality❙
+  
+  inject : {A,B} ⊦ A ⪽ B ⟶ tm A ⟶ tm B❘# 4 ↑ 3 prec 50❙
+  
+  inject_refl : {A,x: tm A} ⊦ x ↑ subtype_preorder/refl ≐ x❙
+  inject_trans : {A,B,C,x: tm A,P:⊦A⪽B, Q:⊦B⪽C} ⊦ (x↑P)↑Q ≐ x↑(subtype_preorder/trans P Q)❙
+❚
