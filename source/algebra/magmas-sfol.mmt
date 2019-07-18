@@ -28,7 +28,7 @@ theory MagmaHom =
   structure codomain : ?Magma = 
     U = codomain/U ❙
   ❚
-  // op : ⊦ ∀[x]∀[y] domain/op x y ≐ codomain/op (U x) (U y) ❙
+  op : ⊦ ∀[x]∀[y] U (domain/op x y) ≐ codomain/op (U x) (U y) ❙
 ❚
 
 theory Commutative = 
@@ -65,8 +65,8 @@ view OppositeSemigroup : ?Semigroup → ?Semigroup =
 ❚
 
 theory CommSemigroup = 
-  include ?Commutative❙
-  include ?Semigroup❙
+  include ?Commutative ❙
+  include ?Semigroup ❙
 ❚
 
 theory Pointed = 
@@ -74,22 +74,26 @@ theory Pointed =
   elem : U ❘# e❙
 ❚
 
-theory RightNeutral =
+theory RightUnital =
   include ?Magma❙
   include ?Pointed❙
-  neutralR : ⊦ ∀[x]x∘e ≐ x❙
+  neutralR : ⊦ ∀[x] x∘e ≐ x ❙
 ❚
 
-theory LeftNeutral = 
+theory LeftUnital = 
   include ?Magma❙
   include ?Pointed❙
-  neutralL : ⊦ ∀[x]e∘x ≐ x❙
+  neutralL : ⊦ ∀[x] e∘x ≐ x ❙
+❚
+
+theory Unital = 
+  include ?LeftUnital ❙
+  include ?RightUnital ❙
 ❚
 
 theory Monoid = 
-  include ?Semigroup❙
-  include ?RightNeutral❙
-  include ?LeftNeutral❙
+  include ?Semigroup ❙
+  include ?Unital ❙
 ❚
 
 theory IdempotentMonoid = 
@@ -104,7 +108,8 @@ theory CommMonoid =
 
 theory Quasigroup = 
   include ?Magma ❙
-  divisibility: ⊦ ∀[x]∀[y]∃[a]∃[b] (a∘x ≐ y) ∧ (x∘b ≐ y)❙ 
+  div_left : ⊦ ∀[x] ∀[y] ∃[a] (a∘x ≐ y) ❙
+  div_right: ⊦ ∀[x] ∀[y] ∃[b] (x∘b ≐ y) ❙ 
 ❚
 
 theory Band = 
@@ -131,7 +136,7 @@ theory SemiLattice =
 
 theory InverseExistence = 
   include ?Monoid ❙
-  inverseLeft:  ⊦ ∀[x]∃[i] i∘x ≐ e❙
-  inverseRight: ⊦ ∀[x]∃[i] x∘i ≐ e❙
+  inverseLeft:  ⊦ ∀[x]∃[i] i∘x ≐ e ❙
+  inverseRight: ⊦ ∀[x]∃[i] x∘i ≐ e ❙
 ❚
 
