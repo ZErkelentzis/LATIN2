@@ -2,41 +2,47 @@ namespace latin:/algebraic ❚
 
 fixmeta latin:/?SFOLEQ ❚
 
-theory Ringoid =
+theory BiMagma = 
   include ?Set ❙
-  structure A : ?Commutative = 
+  structure add : ?Magma = 
     universe = universe ❙
     U = U ❙
-    op @ plus ❘# 1 + 2 prec 40 ❙
+    op # 1 + 2 prec 40 ❙
   ❚
-
-  structure M : ?Magma =
+  
+  structure mult : ?Magma = 
     universe = universe ❙
     U = U ❙
-    op @ mult ❘# 1 ⋅ 2 prec 50 ❙
+    op # 1 ⋅ 2 prec 50 ❙
+  ❚
+❚
+
+theory Ringoid =
+  include ?BiMagma ❙
+  structure add : ?Commutative = 
+    include ?BiMagma/add ❙
   ❚
   
   left_distrib: ⊦ ∀[r]∀[x]∀[y] r ⋅ (x + y) ≐ r⋅x + r ⋅ y ❙
   right_distrib: ⊦ ∀[r]∀[x]∀[y] (x + y) ⋅ r ≐ x ⋅ r + y ⋅ r ❙
-
 ❚
 
 theory CommRingoid =
   include ?Ringoid ❙
-  structure M : ?Commutative =
-    include ?Ringoid/M ❙
+  structure mult : ?CommSemigroup =
+    include ?BiMagma/mult ❙
   ❚
 ❚
 
 theory Semiring = 
 	include ?Ringoid ❙
-	structure A : ?CommMonoid =
-	  include ?Ringoid/A ❙
-	  elem @ zero ❙
+	structure add : ?CommMonoid =                                                                   
+	  include ?Ringoid/add ❙
+	  elem # zero ❙
 	❚
-	structure M : ?Monoid =
-	  include ?Ringoid/M ❙
-	  elem @ one ❙
+	structure mult : ?Monoid =
+	  include ?BiMagma/mult ❙
+	  elem # one ❙
 	❚
 ❚
 
@@ -47,8 +53,8 @@ theory CommSemiring =
 
 theory NearRing = 
   include ?Semiring ❙
-  structure A : ?Group =
-    // include ?Ringoid/A ❙
+  structure add : ?Group =
+    include ?BiMagma/add ❙
   ❚
 ❚
 
@@ -59,17 +65,15 @@ theory CommNearRing =
 
 theory Ring = 
   include ?Semiring ❙
-  structure A : ?CommGroup =
-    universe = universe ❙
-    U = U ❙
+  structure add : ?CommGroup =
+    include ?BiMagma/add ❙
   ❚
 ❚
 
 theory BooleanRing = 
   include ?Ring ❙
-  structure M : ?IdempotentMonoid =
-    universe = universe ❙
-    U = U ❙
+  structure mult : ?IdempotentMonoid =
+    include ?Semiring/mult ❙
   ❚
 ❚
 
@@ -85,9 +89,8 @@ theory IntegralDomain =
 
 theory SkewField = 
   include ?Ring ❙
-  structure M : ?Group = 
-    universe = universe ❙
-    U = U ❙
+  structure mult : ?Group = 
+    include ?Semiring/mult ❙
   ❚
   neq01: ⊦ ¬(zero ≐ one) ❙
 ❚
@@ -111,13 +114,10 @@ theory BilinearRingoid =
 theory LieRing = 
   include ?BilinearRingoid ❙
   structure A : ?CommGroup = 
-    include ?Ringoid/A ❙
-    elem @ zero ❙
-    inv @ minus ❙
-    sub # 1 - 2 prec 50 ❙
+    include ?Ringoid/add ❙
   ❚
-  bracket = f ❙ 
-  bracket_defn: ⊦ ∀[x]∀[y] (bracket x y) ≐ (mult x y) - (mult y x) ❙
-  jacobi: ⊦ ∀[x]∀[y]∀[z] (bracket x (bracket y z)) + (bracket y (bracket z x)) + (bracket z (bracket x y)) ≐ zero ❙
-  alternating: ⊦ ∀[x] (bracket x x) ≐ zero ❙
+  bracket = f ❘# ⟨ 1  2 ⟩ prec 40 ❙ 
+  bracket_defn: ⊦ ∀[x]∀[y] ⟨x y⟩ ≐ x ⋅ y - y ⋅ x ❙
+  jacobi: ⊦ ∀[x]∀[y]∀[z] ⟨x ⟨y z⟩⟩ + ⟨y ⟨z x⟩⟩ + ⟨z ⟨x y⟩⟩ ≐ O ❙
+  alternating: ⊦ ∀[x] ⟨x x⟩ ≐ O ❙
 ❚
