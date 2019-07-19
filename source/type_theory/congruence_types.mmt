@@ -1,14 +1,10 @@
 namespace latin:/powertypes❚
 
-import rules scala://parser.api.mmt.kwarc.info❚
-//rule rules:?UnicodeReplacer❚
-rule rules:?MMTURILexer❚
-
 fixmeta ur:?LF❚
 
 theory CongruenceTypes =
-  include `latin:/?TypedEquality❙
-  include `latin:/?Equivalence❙
+  include ☞latin:/?TypedEquality❙
+  include ☞latin:/?Equivalence❙
   
   Cong : tp ⟶ tp❘# Cong 1 prec 100❙
   is_cong : {A} tm Cong A  ⟶ tm A ⟶ tm A ⟶ prop❘# 3 ≡ 4 mod 2 prec 30❙
