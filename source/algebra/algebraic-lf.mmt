@@ -9,7 +9,75 @@ Notes:
 - LeftX and RightX are stronger than X, not weaker
 ❚
 
-fixmeta ur:?LF❚
+fixmeta ur:/?LF ❚
+
+theory Magma =
+  include ☞latin:/?EqualityType❙
+  op : carrier ⟶ carrier ⟶ carrier ❘# 1 ∘ 2 prec 50❙
+❚
+
+theory Semigroup =
+  include ?Magma❙
+  assoc: {x,y,z} (x∘y)∘z = x∘(y∘z)❙
+  
+  assocR: {x,y,z} x∘(y∘z) = (x∘y)∘z❘
+        = [x,y,z] sym assoc❙
+
+  assoc4:  {w,x,y,z} ((w∘x)∘y)∘z = w∘(x∘(y∘z))❘
+        =  [w,x,y,z] trans3 (assoc congT [u]u∘z) assoc (assoc congT [u]w∘u)❙
+  assoc4R: {w,x,y,z} w∘(x∘(y∘z)) = ((w∘x)∘y)∘z❘
+        = [w,x,y,z] sym assoc4❙
+  assoc5: {v,w,x,y,z} (((v∘w)∘x)∘y)∘z = v∘(w∘(x∘(y∘z)))❘
+        = [v,w,x,y,z] trans4 (assoc4 congT [u]u∘z) assoc
+                              (assoc congT [u]v∘u) (assoc congT [u]v∘(w∘u))❙
+❚
+
+theory Commutative =
+  include ?Magma❙
+  comm: {x,y} x∘y = y∘x❙
+❚
+
+theory Neutral =
+  include ?Magma❙
+  e  : carrier ❙  
+  neutLeft: {x} e∘x = x❙
+  neutRight: {x} x∘e = x❙
+❚
+
+theory Idempotent =
+  include ?Magma❙
+  idempotent: {x} x∘x = x❙
+❚
+
+theory Monoid =
+  include ?Semigroup❙
+  include ?Neutral❙
+❚
+
+theory CommSemigroup =
+  include ?Semigroup❙
+  include ?Commutative❙
+❚
+
+theory Band =
+  include ?Semigroup❙
+  include ?Idempotent❙
+❚
+
+theory CommMonoid =
+  include ?Monoid❙
+  include ?CommSemigroup❙
+❚
+
+theory Semilattice =
+  include ?Band❙
+  include ?CommSemigroup❙
+❚
+
+theory BoundedSemilattice =
+  include ?Semilattice❙
+  include ?CommMonoid❙
+❚
 
 theory Regular =
 	include ?Band❙

@@ -1,0 +1,56 @@
+namespace latin:/ ❚
+
+import lfx http://gl.mathhub.info/MMT/LFX/TypedHierarchy ❚
+import finite http://gl.mathhub.info/MMT/LFX/Finite ❚
+import rules scala://structuralfeatures.lf.mmt.kwarc.info❚
+
+// Mainly ported (with very minor modifications)
+// from Colin's examples/induction/NatExample.mmt
+❚
+
+theory NatInduct : ?LFXI =
+  inductive nat() ❘=
+    n: type  ❙
+    z: n     ❙
+    s: n ⟶ n ❙
+  ❚
+
+  inductive_definition plusn() : nat() ❘=
+    n: type  ❘= (nat/n ⟶ nat/n)     ❙
+    z: n     ❘= ([x] x)             ❙
+    s: n ⟶ n ❘= ([u,x] nat/s (u x)) ❙
+  ❚
+
+  plus: nat/n ⟶ nat/n ⟶ nat/n
+    ❘= plusn/n
+    ❘# 1 + 2
+  ❙
+
+  z_plus_n: {m: nat/n} DED ((nat/z + m) EQ m) ❙
+  z_plus_z: DED (nat/z + nat/z) EQ nat/z ❙
+  z_plus_suc: {m: nat/n} DED (nat/z + m) EQ m ⟶ DED (nat/z + (nat/s m)) EQ (nat/s m) ❙
+
+  ind_proof z_neutral() : nat() ❘=
+    n = [m] DED (nat/z + m) EQ m ❙
+    z : n nat/z ❘= plusn/z/Applied nat/z ❙
+    s : {x:nat/n} n x ⟶ n (nat/s x) ❘= [x, px] plusn/z/Applied (nat/s x) ❙
+  ❚
+
+  inductive_definition times() : nat() ❘=
+    n: type  ❘= (nat/n ⟶ nat/n)     ❙
+    z: n     ❘= ([x] nat/z)         ❙
+    s: n ⟶ n ❘= ([u,x] (x + (u x))) ❙
+  ❚
+
+  inductive_definition predec() : nat() ❘=
+    n: type  ❘= nat/n   ❙
+    z: n     ❘= nat/z   ❙
+    s: n ⟶ n ❘= ([u] u) ❙
+  ❚
+
+  inductive_definition monus() : nat() ❘=
+    n: type  ❘= (nat/n ⟶ nat/n)        ❙
+    z: n     ❘= ([x] x)                ❙
+    s: n ⟶ n ❘= ([u,x] predec/n (u x)) ❙
+  ❚
+❚

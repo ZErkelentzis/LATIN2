@@ -1,73 +1,180 @@
 namespace latin:/algebraic❚
 
-fixmeta ur:?LF❚
-rule scala://parser.api.mmt.kwarc.info?MMTURILexer❚
+fixmeta latin:/?SFOLEQLFXI ❚
 
-theory Magma =
-  include `latin:/?EqualityType❙
-  op : carrier ⟶ carrier ⟶ carrier ❘# 1 ∘ 2 prec 50❙
+theory Set = 
+  universe : tp❙
+  U = tm universe❙
 ❚
 
-theory Semigroup =
-  include ?Magma❙
-  assoc: {x,y,z} (x∘y)∘z = x∘(y∘z)❙
+theory Hom = 
+   structure domain : ?Set =
+   ❚
+   structure codomain : ?Set =
+   ❚
+   U : domain/U ⟶ codomain/U ❙
+❚
+
+theory Magma = 
+  include ?Set ❙
+  op : U ⟶ U ⟶ U ❘# 1 ∘ 2 prec 50 ❙
+❚
+
+theory MagmaHom = 
+  include ?Hom ❙
+  structure domain : ?Magma =
+    U = domain/U ❙
+  ❚
+  structure codomain : ?Magma = 
+    U = codomain/U ❙
+  ❚
+  op : ⊦ ∀[x]∀[y] U (domain/op x y) ≐ codomain/op (U x) (U y) ❙
+❚
+
+theory SubMagma = 
+  include ☞latin:/?TypedLogic ❙
+  structure parent : ?Magma =
+    universe # parent_universe ❙
+    U # parent_U ❙
+  ❚
+  universe : tm parent_universe ⟶ prop ❙
   
-  assocR: {x,y,z} x∘(y∘z) = (x∘y)∘z❘
-        = [x,y,z] sym assoc❙
-
-  assoc4:  {w,x,y,z} ((w∘x)∘y)∘z = w∘(x∘(y∘z))❘
-        =  [w,x,y,z] trans3 (assoc congT [u]u∘z) assoc (assoc congT [u]w∘u)❙
-  assoc4R: {w,x,y,z} w∘(x∘(y∘z)) = ((w∘x)∘y)∘z❘
-        = [w,x,y,z] sym assoc4❙
-  assoc5: {v,w,x,y,z} (((v∘w)∘x)∘y)∘z = v∘(w∘(x∘(y∘z)))❘
-        = [v,w,x,y,z] trans4 (assoc4 congT [u]u∘z) assoc
-                              (assoc congT [u]v∘u) (assoc congT [u]v∘(w∘u))❙
+  op: ⊦ ∀[x]∀[y] universe x ⇒ universe y ⇒ universe (x ∘ y)  ❙
 ❚
 
-theory Commutative =
+theory Commutative = 
+  include ?Magma ❙
+  comm : ⊦ ∀[x]∀[y] x∘y ≐ y∘x❙
+❚
+
+view OppositeMagma : ?Magma → ?Magma = 
+  universe = universe ❙
+  U = U ❙
+  op = [x, y] y ∘ x ❙
+❚
+
+theory Idempotent = 
+  include ?Magma ❙
+  idem: ⊦ ∀[x] (x ∘ x) ≐ x ❙
+❚
+
+view OppositeCommMagma : ?Commutative → ?Commutative =
+  include ?OppositeMagma ❙
+  op = op ❙
+  comm = comm ❙
+❚
+
+theory Semigroup = 
+  include ?Magma ❙
+  assoc : ⊦ ∀[x]∀[y]∀[z] (x∘y)∘z ≐ x∘(y∘z) ❙
+  
+  
+  // from a previous version of magmas.mmt
+  // assocR: {x,y,z} x∘(y∘z) = (x∘y)∘z❘
+  //       = [x,y,z] sym assoc❙
+  // assoc4:  {w,x,y,z} ((w∘x)∘y)∘z = w∘(x∘(y∘z))❘
+  //       =  [w,x,y,z] trans3 (assoc congT [u]u∘z) assoc (assoc congT [u]w∘u)❙
+  // assoc4R: {w,x,y,z} w∘(x∘(y∘z)) = ((w∘x)∘y)∘z❘
+  //        = [w,x,y,z] sym assoc4❙
+  // assoc5: {v,w,x,y,z} (((v∘w)∘x)∘y)∘z = v∘(w∘(x∘(y∘z)))❘
+  //       = [v,w,x,y,z] trans4 (assoc4 congT [u]u∘z) assoc
+  //                            (assoc congT [u]v∘u) (assoc congT [u]v∘(w∘u))❙
+❚
+
+view OppositeSemigroup : ?Semigroup → ?Semigroup = 
+  include ?OppositeMagma ❙
+  op = op ❙
+  assoc = assoc ❙
+❚
+
+theory CommSemigroup = 
+  include ?Commutative ❙
+  include ?Semigroup ❙
+❚
+
+theory Pointed = 
+  include ?Set❙
+  elem : U ❘# e❙
+❚
+
+theory RightUnital =
   include ?Magma❙
-  comm: {x,y} x∘y = y∘x❙
+  include ?Pointed❙
+  neutralR : ⊦ ∀[x] x∘e ≐ x ❙
 ❚
 
-theory Neutral =
+theory LeftUnital = 
   include ?Magma❙
-  e  : carrier ❙  
-  neutLeft: {x} e∘x = x❙
-  neutRight: {x} x∘e = x❙
+  include ?Pointed❙
+  neutralL : ⊦ ∀[x] e∘x ≐ x ❙
 ❚
 
-theory Idempotent =
-  include ?Magma❙
-  idempotent: {x} x∘x = x❙
+theory Unital = 
+  include ?LeftUnital ❙
+  include ?RightUnital ❙
 ❚
 
-theory Monoid =
-  include ?Semigroup❙
-  include ?Neutral❙
+theory Monoid = 
+  include ☞latin:/?NatInduct ❙
+  include ?Semigroup ❙
+  include ?Unital ❙
+  include ☞latin:/?LFXI ❙
+
+  inductive_definition auxpow(a : U) : nat() ❘=
+    n : type  ❘= U ❙
+    z : n     ❘= e ❙
+    s : n ⟶ n ❘= [m : U] a ∘ m ❙
+  ❚
+  
+  pow: U ⟶ nat/n ⟶ U ❘= auxpow/n ❘# 1 ^ 2 ❙
 ❚
 
-theory CommSemigroup =
-  include ?Semigroup❙
+theory IdempotentMonoid = 
+  include ?Idempotent ❙
+  include ?Monoid ❙
+❚
+
+theory CommMonoid = 
   include ?Commutative❙
-❚
-
-theory Band =
-  include ?Semigroup❙
-  include ?Idempotent❙
-❚
-
-theory CommMonoid =
   include ?Monoid❙
-  include ?CommSemigroup❙
 ❚
 
-theory Semilattice =
-  include ?Band❙
-  include ?CommSemigroup❙
+theory Quasigroup = 
+  include ?Magma ❙
+  div_left : ⊦ ∀[x] ∀[y] ∃[a] (a∘x ≐ y) ❙
+  div_right: ⊦ ∀[x] ∀[y] ∃[b] (x∘b ≐ y) ❙ 
+❚
+
+theory Band = 
+  include ?Idempotent ❙
+  include ?Semigroup ❙
+❚
+
+theory Loop = 
+  include ?Quasigroup ❙
+  include ?Monoid❙
+❚
+
+theory InverseFun = 
+  include ?Monoid❙
+  inv : U ⟶ U❘# 1 ⁻ prec 60❙
+  inverseLeft:  ⊦ ∀[x] x⁻∘x ≐ e❙
+  inverseRight: ⊦ ∀[x] x∘x⁻ ≐ e❙
+❚
+
+theory Semilattice = 
+  include ?Semigroup ❙
+  include ?Idempotent ❙
 ❚
 
 theory BoundedSemilattice =
-  include ?Semilattice❙
-  include ?CommMonoid❙
+  include ?Semilattice ❙
+  include ?CommMonoid ❙
+❚
+
+theory InverseExistence = 
+  include ?Monoid ❙
+  inverseLeft:  ⊦ ∀[x]∃[i] i∘x ≐ e ❙
+  inverseRight: ⊦ ∀[x]∃[i] x∘i ≐ e ❙
 ❚
 
