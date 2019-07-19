@@ -118,14 +118,13 @@ theory Monoid =
   include ☞latin:/?NatInduct ❙
   include ?Semigroup ❙
   include ?Unital ❙
-  include ☞latin:/?LFXI ❙
 
   inductive_definition auxpow(a : U) : nat() ❘=
     n : type  ❘= U ❙
     z : n     ❘= e ❙
     s : n ⟶ n ❘= [m : U] a ∘ m ❙
   ❚
-  
+
   pow: U ⟶ nat/n ⟶ U ❘= auxpow/n ❘# 1 ^ 2 ❙
 ❚
 
