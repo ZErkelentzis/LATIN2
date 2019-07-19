@@ -1,0 +1,11 @@
+accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Truth.omdoc.elpi".
+
+/* skipping due to error: latin:/?Truth?true
+not a rule: prop */
+
+/* generated from trueI : ded true */
+
+ded X1 true :- help/trueI X1.
+
+help/trueI (pair X1/1 X1/2) :- help/trueI/1 X1/1 , help/trueI/2 X1/2.
+

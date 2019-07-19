@@ -1,0 +1,23 @@
+accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Equivalence.omdoc.elpi".
+
+/* skipping due to error: latin:/?Equivalence?equiv
+not a rule: prop⟶prop⟶prop */
+
+/* generated from equivI : {F,G}(ded F⟶ded G)⟶(ded G⟶ded F)⟶ded (equiv F G) */
+
+ded X5 (equiv F G) :- help/equivI F G X2 X4 X5 , (pi x1 \ ded/hyp x1 F => ded (X2 x1) G) , (pi x3 \ ded/hyp x3 G => ded (X4 x3) F).
+
+help/equivI F G (x1 \ pair (X2/1 x1) (X2/2 x1)) (x3 \ pair (X4/1 x3) (X4/2 x3)) (pair X5/1 X5/2) :- help/equivI/1 F G X2/1 X4/1 X5/1 , help/equivI/2 F G X2/2 X4/2 X5/2.
+
+/* generated from equivEl : {F,G}ded (equiv F G)⟶ded F⟶ded G */
+
+ded X3 G :- help/equivEl F G X1 X2 X3 , ded X1 (equiv F G) , ded X2 F.
+
+help/equivEl F G (pair X1/1 X1/2) (pair X2/1 X2/2) (pair X3/1 X3/2) :- help/equivEl/1 F G X1/1 X2/1 X3/1 , help/equivEl/2 F G X1/2 X2/2 X3/2.
+
+/* generated from equivEr : {F,G}ded (equiv F G)⟶ded G⟶ded F */
+
+ded X3 F :- help/equivEr F G X1 X2 X3 , ded X1 (equiv F G) , ded X2 G.
+
+help/equivEr F G (pair X1/1 X1/2) (pair X2/1 X2/2) (pair X3/1 X3/2) :- help/equivEr/1 F G X1/1 X2/1 X3/1 , help/equivEr/2 F G X1/2 X2/2 X3/2.
+

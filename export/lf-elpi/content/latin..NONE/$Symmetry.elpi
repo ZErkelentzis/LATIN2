@@ -1,0 +1,8 @@
+accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Symmetry.omdoc.elpi".
+
+/* generated from sym : {x,y}rel x y⟶rel y x */
+
+rel X2 y x :- help/sym x y X1 X2 , rel X1 x y.
+
+help/sym x y (pair X1/1 X1/2) (pair X2/1 X2/2) :- help/sym/1 x y X1/1 X2/1 , help/sym/2 x y X1/2 X2/2.
+

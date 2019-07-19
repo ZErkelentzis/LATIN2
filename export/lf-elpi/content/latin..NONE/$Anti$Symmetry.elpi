@@ -1,0 +1,10 @@
+accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Anti$Symmetry.omdoc.elpi".
+
+accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Anti$Symmetry.omdoc.elpi".
+
+/* generated from antisym : {x,y}rel x y⟶rel y x⟶equalityRel/[latin:/?Relation]/rel x y */
+
+equalityRel/[Relation]/rel X3 x y :- help/antisym x y X1 X2 X3 , rel X1 x y , rel X2 y x.
+
+help/antisym x y (pair X1/1 X1/2) (pair X2/1 X2/2) (pair X3/1 X3/2) :- help/antisym/1 x y X1/1 X2/1 X3/1 , help/antisym/2 x y X1/2 X2/2 X3/2.
+

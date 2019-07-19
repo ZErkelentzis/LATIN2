@@ -1,0 +1,34 @@
+accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$I$P$L.omdoc.elpi".
+
+/* generated from not_or_right : {F,G}ded (not (or F G))⟶ded (not G) */
+
+ded X2 (not G) :- help/not_or_right F G X1 X2 , ded X1 (not (or F G)).
+
+help/not_or_right F G (pair X1/1 X1/2) (pair X2/1 X2/2) :- help/not_or_right/1 F G X1/1 X2/1 , help/not_or_right/2 F G X1/2 X2/2.
+
+accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$I$P$L.omdoc.elpi".
+
+accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$I$P$L.omdoc.elpi".
+
+accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$I$P$L.omdoc.elpi".
+
+accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$I$P$L.omdoc.elpi".
+
+accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$I$P$L.omdoc.elpi".
+
+accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$I$P$L.omdoc.elpi".
+
+accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$I$P$L.omdoc.elpi".
+
+/* generated from not_or_left : {F,G}ded (not (or F G))⟶ded (not F) */
+
+ded X2 (not F) :- help/not_or_left F G X1 X2 , ded X1 (not (or F G)).
+
+help/not_or_left F G (pair X1/1 X1/2) (pair X2/1 X2/2) :- help/not_or_left/1 F G X1/1 X2/1 , help/not_or_left/2 F G X1/2 X2/2.
+
+/* generated from nntnd : {F}ded (not (not (or F (not F)))) */
+
+ded X1 (not (not (or F (not F)))) :- help/nntnd F X1.
+
+help/nntnd F (pair X1/1 X1/2) :- help/nntnd/1 F X1/1 , help/nntnd/2 F X1/2.
+

@@ -1,0 +1,13 @@
+accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Internal$Types.omdoc.elpi".
+
+/* skipping due to error: latin:/?InternalTypes?in
+not a rule: term⟶term⟶prop */
+
+accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Internal$Types.omdoc.elpi".
+
+/* skipping due to error: latin:/?InternalTypes?[latin:/?Types]/tp
+not a rule: type */
+
+/* skipping due to error: latin:/?InternalTypes?[latin:/?SoftTypedTerms]/of
+not a rule: term⟶term⟶prop */
+

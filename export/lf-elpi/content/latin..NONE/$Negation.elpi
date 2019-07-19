@@ -1,0 +1,17 @@
+accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Negation.omdoc.elpi".
+
+/* skipping due to error: latin:/?Negation?not
+not a rule: prop⟶prop */
+
+/* generated from notI : {F}(ded F⟶↯)⟶ded (not F) */
+
+ded X3 (not F) :- help/notI F X2 X3 , (pi x1 \ ded/hyp x1 F => contra (X2 x1)).
+
+help/notI F (x1 \ pair (X2/1 x1) (X2/2 x1)) (pair X3/1 X3/2) :- help/notI/1 F X2/1 X3/1 , help/notI/2 F X2/2 X3/2.
+
+/* generated from notE : {F}ded (not F)⟶ded F⟶↯ */
+
+contra X3 :- help/notE F X1 X2 X3 , ded X1 (not F) , ded X2 F.
+
+help/notE F (pair X1/1 X1/2) (pair X2/1 X2/2) (pair X3/1 X3/2) :- help/notE/1 F X1/1 X2/1 X3/1 , help/notE/2 F X1/2 X2/2 X3/2.
+
