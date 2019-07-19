@@ -1,8 +1,6 @@
 namespace latin:/algebraic❚
 
-fixmeta latin:/?SFOLEQ ❚
-
-import examples http://cds.omdoc.org/examples ❚
+fixmeta latin:/?SFOLEQLFXI ❚
 
 theory Set = 
   universe : tp❙
@@ -117,13 +115,18 @@ theory Unital =
 ❚
 
 theory Monoid = 
-  include ☞examples:?NatExample ❙
+  include ☞latin:/?NatInduct ❙
   include ?Semigroup ❙
   include ?Unital ❙
+  include ☞latin:/?LFXI ❙
+
+  inductive_definition auxpow(a : U) : nat() ❘=
+    n : type  ❘= U ❙
+    z : n     ❘= e ❙
+    s : n ⟶ n ❘= [m : U] a ∘ m ❙
+  ❚
   
-  pow : U ⟶ nat/n ⟶ U
-    ❘= [a : U, n : nat/n] (nat/induct/n U e ([m : U] a ∘ m)) n 
-    ❘# 1 ^ 2 prec 30 ❙
+  pow: U ⟶ nat/n ⟶ U ❘= auxpow/n ❘# 1 ^ 2 ❙
 ❚
 
 theory IdempotentMonoid = 
