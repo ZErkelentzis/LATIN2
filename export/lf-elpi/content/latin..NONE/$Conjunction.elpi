@@ -1,0 +1,23 @@
+accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Conjunction.omdoc.elpi".
+
+/* skipping due to error: latin:/?Conjunction?and
+not a rule: prop⟶prop⟶prop */
+
+/* generated from andI : {F,G}ded F⟶ded G⟶ded (and F G) */
+
+ded X3 (and F G) :- help/andI F G X1 X2 X3 , ded X1 F , ded X2 G.
+
+help/andI F G (pair X1/1 X1/2) (pair X2/1 X2/2) (pair X3/1 X3/2) :- help/andI/1 F G X1/1 X2/1 X3/1 , help/andI/2 F G X1/2 X2/2 X3/2.
+
+/* generated from andEl : {F,G}ded (and F G)⟶ded F */
+
+ded X2 F :- help/andEl F G X1 X2 , ded X1 (and F G).
+
+help/andEl F G (pair X1/1 X1/2) (pair X2/1 X2/2) :- help/andEl/1 F G X1/1 X2/1 , help/andEl/2 F G X1/2 X2/2.
+
+/* generated from andEr : {F,G}ded (and F G)⟶ded G */
+
+ded X2 G :- help/andEr F G X1 X2 , ded X1 (and F G).
+
+help/andEr F G (pair X1/1 X1/2) (pair X2/1 X2/2) :- help/andEr/1 F G X1/1 X2/1 , help/andEr/2 F G X1/2 X2/2.
+

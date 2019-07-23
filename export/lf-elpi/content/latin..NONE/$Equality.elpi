@@ -1,0 +1,17 @@
+accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Equality.omdoc.elpi".
+
+/* skipping due to error: latin:/?Equality?equal
+not a rule: term⟶term⟶prop */
+
+/* generated from refl : {x}ded (equal x x) */
+
+ded X1 (equal x x) :- help/refl x X1.
+
+help/refl x (pair X1/1 X1/2) :- help/refl/1 x X1/1 , help/refl/2 x X1/2.
+
+/* generated from congP : {x,y}ded (equal x y)⟶{P:term⟶prop}ded (P x)⟶ded (P y) */
+
+ded X3 (P y) :- help/congP x y X1 P X2 X3 , ded X1 (equal x y) , ded X2 (P x).
+
+help/congP x y P (pair X1/1 X1/2) (pair X2/1 X2/2) (pair X3/1 X3/2) :- help/congP/1 x y P X1/1 X2/1 X3/1 , help/congP/2 x y P X1/2 X2/2 X3/2.
+

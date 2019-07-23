@@ -1,0 +1,16 @@
+accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Unique$Existential$Quantification.omdoc.elpi".
+
+accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Unique$Existential$Quantification.omdoc.elpi".
+
+/* skipping due to error: latin:/?UniqueExistentialQuantification?existsUnique
+not a rule: (term⟶prop)⟶prop */
+
+/* generated from existsUniqueI : {P}{x}ded (P x)⟶({y}ded (P y)⟶ded (equal x y))⟶ded (existsUnique P) */
+
+ded X4 (existsUnique P) :- help/existsUniqueI P x X1 X3 X4 , ded X1 (P x) , (pi y \ pi x2 \ ded/hyp x2 (P y) => ded (X3 y x2) (equal x y)).
+
+help/existsUniqueI P x (pair X1/1 X1/2) (y \ x2 \ pair (X3/1 y x2) (X3/2 y x2)) (pair X4/1 X4/2) :- help/existsUniqueI/1 P x X1/1 X3/1 X4/1 , help/existsUniqueI/2 P x X1/2 X3/2 X4/2.
+
+/* skipping due to error: latin:/?UniqueExistentialQuantification?existsUniqueE
+not a rule: {P,C}ded (existsUnique P)⟶({x}ded (P x)⟶({y}ded (P y)⟶ded (equal x y))⟶ded C)⟶ded C */
+

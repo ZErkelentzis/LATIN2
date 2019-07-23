@@ -1,0 +1,17 @@
+accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Typed$Universal$Quantification.omdoc.elpi".
+
+/* skipping due to error: latin:/?TypedUniversalQuantification?forall
+not a rule: {A}(tm A⟶prop)⟶prop */
+
+/* generated from forallI : {A,P}({x:tm A}ded (P x))⟶ded (forall A [x]P x) */
+
+ded X2 (forall A x \ P x) :- help/forallI A P X1 X2 , (pi x \ ded (X1 x) (P x)).
+
+help/forallI A P (x \ pair (X1/1 x) (X1/2 x)) (pair X2/1 X2/2) :- help/forallI/1 A P X1/1 X2/1 , help/forallI/2 A P X1/2 X2/2.
+
+/* generated from forallE : {A,P}ded (forall A P)⟶{x:tm A}ded (P x) */
+
+ded X2 (P x) :- help/forallE A P X1 x X2 , ded X1 (forall A P).
+
+help/forallE A P x (pair X1/1 X1/2) (pair X2/1 X2/2) :- help/forallE/1 A P x X1/1 X2/1 , help/forallE/2 A P x X1/2 X2/2.
+

@@ -1,0 +1,6 @@
+accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Relation.omdoc.elpi".
+
+/* generated from rel : carrier⟶carrier⟶type */
+
+rel X3 X1 X2 :- rel/hyp X4 X1 X2 , help/rel X1 X2 X4 X3.
+

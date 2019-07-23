@@ -1,0 +1,26 @@
+log console
+log html build.html
+log+ archive
+log+ mmt-omdoc
+log+ lf-elpi
+
+extension info.kwarc.mmt.lf.Plugin
+extension info.kwarc.mmt.lf.elpi.ELPIExporter
+
+mathpath archive ../urtheories
+mathpath archive .
+
+log+ debug
+//log+ object-checker
+//log+ object-simplifier
+//log+ structure-simplifier
+//log+ structure-checker
+//log+ object-parser
+
+// build the mmt files (no need to repeat if unchanged)
+// build MMT/LATIN2 mmt-omdoc fundamentals
+// build MMT/LATIN2 mmt-omdoc logic
+
+// generate the ELPI file (stored in the folder export/lf-elpi/content, one file per theory)
+build MMT/LATIN2 lf-elpi fundamentals
+build MMT/LATIN2 lf-elpi logic

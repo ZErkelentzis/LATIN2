@@ -1,0 +1,16 @@
+accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Proofs.omdoc.elpi".
+
+/* generated from ded : prop⟶type */
+
+ded X2 X1 :- ded/hyp X3 X1 , help/ded X1 X3 X2.
+
+/* generated from contra : type */
+
+contra X1 :- contra/hyp X2 , help/contra X2 X1.
+
+/* generated from contraE : ↯⟶{a}ded a */
+
+ded X2 a :- help/contraE X1 a X2 , contra X1.
+
+help/contraE a (pair X1/1 X1/2) (pair X2/1 X2/2) :- help/contraE/1 a X1/1 X2/1 , help/contraE/2 a X1/2 X2/2.
+

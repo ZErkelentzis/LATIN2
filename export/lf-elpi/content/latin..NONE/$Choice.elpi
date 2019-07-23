@@ -1,0 +1,13 @@
+accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Choice.omdoc.elpi".
+
+accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Choice.omdoc.elpi".
+
+/* skipping due to error: latin:/?Choice?some
+not a rule: {P}ded (exists P)⟶term */
+
+/* generated from some_prop : {P,p}ded (P (some P p)) */
+
+ded X1 (P (some P p)) :- help/some_prop P p X1.
+
+help/some_prop P p (pair X1/1 X1/2) :- help/some_prop/1 P p X1/1 , help/some_prop/2 P p X1/2.
+

@@ -1,0 +1,20 @@
+accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Transitivity.omdoc.elpi".
+
+/* generated from trans : {x,y,z}rel x y⟶rel y z⟶rel x z */
+
+rel X3 x z :- help/trans x y z X1 X2 X3 , rel X1 x y , rel X2 y z.
+
+help/trans x y z (pair X1/1 X1/2) (pair X2/1 X2/2) (pair X3/1 X3/2) :- help/trans/1 x y z X1/1 X2/1 X3/1 , help/trans/2 x y z X1/2 X2/2 X3/2.
+
+/* generated from trans3 : {w,x,y,z}rel w x⟶rel x y⟶rel y z⟶rel w z */
+
+rel X4 w z :- help/trans3 w x y z X1 X2 X3 X4 , rel X1 w x , rel X2 x y , rel X3 y z.
+
+help/trans3 w x y z (pair X1/1 X1/2) (pair X2/1 X2/2) (pair X3/1 X3/2) (pair X4/1 X4/2) :- help/trans3/1 w x y z X1/1 X2/1 X3/1 X4/1 , help/trans3/2 w x y z X1/2 X2/2 X3/2 X4/2.
+
+/* generated from trans4 : {v,w,x,y,z}rel v w⟶rel w x⟶rel x y⟶rel y z⟶rel v z */
+
+rel X5 v z :- help/trans4 v w x y z X1 X2 X3 X4 X5 , rel X1 v w , rel X2 w x , rel X3 x y , rel X4 y z.
+
+help/trans4 v w x y z (pair X1/1 X1/2) (pair X2/1 X2/2) (pair X3/1 X3/2) (pair X4/1 X4/2) (pair X5/1 X5/2) :- help/trans4/1 v w x y z X1/1 X2/1 X3/1 X4/1 X5/1 , help/trans4/2 v w x y z X1/2 X2/2 X3/2 X4/2 X5/2.
+

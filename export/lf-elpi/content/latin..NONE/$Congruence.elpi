@@ -1,0 +1,8 @@
+accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Congruence.omdoc.elpi".
+
+/* generated from congT : {x,y}rel x y⟶{T:carrier⟶carrier}rel (T x) (T y) */
+
+rel X2 (T x) (T y) :- help/congT x y X1 T X2 , rel X1 x y.
+
+help/congT x y T (pair X1/1 X1/2) (pair X2/1 X2/2) :- help/congT/1 x y T X1/1 X2/1 , help/congT/2 x y T X1/2 X2/2.
+
