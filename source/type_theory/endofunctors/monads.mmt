@@ -17,22 +17,25 @@ theory Applicative =
 ❚
 
 theory Monad =
-  include ?EndoFunctor❙
+  include ?TypeOperator❙
   Return : {a} tm a ⟶ tm &a❘# Return 2 prec 60❙
   Bind : {a,b} tm &a ⟶ (tm a ⟶ tm &b) ⟶ tm &b❘# 3 >>= 4 prec 50❙
   
   identLeft: {a,b,f:tm a ⟶ tm &b,x} ⊦ Return x >>= f ≐ f x❙
   identRight: {a,X: tm &a} ⊦ X >>= ([x] Return x) ≐ X❙
   assoc : {a,b,c,f:tm a ⟶ tm &b, g:tm b ⟶ tm &c,X} ⊦ X >>= f >>= g ≐ X >>= [x] (f x) >>= g❙
+  
+  realize ?EndoFunctor❙
+  applyFun = [a,b,f,X] X >>= [x] Return (f x)❙
 ❚
 
 theory InternalMonad =
-  include ?InternalEndoFunctor❙
+  include ?TypeOperator❙
   return : {a} tm a→&a❙
   bind : {a,b} tm &a→(a→&b)→&b❙
- 
+
   structure laws : ?Monad =
-    include ?EndoFunctor❙
+    include ?TypeOperator❙
     Return = [a,x] (return a) @ x❘# Return 2 prec 60❙
     Bind = [a,b,X,F] (bind a b) @ X @ (λ F)❘# 3 >>= 4 prec 50❙
   ❚
