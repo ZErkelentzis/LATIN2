@@ -1,0 +1,45 @@
+namespace latin:/❚
+
+fixmeta ur:?LFI❚
+
+import rules scala://mmt.kwarc.info❚
+
+
+theory Strings =
+  string : type❙
+  rule rules/lf?Realize string rules/api/uom?StandardString❙
+  
+  concat : string ⟶ string ⟶ string❙
+  rule rules/lf?Realize concat rules/api/uom?StringOperations/Concat❙
+  
+  test : string❘ = "test"❙
+❚
+
+theory CTTQE = 
+  include ?TypedLogic❙
+  include ?Strings❙
+  include ?SimpleFunctions❙
+  include ?UndefinedTypedTerms❙
+
+  Quotation: tp❘# ε❙
+  rule rules/lf?Realize (tm Quotation) rules/api/uom?TermLiteral❙ 
+  
+  quote # ⌈ 1 ⌉ prec -10050❙
+
+  eval : tm ε ⟶ {a:tp} tm a❘ # ⟦ 1 % 2 ⟧ prec -10050 ❙ 
+  
+  const: string ⟶ tp ⟶ tm ε❘# const 1❙
+  var: string ⟶ tp ⟶ tm ε❙
+  application: tm ε ⟶ tm ε ⟶ tm ε❘# 1 app 2❚
+  abstraction: string ⟶ tp ⟶ tm ε ⟶ tm ε❘# abs 1 % 2 . 3❚
+  quotation: tm ε ⟶ tm ε❘# quo 1❚ 
+  
+  rule ComputeApply❙
+❚
+
+theory Example =
+  include ?CTTQE❙
+
+  
+❚
+

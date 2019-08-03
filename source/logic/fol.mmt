@@ -27,27 +27,6 @@ theory FOL =
   include ?IFOL❙
 ❚
 
-theory Equality =
-  include ?UntypedLogic❙
-  equal : term ⟶ term ⟶ prop❘# 1 ≐ 2 prec 30❙
-  refl  : {x} ⊦ x ≐ x❘# refl %I1❙
-  congP : {x,y} ⊦ x ≐ y ⟶ {P: term ⟶ prop} ⊦ P x ⟶ ⊦ P y❘# 3 congP 4 5❙
-  
-  total structure eq : ?EquivalenceCongruence =
-    carrier = term❙
-    rel = [x,y] ⊦ x≐y❙
-    refl = [x] refl❙
-    sym = [x,y,p] p congP ([u]u≐x) refl❙
-    trans = [x,y,z,p,q] q congP ([u]x≐u) p❙
-    congT = [x,y,p,T] p congP ([u] T x ≐ T u) refl❙
-  ❚
-❚
-
-theory SoftTypedEquality =
-  include ?SoftTypedLogic❙
-  include ?Equality❙
-❚
-
 theory FOLEQ =
   include ?FOL❙
   include ?Equality❙

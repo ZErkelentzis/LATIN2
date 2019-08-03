@@ -1,0 +1,42 @@
+namespace latin:/❚
+
+fixmeta ur:?LF❚
+
+theory Equality =
+  include ?UntypedLogic❙
+  equal : term ⟶ term ⟶ prop❘# 1 ≐ 2 prec 30❙
+  refl  : {x} ⊦ x ≐ x❘# refl %I1❙
+  congP : {x,y} ⊦ x ≐ y ⟶ {P: term ⟶ prop} ⊦ P x ⟶ ⊦ P y❘# 3 congP 4 5❙
+  
+  total structure eq : ?EquivalenceCongruence =
+    carrier = term❙
+    rel = [x,y] ⊦ x≐y❙
+    refl = [x] refl❙
+    sym = [x,y,p] p congP ([u]u≐x) refl❙
+    trans = [x,y,z,p,q] q congP ([u]x≐u) p❙
+    congT = [x,y,p,T] p congP ([u] T x ≐ T u) refl❙
+  ❚
+❚
+
+theory SoftTypedEquality =
+  include ?SoftTypedLogic❙
+  include ?Equality❙
+❚
+
+theory TypedEquality =
+  include ?TypedLogic❙
+  equal  : {A} tm A ⟶ tm A ⟶ prop❘# 2 ≐ 3 prec 30❙
+  refl   : {A,x: tm A} ⊦ x ≐ x❙
+  congP  : {A,  x,y} ⊦ x ≐ y ⟶ {P: tm A ⟶ prop} ⊦ P x ⟶ ⊦ P y❘# 4 congP 5 6❙
+  congT  : {A,B,x,y} ⊦ x ≐ y ⟶ {T: tm A ⟶ tm B} ⊦ T x  ≐  T y ❘# 5 congT 6❘
+         = [A,B,x,y,p,T] p congP ([u] T x ≐ T u) refl❙
+  
+  sym    : {A, x,y: tm A} ⊦ x ≐ y ⟶ ⊦ y ≐ x❘# 4 sym❘
+         = [A,x,y,p] p congP ([u]u≐x) refl❙
+  trans  : {A, x,y,z: tm A} ⊦ x ≐ y ⟶ ⊦ y ≐ z ⟶ ⊦ x ≐ z❘# 5 trans 6❘
+         = [A,x,y,z,p,q] q congP ([u]x≐u) p❙
+  trans3 : {A, w,x,y,z: tm A} ⊦ w ≐ x ⟶ ⊦ x ≐ y ⟶ ⊦ y ≐ z ⟶ ⊦ w ≐ z❘
+         = [A, w,x,y,z,p,q,r] p trans q trans r❙
+  trans4 : {A, v,w,x,y,z: tm A} ⊦ v ≐ w ⟶ ⊦ w ≐ x ⟶ ⊦ x ≐ y ⟶ ⊦ y ≐ z ⟶ ⊦ v ≐ z❘
+         = [A, v,w,x,y,z,p,q,r,s] p trans q trans r trans s❙
+❚

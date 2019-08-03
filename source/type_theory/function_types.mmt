@@ -54,14 +54,14 @@ theory SoftTypedSimpleFunctions =
   include ?SoftTypedTerms❙
   include ?SoftTypedFunctions❙
   include ?SimpleFunctionTypes❙
-  fun_typing : {A,B,F} ({x} x∈A ⟶ (F x)∈B) ⟶ λ F ∈ A → B❙
+  fun_typing : {A,B,F} ({x} ⊦ x⦂A ⟶ ⊦ (F x)⦂B) ⟶ ⊦ λ F ⦂ A → B❙
 ❚
 
 theory SoftTypedDependentFunctions =
   include ?SoftTypedTerms❙
   include ?SoftTypedFunctions❙
   include ?SoftDependentFunctionTypes❙
-  fun_typing : {A,B,F} ({x} x∈A ⟶ (F x)∈(B x)) ⟶ λ F ∈ Π A B❙
+  fun_typing : {A,B,F} ({x} ⊦ x⦂A ⟶ ⊦ (F x)⦂(B x)) ⟶ ⊦ λ F ⦂ Π A B❙
 ❚
 
 theory SimpleFunctionsEta =
