@@ -4,7 +4,8 @@ fixmeta ur:?LF❚
 
 theory SimpleFunctionTypes =
   include ?Types❙
-  simpfun : tp ⟶ tp ⟶ tp❘# 1 → 2 prec 50❙
+  simpfun : tp ⟶ tp ⟶ tp❘# 1 %R→ 2 prec 50❙
+  test = [a:tp] a → a → a❙
 ❚
 
 theory DependentFunctionTypes =

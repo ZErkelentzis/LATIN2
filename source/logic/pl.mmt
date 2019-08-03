@@ -40,7 +40,7 @@ theory Disjunction =
 
 theory Implication =
   include ?Logic❙
-  impl  : prop ⟶ prop ⟶ prop❘# 1 ⇒ 2 prec 10❙
+  impl  : prop ⟶ prop ⟶ prop❘# 1 %R⇒ 2 prec 10❙
   impI  : {F,G} (⊦ F ⟶ ⊦ G) ⟶ ⊦ F ⇒ G❙
   impE  : {F,G} ⊦ F ⇒ G ⟶ ⊦ F ⟶ ⊦ G❘# 3 impE 4❘role ForwardRule❙
   
