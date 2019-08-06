@@ -5,8 +5,7 @@ fixmeta ur:?LF❚
 theory Box =
   include ?Logic❙
   box: prop ⟶ prop❘# □ 1 prec 20❙
-  
-  
+
 ❚
 
 theory Diamond =
@@ -20,8 +19,12 @@ theory ML =
   include ?Diamond❙
 ❚
 
-theory KripkeFrame : ?TypedLogic =
+theory Worlds : ?SFOLEQ =
   world: tp❘# W❙
+❚
+
+theory KripkeFrame : ?TypedLogic =
+  include ?Worlds❙
   accessible : tm W ⟶ tm W ⟶ prop❘ # 1 acc 2 prec 30❙
 ❚
 
@@ -30,11 +33,74 @@ theory KripkeModel =
   include ?KripkeFrame❙
 ❚
 
-view MLSemantics : ?ML → ?KripkeModel =
+view LogicSemantics : ?Logic → ?Worlds =
   prop = tm W ⟶ prop❙
-  ded = [f]⊦ ∀ [w] f w❙
-  
-  and = [f,g] [w](f w)∧(g w)❙
-  andEl = [f,g,p] forallI [w] p forallE w andEl❙
+  ded = [f] {w} ⊦ f w❙
+❚ 
 
+view PLSemantics : ?PL → ?Worlds =
+  include ?LogicSemantics❙
+  true = [w] true❙
+  false = [w] false❙
+  and = [f,g] [w](f w)∧(g w)❙
+  andEl = [f,g,p] [w] p w andEl❙
 ❚
+
+view TermSemantics : ?TypedTerms → ?Worlds =
+  /T constant universe; alternative would be tp = tm W ⟶ tp❙
+  tp = tp❙
+  tm = [S] tm W ⟶ tm S❙
+❚
+
+view SFOLSemantics : ?SFOLEQ → ?Worlds =
+  include ?TermSemantics❙
+  include ?PLSemantics❙
+  forall = [S,F] [w] ∀[x] F ([u] x) w❙
+  exists = [S,F] [w] ∃[x] F ([u] x) w❙
+  equal = [S,x,y] [w] x w ≐ y w❙
+❚
+
+view MLSemantics : ?ML → ?KripkeModel =
+  include ?PLSemantics❙
+  box = [p] [v] ∀ [w] v acc w ⇒ p w❙
+  diamond = [p] [v] ∃ [w] v acc w ∧ p w❙ 
+❚
+
+theory MultiModal =
+  include ?Logic❙
+  modality: type❙
+❚
+
+theory MultiBox =
+  include ?MultiModal❙
+  box: modality ⟶ prop ⟶ prop❘# ⟬ 1 ⟭  2❙
+❚
+
+theory MultiDiamond =
+  include ?MultiModal❙
+  diamond: modality ⟶ prop ⟶ prop❘# ⦉ 1 ⦊ 2❙
+❚
+
+theory MML =
+  include ?MultiModal❙
+  include ?MultiBox❙
+  include ?MultiDiamond❙
+❚
+
+theory SMML = 
+  include ?MML❙
+  include ?SFOLEQ❙
+❚
+
+view MMLSemantics : ?MML → ?Worlds =
+  include ?LogicSemantics❙
+  modality = tm W ⟶ tm W ⟶ prop❙
+  box = [m,p] [v] ∀ [w] m v w ⇒ p w❙
+  diamond = [m,p] [v] ∃ [w] m v w ∧ p w❙
+❚
+
+view SMMLSemantics : ?SMML → ?Worlds =
+  include ?MMLSemantics❙
+  include ?SFOLSemantics❙
+❚
+

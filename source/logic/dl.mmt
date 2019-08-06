@@ -1,0 +1,81 @@
+namespace latin:/❚
+
+fixmeta ur:?LF❚
+
+theory PropDynamicLogic =
+  include ?PL❙
+  include ?MML❙
+  
+  prog = modality❙
+
+  comp : prog ⟶ prog ⟶ prog❘# 1 ; 2 prec 5❙
+  distrib : prog ⟶ prog ⟶ prog❘# 1 ∪ 2 prec 30❙
+  iteration : prog ⟶ prog❘# * 1 prec 60❙
+
+  test : prop ⟶ prog❘# 1 ? prec 10❙
+
+  skip : prog❘ = true ?❙
+  ifte : prop ⟶ prog ⟶ prog ⟶ prog❘ # if 1 then 2 else 3❘
+       = [F,P,Q] (F ? ; P) ∪ (¬F ? ; Q)❙
+  while : prop ⟶ prog ⟶ prog❘ # while 1 do 2❘
+        = [F,P] *(F ?;P) ; ¬F ?❙
+  until : prop ⟶ prog ⟶ prog❘ # repeat 2 until 1❘
+        = [F,P] *(P; ¬F ?) ; F ?❙
+❚
+
+theory TypedDynamicLogic =
+  include ?PropDynamicLogic❙
+  include ?SFOLEQ❙
+  
+  var : tp ⟶ type❙
+  
+  retrieve : {S} var S ⟶ tm S❘# ` 2 prec 60❙
+  
+  assign  : {S} var S ⟶ tm S ⟶ prog❘# 2 ≔ 3 prec 35❙
+❚
+
+theory State : ?SFOLEQ =
+  include ?Worlds❙
+  cell : tp ⟶ tp❙
+  state: tm W ⟶ {S} tm cell S ⟶ tm S❘ # 3 @ 1 prec 50 ❙
+  
+  extends : tm W ⟶ tm W ⟶ {S} tm cell S ⟶ (tm W ⟶ tm S) ⟶ prop❘
+          = [v,w,S,n,x] n@w ≐ x v ∧ ∀[m] ¬n≐m ⇒ m@v≐m@w❘
+          # extends 1 2 4 5❙
+  
+  trclos : {S} (tm S ⟶ tm S ⟶ prop) ⟶ (tm S ⟶ tm S ⟶ prop)❘ # trclos 2 3 4❙
+  trclose_extend : {S,r} {x,y: tm S} ⊦ r x y ⟶ ⊦ trclos r x y❙
+  trclose_refl : {S,r} {x: tm S} ⊦ trclos r x x❙
+  trclose_trans: {S,r} {x,y,z: tm S} ⊦ trclos r x y ⟶ ⊦ trclos r y z ⟶ ⊦ trclos r x z❙
+❚
+
+view PropDynamicSemantics : ?PropDynamicLogic → ?State =
+  include ?PLSemantics❙
+  include ?MMLSemantics❙
+  comp = [p,q] [u,w] ∃ [v] p u v ∧ q v w❙
+  distrib = [p,q] [v,w] p v w ∨ q v w❙
+  iteration = [p] [v,w] trclos p v w❙
+  test = [f] [v,w] f v ∧ v≐w❙
+
+  // check currently skipped❙
+  skip = [v,w] v ≐ w❙
+❚
+
+view TypedDynamicSemantics : ?TypedDynamicLogic → ?State =
+  include ?PropDynamicSemantics❙
+  include ?SFOLSemantics❙
+  var = [S] tm cell S❙
+  retrieve = [S,n] [w] n@w❙
+  assign = [S,n,x] [v,w] extends v w n x❙  
+❚
+
+theory Example : ?TypedDynamicLogic =
+  include ?Booleans❙
+  int: tp❙
+  1:tm int❙
+  5:tm int❙
+  plus: tm int ⟶ tm int ⟶ tm int❘# 1 + 2 prec 50❙
+  
+  test: {b: var bool,x:var int}prog❘
+      = [b,x] x≔1; b≔tt; while `b≐tt do (x ≔ `x+1; if `x≐5 then b≔ff else skip); x≔`x+1❙
+❚
