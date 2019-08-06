@@ -1,0 +1,23 @@
+namespace latin:/❚
+
+fixmeta latin:/?SFOLEQ❚
+
+theory Booleans =
+  /T a new object-logic❙
+  bool: tp❙
+  
+  /T how to build its values❙
+  tt: tm bool❙
+  ff: tm bool❙
+  
+  /T Those are the exactly the values❙
+  bool_tnd : ⊦ ∀[b] b≐tt ∨ b≐ff❙
+  bool_nontrivial : ⊦ ¬ tt≐ff❙
+  
+  /T what to do with its values❙
+  if: {S} tm bool ⟶ tm S ⟶ tm S ⟶ tm S❘# 2 ? 3 else 4 prec 50❙
+  
+  /T axioms to compute with it❙
+  if_tt : {s,x,y:tm s} ⊦ tt ? x else y ≐ x❙
+  if_ff : {s,x,y:tm s} ⊦ ff ? x else y ≐ y❙
+❚

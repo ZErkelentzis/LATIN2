@@ -1,0 +1,20 @@
+namespace latin:/❚
+
+fixmeta ur:?LF❚
+
+theory PLModel =
+  include ?SFOLEQ❙
+  include ?Booleans❙
+❚
+
+view PLSemantics : ?PL → ?PLModel =
+  prop = tm bool❙
+  ded  = [F] ⊦ F ≐ tt❙
+  
+  true = tt❙
+  false = ff❙
+  
+  
+  trueI = refl❙
+  falseE = [p][a] (bool_nontrivial notE (p sym)) contraE❙
+❚
