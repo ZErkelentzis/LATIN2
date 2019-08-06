@@ -4,14 +4,13 @@ fixmeta ur:?LF❚
 
 theory InternalEquality =
   include ?InternalLogic❙
-  include ?SimpleFunctions❙
   include ?TypedEquality❙
+  include ?SimpleFunctions❙
   equalConstant : {A} tm A → (A → bool)❘= [A]λ[x]λ[y]x≐y❙
 ❚
 
 theory IHOL =
   include ?InternalEquality❙
-  include ?SimpleFunctions❙
   include ?ISFOL❙
 ❚
 

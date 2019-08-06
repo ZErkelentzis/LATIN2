@@ -55,6 +55,7 @@ view TermSemantics : ?TypedTerms → ?Worlds =
 view SFOLSemantics : ?SFOLEQ → ?Worlds =
   include ?TermSemantics❙
   include ?PLSemantics❙
+  // actually, these must go into HOL and quantify over tm W→S❙
   forall = [S,F] [w] ∀[x] F ([u] x) w❙
   exists = [S,F] [w] ∃[x] F ([u] x) w❙
   equal = [S,x,y] [w] x w ≐ y w❙
