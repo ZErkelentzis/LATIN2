@@ -36,7 +36,6 @@ theory Map =
 
 theory Extensionality =
   include ?PowerTypes❙
-  include ☞latin:/?TypedEquality❙
   include ☞latin:/?TypedUniversalQuantification❙
 
   extensionality  : {A,S,T:tm ℘A} ⊦(∀[x:tm A] x∈S ⇔ x∈T) ⟶ ⊦ S≐T❙
@@ -66,8 +65,6 @@ theory Subset =
   include ?PowerTypes❙
   include ?Extensionality❙
   include ☞latin:/?Implication❙
-  include ☞latin:/?TypedUniversalQuantification❙
-  include ☞latin:/?TypedEquality❙
 
   subset : {A} tm ℘A ⟶ tm ℘A ⟶ prop❘	
          = [A,S,T] ∀[x] x∈S ⇒ x∈T❘
@@ -274,6 +271,6 @@ theory PowerSFOL =
    include ?FiniteSets❙
    include ?Map❙
    include ?Lattice❙
-   include ?ComplementRules❙
    include ?SubsetRules❙
+   include ?ComplementRules❙
 ❚
