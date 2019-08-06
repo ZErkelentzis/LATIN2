@@ -14,7 +14,12 @@ view PLSemantics : ?PL → ?PLModel =
   true = tt❙
   false = ff❙
   
+  and = [x,y] if x then y else ff❙
   
   trueI = refl❙
   falseE = [p][a] (bool_nontrivial notE (p sym)) contraE❙
+  
+  andI = [F][G][p][q]
+          trans3 (p congT [u] if u then G else ff) if_tt q❙
+
 ❚
