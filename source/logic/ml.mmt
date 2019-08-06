@@ -5,6 +5,8 @@ fixmeta ur:?LF❚
 theory Box =
   include ?Logic❙
   box: prop ⟶ prop❘# □ 1 prec 20❙
+  
+  
 ❚
 
 theory Diamond =
@@ -31,4 +33,8 @@ theory KripkeModel =
 view MLSemantics : ?ML → ?KripkeModel =
   prop = tm W ⟶ prop❙
   ded = [f]⊦ ∀ [w] f w❙
+  
+  and = [f,g] [w](f w)∧(g w)❙
+  andEl = [f,g,p] forallI [w] p forallE w andEl❙
+
 ❚
