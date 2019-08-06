@@ -1,0 +1,40 @@
+namespace latin:/❚
+
+fixmeta ur:?LF❚
+
+theory Box =
+  include ?Logic❙
+  box: prop ⟶ prop❘# □ 1 prec 20❙
+  
+  
+❚
+
+theory Diamond =
+  include ?Logic❙
+  diamond: prop ⟶ prop❘# ⋄ 1 prec 20❙
+❚
+
+theory ML =
+  include ?PL❙
+  include ?Box❙
+  include ?Diamond❙
+❚
+
+theory KripkeFrame : ?TypedLogic =
+  world: tp❘# W❙
+  accessible : tm W ⟶ tm W ⟶ prop❘ # 1 acc 2 prec 30❙
+❚
+
+theory KripkeModel =
+  include ?SFOLEQ❙
+  include ?KripkeFrame❙
+❚
+
+view MLSemantics : ?ML → ?KripkeModel =
+  prop = tm W ⟶ prop❙
+  ded = [f]⊦ ∀ [w] f w❙
+  
+  and = [f,g] [w](f w)∧(g w)❙
+  andEl = [f,g,p] forallI [w] p forallE w andEl❙
+
+❚
