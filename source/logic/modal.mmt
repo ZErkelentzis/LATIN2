@@ -21,7 +21,7 @@ theory ML =
 
 namespace kripkemodels❚
 
-theory Worlds : latin:/?HOL =
+theory Worlds : latin:/?HOLND =
   world: tp❘# W❙
 
   liftPred2: {S,A,B} (          tm A ⟶           tm B  ⟶          prop)
@@ -70,8 +70,12 @@ view PLSemantics : latin:/?PL → ?Worlds =
   impl = lift2 impl❙
   not = lift1 not❙
   equiv = lift2 equiv❙
+❚
 
-  // rules with hypothetical premises are not sound in Kripke models❙
+view PLSemanticsND : latin:/?PLHilbert → ?Worlds =
+  include ?PLSemantics❙
+
+// rules with hypothetical premises are not sound in Kripke models❙
   
   trueI = [w] trueI❙
   falseE = [f] [g,w] f w falseE inconE❙
