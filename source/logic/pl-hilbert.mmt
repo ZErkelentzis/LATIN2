@@ -1,5 +1,11 @@
 namespace latin:/❚
 
+theory ImplicationHilbert = 
+  include ?ImplicationNDE❙
+  K : {p,q} ⊦ p ⇒ q ⇒ p ❙
+  S : {p,q,r} ⊦ (p ⇒ q ⇒ r) ⇒ (p ⇒ q) ⇒ p ⇒ r ❙
+❚
+
 theory NegationHilbert = 
   include ?NegationNDE❙
 /T add the Hilbert Axioms for the missing rule.❙  
@@ -7,13 +13,11 @@ theory NegationHilbert =
 
 theory DisjunctionHilbert = 
   include ?DisjunctionNDI❙
-/T add the Hilbert Axioms for the missing rule.❙  
+  include ?ImplicationHilbert ❙
+  O : {p,q,r} ⊦ (p ⇒ r) ⇒ (q ⇒ r) ⇒ (q ∨ q) ⇒ r ❙
+/T Is there a Hilbert Axiom that does not need Implication?.❙  
 ❚
 
-theory ImplicationHilbert = 
-  include ?ImplicationNDE❙
-/T add the Hilbert Axioms for the missing rule.❙  
-❚
 
 theory EquivalenceHilbert = 
   include ?EquivalenceNDE❙
@@ -27,6 +31,6 @@ theory PLHilbert =
   include ?NegationHilbert❙
   include ?ConjunctionND❙
   include ?DisjunctionHilbert❙
-  include ?ImplicationHilbert❙
+//  include ?ImplicationHilbert❙
   include ?EquivalenceHilbert❙
 ❚
