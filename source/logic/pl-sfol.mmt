@@ -7,6 +7,12 @@ theory PLModel =
   include ?Booleans❙
 ❚
 
+theory PLModelND =
+  include ?PLModel❙
+  include ?SFOLEQND❙
+  include ?BooleansND❙
+❚
+
 view PLSemantics : ?PL → ?PLModel =
   prop = tm bool❙
   ded  = [F] ⊦ F ≐ tt❙
@@ -15,7 +21,10 @@ view PLSemantics : ?PL → ?PLModel =
   false = ff❙
   
   and = [x,y] if x then y else ff❙
-  
+❚
+
+view PLSemanticsND : ?PLND → ?PLModelND =
+  include ?PLSemantics❙
   trueI = refl❙
   falseE = [p][a] (bool_nontrivial notE (p sym)) inconE❙
   
