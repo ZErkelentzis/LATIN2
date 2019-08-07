@@ -71,6 +71,7 @@ view PLSemantics : latin:/?PL → ?Worlds =
   not = lift1 not❙
 
   trueI = [w] trueI❙
+  falseE = [f] [g,w] f w falseE inconE❙
   
   andI  = [F,G,f,g][w] andI (f w) (g w)❙
   andEl = [F,G,fg] [w] fg w andEl❙
@@ -80,7 +81,7 @@ view PLSemantics : latin:/?PL → ?Worlds =
   orIr = [F,G,f] [w] f w orIr❙
   
   impE = [F,G,fg,f] [w] (fg w) impE (f w)❙
-  notE = [F,nf,f] [w] (nf w) notE (f w)❙
+  notE = [F,nf,f] [g,w] (nf w) notE (f w) inconE❙
 ❚
 
 view TermSemantics : latin:/?TypedTerms → ?Worlds =
