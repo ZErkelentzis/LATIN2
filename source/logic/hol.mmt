@@ -9,19 +9,30 @@ theory InternalEquality =
   equalConstant : {A} tm A → (A → bool)❘= [A]λ[x]λ[y]x≐y❙
 ❚
 
-theory IHOL =
-  include ?InternalEquality❙
-  include ?ISFOL❙
-❚
-
 theory PropositionalExtensionality =
   include ?InternalEquality❙
   propext: {F,G} (⊦ F ⟶ ⊦ G) ⟶ (⊦ G ⟶ ⊦ F) ⟶ ⊦ F≐G❙
 ❚
 
+theory IHOL =
+  include ?InternalEquality❙
+  include ?ISFOL❙
+ ❚
+
+theory IHOLND =
+  include ?InternalEquality❙
+  include ?TypedEqualityND❙
+  include ?ISFOLND❙
+  include ?PropositionalExtensionality❙  
+ ❚
+
 theory HOL =
   include ?IHOL❙
-  include ?PropositionalExtensionality❙
+❚
+
+theory HOLND =
+  include ?HOL❙
+  include ?IHOLND❙
   include ?SimpleFunctionsEta❙
   include ?Classical❙
   
@@ -32,9 +43,17 @@ theory HOL =
 theory PowerHOL =
   include ?HOL❙
   realize powertypes?PowerTypes❙
+
   power = [a] a → bool❙
   filter = [A,P] λ P❙
   in = [A,x,S] S @ x❙
+❚
+
+theory PowerHOLND =
+  include ?PowerHOL❙
+  include ?HOLND❙
+  realize powertypes?PowerTypesND❙
+
   compute = [A,P,x] eq_equiv simpbeta❙
   expand = [A,S] eta sym❙
 ❚

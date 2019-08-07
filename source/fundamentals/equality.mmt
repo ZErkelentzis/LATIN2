@@ -5,6 +5,10 @@ fixmeta ur:?LF❚
 theory Equality =
   include ?UntypedLogic❙
   equal : term ⟶ term ⟶ prop❘# 1 ≐ 2 prec 30❙
+❚
+
+theory EqualityND =
+  include ?Equality❙
   refl  : {x} ⊦ x ≐ x❘# refl %I1❙
   congP : {x,y} ⊦ x ≐ y ⟶ {P: term ⟶ prop} ⊦ P x ⟶ ⊦ P y❘# 3 congP 4 5❙
   
@@ -23,9 +27,18 @@ theory SoftTypedEquality =
   include ?Equality❙
 ❚
 
+theory SoftTypedEqualityND =
+  include ?SoftTypedLogic❙
+  include ?EqualityND❙
+❚
+
 theory TypedEquality =
   include ?TypedLogic❙
   equal  : {A} tm A ⟶ tm A ⟶ prop❘# 2 ≐ 3 prec 30❙
+❚
+
+theory TypedEqualityND =
+  include ?TypedEquality❙
   refl   : {A,x: tm A} ⊦ x ≐ x❙
   congP  : {A,  x,y} ⊦ x ≐ y ⟶ {P: tm A ⟶ prop} ⊦ P x ⟶ ⊦ P y❘# 4 congP 5 6❙
   congT  : {A,B,x,y} ⊦ x ≐ y ⟶ {T: tm A ⟶ tm B} ⊦ T x  ≐  T y ❘# 5 congT 6❘

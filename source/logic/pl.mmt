@@ -28,22 +28,41 @@ theory Negation =
   not   : prop ⟶ prop❘# ¬ 1   prec 20❙
 ❚
 
-theory NegationND =
+theory NegationNDI =
   include ?Negation❙
   notI  : {F} (⊦ F ⟶ ↯) ⟶ ⊦ ¬ F❘# notI 2❙
+❚
+
+theory NegationNDE =
+  include ?Negation❙
   notE  : {F} ⊦ ¬ F ⟶ ⊦ F ⟶ ↯❘# 2 notE 3❘role ForwardRule❙
 ❚
+
+theory NegationND =
+  include ?NegationNDI❙
+  include ?NegationNDE❙
+ ❚
+
 
 theory Conjunction =
   include ?Logic❙
   and   : prop ⟶ prop ⟶ prop❘# 1 ∧ 2 prec 15❙
 ❚
 
-theory ConjunctionND =
+theory ConjunctionNDI =
   include ?Conjunction❙
   andI  : {F,G} ⊦ F ⟶ ⊦ G ⟶ ⊦ F ∧ G❙
+❚
+
+theory ConjunctionNDE =
+  include ?Conjunction❙
   andEl : {F,G} ⊦ F ∧ G ⟶ ⊦ F❘# 3 andEl❘role ForwardRule❙
   andEr : {F,G} ⊦ F ∧ G ⟶ ⊦ G❘# 3 andEr❘role ForwardRule❙
+❚
+
+theory ConjunctionND =
+  include ?ConjunctionNDI❙
+  include ?ConjunctionNDE❙
 ❚
 
 theory Disjunction =
@@ -51,11 +70,20 @@ theory Disjunction =
   or    : prop ⟶ prop ⟶ prop❘# 1 ∨ 2 prec 15❙
 ❚
 
-theory DisjunctionND =
+theory DisjunctionNDI =
   include ?Disjunction❙
   orIl  : {F,G} ⊦ F ⟶ ⊦ F ∨ G❘# 3 orIl❙
   orIr  : {F,G} ⊦ G ⟶ ⊦ F ∨ G❘# 3 orIr❙
+❚
+
+theory DisjunctionNDE =
+  include ?Disjunction❙
   orE   : {F,G,C} ⊦ F ∨ G ⟶ (⊦ F ⟶ ⊦ C) ⟶ (⊦ G ⟶ ⊦ C) ⟶ ⊦ C❘# 4 orE 5 6❙
+❚
+
+theory DisjunctionND =
+  include ?DisjunctionNDI❙
+  include ?DisjunctionNDE❙
 ❚
 
 theory Implication =
@@ -63,10 +91,19 @@ theory Implication =
   impl  : prop ⟶ prop ⟶ prop❘# 1 %R⇒ 2 prec 10❙  
 ❚
 
-theory ImplicationND =
+theory ImplicationNDI =
   include ?Implication❙
   impI  : {F,G} (⊦ F ⟶ ⊦ G) ⟶ ⊦ F ⇒ G❙
+❚
+
+theory ImplicationNDE =
+  include ?Implication❙
   impE  : {F,G} ⊦ F ⇒ G ⟶ ⊦ F ⟶ ⊦ G❘# 3 impE 4❘role ForwardRule❙
+❚
+
+theory ImplicationND =
+  include ?ImplicationNDI❙
+  include ?ImplicationNDE❙
   
   total structure impl_preorder : ?Preorder =
     carrier = prop❙
@@ -81,11 +118,20 @@ theory Equivalence =
   equiv : prop ⟶ prop ⟶ prop❘# 1 ⇔ 2 prec 10❙
  ❚
 
-theory EquivalenceND =
+theory EquivalenceNDI =
   include ?Equivalence❙
   equivI : {F,G} (⊦ F ⟶ ⊦ G) ⟶ (⊦ G ⟶ ⊦ F) ⟶ ⊦ F ⇔ G❙
+❚
+
+theory EquivalenceNDE =
+  include ?Equivalence❙
   equivEl : {F,G} ⊦ F ⇔ G ⟶ ⊦ F ⟶ ⊦ G❘# 3 equivEl 4❘role ForwardRule❙
   equivEr : {F,G} ⊦ F ⇔ G ⟶ ⊦ G ⟶ ⊦ F❘# 3 equivEr 4❘role ForwardRule❙
+❚
+
+theory EquivalenceND =
+  include ?EquivalenceNDI❙
+  include ?EquivalenceNDE❙
   
   total structure equiv_equivalence : ?EquivalenceRelation =
     carrier = prop❙
@@ -99,6 +145,17 @@ theory EquivalenceND =
 
 theory IPL =
   include ?Logic❙
+  include ?Truth❙
+  include ?Falsity❙
+  include ?Negation❙
+  include ?Conjunction❙
+  include ?Disjunction❙
+  include ?Implication❙
+  include ?Equivalence❙
+❚
+
+theory IPLND =
+  include ?IPL❙
   include ?TruthND❙
   include ?FalsityND❙
   include ?NegationND❙
@@ -130,6 +187,10 @@ theory ProofIrrelevance =
 
 theory PL =
   include ?IPL❙
+❚
+
+theory PLND =
+  include ?IPLND❙
   include ?ProofIrrelevance❙
   include ?Classical❙
 
@@ -139,30 +200,42 @@ theory PL =
 ❚
 
 /T Conjunction where the second conjunct's well-formedness may depend on the truth of the first conjunct
-   Curry-Howard analogue of Sigma types❙
+   Curry-Howard analogue of Sigma types ❚
 theory DependentConjunction =
   include ?Logic❙
   dand   : {F} (⊦ F ⟶ prop) ⟶ prop❘# 1 ∧- 2 prec 10❙
+❚
+
+theory DependentConjunctionND =
+  include ?DependentConjunction❙
   dandI  : {F,G} {p:⊦ F} ⊦ G p ⟶ ⊦ F ∧- G❙
   dandEl : {F,G} ⊦ F ∧- G ⟶ ⊦ F❘# 3 dandEl❘role ForwardRule❙
   dandEr : {F,G} {p: ⊦ F ∧- G} ⊦ G (p dandEl)❘# 3 dandEr❘role ForwardRule❙
 ❚
 
 /T Disjunction where the second disjunct's well-formedness may depend on the falsity of the first disjunct
-   Curry-Howard analogue of an usual union type where the second argument is only considered if the first one is empty❙
+   Curry-Howard analogue of an usual union type where the second argument is only considered if the first one is empty ❚ 
 theory DependentDisjunction =
   include ?Logic❙
   dor    : {F} ((⊦ F ⟶ ↯) ⟶ prop) ⟶ prop❘# 1 ∨- 2 prec 10❙
+❚
+
+theory DependentDisjunctionND =
+  include ?DependentDisjunction❙
   dorIl  : {F,G} ⊦ F ⟶ ⊦ F ∨- G❘# 3 dorIl❙
   dorIr  : {F,G} ({p:⊦ F ⟶ ↯} ⊦ G p) ⟶ ⊦ F ∨- G❘# 3 dorIr❙
   dorE   : {F,G,C} ⊦ F ∨- G ⟶ (⊦ F ⟶ ⊦ C) ⟶ ({p: ⊦ F ⟶ ↯} ⊦ G p ⟶ ⊦ C) ⟶ ⊦ C❘# 4 dorE 5 6❙
 ❚
 
 /T Implication where the implicate's well-formedness may depend on the truth of the implicant
-   Curry-Howard analogue of Pi types❙
+   Curry-Howard analogue of Pi types ❚
 theory DependentImplication =
   include ?Logic❙
   dimpl  : {F} (⊦ F ⟶ prop) ⟶ prop❘# 1 ⇒- 2 prec 10❙
+❚
+
+theory DependentImplicationND =
+  include ?DependentImplication❙
   dimpI  : {F,G} ({p} ⊦ G p) ⟶ ⊦ F ⇒- G❙
   dimpE  : {F,G} ⊦ F ⇒- G ⟶ {p:⊦ F} ⊦ G p❘# 3 dimpE 4❘role ForwardRule❙
 ❚

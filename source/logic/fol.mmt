@@ -5,6 +5,10 @@ fixmeta ur:?LF❚
 theory UniversalQuantification =
   include ?UntypedLogic❙
   forall : (term ⟶ prop) ⟶ prop❘# ∀ 1❘## ∀ V1 2❙
+❚
+
+theory UniversalQuantificationND =
+  include ?UniversalQuantification❙
   forallI  : {P} ({x} ⊦ (P x)) ⟶ ⊦ ∀ P❙
   forallE  : {P} ⊦ ∀ P ⟶ {x} ⊦ (P x)❘# 2 forallE 3❘role ForwardRule❙
 ❚
@@ -12,6 +16,10 @@ theory UniversalQuantification =
 theory ExistentialQuantification =
   include ?UntypedLogic❙
   exists : (term ⟶ prop) ⟶ prop❘# ∃ 1❘## ∃ V1 2❙
+❚
+
+theory ExistentialQuantificationND =
+  include ?ExistentialQuantification❙
   existsI  : {P,x} ⊦ P x ⟶ ⊦ ∃ P❘# existsI 2 3❙
   existsE  : {P,C} ⊦ ∃ P ⟶ ({x} ⊦ (P x) ⟶ ⊦ C) ⟶ ⊦ C❘# 3 existsE 4❙
 ❚
@@ -22,9 +30,34 @@ theory IFOL =
   include ?ExistentialQuantification❙
 ❚
 
+theory IFOLND =
+  include ?IPLND❙
+  include ?UniversalQuantificationND❙
+  include ?ExistentialQuantificationND❙
+❚
+
+theory IFOLEQ =
+  include ?IPL❙
+  include ?Equality❙
+  include ?UniversalQuantification❙
+  include ?ExistentialQuantification❙
+❚
+
+theory IFOLEQND =
+  include ?IPLND❙
+  include ?EqualityND❙
+  include ?UniversalQuantificationND❙
+  include ?ExistentialQuantificationND❙
+❚
+
 theory FOL =
   include ?PL❙ 
   include ?IFOL❙
+❚
+
+theory FOLND =
+  include ?PLND❙ 
+  include ?IFOLND❙
 ❚
 
 theory FOLEQ =
@@ -32,10 +65,20 @@ theory FOLEQ =
   include ?Equality❙
 ❚
 
+theory FOLEQND =
+  include ?FOLND❙
+  include ?EqualityND❙
+❚
+
 theory RelativizedUniversalQuantification =
   include ?SoftTypedTerms❙
   include ?FOLEQ❙
   rforall : tp ⟶ (term ⟶ prop) ⟶ prop❘= [A,P] ∀[x] x⦂A ⇒ P x❘# ∀' 1 2❙
+❚
+
+theory RelativizedUniversalQuantificationND =
+  include ?RelativizedUniversalQuantification❙
+  include ?FOLEQND❙
   rforallI : {A,F} ({x} ⊦x⦂A ⟶ ⊦ F x) ⟶ ⊦ ∀' A F❘= [A,F,P] forallI [x] impI [xa] P x xa❙
   rforallE : {A,F} ⊦ ∀' A F ⟶ {x} ⊦x⦂A ⟶ ⊦ F x❘= [A,F,p,x,xa] p forallE x impE xa❙
 ❚
@@ -44,6 +87,11 @@ theory RelativizedExistentialQuantification =
   include ?SoftTypedTerms❙
   include ?FOLEQ❙
   rexists : tp ⟶ (term ⟶ prop) ⟶ prop❘= [A,P] ∃[x] x⦂A ∧ P x❘# ∃' 1 2❙
+❚
+
+theory RelativizedExistentialQuantificationND =
+  include ?RelativizedExistentialQuantification❙
+  include ?FOLEQND❙
   rexistsI : {A,F} {x} ⊦x⦂A ⟶ ⊦ F x ⟶ ⊦ ∃' A F❘= [A,F,x,xa,p] existsI x andI xa p❙
   rexistsE : {A,F,C} ⊦ ∃' A F ⟶ ({x} ⊦x⦂A ⟶ ⊦ F x ⟶ ⊦ C) ⟶ ⊦ C❘= [A,F,C,p,P] p existsE [x,q] P x (q andEl) (q andEr)❙
 ❚
@@ -51,7 +99,11 @@ theory RelativizedExistentialQuantification =
 theory UniqueExistentialQuantification =
   include ?ExistentialQuantification❙
   include ?Equality❙
-  existsUnique  : (term ⟶ prop) ⟶ prop❘# ∃¹ 1❙
+  existsUnique  : (term ⟶ prop) ⟶ prop❘# ∃¹ 1❙  
+ ❚
+
+theory UniqueExistentialQuantificationND =
+  include ?UniqueExistentialQuantification ❙
   existsUniqueI : {P} {x} ⊦ P x ⟶ ({y} ⊦ P y ⟶ ⊦ x ≐ y) ⟶ ⊦ ∃¹ P❘# existsUniqueI 3 4 5❙
   existsUniqueE : {P,C} ⊦ ∃¹ P ⟶ ({x} ⊦ P x ⟶ ({y} ⊦ P y ⟶ ⊦ x ≐ y) ⟶ ⊦ C) ⟶ ⊦ C❘# 4 existsUniqueE 5❘❙
 ❚
@@ -60,6 +112,10 @@ theory Description =
   include ?Logic❙
   include ?UniqueExistentialQuantification❙
   the : {P} ⊦ ∃¹ P ⟶ term❘# the 1 2❙
+❚
+
+theory DescriptionND =
+  include ?Description❙
   the_prop : {P,p} ⊦ P (the P p)❙
 ❚
 
@@ -67,10 +123,19 @@ theory Choice =
   include ?Logic❙
   include ?ExistentialQuantification❙
   some : {P} ⊦ ∃ P ⟶ term❘# some 1 2❙
+❚
+
+theory ChoiceND =
+  include ?Choice❙
   some_prop : {P,p} ⊦ P (some P p)❙
 ❚
 
 theory FOLEQDesc = 
   include ?FOLEQ❙
   include ?Description❙
+❚
+
+theory FOLEQDescND = 
+  include ?FOLEQND❙
+  include ?DescriptionND❙
 ❚
