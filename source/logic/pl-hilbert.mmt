@@ -1,13 +1,32 @@
 namespace latin:/❚
 
+theory NegationHilbert = 
+  include ?NegationNDE❙
+/T add the Hilbert Axioms for the missing rule.❙  
+❚
+
+theory DisjunctionHilbert = 
+  include ?DisjunctionNDI❙
+/T add the Hilbert Axioms for the missing rule.❙  
+❚
+
+theory ImplicationHilbert = 
+  include ?ImplicationNDE❙
+/T add the Hilbert Axioms for the missing rule.❙  
+❚
+
+theory EquivalenceHilbert = 
+  include ?EquivalenceNDE❙
+/T add the Hilbert Axioms for the missing rule.❙  
+❚
+
 theory PLHilbert =
   include ?PL❙
   include ?TruthND❙
   include ?FalsityND❙
-  include ?NegationNDE❙
+  include ?NegationHilbert❙
   include ?ConjunctionND❙
-  include ?DisjunctionNDI❙
-  include ?ImplicationNDE❙
-  include ?EquivalenceNDE❙
-/T add the Hilbert Axioms for the missing rules.❙  
+  include ?DisjunctionHilbert❙
+  include ?ImplicationHilbert❙
+  include ?EquivalenceHilbert❙
 ❚
