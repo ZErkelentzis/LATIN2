@@ -7,7 +7,7 @@ fixmeta ur:?LF❚
 
 theory PowerTypes =
   include ☞latin:/?TypedEquality❙
-  include ☞latin:/?Equivalence❙
+  include ☞latin:/?EquivalenceND❙
   
   power : tp ⟶ tp❘# ℘ 1 prec 100❙
   in    : {A} tm A  ⟶ tm ℘A ⟶ prop❘# 2 ∈ 3 prec 30❙
@@ -24,7 +24,7 @@ theory PowerTypes =
 
 theory Map = 
   include ?PowerTypes❙
-  include ☞latin:/?Conjunction❙
+  include ☞latin:/?ConjunctionND❙
   include ☞latin:/?TypedExistentialQuantification❙
   map : {A,B} (tm A ⟶ tm B) ⟶ tm ℘A ⟶ tm ℘B❘
       = [A,B,f,S] filter[b] ∃[a] a∈S ∧ (b ≐ f a)❘# 4 map 3 prec 40❙
@@ -49,7 +49,7 @@ theory Extensionality =
 
 theory FiniteSets = 
   include ?PowerTypes❙
-  include ☞latin:/?Disjunction❙
+  include ☞latin:/?DisjunctionND❙
   singleton : {A} tm A ⟶ tm ℘A❘= [A,x] filter [u] u≐x❘# % 2 prec 100❙
   singletonI : {A,x: tm A} ⊦ x ∈ %x❘= [A,x] filterI refl❙ 
   singletonE : {A,x,y: tm A} ⊦ x ∈ %y ⟶ ⊦ x≐y❙
@@ -64,7 +64,7 @@ theory FiniteSets =
 theory Subset =
   include ?PowerTypes❙
   include ?Extensionality❙
-  include ☞latin:/?Implication❙
+  include ☞latin:/?ImplicationND❙
 
   subset : {A} tm ℘A ⟶ tm ℘A ⟶ prop❘	
          = [A,S,T] ∀[x] x∈S ⇒ x∈T❘
@@ -84,7 +84,7 @@ theory Subset =
 
 theory FullSet =
   include ?PowerTypes❙
-  include ☞latin:/?Truth❙
+  include ☞latin:/?TruthND❙
 
   full  : {A} tm ℘A❘
         = [A] filter [x] true❘
@@ -95,7 +95,7 @@ theory FullSet =
 
 theory EmptySet =
   include ?PowerTypes❙
-  include ☞latin:/?Falsity❙
+  include ☞latin:/?FalsityND❙
 
   empty : {A} tm ℘A❘
         = [A] filter [x] false❘
@@ -107,7 +107,7 @@ theory EmptySet =
 
 theory Complement =
   include ?PowerTypes❙
-  include ☞latin:/?Negation❙
+  include ☞latin:/?NegationND❙
 
   compl : {A} tm ℘A ⟶ tm ℘A ❘
         = [A,S] filter [x] ¬ x∈S ❘
@@ -121,7 +121,7 @@ theory Complement =
 
 theory Intersection =
   include ?PowerTypes❙
-  include ☞latin:/?Conjunction❙
+  include ☞latin:/?ConjunctionND❙
 
   inter : {A} tm ℘A ⟶ tm ℘A ⟶ tm ℘A❘ 
   			= [A,S,T] filter [x] x∈S ∧ x∈T❘
@@ -136,7 +136,7 @@ theory Intersection =
 
 theory Union =
   include ?PowerTypes❙
-  include ☞latin:/?Disjunction❙
+  include ☞latin:/?DisjunctionND❙
 
   union : {A} tm ℘A ⟶ tm ℘A ⟶ tm ℘A ❘ 
   				= [A,S,T] filter [x] x∈S ∨ x∈T❘
@@ -151,7 +151,7 @@ theory Union =
 
 theory BigIntersection =
   include ?PowerTypes❙
-  include ☞latin:/?Implication❙
+  include ☞latin:/?ImplicationND❙
   include ☞latin:/?TypedUniversalQuantification❙
 
   biginter : {A} tm ℘℘A ⟶ tm ℘A ❘ 
@@ -165,7 +165,7 @@ theory BigIntersection =
 
 theory BigUnion =
   include ?PowerTypes❙
-  include ☞latin:/?Conjunction❙
+  include ☞latin:/?ConjunctionND❙
   include ☞latin:/?TypedExistentialQuantification❙
 
   bigunion : {A} tm ℘℘A ⟶ tm ℘A ❘ 
@@ -195,7 +195,7 @@ theory SubsetRules =
   subset_full : {A,S} ⊦ S ⊆ full A❘
               = [A,S] subsetI [x,p] fullI❙
   subset_empty : {A,S} ⊦ empty A ⊆ S❘
-               = [A,S] subsetI [x,p] (emptyE p) contraE❙
+               = [A,S] subsetI [x,p] (emptyE p) inconE❙
 
   subset_union_left : {A,S,T: tm ℘A} ⊦ S ⊆ S ∪ T❘
                     = [A,S,T] subsetI [x,p] unionIl p❙
@@ -230,19 +230,19 @@ theory ComplementRules =
   compl_empty : {A} ⊦ (empty A)⁻ ≐ full A❘
               = [A] extensionalityI ([x,p] fullI) ([x,p] complI [q] emptyE q)❙
   compl_full  : {A} ⊦ (full A)⁻ ≐ empty A❘
-              = [A] extensionalityI ([x,p] (complE p fullI) contraE) ([x,p] (emptyE p) contraE)❙
+              = [A] extensionalityI ([x,p] (complE p fullI) inconE) ([x,p] (emptyE p) inconE)❙
   compl_union : {A, S,T: tm ℘A} ⊦ (S ∪ T)⁻ ≐ S⁻ ∩ T⁻❘
               = [A,S,T] extensionalityI
                     ([x,p] interI (complI [q] complE p (unionIl q))
                                   (complI [q] complE p (unionIr q))
                     )
-                    ([x,p] complI [q,C] unionE q ([r] complE (interEl p) r contraE)
-                                                 ([r] complE (interEr p) r contraE)
+                    ([x,p] complI [q,C] unionE q ([r] complE (interEl p) r inconE)
+                                                 ([r] complE (interEr p) r inconE)
                     )❙
 
   inter_compl : {A,S} ⊦ S ∩ S⁻ ≐ empty A❘
-              = [A,S] extensionalityI ([x,p] (complE (interEr p) (interEl p)) contraE)
-                                      ([x,p] (emptyE p) contraE)❙
+              = [A,S] extensionalityI ([x,p] (complE (interEr p) (interEl p)) inconE)
+                                      ([x,p] (emptyE p) inconE)❙
 
   compl_not : {A,S,x:tm A} ⊦¬x∈S ⟶ ⊦x∈S⁻❘= [A,S,x,p] complI [q] p notE q❙
 
@@ -256,13 +256,13 @@ theory ComplementRules =
   
   compl_inter : {A, S,T: tm ℘A} ⊦ (S ∩ T)⁻ ≐ S⁻ ∪ T⁻❘
               = [A,S,T] extensionalityI
-                    ([x,p] compl_tnd orE ([q] compl_tnd orE ([r] complE p (interI q r) contraE) ([r] unionIr r)) ([r] unionIl r))
+                    ([x,p] compl_tnd orE ([q] compl_tnd orE ([r] complE p (interI q r) inconE) ([r] unionIr r)) ([r] unionIl r))
                     ([x,p] unionE p ([q] subsetE (subset_compl subset_inter_left) q)
                                     ([q] subsetE (subset_compl subset_inter_right) q)
                     )❙
   
   compl_compl : {A, S:tm ℘A} ⊦ S⁻⁻ ≐ S❘
-              = [A,S] extensionalityI ([x,p] compl_tnd orE ([q] q) ([q] complE p q contraE)) ([x,p] complI [q] complE q p)❙
+              = [A,S] extensionalityI ([x,p] compl_tnd orE ([q] q) ([q] complE p q inconE)) ([x,p] complI [q] complE q p)❙
 ❚
 
 theory PowerSFOL =

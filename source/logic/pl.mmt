@@ -6,18 +6,30 @@ fixmeta ur:?LF❚
 theory Truth =
   include ?Logic❙
   true  : prop❙
+❚
+
+theory TruthND =
+  include ?Truth❙
   trueI : ⊦ true❙
 ❚
 
 theory Falsity =
   include ?Logic❙
   false  : prop❙
+❚
+
+theory FalsityND =
+  include ?Falsity❙
   falseE : ⊦ false ⟶ ↯❘# 1 falseE❙
 ❚
 
 theory Negation =
   include ?Logic❙
   not   : prop ⟶ prop❘# ¬ 1   prec 20❙
+❚
+
+theory NegationND =
+  include ?Negation❙
   notI  : {F} (⊦ F ⟶ ↯) ⟶ ⊦ ¬ F❘# notI 2❙
   notE  : {F} ⊦ ¬ F ⟶ ⊦ F ⟶ ↯❘# 2 notE 3❘role ForwardRule❙
 ❚
@@ -25,6 +37,10 @@ theory Negation =
 theory Conjunction =
   include ?Logic❙
   and   : prop ⟶ prop ⟶ prop❘# 1 ∧ 2 prec 15❙
+❚
+
+theory ConjunctionND =
+  include ?Conjunction❙
   andI  : {F,G} ⊦ F ⟶ ⊦ G ⟶ ⊦ F ∧ G❙
   andEl : {F,G} ⊦ F ∧ G ⟶ ⊦ F❘# 3 andEl❘role ForwardRule❙
   andEr : {F,G} ⊦ F ∧ G ⟶ ⊦ G❘# 3 andEr❘role ForwardRule❙
@@ -33,6 +49,10 @@ theory Conjunction =
 theory Disjunction =
   include ?Logic❙
   or    : prop ⟶ prop ⟶ prop❘# 1 ∨ 2 prec 15❙
+❚
+
+theory DisjunctionND =
+  include ?Disjunction❙
   orIl  : {F,G} ⊦ F ⟶ ⊦ F ∨ G❘# 3 orIl❙
   orIr  : {F,G} ⊦ G ⟶ ⊦ F ∨ G❘# 3 orIr❙
   orE   : {F,G,C} ⊦ F ∨ G ⟶ (⊦ F ⟶ ⊦ C) ⟶ (⊦ G ⟶ ⊦ C) ⟶ ⊦ C❘# 4 orE 5 6❙
@@ -40,7 +60,11 @@ theory Disjunction =
 
 theory Implication =
   include ?Logic❙
-  impl  : prop ⟶ prop ⟶ prop❘# 1 %R⇒ 2 prec 10❙
+  impl  : prop ⟶ prop ⟶ prop❘# 1 %R⇒ 2 prec 10❙  
+❚
+
+theory ImplicationND =
+  include ?Implication❙
   impI  : {F,G} (⊦ F ⟶ ⊦ G) ⟶ ⊦ F ⇒ G❙
   impE  : {F,G} ⊦ F ⇒ G ⟶ ⊦ F ⟶ ⊦ G❘# 3 impE 4❘role ForwardRule❙
   
@@ -55,6 +79,10 @@ theory Implication =
 theory Equivalence =
   include ?Logic❙
   equiv : prop ⟶ prop ⟶ prop❘# 1 ⇔ 2 prec 10❙
+ ❚
+
+theory EquivalenceND =
+  include ?Equivalence❙
   equivI : {F,G} (⊦ F ⟶ ⊦ G) ⟶ (⊦ G ⟶ ⊦ F) ⟶ ⊦ F ⇔ G❙
   equivEl : {F,G} ⊦ F ⇔ G ⟶ ⊦ F ⟶ ⊦ G❘# 3 equivEl 4❘role ForwardRule❙
   equivEr : {F,G} ⊦ F ⇔ G ⟶ ⊦ G ⟶ ⊦ F❘# 3 equivEr 4❘role ForwardRule❙
@@ -71,21 +99,21 @@ theory Equivalence =
 
 theory IPL =
   include ?Logic❙
-  include ?Truth❙
-  include ?Falsity❙
-  include ?Negation❙
-  include ?Conjunction❙
-  include ?Disjunction❙
-  include ?Implication❙
-  include ?Equivalence❙
+  include ?TruthND❙
+  include ?FalsityND❙
+  include ?NegationND❙
+  include ?ConjunctionND❙
+  include ?DisjunctionND❙
+  include ?ImplicationND❙
+  include ?EquivalenceND❙
   
   not_or_left : {F,G} ⊦ ¬(F∨G) ⟶ ⊦¬F ❘= [F,G,p] notI [q] p notE (q orIl)❙
   not_or_right : {F,G} ⊦ ¬(F∨G) ⟶ ⊦¬G ❘= [F,G,p] notI [q] p notE (q orIr)❙
   nntnd : {F} ⊦¬¬(F∨¬F)❘= [F] notI [p] (not_or_right p) notE (not_or_left p)❙
 
   total structure impl_order : ?Order =
-    include ?Implication/impl_preorder❙ 
-    structure equalityRel = ?Equivalence/equiv_equivalence❙
+    include ?ImplicationND/impl_preorder❙ 
+    structure equalityRel = ?EquivalenceND/equiv_equivalence❙
     antisym = [F,G,fg,gf] equivI ([f] fg impE f) ([g] gf impE g)❙
   ❚
 ❚
