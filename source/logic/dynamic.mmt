@@ -35,7 +35,20 @@ theory TypedDynamicLogic =
   random_assign : {S} var S ⟶ prog❘# randomize 2 prec 35❙
 ❚
 
-theory State : ?HOL =
+theory Example : ?TypedDynamicLogic =
+  include ?Booleans❙
+  int: tp❙
+  1:tm int❙
+  5:tm int❙
+  plus: tm int ⟶ tm int ⟶ tm int❘# 1 + 2 prec 50❙
+  
+  test: {b: var bool,x:var int}prog❘
+      = [b,x] x≔1; b≔tt; while `b≐tt do (x ≔ `x+1; if `x≐5 then b≔ff else skip); x≔`x+1❙
+❚
+
+namespace kripkemodels❚
+
+theory State : latin:/?HOL =
   include ?Worlds❙
   cell : tp ⟶ tp❙
   state: tm W ⟶ {S} tm cell S ⟶ tm S❘ # 3 * 1 prec 50 ❙
@@ -50,7 +63,7 @@ theory State : ?HOL =
   trclose_trans: {S,r} {x,y,z: tm S} ⊦ trclos r x y ⟶ ⊦ trclos r y z ⟶ ⊦ trclos r x z❙
 ❚
 
-view PropDynamicSemantics : ?PropDynamicLogic → ?State =
+view PropDynamicSemantics : latin:/?PropDynamicLogic → ?State =
   include ?PLSemantics❙
   include ?MMLSemantics❙
   comp = [p,q] [u,w] ∃ [v] p u v ∧ q v w❙
@@ -62,22 +75,11 @@ view PropDynamicSemantics : ?PropDynamicLogic → ?State =
   skip = [v,w] v ≐ w❙
 ❚
 
-view TypedDynamicSemantics : ?TypedDynamicLogic → ?State =
+view TypedDynamicSemantics : latin:/?TypedDynamicLogic → ?State =
   include ?PropDynamicSemantics❙
   include ?SFOLSemantics❙
   var = [S] tm cell S❙
   retrieve = [S,n] [w] n*w❙
   assign = [S,n,x] [v,w] extends v w n x❙ 
   random_assign = [S,n] [v,w] ∃[t: tm W→S] extends v w n ([u]t@u)❙
-❚
-
-theory Example : ?TypedDynamicLogic =
-  include ?Booleans❙
-  int: tp❙
-  1:tm int❙
-  5:tm int❙
-  plus: tm int ⟶ tm int ⟶ tm int❘# 1 + 2 prec 50❙
-  
-  test: {b: var bool,x:var int}prog❘
-      = [b,x] x≔1; b≔tt; while `b≐tt do (x ≔ `x+1; if `x≐5 then b≔ff else skip); x≔`x+1❙
 ❚

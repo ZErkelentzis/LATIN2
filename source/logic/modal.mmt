@@ -10,7 +10,7 @@ theory Box =
 
 theory Diamond =
   include ?Logic❙
-  diamond: prop ⟶ prop❘# ⋄ 1 prec 20❙
+  diamond: prop ⟶ prop❘# ◇ 1 prec 20❙
 ❚
 
 theory ML =
@@ -19,26 +19,28 @@ theory ML =
   include ?Diamond❙
 ❚
 
-theory Worlds : ?SFOLEQ =
+namespace kripkemodels❚
+
+theory Worlds : latin:/?SFOLEQ =
   world: tp❘# W❙
 ❚
 
-theory KripkeFrame : ?TypedLogic =
+theory KripkeFrame : latin:/?TypedLogic =
   include ?Worlds❙
   accessible : tm W ⟶ tm W ⟶ prop❘ # 1 acc 2 prec 30❙
 ❚
 
 theory KripkeModel =
-  include ?SFOLEQ❙
+  include ☞latin:/?SFOLEQ❙
   include ?KripkeFrame❙
 ❚
 
-view LogicSemantics : ?Logic → ?Worlds =
+view LogicSemantics : latin:/?Logic → ?Worlds =
   prop = tm W ⟶ prop❙
   ded = [f] {w} ⊦ f w❙
 ❚ 
 
-view PLSemantics : ?PL → ?Worlds =
+view PLSemantics : latin:/?PL → ?Worlds =
   include ?LogicSemantics❙
   true = [w] true❙
   false = [w] false❙
@@ -46,13 +48,13 @@ view PLSemantics : ?PL → ?Worlds =
   andEl = [f,g,p] [w] p w andEl❙
 ❚
 
-view TermSemantics : ?TypedTerms → ?Worlds =
+view TermSemantics : latin:/?TypedTerms → ?Worlds =
   /T constant universe; alternative would be tp = tm W ⟶ tp❙
   tp = tp❙
   tm = [S] tm W ⟶ tm S❙
 ❚
 
-view SFOLSemantics : ?SFOLEQ → ?Worlds =
+view SFOLSemantics : latin:/?SFOLEQ → ?Worlds =
   include ?TermSemantics❙
   include ?PLSemantics❙
   // actually, these must go into HOL and quantify over tm W→S❙
@@ -61,7 +63,7 @@ view SFOLSemantics : ?SFOLEQ → ?Worlds =
   equal = [S,x,y] [w] x w ≐ y w❙
 ❚
 
-view MLSemantics : ?ML → ?KripkeModel =
+view MLSemantics : latin:/?ML → ?KripkeModel =
   include ?PLSemantics❙
   box = [p] [v] ∀ [w] v acc w ⇒ p w❙
   diamond = [p] [v] ∃ [w] v acc w ∧ p w❙ 

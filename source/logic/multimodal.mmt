@@ -28,14 +28,16 @@ theory SMML =
   include ?SFOLEQ❙
 ❚
 
-view MMLSemantics : ?MML → ?Worlds =
+namespace kripkemodels❚
+
+view MMLSemantics : latin:/?MML → ?Worlds =
   include ?LogicSemantics❙
   modality = tm W ⟶ tm W ⟶ prop❙
   box = [m,p] [v] ∀ [w] m v w ⇒ p w❙
   diamond = [m,p] [v] ∃ [w] m v w ∧ p w❙
 ❚
 
-view SMMLSemantics : ?SMML → ?Worlds =
+view SMMLSemantics : latin:/?SMML → ?Worlds =
   include ?MMLSemantics❙
   include ?SFOLSemantics❙
 ❚
