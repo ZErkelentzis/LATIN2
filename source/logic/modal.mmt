@@ -89,7 +89,7 @@ view PLSemantics : latin:/?PL → ?Worlds =
   equivEl = [F,G,fg,f] [w] (fg w) equivEl (f w)❙
   equivEr = [F,G,fg,g] [w] (fg w) equivEr (g w)❙
   
-  classical = [F,p] [w] (p [q,G,v] ≪⊦(G v)≫) F w❙
+  classical = [F,p] [w] classical [Fwincon] [A] p ([Fw,Gv,v] Fwincon (Fw w) (Gv v)) ([u] A) w❙
 ❚
 
 view TermSemantics : latin:/?TypedTerms → ?Worlds =
@@ -101,10 +101,12 @@ view TermSemantics : latin:/?TypedTerms → ?Worlds =
 view SFOLSemantics : latin:/?SFOLEQ → ?Worlds =
   include ?TermSemantics❙
   include ?PLSemantics❙
-  // actually, these must go into HOL and quantify over tm W→S❙
   forall = liftbind forall❙
   exists = liftbind exists❙
   equal = [S] liftFun2 (equal S)❙
+
+  refl = [S,x] [w] refl❙
+  congP = [S,x,y,xyeq,P,Pxw][w] (xyeq w) congP ([u] P u w) (Pxw w)❙
 ❚
 
 view MLSemantics : latin:/?ML → ?KripkeModel =
