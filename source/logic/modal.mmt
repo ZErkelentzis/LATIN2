@@ -59,7 +59,7 @@ theory KripkeModel =
 view LogicSemantics : latin:/?Logic → ?Worlds =
   prop = tm W ⟶ prop❙
   ded = [f] {w} ⊦ f w❙
-❚ 
+❚
 
 view PLSemantics : latin:/?PL → ?Worlds =
   include ?LogicSemantics❙
@@ -69,7 +69,10 @@ view PLSemantics : latin:/?PL → ?Worlds =
   or = lift2 or❙
   impl = lift2 impl❙
   not = lift1 not❙
+  equiv = lift2 equiv❙
 
+  // rules with hypothetical premises are not sound in Kripke models❙
+  
   trueI = [w] trueI❙
   falseE = [f] [g,w] f w falseE inconE❙
   
@@ -82,6 +85,11 @@ view PLSemantics : latin:/?PL → ?Worlds =
   
   impE = [F,G,fg,f] [w] (fg w) impE (f w)❙
   notE = [F,nf,f] [g,w] (nf w) notE (f w) inconE❙
+  
+  equivEl = [F,G,fg,f] [w] (fg w) equivEl (f w)❙
+  equivEr = [F,G,fg,g] [w] (fg w) equivEr (g w)❙
+  
+  classical = [F,p] [w] (p [q,G,v] ≪⊦(G v)≫) F w❙
 ❚
 
 view TermSemantics : latin:/?TypedTerms → ?Worlds =
