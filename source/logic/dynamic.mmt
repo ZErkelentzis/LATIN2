@@ -8,12 +8,12 @@ namespace latin:/❚
   Dynamic Logic comes with a very simple non-deterministic programming
   language Π that only features composition, distribution, iteration, test, and assignment.
   
-  The main idea is to have a modality for every program [α:prop] and proposition [A:prop]
-  - $⟬α⟭A$ means that "if $α$ terminates, then $A$ holds afterwards"
-  - $⦉α⦊A$ means that "$α$ terminates and $A$ holds afterwards".
+  The main idea is to have a modality for every program α and proposition A:prop
+  - ⟬α⟭A means that "if α terminates, then $A$ holds afterwards"
+  - ⦉α⦊A means that "α terminates and $A$ holds afterwards".
   The possible worlds are "states", i.e. variable assignments for program
-  variables, and a state [w:world] is accessible from state [v:state] for program $α$,
-  if a run of program $α$ in $v$ yields state $w$.
+  variables, and a state w:world is accessible from state v:state for program α,
+  if a run of program α in v yields state w.
   
   Dynamic logic comes in three levels of modeling: 
   - Proposititional Dynamic Logic: programs are built up from program opaque variables,
@@ -24,11 +24,22 @@ namespace latin:/❚
 
 fixmeta ur:?LF❚
 
-/T A simple non-deterministic programming language ❚
-theory PropNonDetProg  =
-  include ?PL❙ 
+theory Programs =
+  prog : type❘# Π❙
+❚
 
-  prog : type ❘# Π❙
+/T Dynamic Logic is just the multimodal logic 
+   where the modality is given by Π programs. ❚
+theory DynamicLogic =
+  include ?MML❙
+  realize ?Programs❙
+  prog = modality ❙
+❚
+
+/T A simple non-deterministic programming language ❚
+theory NonDetProg =
+  include ?PL❙
+  include ?Programs❙
 
   /T the programming language primitives of a non-deterministic programming
     language Π whose semantics is easy to specify.❙
@@ -47,18 +58,15 @@ theory PropNonDetProg  =
         = [F,P] *(P; ¬F ?) ; F ?❙
 ❚
 
-/T Propositional Dynamic Logic is just the multimodal logic 
-   where the modality is given by Π programs. ❚
 theory PropDynamicLogic =
-  include ?MML❙
-  include ?PropNonDetProg❙
-  prog = modality ❙
+  include ?DynamicLogic❙
+  include ?NonDetProg❙
 ❚
 
 /T A theory of (first-order) program variables and for Π; we also extend the language of
 tests ot sorted first-order logic ❚
 theory TypedDynamicLogic =
-  include ?PropNonDetProg❙
+  include ?PropDynamicLogic❙
   include ?SFOLEQ❙
   
   var : tp ⟶ type❙
@@ -99,9 +107,13 @@ theory State : latin:/?HOL =
   trclose_trans: {S,r} {x,y,z: tm S} ⊦ trclos r x y ⟶ ⊦ trclos r y z ⟶ ⊦ trclos r x z❙
 ❚
 
-view PropDynamicSemantics : latin:/?PropDynamicLogic → ?State =
-  include ?PLSemantics❙
+view DynamicLogicSemantics : latin:/?DynamicLogic → ?State =
   include ?MMLSemantics❙
+❚
+
+view NonDetProgSemantics : latin:/?NonDetProg → ?State =
+  include ☞latin:/?Programs❘ = ?DynamicLogicSemantics❙
+  include ?PLSemantics❙
   comp = [p,q] [u,w] ∃ [v] p u v ∧ q v w❙
   distrib = [p,q] [v,w] p v w ∨ q v w❙
   iteration = [p] [v,w] trclos p v w❙
@@ -111,8 +123,13 @@ view PropDynamicSemantics : latin:/?PropDynamicLogic → ?State =
   skip = [v,w] v ≐ w❙
 ❚
 
+view PropDynamicLogicSemantics : latin:/?PropDynamicLogic → ?State =
+  include ?DynamicLogicSemantics❙
+  include ?NonDetProgSemantics❙
+❚
+
 view TypedDynamicSemantics : latin:/?TypedDynamicLogic → ?State =
-  include ?PropDynamicSemantics❙
+  include ?PropDynamicLogicSemantics❙
   include ?SFOLSemantics❙
   var = [S] tm cell S❙
   retrieve = [S,n] [w] n*w❙

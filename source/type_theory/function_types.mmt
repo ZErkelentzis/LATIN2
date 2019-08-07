@@ -26,7 +26,10 @@ theory SimpleFunctions =
   simplambda: {A,B} (tm A ⟶ tm B) ⟶ tm A → B❘# λ 3 prec 40❙
   simpapply: {A,B} tm A → B ⟶ tm A ⟶ tm B❘# 3 @ 4 prec 50❙
   simpbeta : {A,B,F: tm A ⟶ tm B, X} ⊦ (λ F) @ X ≐ F X❙
-  
+
+  // should be an extra notation for simpapply❙
+  apply1 : {a,b} tm a→b ⟶ (tm a ⟶ tm b)❘
+         = [a,b,f] [x] f@x❘# %%prefix 2 1❙
   applyTo : {a,b} tm a ⟶ tm (a→b)→b❘= [a,b,x] λ[f]f@x❘# applyTo 3❙
 ❚
 

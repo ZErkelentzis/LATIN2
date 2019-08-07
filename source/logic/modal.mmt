@@ -21,8 +21,29 @@ theory ML =
 
 namespace kripkemodels❚
 
-theory Worlds : latin:/?SFOLEQ =
+theory Worlds : latin:/?HOL =
   world: tp❘# W❙
+
+  liftPred2: {S,A,B} (          tm A ⟶           tm B  ⟶          prop)
+                   ⟶ (tm S ⟶ tm A) ⟶ (tm S ⟶ tm B) ⟶ (tm S ⟶ prop)❘
+      = [S,A,B,o,f,g] [x] o (f x) (g x)❘
+      # liftFun2 4❙
+
+  lift0: {S} prop ⟶ (tm S ⟶ prop)❘
+      = [S,o] [x]o❘
+      # lift0 2❙
+  lift1: {S} (prop ⟶ prop) ⟶ (tm S ⟶ prop) ⟶ (tm S ⟶ prop)❘
+      = [S,o,f] [x]o (f x)❘
+      # lift1 2❙
+  lift2: {S} (prop ⟶ prop ⟶ prop) ⟶ (tm S ⟶ prop) ⟶ (tm S ⟶ prop) ⟶ (tm S ⟶ prop)❘
+      = [S,o,f,g] [x]o (f x) (g x)❘
+      # lift2 2❙
+      
+  liftbind : {S} ({T}  (        tm T            ⟶ prop)  ⟶          prop) ⟶
+                  {T} ((tm S ⟶ tm T) ⟶ (tm S ⟶ prop)) ⟶ (tm S ⟶ prop)❘
+           = [S][B][T][F][x] B (S→T) [f] F (apply1 f) x❘
+           # liftbind 2❙
+
 ❚
 
 theory KripkeFrame : latin:/?TypedLogic =
@@ -42,10 +63,24 @@ view LogicSemantics : latin:/?Logic → ?Worlds =
 
 view PLSemantics : latin:/?PL → ?Worlds =
   include ?LogicSemantics❙
-  true = [w] true❙
-  false = [w] false❙
-  and = [f,g] [w](f w)∧(g w)❙
-  andEl = [f,g,p] [w] p w andEl❙
+  true = lift0 true❙
+  false = lift0 false❙
+  and = lift2 and❙
+  or = lift2 or❙
+  impl = lift2 impl❙
+  not = lift1 not❙
+
+  trueI = [w] trueI❙
+  
+  andI  = [F,G,f,g][w] andI (f w) (g w)❙
+  andEl = [F,G,fg] [w] fg w andEl❙
+  andEr = [F,G,fg] [w] fg w andEr❙
+
+  orIl = [F,G,f] [w] f w orIl❙
+  orIr = [F,G,f] [w] f w orIr❙
+  
+  impE = [F,G,fg,f] [w] (fg w) impE (f w)❙
+  notE = [F,nf,f] [w] (nf w) notE (f w)❙
 ❚
 
 view TermSemantics : latin:/?TypedTerms → ?Worlds =
@@ -58,9 +93,9 @@ view SFOLSemantics : latin:/?SFOLEQ → ?Worlds =
   include ?TermSemantics❙
   include ?PLSemantics❙
   // actually, these must go into HOL and quantify over tm W→S❙
-  forall = [S,F] [w] ∀[x] F ([u] x) w❙
-  exists = [S,F] [w] ∃[x] F ([u] x) w❙
-  equal = [S,x,y] [w] x w ≐ y w❙
+  forall = liftbind forall❙
+  exists = liftbind exists❙
+  equal = [S] liftFun2 (equal S)❙
 ❚
 
 view MLSemantics : latin:/?ML → ?KripkeModel =
