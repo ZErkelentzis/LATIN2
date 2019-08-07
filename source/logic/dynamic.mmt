@@ -24,15 +24,14 @@ namespace latin:/❚
 
 fixmeta ur:?LF❚
 
-theory PropDynamicLogic =
-  include ?PL❙
-  include ?MML❙
-  
-  prog = modality ❘# Π❙
+/T A simple non-deterministic programming language ❚
+theory PropNonDetProg  =
+  include ?PL❙ 
 
-  /T the programming language primitives of 
-     a non-deterministic programming language Π
-     whose semantics is easy to specify.❙
+  prog : type ❘# Π❙
+
+  /T the programming language primitives of a non-deterministic programming
+    language Π whose semantics is easy to specify.❙
   comp : Π ⟶ Π ⟶ Π❘# 1 ; 2 prec 5❙
   distrib : Π ⟶ Π ⟶ Π❘# 1 ∪ 2 prec 30❙
   iteration : Π ⟶ Π❘# * 1 prec 60❙
@@ -48,8 +47,18 @@ theory PropDynamicLogic =
         = [F,P] *(P; ¬F ?) ; F ?❙
 ❚
 
+/T Propositional Dynamic Logic is just the multimodal logic 
+   where the modality is given by Π programs. ❚
+theory PropDynamicLogic =
+  include ?MML❙
+  include ?PropNonDetProg❙
+  prog = modality ❙
+❚
+
+/T A theory of (first-order) program variables and for Π; we also extend the language of
+tests ot sorted first-order logic ❚
 theory TypedDynamicLogic =
-  include ?PropDynamicLogic❙
+  include ?PropNonDetProg❙
   include ?SFOLEQ❙
   
   var : tp ⟶ type❙
@@ -60,6 +69,7 @@ theory TypedDynamicLogic =
   random_assign : {S} var S ⟶ Π❘# randomize 2 prec 35❙
 ❚
 
+/T a theory of states, i.e. assignments to program variables ❚
 theory State : ?HOL =
   include ?Worlds❙
   cell : tp ⟶ tp❙
@@ -96,6 +106,7 @@ view TypedDynamicSemantics : ?TypedDynamicLogic → ?State =
   random_assign = [S,n] [v,w] ∃[t: tm W→S] extends v w n ([u]t@u)❙
 ❚
 
+/T A simple example to test what we have done above ❚
 theory Example : ?TypedDynamicLogic =
   include ?Booleans❙
   int: tp❙
