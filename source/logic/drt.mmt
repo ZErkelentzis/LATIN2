@@ -8,18 +8,23 @@ theory DRT =
   mode : type❙
   pos: id ⟶ mode❘# 1 ⁺ prec 60❙
   neg: id ⟶ mode❘# 1 ⁻ prec 60❙
-  ∅ : mode❙
-  union : mode ⟶ mode ⟶ mode❘# 1 ⊎ 2 prec 50❙
+  empty : mode❘# ∅❙
+  punion : mode ⟶ mode ⟶ mode❘# 1 ⊎ 2 prec 50❙
 
-  mequal : mode ⟶ mode ⟶ type❘# 1 ≐ 2 prec 30❙
+  mequal : mode ⟶ mode ⟶ type❘# 1 ≐ 2 prec 30❘role Eq❙
   refl : {x} x ≐ x❙
   // bounded semi-lattice❙
   
   capture: {x} x⁺⊎x⁻ ≐ pos x❙
   
+  rule ☞scala://modes.drt?NormalizePunion❙
+  
   close : mode ⟶ mode❘# 1 ↓ prec 60❙
-  close_pos: {x} x⁺↓ ≐ ∅❙
-  close_neg: {x} x⁻↓ ≐ x⁻❙
+  close_pos: {x} x⁺↓ ≐ ∅❘ role Simplify❙
+  close_neg: {x} x⁻↓ ≐ x⁻❘ role Simplify❙
+  
+  close_empty: ∅↓ ≐ ∅❘ role Simplify❙ 
+  close_union: {m,n} (m⊎n)↓ ≐ m↓⊎n↓❘ role Simplify❙ 
   
   // normal form of modes: set of id with function into boolean❙
 
@@ -55,5 +60,7 @@ theory Example : ?DRT =
   uv : mode❘ = u⁺ ⊎ v⁺❙
   fod = uv | farmer`u ∧ donkey`v ∧ own(`u)`v❙
   fbds = w⁺ | stick`w ∧ beat(`u)(`v)`w❙
-  donkey_sentence = ∅ | fod ⇒* fbds❙
+  donkey_sentence: drs ∅❘ = ∅ | fod ⇒* fbds❙
+  test = donkey_sentence❙
+
 ❚
