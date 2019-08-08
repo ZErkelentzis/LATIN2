@@ -7,8 +7,10 @@ fixmeta ur:?LF❚
   This formalization is patterned after https://kwarc.info/people/mkohlhase/papers/dlc00.pdf
   only that we restrict ourselves to the first-order case. 
   We give DRSes and Conditions a mode (in the type), where modes record the binding 
-  and bindable (i.e. free) discourse referents. The modes have special computation 
-  rules here, so that they are normalized correctly.
+  and bindable (i.e. free) discourse referents. 
+  In particular, the modes allow us to predict binding potentials; just see the positive 
+  referents in the mode. 
+  The modes have special computation rules here, so that they are normalized correctly.
 ❚
   
 
@@ -67,7 +69,10 @@ theory Example : ?DRT =
   v: id❙
   w: id❙
   uv : mode❘ = u⁺ ⊎ v⁺❙
+  /T A farmer owns a donkey ❙
   fod = uv | farmer`u ∧ donkey`v ∧ own(`u)`v❙
+  /T He beats it with a stick ❙
   fbds = w⁺ | stick`w ∧ beat(`u)(`v)`w❙
+  /T the iconic DRT example: If a farmer owns a donkey, he beats it with a stick ❙
   donkey_sentence: drs ∅❘ = ∅ | fod ⇒* fbds❙
 ❚
