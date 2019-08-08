@@ -1,6 +1,8 @@
 namespace latin:/❚
 
-fixmeta ur:?LF❚
+/T The semantics of DRT is traditionally given in form of a translation to 
+  First-Order Logic. Here we try to give that as a view. But this does not work yet. 
+  But we record the idea in any case. ❚
 
 view DRTFOL : ?DRT → ?FOL =
   id = term ❙
