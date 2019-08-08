@@ -1,0 +1,25 @@
+namespace latin:/❚
+
+fixmeta ur:?LF❚
+
+view DRTFOL : ?DRT → ?FOL =
+  id = term ❙
+  lit = term ❙
+  mode = term ❙
+  pos = [x] x ❙
+  neg = [x] x ❙
+  empty = _ ❙ // I need at leats one term.❙
+  punion = [x,y] _ ❙
+  mequal = [x,y] true ❙
+  capture = [x,y] true ❙
+  close = [x] x ❙
+  
+  drs = [m] prop ❙
+  cond = [m] prop ❙ 
+  tm = [m] term ❙
+  
+  atomic = [m,n,c] ∃ [m] c ❙
+  merge = [m,n,d,e] _ ❙ /T this should never occur in normalized DRSs ❙
+  dneg = [m,d] ¬ d ❙
+  dimpl = [m,n,d,e] ∀ [m] d ⇒ ∃ [n] e ❙
+❚
