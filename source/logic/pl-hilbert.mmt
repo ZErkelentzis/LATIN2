@@ -2,27 +2,59 @@ namespace latin:/❚
 
 theory ImplicationHilbert = 
   include ?ImplicationNDE❙
-  K : {p,q} ⊦ p ⇒ q ⇒ p ❙
-  S : {p,q,r} ⊦ (p ⇒ q ⇒ r) ⇒ (p ⇒ q) ⇒ p ⇒ r ❙
+  K_ax : {p,q} ⊦ p ⇒ q ⇒ p ❙
+  S_ax : {p,q,r} ⊦ (p ⇒ q ⇒ r) ⇒ (p ⇒ q) ⇒ p ⇒ r ❙
+❚
+
+view HilbertNDImplication : ?ImplicationHilbert → ?ImplicationNDI =
+  K_ax = impI [p] impI [q] p ❙
+  S_ax = impI [p] impI [q] impI [r] p r (q r) ❙
+❚
+
+view NDHilbertImplication : ?ImplicationNDI → ?ImplicationHilbert =
 ❚
 
 theory NegationHilbert = 
   include ?NegationNDE❙
-/T add the Hilbert Axioms for the missing rule.❙  
+  include ?ImplicationHilbert ❙
+
+  Neg_ax : {a} ⊦ (a ⇒ ↯) ⇒ ¬ a ❙
+❚
+
+view HilbertNDNegation : ?NegationHilbert → ?NegationNDI =
+  Neg_ax = impI [p] notI p❙
+❚
+
+view NDHilbertNegation : ?NegationNDI → ?NegationHilbert =
 ❚
 
 theory DisjunctionHilbert = 
   include ?DisjunctionNDI❙
   include ?ImplicationHilbert ❙
-  O : {p,q,r} ⊦ (p ⇒ r) ⇒ (q ⇒ r) ⇒ (q ∨ q) ⇒ r ❙
-/T Is there a Hilbert Axiom that does not need Implication?.❙  
+  Disj_ax : {p,q,r} ⊦ (p ⇒ r) ⇒ (q ⇒ r) ⇒ (q ∨ q) ⇒ r ❙
+❚
+
+view HilbertNDDisjunction : ?DisjunctionHilbert → ?DisjunctionNDI =
+  Disj_ax = ❙
+❚
+
+view NDHilbertDisjunction : ?DisjunctionNDI → ?DisjunctionHilbert =
 ❚
 
 
 theory EquivalenceHilbert = 
   include ?EquivalenceNDE❙
-/T add the Hilbert Axioms for the missing rule.❙  
+  include ?ImplicationHilbert ❙
+  Equiv_ax : {a,b} ⊦ (a ⇒ b) ⇒ (b ⇒ a) ⇒ (a ⇔ b) ❙
 ❚
+
+view HilbertNDEquivalence : ?EquivalenceHilbert → ?EquivalenceNDI =
+  Equiv_ax = ❙
+❚
+
+view NDHilbertEquivalence : ?EquivalenceNDI → ?EquivalenceHilbert =
+❚
+
 
 theory PLHilbert =
   include ?PL❙
@@ -33,4 +65,17 @@ theory PLHilbert =
   include ?DisjunctionHilbert❙
 //  include ?ImplicationHilbert❙
   include ?EquivalenceHilbert❙
+❚
+
+theory UniversalQuantificationHilbert = 
+  include ?UniversalQunatificationNDE❙
+  include ?ImplicationHilbert ❙
+  UQ_ax : {P} ❙
+❚
+
+view HilbertNDEquivalence : ?EquivalenceHilbert → ?EquivalenceNDI =
+  UQ_ax = ❙
+❚
+
+view NDHilbertEquivalence : ?EquivalenceNDI → ?EquivalenceHilbert =
 ❚
