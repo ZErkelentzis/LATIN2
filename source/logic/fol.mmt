@@ -7,10 +7,19 @@ theory UniversalQuantification =
   forall : (term ⟶ prop) ⟶ prop❘# ∀ 1❘## ∀ V1 2❙
 ❚
 
-theory UniversalQuantificationND =
+theory UniversalQuantificationNDI =
   include ?UniversalQuantification❙
   forallI  : {P} ({x} ⊦ (P x)) ⟶ ⊦ ∀ P❙
+❚
+
+theory UniversalQuantificationNDE =
+  include ?UniversalQuantification❙
   forallE  : {P} ⊦ ∀ P ⟶ {x} ⊦ (P x)❘# 2 forallE 3❘role ForwardRule❙
+❚
+
+theory UniversalQuantificationND =
+  include ?UniversalQuantificationNDE❙ 
+  include ?UniversalQuantificationNDI❙ 
 ❚
 
 theory ExistentialQuantification =
@@ -18,10 +27,19 @@ theory ExistentialQuantification =
   exists : (term ⟶ prop) ⟶ prop❘# ∃ 1❘## ∃ V1 2❙
 ❚
 
-theory ExistentialQuantificationND =
+theory ExistentialQuantificationNDI =
   include ?ExistentialQuantification❙
   existsI  : {P,x} ⊦ P x ⟶ ⊦ ∃ P❘# existsI 2 3❙
+❚
+
+theory ExistentialQuantificationNDE =
+  include ?ExistentialQuantification❙
   existsE  : {P,C} ⊦ ∃ P ⟶ ({x} ⊦ (P x) ⟶ ⊦ C) ⟶ ⊦ C❘# 3 existsE 4❙
+❚
+
+theory ExistentialQuantificationND =
+  include ?ExistentialQuantificationNDI❙ 
+  include ?ExistentialQuantificationNDE❙ 
 ❚
 
 theory IFOL =
