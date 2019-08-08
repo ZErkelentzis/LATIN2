@@ -49,6 +49,7 @@ theory IFOL =
 ❚
 
 theory IFOLND =
+  include ?IFOL❙
   include ?IPLND❙
   include ?UniversalQuantificationND❙
   include ?ExistentialQuantificationND❙
@@ -62,6 +63,7 @@ theory IFOLEQ =
 ❚
 
 theory IFOLEQND =
+  include ?IFOLEQ❙
   include ?IPLND❙
   include ?EqualityND❙
   include ?UniversalQuantificationND❙
@@ -74,7 +76,8 @@ theory FOL =
 ❚
 
 theory FOLND =
-  include ?PLND❙ 
+  include ?FOL❙
+  include ?PLND❙
   include ?IFOLND❙
 ❚
 
@@ -84,6 +87,7 @@ theory FOLEQ =
 ❚
 
 theory FOLEQND =
+  include ?FOLEQ❙
   include ?FOLND❙
   include ?EqualityND❙
 ❚
@@ -130,22 +134,14 @@ theory Description =
   include ?Logic❙
   include ?UniqueExistentialQuantification❙
   the : {P} ⊦ ∃¹ P ⟶ term❘# the 1 2❙
-❚
-
-theory DescriptionND =
-  include ?Description❙
-  the_prop : {P,p} ⊦ P (the P p)❙
+  the_ax : {P,p} ⊦ P (the P p)❙
 ❚
 
 theory Choice =
   include ?Logic❙
   include ?ExistentialQuantification❙
   some : {P} ⊦ ∃ P ⟶ term❘# some 1 2❙
-❚
-
-theory ChoiceND =
-  include ?Choice❙
-  some_prop : {P,p} ⊦ P (some P p)❙
+  some_ax : {P,p} ⊦ P (some P p)❙
 ❚
 
 theory FOLEQDesc = 
@@ -153,7 +149,7 @@ theory FOLEQDesc =
   include ?Description❙
 ❚
 
-theory FOLEQDescND = 
+theory FOLEQDescND =
+  include ?FOLEQDesc❙
   include ?FOLEQND❙
-  include ?DescriptionND❙
 ❚

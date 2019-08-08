@@ -11,80 +11,73 @@ namespace latin:/❚
 
 theory ImplicationHilbert = 
   include ?ImplicationNDE❙
-  K_ax : {p,q} ⊦ p ⇒ q ⇒ p ❙
-  S_ax : {p,q,r} ⊦ (p ⇒ q ⇒ r) ⇒ (p ⇒ q) ⇒ p ⇒ r ❙
-❚
-
-view HilbertNDImplication : ?ImplicationHilbert → ?ImplicationNDI =
-  K_ax = impI [p] impI [q] p ❙
-  S_ax = impI [p] impI [q] impI [r] p r (q r) ❙
-❚
-
-view NDHilbertImplication : ?ImplicationNDI → ?ImplicationHilbert =
+  K_ax : {F,G} ⊦ F ⇒ G ⇒ F ❙
+  S_ax : {F,G,H} ⊦ (F ⇒ G ⇒ H) ⇒ (F ⇒ G) ⇒ F ⇒ H ❙
 ❚
 
 theory NegationHilbert = 
   include ?NegationNDE❙
-  include ?ImplicationHilbert ❙
-
-  Neg_ax : {a} ⊦ (a ⇒ ↯) ⇒ ¬ a ❙
-❚
-
-view HilbertNDNegation : ?NegationHilbert → ?NegationNDI =
-  Neg_ax = impI [p] notI p❙
-❚
-
-view NDHilbertNegation : ?NegationNDI → ?NegationHilbert =
+  include ?ImplicationHilbert❙
+  notI_ax : {F} ⊦ (F ⇒ ¬F) ⇒ ¬F ❙
 ❚
 
 theory DisjunctionHilbert = 
   include ?DisjunctionNDI❙
   include ?ImplicationHilbert ❙
-  Disj_ax : {p,q,r} ⊦ (p ⇒ r) ⇒ (q ⇒ r) ⇒ (q ∨ q) ⇒ r ❙
+  orE_ax : {F,G,H} ⊦ (F ∨ G) ⇒ (F ⇒ H) ⇒ (G ⇒ H) ⇒ H❙
 ❚
-
-view HilbertNDDisjunction : ?DisjunctionHilbert → ?DisjunctionNDI =
-  Disj_ax = impI [p] impI [q] impI [o] orE o p q❙
-❚
-
-view NDHilbertDisjunction : ?DisjunctionNDI → ?DisjunctionHilbert =
-❚
-
 
 theory EquivalenceHilbert = 
   include ?EquivalenceNDE❙
   include ?ImplicationHilbert ❙
-  Equiv_ax : {a,b} ⊦ (a ⇒ b) ⇒ (b ⇒ a) ⇒ (a ⇔ b) ❙
+  equivI_ax : {F,G} ⊦ (F ⇒ G) ⇒ (G ⇒ F) ⇒ (F ⇔ G)❙
 ❚
-
-view HilbertNDEquivalence : ?EquivalenceHilbert → ?EquivalenceNDI =
-  Equiv_ax = impI [f] impI [g] equivI f g❙
-❚
-
-view NDHilbertEquivalence : ?EquivalenceNDI → ?EquivalenceHilbert =
-❚
-
 
 theory PLHilbert =
   include ?PL❙
+  include ?ImplicationHilbert❙
   include ?TruthND❙
   include ?FalsityND❙
-  include ?NegationHilbert❙
   include ?ConjunctionND❙
+  include ?NegationHilbert❙
   include ?DisjunctionHilbert❙
-//  already included: include ?ImplicationHilbert❙
   include ?EquivalenceHilbert❙
+  include ?Classical❙
 ❚
 
-theory UniversalQuantificationHilbert = 
-  include ?UniversalQunatificationNDE❙
-  include ?ImplicationHilbert ❙
-  UQ_ax : {P} ❙
+view ImplicationHilbert2ND : ?ImplicationHilbert → ?ImplicationND =
+  include ?ImplicationNDE❙
+  K_ax = [F,G] impI [p] impI [q] p ❙
+  S_ax = [F,G,H] impI [p] impI [q] impI [r] (p impE r) impE (q impE r)❙
 ❚
 
-view HilbertNDEquivalence : ?EquivalenceHilbert → ?EquivalenceNDI =
-  UQ_ax = ❙
+view NegationHilbert2ND : ?NegationHilbert → ?PLND =
+  include ?NegationNDE❙
+  include ?ImplicationHilbert2ND❙
+  notI_ax = [F] impI [p] notI [q] (p impE q) notE q❙
 ❚
 
-view NDHilbertEquivalence : ?EquivalenceNDI → ?EquivalenceHilbert =
+view DisjunctionHilbert2ND : ?DisjunctionHilbert → ?PLND =
+  include ?DisjunctionNDI❙
+  include ?ImplicationHilbert2ND❙
+  orE_ax = [F,G,H] impI [fg] impI [fh] impI [gh] fg orE ([f] fh impE f) ([g] gh impE g)❙
 ❚
+
+view EquivalenceHilbert2ND : ?EquivalenceHilbert → ?PLND =
+  include ?EquivalenceNDE❙
+  include ?ImplicationHilbert2ND❙
+  equivI_ax = [F,G] impI [fg] impI [gf] equivI ([f] fg impE f) ([g] gf impE g)❙
+❚
+
+view PLHilbert2ND : ?PLHilbert → ?PLND =
+  include ?PL❙
+  include ?ImplicationHilbert2ND❙
+  include ?TruthND❙
+  include ?FalsityND❙
+  include ?ConjunctionND❙
+  include ?NegationHilbert2ND❙
+  include ?DisjunctionHilbert2ND❙
+  include ?EquivalenceHilbert2ND❙
+  include ?Classical❙
+❚
+

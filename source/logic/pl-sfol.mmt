@@ -3,28 +3,23 @@ namespace latin:/❚
 fixmeta ur:?LF❚
 
 theory PLModel =
-  include ?SFOLEQ❙
+  include ?SFOLEQND❙
   include ?Booleans❙
 ❚
 
-theory PLModelND =
-  include ?PLModel❙
-  include ?SFOLEQND❙
-  include ?BooleansND❙
-❚
-
-view PLSemantics : ?PL → ?PLModel =
+view PLSemantics : ?PLND → ?PLModel =
   prop = tm bool❙
   ded  = [F] ⊦ F ≐ tt❙
   
   true = tt❙
   false = ff❙
   
-  and = [x,y] if x then y else ff❙
-❚
+  and   = [x,y] if x then y else ff❙
+  or    = [x,y] if x then tt else y❙
+  impl  = [x,y] if x then y else tt❙
+  not   = [x] if x then ff else tt❙
+  equiv = [x,y] if x then y else if y then ff else tt❙
 
-view PLSemanticsND : ?PLND → ?PLModelND =
-  include ?PLSemantics❙
   trueI = refl❙
   falseE = [p][a] (bool_nontrivial notE (p sym)) inconE❙
   

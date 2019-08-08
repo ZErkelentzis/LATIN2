@@ -24,37 +24,39 @@ theory TypedExistentialQuantificationND =
   existsE  : {A,P,C} ⊦ ∃ P ⟶ ({x: tm A} ⊦ P x ⟶ ⊦ C) ⟶ ⊦ C❘# 4 existsE 5❘❙
 ❚
 
-theory ISFOL : http://cds.omdoc.org/urtheories?LF =
+theory ISFOL =
   include ?TypedTerms❙
   include ?IPL❙
   include ?TypedUniversalQuantification❙
   include ?TypedExistentialQuantification❙
 ❚
 
-theory ISFOLND : http://cds.omdoc.org/urtheories?LF =
+theory ISFOLND =
   include ?ISFOL❙
   include ?IPLND❙
   include ?TypedUniversalQuantificationND❙
   include ?TypedExistentialQuantificationND❙
 ❚
 
-theory SFOL : http://cds.omdoc.org/urtheories?LF =
-  include ?ISFOL❙
+theory SFOL =
   include ?PL❙
+  include ?ISFOL❙
 ❚
 
-theory SFOLND : http://cds.omdoc.org/urtheories?LF =
+theory SFOLND =
   include ?SFOL❙
   include ?PLND❙
+  include ?ISFOLND❙
 ❚
 
 theory SFOLEQ =
-  include ?SFOL ❙
+  include ?SFOL❙
   include ?TypedEquality❙
 ❚
 
 theory SFOLEQND =
-  include ?SFOLEQ ❙
+  include ?SFOLEQ❙
+  include ?SFOLND❙
   include ?TypedEqualityND❙
 ❚
 
@@ -74,20 +76,12 @@ theory TypedDescription =
   include ?TypedLogic❙
   include ?TypedUniqueExistentialQuantification❙
   the : {A} {P:tm A ⟶ prop} ⊦ ∃¹ P ⟶ tm A❘# the 2 3❙
-❚
-
-theory TypedDescriptionND =
-  include ?TypedDescription❙
-  the_prop : {A,P: tm A ⟶ prop,p} ⊦ P (the P p)❙
+  the_ax : {A,P: tm A ⟶ prop,p} ⊦ P (the P p)❙
 ❚
 
 theory TypedChoice =
   include ?TypedLogic❙
   include ?TypedExistentialQuantification❙
   some : {A} {P:tm A ⟶ prop} ⊦ ∃ P ⟶ tm A❘# some 2 3❙
-❚
-
-theory TypedChoiceND =
-  include ?TypedChoice❙
-  some_prop : {A,P: tm A ⟶ prop,p} ⊦ P (some P p)❙
+  some_ax : {A,P: tm A ⟶ prop,p} ⊦ P (some P p)❙
 ❚
