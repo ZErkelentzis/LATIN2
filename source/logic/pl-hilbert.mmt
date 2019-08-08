@@ -1,0 +1,36 @@
+namespace latin:/❚
+
+theory ImplicationHilbert = 
+  include ?ImplicationNDE❙
+  K : {p,q} ⊦ p ⇒ q ⇒ p ❙
+  S : {p,q,r} ⊦ (p ⇒ q ⇒ r) ⇒ (p ⇒ q) ⇒ p ⇒ r ❙
+❚
+
+theory NegationHilbert = 
+  include ?NegationNDE❙
+/T add the Hilbert Axioms for the missing rule.❙  
+❚
+
+theory DisjunctionHilbert = 
+  include ?DisjunctionNDI❙
+  include ?ImplicationHilbert ❙
+  O : {p,q,r} ⊦ (p ⇒ r) ⇒ (q ⇒ r) ⇒ (q ∨ q) ⇒ r ❙
+/T Is there a Hilbert Axiom that does not need Implication?.❙  
+❚
+
+
+theory EquivalenceHilbert = 
+  include ?EquivalenceNDE❙
+/T add the Hilbert Axioms for the missing rule.❙  
+❚
+
+theory PLHilbert =
+  include ?PL❙
+  include ?TruthND❙
+  include ?FalsityND❙
+  include ?NegationHilbert❙
+  include ?ConjunctionND❙
+  include ?DisjunctionHilbert❙
+//  include ?ImplicationHilbert❙
+  include ?EquivalenceHilbert❙
+❚
