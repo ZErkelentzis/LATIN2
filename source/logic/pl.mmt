@@ -1,5 +1,10 @@
 namespace latin:/❚
 
+/T A fully modular specification of intuitionistic and classical propositional
+  logics. Every connective is specified in its own theory to maximize reusability.
+  Interdefinability of logics is formalized in various views. 
+❚
+
 import rules scala://lf.mmt.kwarc.info❚
 fixmeta ur:?LF❚
 
@@ -42,7 +47,6 @@ theory NegationND =
   include ?NegationNDI❙
   include ?NegationNDE❙
  ❚
-
 
 theory Conjunction =
   include ?Logic❙
