@@ -22,9 +22,8 @@ theory DRT =
   close : mode ⟶ mode❘# 1 ↓ prec 60❙
   close_pos: {x} x⁺↓ ≐ ∅❘ role Simplify❙
   close_neg: {x} x⁻↓ ≐ x⁻❘ role Simplify❙
-  
   close_empty: ∅↓ ≐ ∅❘ role Simplify❙ 
-  close_union: {m,n} (m⊎n)↓ ≐ m↓⊎n↓❘ role Simplify❙ 
+  close_close: {x}x↓↓ ≐ x↓❘ role Simplify❙ 
   
   // normal form of modes: set of id with function into boolean❙
 
@@ -41,7 +40,7 @@ theory DRT =
   /T conditions❙
   and : {m,n} cond m ⟶ cond n ⟶ cond m⊎n❘# 3 ∧ 4 prec 20❙
   dneg : {m} drs m ⟶ cond m↓❘# ¬* 2 prec 60❙
-  dimpl : {m,n} drs m ⟶ drs n ⟶ cond (m⊎n↓)↓ ❘# 3 ⇒*  4 prec 20❙ 
+  dimpl : {m,n} drs m ⟶ drs n ⟶ cond (m⊎n↓)↓ ❘# 3 ⇒* 4 prec 20❙ 
 
   /T terms❙
   idref : {i:id} tm i⁻❘# ` 1 prec 60❙
@@ -61,6 +60,4 @@ theory Example : ?DRT =
   fod = uv | farmer`u ∧ donkey`v ∧ own(`u)`v❙
   fbds = w⁺ | stick`w ∧ beat(`u)(`v)`w❙
   donkey_sentence: drs ∅❘ = ∅ | fod ⇒* fbds❙
-  test = donkey_sentence❙
-
 ❚
