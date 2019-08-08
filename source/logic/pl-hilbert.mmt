@@ -1,5 +1,14 @@
 namespace latin:/❚
 
+/T Hilbert calculi for propositional and first-order logic. 
+  Here we formalize a version that is rule-maximal, i.e. we include 
+  as many rules from natural deduction a we can, i.e. all rules that 
+  do not use hypothetical reasoning. The ones that do, we reformulate 
+  into axioms, where all the function types become implications. 
+  
+  Unfortunately, this means that we cannot be fully modular, since we 
+  need a treatment of implication in all cases.❚
+
 theory ImplicationHilbert = 
   include ?ImplicationNDE❙
   K_ax : {p,q} ⊦ p ⇒ q ⇒ p ❙
@@ -35,7 +44,7 @@ theory DisjunctionHilbert =
 ❚
 
 view HilbertNDDisjunction : ?DisjunctionHilbert → ?DisjunctionNDI =
-  Disj_ax = ❙
+  Disj_ax = impI [p] impI [q] impI [o] orE o p q❙
 ❚
 
 view NDHilbertDisjunction : ?DisjunctionNDI → ?DisjunctionHilbert =
@@ -49,7 +58,7 @@ theory EquivalenceHilbert =
 ❚
 
 view HilbertNDEquivalence : ?EquivalenceHilbert → ?EquivalenceNDI =
-  Equiv_ax = ❙
+  Equiv_ax = impI [f] impI [g] equivI f g❙
 ❚
 
 view NDHilbertEquivalence : ?EquivalenceNDI → ?EquivalenceHilbert =
@@ -63,7 +72,7 @@ theory PLHilbert =
   include ?NegationHilbert❙
   include ?ConjunctionND❙
   include ?DisjunctionHilbert❙
-//  include ?ImplicationHilbert❙
+//  already included: include ?ImplicationHilbert❙
   include ?EquivalenceHilbert❙
 ❚
 
