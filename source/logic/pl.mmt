@@ -9,37 +9,41 @@ import rules scala://lf.mmt.kwarc.info❚
 fixmeta ur:?LF❚
 
 theory Truth =
-  include ?Logic❙
+  include ?Propositions❙
   true  : prop❙
 ❚
 
 theory TruthND =
   include ?Truth❙
+  include ?Proofs❙
   trueI : ⊦ true❙
 ❚
 
 theory Falsity =
-  include ?Logic❙
+  include ?Propositions❙
   false  : prop❙
 ❚
 
 theory FalsityND =
   include ?Falsity❙
+  include ?Proofs❙
   falseE : ⊦ false ⟶ ↯❘# 1 falseE❙
 ❚
 
 theory Negation =
-  include ?Logic❙
+  include ?Propositions❙
   not   : prop ⟶ prop❘# ¬ 1   prec 20❙
 ❚
 
 theory NegationNDI =
   include ?Negation❙
+  include ?Proofs❙
   notI  : {F} (⊦ F ⟶ ↯) ⟶ ⊦ ¬ F❘# notI 2❙
 ❚
 
 theory NegationNDE =
   include ?Negation❙
+  include ?Proofs❙
   notE  : {F} ⊦ ¬ F ⟶ ⊦ F ⟶ ↯❘# 2 notE 3❘role ForwardRule❙
 ❚
 
@@ -49,17 +53,19 @@ theory NegationND =
  ❚
 
 theory Conjunction =
-  include ?Logic❙
+  include ?Propositions❙
   and   : prop ⟶ prop ⟶ prop❘# 1 ∧ 2 prec 15❙
 ❚
 
 theory ConjunctionNDI =
   include ?Conjunction❙
+  include ?Proofs❙
   andI  : {F,G} ⊦ F ⟶ ⊦ G ⟶ ⊦ F ∧ G❙
 ❚
 
 theory ConjunctionNDE =
   include ?Conjunction❙
+  include ?Proofs❙
   andEl : {F,G} ⊦ F ∧ G ⟶ ⊦ F❘# 3 andEl❘role ForwardRule❙
   andEr : {F,G} ⊦ F ∧ G ⟶ ⊦ G❘# 3 andEr❘role ForwardRule❙
 ❚
@@ -70,18 +76,20 @@ theory ConjunctionND =
 ❚
 
 theory Disjunction =
-  include ?Logic❙
+  include ?Propositions❙
   or    : prop ⟶ prop ⟶ prop❘# 1 ∨ 2 prec 15❙
 ❚
 
 theory DisjunctionNDI =
   include ?Disjunction❙
+  include ?Proofs❙
   orIl  : {F,G} ⊦ F ⟶ ⊦ F ∨ G❘# 3 orIl❙
   orIr  : {F,G} ⊦ G ⟶ ⊦ F ∨ G❘# 3 orIr❙
 ❚
 
 theory DisjunctionNDE =
   include ?Disjunction❙
+  include ?Proofs❙
   orE   : {F,G,C} ⊦ F ∨ G ⟶ (⊦ F ⟶ ⊦ C) ⟶ (⊦ G ⟶ ⊦ C) ⟶ ⊦ C❘# 4 orE 5 6❙
 ❚
 
@@ -91,17 +99,19 @@ theory DisjunctionND =
 ❚
 
 theory Implication =
-  include ?Logic❙
+  include ?Propositions❙
   impl  : prop ⟶ prop ⟶ prop❘# 1 %R⇒ 2 prec 10❙  
 ❚
 
 theory ImplicationNDI =
   include ?Implication❙
+  include ?Proofs❙
   impI  : {F,G} (⊦ F ⟶ ⊦ G) ⟶ ⊦ F ⇒ G❙
 ❚
 
 theory ImplicationNDE =
   include ?Implication❙
+  include ?Proofs❙
   impE  : {F,G} ⊦ F ⇒ G ⟶ ⊦ F ⟶ ⊦ G❘# 3 impE 4❘role ForwardRule❙
 ❚
 
@@ -118,17 +128,19 @@ theory ImplicationND =
 ❚
 
 theory Equivalence =
-  include ?Logic❙
+  include ?Propositions❙
   equiv : prop ⟶ prop ⟶ prop❘# 1 ⇔ 2 prec 10❙
  ❚
 
 theory EquivalenceNDI =
   include ?Equivalence❙
+  include ?Proofs❙
   equivI : {F,G} (⊦ F ⟶ ⊦ G) ⟶ (⊦ G ⟶ ⊦ F) ⟶ ⊦ F ⇔ G❙
 ❚
 
 theory EquivalenceNDE =
   include ?Equivalence❙
+  include ?Proofs❙
   equivEl : {F,G} ⊦ F ⇔ G ⟶ ⊦ F ⟶ ⊦ G❘# 3 equivEl 4❘role ForwardRule❙
   equivEr : {F,G} ⊦ F ⇔ G ⟶ ⊦ G ⟶ ⊦ F❘# 3 equivEr 4❘role ForwardRule❙
 ❚
@@ -148,7 +160,7 @@ theory EquivalenceND =
 ❚
 
 theory IPL =
-  include ?Logic❙
+  include ?Propositions❙
   include ?Truth❙
   include ?Falsity❙
   include ?Negation❙
