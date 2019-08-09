@@ -11,16 +11,17 @@ namespace latin:/❚
 
 theory ImplicationHilbert = 
   include ?ImplicationNDE❙
-  K_ax : {p,q} ⊦ p ⇒ q ⇒ p ❙
-  S_ax : {p,q,r} ⊦ (p ⇒ q ⇒ r) ⇒ (p ⇒ q) ⇒ p ⇒ r ❙
+  K_ax : {a,b} ⊦ a ⇒ b ⇒ a ❙
+  S_ax : {a,b,c} ⊦ (a ⇒ b ⇒ c) ⇒ (a ⇒ b) ⇒ a ⇒ c ❙
 ❚
 
 view HilbertNDImplication : ?ImplicationHilbert → ?ImplicationNDI =
-  K_ax = impI [p] impI [q] p ❙
-  S_ax = impI [p] impI [q] impI [r] p r (q r) ❙
+  K_ax = [a,b] impI [p:⊦a] impI [q:⊦b] p ❙
+  S_ax = [a,b,c] impI [p:⊦a⇒b⇒c] impI [q: ⊦a⇒b] impI [r:⊦a] p r (q r) ❙
 ❚
 
 view NDHilbertImplication : ?ImplicationNDI → ?ImplicationHilbert =
+  impI = [a,b,f] f
 ❚
 
 theory NegationHilbert = 
@@ -31,7 +32,7 @@ theory NegationHilbert =
 ❚
 
 view HilbertNDNegation : ?NegationHilbert → ?NegationNDI =
-  Neg_ax = impI [p] notI p❙
+  Neg_ax = [a] impI [p:] notI p❙
 ❚
 
 view NDHilbertNegation : ?NegationNDI → ?NegationHilbert =
