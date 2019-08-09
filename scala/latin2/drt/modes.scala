@@ -1,36 +1,28 @@
 package drt.modes
 
 import info.kwarc.mmt.api._
-import info.kwarc.mmt.api.checking.ComputationRule
-import info.kwarc.mmt.lf.BinaryLFConstantScala
-import info.kwarc.mmt.lf.NullaryLFConstantScala
 import uom._
 import checking._
 import objects._
 
 import info.kwarc.mmt.lf._
 import lf._
+import LFConstantScala._
 
-object PUnion extends BinaryLFConstantScala(DRT._path, DRT.punion.name)
-object Empty extends NullaryLFConstantScala(DRT._path, DRT.empty.name)
-object Close extends UnaryLFConstantScala(DRT._path, DRT.close.name)
-
-object NormalizePunion extends ComputationRule(DRT.punion.path) with ApplicableUnder {
-  override def alternativeHeads = List(DRT.close.path)
-  def under = List(Apply.path)
-  def apply(check: CheckingCallback)(tm: Term, covered: Boolean)(implicit stack: Stack, history: History): Simplifiability = {
-    val (args, closed) = tm match {
-      case PUnion(_) => (PUnion.associativeArguments(tm).distinct, false)
-      case Close(m) => (PUnion.associativeArguments(m).distinct, true)
+object NormalizePunion extends SimplificationRule(DRT.punion.path) {
+  def apply(context: Context, tm: Term): Simplifiability = {
+    val (unionTerm, closed) = tm match {
+      case DRT.punion(_) => (tm,false)
+      case DRT.close(m) => (m,true)
       case _ => return Simplifiability.NoRecurse
     }
-    val args2 = Empty.filter(args)
+    val args = DRT.punion.associativeArguments(unionTerm, Some(DRT.empty.term), true)
     var pos: List[Term] = Nil
     var neg: List[Term] = Nil
     var other: List[(Int,Term)] = Nil
-    args2.zipWithIndex foreach {case (a,i) => a match {
-      case DRT.pos(i) => pos ::= i
-      case DRT.neg(i) => neg ::= i
+    args.zipWithIndex foreach {case (a,i) => a match {
+      case DRT.pos(id) => pos ::= id
+      case DRT.neg(id) => neg ::= id
       case a => other ::= (i+1,a)
     }}
     neg = neg diff pos
@@ -38,12 +30,12 @@ object NormalizePunion extends ComputationRule(DRT.punion.path) with ApplicableU
     if (closed && other.isEmpty)
       pos = Nil
     val argsS = pos.reverseMap(i => DRT.pos(i)) ::: neg.reverseMap(i => DRT.neg(i)) ::: otherArgs.reverse
-    val tUnion = PUnion.assoc(Empty.term, argsS)
+    val tUnion = DRT.punion.assoc(DRT.empty.term, argsS)
     val tClosed = if (closed) {
       if (other.isEmpty)
         tUnion
       else
-        Close(tUnion)
+        DRT.close(tUnion)
     } else
       tUnion
     if (tm != tClosed)
