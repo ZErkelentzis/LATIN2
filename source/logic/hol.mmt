@@ -40,20 +40,13 @@ theory HOLND =
   equiv_eq: {F,G} ⊦F⇔G ⟶ ⊦F≐G❘= [F,G,p] propext ([q] p equivEl q) ([q] p equivEr q)❙
 ❚
 
-theory PowerHOL =
-  include ?HOL❙
+theory PowerHOLND =
+  include ?HOLND❙
   realize powertypes?PowerTypes❙
 
   power = [a] a → bool❙
   filter = [A,P] λ P❙
   in = [A,x,S] S @ x❙
-❚
-
-theory PowerHOLND =
-  include ?PowerHOL❙
-  include ?HOLND❙
-  realize powertypes?PowerTypesND❙
-
   compute = [A,P,x] eq_equiv simpbeta❙
   expand = [A,S] eta sym❙
 ❚

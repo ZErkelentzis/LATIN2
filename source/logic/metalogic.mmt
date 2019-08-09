@@ -1,0 +1,40 @@
+namespace latin:/❚
+
+fixmeta ur:?PLF❚
+
+theory MetaLevelUniversalQuantification =
+  include ?Logic❙
+  forall : {A:type} (A ⟶ prop) ⟶ prop❘# ∀ 2 prec 30❙
+❚
+
+theory MetaLevelExistentialQuantification =
+  include ?Logic❙
+  exists : {A:type} (A ⟶ prop) ⟶ prop❘# ∃ 2 prec 30❙
+❚
+
+theory MetaLevelEquality =
+  include ☞latin:/?Logic❙
+  equal : {A:type} A ⟶ A ⟶ prop❘# 2 ⊜ 3 prec 30❙
+  refl  : {A,x:A} ⊦ x ⊜ x❘# refl %I1 %I2❙
+  transport : {A,x,y} ⊦ x ⊜ y ⟶ {T: A⟶type} T x ⟶ T y❘# transport 4 5 6❙
+  cong  : {A,B,x,y} ⊦ x ⊜ y ⟶ {F: A⟶B} ⊦ F x ⊜ F y❘# 5 cong 6
+        = [A,B,x,y,p,F] transport p ([a] ⊦ F x ⊜ F a) refl❙
+❚
+
+theory MetaLogic =
+  include ?MetaLevelEquality❙
+  realize ?IPL❙
+  realize ?MetaLevelUniversalQuantification❙
+  realize ?MetaLevelExistentialQuantification❙
+  true = ([x:prop]x) ⊜ [x]x❙
+  false = ([x]x) ⊜ [x]true❙
+  not = [F]F ⊜ false❙
+  forall = [A,F] F ⊜ [x:A]true❙
+  and = [F,G] ∀[h: prop ⟶ prop ⟶ prop]h F G ⊜ h true true❙
+  impl = [F,G] (F∧G) ⊜ F❙
+  or = [F,G] ∀[H] (F⇒H) ⇒ (G⇒H) ⇒ H❙
+  equiv = [F,G] (F⇒G) ∧ (G⇒F)❙
+  exists = [A,F] ∀[H] (∀[x]F x ⇒ H) ⇒ H❙
+❚
+
+

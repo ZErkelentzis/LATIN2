@@ -1,6 +1,6 @@
 namespace latin:/❚
 
-fixmeta ?TypedEquality❚
+fixmeta ?TypedEqualityND❚
 
 theory TypeOperator =
   applyType: tp ⟶ tp❘# & 1 prec 60❙
@@ -13,7 +13,7 @@ theory EndoFunctor =
   applyComp : {a,b,c,f:tm a ⟶ tm b, g: tm b ⟶ tm c, xs: tm &a} ⊦ xs map f map g ≐ xs map [x] g (f x)❙
 ❚
 
-fixmeta ?HOL❚
+fixmeta ?HOLND❚
 
 theory Category = 
   obj: type❙
@@ -27,7 +27,7 @@ theory Category =
   assoc: {a,b,c,d, f:Hom a b, g:Hom b c, h:Hom c d} ⊦ f;(g;h) ≐ (f;g);h❙ 
 ❚
 
-implicit view CategoryOfTypes : ?Category → ?HOL =
+implicit view CategoryOfTypes : ?Category → ?HOLND =
   obj = tp❙
   hom = [a,b] a→b❙
   id = [a] λ[x]x❙

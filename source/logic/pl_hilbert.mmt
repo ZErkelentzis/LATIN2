@@ -1,0 +1,83 @@
+namespace latin:/❚
+
+/T Hilbert calculi for propositional and first-order logic. 
+  Here we formalize a version that is rule-maximal, i.e. we include 
+  as many rules from natural deduction a we can, i.e. all rules that 
+  do not use hypothetical reasoning. The ones that do, we reformulate 
+  into axioms, where all the function types become implications. 
+  
+  Unfortunately, this means that we cannot be fully modular, since we 
+  need a treatment of implication in all cases.❚
+
+theory ImplicationHilbert = 
+  include ?ImplicationNDE❙
+  K_ax : {F,G} ⊦ F ⇒ G ⇒ F ❙
+  S_ax : {F,G,H} ⊦ (F ⇒ G ⇒ H) ⇒ (F ⇒ G) ⇒ F ⇒ H ❙
+❚
+
+theory NegationHilbert = 
+  include ?NegationNDE❙
+  include ?ImplicationHilbert❙
+  notI_ax : {F} ⊦ (F ⇒ ¬F) ⇒ ¬F ❙
+❚
+
+theory DisjunctionHilbert = 
+  include ?DisjunctionNDI❙
+  include ?ImplicationHilbert ❙
+  orE_ax : {F,G,H} ⊦ (F ∨ G) ⇒ (F ⇒ H) ⇒ (G ⇒ H) ⇒ H❙
+❚
+
+theory EquivalenceHilbert = 
+  include ?EquivalenceNDE❙
+  include ?ImplicationHilbert ❙
+  equivI_ax : {F,G} ⊦ (F ⇒ G) ⇒ (G ⇒ F) ⇒ (F ⇔ G)❙
+❚
+
+theory PLHilbert =
+  include ?PL❙
+  include ?ImplicationHilbert❙
+  include ?TruthND❙
+  include ?FalsityND❙
+  include ?ConjunctionND❙
+  include ?NegationHilbert❙
+  include ?DisjunctionHilbert❙
+  include ?EquivalenceHilbert❙
+  include ?Classical❙
+❚
+
+view ImplicationHilbert2ND : ?ImplicationHilbert → ?ImplicationND =
+  include ?ImplicationNDE❙
+  K_ax = [F,G] impI [p] impI [q] p ❙
+  S_ax = [F,G,H] impI [p] impI [q] impI [r] (p impE r) impE (q impE r)❙
+❚
+
+view NegationHilbert2ND : ?NegationHilbert → ?PLND =
+  include ?NegationNDE❙
+  include ?ImplicationHilbert2ND❙
+  notI_ax = [F] impI [p] notI [q] (p impE q) notE q❙
+❚
+
+view DisjunctionHilbert2ND : ?DisjunctionHilbert → ?PLND =
+  include ?DisjunctionNDI❙
+  include ?ImplicationHilbert2ND❙
+  orE_ax = [F,G,H] impI [fg] impI [fh] impI [gh] fg orE ([f] fh impE f) ([g] gh impE g)❙
+❚
+
+view EquivalenceHilbert2ND : ?EquivalenceHilbert → ?PLND =
+  include ?EquivalenceNDE❙
+  include ?ImplicationHilbert2ND❙
+  equivI_ax = [F,G] impI [fg] impI [gf] equivI ([f] fg impE f) ([g] gf impE g)❙
+❚
+
+view PLHilbert2ND : ?PLHilbert → ?PLND =
+  include ?PL❙
+  include ?ImplicationHilbert2ND❙
+  include ?TruthND❙
+  include ?FalsityND❙
+  include ?ConjunctionND❙
+  include ?NegationHilbert2ND❙
+  include ?DisjunctionHilbert2ND❙
+  include ?EquivalenceHilbert2ND❙
+  include ?Classical❙
+❚
+

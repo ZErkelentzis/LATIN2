@@ -5,7 +5,6 @@ fixmeta ur:?LF❚
 theory Box =
   include ?Logic❙
   box: prop ⟶ prop❘# □ 1 prec 20❙
-
 ❚
 
 theory Diamond =
@@ -17,6 +16,12 @@ theory ML =
   include ?PL❙
   include ?Box❙
   include ?Diamond❙
+❚
+
+theory MLHilbert =
+  include ?ML❙
+  // Rules with hypothetical premises are not sound in Kripke models; so we need to use a Hilbert calculus.❙
+  include ?PLHilbert❙
 ❚
 
 namespace kripkemodels❚
@@ -72,10 +77,8 @@ view PLSemantics : latin:/?PL → ?Worlds =
   equiv = lift2 equiv❙
 ❚
 
-view PLSemanticsND : latin:/?PLHilbert → ?Worlds =
+view PLHilbertSemantics : latin:/?PLHilbert → ?Worlds =
   include ?PLSemantics❙
-
-// rules with hypothetical premises are not sound in Kripke models❙
   
   trueI = [w] trueI❙
   falseE = [f] [g,w] f w falseE inconE❙
@@ -88,6 +91,7 @@ view PLSemanticsND : latin:/?PLHilbert → ?Worlds =
   orIr = [F,G,f] [w] f w orIr❙
   
   impE = [F,G,fg,f] [w] (fg w) impE (f w)❙
+  
   notE = [F,nf,f] [g,w] (nf w) notE (f w) inconE❙
   
   equivEl = [F,G,fg,f] [w] (fg w) equivEl (f w)❙
@@ -108,12 +112,15 @@ view SFOLSemantics : latin:/?SFOLEQ → ?Worlds =
   forall = liftbind forall❙
   exists = liftbind exists❙
   equal = [S] liftFun2 (equal S)❙
-
-  refl = [S,x] [w] refl❙
 ❚
 
 view MLSemantics : latin:/?ML → ?KripkeModel =
   include ?PLSemantics❙
   box = [p] [v] ∀ [w] v acc w ⇒ p w❙
   diamond = [p] [v] ∃ [w] v acc w ∧ p w❙ 
+❚
+
+view MLHilbertSemantics : latin:/?MLHilbert → ?KripkeModel =
+  include ?MLSemantics❙
+  include ?PLHilbertSemantics❙
 ❚
