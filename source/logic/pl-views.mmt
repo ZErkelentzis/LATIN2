@@ -1,0 +1,132 @@
+namespace latin:/❚
+
+/T   Interdefinability of logics is formalized in various views. ❚
+
+import rules scala://lf.mmt.kwarc.info❚
+fixmeta ur:?LF❚
+
+/T   The views currently still need single theories as a domain and codomain, which 
+  forces us to provide spurious named theories. This should be refactored when
+  multi-theory domains and codomains are possible. ❚
+  
+theory NegationTruth =
+  include ?Negation❙
+  include ?Truth❙
+❚
+
+ theory NegationFalsity =
+  include ?Negation❙
+  include ?Falsity❙
+❚
+
+theory NegationTruthNDI =
+  include ?NegationNDE❙
+  include ?TruthND❙
+❚
+
+theory NegationFalsityNDI =
+  include ?NegationNDE❙
+  include ?FalsityND❙
+❚
+
+theory NegationFalsityND =
+  include ?NegationNDI❙
+  include ?FalsityND❙
+❚
+
+view FalsityNegTruth : ?Falsity → ?NegationTruth =
+  include ?Propositions ❙
+  false = ¬ true ❙
+❚
+
+view FalsityNegTruthND : ?FalsityND → ?NegationTruthNDI =
+  // ???????why does this not work? ❙
+  // include ?FalsityNegTruth ❙
+  include ?Propositions ❙
+  false = ¬ true ❙
+  include ?Proofs❙
+  falseE = [p] p notE trueI ❙
+❚
+
+view TruthNegFalsity : ?Truth → ?NegationFalsity =
+  include ?Propositions ❙
+  true = ¬ false ❙
+❚
+
+view TruthNegFalsityND : ?TruthND → ?NegationFalsityNDI =
+  include ?Propositions ❙ 
+  true = ¬ false ❙ 
+  include ?Proofs❙
+  // ??????? include ?TruthNegFalsity❙
+  //truthI = _❙
+❚
+
+theory NegationConjunction =
+  include ?Negation❙
+  include ?Conjunction❙
+❚
+
+view DisjNegConj : ?Disjunction → ?NegationConjunction =
+  include ?Propositions ❙
+  or = [a,b] ¬(¬a ∧ ¬b)❙
+❚
+
+theory NegationDisjunction =
+  include ?Negation❙
+  include ?Disjunction❙
+❚
+
+view ConjNegDisj : ?Conjunction → ?NegationDisjunction =
+  include ?Propositions ❙
+  and = [a,b] ¬(¬a ∨ ¬b)❙
+❚
+
+theory NegationImplication =
+  include ?Negation❙
+  include ?Implication❙
+❚
+
+view DisjNegConj : ?Disjunction → ?NegationImplication =
+  include ?Propositions ❙
+  or = [a,b] ¬a ⇒ b❙
+❚
+
+theory NegationDisjunction =
+  include ?Negation❙
+  include ?Disjunction❙
+❚
+
+view ImplNegDisj : ?Implication → ?NegationDisjunction =
+  include ?Propositions ❙
+  impl = [a,b] ¬a ∨ b❙
+❚
+
+theory NegationConjunction =
+  include ?Negation❙
+  include ?Conjunction❙
+❚
+
+view ImplNegConj : ?Implication → ?NegationConjunction =
+  include ?Propositions ❙
+  impl = [a,b] ¬(a ∧ ¬b)❙
+❚
+
+theory ImplicationConjunction =
+  include ?Implication❙
+  include ?Conjunction❙
+❚
+
+view EquivImplConj : ?Equivalence → ?ImplicationConjunction =
+  include ?Propositions ❙
+  equiv = [a,b] (a ⇒ b) ∧ (b ⇒ a)❙
+❚
+
+theory ImplicationFalsity =
+  include ?Implication❙
+  include ?Falsity❙
+❚
+
+view NegImplFalsity : ?Negation → ?ImplicationFalsity =
+  include ?Propositions ❙
+  not = [a] a ⇒ false❙
+❚
