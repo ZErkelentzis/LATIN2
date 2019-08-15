@@ -14,23 +14,20 @@ theory NegationTruth =
   include ?Truth❙
 ❚
 
- theory NegationFalsity =
+theory NegationFalsity =
   include ?Negation❙
   include ?Falsity❙
 ❚
 
-theory NegationTruthNDI =
+theory NegationTruthND =
+  include ?NegationTruth❙
   include ?NegationNDE❙
   include ?TruthND❙
 ❚
 
-theory NegationFalsityNDI =
-  include ?NegationNDE❙
-  include ?FalsityND❙
-❚
-
 theory NegationFalsityND =
-  include ?NegationNDI❙
+  include ?NegationFalsity❙
+  include ?NegationND❙
   include ?FalsityND❙
 ❚
 
@@ -39,11 +36,8 @@ view FalsityNegTruth : ?Falsity → ?NegationTruth =
   false = ¬ true ❙
 ❚
 
-view FalsityNegTruthND : ?FalsityND → ?NegationTruthNDI =
-  // ???????why does this not work? ❙
-  // include ?FalsityNegTruth ❙
-  include ?Propositions ❙
-  false = ¬ true ❙
+view FalsityNegTruthND : ?FalsityND → ?NegationTruthND =
+  include ?FalsityNegTruth❙
   include ?Proofs❙
   falseE = [p] p notE trueI ❙
 ❚
@@ -53,12 +47,11 @@ view TruthNegFalsity : ?Truth → ?NegationFalsity =
   true = ¬ false ❙
 ❚
 
-view TruthNegFalsityND : ?TruthND → ?NegationFalsityNDI =
+view TruthNegFalsityND : ?TruthND → ?NegationFalsityND =
   include ?Propositions ❙ 
-  true = ¬ false ❙ 
   include ?Proofs❙
-  // ??????? include ?TruthNegFalsity❙
-  //truthI = _❙
+  include ?TruthNegFalsity❙
+  trueI = notI [p] p falseE❙
 ❚
 
 theory NegationConjunction =
