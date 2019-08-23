@@ -1,8 +1,15 @@
 namespace latin:/❚
 
 /T A fully modular specification of intuitionistic and classical propositional
-  logics. Every connective is specified in its own theory to maximize reusability.
-  Interdefinability of logics is formalized in various views. 
+  logics.
+  Every connective and all proof rules are specified in their own theories to maximize reusability.
+  
+  Proof rules follow natural deduction except that a judgment for inconsistency is used in some rules.
+❚
+
+/T Naming conventions for theory name suffixes
+   * ND: natural deduction rules
+   * I resp. E: introduction resp. elimination rules
 ❚
 
 import rules scala://lf.mmt.kwarc.info❚
@@ -172,6 +179,7 @@ theory IPL =
 
 theory IPLND =
   include ?IPL❙
+  include ?Logic❙
   include ?TruthND❙
   include ?FalsityND❙
   include ?NegationND❙
@@ -231,7 +239,7 @@ theory DependentConjunctionND =
 ❚
 
 /T Disjunction where the second disjunct's well-formedness may depend on the falsity of the first disjunct
-   Curry-Howard analogue of an usual union type where the second argument is only considered if the first one is empty ❚ 
+   Curry-Howard analogue of an unusual union type where the second argument is only considered if the first one is empty❚ 
 theory DependentDisjunction =
   include ?Logic❙
   dor    : {F} ((⊦ F ⟶ ↯) ⟶ prop) ⟶ prop❘# 1 ∨- 2 prec 10❙
