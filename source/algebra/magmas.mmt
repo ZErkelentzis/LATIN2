@@ -1,6 +1,6 @@
 namespace latin:/algebraic❚
 
-fixmeta latin:/?SFOLEQLFXI ❚
+fixmeta latin:/?SFOLEQND❚
 
 theory Set = 
   universe : tp❙
@@ -8,10 +8,8 @@ theory Set =
 ❚
 
 theory Hom = 
-   structure domain : ?Set =
-   ❚
-   structure codomain : ?Set =
-   ❚
+   structure domain : ?Set❚
+   structure codomain : ?Set❚
    U : domain/U ⟶ codomain/U ❙
 ❚
 
@@ -28,18 +26,16 @@ theory MagmaHom =
   structure codomain : ?Magma = 
     U = codomain/U ❙
   ❚
-  op : ⊦ ∀[x]∀[y] U (domain/op x y) ≐ codomain/op (U x) (U y) ❙
+  op : ⊦ ∀[x]∀[y] U (x domain/∘ y) ≐ U x codomain/∘ U y ❙
 ❚
 
 theory SubMagma = 
-  include ☞latin:/?TypedLogic ❙
   structure parent : ?Magma =
-    universe # parent_universe ❙
-    U # parent_U ❙
+    U # P❙
   ❚
-  universe : tm parent_universe ⟶ prop ❙
+  universe : P ⟶ prop❘# U 1 prec 40❙
   
-  op: ⊦ ∀[x]∀[y] universe x ⇒ universe y ⇒ universe (x ∘ y)  ❙
+  op: ⊦ ∀[x]∀[y] U x ⇒ U y ⇒ U (x parent/∘ y)  ❙
 ❚
 
 theory Commutative = 
