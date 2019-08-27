@@ -15,7 +15,12 @@ theory SetHom =
 
 theory Magma = 
   include ?Set ❙
-  op : U ⟶ U ⟶ U ❘# 1 ∘ 2 prec 50 ❙
+  op : U ⟶ U ⟶ U ❘# 1 ∘ 2 prec 50❙
+  
+  total structure divisibility : ?Relation =
+    include ?Set❙
+    rel = [x,z] ∃[y]x∘y≐z❙
+  ❚
 ❚
 
 theory MagmaHom = 
@@ -57,7 +62,7 @@ view OppositeMagma : ?Magma → ?Magma =
 
 theory Idempotent = 
   include ?Magma ❙
-  idem: ⊦ ∀[x] (x ∘ x) ≐ x ❙
+  idem: ⊦ ∀[x] x∘x ≐ x ❙
 ❚
 
 view OppositeCommMagma : ?Commutative → ?Commutative =
@@ -89,6 +94,12 @@ theory Semigroup =
   
   realize ?PowerAssociative❙
   power_assoc = forallI [x] assoc❙
+  
+//  total structure divisibility : ?Transitivity =
+    include ?Magma/divisibility❙
+//    metarel/trans = [x,y,z,p,q] p existsE [xy,xyP] q existsE [yz,yzP]
+      existsI (xy ∘ yz) trans3 assocR (xyP congT [u]u∘yz) yzP❙
+//  ❚
 ❚
 
 view OppositeSemigroup : ?Semigroup → ?Semigroup = 
@@ -129,6 +140,7 @@ theory UnitElement =
     include ?Set❙
     elem # e❙
   ❚
+  involution : U ⟶ prop❘ = [x] x∘x≐e❙
 ❚
 
 theory RightUnital =
@@ -201,6 +213,19 @@ theory Monoid =
              (trans3 assoc ((trans3 assocR (q andEl congT [u]u∘xˈ) neutL) congT [u]x∘u) (p andEl))
              (trans3 assoc ((trans3 assocR (p andEr congT [u]u∘y) neutL) congT [u]yˈ∘u) (q andEr))
              ❙
+
+  involution_inverse: {x} ⊦ involution x ⇔ inverse x x❘
+             = [x] equivI ([p] andI p p) ([p] p andEl)❙
+❚
+
+theory Involutory =
+  include ?Monoid❙
+  involutory: {x} ⊦ involution x❙
+  
+  inverse_refl : {x} ⊦ inverse x x❘
+               = [x] involution_inverse equivEl involutory❙
+  inverse_ident : {x,y} ⊦ inverse x y ⟶ ⊦ x≐y❘
+                = [x,y,p] inverse_unique inverse_refl p❙
 ❚
 
 theory IdempotentMonoid = 
