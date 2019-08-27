@@ -7,7 +7,7 @@ theory Set =
   U = tm universe❙
 ❚
 
-theory Hom = 
+theory SetHom = 
    structure domain : ?Set❚
    structure codomain : ?Set❚
    U : domain/U ⟶ codomain/U ❙
@@ -19,12 +19,12 @@ theory Magma =
 ❚
 
 theory MagmaHom = 
-  include ?Hom ❙
+  include ?SetHom ❙
   structure domain : ?Magma =
-    U = domain/U ❙
+    include ?SetHom/domain❙
   ❚
   structure codomain : ?Magma = 
-    U = codomain/U ❙
+    include ?SetHom/codomain❙
   ❚
   op : ⊦ ∀[x]∀[y] U (x domain/∘ y) ≐ U x codomain/∘ U y ❙
 ❚
@@ -39,7 +39,7 @@ theory SubSet =
 theory SubMagma = 
   include ?SubSet❙
   structure parent : ?Magma =
-    include ?SubSet?parent❙
+    include ?SubSet/parent❙
   ❚
   op: ⊦ ∀[x]∀[y] U x ⇒ U y ⇒ U (x parent/∘ y)  ❙
 ❚
@@ -98,25 +98,47 @@ view OppositeSemigroup : ?Semigroup → ?Semigroup =
 ❚
 
 theory CommSemigroup = 
-  include ?Commutative ❙
   include ?Semigroup ❙
+  include ?Commutative ❙
+❚
+
+theory Band = 
+  include ?Semigroup ❙
+  include ?Idempotent ❙
+❚
+
+theory CommIdempotent =
+  include ?Idempotent❙
+  include ?Commutative❙
+❚
+
+theory Semilattice = 
+  include ?CommSemigroup❙
+  include ?Band❙
+  include ?CommIdempotent❙
 ❚
 
 theory Pointed = 
   include ?Set❙
-  elem : U ❘# e❙
+  elem : U❙
+❚
+
+theory UnitElement =
+  include ?Magma❙
+  structure unitelem : ?Pointed =
+    include ?Set❙
+    elem # e❙
+  ❚
 ❚
 
 theory RightUnital =
-  include ?Magma❙
-  include ?Pointed❙
+  include ?UnitElement❙
   neutralR : ⊦ ∀[x] x∘e ≐ x❘role Simplify❙
   neutR: {x} ⊦ x∘e≐x❘= [x] neutralR forallE x❙
 ❚
 
 theory LeftUnital = 
-  include ?Magma❙
-  include ?Pointed❙
+  include ?UnitElement❙
   neutralL : ⊦ ∀[x] e∘x ≐ x❘ role Simplify❙
   neutL: {x} ⊦ e∘x≐x❘= [x] neutralL forallE x❙ 
 ❚
@@ -124,6 +146,29 @@ theory LeftUnital =
 theory Unital = 
   include ?LeftUnital ❙
   include ?RightUnital ❙
+❚
+
+theory AbsorbingElement =
+  include ?Magma❙
+  structure absorbingelem : ?Pointed =
+    include ?Set❙
+    elem # abs❙
+  ❚
+❚
+
+theory RightAbsorptive =
+  include ?AbsorbingElement❙
+  absorbR : ⊦ ∀[x] x∘abs ≐ abs❘role Simplify❙
+❚
+
+theory LeftAbsorptive =
+  include ?AbsorbingElement❙
+  absorbL : ⊦ ∀[x] abs∘x ≐ abs❘role Simplify❙
+❚
+
+theory Absorptive = 
+  include ?LeftAbsorptive❙
+  include ?RightAbsorptive❙
 ❚
 
 theory Powers = 
@@ -159,61 +204,16 @@ theory Monoid =
 ❚
 
 theory IdempotentMonoid = 
-  include ?Idempotent ❙
-  include ?Monoid ❙
+  include ?Monoid❙
+  include ?Band❙
 ❚
 
 theory CommMonoid = 
-  include ?Commutative❙
   include ?Monoid❙
-❚
-
-theory Quasigroup = 
-  include ?Magma ❙
-  div_left : ⊦ ∀[x] ∀[y] ∃[a] (a∘x ≐ y) ❙
-  div_right: ⊦ ∀[x] ∀[y] ∃[b] (x∘b ≐ y) ❙ 
-❚
-
-theory Band = 
-  include ?Idempotent ❙
-  include ?Semigroup ❙
-❚
-
-theory Loop = 
-  include ?Quasigroup ❙
-  include ?Monoid❙
-❚
-
-theory InverseFun = 
-  include ?Monoid❙
-  inv : U ⟶ U❘# 1 ⁻ prec 60❙
-  inverseLeft:  ⊦ ∀[x] x⁻∘x ≐ e❙
-  inverseRight: ⊦ ∀[x] x∘x⁻ ≐ e❙
-  
-  div : U ⟶ U ⟶ U❘= [x,y]x∘y⁻❙
-  
-  invL : {x} ⊦ x⁻∘x≐e❘= [x] inverseLeft forallE x❙
-  invR : {x} ⊦ x∘x⁻≐e❘= [x] inverseRight forallE x❙
-  
-  inverse_inv : {x} ⊦ inverse x (x⁻)❘= [x] andI invR invL❙
-  inv_unit : ⊦ e⁻≐e❘ = inverse_unique inverse_inv inverse_neutral❙
-  inv_op : {x,y} ⊦ (x∘y)⁻ ≐ y⁻∘x⁻❘
-         = [x,y] inverse_unique inverse_inv (inverse_op inverse_inv inverse_inv)❙
-❚
-
-theory Semilattice = 
-  include ?Semigroup ❙
-  include ?Idempotent ❙
+  include ?CommSemigroup❙
 ❚
 
 theory BoundedSemilattice =
   include ?Semilattice ❙
   include ?CommMonoid ❙
 ❚
-
-theory InverseExistence = 
-  include ?Monoid ❙
-  inverseLeft:  ⊦ ∀[x]∃[i] i∘x ≐ e ❙
-  inverseRight: ⊦ ∀[x]∃[i] x∘i ≐ e ❙
-❚
-
