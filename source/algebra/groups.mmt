@@ -9,11 +9,7 @@ theory Group =
 
 theory CommGroup = 
   include ?Group❙
-  include ?Commutative❙
-  zero = e ❘# O ❙
-  add = op ❘# 1 + 2 prec 70 ❙
-  minus = inv ❘# -1 prec 40 ❙
-  sub = [x,y] op x (inv y) ❘# 1 - 2 prec 70 ❙
+  include ?CommMonoid❙
 ❚
 
 theory GroupHom = 
@@ -26,4 +22,3 @@ theory GroupHom =
   ❚
   // e: ⊦ U domain/e ≐ codomain/e ❙
 ❚
-  
