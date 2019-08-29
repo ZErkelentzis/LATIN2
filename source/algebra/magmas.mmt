@@ -1,45 +1,52 @@
 namespace latin:/algebraic❚
 
-fixmeta latin:/?SFOLEQLFXI ❚
+fixmeta latin:/?SFOLEQND❚
 
 theory Set = 
   universe : tp❙
   U = tm universe❙
 ❚
 
-theory Hom = 
-   structure domain : ?Set =
-   ❚
-   structure codomain : ?Set =
-   ❚
+theory SetHom = 
+   structure domain : ?Set❚
+   structure codomain : ?Set❚
    U : domain/U ⟶ codomain/U ❙
 ❚
 
 theory Magma = 
   include ?Set ❙
-  op : U ⟶ U ⟶ U ❘# 1 ∘ 2 prec 50 ❙
+  op : U ⟶ U ⟶ U ❘# 1 ∘ 2 prec 50❙
+  
+  total structure divisibility : ?Relation =
+    include ?Set❙
+    rel = [x,z] ∃[y]x∘y≐z❙
+  ❚
 ❚
 
 theory MagmaHom = 
-  include ?Hom ❙
+  include ?SetHom ❙
   structure domain : ?Magma =
-    U = domain/U ❙
+    include ?SetHom/domain❙
   ❚
   structure codomain : ?Magma = 
-    U = codomain/U ❙
+    include ?SetHom/codomain❙
   ❚
-  op : ⊦ ∀[x]∀[y] U (domain/op x y) ≐ codomain/op (U x) (U y) ❙
+  op : ⊦ ∀[x]∀[y] U (x domain/∘ y) ≐ U x codomain/∘ U y ❙
+❚
+
+theory SubSet = 
+  structure parent : ?Set =
+    U # P❙
+  ❚
+  universe : P ⟶ prop❘# U 1 prec 40❙
 ❚
 
 theory SubMagma = 
-  include ☞latin:/?TypedLogic ❙
+  include ?SubSet❙
   structure parent : ?Magma =
-    universe # parent_universe ❙
-    U # parent_U ❙
+    include ?SubSet/parent❙
   ❚
-  universe : tm parent_universe ⟶ prop ❙
-  
-  op: ⊦ ∀[x]∀[y] universe x ⇒ universe y ⇒ universe (x ∘ y)  ❙
+  op: ⊦ ∀[x]∀[y] U x ⇒ U y ⇒ U (x parent/∘ y)  ❙
 ❚
 
 theory Commutative = 
@@ -55,7 +62,7 @@ view OppositeMagma : ?Magma → ?Magma =
 
 theory Idempotent = 
   include ?Magma ❙
-  idem: ⊦ ∀[x] (x ∘ x) ≐ x ❙
+  idem: ⊦ ∀[x] x∘x ≐ x ❙
 ❚
 
 view OppositeCommMagma : ?Commutative → ?Commutative =
@@ -64,49 +71,88 @@ view OppositeCommMagma : ?Commutative → ?Commutative =
   comm = comm ❙
 ❚
 
+theory PowerAssociative = 
+  include ?Magma ❙
+  power_assoc : ⊦ ∀[x] (x∘x)∘x ≐ x∘(x∘x)❙
+❚
+
 theory Semigroup = 
   include ?Magma ❙
-  assoc : ⊦ ∀[x]∀[y]∀[z] (x∘y)∘z ≐ x∘(y∘z) ❙
+  assoc_ax : ⊦ ∀[x]∀[y]∀[z] (x∘y)∘z ≐ x∘(y∘z)❙
   
+  assoc: {x,y,z} ⊦ (x∘y)∘z ≐ x∘(y∘z)❘
+       = [x,y,z] assoc_ax forallE x forallE y forallE z❙
+  assocR: {x,y,z} ⊦ x∘(y∘z) ≐ (x∘y)∘z❘
+        = [x,y,z] assoc sym❙
+  assoc4:  {w,x,y,z} ⊦ ((w∘x)∘y)∘z ≐ w∘(x∘(y∘z))❘
+        =  [w,x,y,z] trans3 (assoc congT [u]u∘z) assoc (assoc congT [u]w∘u)❙
+  assoc4R: {w,x,y,z} ⊦ w∘(x∘(y∘z)) ≐ ((w∘x)∘y)∘z❘
+          = [w,x,y,z] assoc4 sym❙
+  assoc5: {v,w,x,y,z} ⊦ (((v∘w)∘x)∘y)∘z ≐ v∘(w∘(x∘(y∘z)))❘
+        = [v,w,x,y,z] trans4 (assoc4 congT [u]u∘z) assoc
+                             (assoc congT [u]v∘u) (assoc congT [u]v∘(w∘u))❙
   
-  // from a previous version of magmas.mmt
-  // assocR: {x,y,z} x∘(y∘z) = (x∘y)∘z❘
-  //       = [x,y,z] sym assoc❙
-  // assoc4:  {w,x,y,z} ((w∘x)∘y)∘z = w∘(x∘(y∘z))❘
-  //       =  [w,x,y,z] trans3 (assoc congT [u]u∘z) assoc (assoc congT [u]w∘u)❙
-  // assoc4R: {w,x,y,z} w∘(x∘(y∘z)) = ((w∘x)∘y)∘z❘
-  //        = [w,x,y,z] sym assoc4❙
-  // assoc5: {v,w,x,y,z} (((v∘w)∘x)∘y)∘z = v∘(w∘(x∘(y∘z)))❘
-  //       = [v,w,x,y,z] trans4 (assoc4 congT [u]u∘z) assoc
-  //                            (assoc congT [u]v∘u) (assoc congT [u]v∘(w∘u))❙
+  realize ?PowerAssociative❙
+  power_assoc = forallI [x] assoc❙
+  
+//  total structure divisibility : ?Transitivity =
+    include ?Magma/divisibility❙
+//    metarel/trans = [x,y,z,p,q] p existsE [xy,xyP] q existsE [yz,yzP]
+      existsI (xy ∘ yz) trans3 assocR (xyP congT [u]u∘yz) yzP❙
+//  ❚
 ❚
 
 view OppositeSemigroup : ?Semigroup → ?Semigroup = 
   include ?OppositeMagma ❙
   op = op ❙
-  assoc = assoc ❙
+  assoc_ax = assoc_ax❙
 ❚
 
 theory CommSemigroup = 
-  include ?Commutative ❙
   include ?Semigroup ❙
+  include ?Commutative ❙
+❚
+
+theory Band = 
+  include ?Semigroup ❙
+  include ?Idempotent ❙
+❚
+
+theory CommIdempotent =
+  include ?Idempotent❙
+  include ?Commutative❙
+❚
+
+theory Semilattice = 
+  include ?CommSemigroup❙
+  include ?Band❙
+  include ?CommIdempotent❙
 ❚
 
 theory Pointed = 
   include ?Set❙
-  elem : U ❘# e❙
+  elem : U❙
+❚
+
+theory UnitElement =
+  include ?Magma❙
+  structure unitelem : ?Pointed =
+    include ?Set❙
+    elem # e❙
+  ❚
+  involution : U ⟶ prop❘ = [x] x∘x≐e❙
 ❚
 
 theory RightUnital =
-  include ?Magma❙
-  include ?Pointed❙
-  neutralR : ⊦ ∀[x] x∘e ≐ x ❙
+  include ?UnitElement❙
+  neutralR : ⊦ ∀[x] x∘e ≐ x❘role Simplify❙
+  neutR: {x} ⊦ x∘e≐x❘= [x] neutralR forallE x❙
 ❚
 
 theory LeftUnital = 
-  include ?Magma❙
-  include ?Pointed❙
-  neutralL : ⊦ ∀[x] e∘x ≐ x ❙
+  include ?UnitElement❙
+  neutralL : ⊦ ∀[x] e∘x ≐ x❘ role Simplify❙
+  neutL: {x} ⊦ e∘x≐x❘= [x] neutralL forallE x❙ 
 ❚
 
 theory Unital = 
@@ -114,66 +160,85 @@ theory Unital =
   include ?RightUnital ❙
 ❚
 
-theory Monoid = 
-  include ☞latin:/?NatInduct ❙
-  include ?Semigroup ❙
-  include ?Unital ❙
-
-  inductive_definition auxpow(a : U) : nat() ❘=
-    n : type  ❘= U ❙
-    z : n     ❘= e ❙
-    s : n ⟶ n ❘= [m : U] a ∘ m ❙
+theory AbsorbingElement =
+  include ?Magma❙
+  structure absorbingelem : ?Pointed =
+    include ?Set❙
+    elem # abs❙
   ❚
+❚
 
-  pow: U ⟶ nat/n ⟶ U ❘= auxpow/n ❘# 1 ^ 2 ❙
+theory RightAbsorptive =
+  include ?AbsorbingElement❙
+  absorbR : ⊦ ∀[x] x∘abs ≐ abs❘role Simplify❙
+❚
+
+theory LeftAbsorptive =
+  include ?AbsorbingElement❙
+  absorbL : ⊦ ∀[x] abs∘x ≐ abs❘role Simplify❙
+❚
+
+theory Absorptive = 
+  include ?LeftAbsorptive❙
+  include ?RightAbsorptive❙
+❚
+
+theory Powers = 
+  include ?PowerAssociative❙
+  include ?Unital❙
+  include ☞latin:/?Nat❙
+  power : U ⟶ ℕ ⟶ U❘# 1 ^ 2 prec 60❙
+  power_zero: {x} ⊦ x^0 ≐ e❘ role Simplify❙
+  power_succ: {x,n} ⊦ x^(n') ≐ x^n∘x❘ role Simplify❙
+❚
+
+theory Monoid = 
+  include ?Semigroup❙
+  include ?Unital❙
+
+  inverse : U ⟶ U ⟶ prop❘ = [x,xˈ] x∘xˈ≐e ∧ xˈ∘x≐e❘# inverse 1 2 prec 30❙
+
+  inverse_sym : {x,xˈ} ⊦ inverse x xˈ ⟶ ⊦ inverse xˈ x❘
+              = [x,xˈ,p] andI (p andEr) (p andEl)❙
+  inverse_unique : {x,x1,x2} ⊦ inverse x x1 ⟶ ⊦ inverse x x2 ⟶ ⊦ x1≐x2❘
+                 = [x,x1,x2,p,q] trans3
+                   ((neutR sym) trans (q andEl sym congT [u]x1∘u))
+                   assocR
+                   ((p andEr congT [u]u∘x2) trans neutL)❙
+
+  inverse_neutral : ⊦ inverse e e❘
+                  = andI neutL neutL❙
+  inverse_op : {x,y,xˈ,yˈ} ⊦ inverse x xˈ ⟶ ⊦ inverse y yˈ ⟶ ⊦ inverse (x∘y) (yˈ∘xˈ)❘
+             = [x,y,xˈ,yˈ,p,q] andI
+             (trans3 assoc ((trans3 assocR (q andEl congT [u]u∘xˈ) neutL) congT [u]x∘u) (p andEl))
+             (trans3 assoc ((trans3 assocR (p andEr congT [u]u∘y) neutL) congT [u]yˈ∘u) (q andEr))
+             ❙
+
+  involution_inverse: {x} ⊦ involution x ⇔ inverse x x❘
+             = [x] equivI ([p] andI p p) ([p] p andEl)❙
+❚
+
+theory Involutory =
+  include ?Monoid❙
+  involutory: {x} ⊦ involution x❙
+  
+  inverse_refl : {x} ⊦ inverse x x❘
+               = [x] involution_inverse equivEl involutory❙
+  inverse_ident : {x,y} ⊦ inverse x y ⟶ ⊦ x≐y❘
+                = [x,y,p] inverse_unique inverse_refl p❙
 ❚
 
 theory IdempotentMonoid = 
-  include ?Idempotent ❙
-  include ?Monoid ❙
+  include ?Monoid❙
+  include ?Band❙
 ❚
 
 theory CommMonoid = 
-  include ?Commutative❙
   include ?Monoid❙
-❚
-
-theory Quasigroup = 
-  include ?Magma ❙
-  div_left : ⊦ ∀[x] ∀[y] ∃[a] (a∘x ≐ y) ❙
-  div_right: ⊦ ∀[x] ∀[y] ∃[b] (x∘b ≐ y) ❙ 
-❚
-
-theory Band = 
-  include ?Idempotent ❙
-  include ?Semigroup ❙
-❚
-
-theory Loop = 
-  include ?Quasigroup ❙
-  include ?Monoid❙
-❚
-
-theory InverseFun = 
-  include ?Monoid❙
-  inv : U ⟶ U❘# 1 ⁻ prec 60❙
-  inverseLeft:  ⊦ ∀[x] x⁻∘x ≐ e❙
-  inverseRight: ⊦ ∀[x] x∘x⁻ ≐ e❙
-❚
-
-theory Semilattice = 
-  include ?Semigroup ❙
-  include ?Idempotent ❙
+  include ?CommSemigroup❙
 ❚
 
 theory BoundedSemilattice =
   include ?Semilattice ❙
   include ?CommMonoid ❙
 ❚
-
-theory InverseExistence = 
-  include ?Monoid ❙
-  inverseLeft:  ⊦ ∀[x]∃[i] i∘x ≐ e ❙
-  inverseRight: ⊦ ∀[x]∃[i] x∘i ≐ e ❙
-❚
-

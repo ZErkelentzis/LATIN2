@@ -1,0 +1,53 @@
+namespace latin:/algebraic❚
+
+fixmeta latin:/?SFOLEQND❚
+
+theory Relation = 
+  include ?Set❙
+  rel : U ⟶ U ⟶ prop❘# 1 $ 2 prec 30❙
+  structure metarel : latin:/?Relation =
+    carrier = U❙
+    rel = [x,y] ⊦ x $ y❙
+  ❚
+❚
+
+theory Reflexivity =
+  include ?Relation❙
+  structure metarel : latin:/?Reflexivity =
+    include ?Relation/metarel❙
+  ❚
+❚
+
+theory Symmetry =
+  include ?Relation❙
+  structure metarel : latin:/?Symmetry =
+    include ?Relation/metarel❙
+  ❚
+❚
+
+theory Transitivity =
+  include ?Relation❙
+  structure metarel : latin:/?Transitivity =
+    include ?Relation/metarel❙
+  ❚
+❚
+
+theory Preorder =
+  include ?Reflexivity❙
+  include ?Transitivity❙
+❚
+
+theory EquivalenceRelation =
+  include ?Preorder❙
+  include ?Symmetry❙
+❚
+
+theory AntiSymmetry =
+  include ?Relation❙
+  antisym : {x,y} ⊦ x$y ⟶ ⊦ y$x ⟶ ⊦ x≐y❙
+❚
+
+theory Order =
+  include ?Preorder❙
+  include ?AntiSymmetry❙
+❚

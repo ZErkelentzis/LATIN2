@@ -1,6 +1,6 @@
 namespace latin:/❚
 
-fixmeta ?HOL❚
+fixmeta ?HOLND❚
 
 theory Applicative =
   include ?TypeOperator❙
@@ -15,6 +15,8 @@ theory Applicative =
   realize ?InternalEndoFunctor❙
   fmap = [a,b,f] λ[X] pure f <*> X❙
 ❚
+
+ref ?CategoryOfTypes❚
 
 theory Monad =
   include ?TypeOperator❙

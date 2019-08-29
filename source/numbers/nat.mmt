@@ -1,44 +1,17 @@
 namespace latin:/❚
 
-fixmeta ur:?LF❚
+fixmeta latin:/?SFOLEQND❚
+
+import rules scala://lf.mmt.kwarc.info❚
+import uom scala://uom.api.mmt.kwarc.info❚
 
 theory Nat =
-  include ?EqualityType❙
-  nat   : type❘= carrier❙
-  zero  : nat             ❘ # O ❙
-  succ  : nat ⟶ nat      ❘ # 1 ' prec 20❙
-  one   : nat             ❘
-        = zero'           ❘ # I ❙
-❚
-
-theory NatAddition =
-  include ?Nat ❙
-  plus  : nat ⟶ nat ⟶ nat ❘ # 1 + 2 prec 10 ❙
+  nat   : tp❙
+  Nat = tm nat❘# ℕ❙
+  zero  : ℕ❙
+  succ  : ℕ ⟶ ℕ❘ # 1 ' prec 20❙
   
-  plus_comm  : {X,Y} X + Y = Y + X❙
-  plus_assoc : {X,Y,Z} (X + Y) + Z = X + (Y + Z) ❙
-  plus_neut_Ex : {X} X + O = X ❘ # %%prefix 0 1❙
-  
-  plus_zero_L  : {X} O + X = X❘ = [X] trans plus_comm (plus_neut_Ex X)❘ role Simplify ❙
-  plus_zero_R  : {X} X + O = X ❘ = [X] plus_neut_Ex X ❘role Simplify ❙
-  
-  plus_succ_R : {X,Y} X + Y' = (X+Y)'❘role Simplify ❙
-  plus_succ_L : {X,Y} X' + Y = (X+Y)'❘role Simplify ❙
-❚
-
-theory NatMultiplication =
-  include ?NatAddition❙
-  
-  times : nat ⟶ nat ⟶ nat ❘ # 1 * 2 prec 15 ❙
-  
-  times_comm  : {X,Y} X * Y = Y * X  ❙
-  times_assoc : {X,Y,Z} (X * Y) * Z = X * (Y * Z)  ❙
-  times_neut  : {X} X * I = X❘role Simplify  ❙
-  
-  times_zero_R : {X} X * O = O❘role Simplify  ❙
-  times_zero_L : {X} O * X = O❘role Simplify  ❙
-  times_succ_R : {X,Y} X * Y' = (X*Y) + X❘role Simplify ❙
-  times_succ_L : {X,Y} X' * Y = (X*Y) + X❘role Simplify ❙
- 
-  distrib     : {X,Y,Z} X * (Y + Z) = X * Y + X * Z❘role Simplify❙
+  rule rules?Realize ℕ uom?StandardNat❙
+  rule rules?Realize zero uom?Arithmetic/Zero❙
+  rule rules?Realize succ uom?Arithmetic/Succ❙
 ❚

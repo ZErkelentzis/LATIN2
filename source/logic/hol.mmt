@@ -33,8 +33,8 @@ theory HOL =
 theory HOLND =
   include ?HOL❙
   include ?IHOLND❙
+  include ?SFOLND❙
   include ?SimpleFunctionsEta❙
-  include ?Classical❙
   
   eq_equiv: {F,G} ⊦F≐G ⟶ ⊦F⇔G❘= [F,G,p] equivI ([q] p congP ([u]u) q) ([q] (p sym) congP ([u]u) q)❙
   equiv_eq: {F,G} ⊦F⇔G ⟶ ⊦F≐G❘= [F,G,p] propext ([q] p equivEl q) ([q] p equivEr q)❙

@@ -48,8 +48,13 @@ theory Worlds : latin:/?HOLND =
                   {T} ((tm S ⟶ tm T) ⟶ (tm S ⟶ prop)) ⟶ (tm S ⟶ prop)❘
            = [S][B][T][F][x] B (S→T) [f] F (apply1 f) x❘
            # liftbind 2❙
-
+  
 ❚
+
+ref latin:/?DisjunctionHilbert2ND❚
+ref latin:/?NegationHilbert2ND❚
+ref latin:/?ImplicationHilbert2ND❚
+ref latin:/?EquivalenceHilbert2ND❚
 
 theory KripkeFrame : latin:/?TypedLogic =
   include ?Worlds❙
@@ -61,13 +66,17 @@ theory KripkeModel =
   include ?KripkeFrame❙
 ❚
 
-view LogicSemantics : latin:/?Logic → ?Worlds =
+view PropSemantics : latin:/?Propositions → ?Worlds =
   prop = tm W ⟶ prop❙
+❚
+
+view LogicSemantics : latin:/?Logic → ?Worlds =
+  include ?PropSemantics❙
   ded = [f] {w} ⊦ f w❙
 ❚
 
 view PLSemantics : latin:/?PL → ?Worlds =
-  include ?LogicSemantics❙
+  include ?PropSemantics❙
   true = lift0 true❙
   false = lift0 false❙
   and = lift2 and❙
@@ -79,6 +88,7 @@ view PLSemantics : latin:/?PL → ?Worlds =
 
 view PLHilbertSemantics : latin:/?PLHilbert → ?Worlds =
   include ?PLSemantics❙
+  include ?LogicSemantics❙
   
   trueI = [w] trueI❙
   falseE = [f] [g,w] f w falseE inconE❙
@@ -89,11 +99,16 @@ view PLHilbertSemantics : latin:/?PLHilbert → ?Worlds =
 
   orIl = [F,G,f] [w] f w orIl❙
   orIr = [F,G,f] [w] f w orIr❙
+  orE_ax = [F,G,H][w] orE_ax❙
   
   impE = [F,G,fg,f] [w] (fg w) impE (f w)❙
+  K_ax = [F,G,w] K_ax❙
+  S_ax = [F,G,H,w] S_ax❙
   
+  notI_ax = [F,w] notI_ax❙ 
   notE = [F,nf,f] [g,w] (nf w) notE (f w) inconE❙
   
+  equivI_ax = [F,G,w] equivI_ax❙
   equivEl = [F,G,fg,f] [w] (fg w) equivEl (f w)❙
   equivEr = [F,G,fg,g] [w] (fg w) equivEr (g w)❙
   
@@ -109,6 +124,7 @@ view TermSemantics : latin:/?TypedTerms → ?Worlds =
 view SFOLSemantics : latin:/?SFOLEQ → ?Worlds =
   include ?TermSemantics❙
   include ?PLSemantics❙
+  include ?LogicSemantics❙
   forall = liftbind forall❙
   exists = liftbind exists❙
   equal = [S] liftFun2 (equal S)❙
@@ -116,6 +132,7 @@ view SFOLSemantics : latin:/?SFOLEQ → ?Worlds =
 
 view MLSemantics : latin:/?ML → ?KripkeModel =
   include ?PLSemantics❙
+  include ?LogicSemantics❙
   box = [p] [v] ∀ [w] v acc w ⇒ p w❙
   diamond = [p] [v] ∃ [w] v acc w ∧ p w❙ 
 ❚
