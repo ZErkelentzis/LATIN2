@@ -13,9 +13,24 @@ theory Loop =
   include ?Monoid❙
 ❚
 
+theory InverseOperator = 
+  include ?Semigroup❙
+  inv : U ⟶ U❘# 1 ⁻ prec 60❙
+  is_weak_inverse : U ⟶ U ⟶ prop❘
+                  = [x,y] x∘y∘x ≐ x ∧ y∘x∘y ≐ y❘# %n 1 2 prec 30❙
+❚
+
+/T weaker variant of unique inverse element, formulated without neutral element
+   usually union of X and WeakInverse usually called InverseX in the literature❚
+theory WeakInverse = 
+  include ?InverseOperator❙
+  weak_inverse : ⊦ ∀[x] is_weak_inverse x (x⁻)❙
+❚
+
 theory InverseFun = 
   include ?Monoid❙
-  inv : U ⟶ U❘# 1 ⁻ prec 60❙
+  include ?InverseOperator❙
+
   inverseLeft:  ⊦ ∀[x] x⁻∘x ≐ e❙
   inverseRight: ⊦ ∀[x] x∘x⁻ ≐ e❙
   
