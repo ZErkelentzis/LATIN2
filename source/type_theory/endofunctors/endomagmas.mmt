@@ -40,6 +40,11 @@ theory EndoIdempotent =
   idempotent: {a,x:tm &a} ⊦ x∘x ≐ x❙
 ❚
 
+theory EndoFirstNonNeutral =
+  include ?EndoNeutral❙
+  firstNonNeutral: {a,x,y:tm &a} (⊦ x≐e ⟶ ↯) ⟶ ⊦ x∘y ≐ x❙
+❚
+
 theory EndoMonoid =
   include ?EndoSemigroup❙
   include ?EndoNeutral❙
