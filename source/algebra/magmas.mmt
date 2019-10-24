@@ -51,7 +51,8 @@ theory SubMagma =
 
 theory Commutative = 
   include ?Magma ❙
-  comm : ⊦ ∀[x]∀[y] x∘y ≐ y∘x❙
+  comm_ax : ⊦ ∀[x]∀[y] x∘y ≐ y∘x❙
+  comm : {x,y} ⊦ x∘y ≐ y∘x❘ = [x,y] comm_ax forallE x forallE y❙
 ❚
 
 view OppositeMagma : ?Magma → ?Magma = 
@@ -62,13 +63,14 @@ view OppositeMagma : ?Magma → ?Magma =
 
 theory Idempotent = 
   include ?Magma ❙
-  idem: ⊦ ∀[x] x∘x ≐ x ❙
+  idem_ax: ⊦ ∀[x] x∘x ≐ x ❙
+  idem : {x} ⊦ x∘x≐x❘ = [x] idem_ax forallE x❙
 ❚
 
 view OppositeCommMagma : ?Commutative → ?Commutative =
   include ?OppositeMagma ❙
   op = op ❙
-  comm = comm ❙
+  comm_ax = comm_ax ❙
 ❚
 
 theory PowerAssociative = 
@@ -181,6 +183,18 @@ theory LeftAbsorptive =
 theory Absorptive = 
   include ?LeftAbsorptive❙
   include ?RightAbsorptive❙
+❚
+
+theory FirstNonNeutral =
+  include ?Unital❙
+  firstNonNeutral : ⊦ ∀[x] x≠e ⇒ ∀[y]x∘y≐x❙  
+  // realize ?Monoid❙
+❚
+
+theory LastNonNeutral =
+  include ?Unital❙
+  lastNonNeutral : ⊦ ∀[x] x≠e ⇒ ∀[y]x∘y≐x❙  
+  // realize ?Monoid❙
 ❚
 
 theory Powers = 
