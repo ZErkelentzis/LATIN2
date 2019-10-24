@@ -17,12 +17,12 @@ theory ListSpec =
 
 theory MultisetSpec =
   include ?ListSpec❙
-  include ?EndoIdempotent❙
+  include ?EndoCommutative❙
 ❚
 
 theory FiniteSetSpec =
   include ?MultisetSpec❙
-  include ?EndoCommutative❙
+  include ?EndoIdempotent❙
 ❚
 
 theory OptionSpec =

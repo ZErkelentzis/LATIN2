@@ -52,6 +52,7 @@ theory SFOLND =
 theory SFOLEQ =
   include ?SFOL❙
   include ?TypedEquality❙
+  notequal : {A} tm A ⟶ tm A ⟶ prop❘= [A,x,y]¬x≐y❘# 2 ≠ 3 prec 30❙
 ❚
 
 theory SFOLEQND =

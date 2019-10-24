@@ -1,19 +1,6 @@
-MoC for implicit moprhisms is completely flawed, e.g., includes acquire definies based on implicit morphisms from previos processing of the theory; or an implicit view is used while rechecking that very view
-Better (?): every theory stores its incoming implicits (flattening; note that implicit structures may have to generate implicit structures); implicit views are tracked separately; only allow implicits among unions of named theories
-cycle-check only needed after an implicit view
-problem: how to handle dependency relation between modules?
-
-ideally, a view is checked like a theory with one extra include (codomain) and a final totality check (domain)
-
-realization = view into current theory ('include view' in analogy to 'include theory')
--> done, needs testing
- 
 hardcode andrewsdotright
  -> done, needs testing
  add andrewsDotRight variant that does not eat lambda/Pi
-
-disable all jedit painting to chase down painting error
-  all extensions disabled, seems not to help; now line invalidation disabled
 
 multiple notations for a constant
 
@@ -22,9 +9,6 @@ delimiters, variable type reservations as interpretation hint, in a theory
  should this be local?
 
 preamble files in every folder of archive; documents that enrich document context
-
-unicode-replacers to be used in mmttex
-needs testing
 
 definitional theory extensions
 
@@ -35,6 +19,20 @@ structure equal {A: tp} : ?Equality = term = tm A
 (may not be implicit?)
 
 abstraction: variables are bound in order of use (is that unique if there are second-level implicit bindings?)
+
+optional argument n?, to be infered using search and unification hints (not limited to structures)
+
+structural feature a : finiteType(n) --> a: type, a/1: a, ..., a/n: type, induction axioms
+
+programming: make a file executable, use structural feature for input, output
+  maybe p:input {x:A} --->  p/x:A="read from user"
+  read: codec A --> A
+  editable constants, generate dialog, html form fields etc.
+
+generate type coercion rules from role
+generate pseudo-content for whitespace application, resolve using whitespace notations and type of first non-Pi arguments
+ - good: e.g., xry notations via "relapply: Rel A B->A->B->prop # 2 1 3" for arbitrary relations
+ - problem: too many cases due to LF apply
 
 every var decl has list of conditions, e.g., sub/supertype bound, guards, ranges
 concrete syntax unclear, but can be used internally
@@ -48,7 +46,9 @@ mark structure/include in view as implicit; effect: only composed morphism is im
 
 aliases and notations in include must be allowed
 
-with T = {a conservative extension of parent+T} 
+include-like structural features for conditional conservative extension:
+with T = {a conservative extension of parent+T}; elaborates to a morphism from its body to parent+T
+do structural features need flag to determine whether they should be added to theory graph?
 
 diagram operators
  - diag relativize context, e.g., Magmas relativize a:tp; should also use parametric structures
@@ -56,3 +56,5 @@ diagram operators
 structure, view take list of theory names
 
 external notations, use in structures, e.g., with %i
+
+declarative vs. tactics: tactics = series of commands operating on proof state; declarative = single term
