@@ -6,7 +6,7 @@ log+ mmt-omdoc
 mathpath archive ../urtheories
 mathpath archive .
 
-log+ debug
+//log+ debug
 //log+ object-checker
 //log+ object-simplifier
 //log+ structure-simplifier
