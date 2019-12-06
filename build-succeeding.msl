@@ -9,6 +9,7 @@ log+ archive
 log+ mmt-omdoc
 
 mathpath archive ../urtheories
+mathpath archive ../LFX
 mathpath archive .
 
 // Build the mmt files, tricky due to mutual dependencies

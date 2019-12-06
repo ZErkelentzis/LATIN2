@@ -4,6 +4,7 @@ log+ archive
 log+ mmt-omdoc
 
 mathpath archive ../urtheories
+mathpath archive ../LFX
 mathpath archive .
 
 build MMT/LATIN2 lf-scala

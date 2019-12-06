@@ -2,7 +2,7 @@ id: MMT/LATIN2
 narration-base: latin:/
 ns : latin:/
 classpath: bin
-dependencies: MMT/urtheories
+dependencies: MMT/urtheories MMT/LFX
 responsible: florian.rabe@kwarc.info
 title: LATIN logic atlas v.2
 teaser: a modern redesing of the LATIN logic atlas
