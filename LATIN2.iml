@@ -12,6 +12,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="mmt-api" />
     <orderEntry type="module" module-name="mmt-lf" />
-    <orderEntry type="library" name="scala-sdk-2.12.3" level="application" />
+    <orderEntry type="library" name="scala-sdk-2.12.9" level="application" />
   </component>
 </module>
