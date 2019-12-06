@@ -1,12 +1,23 @@
+// Currently this build script does not work, i.e. content errors will be thrown or even
+// StackOverflow errors (probably bugs in MMT).
+//
+// See build-succeeding.msl for a build script which builds only the parts of LATIN2
+// which can be built succcessfully.
+
 log console
 log html build.html
 log+ archive
 log+ mmt-omdoc
 
 mathpath archive ../urtheories
+mathpath archive ../LFX
 mathpath archive .
 
-log+ debug
+
+// TODO: Florian says: just build logic/{pl, fol, sfol}.mmt and some fundamentals
+// TODO: if all you need is algebra, you just need those^^^
+
+//log+ debug
 //log+ object-checker
 //log+ object-simplifier
 //log+ structure-simplifier
