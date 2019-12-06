@@ -1,0 +1,9 @@
+log console
+log html build.html
+log+ archive
+log+ mmt-omdoc
+
+mathpath archive ../urtheories
+mathpath archive .
+
+build MMT/LATIN2 lf-scala
