@@ -1,0 +1,38 @@
+namespace latin:/❚
+import diagops scala://diagops.latin2❚
+
+/T Declare operator constants
+
+   Use an empty meta theory! E.g. if we used LF as a meta theory the notation
+   would be parsed as LF-y.
+❚
+theory DiagramTypeOperatorsSyntax =
+  single_typeindexifier # SINGLE TYPEINDEXIFY 1 prec -2000000 ❙
+  multi_typeindexifier # MULTI TYPEINDEXIFY 1 prec -2000000 ❙
+❚
+
+theory DiagramTypeOperatorsSemantics : ur:?LF =
+  include ☞http://cds.omdoc.org/urtheories?ModExp ❙
+  rule diagops?ComputeSingleTypeIndexed ❙
+  rule diagops?ComputeMultiTypeIndexed ❙
+❚
+
+theory DiagramTypeOperators =
+  include ?DiagramTypeOperatorsSyntax ❙
+  include ?DiagramTypeOperatorsSemantics ❙
+❚
+
+fixmeta ?DiagramTypeOperators❚
+
+theory TestMagmaMeta2 =
+  include ?DiagramTypeOperators ❙
+  include ☞http://cds.omdoc.org/examples?SFOLEQNatDed ❙
+❚
+
+theory TestMagma2 : ?TestMagmaMeta2 =
+  U: tp ❙
+  op: tm U ⟶ tm U ⟶ tm U ❘ # 1 ∘ 2 ❙
+❚
+
+diagram TestEndoMagmaSingle := SINGLE TYPEINDEXIFY ?TestMagma2 ❚
+diagram TestEndoMagmaMulti := MULTI TYPEINDEXIFY ?TestMagma2 ❚
