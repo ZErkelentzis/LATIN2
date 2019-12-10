@@ -15,7 +15,7 @@ final class ComputeMultiTypeIndexedHelperContext(val sortDependencies: mutable.H
 
 object ComputeMultiTypeIndexed extends
   FunctorialLinearDiagramOperator[ComputeMultiTypeIndexedHelperContext](
-    DiagramTypeOperatorsSyntax.multi_underscore_typeindexifier
+    TypeTheoryDiagramOperatorsSyntax.multi_underscore_typeindexifier
   ) {
 
   override protected def initialTheoryHelperContext: ComputeMultiTypeIndexedHelperContext

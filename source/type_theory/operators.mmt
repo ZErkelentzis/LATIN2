@@ -6,26 +6,26 @@ import diagops scala://diagops.latin2❚
    Use an empty meta theory! E.g. if we used LF as a meta theory the notation
    would be parsed as LF-y.
 ❚
-theory DiagramTypeOperatorsSyntax =
+theory TypeTheoryDiagramOperatorsSyntax =
   single_typeindexifier # SINGLE TYPEINDEXIFY 1 prec -2000000 ❙
   multi_typeindexifier # MULTI TYPEINDEXIFY 1 prec -2000000 ❙
 ❚
 
-theory DiagramTypeOperatorsSemantics : ur:?LF =
+theory TypeTheoryDiagramOperatorsSemantics : ur:?LF =
   include ☞http://cds.omdoc.org/urtheories?ModExp ❙
   rule diagops?ComputeSingleTypeIndexed ❙
   rule diagops?ComputeMultiTypeIndexed ❙
 ❚
 
-theory DiagramTypeOperators =
-  include ?DiagramTypeOperatorsSyntax ❙
-  include ?DiagramTypeOperatorsSemantics ❙
+theory TypeTheoryDiagramOperators =
+  include ?TypeTheoryDiagramOperatorsSyntax ❙
+  include ?TypeTheoryDiagramOperatorsSemantics ❙
 ❚
 
-fixmeta ?DiagramTypeOperators❚
+fixmeta ?TypeTheoryDiagramOperators❚
 
 theory TestMagmaMeta2 =
-  include ?DiagramTypeOperators ❙
+  include ?TypeTheoryDiagramOperators ❙
   include ☞http://cds.omdoc.org/examples?SFOLEQNatDed ❙
 ❚
 

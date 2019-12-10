@@ -22,7 +22,7 @@ final class ComputeSingleTypeIndexedHelperContext(val abstractedDeclsSoFar: muta
 
 object ComputeSingleTypeIndexed extends
   FunctorialLinearDiagramOperator[ComputeSingleTypeIndexedHelperContext](
-    DiagramTypeOperatorsSyntax.single_underscore_typeindexifier
+    TypeTheoryDiagramOperatorsSyntax.single_underscore_typeindexifier
   ) {
 
   override protected def initialTheoryHelperContext: ComputeSingleTypeIndexedHelperContext
