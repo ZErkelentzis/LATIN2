@@ -129,14 +129,14 @@ theory UnitElement =
 
 theory RightUnital =
   include ?UnitElement❙
-  neutralR : ⊦ ∀[x] x∘e ≐ x❘role Simplify❙
-  neutR: {x} ⊦ x∘e≐x❘= [x] neutralR forallE x❙
+  neutralR : ⊦ ∀[x] x∘e ≐ x❙
+  neutR: {x} ⊦ x∘e≐x❘= [x] neutralR forallE x❘role Simplify❙
 ❚
 
 theory LeftUnital = 
   include ?UnitElement❙
-  neutralL : ⊦ ∀[x] e∘x ≐ x❘ role Simplify❙
-  neutL: {x} ⊦ e∘x≐x❘= [x] neutralL forallE x❙ 
+  neutralL : ⊦ ∀[x] e∘x ≐ x❙
+  neutL: {x} ⊦ e∘x≐x❘= [x] neutralL forallE x❘ role Simplify❙ 
 ❚
 
 theory Unital = 
@@ -154,12 +154,14 @@ theory AbsorbingElement =
 
 theory RightAbsorptive =
   include ?AbsorbingElement❙
-  absorbR : ⊦ ∀[x] x∘abs ≐ abs❘role Simplify❙
+  absorbR : ⊦ ∀[x] x∘abs ≐ abs❙
+  absR : {x} ⊦ x∘abs ≐ abs❘ = [x] absorbR forallE x❘role Simplify❙
 ❚
 
 theory LeftAbsorptive =
   include ?AbsorbingElement❙
-  absorbL : ⊦ ∀[x] abs∘x ≐ abs❘role Simplify❙
+  absorbL : ⊦ ∀[x] abs∘x ≐ abs❙
+  absL : {x} ⊦ abs∘x ≐ abs❘ = [x] absorbL forallE x❘role Simplify❙
 ❚
 
 theory Absorptive = 
