@@ -8,9 +8,9 @@ theory Propositions =
 
 theory Proofs =
   include ?Propositions❙
-  ded   : prop ⟶ type❘# ⊦ 1  prec -5❘role Judgement❙
+  ded   : prop ⟶ type❘# ⊦ 1  prec -5❘ role Judgment❙
   
-  inconsistent : type❘= {a} ⊦ a❘# ↯❘role Judgement❙
+  inconsistent : type❘= {a} ⊦ a❘# ↯❘role Judgment❙
   inconsistentE : inconsistent ⟶ {a} ⊦ a❘= [p,a] p a❘# 1 inconE %I2❙
 ❚
 
