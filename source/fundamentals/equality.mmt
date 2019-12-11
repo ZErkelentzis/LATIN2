@@ -4,7 +4,7 @@ fixmeta ur:?LF❚
 
 theory Equality =
   include ?UntypedLogic❙
-  equal : term ⟶ term ⟶ prop❘# 1 ≐ 2 prec 30❙
+  equal : term ⟶ term ⟶ prop❘# 1 ≐ 2 prec 30❘role Eq❙
 ❚
 
 theory EqualityND =
@@ -34,7 +34,7 @@ theory SoftTypedEqualityND =
 
 theory TypedEquality =
   include ?TypedLogic❙
-  equal  : {A} tm A ⟶ tm A ⟶ prop❘# 2 ≐ 3 prec 30❙
+  equal  : {A} tm A ⟶ tm A ⟶ prop❘# 2 ≐ 3 prec 30❘role Eq❙
 ❚
 
 theory TypedEqualityND =
