@@ -2,17 +2,6 @@ namespace latin:/algebraic❚
 
 fixmeta latin:/?SFOLEQND❚
 
-theory Set = 
-  universe : tp❙
-  U = tm universe❙
-❚
-
-theory SetHom = 
-   structure domain : ?Set❚
-   structure codomain : ?Set❚
-   U : domain/U ⟶ codomain/U ❙
-❚
-
 theory Magma = 
   include ?Set ❙
   op : U ⟶ U ⟶ U ❘# 1 ∘ 2 prec 50❙
@@ -32,13 +21,6 @@ theory MagmaHom =
     include ?SetHom/codomain❙
   ❚
   op : ⊦ ∀[x]∀[y] U (x domain/∘ y) ≐ U x codomain/∘ U y ❙
-❚
-
-theory SubSet = 
-  structure parent : ?Set =
-    U # P❙
-  ❚
-  universe : P ⟶ prop❘# U 1 prec 40❙
 ❚
 
 theory SubMagma = 
