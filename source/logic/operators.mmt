@@ -20,10 +20,4 @@ theory LogicDiagramOperators =
   include ?LogicDiagramOperatorsSemantics ❙
 ❚
 
-fixmeta ?LogicDiagramOperators ❚
-
-theory TestMagmaMeta5 =
-  include ?LogicDiagramOperators ❙
-❚
-
-diagram TypedUniversalQuantification_by_diagop = TYPIFY FOL ?UniversalQuantification ❚
+diagram TypedUniversalQuantification_by_diagop : ?LogicDiagramOperators := TYPIFY FOL ?UniversalQuantification ❚
