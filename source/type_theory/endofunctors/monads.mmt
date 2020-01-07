@@ -12,8 +12,9 @@ theory Applicative =
   interchange: {a,b,F:tm &(a→b), x} ⊦ F <*> pure x ≐ pure (applyTo x) <*> F❙
   composition: {a,b,c,F:tm &(a→b),G:tm &(b→c),X} ⊦ G <*> (F <*> X) ≐ pure (λ[f]λ[g]f;g) <*> F <*> G <*> X❙
   
-  realize ?InternalEndoFunctor❙
-  fmap = [a,b,f] λ[X] pure f <*> X❙
+  // The remaining implementation is missing ❙
+  // realize ?InternalEndoFunctor❙
+  // fmap = [a,b,f] λ[X] pure f <*> X❙
 ❚
 
 ref ?CategoryOfTypes❚
@@ -27,8 +28,9 @@ theory Monad =
   identRight: {a,X: tm &a} ⊦ X >>= ([x] Return x) ≐ X❙
   assoc : {a,b,c,f:tm a ⟶ tm &b, g:tm b ⟶ tm &c,X} ⊦ X >>= f >>= g ≐ X >>= [x] (f x) >>= g❙
   
-  realize ?EndoFunctor❙
-  applyFun = [a,b,f,X] X >>= [x] Return (f x)❙
+  // The remaining implementation is missing ❙
+  // realize ?EndoFunctor❙
+  // applyFun = [a,b,f,X] X >>= [x] Return (f x)❙
 ❚
 
 theory InternalMonad =
@@ -41,13 +43,15 @@ theory InternalMonad =
     Return = [a,x] (return a) @ x❘# Return 2 prec 60❙
     Bind = [a,b,X,F] (bind a b) @ X @ (λ F)❘# 3 >>= 4 prec 50❙
   ❚
-  
-  realize ?Applicative❙
-  pure = [a,x] Return x❙
-  splat = [a,b,F,X] F >>= [f] X >>= [x] Return (f@x)❙
+
+  // The remaining implementation is missing ❙
+  // realize ?Applicative❙
+  // pure = [a,x] Return x❙
+  // splat = [a,b,F,X] F >>= [f] X >>= [x] Return (f@x)❙
 ❚
 
-view KleisliCat : ?Category → ?InternalMonad =
+// Assignments to neutrality and associativity axioms missing
+// view KleisliCat : ?Category → ?InternalMonad =
   obj = tp❙
   hom = [a,b] a→&b❙
   id = [a] return a❙

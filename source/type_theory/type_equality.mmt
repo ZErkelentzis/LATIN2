@@ -19,5 +19,7 @@ theory Transport =
   
   transport : {A, B} ⊦ A ≛ B ⟶ tm A ⟶ tm B❘# 4 ↑ 3 prec 70❙
   transport_refl: {A,X: tm A} ⊦ X↑tpeq/refl ≐ X❙
+
+  // Doesn't typecheck:
   transport_trans: {A,B,C, X: tm A, p:⊦ A ≛ B, q: ⊦ B ≛ C} ⊦ X↑p↑q ≐ X↑(tpeq/eq/trans p q)❙
 ❚
