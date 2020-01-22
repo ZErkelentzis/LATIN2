@@ -15,11 +15,11 @@ fixmeta ur:?LF❚
   
 
 theory DRT =
-  id: type❙
+  dr: type❙
   lit: type❙
   mode : type❙
-  pos: id ⟶ mode❘# 1 ⁺ prec 60❙
-  neg: id ⟶ mode❘# 1 ⁻ prec 60❙
+  pos: dr ⟶ mode❘# 1 ⁺ prec 60❙
+  neg: dr ⟶ mode❘# 1 ⁻ prec 60❙
   empty : mode❘# ∅❙
   punion : mode ⟶ mode ⟶ mode❘# 1 ⊎ 2 prec 50❙
 
@@ -35,19 +35,21 @@ theory DRT =
   close_pos: {x} x⁺↓ ≐ ∅❘ role Simplify❙
   close_neg: {x} x⁻↓ ≐ x⁻❘ role Simplify❙
   close_empty: ∅↓ ≐ ∅❘ role Simplify❙ 
-  close_close: {x}x↓↓ ≐ x↓❘ role Simplify❙ 
+  close_close: {x}x↓↓ ≐ x↓❘ role Simplify❙
   
   // normal form of modes: set of id with function into boolean❙
 
   // realize id as string❙
   
-  drs : mode ⟶ type❘# drs 1 prec -5❙
+  drs : mode ⟶ type❘# 1 # o prec -5❙
   tm : mode ⟶ type❘# tm 1 prec -5❙
   cond : mode ⟶ type❘# cond 1 prec -5❙
   
   /T DRSs❙
-  atomic : {m,n} cond n ⟶ drs m⊎n❘# 1 | 3 prec 10❙  // m is just set of ids, all mapped with pos in the return type❙
-  merge : {m,n} drs m ⟶ drs n ⟶ drs m⊎n❙ 
+  atomic : {m,n} cond n ⟶ drs (m⊎n)❘# 1 | 3 prec 10❙  // m is just set of drs, all mapped with pos in the return type❙
+  merge : {m,n} drs m ⟶ drs n ⟶ drs(m⊎n) ❘# 1 ⊗ 2 ❙
+  seqmerge : {m,n} drs m ⟶ drs n ⟶ drs (m ⊎ n↓) ❘# 1 ;; 2 ❙
+
   
   /T conditions❙
   and : {m,n} cond m ⟶ cond n ⟶ cond m⊎n❘# 3 ∧ 4 prec 20❙
@@ -55,7 +57,7 @@ theory DRT =
   dimpl : {m,n} drs m ⟶ drs n ⟶ cond (m⊎n↓)↓ ❘# 3 ⇒* 4 prec 20❙ 
 
   /T terms❙
-  idref : {i:id} tm i⁻❘# ` 1 prec 60❙
+  idref : {i:dr} tm i⁻❘# ` 1 prec 60❙
 ❚
 
 theory Example : ?DRT =
@@ -65,9 +67,9 @@ theory Example : ?DRT =
   stick  : {m} tm m ⟶ cond m❘# %%prefix 1 1 prec 100❙
   beat: {l,m,n} tm l ⟶ tm m ⟶ tm n ⟶ cond l⊎m⊎n❘# %%prefix 3 3 prec 100❙
   own: {m,n} tm m ⟶ tm n ⟶ cond m⊎n❘# %%prefix 2 2 prec 100❙
-  u: id❙
-  v: id❙
-  w: id❙
+  u: dr❙
+  v: dr❙
+  w: dr❙
   uv : mode❘ = u⁺ ⊎ v⁺❙
   /T A farmer owns a donkey ❙
   fod = uv | farmer`u ∧ donkey`v ∧ own(`u)`v❙
