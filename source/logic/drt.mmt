@@ -15,9 +15,8 @@ fixmeta ur:?LF❚
   
 
 theory DRT =
-  dr: type❙
-  lit: type❙
-  mode : type❙
+  dr: type❙ //Discourse Referents ❙
+  mode : type❙  //DLC modes, they annotate the dynamic status of DRs ❙
   pos: dr ⟶ mode❘# 1 ⁺ prec 60❙
   neg: dr ⟶ mode❘# 1 ⁻ prec 60❙
   empty : mode❘# ∅❙
@@ -27,7 +26,7 @@ theory DRT =
   refl : {x} x ≐ x❙
   // bounded semi-lattice❙
   
-  capture: {x} x⁺⊎x⁻ ≐ pos x❙
+  capture: {x} x⁺⊎x⁻ ≐ pos x❙ //specifying DR capture ❙
   
   rule ☞scala://modes.drt.latin2?NormalizePunion❙
   
@@ -37,13 +36,11 @@ theory DRT =
   close_empty: ∅↓ ≐ ∅❘ role Simplify❙ 
   close_close: {x}x↓↓ ≐ x↓❘ role Simplify❙
   
-  // normal form of modes: set of id with function into boolean❙
-
-  // realize id as string❙
+  // normal form of modes: set of DR with function into boolean❙
   
-  drs : mode ⟶ type❘# 1 # o prec -5❙
-  tm : mode ⟶ type❘# tm 1 prec -5❙
-  cond : mode ⟶ type❘# cond 1 prec -5❙
+  drs : mode ⟶ type❘# 1 # o prec -5❙ // type of DRSes ❙
+  tm : mode ⟶ type❘# tm 1 prec -5❙v // type of terms ❙
+  cond : mode ⟶ type❘# cond 1 prec -5❙ // type of conditions ❙
   
   /T DRSs❙
   atomic : {m,n} cond n ⟶ drs (m⊎n)❘# 1 | 3 prec 10❙  // m is just set of drs, all mapped with pos in the return type❙
