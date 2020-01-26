@@ -1,0 +1,96 @@
+namespace latin:/❚
+
+fixmeta ur:?LF❚
+
+theory Tableaux =
+  include ?Propositions ❙
+  marktrue : prop ⟶ type ❘ # 1 ¹ prec -5 ❘ role TabMarker ❙
+  markfalse : prop ⟶ type ❘ # 1 ⁰ prec -5 ❘ role TabMarker ❙
+  closedbranch : type ❘ # ⊥ ❘ = {p} p¹ ❘ role TabClosed ❙
+
+  // We could define many of the rules below by defining P⁰ = P¹ ⟶ ⊥ ❙
+
+  closebranch : {P} P¹ ⟶ P⁰ ⟶ ⊥ ❘ # close10 2 3 ❙
+  closebranch2 : {P} P⁰ ⟶ P¹ ⟶ ⊥ ❘ # close01 2 3 ❘ = [P,p0,p1] close10 p1 p0 ❙
+
+  proofstart : {P} (P⁰ ⟶ ⊥) ⟶ P¹ ❘ # start1 2 ❙
+  refutationstart : {P} (P¹ ⟶ ⊥) ⟶ P⁰ ❘ # start0 2 ❙
+
+  classicality : {P} ((P¹ ⟶ ⊥) ⟶ ⊥) ⟶ P¹ ❙
+❚
+
+// We need classicality to prove proofstart ❚
+view Tableaux2Proofs : ?Tableaux -> ?Classical =
+  prop = prop ❙
+  marktrue = [p] ⊦ p ❙
+  markfalse = [p] ⊦ p ⟶ ↯ ❙
+  closedbranch = ↯ ❙
+  closebranch = [P, p1, p0] p0 p1 ❙
+  proofstart = classical ❙
+  classicality = classical ❙
+  refutationstart = [P,pr] pr ❙
+❚
+
+view Proofs2Tableaux : ?Proofs -> ?Tableaux =
+  prop = prop ❙
+  ded = [p] p¹ ❙
+  // classical = classicality ❙
+❚
+
+
+theory NegationTab =
+  include ?Negation ❙
+  include ?Tableaux ❙
+  negationTab0 : {P} ¬P⁰ ⟶ (P¹ ⟶ ⊥) ⟶ ⊥ ❘ # negt0 2 3 ❙
+  negationTab1 : {P} ¬P¹ ⟶ (P⁰ ⟶ ⊥) ⟶ ⊥ ❘ # negt1 2 3 ❙
+❚
+
+view NegationTab2ND : ?NegationTab -> ?PLND =
+  include ?Tableaux2Proofs ❙
+  not = not ❙
+  negationTab0 = [P, np0, p1r] np0 (notI p1r) ❙
+  negationTab1 = [P, np1, p0r] np1 notE (classical p0r) ❙
+❚
+
+view NegationND2Tab : ?NegationND -> ?NegationTab =
+  include ?Proofs2Tableaux ❙
+  not = not ❙
+  notI = [F, fr : F¹ ⟶ ⊥] start1 ([nfr : ¬F⁰] negt0 nfr fr) ❙
+  notE = [F, nf, f] negt1 nf ([f0] close10 f f0) ❙
+❚
+
+
+theory ConjunctionTab =
+  include ?Conjunction ❙
+  include ?Tableaux ❙
+  conjunctionTab0 : {A,B} A∧B⁰ ⟶ (A⁰ ⟶ ⊥) ⟶ (B⁰ ⟶ ⊥) ⟶ ⊥ ❘ # conjt0 3 4 5 ❙
+  conjunctionTab1 : {A,B} A∧B¹ ⟶ (A¹ ⟶ B¹ ⟶ ⊥) ⟶ ⊥ ❘ # conjt1 3 4 ❙
+❚
+
+// view ConjunctionTab2ND : ?ConjunctionTab -> ?PLND =
+  and = and ❙
+❚
+
+
+theory DisjunctionTab =
+  include ?Disjunction ❙
+  include ?Tableaux ❙
+  disjunctionTab0 : {A,B} A∨B⁰ ⟶ (A⁰ ⟶ B⁰ ⟶ ⊥) ⟶ ⊥ ❘ # disjt0 3 4 ❙
+  disjunctionTab1 : {A,B} A∨B¹ ⟶ (A¹ ⟶ ⊥) ⟶ (B¹ ⟶ ⊥) ⟶ ⊥ ❘ # disjt1 3 4 5 ❙
+❚
+
+
+theory ImplicationTab =
+  include ?Implication ❙
+  include ?Tableaux ❙
+  implicationTab0 : {A,B} A⇒B⁰ ⟶ (A¹ ⟶ B⁰ ⟶ ⊥) ⟶ ⊥ ❘ # implt0 3 4 ❙
+  implicationTab1 : {A,B} A⇒B¹ ⟶ (A⁰ ⟶ ⊥) ⟶ (B¹ ⟶ ⊥) ⟶ ⊥ ❘ # implt1 3 4 5 ❙
+❚
+
+
+theory EquivalenceTab =
+  include ?Equivalence ❙
+  include ?Tableaux ❙
+  equivalenceTab0 : {A,B} A⇔B⁰ ⟶ (A⁰ ⟶ B¹ ⟶ ⊥) ⟶ (A¹ ⟶ B⁰ ⟶ ⊥) ⟶ ⊥ ❘ # equivt0 3 4 5 ❙
+  equivalenceTab1 : {A,B} A⇔B¹ ⟶ (A⁰ ⟶ B⁰ ⟶ ⊥) ⟶ (A¹ ⟶ B¹ ⟶ ⊥) ⟶ ⊥ ❘ # equivt1 3 4 5 ❙
+❚
