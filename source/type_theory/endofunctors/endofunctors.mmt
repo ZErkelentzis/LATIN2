@@ -27,6 +27,7 @@ theory Category =
   assoc: {a,b,c,d, f:Hom a b, g:Hom b c, h:Hom c d} ⊦ f;(g;h) ≐ (f;g);h❙ 
 ❚
 
+/T View currently not total ❚
 implicit view CategoryOfTypes : ?Category → ?HOLND =
   obj = tp❙
   hom = [a,b] a→b❙
@@ -41,6 +42,7 @@ theory InternalEndoFunctor =
   fmapId : {a} ⊦ fmap (id a) ≐ id (&a)❙
   fmapComp : {a,b,c,f:tm a→b,g:tm b→c} ⊦ fmap (f;g) ≐ (fmap f);(fmap g)❙
   
+  // Remaining implementation is missing
   realize ?EndoFunctor❙
-  applyFun = [a,b,f:tm a ⟶ tm b,x] (fmap λ f) @ x❙
+  // applyFun = [a,b,f:tm a ⟶ tm b,x] (fmap λ f) @ x❙
 ❚

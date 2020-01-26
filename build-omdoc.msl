@@ -23,7 +23,7 @@ build MMT/LATIN2 mmt-omdoc logic
 build MMT/LATIN2 mmt-omdoc type_theory
 build MMT/LATIN2 mmt-omdoc type_theory
 
-build MMT/LATIN2 mmt-omdoc set-theory
+build MMT/LATIN2 mmt-omdoc set_theory
 build MMT/LATIN2 mmt-omdoc topology
 build MMT/LATIN2 mmt-omdoc curry-howard
 
@@ -37,7 +37,7 @@ build MMT/LATIN2 mmt-omdoc algebra/magmas.mmt
 build MMT/LATIN2 mmt-omdoc fundamentals
 build MMT/LATIN2 mmt-omdoc logic
 build MMT/LATIN2 mmt-omdoc type_theory
-build MMT/LATIN2 mmt-omdoc set-theory
+build MMT/LATIN2 mmt-omdoc set_theory
 build MMT/LATIN2 mmt-omdoc topology
 build MMT/LATIN2 mmt-omdoc curry-howard
 
