@@ -1,0 +1,12 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Endo$Magma".
+
+/* generated from comm : {a,x,y:tm (applyType a)}ded (equal (applyType a) (op a x y) (op a y x)) */
+
+ded X1 (equal (applyType a) (op a x y) (op a y x)) :- help/comm a x y X1.
+
+help/comm a x y (prodcert X1/1 X1/2) :- help/comm a x y X1/1 , help/comm a x y X1/2.
+
+help/comm a x y (idcert X2) :- X2 > 0 , X1 is X2 - 1.
+
+help/comm a x y (ptcert (comm a x y)).
+

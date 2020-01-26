@@ -1,0 +1,44 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Internal$Equality".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Typed$Equality$N$D".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Propositional$Extensionality".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$I$H$O$L$N$D".
+
+/* generated from [Truth]/true : tm bool */
+
+/* type [Truth]/true tm bool. */
+
+/* generated from [Falsity]/false : tm bool */
+
+/* type [Falsity]/false tm bool. */
+
+/* generated from [Negation]/not : tm bool⟶tm bool */
+
+/* type [Negation]/not tm bool -> tm bool. */
+
+/* generated from [TypedUniversalQuantification]/forall : {A}(tm A⟶tm bool)⟶tm bool */
+
+/* type [TypedUniversalQuantification]/forall pi (A \ tm A -> tm bool -> tm bool). */
+
+/* generated from [Conjunction]/and : tm bool⟶tm bool⟶tm bool */
+
+/* type [Conjunction]/and tm bool -> tm bool -> tm bool. */
+
+/* generated from [Implication]/impl : tm bool⟶tm bool⟶tm bool */
+
+/* type [Implication]/impl tm bool -> tm bool -> tm bool. */
+
+/* generated from [Disjunction]/or : tm bool⟶tm bool⟶tm bool */
+
+/* type [Disjunction]/or tm bool -> tm bool -> tm bool. */
+
+/* generated from [Equivalence]/equiv : tm bool⟶tm bool⟶tm bool */
+
+/* type [Equivalence]/equiv tm bool -> tm bool -> tm bool. */
+
+/* generated from [TypedExistentialQuantification]/exists : {A}(tm A⟶tm bool)⟶tm bool */
+
+/* type [TypedExistentialQuantification]/exists pi (A \ tm A -> tm bool -> tm bool). */
+

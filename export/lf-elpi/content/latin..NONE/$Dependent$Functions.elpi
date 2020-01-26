@@ -1,0 +1,22 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Dependent$Function$Types".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Typed$Equality".
+
+/* generated from deplambda : {A,B}({x:tm A}tm (B x))⟶tm (depfun A B) */
+
+/* type deplambda pi A \ pi B \ (pi x \ tm (B x)) -> tm (depfun A B). */
+
+/* generated from depapply : {A,B}tm (depfun A B)⟶{x:tm A}tm (B x) */
+
+/* type depapply pi A \ pi B \ tm (depfun A B) -> (pi x \ tm (B x)). */
+
+/* generated from depbeta : {A,B,F:{x:tm A}tm (B x),X}ded (equal (B X) (depapply A ([x:tm A]B x) (deplambda A ([x:tm A]B x) F) X) (F X)) */
+
+ded X1 (equal (B X) (depapply A (x \ B x) (deplambda A (x \ B x) F) X) (F X)) :- help/depbeta A B F X X1.
+
+help/depbeta A B F X (prodcert X1/1 X1/2) :- help/depbeta A B F X X1/1 , help/depbeta A B F X X1/2.
+
+help/depbeta A B F X (idcert X2) :- X2 > 0 , X1 is X2 - 1.
+
+help/depbeta A B F X (ptcert (depbeta A B F X)).
+

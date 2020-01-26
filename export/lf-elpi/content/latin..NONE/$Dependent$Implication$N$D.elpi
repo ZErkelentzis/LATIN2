@@ -1,0 +1,36 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Dependent$Implication".
+
+/* generated from dimpI : {F,G}({p}ded (G p))⟶ded (dimpl F G) */
+
+ded X2 (dimpl F G) :- help/dimpI X2 F G X1 , (pi (p \ ded (X1 p) (G p))).
+
+help/dimpI (prodcert X3/1 X3/2) F G (p \ prodcert (X2/1 p) (X2/2 p)) :- help/dimpI X3/1 F G X2/1 , help/dimpI X3/2 F G X2/2.
+
+help/dimpI (idcert X3) F G (p \ idcert X2) :- X3 > 0 , X2 is X3 - 1.
+
+help/dimpI (ptcert (dimpI F G X2)) F G (p \ ptcert X2).
+
+help/dimpI (ucert X2) F G (p \ ucert (prep (pi (p \ ded (X3 p) (G p))) X2)) :- (pi (p \ ded (X3 p) (G p))) , occatmost (pi (p \ ded (X3 p) (G p))) 1 X2.
+
+help/dimpI (hdcert X2) F G (p \ hdcert X2).
+
+help/dimpI (bccert X3) F G (p \ bccert X2) :- bc/pos X3 , X2 is X3 - 1.
+
+/* generated from dimpE : {F,G}ded (dimpl F G)⟶{p:ded F}ded (G p) */
+
+ded X2 X3 :- help/dimpE X2 X3 F G X1 p , X3 = G p , ded X1 (dimpl F G).
+
+help/dimpE (prodcert X4/1 X4/2) X2 F G p (prodcert X3/1 X3/2) :- help/dimpE X4/1 X2 F G p X3/1 , help/dimpE X4/2 X2 F G p X3/2.
+
+help/dimpE (idcert X4) X2 F G p (idcert X3) :- X4 > 0 , X3 is X4 - 1.
+
+help/dimpE (ptcert (dimpE X2 F G p X3)) X2 F G p (ptcert X3).
+
+help/dimpE (ucert X3) X2 F G p (ucert (prep (ded X4 (dimpl F G)) X3)) :- ded X4 (dimpl F G) , occatmost (ded X4 (dimpl F G)) 1 X3.
+
+help/dimpE (hdcert X3) X2 F G p (hdcert X3).
+
+help/dimpE (bccert X4) X2 F G p (bccert (bc/fwdLocked X3)) :- bc/val X4 X5 , X5 > 0 , X3 is X5 - 1 , bc/fwdable (dimpl F G) , X2 = G p.
+
+bc/aux (dimpl F G) X6 :- bc/aux (G p) X6.
+

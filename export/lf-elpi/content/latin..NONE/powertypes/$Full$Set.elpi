@@ -1,0 +1,18 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/powertypes/$Power$Types".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Truth$N$D".
+
+/* generated from full : {A}tm (power A) */
+
+/* type full pi A \ tm (power A). */
+
+/* generated from fullI : {A,x}ded (in A x (full A)) */
+
+ded X1 (in A x (full A)) :- help/fullI A x X1.
+
+help/fullI A x (prodcert X1/1 X1/2) :- help/fullI A x X1/1 , help/fullI A x X1/2.
+
+help/fullI A x (idcert X2) :- X2 > 0 , X1 is X2 - 1.
+
+help/fullI A x (ptcert (fullI A x)).
+

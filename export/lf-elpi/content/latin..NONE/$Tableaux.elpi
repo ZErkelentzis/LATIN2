@@ -1,0 +1,34 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Propositions".
+
+/* generated from marktrue : prop⟶type */
+
+/* kind marktrue prop -> type. */
+
+/* generated from markfalse : prop⟶type */
+
+/* kind markfalse prop -> type. */
+
+/* generated from closedbranch : type */
+
+/* kind closedbranch type. */
+
+/* generated from closebranch : {P}marktrue P⟶markfalse P⟶⊥ */
+
+/* type closebranch pi (P \ marktrue P -> markfalse P -> closedbranch). */
+
+/* generated from closebranch2 : {P}markfalse P⟶marktrue P⟶⊥ */
+
+/* type closebranch2 pi (P \ markfalse P -> marktrue P -> closedbranch). */
+
+/* generated from proofstart : {P}(markfalse P⟶⊥)⟶marktrue P */
+
+/* type proofstart pi (P \ markfalse P -> closedbranch -> marktrue P). */
+
+/* generated from refutationstart : {P}(marktrue P⟶⊥)⟶markfalse P */
+
+/* type refutationstart pi (P \ marktrue P -> closedbranch -> markfalse P). */
+
+/* generated from classicality : {P}((marktrue P⟶⊥)⟶⊥)⟶marktrue P */
+
+/* type classicality pi (P \ marktrue P -> closedbranch -> closedbranch -> marktrue P). */
+

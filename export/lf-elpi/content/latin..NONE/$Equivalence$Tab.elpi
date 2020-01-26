@@ -1,0 +1,12 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Equivalence".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Tableaux".
+
+/* generated from equivalenceTab0 : {A,B}markfalse (equiv A B)⟶(markfalse A⟶marktrue B⟶⊥)⟶(marktrue A⟶markfalse B⟶⊥)⟶⊥ */
+
+/* type equivalenceTab0 pi (A \ pi (B \ markfalse (equiv A B) -> markfalse A -> marktrue B -> closedbranch -> marktrue A -> markfalse B -> closedbranch -> closedbranch)). */
+
+/* generated from equivalenceTab1 : {A,B}marktrue (equiv A B)⟶(markfalse A⟶markfalse B⟶⊥)⟶(marktrue A⟶marktrue B⟶⊥)⟶⊥ */
+
+/* type equivalenceTab1 pi (A \ pi (B \ marktrue (equiv A B) -> markfalse A -> markfalse B -> closedbranch -> marktrue A -> marktrue B -> closedbranch -> closedbranch)). */
+

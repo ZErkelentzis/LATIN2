@@ -1,0 +1,12 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Implication".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Tableaux".
+
+/* generated from implicationTab0 : {A,B}markfalse (impl A B)⟶(marktrue A⟶markfalse B⟶⊥)⟶⊥ */
+
+/* type implicationTab0 pi (A \ pi (B \ markfalse (impl A B) -> marktrue A -> markfalse B -> closedbranch -> closedbranch)). */
+
+/* generated from implicationTab1 : {A,B}marktrue (impl A B)⟶(markfalse A⟶⊥)⟶(marktrue B⟶⊥)⟶⊥ */
+
+/* type implicationTab1 pi (A \ pi (B \ marktrue (impl A B) -> markfalse A -> closedbranch -> marktrue B -> closedbranch -> closedbranch)). */
+

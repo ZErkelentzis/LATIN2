@@ -1,0 +1,20 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Implication".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Proofs".
+
+/* generated from impI : {F,G}(ded F⟶ded G)⟶ded (impl F G) */
+
+ded X3 (impl F G) :- help/impI X3 F G X2 , (pi (x1 \ ded/hyp x1 F => ded (X2 x1) G)).
+
+help/impI (prodcert X4/1 X4/2) F G (x2 \ prodcert (X3/1 x2) (X3/2 x2)) :- help/impI X4/1 F G X3/1 , help/impI X4/2 F G X3/2.
+
+help/impI (idcert X4) F G (x3 \ idcert X2) :- X4 > 0 , X2 is X4 - 1.
+
+help/impI (ptcert (impI F G X3)) F G (x2 \ ptcert X3).
+
+help/impI (ucert X2) F G (x3 \ ucert (prep (pi (x4 \ ded/hyp x4 F => ded (X5 x4) G)) X2)) :- (pi (x4 \ ded/hyp x4 F => ded (X5 x4) G)) , occatmost (pi (x4 \ ded/hyp x4 F => ded (X5 x4) G)) 1 X2.
+
+help/impI (hdcert X2) F G (x3 \ hdcert X2).
+
+help/impI (bccert X4) F G (x3 \ bccert X2) :- bc/pos X4 , X2 is X4 - 1.
+

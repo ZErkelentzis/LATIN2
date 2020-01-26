@@ -1,0 +1,12 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Disjunction".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Tableaux".
+
+/* generated from disjunctionTab0 : {A,B}markfalse (or A B)⟶(markfalse A⟶markfalse B⟶⊥)⟶⊥ */
+
+/* type disjunctionTab0 pi (A \ pi (B \ markfalse (or A B) -> markfalse A -> markfalse B -> closedbranch -> closedbranch)). */
+
+/* generated from disjunctionTab1 : {A,B}marktrue (or A B)⟶(marktrue A⟶⊥)⟶(marktrue B⟶⊥)⟶⊥ */
+
+/* type disjunctionTab1 pi (A \ pi (B \ marktrue (or A B) -> marktrue A -> closedbranch -> marktrue B -> closedbranch -> closedbranch)). */
+

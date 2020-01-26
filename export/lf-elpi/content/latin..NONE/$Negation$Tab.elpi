@@ -1,0 +1,12 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Negation".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Tableaux".
+
+/* generated from negationTab0 : {P}markfalse (not P)⟶(marktrue P⟶⊥)⟶⊥ */
+
+/* type negationTab0 pi (P \ markfalse (not P) -> marktrue P -> closedbranch -> closedbranch). */
+
+/* generated from negationTab1 : {P}marktrue (not P)⟶(markfalse P⟶⊥)⟶⊥ */
+
+/* type negationTab1 pi (P \ marktrue (not P) -> markfalse P -> closedbranch -> closedbranch). */
+

@@ -1,0 +1,20 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Equivalence".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Proofs".
+
+/* generated from equivI : {F,G}(ded F⟶ded G)⟶(ded G⟶ded F)⟶ded (equiv F G) */
+
+ded X5 (equiv F G) :- help/equivI X5 F G X2 X4 , (pi (x1 \ ded/hyp x1 F => ded (X2 x1) G)) , (pi (x3 \ ded/hyp x3 G => ded (X4 x3) F)).
+
+help/equivI (prodcert X6/1 X6/2) F G (x2 \ prodcert (X3/1 x2) (X3/2 x2)) (x4 \ prodcert (X5/1 x4) (X5/2 x4)) :- help/equivI X6/1 F G X3/1 X5/1 , help/equivI X6/2 F G X3/2 X5/2.
+
+help/equivI (idcert X5) F G (x3 \ idcert X2) (x4 \ idcert X2) :- X5 > 0 , X2 is X5 - 1.
+
+help/equivI (ptcert (equivI F G X3 X5)) F G (x2 \ ptcert X3) (x4 \ ptcert X5).
+
+help/equivI (ucert X2) F G (x3 \ ucert (prep (pi (x4 \ ded/hyp x4 F => ded (X5 x4) G)) X2)) (x6 \ ucert (prep (pi (x4 \ ded/hyp x4 F => ded (X5 x4) G)) X2)) :- (pi (x4 \ ded/hyp x4 F => ded (X5 x4) G)) , occatmost (pi (x4 \ ded/hyp x4 F => ded (X5 x4) G)) 1 X2.
+
+help/equivI (hdcert X2) F G (x3 \ hdcert X2) (x4 \ hdcert X2).
+
+help/equivI (bccert X5) F G (x3 \ bccert X2) (x4 \ bccert X2) :- bc/pos X5 , X2 is X5 - 1.
+

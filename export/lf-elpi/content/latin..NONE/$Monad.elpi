@@ -1,0 +1,46 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Type$Operator".
+
+/* generated from Return : {a}tm a⟶tm (applyType a) */
+
+/* type Return pi a \ tm a -> tm (applyType a). */
+
+/* generated from Bind : {a,b}tm (applyType a)⟶(tm a⟶tm (applyType b))⟶tm (applyType b) */
+
+/* type Bind pi a \ pi b \ tm (applyType a) -> tm a -> tm (applyType b) -> tm (applyType b). */
+
+/* generated from identLeft : {a,b,f:tm a⟶tm (applyType b),x}ded (equal (applyType b) (Bind a b (Return a x) f) (f x)) */
+
+ded X1 (equal (applyType b) (Bind a b (Return a x) f) (f x)) :- help/identLeft a b f x X1.
+
+help/identLeft a b f x (prodcert X1/1 X1/2) :- help/identLeft a b f x X1/1 , help/identLeft a b f x X1/2.
+
+help/identLeft a b f x (idcert X2) :- X2 > 0 , X1 is X2 - 1.
+
+help/identLeft a b f x (ptcert (identLeft a b f x)).
+
+/* generated from identRight : {a,X:tm (applyType a)}ded (equal (applyType a) (Bind a a X [x]Return a x) X) */
+
+ded X1 (equal (applyType a) (Bind a a X x \ Return a x) X) :- help/identRight a X X1.
+
+help/identRight a X (prodcert X1/1 X1/2) :- help/identRight a X X1/1 , help/identRight a X X1/2.
+
+help/identRight a X (idcert X2) :- X2 > 0 , X1 is X2 - 1.
+
+help/identRight a X (ptcert (identRight a X)).
+
+/* generated from assoc : {a,b,c,f:tm a⟶tm (applyType b),g:tm b⟶tm (applyType c),X}ded (equal (applyType c) (Bind b c (Bind a b X f) g) (Bind a c X [x]Bind b c (f x) g)) */
+
+ded X1 (equal (applyType c) (Bind b c (Bind a b X f) g) (Bind a c X x \ Bind b c (f x) g)) :- help/assoc a b c f g X X1.
+
+help/assoc a b c f g X (prodcert X1/1 X1/2) :- help/assoc a b c f g X X1/1 , help/assoc a b c f g X X1/2.
+
+help/assoc a b c f g X (idcert X2) :- X2 > 0 , X1 is X2 - 1.
+
+help/assoc a b c f g X (ptcert (assoc a b c f g X)).
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Endo$Functor".
+
+/* generated from [EndoFunctor]/applyFun : {a,b}(tm a⟶tm b)⟶tm (applyType a)⟶tm (applyType b) */
+
+/* type [EndoFunctor]/applyFun pi a \ pi b \ tm a -> tm b -> tm (applyType a) -> tm (applyType b). */
+

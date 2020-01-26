@@ -1,0 +1,6 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Logic".
+
+/* generated from forall : {A:type}(A⟶prop)⟶prop */
+
+/* type forall pi (A \ A -> prop -> prop). */
+
