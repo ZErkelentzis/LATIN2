@@ -3,6 +3,7 @@ Generated ELPI Provers
 
 As described [here](https://kwarc.info/people/mkohlhase/submit/mmtelpi.pdf), MMT can generate ELPI provers from some inference rules described in MMT-LF.
 This directory contains various examples of the generated provers.
+Most of the used ELPI code is generated from inference rules in `../source/logics`.
 
 
 #### Running the Examples
