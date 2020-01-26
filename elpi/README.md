@@ -1,7 +1,7 @@
 Generated ELPI Provers
 ---
 
-As described [here](https://kwarc.info/people/mkohlhase/submit/mmtelpi.pdf), MMT can generate ELPI provers from some inference rules described in MMT-LF.
+As described in [this work-in-progress paper](https://kwarc.info/people/mkohlhase/submit/mmtelpi.pdf), MMT can generate ELPI provers from some inference rules described in MMT-LF.
 This directory contains various examples of the generated provers.
 Most of the used ELPI code is generated from inference rules in `../source/logics`.
 
@@ -20,6 +20,7 @@ To circumvent this, the `accumulate.sh` script collects the relevant code into f
 With all this in place, you should be able to run the provers by calling e.g.
 ```elpi -no-tc pl_nd_backchaining.elpi```
 and the entering the command `main.`.
+Note that this work is still at a very experimental stage.
 
 
 #### The different Provers
