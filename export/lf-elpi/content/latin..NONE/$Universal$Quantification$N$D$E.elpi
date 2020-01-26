@@ -1,8 +1,8 @@
 accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Universal$Quantification".
 
-/* generated from forallE : {P}ded (forall P)⟶{X}ded (P X) */
+/* generated from forallE : {P,X}ded (forall P)⟶ded (P X) */
 
-ded X2 X3 :- help/forallE X2 X3 P X1 X , X3 = P X , ded X1 (forall P).
+ded X2 X3 :- help/forallE X2 X3 P X X1 , X3 = P X , ded X1 (forall P).
 
 help/forallE (prodcert X4/1 X4/2) X2 P X (prodcert X3/1 X3/2) :- help/forallE X4/1 X2 P X X3/1 , help/forallE X4/2 X2 P X X3/2.
 

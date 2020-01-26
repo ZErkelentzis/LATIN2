@@ -51,13 +51,24 @@ theory NegationNDI =
 theory NegationNDE =
   include ?Negation❙
   include ?Proofs❙
-  notE  : {F} ⊦ ¬ F ⟶ ⊦ F ⟶ ↯❘# 2 notE 3❘role ForwardRule❙
+  notE  : {F} ⊦ ¬ F ⟶ ⊦ F ⟶ ↯❘# 2 notE 3❙
 ❚
 
 theory NegationND =
   include ?NegationNDI❙
   include ?NegationNDE❙
- ❚
+❚
+
+theory AlternativeNegationAndFalsityND =
+  include ?Proofs ❙
+  include ?Falsity ❙
+  include ?Negation ❙
+  include ?Disjunction ❙
+  notIntroduction : {A} (⊦ A ⟶ ⊦ false) ⟶ (⊦ ¬ A) ❘ # altNotI 2 ❙
+  notElimination : {A} ⊦ ¬ ¬ A ⟶ ⊦ A ❘ # altNotE 2 ❙
+  falseIntroduction : {A} ⊦ ¬ A ⟶ ⊦ A ⟶ ⊦ false ❘ # altFI 2 3 ❘ role EliminationRule ❙
+  falseElimination : {A} ⊦ false ⟶ ⊦ A ❘ # altFE 1 2 ❙
+❚
 
 theory Conjunction =
   include ?Propositions❙
@@ -97,7 +108,7 @@ theory DisjunctionNDI =
 theory DisjunctionNDE =
   include ?Disjunction❙
   include ?Proofs❙
-  orE   : {F,G,C} ⊦ F ∨ G ⟶ (⊦ F ⟶ ⊦ C) ⟶ (⊦ G ⟶ ⊦ C) ⟶ ⊦ C❘# 4 orE 5 6❙
+  orE   : {F,G,C} ⊦ F ∨ G ⟶ (⊦ F ⟶ ⊦ C) ⟶ (⊦ G ⟶ ⊦ C) ⟶ ⊦ C❘# 4 orE 5 6❘role EliminationRule❙
 ❚
 
 theory DisjunctionND =

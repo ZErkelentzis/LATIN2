@@ -10,7 +10,7 @@ help/forallT (idcert X4) P X (idcert X2) (x3 \ idcert X2) :- X4 > 0 , X2 is X4 -
 
 help/forallT (ptcert (forallT P X X2 X4)) P X (ptcert X2) (x3 \ ptcert X4).
 
-help/forallT (ucert X2) P X (ucert (prep (marktrue X3 (forall P)) X2)) (x4 \ ucert (prep (marktrue X3 (forall P)) X2)) :- marktrue X3 (forall P) , occatmost (marktrue X3 (forall P)) 1 X2.
+help/forallT (ucert X2) P X (ucert (prep (marktrue X3 (forall P)) X2)) (x4 \ ucert (prep (marktrue X3 (forall P)) X2)) :- marktrue X3 (forall P) , occatmost (marktrue X3 (forall P)) 4 X2.
 
 help/forallT (hdcert X2) P X (hdcert X2) (x3 \ hdcert X2).
 
@@ -60,7 +60,7 @@ help/existsF (idcert X4) P X (idcert X2) (x3 \ idcert X2) :- X4 > 0 , X2 is X4 -
 
 help/existsF (ptcert (existsF P X X2 X4)) P X (ptcert X2) (x3 \ ptcert X4).
 
-help/existsF (ucert X2) P X (ucert (prep (markfalse X3 (exists P)) X2)) (x4 \ ucert (prep (markfalse X3 (exists P)) X2)) :- markfalse X3 (exists P) , occatmost (markfalse X3 (exists P)) 1 X2.
+help/existsF (ucert X2) P X (ucert (prep (markfalse X3 (exists P)) X2)) (x4 \ ucert (prep (markfalse X3 (exists P)) X2)) :- markfalse X3 (exists P) , occatmost (markfalse X3 (exists P)) 4 X2.
 
 help/existsF (hdcert X2) P X (hdcert X2) (x3 \ hdcert X2).
 

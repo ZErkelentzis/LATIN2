@@ -1,0 +1,24 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Logic".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Existential$Quantification".
+
+/* generated from some : {P}ded (exists P)⟶term */
+
+/* type some pi (P \ ded (exists P) -> term). */
+
+/* generated from some_ax : {P,p}ded (P (some P p)) */
+
+ded X1 X2 :- help/some_ax X1 X2 P p , X2 = P (some P p).
+
+help/some_ax (prodcert X3/1 X3/2) X2 P p :- help/some_ax X3/1 X2 P p , help/some_ax X3/2 X2 P p.
+
+help/some_ax (idcert X4) X2 P p :- X4 > 0 , X3 is X4 - 1.
+
+help/some_ax (ptcert (some_ax X2 P p)) X2 P p.
+
+/* Can't create helper for ucert: no hypotheses found */
+
+help/some_ax (hdcert X3) X2 P p.
+
+help/some_ax (bccert X4) X2 P p :- bc/pos X4 , X3 is X4 - 1 , X2 = P (some P p).
+

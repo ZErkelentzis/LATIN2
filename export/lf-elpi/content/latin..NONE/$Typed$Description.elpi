@@ -1,0 +1,24 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Typed$Logic".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Typed$Unique$Existential$Quantification".
+
+/* generated from the : {A}{P:tm A⟶prop}ded (existsUnique A P)⟶tm A */
+
+/* type the pi (A \ pi (P \ ded (existsUnique A P) -> tm A)). */
+
+/* generated from the_ax : {A,P:tm A⟶prop,p}ded (P (the A P p)) */
+
+ded X1 X2 :- help/the_ax X1 X2 A P p , X2 = P (the A P p).
+
+help/the_ax (prodcert X3/1 X3/2) X2 A P p :- help/the_ax X3/1 X2 A P p , help/the_ax X3/2 X2 A P p.
+
+help/the_ax (idcert X4) X2 A P p :- X4 > 0 , X3 is X4 - 1.
+
+help/the_ax (ptcert (the_ax X2 A P p)) X2 A P p.
+
+/* Can't create helper for ucert: no hypotheses found */
+
+help/the_ax (hdcert X3) X2 A P p.
+
+help/the_ax (bccert X4) X2 A P p :- bc/pos X4 , X3 is X4 - 1 , X2 = P (the A P p).
+

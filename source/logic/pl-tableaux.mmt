@@ -6,7 +6,7 @@ theory Tableaux =
   include ?Propositions ❙
   marktrue : prop ⟶ type ❘ # 1 ¹ prec -5 ❘ role TabMarker ❙
   markfalse : prop ⟶ type ❘ # 1 ⁰ prec -5 ❘ role TabMarker ❙
-  closedbranch : type ❘ # ⊥ ❘ = {p} p¹ ❘ role TabClosed ❙
+  closedbranch : type ❘ # ⊥ ❘ = {p} p¹ ❘  role TabClosed ❙
 
   // We could define many of the rules below by defining P⁰ = P¹ ⟶ ⊥ ❙
 
@@ -93,4 +93,18 @@ theory EquivalenceTab =
   include ?Tableaux ❙
   equivalenceTab0 : {A,B} A⇔B⁰ ⟶ (A⁰ ⟶ B¹ ⟶ ⊥) ⟶ (A¹ ⟶ B⁰ ⟶ ⊥) ⟶ ⊥ ❘ # equivt0 3 4 5 ❙
   equivalenceTab1 : {A,B} A⇔B¹ ⟶ (A⁰ ⟶ B⁰ ⟶ ⊥) ⟶ (A¹ ⟶ B¹ ⟶ ⊥) ⟶ ⊥ ❘ # equivt1 3 4 5 ❙
+❚
+
+theory UniversalQuantificationTab =
+  include ?UniversalQuantification ❙
+  include ?Tableaux ❙
+  forallT : {P, X} ∀ P ¹ ⟶ (P X ¹ ⟶ ⊥) ⟶ ⊥ ❘ role ApplyRepeatedly ❙
+  forallF : {P} ∀ P ⁰ ⟶ ({x} P x ⁰ ⟶ ⊥) ⟶ ⊥ ❙
+❚
+
+theory ExistentialQuantificationTab =
+  include ?ExistentialQuantification ❙
+  include ?Tableaux ❙
+  existsT : {P} ∃ P ¹ ⟶ ({x} P x ¹ ⟶ ⊥) ⟶ ⊥ ❙
+  existsF : {P, X} ∃ P ⁰ ⟶ (P X ⁰ ⟶ ⊥) ⟶ ⊥ ❘ role ApplyRepeatedly ❙
 ❚

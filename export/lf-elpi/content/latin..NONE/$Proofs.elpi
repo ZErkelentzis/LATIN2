@@ -24,19 +24,19 @@ help/inconsistent X2 (prodcert X1/1 X1/2) :- help/inconsistent X2 X1/1 , help/in
 
 help/inconsistent X2 (bccert X1).
 
-/* generated from inconsistentE : ↯⟶{a}ded a */
+/* generated from inconsistentE : ↯⟶{A}ded A */
 
-ded X2 a :- help/inconsistentE X2 X1 a , inconsistent X1.
+ded X2 A :- help/inconsistentE X2 X1 A , inconsistent X1.
 
-help/inconsistentE (prodcert X3/1 X3/2) a (prodcert X2/1 X2/2) :- help/inconsistentE X3/1 a X2/1 , help/inconsistentE X3/2 a X2/2.
+help/inconsistentE (prodcert X3/1 X3/2) A (prodcert X2/1 X2/2) :- help/inconsistentE X3/1 A X2/1 , help/inconsistentE X3/2 A X2/2.
 
-help/inconsistentE (idcert X3) a (idcert X2) :- X3 > 0 , X2 is X3 - 1.
+help/inconsistentE (idcert X3) A (idcert X2) :- X3 > 0 , X2 is X3 - 1.
 
-help/inconsistentE (ptcert (inconsistentE a X2)) a (ptcert X2).
+help/inconsistentE (ptcert (inconsistentE A X2)) A (ptcert X2).
 
-help/inconsistentE (ucert X2) a (ucert (prep (inconsistent X3) X2)) :- inconsistent X3 , occatmost (inconsistent X3) 1 X2.
+help/inconsistentE (ucert X2) A (ucert (prep (inconsistent X3) X2)) :- inconsistent X3 , occatmost (inconsistent X3) 1 X2.
 
-help/inconsistentE (hdcert X2) a (hdcert X2).
+help/inconsistentE (hdcert X2) A (hdcert X2).
 
-help/inconsistentE (bccert X3) a (bccert X2) :- bc/pos X3 , X2 is X3 - 1.
+help/inconsistentE (bccert X3) A (bccert X2) :- bc/pos X3 , X2 is X3 - 1.
 
