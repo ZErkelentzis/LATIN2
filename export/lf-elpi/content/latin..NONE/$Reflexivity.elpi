@@ -1,8 +1,0 @@
-accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Reflexivity.omdoc.elpi".
-
-/* generated from refl : {x}rel x x */
-
-rel X1 x x :- help/refl x X1.
-
-help/refl x (pair X1/1 X1/2) :- help/refl/1 x X1/1 , help/refl/2 x X1/2.
-

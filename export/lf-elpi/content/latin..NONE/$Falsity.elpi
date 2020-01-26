@@ -1,11 +1,6 @@
-accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Falsity.omdoc.elpi".
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Propositions".
 
-/* skipping due to error: latin:/?Falsity?false
-not a rule: prop */
+/* generated from false : prop */
 
-/* generated from falseE : ded false⟶↯ */
-
-contra X2 :- help/falseE X1 X2 , ded X1 false.
-
-help/falseE (pair X1/1 X1/2) (pair X2/1 X2/2) :- help/falseE/1 X1/1 X2/1 , help/falseE/2 X1/2 X2/2.
+/* type false prop. */
 

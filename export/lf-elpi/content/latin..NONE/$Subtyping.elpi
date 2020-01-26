@@ -1,7 +1,8 @@
-accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Subtyping.omdoc.elpi".
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Types".
 
-accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Subtyping.omdoc.elpi".
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Logic".
 
-/* skipping due to error: latin:/?Subtyping?subtype
-not a rule: tp⟶tp⟶prop */
+/* generated from subtype : tp⟶tp⟶prop */
+
+/* type subtype tp -> tp -> prop. */
 

@@ -1,23 +1,6 @@
-accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Disjunction.omdoc.elpi".
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Propositions".
 
-/* skipping due to error: latin:/?Disjunction?or
-not a rule: prop⟶prop⟶prop */
+/* generated from or : prop⟶prop⟶prop */
 
-/* generated from orIl : {F,G}ded F⟶ded (or F G) */
-
-ded X2 (or F G) :- help/orIl F G X1 X2 , ded X1 F.
-
-help/orIl F G (pair X1/1 X1/2) (pair X2/1 X2/2) :- help/orIl/1 F G X1/1 X2/1 , help/orIl/2 F G X1/2 X2/2.
-
-/* generated from orIr : {F,G}ded G⟶ded (or F G) */
-
-ded X2 (or F G) :- help/orIr F G X1 X2 , ded X1 G.
-
-help/orIr F G (pair X1/1 X1/2) (pair X2/1 X2/2) :- help/orIr/1 F G X1/1 X2/1 , help/orIr/2 F G X1/2 X2/2.
-
-/* generated from orE : {F,G,C}ded (or F G)⟶(ded F⟶ded C)⟶(ded G⟶ded C)⟶ded C */
-
-ded X6 C :- help/orE F G C X1 X3 X5 X6 , ded X1 (or F G) , (pi x2 \ ded/hyp x2 F => ded (X3 x2) C) , (pi x4 \ ded/hyp x4 G => ded (X5 x4) C).
-
-help/orE F G C (pair X1/1 X1/2) (x2 \ pair (X3/1 x2) (X3/2 x2)) (x4 \ pair (X5/1 x4) (X5/2 x4)) (pair X6/1 X6/2) :- help/orE/1 F G C X1/1 X3/1 X5/1 X6/1 , help/orE/2 F G C X1/2 X3/2 X5/2 X6/2.
+/* type or prop -> prop -> prop. */
 

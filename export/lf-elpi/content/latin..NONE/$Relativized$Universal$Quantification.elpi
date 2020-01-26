@@ -1,19 +1,8 @@
-accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Relativized$Universal$Quantification.omdoc.elpi".
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Soft$Typed$Terms".
 
-accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Relativized$Universal$Quantification.omdoc.elpi".
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$F$O$L$E$Q".
 
-/* skipping due to error: latin:/?RelativizedUniversalQuantification?rforall
-not a rule: tp⟶(term⟶prop)⟶prop */
+/* generated from rforall : tp⟶(term⟶prop)⟶prop */
 
-/* generated from rforallI : {A,F}({x}ded (of x A)⟶ded (F x))⟶ded (rforall A F) */
-
-ded X3 (rforall A F) :- help/rforallI A F X2 X3 , (pi x \ pi x1 \ ded/hyp x1 (of x A) => ded (X2 x x1) (F x)).
-
-help/rforallI A F (x \ x1 \ pair (X2/1 x x1) (X2/2 x x1)) (pair X3/1 X3/2) :- help/rforallI/1 A F X2/1 X3/1 , help/rforallI/2 A F X2/2 X3/2.
-
-/* generated from rforallE : {A,F}ded (rforall A F)⟶{x}ded (of x A)⟶ded (F x) */
-
-ded X3 (F x) :- help/rforallE A F X1 x X2 X3 , ded X1 (rforall A F) , ded X2 (of x A).
-
-help/rforallE A F x (pair X1/1 X1/2) (pair X2/1 X2/2) (pair X3/1 X3/2) :- help/rforallE/1 A F x X1/1 X2/1 X3/1 , help/rforallE/2 A F x X1/2 X2/2 X3/2.
+/* type rforall tp -> term -> prop -> prop. */
 

@@ -1,16 +1,42 @@
-accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Proofs.omdoc.elpi".
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Propositions".
 
 /* generated from ded : prop⟶type */
 
 ded X2 X1 :- ded/hyp X3 X1 , help/ded X1 X3 X2.
 
-/* generated from contra : type */
+help/ded X1 X3 (idcert X2).
 
-contra X1 :- contra/hyp X2 , help/contra X2 X1.
+help/ded X1 X3 (ptcert (i X1)).
 
-/* generated from contraE : ↯⟶{a}ded a */
+help/ded X1 X3 (prodcert X2/1 X2/2) :- help/ded X1 X3 X2/1 , help/ded X1 X3 X2/2.
 
-ded X2 a :- help/contraE X1 a X2 , contra X1.
+help/ded X1 X3 (bccert X2).
 
-help/contraE a (pair X1/1 X1/2) (pair X2/1 X2/2) :- help/contraE/1 a X1/1 X2/1 , help/contraE/2 a X1/2 X2/2.
+/* generated from inconsistent : type */
+
+inconsistent X1 :- inconsistent/hyp X2 , help/inconsistent X2 X1.
+
+help/inconsistent X2 (idcert X1).
+
+help/inconsistent X2 (ptcert i).
+
+help/inconsistent X2 (prodcert X1/1 X1/2) :- help/inconsistent X2 X1/1 , help/inconsistent X2 X1/2.
+
+help/inconsistent X2 (bccert X1).
+
+/* generated from inconsistentE : ↯⟶{a}ded a */
+
+ded X2 a :- help/inconsistentE X2 X1 a , inconsistent X1.
+
+help/inconsistentE (prodcert X3/1 X3/2) a (prodcert X2/1 X2/2) :- help/inconsistentE X3/1 a X2/1 , help/inconsistentE X3/2 a X2/2.
+
+help/inconsistentE (idcert X3) a (idcert X2) :- X3 > 0 , X2 is X3 - 1.
+
+help/inconsistentE (ptcert (inconsistentE a X2)) a (ptcert X2).
+
+help/inconsistentE (ucert X2) a (ucert (prep (inconsistent X3) X2)) :- inconsistent X3 , occatmost (inconsistent X3) 1 X2.
+
+help/inconsistentE (hdcert X2) a (hdcert X2).
+
+help/inconsistentE (bccert X3) a (bccert X2) :- bc/pos X3 , X2 is X3 - 1.
 
