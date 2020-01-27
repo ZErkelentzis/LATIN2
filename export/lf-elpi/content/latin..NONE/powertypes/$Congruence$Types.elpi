@@ -1,0 +1,66 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Typed$Equality".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Equivalence$N$D".
+
+/* generated from Cong : tp⟶tp */
+
+/* type Cong tp -> tp. */
+
+/* generated from is_cong : {A}tm (Cong A)⟶tm A⟶tm A⟶prop */
+
+/* type is_cong pi A \ tm (Cong A) -> tm A -> tm A -> prop. */
+
+/* generated from cong : {A}(tm A⟶tm A⟶prop)⟶tm (Cong A) */
+
+/* type cong pi A \ tm A -> tm A -> prop -> tm (Cong A). */
+
+/* generated from compute : {A,R,x,y:tm A}ded (equiv (is_cong A (cong A R) x y) (R x y)) */
+
+ded X1 (equiv (is_cong A (cong A R) x y) (R x y)) :- help/compute A R x y X1.
+
+help/compute A R x y (prodcert X1/1 X1/2) :- help/compute A R x y X1/1 , help/compute A R x y X1/2.
+
+help/compute A R x y (idcert X2) :- X2 > 0 , X1 is X2 - 1.
+
+help/compute A R x y (ptcert (compute A R x y)).
+
+/* generated from expand : {A,C:tm (Cong A)}ded (equal (Cong A) C (cong A [x,y]is_cong A C x y)) */
+
+ded X1 (equal (Cong A) C (cong A x \ y \ is_cong A C x y)) :- help/expand A C X1.
+
+help/expand A C (prodcert X1/1 X1/2) :- help/expand A C X1/1 , help/expand A C X1/2.
+
+help/expand A C (idcert X2) :- X2 > 0 , X1 is X2 - 1.
+
+help/expand A C (ptcert (expand A C)).
+
+/* generated from cong_refl : {A,C:tm (Cong A),x}ded (is_cong A C x x) */
+
+ded X1 (is_cong A C x x) :- help/cong_refl A C x X1.
+
+help/cong_refl A C x (prodcert X1/1 X1/2) :- help/cong_refl A C x X1/1 , help/cong_refl A C x X1/2.
+
+help/cong_refl A C x (idcert X2) :- X2 > 0 , X1 is X2 - 1.
+
+help/cong_refl A C x (ptcert (cong_refl A C x)).
+
+/* generated from cong_sym : {A,C:tm (Cong A),x,y}ded (is_cong A C x y)⟶ded (is_cong A C y x) */
+
+ded X2 (is_cong A C y x) :- help/cong_sym A C x y X1 X2 , ded X1 (is_cong A C x y).
+
+help/cong_sym A C x y (prodcert X1/1 X1/2) (prodcert X2/1 X2/2) :- help/cong_sym A C x y X1/1 X2/1 , help/cong_sym A C x y X1/2 X2/2.
+
+help/cong_sym A C x y (idcert X1) (idcert X2) :- X2 > 0 , X1 is X2 - 1.
+
+help/cong_sym A C x y (ptcert X1) (ptcert (cong_sym A C x y X1)).
+
+/* generated from cong_trans : {A,C:tm (Cong A),x,y,z}ded (is_cong A C x y)⟶ded (is_cong A C y z)⟶ded (is_cong A C x z) */
+
+ded X3 (is_cong A C x z) :- help/cong_trans A C x y z X1 X2 X3 , ded X1 (is_cong A C x y) , ded X2 (is_cong A C y z).
+
+help/cong_trans A C x y z (prodcert X1/1 X1/2) (prodcert X2/1 X2/2) (prodcert X3/1 X3/2) :- help/cong_trans A C x y z X1/1 X2/1 X3/1 , help/cong_trans A C x y z X1/2 X2/2 X3/2.
+
+help/cong_trans A C x y z (idcert X1) (idcert X1) (idcert X2) :- X2 > 0 , X1 is X2 - 1.
+
+help/cong_trans A C x y z (ptcert X1) (ptcert X1) (ptcert (cong_trans A C x y z X1 X1)).
+

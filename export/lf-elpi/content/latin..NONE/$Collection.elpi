@@ -1,0 +1,12 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Endo$Magma".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Endo$Neutral".
+
+/* generated from singleton : {a}tm a⟶tm (applyType a) */
+
+/* type singleton pi a \ tm a -> tm (applyType a). */
+
+/* generated from cons : {a}tm a⟶tm (applyType a)⟶tm (applyType a) */
+
+/* type cons pi a \ tm a -> tm (applyType a) -> tm (applyType a). */
+

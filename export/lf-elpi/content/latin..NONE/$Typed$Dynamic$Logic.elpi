@@ -1,0 +1,20 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Prop$Dynamic$Logic".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$S$F$O$L$E$Q".
+
+/* generated from var : tp⟶type */
+
+/* kind var tp -> type. */
+
+/* generated from retrieve : {S}var S⟶tm S */
+
+/* type retrieve pi (S \ var S -> tm S). */
+
+/* generated from assign : {S}var S⟶tm S⟶Π */
+
+/* type assign pi (S \ var S -> tm S -> prog). */
+
+/* generated from random_assign : {S}var S⟶Π */
+
+/* type random_assign pi (S \ var S -> prog). */
+

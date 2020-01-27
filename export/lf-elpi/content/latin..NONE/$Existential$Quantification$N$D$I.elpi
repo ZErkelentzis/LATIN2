@@ -1,0 +1,18 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Existential$Quantification".
+
+/* generated from existsI : {P,X}ded (P X)⟶ded (exists P) */
+
+ded X2 (exists P) :- help/existsI X2 P X X1 , ded X1 (P X).
+
+help/existsI (prodcert X3/1 X3/2) P X (prodcert X2/1 X2/2) :- help/existsI X3/1 P X X2/1 , help/existsI X3/2 P X X2/2.
+
+help/existsI (idcert X3) P X (idcert X2) :- X3 > 0 , X2 is X3 - 1.
+
+help/existsI (ptcert (existsI P X X2)) P X (ptcert X2).
+
+help/existsI (ucert X2) P X (ucert (prep (ded X3 (P X)) X2)) :- ded X3 (P X) , occatmost (ded X3 (P X)) 1 X2.
+
+help/existsI (hdcert X2) P X (hdcert X2).
+
+help/existsI (bccert X3) P X (bccert X2) :- bc/pos X3 , X2 is X3 - 1.
+

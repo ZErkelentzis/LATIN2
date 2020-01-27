@@ -1,0 +1,12 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Typed$Terms".
+
+/* generated from depprod : {A}(tm A⟶tp)⟶tp */
+
+/* type depprod pi A \ tm A -> tp -> tp. */
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Simple$Product$Types".
+
+/* generated from [SimpleProductTypes]/simpprod : tp⟶tp⟶tp */
+
+/* type [SimpleProductTypes]/simpprod tp -> tp -> tp. */
+

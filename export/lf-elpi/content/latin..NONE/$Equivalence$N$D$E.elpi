@@ -1,0 +1,40 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Equivalence".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Proofs".
+
+/* generated from equivEl : {F,G}ded (equiv F G)⟶ded F⟶ded G */
+
+ded X3 G :- help/equivEl X3 F G X1 X2 , ded X1 (equiv F G) , ded X2 F.
+
+help/equivEl (prodcert X4/1 X4/2) F G (prodcert X2/1 X2/2) (prodcert X3/1 X3/2) :- help/equivEl X4/1 F G X2/1 X3/1 , help/equivEl X4/2 F G X2/2 X3/2.
+
+help/equivEl (idcert X3) F G (idcert X2) (idcert X2) :- X3 > 0 , X2 is X3 - 1.
+
+help/equivEl (ptcert (equivEl F G X2 X3)) F G (ptcert X2) (ptcert X3).
+
+help/equivEl (ucert X2) F G (ucert (prep (ded X3 (equiv F G)) X2)) (ucert (prep (ded X3 (equiv F G)) X2)) :- ded X3 (equiv F G) , occatmost (ded X3 (equiv F G)) 1 X2.
+
+help/equivEl (hdcert X2) F G (hdcert X2) (hdcert X2).
+
+help/equivEl (bccert X3) F G (bccert (bc/fwdLocked X2)) (bccert X2) :- bc/val X3 X4 , X4 > 0 , X2 is X4 - 1 , bc/fwdable (equiv F G).
+
+bc/aux (equiv F G) X5 :- bc/aux G X5.
+
+/* generated from equivEr : {F,G}ded (equiv F G)⟶ded G⟶ded F */
+
+ded X3 F :- help/equivEr X3 F G X1 X2 , ded X1 (equiv F G) , ded X2 G.
+
+help/equivEr (prodcert X4/1 X4/2) F G (prodcert X2/1 X2/2) (prodcert X3/1 X3/2) :- help/equivEr X4/1 F G X2/1 X3/1 , help/equivEr X4/2 F G X2/2 X3/2.
+
+help/equivEr (idcert X3) F G (idcert X2) (idcert X2) :- X3 > 0 , X2 is X3 - 1.
+
+help/equivEr (ptcert (equivEr F G X2 X3)) F G (ptcert X2) (ptcert X3).
+
+help/equivEr (ucert X2) F G (ucert (prep (ded X3 (equiv F G)) X2)) (ucert (prep (ded X3 (equiv F G)) X2)) :- ded X3 (equiv F G) , occatmost (ded X3 (equiv F G)) 1 X2.
+
+help/equivEr (hdcert X2) F G (hdcert X2) (hdcert X2).
+
+help/equivEr (bccert X3) F G (bccert (bc/fwdLocked X2)) (bccert X2) :- bc/val X3 X4 , X4 > 0 , X2 is X4 - 1 , bc/fwdable (equiv F G).
+
+bc/aux (equiv F G) X5 :- bc/aux F X5.
+

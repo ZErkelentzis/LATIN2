@@ -1,0 +1,38 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/powertypes/$Power$Types".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Conjunction$N$D".
+
+/* generated from inter : {A}tm (power A)⟶tm (power A)⟶tm (power A) */
+
+/* type inter pi A \ tm (power A) -> tm (power A) -> tm (power A). */
+
+/* generated from interEl : {A,S,T,x:tm A}ded (in A x (inter A S T))⟶ded (in A x S) */
+
+ded X2 (in A x S) :- help/interEl A S T x X1 X2 , ded X1 (in A x (inter A S T)).
+
+help/interEl A S T x (prodcert X1/1 X1/2) (prodcert X2/1 X2/2) :- help/interEl A S T x X1/1 X2/1 , help/interEl A S T x X1/2 X2/2.
+
+help/interEl A S T x (idcert X1) (idcert X2) :- X2 > 0 , X1 is X2 - 1.
+
+help/interEl A S T x (ptcert X1) (ptcert (interEl A S T x X1)).
+
+/* generated from interEr : {A,S,T,x:tm A}ded (in A x (inter A S T))⟶ded (in A x T) */
+
+ded X2 (in A x T) :- help/interEr A S T x X1 X2 , ded X1 (in A x (inter A S T)).
+
+help/interEr A S T x (prodcert X1/1 X1/2) (prodcert X2/1 X2/2) :- help/interEr A S T x X1/1 X2/1 , help/interEr A S T x X1/2 X2/2.
+
+help/interEr A S T x (idcert X1) (idcert X2) :- X2 > 0 , X1 is X2 - 1.
+
+help/interEr A S T x (ptcert X1) (ptcert (interEr A S T x X1)).
+
+/* generated from interI : {A,S,T,x:tm A}ded (in A x S)⟶ded (in A x T)⟶ded (in A x (inter A S T)) */
+
+ded X3 (in A x (inter A S T)) :- help/interI A S T x X1 X2 X3 , ded X1 (in A x S) , ded X2 (in A x T).
+
+help/interI A S T x (prodcert X1/1 X1/2) (prodcert X2/1 X2/2) (prodcert X3/1 X3/2) :- help/interI A S T x X1/1 X2/1 X3/1 , help/interI A S T x X1/2 X2/2 X3/2.
+
+help/interI A S T x (idcert X1) (idcert X1) (idcert X2) :- X2 > 0 , X1 is X2 - 1.
+
+help/interI A S T x (ptcert X1) (ptcert X1) (ptcert (interI A S T x X1 X1)).
+

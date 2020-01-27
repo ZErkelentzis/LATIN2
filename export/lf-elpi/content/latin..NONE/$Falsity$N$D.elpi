@@ -1,0 +1,20 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Falsity".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Proofs".
+
+/* generated from falseE : ded false⟶↯ */
+
+inconsistent X2 :- help/falseE X2 X1 , ded X1 false.
+
+help/falseE (prodcert X3/1 X3/2) (prodcert X2/1 X2/2) :- help/falseE X3/1 X2/1 , help/falseE X3/2 X2/2.
+
+help/falseE (idcert X3) (idcert X2) :- X3 > 0 , X2 is X3 - 1.
+
+help/falseE (ptcert (falseE X2)) (ptcert X2).
+
+help/falseE (ucert X2) (ucert (prep (ded X3 false) X2)) :- ded X3 false , occatmost (ded X3 false) 1 X2.
+
+help/falseE (hdcert X2) (hdcert X2).
+
+help/falseE (bccert X3) (bccert X2) :- bc/pos X3 , X2 is X3 - 1.
+

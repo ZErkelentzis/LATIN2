@@ -1,0 +1,12 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Soft$Typed$Products".
+
+/* generated from exten : {u,v}ded (equal (pi1 u) (pi1 v))⟶ded (equal (pi2 u) (pi2 v))⟶ded (equal u v) */
+
+ded X3 (equal u v) :- help/exten u v X1 X2 X3 , ded X1 (equal (pi1 u) (pi1 v)) , ded X2 (equal (pi2 u) (pi2 v)).
+
+help/exten u v (prodcert X1/1 X1/2) (prodcert X2/1 X2/2) (prodcert X3/1 X3/2) :- help/exten u v X1/1 X2/1 X3/1 , help/exten u v X1/2 X2/2 X3/2.
+
+help/exten u v (idcert X1) (idcert X1) (idcert X2) :- X2 > 0 , X1 is X2 - 1.
+
+help/exten u v (ptcert X1) (ptcert X1) (ptcert (exten u v X1 X1)).
+

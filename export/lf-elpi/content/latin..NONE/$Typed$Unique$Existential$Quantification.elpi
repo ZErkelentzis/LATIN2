@@ -1,16 +1,8 @@
-accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Typed$Unique$Existential$Quantification.omdoc.elpi".
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Typed$Existential$Quantification".
 
-accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Typed$Unique$Existential$Quantification.omdoc.elpi".
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Typed$Equality".
 
-/* skipping due to error: latin:/?TypedUniqueExistentialQuantification?existsUnique
-not a rule: {A}(tm A⟶prop)⟶prop */
+/* generated from existsUnique : {A}(tm A⟶prop)⟶prop */
 
-/* generated from existsUniqueI : {A,P}{x:tm A}ded (P x)⟶({y}ded (P y)⟶ded (equal A x y))⟶ded (existsUnique A P) */
-
-ded X4 (existsUnique A P) :- help/existsUniqueI A P x X1 X3 X4 , ded X1 (P x) , (pi y \ pi x2 \ ded/hyp x2 (P y) => ded (X3 y x2) (equal A x y)).
-
-help/existsUniqueI A P x (pair X1/1 X1/2) (y \ x2 \ pair (X3/1 y x2) (X3/2 y x2)) (pair X4/1 X4/2) :- help/existsUniqueI/1 A P x X1/1 X3/1 X4/1 , help/existsUniqueI/2 A P x X1/2 X3/2 X4/2.
-
-/* skipping due to error: latin:/?TypedUniqueExistentialQuantification?existsUniqueE
-not a rule: {A,P,C}ded (existsUnique A P)⟶({x:tm A}ded (P x)⟶({y}ded (P y)⟶ded (equal A x y))⟶ded C)⟶ded C */
+/* type existsUnique pi (A \ tm A -> prop -> prop). */
 

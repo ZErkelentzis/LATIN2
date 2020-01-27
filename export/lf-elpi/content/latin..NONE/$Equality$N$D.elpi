@@ -1,0 +1,34 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Equality".
+
+/* generated from refl : {x}ded (equal x x) */
+
+ded X1 (equal x x) :- help/refl X1 x.
+
+help/refl (prodcert X2/1 X2/2) x :- help/refl X2/1 x , help/refl X2/2 x.
+
+help/refl (idcert X3) x :- X3 > 0 , X2 is X3 - 1.
+
+help/refl (ptcert (refl x)) x.
+
+/* Can't create helper for ucert: no hypotheses found */
+
+help/refl (hdcert X2) x.
+
+help/refl (bccert X3) x :- bc/pos X3 , X2 is X3 - 1.
+
+/* generated from congP : {x,y}ded (equal x y)⟶{P:term⟶prop}ded (P x)⟶ded (P y) */
+
+ded X3 X4 :- help/congP X3 X4 x y X1 P X2 , X4 = P y , ded X1 (equal x y) , ded X2 (P x).
+
+help/congP (prodcert X5/1 X5/2) X2 x y P (prodcert X3/1 X3/2) (prodcert X4/1 X4/2) :- help/congP X5/1 X2 x y P X3/1 X4/1 , help/congP X5/2 X2 x y P X3/2 X4/2.
+
+help/congP (idcert X4) X2 x y P (idcert X3) (idcert X3) :- X4 > 0 , X3 is X4 - 1.
+
+help/congP (ptcert (congP X2 x y P X3 X4)) X2 x y P (ptcert X3) (ptcert X4).
+
+help/congP (ucert X3) X2 x y P (ucert (prep (ded X4 (equal x y)) X3)) (ucert (prep (ded X4 (equal x y)) X3)) :- ded X4 (equal x y) , occatmost (ded X4 (equal x y)) 1 X3.
+
+help/congP (hdcert X3) X2 x y P (hdcert X3) (hdcert X3).
+
+help/congP (bccert X4) X2 x y P (bccert X3) (bccert X3) :- bc/pos X4 , X3 is X4 - 1 , X2 = P y.
+

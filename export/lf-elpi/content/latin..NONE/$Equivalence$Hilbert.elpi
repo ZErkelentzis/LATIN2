@@ -1,0 +1,20 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Equivalence$N$D$E".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Implication$Hilbert".
+
+/* generated from equivI_ax : {F,G}ded (impl (impl F G) (impl (impl G F) (equiv F G))) */
+
+ded X1 (impl (impl F G) (impl (impl G F) (equiv F G))) :- help/equivI_ax X1 F G.
+
+help/equivI_ax (prodcert X2/1 X2/2) F G :- help/equivI_ax X2/1 F G , help/equivI_ax X2/2 F G.
+
+help/equivI_ax (idcert X3) F G :- X3 > 0 , X2 is X3 - 1.
+
+help/equivI_ax (ptcert (equivI_ax F G)) F G.
+
+/* Can't create helper for ucert: no hypotheses found */
+
+help/equivI_ax (hdcert X2) F G.
+
+help/equivI_ax (bccert X3) F G :- bc/pos X3 , X2 is X3 - 1.
+

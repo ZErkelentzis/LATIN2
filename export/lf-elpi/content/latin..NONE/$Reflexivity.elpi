@@ -1,8 +1,18 @@
-accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Reflexivity.omdoc.elpi".
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Relation".
 
 /* generated from refl : {x}rel x x */
 
-rel X1 x x :- help/refl x X1.
+rel X1 x x :- help/refl X1 x.
 
-help/refl x (pair X1/1 X1/2) :- help/refl/1 x X1/1 , help/refl/2 x X1/2.
+help/refl (prodcert X2/1 X2/2) x :- help/refl X2/1 x , help/refl X2/2 x.
+
+help/refl (idcert X3) x :- X3 > 0 , X2 is X3 - 1.
+
+help/refl (ptcert (refl x)) x.
+
+/* Can't create helper for ucert: no hypotheses found */
+
+help/refl (hdcert X2) x.
+
+help/refl (bccert X3) x :- bc/pos X3 , X2 is X3 - 1.
 

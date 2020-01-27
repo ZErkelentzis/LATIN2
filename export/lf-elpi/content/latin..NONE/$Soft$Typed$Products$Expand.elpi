@@ -1,0 +1,12 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Soft$Typed$Products".
+
+/* generated from expand : {u}ded (equal (pair (pi1 u) (pi2 u)) u) */
+
+ded X1 (equal (pair (pi1 u) (pi2 u)) u) :- help/expand u X1.
+
+help/expand u (prodcert X1/1 X1/2) :- help/expand u X1/1 , help/expand u X1/2.
+
+help/expand u (idcert X2) :- X2 > 0 , X1 is X2 - 1.
+
+help/expand u (ptcert (expand u)).
+

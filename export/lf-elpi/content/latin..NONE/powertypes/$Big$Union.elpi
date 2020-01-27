@@ -1,0 +1,30 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/powertypes/$Power$Types".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Conjunction$N$D".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Typed$Existential$Quantification$N$D".
+
+/* generated from bigunion : {A}tm (power (power A))⟶tm (power A) */
+
+/* type bigunion pi A \ tm (power (power A)) -> tm (power A). */
+
+/* generated from bigunionI : {A,K,S,x:tm A}ded (in (power A) S K)⟶ded (in A x S)⟶ded (in A x (bigunion A K)) */
+
+ded X3 (in A x (bigunion A K)) :- help/bigunionI A K S x X1 X2 X3 , ded X1 (in (power A) S K) , ded X2 (in A x S).
+
+help/bigunionI A K S x (prodcert X1/1 X1/2) (prodcert X2/1 X2/2) (prodcert X3/1 X3/2) :- help/bigunionI A K S x X1/1 X2/1 X3/1 , help/bigunionI A K S x X1/2 X2/2 X3/2.
+
+help/bigunionI A K S x (idcert X1) (idcert X1) (idcert X2) :- X2 > 0 , X1 is X2 - 1.
+
+help/bigunionI A K S x (ptcert X1) (ptcert X1) (ptcert (bigunionI A K S x X1 X1)).
+
+/* generated from bigunionE : {A,K,x:tm A,C}ded (in A x (bigunion A K))⟶({S}ded (in (power A) S K)⟶ded (in A x S)⟶ded C)⟶ded C */
+
+ded X5 C :- help/bigunionE A K x C X1 X4 X5 , ded X1 (in A x (bigunion A K)) , (pi S \ pi x2 \ pi x3 \ ded/hyp x2 (in (power A) S K) , ded/hyp x3 (in A x S) => ded (X4 S x2 x3) C).
+
+help/bigunionE A K x C (prodcert X1/1 X1/2) (S \ x2 \ x3 \ prodcert (X4/1 S x2 x3) (X4/2 S x2 x3)) (prodcert X5/1 X5/2) :- help/bigunionE A K x C X1/1 X4/1 X5/1 , help/bigunionE A K x C X1/2 X4/2 X5/2.
+
+help/bigunionE A K x C (idcert X1) (S \ x2 \ x3 \ idcert X1) (idcert X4) :- X4 > 0 , X1 is X4 - 1.
+
+help/bigunionE A K x C (ptcert X1) (S \ x2 \ x3 \ ptcert X1) (ptcert (bigunionE A K x C X1 X1)).
+

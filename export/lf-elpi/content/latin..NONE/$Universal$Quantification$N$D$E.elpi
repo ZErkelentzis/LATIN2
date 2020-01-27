@@ -1,0 +1,20 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Universal$Quantification".
+
+/* generated from forallE : {P,X}ded (forall P)⟶ded (P X) */
+
+ded X2 X3 :- help/forallE X2 X3 P X X1 , X3 = P X , ded X1 (forall P).
+
+help/forallE (prodcert X4/1 X4/2) X2 P X (prodcert X3/1 X3/2) :- help/forallE X4/1 X2 P X X3/1 , help/forallE X4/2 X2 P X X3/2.
+
+help/forallE (idcert X4) X2 P X (idcert X3) :- X4 > 0 , X3 is X4 - 1.
+
+help/forallE (ptcert (forallE X2 P X X3)) X2 P X (ptcert X3).
+
+help/forallE (ucert X3) X2 P X (ucert (prep (ded X4 (forall P)) X3)) :- ded X4 (forall P) , occatmost (ded X4 (forall P)) 1 X3.
+
+help/forallE (hdcert X3) X2 P X (hdcert X3).
+
+help/forallE (bccert X4) X2 P X (bccert (bc/fwdLocked X3)) :- bc/val X4 X5 , X5 > 0 , X3 is X5 - 1 , bc/fwdable (forall P) , X2 = P X.
+
+bc/aux (forall P) X6 :- bc/aux (P X) X6.
+
