@@ -1,0 +1,36 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$P$L".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Programs".
+
+/* generated from comp : Π⟶Π⟶Π */
+
+/* type comp prog -> prog -> prog. */
+
+/* generated from distrib : Π⟶Π⟶Π */
+
+/* type distrib prog -> prog -> prog. */
+
+/* generated from iteration : Π⟶Π */
+
+/* type iteration prog -> prog. */
+
+/* generated from test : prop⟶Π */
+
+/* type test prop -> prog. */
+
+/* generated from skip : Π */
+
+/* type skip prog. */
+
+/* generated from ifte : prop⟶Π⟶Π⟶Π */
+
+/* type ifte prop -> prog -> prog -> prog. */
+
+/* generated from while : prop⟶Π⟶Π */
+
+/* type while prop -> prog -> prog. */
+
+/* generated from until : prop⟶Π⟶Π */
+
+/* type until prop -> prog -> prog. */
+

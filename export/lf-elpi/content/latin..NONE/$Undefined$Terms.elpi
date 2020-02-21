@@ -1,0 +1,10 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Untyped$Logic".
+
+/* generated from defined : term⟶prop */
+
+/* type defined term -> prop. */
+
+/* generated from strict_equal : term⟶term⟶prop */
+
+/* type strict_equal term -> term -> prop. */
+

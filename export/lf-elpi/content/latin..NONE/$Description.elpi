@@ -1,13 +1,24 @@
-accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Description.omdoc.elpi".
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Logic".
 
-accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Description.omdoc.elpi".
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Unique$Existential$Quantification".
 
-/* skipping due to error: latin:/?Description?the
-not a rule: {P}ded (existsUnique P)⟶term */
+/* generated from the : {P}ded (existsUnique P)⟶term */
 
-/* generated from the_prop : {P,p}ded (P (the P p)) */
+/* type the pi (P \ ded (existsUnique P) -> term). */
 
-ded X1 (P (the P p)) :- help/the_prop P p X1.
+/* generated from the_ax : {P,p}ded (P (the P p)) */
 
-help/the_prop P p (pair X1/1 X1/2) :- help/the_prop/1 P p X1/1 , help/the_prop/2 P p X1/2.
+ded X1 X2 :- help/the_ax X1 X2 P p , X2 = P (the P p).
+
+help/the_ax (prodcert X3/1 X3/2) X2 P p :- help/the_ax X3/1 X2 P p , help/the_ax X3/2 X2 P p.
+
+help/the_ax (idcert X4) X2 P p :- X4 > 0 , X3 is X4 - 1.
+
+help/the_ax (ptcert (the_ax X2 P p)) X2 P p.
+
+/* Can't create helper for ucert: no hypotheses found */
+
+help/the_ax (hdcert X3) X2 P p.
+
+help/the_ax (bccert X4) X2 P p :- bc/pos X4 , X3 is X4 - 1 , X2 = P (the P p).
 

@@ -1,8 +1,18 @@
-accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Symmetry.omdoc.elpi".
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Relation".
 
 /* generated from sym : {x,y}rel x y⟶rel y x */
 
-rel X2 y x :- help/sym x y X1 X2 , rel X1 x y.
+rel X2 y x :- help/sym X2 x y X1 , rel X1 x y.
 
-help/sym x y (pair X1/1 X1/2) (pair X2/1 X2/2) :- help/sym/1 x y X1/1 X2/1 , help/sym/2 x y X1/2 X2/2.
+help/sym (prodcert X3/1 X3/2) x y (prodcert X2/1 X2/2) :- help/sym X3/1 x y X2/1 , help/sym X3/2 x y X2/2.
+
+help/sym (idcert X3) x y (idcert X2) :- X3 > 0 , X2 is X3 - 1.
+
+help/sym (ptcert (sym x y X2)) x y (ptcert X2).
+
+help/sym (ucert X2) x y (ucert (prep (rel X3 x y) X2)) :- rel X3 x y , occatmost (rel X3 x y) 1 X2.
+
+help/sym (hdcert X2) x y (hdcert X2).
+
+help/sym (bccert X3) x y (bccert X2) :- bc/pos X3 , X2 is X3 - 1.
 

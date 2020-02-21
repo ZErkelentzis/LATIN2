@@ -1,24 +1,2 @@
-accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$P$L.omdoc.elpi".
-
-accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$P$L.omdoc.elpi".
-
-accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$P$L.omdoc.elpi".
-
-/* generated from indirect : {F}(ded (not F)⟶↯)⟶ded F */
-
-ded X3 F :- help/indirect F X2 X3 , (pi x1 \ ded/hyp x1 (not F) => contra (X2 x1)).
-
-help/indirect F (x1 \ pair (X2/1 x1) (X2/2 x1)) (pair X3/1 X3/2) :- help/indirect/1 F X2/1 X3/1 , help/indirect/2 F X2/2 X3/2.
-
-/* generated from dne : {F}ded (not (not F))⟶ded F */
-
-ded X2 F :- help/dne F X1 X2 , ded X1 (not (not F)).
-
-help/dne F (pair X1/1 X1/2) (pair X2/1 X2/2) :- help/dne/1 F X1/1 X2/1 , help/dne/2 F X1/2 X2/2.
-
-/* generated from tnd : {F}ded (or F (not F)) */
-
-ded X1 (or F (not F)) :- help/tnd F X1.
-
-help/tnd F (pair X1/1 X1/2) :- help/tnd/1 F X1/1 , help/tnd/2 F X1/2.
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$I$P$L".
 

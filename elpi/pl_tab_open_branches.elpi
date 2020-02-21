@@ -1,0 +1,24 @@
+marktrue X P :- !, marktrue/hyp _ P.
+markfalse X P :- !, markfalse/hyp _ P.
+
+accumulate "generic/tab".
+accumulate "generated/pltab".
+
+closedbranch X4 :- help/model X4 .
+
+model F :-
+    print "Working with " F,
+    new_safe S,
+    marktrue/hyp X F => closedbranch (prodcert (ucert nil) (hdcert S)),
+    open_safe S B,
+    print "Models (branches): " B, print, !, fail.
+
+
+
+mytest P :- pi a \ pi b \ P (or a a).
+mytest P :- pi a \ pi b \ P (impl a (impl a b)).
+mytest P :- pi a \ pi b \ P (and a (not a)).
+mytest P :- pi a \ pi b \ P (and (or a b) (impl a b)).
+
+main :- mytest model.
+main.

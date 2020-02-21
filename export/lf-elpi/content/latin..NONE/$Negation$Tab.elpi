@@ -1,0 +1,36 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Negation".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Tableaux".
+
+/* generated from negationTab0 : {P}markfalse (not P)⟶(marktrue P⟶⊥)⟶⊥ */
+
+closedbranch X4 :- help/negationTab0 X4 P X1 X3 , markfalse X1 (not P) , (pi (x2 \ marktrue/hyp x2 P => closedbranch (X3 x2))).
+
+help/negationTab0 (prodcert X5/1 X5/2) P (prodcert X2/1 X2/2) (x3 \ prodcert (X4/1 x3) (X4/2 x3)) :- help/negationTab0 X5/1 P X2/1 X4/1 , help/negationTab0 X5/2 P X2/2 X4/2.
+
+help/negationTab0 (idcert X4) P (idcert X2) (x3 \ idcert X2) :- X4 > 0 , X2 is X4 - 1.
+
+help/negationTab0 (ptcert (negationTab0 P X2 X4)) P (ptcert X2) (x3 \ ptcert X4).
+
+help/negationTab0 (ucert X2) P (ucert (prep (markfalse X3 (not P)) X2)) (x4 \ ucert (prep (markfalse X3 (not P)) X2)) :- markfalse X3 (not P) , occatmost (markfalse X3 (not P)) 1 X2.
+
+help/negationTab0 (hdcert X2) P (hdcert X2) (x3 \ hdcert X2).
+
+help/negationTab0 (bccert X4) P (bccert X2) (x3 \ bccert X2) :- bc/pos X4 , X2 is X4 - 1.
+
+/* generated from negationTab1 : {P}marktrue (not P)⟶(markfalse P⟶⊥)⟶⊥ */
+
+closedbranch X4 :- help/negationTab1 X4 P X1 X3 , marktrue X1 (not P) , (pi (x2 \ markfalse/hyp x2 P => closedbranch (X3 x2))).
+
+help/negationTab1 (prodcert X5/1 X5/2) P (prodcert X2/1 X2/2) (x3 \ prodcert (X4/1 x3) (X4/2 x3)) :- help/negationTab1 X5/1 P X2/1 X4/1 , help/negationTab1 X5/2 P X2/2 X4/2.
+
+help/negationTab1 (idcert X4) P (idcert X2) (x3 \ idcert X2) :- X4 > 0 , X2 is X4 - 1.
+
+help/negationTab1 (ptcert (negationTab1 P X2 X4)) P (ptcert X2) (x3 \ ptcert X4).
+
+help/negationTab1 (ucert X2) P (ucert (prep (marktrue X3 (not P)) X2)) (x4 \ ucert (prep (marktrue X3 (not P)) X2)) :- marktrue X3 (not P) , occatmost (marktrue X3 (not P)) 1 X2.
+
+help/negationTab1 (hdcert X2) P (hdcert X2) (x3 \ hdcert X2).
+
+help/negationTab1 (bccert X4) P (bccert X2) (x3 \ bccert X2) :- bc/pos X4 , X2 is X4 - 1.
+

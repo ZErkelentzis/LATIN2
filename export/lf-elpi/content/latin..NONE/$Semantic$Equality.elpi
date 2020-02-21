@@ -1,11 +1,22 @@
-accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Semantic$Equality.omdoc.elpi".
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Equivalence$Relation".
 
-/* skipping due to error: latin:/?SemanticEquality?cong
-not a rule: {x,y}rel x y⟶{A:carrier⟶type}A x⟶A y */
+/* generated from cong : {x,y}rel x y⟶{A:carrier⟶type}A x⟶A y */
+
+/* type cong pi (x \ pi (y \ rel x y -> (pi (A \ A x -> A y)))). */
 
 /* generated from congT : {x,y}rel x y⟶{T:carrier⟶carrier}rel (T x) (T y) */
 
-rel X2 (T x) (T y) :- help/congT x y X1 T X2 , rel X1 x y.
+rel X2 X3 X4 :- help/congT X2 X4 X3 x y X1 T , X3 = T x , X4 = T y , rel X1 x y.
 
-help/congT x y T (pair X1/1 X1/2) (pair X2/1 X2/2) :- help/congT/1 x y T X1/1 X2/1 , help/congT/2 x y T X1/2 X2/2.
+help/congT (prodcert X5/1 X5/2) X3 X2 x y T (prodcert X4/1 X4/2) :- help/congT X5/1 X3 X2 x y T X4/1 , help/congT X5/2 X3 X2 x y T X4/2.
+
+help/congT (idcert X5) X3 X2 x y T (idcert X4) :- X5 > 0 , X4 is X5 - 1.
+
+help/congT (ptcert (congT X3 X2 x y T X4)) X3 X2 x y T (ptcert X4).
+
+help/congT (ucert X4) X3 X2 x y T (ucert (prep (rel X5 x y) X4)) :- rel X5 x y , occatmost (rel X5 x y) 1 X4.
+
+help/congT (hdcert X4) X3 X2 x y T (hdcert X4).
+
+help/congT (bccert X5) X3 X2 x y T (bccert X4) :- bc/pos X5 , X4 is X5 - 1 , X2 = T x , X3 = T y.
 

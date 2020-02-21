@@ -1,0 +1,36 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Disjunction".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Proofs".
+
+/* generated from orIl : {F,G}ded F⟶ded (or F G) */
+
+ded X2 (or F G) :- help/orIl X2 F G X1 , ded X1 F.
+
+help/orIl (prodcert X3/1 X3/2) F G (prodcert X2/1 X2/2) :- help/orIl X3/1 F G X2/1 , help/orIl X3/2 F G X2/2.
+
+help/orIl (idcert X3) F G (idcert X2) :- X3 > 0 , X2 is X3 - 1.
+
+help/orIl (ptcert (orIl F G X2)) F G (ptcert X2).
+
+help/orIl (ucert X2) F G (ucert (prep (ded X3 F) X2)) :- ded X3 F , occatmost (ded X3 F) 1 X2.
+
+help/orIl (hdcert X2) F G (hdcert X2).
+
+help/orIl (bccert X3) F G (bccert X2) :- bc/pos X3 , X2 is X3 - 1.
+
+/* generated from orIr : {F,G}ded G⟶ded (or F G) */
+
+ded X2 (or F G) :- help/orIr X2 F G X1 , ded X1 G.
+
+help/orIr (prodcert X3/1 X3/2) F G (prodcert X2/1 X2/2) :- help/orIr X3/1 F G X2/1 , help/orIr X3/2 F G X2/2.
+
+help/orIr (idcert X3) F G (idcert X2) :- X3 > 0 , X2 is X3 - 1.
+
+help/orIr (ptcert (orIr F G X2)) F G (ptcert X2).
+
+help/orIr (ucert X2) F G (ucert (prep (ded X3 G) X2)) :- ded X3 G , occatmost (ded X3 G) 1 X2.
+
+help/orIr (hdcert X2) F G (hdcert X2).
+
+help/orIr (bccert X3) F G (bccert X2) :- bc/pos X3 , X2 is X3 - 1.
+

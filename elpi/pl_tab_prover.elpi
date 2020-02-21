@@ -1,0 +1,32 @@
+marktrue X P :- !, marktrue/hyp _ P.
+markfalse X P :- !, markfalse/hyp _ P.
+
+accumulate "generic/tab".
+accumulate "generated/pltab".
+
+
+
+prove F :-
+    print "Proving " F,
+    markfalse/hyp X F => closedbranch (ucert nil),
+    print "Success", !, fail.
+prove _ :- print "Fail", fail.
+
+
+
+mytest P :- pi a \ pi b \ P (impl a (impl b a)).
+mytest P :- pi a \ pi b \ P (impl (and a b) a).
+mytest P :- pi a \ pi b \ P (impl (or a b) (or b a)).
+mytest P :- pi a \ pi b \ P (impl (and a b) (impl (impl a (impl b false)) false)).
+mytest P :- pi a \ pi b \ pi c \ P (impl (impl a (or b c)) (impl (impl b c) (impl a c))).
+mytest P :- pi a \ pi b \ P (or a (not a)).
+mytest P :- pi a \ pi b \ P (or (not a) a).
+
+% and some false ones:
+mytest P :- pi a \ pi b \ P (impl a (impl a b)).
+mytest P :- pi a \ pi b \ P (or a a).
+mytest P :- pi a \ pi b \ P (impl (or a b) b ).
+mytest P :- pi a \ pi b \ pi c \ P (impl (impl a (or b c)) (impl (impl a b) (impl a c))).
+
+main :- mytest prove.
+main.

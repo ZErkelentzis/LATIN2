@@ -1,0 +1,36 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Typed$Universal$Quantification".
+
+/* generated from forallI : {A,P}({x:tm A}ded (P x))⟶ded (forall A [x]P x) */
+
+ded X2 (forall A (x \ P x)) :- help/forallI X2 A P X1 , (pi (x \ ded (X1 x) (P x))).
+
+help/forallI (prodcert X3/1 X3/2) A P (x \ prodcert (X2/1 x) (X2/2 x)) :- help/forallI X3/1 A P X2/1 , help/forallI X3/2 A P X2/2.
+
+help/forallI (idcert X3) A P (x \ idcert X2) :- X3 > 0 , X2 is X3 - 1.
+
+help/forallI (ptcert (forallI A P X2)) A P (x \ ptcert X2).
+
+help/forallI (ucert X2) A P (x \ ucert (prep (pi (x \ ded (X3 x) (P x))) X2)) :- (pi (x \ ded (X3 x) (P x))) , occatmost (pi (x \ ded (X3 x) (P x))) 1 X2.
+
+help/forallI (hdcert X2) A P (x \ hdcert X2).
+
+help/forallI (bccert X3) A P (x \ bccert X2) :- bc/pos X3 , X2 is X3 - 1.
+
+/* generated from forallE : {A,P}ded (forall A P)⟶{x:tm A}ded (P x) */
+
+ded X2 X3 :- help/forallE X2 X3 A P X1 x , X3 = P x , ded X1 (forall A P).
+
+help/forallE (prodcert X4/1 X4/2) X2 A P x (prodcert X3/1 X3/2) :- help/forallE X4/1 X2 A P x X3/1 , help/forallE X4/2 X2 A P x X3/2.
+
+help/forallE (idcert X4) X2 A P x (idcert X3) :- X4 > 0 , X3 is X4 - 1.
+
+help/forallE (ptcert (forallE X2 A P x X3)) X2 A P x (ptcert X3).
+
+help/forallE (ucert X3) X2 A P x (ucert (prep (ded X4 (forall A P)) X3)) :- ded X4 (forall A P) , occatmost (ded X4 (forall A P)) 1 X3.
+
+help/forallE (hdcert X3) X2 A P x (hdcert X3).
+
+help/forallE (bccert X4) X2 A P x (bccert (bc/fwdLocked X3)) :- bc/val X4 X5 , X5 > 0 , X3 is X5 - 1 , bc/fwdable (forall A P) , X2 = P x.
+
+bc/aux (forall A P) X6 :- bc/aux (P x) X6.
+
