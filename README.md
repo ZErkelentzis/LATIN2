@@ -31,14 +31,18 @@ Rebuilding amounts to the following:
 
    Typically, the root path contains, besides this LATIN2 repository, also the [urtheories](/MMT/urtheories) and [LFX](/MMT/LFX) archives as (transitive) subdirectories.<br>
    \*) if you don't know about that file, you probably don't have one.
-4. Run the build file: `file ../../my-archives/MMT/LATIN2/build-omdoc.msl`
+4. Run the build file: `file [path to LATIN2 archive]/build-omdoc.msl`
 5. Possibly repeat step 3 once more
 
 You probably still get errors in steps 3 and 4. Try ignoring them and just continuing with what you wanted to do initially.
 For example, if you wanted to initially build `pl.mmt`, but that failed with peculiar errors, try building that file individually now, e.g. from within IntelliJ with the MMT plugin.
 Ideally, that should build errorfree now.
 
----
+## Maintainers / Contact
+
+- [Navid Roux](https://kwarc.info/people/nroux/) (currently responsible for building and making releases of LATIN2, advised by Florian Rabe)
+- [Florian Rabe](https://kwarc.info/people/frabe/) (responsible for LATIN2 in general)
+
 
 ## Bibliography
 
