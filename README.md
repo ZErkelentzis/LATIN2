@@ -29,7 +29,7 @@ Rebuilding amounts to the following:
 2. Start the MMT shell: `java -jar mmt.jar`
 3. If you don't have an `mmt.rc`\*, tell MMT about the location of your archives: `mathpath archive [root path of your archives]`, e.g. `mathpath archive ../../my-archives`
 
-   Typically, the root path contains, besides this LATIN2 repository, also the [urtheories](/MMT/urtheories) and [LFX](/MMT/LFX) archives as (transitive) subdirectories.<br>
+   Typically, the root path contains, besides this LATIN2 repository, also the [urtheories](https://gl.mathhub.info/MMT/urtheories) and [LFX](https://gl.mathhub.info/MMT/LFX) archives as (transitive) subdirectories.<br>
    \*) if you don't know about that file, you probably don't have one.
 4. Run the build file: `file [path to LATIN2 archive]/build-omdoc.msl`
 5. Possibly repeat step 3 once more
