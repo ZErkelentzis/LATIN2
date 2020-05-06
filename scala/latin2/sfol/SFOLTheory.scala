@@ -17,11 +17,19 @@ object CommonSymbols {
   val prop = Propositions.prop
   val ded = Proofs.ded
 
-  object TmList {
-    def apply(tps: List[Term]) = tps map {a => tm(a)}
-    def unapply(tms: List[Term]) = tms mapPartialStrict {
-      case TypedTerms.tm(a) => Some(a)
-      case _ => None
+  /** convenience class for matching tm a1 --> ... --> tm an --> b */
+  object TmFunType {
+    def apply(ins: List[Term], out: Term) = FunType(ins map {a => (None, tm(a))}, out)
+    def unapply(t: Term): Option[(List[Term],Term)] = {
+      t match {
+        case FunType(ins, out) =>
+          val insTp = ins mapPartialStrict {
+            case (_,TypedTerms.tm(a)) => Some(a)
+            case _ => None
+          }
+          insTp map (x => (x,out))
+        case _ => None
+      }
     }
   }
   object DedList {
@@ -45,20 +53,20 @@ object SFOLPatterns {
   }
   object FuncDecl {
     def apply(in: List[Term], out: Term) = {
-       Arrow(in map {i => tm(i)}, tm(out))
+       TmFunType(in, tm(out))
     }
     def unapply(t: Term) =  t match {
-      case FunType(TmList(in),TypedTerms.tm(out)) =>
-        Some((in,out))
+      case TmFunType(in,TypedTerms.tm(o)) =>
+        Some((in,o))
       case _ => None
     }
   }
   object PredDecl {
     def apply(in: List[Term], out: Term) = {
-      Arrow(in map {i => tm(i)}, prop.term)
+      TmFunType(in, prop.term)
     }
     def unapply(t: Term) =  t match {
-      case FunType(TmList(in),prop.term) => Some(in)
+      case TmFunType(in,prop.term) => Some(in)
       case _ => None
     }
   }
@@ -79,33 +87,31 @@ class SFOLTheoryAdapter(controller: Controller, path: MPath) {
   private lazy val init = {
     val theory = controller.globalLookup.getAs(classOf[Theory], path)
     controller.simplifier(theory)
-    var constants : List[Constant] = Nil
-    controller.globalLookup.forDeclarationsInScope(OMMOD(path)) {(_,_,d) =>
-      d match {
-        case c: Constant => constants ::= c
-        case _ =>
-      }
+    val constants = Theory.primitiveConstants(path, controller.globalLookup)
+    println(constants)
+    val typedConstants = constants collect {
+      case (p,Some(tp)) => (p, tp)
     }
-    (theory,constants.reverse)
+    (theory,typedConstants)
   }
   lazy val theory: Theory = init._1
-  lazy val declarations: List[Constant] = init._2
+  lazy val constants: List[(GlobalName,Term)] = init._2.toList
 
-  def getTypeSyms: List[Constant] = declarations filter {d =>
-    d.tp match {
-      case Some(TypeDecl(_)) => true
+  def getTypeSyms = constants filter {case (p,tp) =>
+    tp match {
+      case TypeDecl(_) => true
       case _ => false
     }
   }
-  def getFunSyms:  List[Constant] = declarations filter {d =>
-    d.tp match {
-      case Some(FuncDecl(_)) => true
+  def getFunSyms = constants filter {case (p,tp) =>
+    tp match {
+      case FuncDecl(_) => true
       case _ => false
     }
   }
-  def getPredSyms: List[Constant] = declarations filter {d =>
-    d.tp match {
-      case Some(PredDecl(_)) => true
+  def getPredSyms = constants filter {case (p,tp) =>
+    tp match {
+      case PredDecl(_) => true
       case _ => false
     }
   }

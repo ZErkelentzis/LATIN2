@@ -16,10 +16,13 @@ class SFOLTermGenerator(controller: Controller) {
    import SFOLPatterns._
    def makeTerms(mp: MPath) {
      val theory = new SFOLTheoryAdapter(controller, mp)
+     val tps = theory.getTypeSyms
+     tps foreach {case (p,_) =>
+       println("type symbol " + p.name)
+     }
      val funs = theory.getFunSyms
-     funs foreach {fs =>
-       println("function symbol " + fs.name)
-       val tp = fs.tp.getOrElse {println("no type found for " + fs.name); return}
+     funs foreach {case (p,tp) =>
+       println("function symbol " + p.name)
        println("type in LF syntax: " + tp)
        val FuncDecl(ins,out) = tp
        println("inputs: " + ins.mkString(", "))
