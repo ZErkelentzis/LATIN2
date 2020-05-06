@@ -1,0 +1,153 @@
+package latin2.quotation
+
+import info.kwarc.mmt.api._
+import checking._
+import objects._
+import uom._
+import utils._
+
+import info.kwarc.mmt.lf._
+
+/** convenience class for the syntax of HOL
+ *  
+ *  the URIs used here must match the ones used in the respective MMT theory
+ *  the objects defined here allow for forming and pattern-matching HOL objects in a way that hides the LF meta-language; see below for examples
+ */
+object HOL {
+  val ns = DPath(URI("latin2"))
+  val name = "TypedTerms"
+  val path = ns ? name
+  object tm extends UnaryLFConstantScala(path, "tm")
+  val lambda = ns ? "SimpleFunctions" ? "lambda"
+  object apply extends FouraryLFConstantScala(ns ? "SimpleFunctions",  "apply")
+}
+
+/** convenience class for the syntax of CTTQE */
+object CTTQE {
+  val ns = HOL.ns
+  val name = "CTTQE"
+  val path = ns ? name
+  val QuotationType = path ? "QuotationType"
+  object quote extends UnaryLFConstantScala(path, "quote")
+  object eval extends BinaryLFConstantScala(path, "eval")
+  
+  object abstraction extends TernaryLFConstantScala(path, "abstraction")
+  object application extends BinaryLFConstantScala(path, "application")
+  object quotation extends UnaryLFConstantScala(path, "quotaiton")
+}
+
+/** convenience class for the syntax of Strings */
+object Strings {
+  val ns = HOL.ns
+  val strings = ns ? "Strings" ? "string"
+  object Literals extends RepresentedRealizedType(OMS(strings), StandardString)
+}
+
+/** a [[SemanticType]] for MMT terms, i.e., MMT terms as literals */
+object QuotationType extends Atomic[Term] {
+  def asString = "Quotaiton"
+  val cls = classOf[Term]
+  def fromString(s: String) = OMSemiFormal(Text("unparsed", s))
+  override def atomicToString(t: Term): String = t.toStr(true)
+}
+
+/** this rule ties the syntactic type tm epsilon to the semantic type [[QuotationType]]
+ * 
+ * This object allows forming and pattern-matching MMT terms as Quotation(t) where t is an MMT term used as a literal  
+ */
+object Quotation extends RepresentedRealizedType(HOL.tm(OMS(CTTQE.QuotationType)), QuotationType)
+
+/* this rule takes a term quote(t) and turns it into the literal Quotation(t) */
+object ComputeQuote extends ComputationRule(CTTQE.quote.path) {
+  def apply(check: CheckingCallback)(tm: Term, covered: Boolean)(implicit stack: Stack, history: History): uom.Simplifiability = {
+     tm match {
+       case CTTQE.quote(t) =>
+         Simplify(Quotation(t))
+       case _ =>
+         Simplifiability.NoRecurse
+     }
+  }
+}
+
+/** this rule infers the type of quote(t) as tm epsilon */
+object InferQuote extends IntroductionRule(CTTQE.quote.path, OfType.path) {
+  def apply(solver: Solver)(tm: Term, covered: Boolean)(implicit stack: Stack, history: History) = tm match {
+     case CTTQE.quote(t) =>
+       if (!covered) {
+         /* optional design choice: we only allow quoting well-formed terms of type tm epsilon
+          * in particular, this requires constants and variables to be in scope
+          * incidentally, this rule ensures that type reconstruction is run on the quoted term
+          */
+         solver.inferTypeAndThen(t)(stack, history + "checking that quoted term is well-formed") {tI =>
+           tI match {
+             case HOL.tm(_) =>
+               true
+             case _ =>
+               solver.error("can only quote HOL terms")
+           }
+         }
+       }
+       Some(Quotation.synType)
+     case _ =>
+       None
+  }
+}
+
+/** this rule reduces eval(Quotation(t),a) into t, if t has type tm a */ 
+object ComputeEval extends ComputationRule(CTTQE.eval.path) {
+  def apply(check: CheckingCallback)(tm: Term, covered: Boolean)(implicit stack: Stack, history: History): uom.Simplifiability = {
+     tm match {
+       case CTTQE.eval(q,a) =>
+         q match {
+           case Quotation(t) =>
+             if (!covered) {
+               check.check(Typing(stack, t, HOL.tm(a)))(history + "evaluation must be well-typed")
+             }
+             Simplify(t)
+         }
+       case _ =>
+         RecurseOnly(List(1))
+     }
+  }
+}
+
+// the following rules reduce terms formed from quotation, abstraction, application if their arguments are quotations into the respective quotations
+
+object ComputeApplication extends ComputationRule(CTTQE.application.path) {
+  def apply(check: CheckingCallback)(tm: Term, covered: Boolean)(implicit stack: Stack, history: History): uom.Simplifiability = {
+     tm match {
+       case CTTQE.application(qs,qt) =>
+         (qs,qt) match {
+           case (Quotation(s), Quotation(t)) =>
+             val st = HOL.apply(s, t, ???, ???) // TODO we need to find the two implicit arguments of HOL.apply
+             Simplify(Quotation(st))
+         }
+       case _ =>
+         RecurseOnly(List())
+     }
+  }
+}
+
+object ComputeAbstraction extends ComputationRule(CTTQE.abstraction.path) {
+  def apply(check: CheckingCallback)(tm: Term, covered: Boolean)(implicit stack: Stack, history: History): uom.Simplifiability = {
+     tm match {
+       case CTTQE.abstraction(Strings.Literals(v),tp,Quotation(t)) =>
+         val l = ApplySpine(OMS(HOL.lambda), Lambda(LocalName(v), HOL.tm(tp), t))
+         val q = Quotation(l)
+         Simplify(Quotation(q))
+       case _ =>
+         RecurseOnly(List(1,3))
+     }
+  }
+}
+
+object ComputeQuotation extends ComputationRule(CTTQE.quotation.path) {
+  def apply(check: CheckingCallback)(tm: Term, covered: Boolean)(implicit stack: Stack, history: History): uom.Simplifiability = {
+     tm match {
+       case CTTQE.quotation(Quotation(s)) =>
+         Simplify(Quotation(Quotation(s)))
+       case _ =>
+         RecurseOnly(List(1))
+     }
+  }
+}

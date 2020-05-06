@@ -38,6 +38,9 @@ every var decl has list of conditions, e.g., sub/supertype bound, guards, ranges
 concrete syntax unclear, but can be used internally
 bound variables could be introduced through their condition: "x in A" becomes "x with x in A"; similar to how we anyway turn attributed variables into vardecls
 
+1? for optional arguments, e.g., partially applied mixfix notations
+question: how to handle omitted early argument (currying only works if last argument omitted)
+
 preview method in presenter
 
 resolve names dynamically in parsing (no notations for unapplied constants); use to skip in include steps in qualified names (also use this for names in views)

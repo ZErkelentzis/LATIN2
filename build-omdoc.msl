@@ -13,9 +13,6 @@ mathpath archive ../urtheories
 mathpath archive ../LFX
 mathpath archive .
 
-// TODO: Florian says: just build logic/{pl, fol, sfol}.mmt and some fundamentals
-// TODO: if all you need is algebra, you just need those^^^
-
 //log+ debug
 //log+ object-checker
 //log+ object-simplifier
