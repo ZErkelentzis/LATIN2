@@ -1,8 +1,7 @@
-// Currently this build script does not work, i.e. content errors will be thrown or even
-// StackOverflow errors (probably bugs in MMT).
-//
-// See build-succeeding.msl for a build script which builds only the parts of LATIN2
-// which can be built succcessfully.
+// This build script only builds the parts of LATIN2 which can actually
+// be built successfully.
+
+server on 8080
 
 log console
 log html build.html
@@ -19,11 +18,33 @@ mathpath archive .
 //log+ structure-simplifier
 //log+ structure-checker
 //log+ object-parser
+// Build the mmt files, tricky due to mutual dependencies
+// Sometimes we even need to build a folder twice as the first run will run into an interdependency situation it cannot resolve (think of LaTeX and bibliography - it also needs multiple runs)
 
-//build the mmt files, tricky due to mutual dependencies
+build MMT/LATIN2 mmt-omdoc fundamentals
+
+build MMT/LATIN2 mmt-omdoc logic
+build MMT/LATIN2 mmt-omdoc logic
+
+build MMT/LATIN2 mmt-omdoc type_theory
+build MMT/LATIN2 mmt-omdoc type_theory
+
+build MMT/LATIN2 mmt-omdoc set_theory
+build MMT/LATIN2 mmt-omdoc topology
+build MMT/LATIN2 mmt-omdoc curry-howard
+
+build MMT/LATIN2 mmt-omdoc algebra/sets.mmt
+build MMT/LATIN2 mmt-omdoc algebra/relations.mmt
+build MMT/LATIN2 mmt-omdoc numbers/nat.mmt
+build MMT/LATIN2 mmt-omdoc algebra/magmas.mmt
+
+// Now build all again
+
 build MMT/LATIN2 mmt-omdoc fundamentals
 build MMT/LATIN2 mmt-omdoc logic
 build MMT/LATIN2 mmt-omdoc type_theory
-build MMT/LATIN2 mmt-omdoc logic
-//this redundantly rebuilds the above, but that's easier than listing all other directories
-build MMT/LATIN2 mmt-omdoc
+build MMT/LATIN2 mmt-omdoc set_theory
+build MMT/LATIN2 mmt-omdoc topology
+build MMT/LATIN2 mmt-omdoc curry-howard
+
+// build MMT/LATIN2 mmt-omdoc algebra

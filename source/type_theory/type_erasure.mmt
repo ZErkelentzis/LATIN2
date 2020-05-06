@@ -11,6 +11,7 @@ view TypeErasEquality : ?TypedEquality → ?SoftTypedEquality =
   equal = [A,x,y] x≐y❙
 ❚
 
+// View currently not total
 view TypeErasSimpleFunctions : ?SimpleFunctions → ?SoftTypedSimpleFunctions =
   include ?TypeErasTerms❙
   include ?TypeErasEquality❙
@@ -19,6 +20,7 @@ view TypeErasSimpleFunctions : ?SimpleFunctions → ?SoftTypedSimpleFunctions =
   simpapply = [A,B,F,X] F @ X❙
 ❚
 
+// View currently not total
 view TypeErasDependentFunctions : ?DependentFunctions → ?SoftTypedDependentFunctions =
   include ?TypeErasTerms❙ 
   include ?TypeErasEquality❙

@@ -1,5 +1,6 @@
-accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Classical.omdoc.elpi".
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Logic".
 
-/* skipping due to error: latin:/?Classical?classical
-not a rule: {F}((ded F⟶↯)⟶↯)⟶ded F */
+/* generated from classical : {F}((ded F⟶↯)⟶↯)⟶ded F */
+
+/* type classical pi (F \ ded F -> inconsistent -> inconsistent -> ded F). */
 

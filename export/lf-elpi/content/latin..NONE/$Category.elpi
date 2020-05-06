@@ -1,0 +1,50 @@
+/* generated from obj : type */
+
+/* kind obj type. */
+
+/* generated from hom : obj⟶obj⟶tp */
+
+/* type hom obj -> obj -> tp. */
+
+/* generated from Hom : obj⟶obj⟶type */
+
+/* kind Hom obj -> obj -> type. */
+
+/* generated from id : {a}Hom a a */
+
+/* type id pi a \ Hom a a. */
+
+/* generated from comp : {a,b,c}Hom a b⟶Hom b c⟶Hom a c */
+
+/* type comp pi a \ pi b \ pi c \ Hom a b -> Hom b c -> Hom a c. */
+
+/* generated from neutLeft : {a,b,f:Hom a b}ded (equal (hom a b) (comp a a b (id a) f) f) */
+
+ded X1 (equal (hom a b) (comp a a b (id a) f) f) :- help/neutLeft a b f X1.
+
+help/neutLeft a b f (prodcert X1/1 X1/2) :- help/neutLeft a b f X1/1 , help/neutLeft a b f X1/2.
+
+help/neutLeft a b f (idcert X2) :- X2 > 0 , X1 is X2 - 1.
+
+help/neutLeft a b f (ptcert (neutLeft a b f)).
+
+/* generated from neutRight : {a,b,f:Hom a b}ded (equal (hom a b) (comp a b b f (id b)) f) */
+
+ded X1 (equal (hom a b) (comp a b b f (id b)) f) :- help/neutRight a b f X1.
+
+help/neutRight a b f (prodcert X1/1 X1/2) :- help/neutRight a b f X1/1 , help/neutRight a b f X1/2.
+
+help/neutRight a b f (idcert X2) :- X2 > 0 , X1 is X2 - 1.
+
+help/neutRight a b f (ptcert (neutRight a b f)).
+
+/* generated from assoc : {a,b,c,d,f:Hom a b,g:Hom b c,h:Hom c d}ded (equal (hom a d) (comp a b d f (comp b c d g h)) (comp a c d (comp a b c f g) h)) */
+
+ded X1 (equal (hom a d) (comp a b d f (comp b c d g h)) (comp a c d (comp a b c f g) h)) :- help/assoc a b c d f g h X1.
+
+help/assoc a b c d f g h (prodcert X1/1 X1/2) :- help/assoc a b c d f g h X1/1 , help/assoc a b c d f g h X1/2.
+
+help/assoc a b c d f g h (idcert X2) :- X2 > 0 , X1 is X2 - 1.
+
+help/assoc a b c d f g h (ptcert (assoc a b c d f g h)).
+

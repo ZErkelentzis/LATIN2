@@ -1,0 +1,36 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Relativized$Universal$Quantification".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$F$O$L$E$Q$N$D".
+
+/* generated from rforallI : {A,F}({x}ded (of x A)⟶ded (F x))⟶ded (rforall A F) */
+
+ded X3 (rforall A F) :- help/rforallI X3 A F X2 , (pi (x \ pi (x1 \ ded/hyp x1 (of x A) => ded (X2 x x1) (F x)))).
+
+help/rforallI (prodcert X4/1 X4/2) A F (x \ x2 \ prodcert (X3/1 x x2) (X3/2 x x2)) :- help/rforallI X4/1 A F X3/1 , help/rforallI X4/2 A F X3/2.
+
+help/rforallI (idcert X4) A F (x \ x3 \ idcert X2) :- X4 > 0 , X2 is X4 - 1.
+
+help/rforallI (ptcert (rforallI A F X3)) A F (x \ x2 \ ptcert X3).
+
+help/rforallI (ucert X2) A F (x \ x3 \ ucert (prep (pi (x \ pi (x4 \ ded/hyp x4 (of x A) => ded (X5 x x4) (F x)))) X2)) :- (pi (x \ pi (x4 \ ded/hyp x4 (of x A) => ded (X5 x x4) (F x)))) , occatmost (pi (x \ pi (x4 \ ded/hyp x4 (of x A) => ded (X5 x x4) (F x)))) 1 X2.
+
+help/rforallI (hdcert X2) A F (x \ x3 \ hdcert X2).
+
+help/rforallI (bccert X4) A F (x \ x3 \ bccert X2) :- bc/pos X4 , X2 is X4 - 1.
+
+/* generated from rforallE : {A,F}ded (rforall A F)⟶{x}ded (of x A)⟶ded (F x) */
+
+ded X3 X4 :- help/rforallE X3 X4 A F X1 x X2 , X4 = F x , ded X1 (rforall A F) , ded X2 (of x A).
+
+help/rforallE (prodcert X5/1 X5/2) X2 A F x (prodcert X3/1 X3/2) (prodcert X4/1 X4/2) :- help/rforallE X5/1 X2 A F x X3/1 X4/1 , help/rforallE X5/2 X2 A F x X3/2 X4/2.
+
+help/rforallE (idcert X4) X2 A F x (idcert X3) (idcert X3) :- X4 > 0 , X3 is X4 - 1.
+
+help/rforallE (ptcert (rforallE X2 A F x X3 X4)) X2 A F x (ptcert X3) (ptcert X4).
+
+help/rforallE (ucert X3) X2 A F x (ucert (prep (ded X4 (rforall A F)) X3)) (ucert (prep (ded X4 (rforall A F)) X3)) :- ded X4 (rforall A F) , occatmost (ded X4 (rforall A F)) 1 X3.
+
+help/rforallE (hdcert X3) X2 A F x (hdcert X3) (hdcert X3).
+
+help/rforallE (bccert X4) X2 A F x (bccert X3) (bccert X3) :- bc/pos X4 , X3 is X4 - 1 , X2 = F x.
+

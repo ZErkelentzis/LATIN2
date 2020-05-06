@@ -7,16 +7,16 @@ theory HOLAndrews =
   include ?TypedEqualityND❙
   include ?PropositionalExtensionality❙
   
-  realize ?IHOLND❙
-  true = (λ[x:tm bool]x) ≐ λ[x]x❙
-  false = (λ[x]x) ≐ λ[x]true❙
-  not = [F]F ≐ false❙
-  forall = [A,P] (λ[x]P x) ≐ λ[x]true❙
-  and = [F,G] ∀[h:tm bool→bool→bool] h@F@G ≐ h@true@true❙
-  impl = [F,G] (F∧G) ≐ F❙
-  or = [F,G] ∀[H] (F⇒H) ⇒ (G⇒H) ⇒ H❙
-  equiv = [F,G] (F⇒G) ∧ (G⇒F)❙
-  exists = [A,F] ∀[H] (∀[x]F x ⇒ H) ⇒ H❙
-  
-❚
+  // Remaining implementation is missing
 
+  realize ?IHOLND❙
+  // true = (λ[x:tm bool]x) ≐ λ[x]x❙
+  // false = (λ[x]x) ≐ λ[x]true❙
+  // not = [F]F ≐ false❙
+  // forall = [A,P] (λ[x]P x) ≐ λ[x]true❙
+  // and = [F,G] ∀[h:tm bool→bool→bool] h@F@G ≐ h@true@true❙
+  // impl = [F,G] (F∧G) ≐ F❙
+  // or = [F,G] ∀[H] (F⇒H) ⇒ (G⇒H) ⇒ H❙
+  // equiv = [F,G] (F⇒G) ∧ (G⇒F)❙
+  // exists = [A,F] ∀[H] (∀[x]F x ⇒ H) ⇒ H❙
+❚

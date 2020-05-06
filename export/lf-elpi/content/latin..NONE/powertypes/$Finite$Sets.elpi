@@ -1,0 +1,62 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/powertypes/$Power$Types".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Disjunction$N$D".
+
+/* generated from singleton : {A}tm A⟶tm (power A) */
+
+/* type singleton pi A \ tm A -> tm (power A). */
+
+/* generated from singletonI : {A,x:tm A}ded (in A x (singleton A x)) */
+
+ded X1 (in A x (singleton A x)) :- help/singletonI A x X1.
+
+help/singletonI A x (prodcert X1/1 X1/2) :- help/singletonI A x X1/1 , help/singletonI A x X1/2.
+
+help/singletonI A x (idcert X2) :- X2 > 0 , X1 is X2 - 1.
+
+help/singletonI A x (ptcert (singletonI A x)).
+
+/* generated from singletonE : {A,x,y:tm A}ded (in A x (singleton A y))⟶ded (equal A x y) */
+
+ded X2 (equal A x y) :- help/singletonE A x y X1 X2 , ded X1 (in A x (singleton A y)).
+
+help/singletonE A x y (prodcert X1/1 X1/2) (prodcert X2/1 X2/2) :- help/singletonE A x y X1/1 X2/1 , help/singletonE A x y X1/2 X2/2.
+
+help/singletonE A x y (idcert X1) (idcert X2) :- X2 > 0 , X1 is X2 - 1.
+
+help/singletonE A x y (ptcert X1) (ptcert (singletonE A x y X1)).
+
+/* generated from uopair : {A}tm A⟶tm A⟶tm (power A) */
+
+/* type uopair pi A \ tm A -> tm A -> tm (power A). */
+
+/* generated from uopairI_left : {A,x,y:tm A}ded (in A x (uopair A x y)) */
+
+ded X1 (in A x (uopair A x y)) :- help/uopairI_left A x y X1.
+
+help/uopairI_left A x y (prodcert X1/1 X1/2) :- help/uopairI_left A x y X1/1 , help/uopairI_left A x y X1/2.
+
+help/uopairI_left A x y (idcert X2) :- X2 > 0 , X1 is X2 - 1.
+
+help/uopairI_left A x y (ptcert (uopairI_left A x y)).
+
+/* generated from uopairI_right : {A,x,y:tm A}ded (in A y (uopair A x y)) */
+
+ded X1 (in A y (uopair A x y)) :- help/uopairI_right A x y X1.
+
+help/uopairI_right A x y (prodcert X1/1 X1/2) :- help/uopairI_right A x y X1/1 , help/uopairI_right A x y X1/2.
+
+help/uopairI_right A x y (idcert X2) :- X2 > 0 , X1 is X2 - 1.
+
+help/uopairI_right A x y (ptcert (uopairI_right A x y)).
+
+/* generated from uopairE : {A,x,y,u:tm A,C}ded (in A u (uopair A x y))⟶(ded (equal A u x)⟶ded C)⟶(ded (equal A u y)⟶ded C)⟶ded C */
+
+ded X6 C :- help/uopairE A x y u C X1 X3 X5 X6 , ded X1 (in A u (uopair A x y)) , (pi x2 \ ded/hyp x2 (equal A u x) => ded (X3 x2) C) , (pi x4 \ ded/hyp x4 (equal A u y) => ded (X5 x4) C).
+
+help/uopairE A x y u C (prodcert X1/1 X1/2) (x2 \ prodcert (X3/1 x2) (X3/2 x2)) (x4 \ prodcert (X5/1 x4) (X5/2 x4)) (prodcert X6/1 X6/2) :- help/uopairE A x y u C X1/1 X3/1 X5/1 X6/1 , help/uopairE A x y u C X1/2 X3/2 X5/2 X6/2.
+
+help/uopairE A x y u C (idcert X1) (x2 \ idcert X1) (x3 \ idcert X1) (idcert X4) :- X4 > 0 , X1 is X4 - 1.
+
+help/uopairE A x y u C (ptcert X1) (x2 \ ptcert X1) (x3 \ ptcert X1) (ptcert (uopairE A x y u C X1 X1 X1)).
+

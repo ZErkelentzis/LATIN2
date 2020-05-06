@@ -1,0 +1,24 @@
+/* generated from world : tp */
+
+/* type world tp. */
+
+/* generated from liftPred2 : {S,A,B}(tm A⟶tm B⟶prop)⟶(tm S⟶tm A)⟶(tm S⟶tm B)⟶(tm S⟶prop) */
+
+/* type liftPred2 pi (S \ pi (A \ pi (B \ tm A -> tm B -> prop -> tm S -> tm A -> tm S -> tm B -> tm S -> prop))). */
+
+/* generated from lift0 : {S}prop⟶(tm S⟶prop) */
+
+/* type lift0 pi (S \ prop -> tm S -> prop). */
+
+/* generated from lift1 : {S}(prop⟶prop)⟶(tm S⟶prop)⟶(tm S⟶prop) */
+
+/* type lift1 pi (S \ prop -> prop -> tm S -> prop -> tm S -> prop). */
+
+/* generated from lift2 : {S}(prop⟶prop⟶prop)⟶(tm S⟶prop)⟶(tm S⟶prop)⟶(tm S⟶prop) */
+
+/* type lift2 pi (S \ prop -> prop -> prop -> tm S -> prop -> tm S -> prop -> tm S -> prop). */
+
+/* generated from liftbind : {S}({T}(tm T⟶prop)⟶prop)⟶{T}((tm S⟶tm T)⟶(tm S⟶prop))⟶(tm S⟶prop) */
+
+/* type liftbind pi (S \ (pi (T \ tm T -> prop -> prop)) -> (pi (T \ tm S -> tm T -> tm S -> prop -> tm S -> prop))). */
+

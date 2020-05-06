@@ -1,0 +1,30 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/powertypes/$Power$Types".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Conjunction$N$D".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Typed$Existential$Quantification$N$D".
+
+/* generated from map : {A,B}(tm A⟶tm B)⟶tm (power A)⟶tm (power B) */
+
+/* type map pi A \ pi B \ tm A -> tm B -> tm (power A) -> tm (power B). */
+
+/* generated from mapI : {A,B,f:tm A⟶tm B,S,x}ded (in A x S)⟶ded (in B (f x) (map A B f S)) */
+
+ded X2 (in B (f x) (map A B f S)) :- help/mapI A B f S x X1 X2 , ded X1 (in A x S).
+
+help/mapI A B f S x (prodcert X1/1 X1/2) (prodcert X2/1 X2/2) :- help/mapI A B f S x X1/1 X2/1 , help/mapI A B f S x X1/2 X2/2.
+
+help/mapI A B f S x (idcert X1) (idcert X2) :- X2 > 0 , X1 is X2 - 1.
+
+help/mapI A B f S x (ptcert X1) (ptcert (mapI A B f S x X1)).
+
+/* generated from mapE : {A,B,f:tm A⟶tm B,S,x,C}ded (in B x (map A B f S))⟶({a}ded (in A a S)⟶ded (equal B x (f a))⟶ded C)⟶ded C */
+
+ded X5 C :- help/mapE A B f S x C X1 X4 X5 , ded X1 (in B x (map A B f S)) , (pi a \ pi x2 \ pi x3 \ ded/hyp x2 (in A a S) , ded/hyp x3 (equal B x (f a)) => ded (X4 a x2 x3) C).
+
+help/mapE A B f S x C (prodcert X1/1 X1/2) (a \ x2 \ x3 \ prodcert (X4/1 a x2 x3) (X4/2 a x2 x3)) (prodcert X5/1 X5/2) :- help/mapE A B f S x C X1/1 X4/1 X5/1 , help/mapE A B f S x C X1/2 X4/2 X5/2.
+
+help/mapE A B f S x C (idcert X1) (a \ x2 \ x3 \ idcert X1) (idcert X4) :- X4 > 0 , X1 is X4 - 1.
+
+help/mapE A B f S x C (ptcert X1) (a \ x2 \ x3 \ ptcert X1) (ptcert (mapE A B f S x C X1 X1)).
+

@@ -1,0 +1,36 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Terms".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Soft$Typed$Equality".
+
+/* generated from pair : term⟶term⟶term */
+
+/* type pair term -> term -> term. */
+
+/* generated from pi1 : term⟶term */
+
+/* type pi1 term -> term. */
+
+/* generated from pi2 : term⟶term */
+
+/* type pi2 term -> term. */
+
+/* generated from compute1 : {a,b}ded (equal (pi1 (pair a b)) a) */
+
+ded X1 (equal (pi1 (pair a b)) a) :- help/compute1 a b X1.
+
+help/compute1 a b (prodcert X1/1 X1/2) :- help/compute1 a b X1/1 , help/compute1 a b X1/2.
+
+help/compute1 a b (idcert X2) :- X2 > 0 , X1 is X2 - 1.
+
+help/compute1 a b (ptcert (compute1 a b)).
+
+/* generated from compute2 : {a,b}ded (equal (pi2 (pair a b)) b) */
+
+ded X1 (equal (pi2 (pair a b)) b) :- help/compute2 a b X1.
+
+help/compute2 a b (prodcert X1/1 X1/2) :- help/compute2 a b X1/1 , help/compute2 a b X1/2.
+
+help/compute2 a b (idcert X2) :- X2 > 0 , X1 is X2 - 1.
+
+help/compute2 a b (ptcert (compute2 a b)).
+

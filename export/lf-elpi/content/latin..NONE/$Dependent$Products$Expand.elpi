@@ -1,0 +1,12 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Dependent$Products".
+
+/* generated from expand : {A,B,u:tm (depprod A [x:tm A]B x)}ded (equal (depprod A [x:tm A]B x) (deppair A ([x:tm A]B x) (deppi1 A ([x:tm A]B x) u) (deppi2 A ([x:tm A]B x) u)) u) */
+
+ded X1 (equal (depprod A x \ B x) (deppair A (x \ B x) (deppi1 A (x \ B x) u) (deppi2 A (x \ B x) u)) u) :- help/expand A B u X1.
+
+help/expand A B u (prodcert X1/1 X1/2) :- help/expand A B u X1/1 , help/expand A B u X1/2.
+
+help/expand A B u (idcert X2) :- X2 > 0 , X1 is X2 - 1.
+
+help/expand A B u (ptcert (expand A B u)).
+

@@ -1,0 +1,12 @@
+/* generated from string : type */
+
+/* kind string type. */
+
+/* generated from concat : string⟶string⟶string */
+
+/* type concat string -> string -> string. */
+
+/* generated from test : string */
+
+/* type test string. */
+

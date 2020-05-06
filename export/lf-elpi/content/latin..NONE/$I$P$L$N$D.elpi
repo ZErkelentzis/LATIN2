@@ -1,0 +1,66 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$I$P$L".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Logic".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Truth$N$D".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Falsity$N$D".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Negation$N$D".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Conjunction$N$D".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Disjunction$N$D".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Implication$N$D".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Equivalence$N$D".
+
+/* generated from not_or_left : {F,G}ded (not (or F G))⟶ded (not F) */
+
+ded X2 (not F) :- help/not_or_left X2 F G X1 , ded X1 (not (or F G)).
+
+help/not_or_left (prodcert X3/1 X3/2) F G (prodcert X2/1 X2/2) :- help/not_or_left X3/1 F G X2/1 , help/not_or_left X3/2 F G X2/2.
+
+help/not_or_left (idcert X3) F G (idcert X2) :- X3 > 0 , X2 is X3 - 1.
+
+help/not_or_left (ptcert (not_or_left F G X2)) F G (ptcert X2).
+
+help/not_or_left (ucert X2) F G (ucert (prep (ded X3 (not (or F G))) X2)) :- ded X3 (not (or F G)) , occatmost (ded X3 (not (or F G))) 1 X2.
+
+help/not_or_left (hdcert X2) F G (hdcert X2).
+
+help/not_or_left (bccert X3) F G (bccert X2) :- bc/pos X3 , X2 is X3 - 1.
+
+/* generated from not_or_right : {F,G}ded (not (or F G))⟶ded (not G) */
+
+ded X2 (not G) :- help/not_or_right X2 F G X1 , ded X1 (not (or F G)).
+
+help/not_or_right (prodcert X3/1 X3/2) F G (prodcert X2/1 X2/2) :- help/not_or_right X3/1 F G X2/1 , help/not_or_right X3/2 F G X2/2.
+
+help/not_or_right (idcert X3) F G (idcert X2) :- X3 > 0 , X2 is X3 - 1.
+
+help/not_or_right (ptcert (not_or_right F G X2)) F G (ptcert X2).
+
+help/not_or_right (ucert X2) F G (ucert (prep (ded X3 (not (or F G))) X2)) :- ded X3 (not (or F G)) , occatmost (ded X3 (not (or F G))) 1 X2.
+
+help/not_or_right (hdcert X2) F G (hdcert X2).
+
+help/not_or_right (bccert X3) F G (bccert X2) :- bc/pos X3 , X2 is X3 - 1.
+
+/* generated from nntnd : {F}ded (not (not (or F (not F)))) */
+
+ded X1 (not (not (or F (not F)))) :- help/nntnd X1 F.
+
+help/nntnd (prodcert X2/1 X2/2) F :- help/nntnd X2/1 F , help/nntnd X2/2 F.
+
+help/nntnd (idcert X3) F :- X3 > 0 , X2 is X3 - 1.
+
+help/nntnd (ptcert (nntnd F)) F.
+
+/* Can't create helper for ucert: no hypotheses found */
+
+help/nntnd (hdcert X2) F.
+
+help/nntnd (bccert X3) F :- bc/pos X3 , X2 is X3 - 1.
+

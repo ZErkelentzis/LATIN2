@@ -1,0 +1,16 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Soft$Typed$Terms".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Soft$Typed$Products".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Simple$Product$Types".
+
+/* generated from fun_typing : {A,B,a,b}ded (of a A)⟶ded (of b B)⟶ded (of (pair a b) (simpprod A B)) */
+
+ded X3 (of (pair a b) (simpprod A B)) :- help/fun_typing A B a b X1 X2 X3 , ded X1 (of a A) , ded X2 (of b B).
+
+help/fun_typing A B a b (prodcert X1/1 X1/2) (prodcert X2/1 X2/2) (prodcert X3/1 X3/2) :- help/fun_typing A B a b X1/1 X2/1 X3/1 , help/fun_typing A B a b X1/2 X2/2 X3/2.
+
+help/fun_typing A B a b (idcert X1) (idcert X1) (idcert X2) :- X2 > 0 , X1 is X2 - 1.
+
+help/fun_typing A B a b (ptcert X1) (ptcert X1) (ptcert (fun_typing A B a b X1 X1)).
+

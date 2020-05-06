@@ -1,0 +1,12 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Dependent$Functions".
+
+/* generated from exten : {A,B,F,G:tm (depfun A [x:tm A]B x)}({x}ded (equal (([x:tm A]B x) x) (depapply A ([x:tm A]B x) F x) (depapply A ([x:tm A]B x) G x)))⟶ded (equal (depfun A [x:tm A]B x) F G) */
+
+ded X2 (equal (depfun A x \ B x) F G) :- help/exten A B F G X1 X2 , (pi x \ ded (X1 x) (equal ((x \ B x) x) (depapply A (x \ B x) F x) (depapply A (x \ B x) G x))).
+
+help/exten A B F G (x \ prodcert (X1/1 x) (X1/2 x)) (prodcert X2/1 X2/2) :- help/exten A B F G X1/1 X2/1 , help/exten A B F G X1/2 X2/2.
+
+help/exten A B F G (x \ idcert X1) (idcert X2) :- X2 > 0 , X1 is X2 - 1.
+
+help/exten A B F G (x \ ptcert X1) (ptcert (exten A B F G X1)).
+

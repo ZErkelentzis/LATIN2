@@ -1,0 +1,56 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$P$L".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$I$P$L$N$D".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Proof$Irrelevance".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Classical".
+
+/* generated from indirect : {F}(ded (not F)⟶↯)⟶ded F */
+
+ded X3 F :- help/indirect X3 F X2 , (pi (x1 \ ded/hyp x1 (not F) => inconsistent (X2 x1))).
+
+help/indirect (prodcert X4/1 X4/2) F (x2 \ prodcert (X3/1 x2) (X3/2 x2)) :- help/indirect X4/1 F X3/1 , help/indirect X4/2 F X3/2.
+
+help/indirect (idcert X4) F (x3 \ idcert X2) :- X4 > 0 , X2 is X4 - 1.
+
+help/indirect (ptcert (indirect F X3)) F (x2 \ ptcert X3).
+
+help/indirect (ucert X2) F (x3 \ ucert (prep (pi (x4 \ ded/hyp x4 (not F) => inconsistent (X5 x4))) X2)) :- (pi (x4 \ ded/hyp x4 (not F) => inconsistent (X5 x4))) , occatmost (pi (x4 \ ded/hyp x4 (not F) => inconsistent (X5 x4))) 1 X2.
+
+help/indirect (hdcert X2) F (x3 \ hdcert X2).
+
+help/indirect (bccert X4) F (x3 \ bccert X2) :- bc/pos X4 , X2 is X4 - 1.
+
+/* generated from dne : {F}ded (not (not F))⟶ded F */
+
+ded X2 F :- help/dne X2 F X1 , ded X1 (not (not F)).
+
+help/dne (prodcert X3/1 X3/2) F (prodcert X2/1 X2/2) :- help/dne X3/1 F X2/1 , help/dne X3/2 F X2/2.
+
+help/dne (idcert X3) F (idcert X2) :- X3 > 0 , X2 is X3 - 1.
+
+help/dne (ptcert (dne F X2)) F (ptcert X2).
+
+help/dne (ucert X2) F (ucert (prep (ded X3 (not (not F))) X2)) :- ded X3 (not (not F)) , occatmost (ded X3 (not (not F))) 1 X2.
+
+help/dne (hdcert X2) F (hdcert X2).
+
+help/dne (bccert X3) F (bccert X2) :- bc/pos X3 , X2 is X3 - 1.
+
+/* generated from tnd : {F}ded (or F (not F)) */
+
+ded X1 (or F (not F)) :- help/tnd X1 F.
+
+help/tnd (prodcert X2/1 X2/2) F :- help/tnd X2/1 F , help/tnd X2/2 F.
+
+help/tnd (idcert X3) F :- X3 > 0 , X2 is X3 - 1.
+
+help/tnd (ptcert (tnd F)) F.
+
+/* Can't create helper for ucert: no hypotheses found */
+
+help/tnd (hdcert X2) F.
+
+help/tnd (bccert X3) F :- bc/pos X3 , X2 is X3 - 1.
+

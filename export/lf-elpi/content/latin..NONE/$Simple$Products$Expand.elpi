@@ -1,0 +1,12 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Simple$Products".
+
+/* generated from expand : {A,B,u:tm (simpprod A B)}ded (equal (simpprod A B) (simppair A B (simppi1 A B u) (simppi2 A B u)) u) */
+
+ded X1 (equal (simpprod A B) (simppair A B (simppi1 A B u) (simppi2 A B u)) u) :- help/expand A B u X1.
+
+help/expand A B u (prodcert X1/1 X1/2) :- help/expand A B u X1/1 , help/expand A B u X1/2.
+
+help/expand A B u (idcert X2) :- X2 > 0 , X1 is X2 - 1.
+
+help/expand A B u (ptcert (expand A B u)).
+

@@ -18,12 +18,6 @@ theory LogicDiagramOperatorsSemantics : ur:?LF =
 theory LogicDiagramOperators =
   include ?LogicDiagramOperatorsSyntax ❙
   include ?LogicDiagramOperatorsSemantics ❙
+
+  include ☞http://cds.omdoc.org/urtheories?Combinators ❙
 ❚
-
-fixmeta ?LogicDiagramOperators ❚
-
-theory TestMagmaMeta5 =
-  include ?LogicDiagramOperators ❙
-❚
-
-diagram TypedUniversalQuantification_by_diagop = TYPIFY FOL ?UniversalQuantification ❚

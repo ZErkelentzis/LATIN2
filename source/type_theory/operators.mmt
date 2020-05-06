@@ -22,17 +22,10 @@ theory TypeTheoryDiagramOperators =
   include ?TypeTheoryDiagramOperatorsSemantics ❙
 ❚
 
-fixmeta ?TypeTheoryDiagramOperators❚
-
-theory TestMagmaMeta2 =
-  include ?TypeTheoryDiagramOperators ❙
-  include ☞http://cds.omdoc.org/examples?SFOLEQNatDed ❙
-❚
-
-theory TestMagma2 : ?TestMagmaMeta2 =
+// theory TestMagma2 : ?TestMagmaMeta2 =
   U: tp ❙
   op: tm U ⟶ tm U ⟶ tm U ❘ # 1 ∘ 2 ❙
 ❚
 
-diagram TestEndoMagmaSingle := SINGLE TYPEINDEXIFY ?TestMagma2 ❚
-diagram TestEndoMagmaMulti := MULTI TYPEINDEXIFY ?TestMagma2 ❚
+// diagram TestEndoMagmaSingle : ?TypeTheoryDiagramOperators := SINGLE TYPEINDEXIFY ?TestMagma2 ❚
+// diagram TestEndoMagmaMulti : ?TypeTheoryDiagramOperators := MULTI TYPEINDEXIFY ?TestMagma2 ❚

@@ -1,0 +1,82 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Propositions".
+
+/* generated from marktrue : prop⟶type */
+
+/* kind marktrue prop -> type. */
+
+/* generated from markfalse : prop⟶type */
+
+/* kind markfalse prop -> type. */
+
+/* generated from closedbranch : type */
+
+/* kind closedbranch type. */
+
+/* generated from closebranch : {P}marktrue P⟶markfalse P⟶⊥ */
+
+closedbranch X3 :- help/closebranch X3 P X1 X2 , marktrue X1 P , markfalse X2 P.
+
+help/closebranch (prodcert X4/1 X4/2) P (prodcert X2/1 X2/2) (prodcert X3/1 X3/2) :- help/closebranch X4/1 P X2/1 X3/1 , help/closebranch X4/2 P X2/2 X3/2.
+
+help/closebranch (idcert X3) P (idcert X2) (idcert X2) :- X3 > 0 , X2 is X3 - 1.
+
+help/closebranch (ptcert (closebranch P X2 X3)) P (ptcert X2) (ptcert X3).
+
+help/closebranch (ucert X2) P (ucert (prep (marktrue X3 P) X2)) (ucert (prep (marktrue X3 P) X2)) :- marktrue X3 P , occatmost (marktrue X3 P) 1 X2.
+
+help/closebranch (hdcert X2) P (hdcert X2) (hdcert X2).
+
+help/closebranch (bccert X3) P (bccert X2) (bccert X2) :- bc/pos X3 , X2 is X3 - 1.
+
+/* generated from closebranch2 : {P}markfalse P⟶marktrue P⟶⊥ */
+
+closedbranch X3 :- help/closebranch2 X3 P X1 X2 , markfalse X1 P , marktrue X2 P.
+
+help/closebranch2 (prodcert X4/1 X4/2) P (prodcert X2/1 X2/2) (prodcert X3/1 X3/2) :- help/closebranch2 X4/1 P X2/1 X3/1 , help/closebranch2 X4/2 P X2/2 X3/2.
+
+help/closebranch2 (idcert X3) P (idcert X2) (idcert X2) :- X3 > 0 , X2 is X3 - 1.
+
+help/closebranch2 (ptcert (closebranch2 P X2 X3)) P (ptcert X2) (ptcert X3).
+
+help/closebranch2 (ucert X2) P (ucert (prep (markfalse X3 P) X2)) (ucert (prep (markfalse X3 P) X2)) :- markfalse X3 P , occatmost (markfalse X3 P) 1 X2.
+
+help/closebranch2 (hdcert X2) P (hdcert X2) (hdcert X2).
+
+help/closebranch2 (bccert X3) P (bccert X2) (bccert X2) :- bc/pos X3 , X2 is X3 - 1.
+
+/* generated from proofstart : {P}(markfalse P⟶⊥)⟶marktrue P */
+
+marktrue X3 P :- help/proofstart X3 P X2 , (pi (x1 \ markfalse/hyp x1 P => closedbranch (X2 x1))).
+
+help/proofstart (prodcert X4/1 X4/2) P (x2 \ prodcert (X3/1 x2) (X3/2 x2)) :- help/proofstart X4/1 P X3/1 , help/proofstart X4/2 P X3/2.
+
+help/proofstart (idcert X4) P (x3 \ idcert X2) :- X4 > 0 , X2 is X4 - 1.
+
+help/proofstart (ptcert (proofstart P X3)) P (x2 \ ptcert X3).
+
+help/proofstart (ucert X2) P (x3 \ ucert (prep (pi (x4 \ markfalse/hyp x4 P => closedbranch (X5 x4))) X2)) :- (pi (x4 \ markfalse/hyp x4 P => closedbranch (X5 x4))) , occatmost (pi (x4 \ markfalse/hyp x4 P => closedbranch (X5 x4))) 1 X2.
+
+help/proofstart (hdcert X2) P (x3 \ hdcert X2).
+
+help/proofstart (bccert X4) P (x3 \ bccert X2) :- bc/pos X4 , X2 is X4 - 1.
+
+/* generated from refutationstart : {P}(marktrue P⟶⊥)⟶markfalse P */
+
+markfalse X3 P :- help/refutationstart X3 P X2 , (pi (x1 \ marktrue/hyp x1 P => closedbranch (X2 x1))).
+
+help/refutationstart (prodcert X4/1 X4/2) P (x2 \ prodcert (X3/1 x2) (X3/2 x2)) :- help/refutationstart X4/1 P X3/1 , help/refutationstart X4/2 P X3/2.
+
+help/refutationstart (idcert X4) P (x3 \ idcert X2) :- X4 > 0 , X2 is X4 - 1.
+
+help/refutationstart (ptcert (refutationstart P X3)) P (x2 \ ptcert X3).
+
+help/refutationstart (ucert X2) P (x3 \ ucert (prep (pi (x4 \ marktrue/hyp x4 P => closedbranch (X5 x4))) X2)) :- (pi (x4 \ marktrue/hyp x4 P => closedbranch (X5 x4))) , occatmost (pi (x4 \ marktrue/hyp x4 P => closedbranch (X5 x4))) 1 X2.
+
+help/refutationstart (hdcert X2) P (x3 \ hdcert X2).
+
+help/refutationstart (bccert X4) P (x3 \ bccert X2) :- bc/pos X4 , X2 is X4 - 1.
+
+/* generated from classicality : {P}((marktrue P⟶⊥)⟶⊥)⟶marktrue P */
+
+/* type classicality pi (P \ marktrue P -> closedbranch -> closedbranch -> marktrue P). */
+

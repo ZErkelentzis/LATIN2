@@ -1,0 +1,40 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$H$O$L".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$I$H$O$L$N$D".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$S$F$O$L$N$D".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Simple$Functions$Eta".
+
+/* generated from eq_equiv : {F,G}ded (equal bool F G)⟶ded (equiv F G) */
+
+ded X2 (equiv F G) :- help/eq_equiv X2 F G X1 , ded X1 (equal bool F G).
+
+help/eq_equiv (prodcert X3/1 X3/2) F G (prodcert X2/1 X2/2) :- help/eq_equiv X3/1 F G X2/1 , help/eq_equiv X3/2 F G X2/2.
+
+help/eq_equiv (idcert X3) F G (idcert X2) :- X3 > 0 , X2 is X3 - 1.
+
+help/eq_equiv (ptcert (eq_equiv F G X2)) F G (ptcert X2).
+
+help/eq_equiv (ucert X2) F G (ucert (prep (ded X3 (equal bool F G)) X2)) :- ded X3 (equal bool F G) , occatmost (ded X3 (equal bool F G)) 1 X2.
+
+help/eq_equiv (hdcert X2) F G (hdcert X2).
+
+help/eq_equiv (bccert X3) F G (bccert X2) :- bc/pos X3 , X2 is X3 - 1.
+
+/* generated from equiv_eq : {F,G}ded (equiv F G)⟶ded (equal bool F G) */
+
+ded X2 (equal bool F G) :- help/equiv_eq X2 F G X1 , ded X1 (equiv F G).
+
+help/equiv_eq (prodcert X3/1 X3/2) F G (prodcert X2/1 X2/2) :- help/equiv_eq X3/1 F G X2/1 , help/equiv_eq X3/2 F G X2/2.
+
+help/equiv_eq (idcert X3) F G (idcert X2) :- X3 > 0 , X2 is X3 - 1.
+
+help/equiv_eq (ptcert (equiv_eq F G X2)) F G (ptcert X2).
+
+help/equiv_eq (ucert X2) F G (ucert (prep (ded X3 (equiv F G)) X2)) :- ded X3 (equiv F G) , occatmost (ded X3 (equiv F G)) 1 X2.
+
+help/equiv_eq (hdcert X2) F G (hdcert X2).
+
+help/equiv_eq (bccert X3) F G (bccert X2) :- bc/pos X3 , X2 is X3 - 1.
+
