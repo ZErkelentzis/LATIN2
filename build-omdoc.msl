@@ -1,5 +1,6 @@
-// This build script only builds the parts of LATIN2 which can actually
-// be built successfully.
+// Build MMT/OMDoc and Scala parts of LATIN2
+// To be precise, this build script only builds the parts of LATIN2
+// which can actually be built successfully at time of writing.
 
 server on 8080
 
@@ -48,3 +49,5 @@ build MMT/LATIN2 mmt-omdoc topology
 build MMT/LATIN2 mmt-omdoc curry-howard
 
 // build MMT/LATIN2 mmt-omdoc algebra
+
+build MMT/LATIN2 lf-scala
