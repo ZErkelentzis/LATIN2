@@ -37,6 +37,7 @@ build MMT/LATIN2 mmt-omdoc algebra/sets.mmt
 build MMT/LATIN2 mmt-omdoc algebra/relations.mmt
 build MMT/LATIN2 mmt-omdoc numbers/nat.mmt
 build MMT/LATIN2 mmt-omdoc algebra/magmas.mmt
+build MMT/LATIN2 mmt-omdoc algebra/groups.mmt
 
 // Now build all again
 
