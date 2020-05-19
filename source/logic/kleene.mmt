@@ -1,0 +1,19 @@
+namespace latin:/❚
+
+fixmeta latin:/?PL❚
+
+theory Kleene =
+
+    𝕋 : tp❙
+
+    tt : tm 𝕋❙
+    ff : tm 𝕋❙
+    uu : tm 𝕋❙
+
+    # Quartum Non Datur❙
+    bool_qnd : ⊦ ∀[b:𝕋] b≐tt ∨ b≐ff ∨ b≐uu❙
+
+    prop_nontrivial : ⊦ ¬ tt≐ff❙
+    prop_nontrivial : ⊦ ¬ tt≐uu❙
+    prop_nontrivial : ⊦ ¬ uu≐ff❙
+❚
