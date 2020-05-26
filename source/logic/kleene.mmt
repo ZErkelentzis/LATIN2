@@ -1,19 +1,42 @@
 namespace latin:/❚
 
-fixmeta latin:/?PL❚
+theory Kleene : ur:/?LF =
 
-theory Kleene =
+    include ?Propositions❙
+    include ?Truth❙
+    include ?Falsity❙
+    include ?Negation❙
+    include ?Conjunction❙
+    include ?Disjunction❙
 
-    𝕋 : tp❙
+    undef : prop❙
+❚
 
-    tt : tm 𝕋❙
-    ff : tm 𝕋❙
-    uu : tm 𝕋❙
+theory FDEND : ?Kleene =
 
-    # Quartum Non Datur❙
-    t_qnd : ⊦ ∀[b:𝕋] b≐tt ∨ b≐ff ∨ b≐uu❙
+    # Natural Deduction System for First Degree Entailment❙
+    # Follows Petrukhin's "Natural deduction for Three-valued regular logics"❙
 
-    t_nontrivial : ⊦ ¬ tt≐ff❙
-    t_nontrivial : ⊦ ¬ tt≐uu❙
-    t_nontrivial : ⊦ ¬ uu≐ff❙
+    # Negation❙
+    include ?NegationND❙
+    nni : {A} ⊦ A ⟶ ⊦ ¬ ¬ A ❘# notNotIntro 1❙
+    nne : {A} ⊦ ¬ ¬ A ⟶ ⊦ A ❘# notNotElim 1❙
+
+    # Conjunction❙
+    include ?ConjunctionND❙
+    nci : {A,B} ⊦ (¬ A ∨ ¬ B) ⟶ ⊦ ¬ (A ∧ B)❘# notConjIntro 1 2❙
+    nce : {A,B} ⊦ ¬ (A ∧ B) ⟶ ⊦ (¬ A ∨ ¬ B)❘# notConjElim 1 2❙
+
+    # Disjunction❙
+    include ?DisjunctionND❙
+    ndi : {A,B} ⊦ (¬ A ∧ ¬ B) ⟶ ⊦ ¬ (A ∨ B)❘# notDisjIntro 1 2❙
+    nde : {A,B} ⊦ ¬ (A ∨ B) ⟶ ⊦ (¬ A ∧ ¬ B)❘# notDisjElim 1 2❙
+❚
+
+theory K3ND : ?FDEND =
+    em : {A} ⊦ A ∨ ¬ A ❘# ExclMid 1❙
+❚
+
+theory K32ND : ?FDEND =
+    efq : {A,B} ⊦ A ⟶ ⊦ ¬ A ⟶ ⊦ B❘# ExFalsoQuodlibet 1 2❙
 ❚
