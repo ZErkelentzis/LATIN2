@@ -1,0 +1,36 @@
+also see zoom recording
+
+  //   names introduced in __ are visible for __
+     R  --  S T U
+     S  --  
+     T  --  U
+   { R { S } T U}
+   {imp A B}
+   
+  // currently only implemented in parser - what to do in content-model???
+     currently proof looks like this
+     OMA(OMS(proof), OMA(OMS(fix), OML(x,?)), OMA(OMS(assume), OML(a,?)), OMA(OMS(use), OML(a)))
+     
+     OMA(OMS(proof), OMBIND(OMS(fix), VarDecl(x,?)), OMBIND(OMS(assume), VarDecl(a,?)), OMA(OMS(use), OMV(a)))
+     
+     OMA(op, a1, ..., an)
+     every a_i may (anywhere in its syntax tree) introduce new names, which are visible in a_{i+1} etc.
+     The old OMBIND is just the special case where a_i is immediate a VarDecl.
+     
+     Current OMBIND already has to that anyway: each name x_i is visible in x_{i+1} etc.
+     OMBINDC(op, x_1:A_1, ..., x_m:A_m, a_1, ..., a_n)
+     
+     By using OMA instead, the code becomes more general and simpler.
+     It allows:
+     - mixing declarations and arguments
+     - having declarations deep in the syntax tree
+     
+     Big question: Do we need a block-structure in the content-model?
+     e.g.,
+     OMA(op, a_1,...,a_n, isblock:Boolean)
+     or
+     OMA(op, (a_1, isblock:Boolean), ..., (a_n, isblock:Boolean), isblock:Boolean)
+     
+     Second big question: Should name declarations be allowed to be non-alpha-convertible?
+     If so, where/how is that marked?
+ 
