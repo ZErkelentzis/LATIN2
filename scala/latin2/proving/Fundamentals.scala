@@ -5,6 +5,7 @@ import objects._
 import checking._
 import info.kwarc.mmt.api.symbols.OMLReplacer
 import info.kwarc.mmt.lf._
+
 import lf.PropositionsITP
 import lf.Proofs
 import lf.Types
