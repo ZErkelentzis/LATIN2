@@ -97,6 +97,8 @@ class SFOLTheoryAdapter(controller: Controller, path: MPath) {
   lazy val theory: Theory = init._1
   lazy val constants: List[(GlobalName,Term)] = init._2.toList
 
+  // TODO FR: extend to PSFOL (so that CC can use collection types)
+
   def getTypeSyms = constants filter {case (p,tp) =>
     tp match {
       case TypeDecl(_) => true
@@ -115,4 +117,6 @@ class SFOLTheoryAdapter(controller: Controller, path: MPath) {
       case _ => false
     }
   }
+  // TODO FR
+  def getLiterals: List[uom.RealizedType] = ???
 }
