@@ -120,7 +120,7 @@ class SFOLTheoryAdapter(controller: Controller, path: MPath) {
     val rules = RuleSet.collectRules(controller, Context(path))
     rules.get(classOf[RealizedType]) flatMap {rt =>
       rt.synType match {
-        case TypedTerms.tm(a) => List((a, rt.semType))
+        case TypedTerms.tm(a) => List((a, rt))
         case _ => Nil
       }
     }
