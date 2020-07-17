@@ -83,8 +83,9 @@ object SFOLPatterns {
 
 class SFOLTheoryAdapter(controller: Controller, path: MPath) {
   import SFOLPatterns._
+  private val lup = controller.globalLookup
   private lazy val init = {
-    val theory = controller.globalLookup.getAs(classOf[Theory], path)
+    val theory = lup.getAs(classOf[Theory], path)
     controller.simplifier(theory)
     val constants = Theory.primitiveConstants(path, controller.globalLookup)
     println(constants)
@@ -118,9 +119,12 @@ class SFOLTheoryAdapter(controller: Controller, path: MPath) {
   }
   def getLiterals = {
     val rules = RuleSet.collectRules(controller, Context(path))
+    val primitive = constants.map(_._1)
     rules.get(classOf[RealizedType]) flatMap {rt =>
-      rt.synType match {
-        case TypedTerms.tm(a) => List((a, rt))
+      val st = lup.ExpandDefinitions(rt.synType, p => !primitive.contains(p))
+      st match {
+        case TypedTerms.tm(a) =>
+          List((a, rt))
         case _ => Nil
       }
     }

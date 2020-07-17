@@ -28,6 +28,11 @@ class SFOLTermGenerator(controller: Controller) {
        println("inputs: " + ins.mkString(", "))
        println("output: " + out)
      }
+     val lits = theory.getLiterals
+     lits.foreach {case (a,rt) =>
+       println("literals for type: " + a)
+       println("semantic values: " + rt.semType)
+     }
    }
 }
 
@@ -35,7 +40,8 @@ object SFOLTermGeneratorTest {
   def main(args: Array[String]) {
     val controller = Controller.make(true, true, List("MMT/urtheories", "MMT/LATIN2"))
 
-    val thyS = "latin:/algebraic?Group"
+    // val thyS = "latin:/algebraic?Group"
+    val thyS = "latin:/?Nat"
     val thy = Path.parseM(thyS, controller.getNamespaceMap)
     val gen = new SFOLTermGenerator(controller)
     gen.makeTerms(thy)
