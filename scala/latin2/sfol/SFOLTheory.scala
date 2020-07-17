@@ -6,9 +6,8 @@ import modules._
 import symbols._
 import libraries._
 import frontend._
-
+import info.kwarc.mmt.api.uom.RealizedType
 import info.kwarc.mmt.lf._
-
 import lf._
 
 object CommonSymbols {
@@ -117,6 +116,13 @@ class SFOLTheoryAdapter(controller: Controller, path: MPath) {
       case _ => false
     }
   }
-  // TODO FR
-  def getLiterals: List[uom.RealizedType] = ???
+  def getLiterals = {
+    val rules = RuleSet.collectRules(controller, Context(path))
+    rules.get(classOf[RealizedType]) flatMap {rt =>
+      rt.synType match {
+        case TypedTerms.tm(a) => List((a, rt.semType))
+        case _ => Nil
+      }
+    }
+  }
 }
