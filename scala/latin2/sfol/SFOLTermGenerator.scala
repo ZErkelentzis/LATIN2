@@ -29,6 +29,7 @@ class SFOLTermGenerator(controller: Controller, mp: MPath, limit: Int) {
   //  println("type symbol " + p.name)
   //}
   val funs = theory.getFunSyms
+  val lits = theory.getLiterals
 
   //generation of variables for terms
   val variables = makeVars(3)
@@ -40,6 +41,14 @@ class SFOLTermGenerator(controller: Controller, mp: MPath, limit: Int) {
   //eg number of equal symbols/variables on both sides of a symbol
   val terms = new HashMapToSet[Term,(Complexity, Term)]
 
+  println("Literals: " + lits)
+
+  lits.foreach{
+    case(a, rt) =>
+      val k = rt.semType.enumerate(0).take(10).map(v => rt.of(v))
+      k.foreach(println)
+  }
+
   funs.foreach {
     case (p, tp) =>
       println("function symbol " + p.name)
@@ -47,6 +56,7 @@ class SFOLTermGenerator(controller: Controller, mp: MPath, limit: Int) {
       val FuncDecl(ins, out) = tp
       println("inputs: " + ins.mkString(", "))
       println("output: " + out)
+
 
       //function name and syntax are saved in a List and a HashMap respectively. This way they can be used
       //continuously in term generation
