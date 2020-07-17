@@ -8,7 +8,7 @@ object SFOLTermGeneratorTest {
     val controller = Controller.make(true, true, List("MMT/urtheories", "MMT/LATIN2"))
     controller.handleLine("server on 8080")
 
-    val thyS = "latin:/algebraic?Powers" //algebraic?Commutative
+    val thyS = "latin:/?NatPlus" //algebraic?Commutative algebraic?Powers latin:/?IPLND
     val thy = Path.parseM(thyS, controller.getNamespaceMap)
     val gen = new SFOLTermGenerator(controller, thy, 3)
     var termstream = gen.makeTerms()

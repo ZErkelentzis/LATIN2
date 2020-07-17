@@ -25,21 +25,20 @@ class SFOLTermGenerator(controller: Controller, mp: MPath, limit: Int) {
   val theory = new SFOLTheoryAdapter(controller, mp)
 
   val tps = theory.getTypeSyms
-  tps foreach {case (p,_) =>
-    println("type symbol " + p.name)
-  }
+  //tps foreach {case (p,_) =>
+  //  println("type symbol " + p.name)
+  //}
   val funs = theory.getFunSyms
 
   //generation of variables for terms
   val variables = makeVars(3)
-  println("Variables:")
-  println(variables)
+  //println("Variables:")
+  //println(variables)
   var fname = List[GlobalName]()
   val funcs = new HashMapToSet[GlobalName, Term]
-  //the hashmap saves the combination [outputtype, (complexity, term)]
   //define interestingness further for complexity
   //eg number of equal symbols/variables on both sides of a symbol
-  val terms = new HashMapToSet[Term,(Complexity, Term)] //by florian
+  val terms = new HashMapToSet[Term,(Complexity, Term)]
 
   funs.foreach {
     case (p, tp) =>
@@ -65,11 +64,22 @@ class SFOLTermGenerator(controller: Controller, mp: MPath, limit: Int) {
     //terms.foreach(a => println(a))
   }
 
+  //two makeTerms functions - one creates a stream of terms, the other a stream of (complexity, term) tuples
+  //todo: type specific term generation, formula generation
+
   def makeTerms(): Stream[Term] = {
-    newTerm() #:: makeTerms()
+    newTerm()._2 #:: makeTerms()
   }
 
-  def newTerm(): Term = {
+  def makeTermsInfo(): Stream[(Complexity, Term)] = {
+    newTerm() #:: makeTermsInfo()
+  }
+
+  def newTerm(): (Complexity, Term) = {
+    if(funcs.isEmpty){
+      println("There are no functions to generate terms with.")
+      //todo: exit program?
+    }
     var newdepth = 0
     //using Hashsets for generation of variable and symbol list for new complexity, to avoid duplicates
     var newvar = mutable.HashSet[Term]()
@@ -79,6 +89,9 @@ class SFOLTermGenerator(controller: Controller, mp: MPath, limit: Int) {
       trnd *= -1
     }
     var empty = emptyCheck(trnd)
+
+    //todo: delete special case, funcs without input are ok
+
     while(empty){
       trnd = rnd.nextInt()%funcs.toList.length
       if(trnd < 0){
@@ -92,8 +105,7 @@ class SFOLTermGenerator(controller: Controller, mp: MPath, limit: Int) {
     val interms = ins.map(tp =>
       terms(tp).toList
     )
-    var args = List[List[Term]]()
-    interms.foreach{
+    val args = interms.map{
       list =>
         var arg = List[Term]()
         list.foreach {
@@ -109,7 +121,7 @@ class SFOLTermGenerator(controller: Controller, mp: MPath, limit: Int) {
               if(tup._1.depth > newdepth) newdepth = tup._1.depth
             }
         }
-        args = arg :: args
+        arg
     }
     //don't forget to add 1 to newdepth, as so far its only the highest input depth, but new depth is that +1
     newdepth += 1
@@ -134,14 +146,15 @@ class SFOLTermGenerator(controller: Controller, mp: MPath, limit: Int) {
       m
     }
     //println("Arguments: " + inputs)
-    val newterm = ApplySpine(OMS(fname(trnd)), inputs:_*)
+    //todo: add a loop with condition that checks the specified/wanted type in case type specific terms are requested
+    val newterm = ApplyGeneral(OMS(fname(trnd)), inputs)
     val newcom = new Complexity(newdepth, newvar.toList, newsym.toList)
     val newtup = (newcom, newterm)
     terms(out) += newtup
     //println("new term: " + newterm.toStr(false))
     //terms.foreach(a => println(a))
     // make a random new term for each function symbol
-    newterm
+    newtup
   }
 
   def makeVars(n: Int): List[Term] = {
