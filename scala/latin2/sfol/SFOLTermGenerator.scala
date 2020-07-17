@@ -100,6 +100,8 @@ class SFOLTermGenerator(controller: Controller, mp: MPath, limit: Int) {
     }
     var empty = emptyCheck(trnd)
 
+    //todo: init newterm und newcom here
+
     //todo: delete special case, funcs without input are ok
 
     while(empty){
