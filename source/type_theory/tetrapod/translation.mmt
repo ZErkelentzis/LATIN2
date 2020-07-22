@@ -16,6 +16,7 @@ theory ContextTranslation =
   // broadening the domain of inherited structures does not work yet in MMT ❙
   structure L : ?Contexts = ❚
   structure K : ?Contexts = ❚
+
   ctx_translation: {V: L/Voc} L/Ctx V ⟶ K/Ctx (TransVoc V) ❘ # TransCtx 2 ❙
 ❚
 

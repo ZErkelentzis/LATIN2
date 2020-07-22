@@ -3,14 +3,17 @@ fixmeta ur:?LF❚
 
 theory Deduction =
   include ?FormalSystem ❙
+  include ?Propositions ❙
 
-  thm: {V,Γ: Ctx V} Exp Γ ⟶ prop ❘ # IsThm 3 ❘ // Subset of expressions designated as theorems❙
+  thm: {V,Γ: Ctx V} Exp Γ ⟶ prop ❘ # IsThm 3 prec 135 ❘ // Subset of expressions designated as theorems❙
   ground_theorems = [V: Voc,F: GExp V] IsThm F ❘ # IsGroundThm 1 ❙
 
   true_instance
-       : {V, Γ: Ctx V, γ: GSubst Γ, e: Exp Γ}  (Γ |- e ∶ cprop) ⟶ prop
-    ❘ = [V, Γ, γ, e, judgement] IsThm F[γ]
+       : {V, Γ: Ctx V, γ: GSubst Γ, e: Exp Γ} (⊦ Γ |- e ∶ cprop) ⟶ prop
+    ❘ = [V, Γ, γ, e, judgement] IsThm e⟬γ⟭
     ❙
+
+  subst_pres_thm: {V, Γ: Ctx V, Δ: Ctx V, γ: Subst Γ Δ, F: Exp Γ} ⊦ (IsThm F) ⇒ (IsThm F⟬γ⟭) ❙
 ❚
 
 theory DeductionEq =
@@ -19,18 +22,12 @@ theory DeductionEq =
 
   eq_refl: {V, Γ: Ctx V, e: Exp Γ} ⊦ IsThm (e ≡ e) ❙
   eq_symm: {V, Γ: Ctx V, e: Exp Γ, f: Exp Γ} ⊦ IsThm (e ≡ f) ⇒ IsThm (f ≡ e) ❙
-  eq_trans: {V, Γ: Ctx V, e: Exp Γ, f: Exp Γ, g: Exp Γ} ⊦ (IsThm (e ≡ f) ∧ IsThm (f ≡ g)) ⇒ IsThm (e ≡ g) ❙
-
-  subst_pres_thm: {V, Γ: Ctx V, Δ: Ctx V, γ: Subst Γ Δ, F: Exp Γ} ⊦ (IsThm F) ⇒ (IsThm F[γ]) ❙
+  eq_trans: {V, Γ: Ctx V, e: Exp Γ, f: Exp Γ, g: Exp Γ} ⊦ IsThm (e ≡ f) ∧ IsThm (f ≡ g) ⇒ IsThm (e ≡ g) ❙
 ❚
 
-theory SemanticsTrue =
-  include ?FormalSystem ❙
-  include ?Propositions ❙
+theory DeductiveTrue =
+  include ?Deduction ❙
+  include ?PropositionalTrue ❙
 
-  // don't name clash with base logic ❙
-  our_true: {V} GExp V ❙
-  our_true_in_context: {V, Γ: Ctx V} Exp Γ ❘ = [V, Γ] (our_true V) in Γ ❘ # ctrue %I1 %I2 ❙
-  true_types_against_prop: {V, Γ: Ctx V} ⊦ Γ |- ctrue ∶ cprop ❙
-  // true_thm: {V, Γ: Ctx V} ⊦ IsThm (true in Γ) ❙
+  true_thm: {V, Γ: Ctx V} ⊦ IsThm ((designated_true V) in Γ) ❙
 ❚
