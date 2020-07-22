@@ -1,0 +1,67 @@
+namespace latin:/wuvtest❚
+fixmeta ur:?LF❚
+
+theory Computation =
+  include ?FormalSystem ❙
+
+  eval_on_exp: {V, Γ: Ctx V} Exp Γ ⟶ Exp Γ ⟶ prop❘ # 3 ⇝ 4 ❙
+
+  eval_on_subst: {V, Γ: Ctx V, Δ: Ctx V} Subst Γ Δ ⟶ Subst Γ Δ ⟶ prop ❘ # EvalSubst 4 5 ❙
+  // subst_pres_thm: {V, Γ, Δ, γ: Subst Γ Δ} ❙
+  eval_pres_subst: {V, Γ: Ctx V, Δ: Ctx V, γ: Subst Γ Δ, e: Exp Γ, e': Exp Γ} ⊦ (e ⇝ e') ⇒ (e[γ] ⇝ (e')[(EvalSubst γ)]) ❙
+
+  subject_reduction: {V, Γ: Ctx V, e: Exp Γ, e': Exp Γ, E: Exp Γ} ⊦ (Γ |- e ∶ E) ∧ (e ⇝ e') ⇒ (Γ |- e' ∶ E) ❙
+
+  normal_expressions
+      :    {V, Γ: Ctx V} Exp Γ ⟶ prop
+      ❘ = [V, Γ, e] ¬∃[e'] e ⇝ e'
+      ❘ # normal 3
+    ❙
+
+  normal_substitutions
+      :    {V, Γ: Ctx V, Δ: Ctx V} Subst Γ Δ ⟶ prop
+      ❘ = [V, Γ, Δ, γ] ¬∃[γ'] EvalSubst γ γ'
+      ❘ # normalSubst 4
+      ❙
+
+  ground_expr_normal_in_all_contexts: {V, Γ: Ctx V, e: GExp V} ⊦ normal e ⇒ normal (e in Γ) ❙
+❚
+
+theory StronglyNormalizingComputation =
+  include ?Computation ❙
+  include ?DeductionEq ❙
+
+  // todo: fix me ❙
+  strongly_normalizing: ⊦ true ❙
+  // todo: fix me ❙
+  normal_forms_unique: ⊦ true ❙
+
+  bigstep_evaluation
+    :    {V, Γ: Ctx V} Exp Γ ⟶ Exp Γ
+    ❘ // missing definiens: define via choice operator somehow
+    ❘ # Eval 3
+    ❙
+❚
+
+theory DeductiveNormalizingComputation =
+  include ?NormalizingComputation ❙
+  include ?DeductionEq ❙
+  include ?TypedEquality ❙
+
+  vtrue_normal: {V} ⊦ normal (vtrue V) ❙
+  vprop_normal: {V} ⊦ normal (vprop V) ❙
+
+  eval_eq: {V, Γ: Ctx V, e: Exp Γ, e': Exp Γ} ⊦ (e ⇝ e') ⇒ IsThm (e ≡ e') ❙
+❚
+
+theory CanonicalComputation =
+  include ?StronglyNormalizingComputation ❙
+  include ?DeductionEq ❙
+
+  canonical_eq: {V, Γ: Ctx V, e: Exp Γ, f: Exp Γ} ⊦ (IsThm (e ≡ f)) ⇔ (Eval e ≐ Eval f) ❙
+❚
+
+theory DecidableComputation =
+  include ?CanonicalComputation ❙
+  include ?SemanticsTrue ❙
+❚

@@ -1,0 +1,86 @@
+// Formalize interdefinability of semantics via views ❚
+namespace latin:/wuvtest❚
+fixmeta ur:?LF❚
+
+view TheoremsViaEvaluationToTrue : ?Deduction -> ?Computation =
+  include ?FormalSystem ❙
+
+  // but redefine what it means to be a theorem! ❙
+  thm = [V, Γ, e] e ⇝ (vtrue in Γ) ❙
+❚
+
+view TheoremsViaEvaluationToTrueEq : ?DeductionEq -> ?DecidableComputation =
+  include ?TheoremsViaEvaluationToTrue ❙
+
+  // same equality notion ≡ as in domain ❙
+  include ?TypedEquality ❙
+
+  // in domain: eq_refl : {V, Γ: Ctx V, e: Exp Γ} ⊦ IsThm (e ≡ e) ❙
+  eq_refl = sketch "In base logic can prove `e ≐ e`, hence by canonical forms also `IsThm (e ≡ e)`" ❙
+
+  // in domain: eq_symm : {V, Γ: Ctx V, e: Exp Γ, f: Exp Γ} ⊦ IsThm (e ≡ f) ⇒ IsThm (f ≡ e) ❙
+  eq_symm = sketch "By canonical forms we have that `IsThm (e ≡ f)` implies `e ≐ f` in base logic, then apply symmetry there" ❙
+
+  // in domain: eq_trans : {V, Γ: Ctx V, e: Exp Γ, f: Exp Γ, g: Exp Γ} ⊦ (IsThm (e ≡ f) ∧ IsThm (f ≡ g)) ⇒ IsThm (e ≡ g) ❙
+  eq_trans = sketch "Similarly as above: get `e ≐ f`, `f ≐ g` in base logic, then `e ≐ g` via transitivity in base logic, and transport back via canonical forms once more" ❙
+
+  // in domain: subst_pres_thm : {V, Γ: Ctx V, Δ: Ctx V, γ: Subst Γ Δ, F: Exp Γ} ⊦ (IsThm F) ⇒ (IsThm F[γ]) ❙
+  // eval_pres_subst: {V, Γ: Ctx V, Δ: Ctx V, γ: Subst Γ Δ, e: Exp Γ} ⊦ e[γ] ⇝ (Eval e)[(EvalSubst γ)] ❙
+    subst_pres_thm = sketch "By definition, our goal is to show `F[γ] ⇝ (vtrue in Γ)`. By eval_pres_subst we have `F[γ] ⇝ (Eval F)[(EvalSubst γ)]. By our assumption of `IsThm F`, we have `Eval F ≐ (vtrue in V)`. Then by ground_expressions_unaffected_by_subst we have `(vtrue in V)[(Eval Subst γ)] ≐ vtrue in Γ`. Hence we overall have `F[γ] ⇝ (vtrue in Γ)`. Then by our mapping of `thm` and because of `(vtrue in Γ) ⇝ (vtrue in Γ)` by vprop_normal and ground_expr_normal_in_all_contexts, we have the goal `IsThm F[γ]`." ❙
+❚
+
+view EqualityViaComputation : ?DeductionEq -> ?DecidableComputation =
+  include ?TheoremsViaEvaluationToTrue ❙
+
+  // note that ≐ stems from base logic here ❙
+  eq_for_vocabulary = [V, Γ, e, f] (Eval e) ≡ (Eval f) ❙
+  eq_types_against_prop = sketch "should immediately come from ≡" ❙
+
+  eq_refl = sketch "..." ❙
+
+  // in domain: eq_symm : {V, Γ: Ctx V, e: Exp Γ, f: Exp Γ} ⊦ IsThm (e ≡ f) ⇒ IsThm (f ≡ e) ❙
+  eq_symm = sketch "..." ❙
+
+  // in domain: eq_trans : {V, Γ: Ctx V, e: Exp Γ, f: Exp Γ, g: Exp Γ} ⊦ (IsThm (e ≡ f) ∧ IsThm (f ≡ g)) ⇒ IsThm (e ≡ g) ❙
+  eq_trans = sketch "..." ❙
+
+  // in domain: subst_pres_thm : {V, Γ: Ctx V, Δ: Ctx V, γ: Subst Γ Δ, F: Exp Γ} ⊦ (IsThm F) ⇒ (IsThm F[γ]) ❙
+  subst_pres_thm = sketch "..." ❙
+❚
+
+view TheoremsViaGroundSubstitutions : ?Deduction -> ?Concretization =
+  include ?FormalSystem ❙
+
+  // in codomain: ground_substitutions: {V, Γ: Ctx V, F: Exp Γ} (Γ |- F ∶ (vprop V)) ⟶ Subst Γ (empty V) ⟶ prop ❙
+  thm = [V, Γ, e] ∃ [p: (Γ |- e ∶ (vprop V)] ∃ [γ: Subst Γ (empty V)] concrete_substitutions V Γ e p γ❙
+❚
+
+// view CompToConcr : ?Computation -> ?Concretization =
+  include ?FormalSystem ❙
+
+  // in codomain: ground_substitutions: {V, Γ: Ctx V, F: Exp Γ} (Γ |- F ∶ (vprop V)) ⟶ Subst Γ (empty V) ⟶ prop ❙
+  eval_on_exp = [V, Γ, e, e'] ground_substitutions V Γ
+
+    eval_notation
+      :    {V, Γ: Ctx V} Exp Γ ⟶ Exp Γ ⟶ prop
+      ❘ = [V, Γ, e, f] Eval e ≐ f
+      ❘ # 3 ⇝ 4 ❙
+
+    eval_on_subst: {V, Γ: Ctx V, Δ: Ctx V} Subst Γ Δ ⟶ Subst Γ Δ  ❘ # EvalSubst 4 ❙
+    // subst_pres_thm: {V, Γ, Δ, γ: Subst Γ Δ} ❙
+    eval_pres_subst: {V, Γ: Ctx V, Δ: Ctx V, γ: Subst Γ Δ, e: Exp Γ} ⊦ e[γ] ⇝ (Eval e)[(EvalSubst γ)] ❙
+
+    subject_reduction: {V, Γ: Ctx V, e: Exp Γ, E: GExp V} ⊦ (Γ |- e ∶ E) ⇒ (Γ |- (Eval e) ∶ E) ❙
+❚
+
+view GroundSubstitutionsViaTheorems : ?Concretization -> ?Deduction =
+  include ?FormalSystem ❙
+
+  // in practice cannot compute IsThm ❙
+  concrete_substitutions = [V, Γ, F, p: (Γ |- F ∶ (vprop v)), γ: Subst Γ (empty V)] IsThm F[γ] ❙
+❚
+view ConcrToComp : ?Concretization -> ?Computation =
+  include ?FormalSystem ❙
+
+  concrete_substitutions = [V, Γ, F, p: (Γ |- F ∶ (vprop v)), γ: Subst Γ (empty V)] (normalSubst γ) ∧ (F[γ] ⇝ ((vtrue V) in Γ)) ❙
+❚

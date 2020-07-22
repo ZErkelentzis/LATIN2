@@ -1,0 +1,54 @@
+namespace latin:/wuvtest❚
+fixmeta ur:?LF❚
+
+theory VocabularyTranslation =
+  include ?Expressions ❙
+
+  structure L : ?Vocabularies = ❚
+  structure K : ?Vocabularies = ❚
+
+  voc_translation: L/Voc ⟶ K/Voc ❘ # TransVoc 1❙
+❚
+
+theory ContextTranslation =
+  include ?VocabularyTranslation ❙
+
+  // broadening the domain of inherited structures does not work yet in MMT ❙
+  structure L : ?Contexts = ❚
+  structure K : ?Contexts = ❚
+  ctx_translation: {V: L/Voc} L/Ctx V ⟶ K/Ctx (TransVoc V) ❘ # TransCtx 2 ❙
+❚
+
+theory ExpressionTranslation =
+  include ?ContextTranslation ❙
+
+  // broadening the domain of inherited structures does not work yet in MMT ❙
+  structure L : ?Expressions = ❚
+  structure K : ?Expressions = ❚
+  expr_translation: {V: L/Voc, Γ: L/Ctx V} L/Exp Γ ⟶ K/Exp (TransCtx Γ} ❘ # TransExp 3 ❙
+
+  type_preservation: {V: L/Voc, Γ: L/Ctx V, e: L/Exp Γ, E: L/Exp Γ}
+       ⊦ L/(Γ |- e ∶ E)
+    ⟶ ⊦ K/((TransCtx Γ) |- (TransExp e) ∶ (TransExp E))
+  ❙
+
+  conservativity: {V: L/Voc, Γ: L/Ctx V, e: L/Exp Γ, E: L/Exp Γ}
+       ⊦ K/((TransCtx Γ) |- e : (TransExp E))
+    ⟶ ⊦ ∃ [f] L/(Γ |- f ∶ E)
+  ❙
+❚
+
+theory SubstitutionTranslations =
+  include ?ExpressionTranslation ❙
+
+  // broadening the domain of inherited structures does not work yet in MMT ❙
+  structure L : ?Substitutions = ❚
+  structure K : ?Substitutions = ❚
+
+  subst_translation: {V: L/Voc, Γ: L/Ctx V, Δ: L/Ctx V} L/(Subst Γ Δ) ⟶ K/(Subst (TransCtx Γ) (TransCtx Δ)) ❘ # TransSubst 4 ❙
+
+  subst_thm: {V: L/Voc, Γ: L/Ctx V, Δ: L/Ctx V, e: L/Exp Γ, E: L/Exp Γ, γ: Subst Γ Δ}
+       ⊦ L/(Γ |- e ∶ E)
+    ⟶ ⊦ K/((TransCtx Γ) |- (TransExp (e[γ])) ≣ (TransExp e)[(TransSubst γ)]
+  ❙
+❚
