@@ -1,0 +1,31 @@
+namespace latin:/wuvtest/structurecolimit❚
+fixmeta ur:?LF❚
+
+theory Syntax =
+❚
+
+theory Semantics =
+  include ?Syntax ❙
+❚
+
+theory EquivalenceOfSemantics =
+  structure syn : ?Syntax = ❚
+
+  structure sem1 : ?Semantics =
+    include ?Syntax ❘ = ?EquivalenceOfSemantics?syn ❙
+  ❚
+  structure sem2 : ?Semantics =
+    include ?Syntax ❘ = ?EquivalenceOfSemantics?syn ❙
+  ❚
+❚
+
+theory EquivalenceOfSemantics2 =
+  // include ?Syntax ❙
+
+  structure sem1 : ?Semantics =
+    include ?Syntax ❙
+  ❚
+  structure sem2 : ?Semantics =
+    include ?Syntax ❙
+  ❚
+❚

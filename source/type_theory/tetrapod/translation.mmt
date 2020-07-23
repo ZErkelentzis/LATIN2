@@ -67,10 +67,29 @@ theory CompositionalTranslations =
 
 // Notions of equivalence ❚
 
-theory DeductionEquivalence =
-  structure L : ?FormalSystem = ❚
+theory FormalSystemEquivalence =
+  include ?ScratchSFOL ❙
+
+  structure L : ?FormalSystem =
+    // here and below in the other structures force that we maintain the same base logic
+       as in the outer theory ❙
+    include ?ScratchSFOL ❙
+  ❚
 
   // can I force Sem1|?FormalSystem = L? same for Sem2? ❙
+  structure Sem1 : ?FormalSystem =
+    include ?ScratchSFOL ❙
+    include ?FormalSystem ❘ = ?FormalSystemEquivalence?L ❙
+  ❚
+  structure Sem2 : ?FormalSystem =
+    include ?ScratchSFOL ❙
+    include ?FormalSystem ❘ = ?FormalSystemEquivalence?L ❙
+  ❚
+❚
+
+theory DeductionEquivalence =
+  include ?FormalSystemEquivalence ❙
+
   structure Sem1 : ?Deduction = ❚
   structure Sem2 : ?Deduction = ❚
 
@@ -78,9 +97,8 @@ theory DeductionEquivalence =
 ❚
 
 theory ComputationEquivalence =
-  structure L : ?FormalSystem = ❚
+  include ?FormalSystemEquivalence ❙
 
-  // can I force Sem1|?FormalSystem = L? same for Sem2? ❙
   structure Sem1 : ?Computation = ❚
   structure Sem2 : ?Computation = ❚
 
@@ -88,9 +106,8 @@ theory ComputationEquivalence =
 ❚
 
 theory ConcretizationEquivalence =
-  structure L : ?FormalSystem = ❚
+  include ?FormalSystemEquivalence ❙
 
-  // can I force Sem1|?FormalSystem = L? same for Sem2? ❙
   structure Sem1 : ?Concretization = ❚
   structure Sem2 : ?Concretization = ❚
 
