@@ -53,3 +53,48 @@ theory SubstitutionTranslations =
     ⟶ ⊦ K/((TransCtx Γ) |- (TransExp (e[γ])) ≣ (TransExp e)[(TransSubst γ)]
   ❙
 ❚
+
+theory CompositionalTranslations =
+  include ?SubstitutionTranslations ❙
+
+  structure L : ?DeductionEq = ❚
+  structure K : ?DeductionEq = ❚
+
+  is_compositional: {V, Γ: L/Ctx V, Δ: L/Ctx V, γ: Subst Γ Δ, e: Exp Γ}
+    ⊦ K/IsThm ((TransExp (e⟬γ⟭)) ≡ (TransExp e)⟬(TransSubst γ)⟭)
+  ❙
+❚
+
+// Notions of equivalence ❚
+
+theory DeductionEquivalence =
+  structure L : ?FormalSystem = ❚
+
+  // can I force Sem1|?FormalSystem = L? same for Sem2? ❙
+  structure Sem1 : ?Deduction = ❚
+  structure Sem2 : ?Deduction = ❚
+
+  equivalent : {V, Γ: L/Ctx V, e: L/Exp Γ, E: L/Exp Γ} ⊦ (Γ Sem1/|- e ∶ E) ⇔ (Γ Sem2/|- e ∶ E) ❙
+❚
+
+theory ComputationEquivalence =
+  structure L : ?FormalSystem = ❚
+
+  // can I force Sem1|?FormalSystem = L? same for Sem2? ❙
+  structure Sem1 : ?Computation = ❚
+  structure Sem2 : ?Computation = ❚
+
+  equivalent : {V, Γ: L/Ctx V, e: L/Exp Γ, f: L/Exp Γ} ⊦ (e Sem1/⇝ f) ⇔ (e Sem2/⇝ f) ❙
+❚
+
+theory ConcretizationEquivalence =
+  structure L : ?FormalSystem = ❚
+
+  // can I force Sem1|?FormalSystem = L? same for Sem2? ❙
+  structure Sem1 : ?Concretization = ❚
+  structure Sem2 : ?Concretization = ❚
+
+  // actually Sem2/ConcrRow should not get p, but `q: ⊦ (Γ Sem2/|- F ∶ cprop)`, but that should be equivalent to p
+     if the previous two structures are accordingly unified wrt. L ❙
+  equivalent : {V, Γ: L/Ctx V, F: L/Exp Γ, p: ⊦ (Γ Sem1/|- F ∶ cprop), γ: GSubst Γ} ⊦ (Sem1/ConcrRow p γ) ⇔ (Sem2/ConcrRow p γ) ❙
+❚
