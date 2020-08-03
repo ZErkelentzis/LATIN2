@@ -10,8 +10,8 @@ object SFOLTermGeneratorTest {
 
     val thyS = "latin:/?NatPlus" //algebraic?Commutative algebraic?Powers latin:/?IPLND
     val thy = Path.parseM(thyS, controller.getNamespaceMap)
-    val gen = new SFOLTermGenerator(controller, thy, 3)
-    var termstream = gen.makeTerms()
+    val gen = new SFOLTermGenerator(controller, thy, 4)
+    var termstream = gen.makeTerms() //Path.parse("latin:/?Nat?nat")
 
     while(true){
       println("new term: " + termstream.head)
