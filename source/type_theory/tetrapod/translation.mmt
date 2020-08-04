@@ -67,7 +67,7 @@ theory CompositionalTranslations =
 
 // Notions of equivalence ❚
 
-theory FormalSystemEquivalence =
+theory AspectEquivalence =
   include ?ScratchSFOL ❙
 
   structure L : ?FormalSystem =
@@ -76,15 +76,17 @@ theory FormalSystemEquivalence =
     include ?ScratchSFOL ❙
   ❚
 
-  // can I force Sem1|?FormalSystem = L? same for Sem2? ❙
-  structure Sem1 : ?FormalSystem =
+  structure Sem1 : ?AspectSemantics =
     include ?ScratchSFOL ❙
-    include ?FormalSystem ❘ = ?FormalSystemEquivalence?L ❙
+    include ?FormalSystem ❘ = ?AspectEquivalence?L ❙
   ❚
-  structure Sem2 : ?FormalSystem =
+
+  structure Sem2 : ?AspectSemantics =
     include ?ScratchSFOL ❙
-    include ?FormalSystem ❘ = ?FormalSystemEquivalence?L ❙
+    include ?FormalSystem ❘ = ?AspectEquivalence?L ❙
   ❚
+
+  aspect_axiom: ⊦ ... ❙
 ❚
 
 theory DeductionEquivalence =

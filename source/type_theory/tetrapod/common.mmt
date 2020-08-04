@@ -1,6 +1,8 @@
 namespace latin:/wuvtest❚
 fixmeta ur:?LF❚
 
+// TODO: nice example: perform pushout of everything over ContextErasure ❚
+
 // to be replaced by LATIN's official sorted FOL sometime ❚
 theory ScratchSFOL =
   include ☞http://cds.omdoc.org/urtheories?LF ❙
@@ -130,4 +132,16 @@ theory FormalSystem =
 
   // note: ⊦ from base logic (e.g. SFOL), |- for here ❙
   subst_pres_typing: {V,Γ: Ctx V,Δ: Ctx V,γ: Subst Γ Δ,e: Exp Γ,E: Exp Γ} ⊦ (Γ |- e ∶ E) ⇒ (Δ |- (e⟬γ⟭) ∶ (E⟬γ⟭)) ❙
+❚
+
+theory FormalSystemWithPropositions =
+  include ?FormalSystem ❙
+  include ?Propositions ❙
+❚
+
+theory InternalTypes =
+  include ?Typing ❙
+
+  itp: {V} GExp V ❘ // the internal type (itp) ❙
+
 ❚

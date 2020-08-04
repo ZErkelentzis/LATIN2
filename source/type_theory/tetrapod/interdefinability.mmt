@@ -3,8 +3,7 @@ namespace latin:/wuvtest❚
 fixmeta ur:?LF❚
 
 view TheoremsViaEvaluationToTrueEq : ?DeductionEq -> ?DecidableComputation =
-  include ?FormalSystem ❙
-  include ?Propositions ❙
+  include ?FormalSystemWithPropositions ❙
 
   // redefine what it means to be a theorem ❙
   thm = [V, Γ, e] e ⇝ ctrue ❙
@@ -27,8 +26,7 @@ view TheoremsViaEvaluationToTrueEq : ?DeductionEq -> ?DecidableComputation =
 ❚
 
 view EqualityViaComputation : ?DeductionEq -> ?DecidableComputation =
-  include ?FormalSystem ❙
-  include ?Propositions ❙
+  include ?FormalSystemWithPropositions ❙
 
   // redefine what it means to be a theorem ❙
   thm = [V, Γ, e] e ⇝ ctrue ❙
@@ -51,8 +49,7 @@ view EqualityViaComputation : ?DeductionEq -> ?DecidableComputation =
 ❚
 
 view TheoremsViaGroundSubstitutions : ?Deduction -> ?Concretization =
-  include ?FormalSystem ❙
-  include ?Propositions ❙
+  include ?FormalSystemWithPropositions ❙
 
   // in codomain: concrete_substitutions: {V, Γ: Ctx V, F: Exp Γ} (⊦ Γ |- F ∶ cprop) ⟶ GSubst Γ ⟶ prop ❙
   thm = [V, Γ, F] ∃ [p] ∃ [γ] concrete_substitutions V Γ F p γ❙
@@ -79,16 +76,15 @@ view TheoremsViaGroundSubstitutions : ?Deduction -> ?Concretization =
 ❚
 
 view GroundSubstitutionsViaTheorems : ?Concretization -> ?Deduction =
-  include ?FormalSystem ❙
-  include ?Propositions ❙
+  include ?FormalSystemWithPropositions ❙
 
   // in practice cannot compute IsThm ❙
   // in domain: concrete_substitutions: {V, Γ: Ctx V, F: Exp Γ} (⊦ Γ |- F ∶ cprop) ⟶ GSubst Γ ⟶ prop ❙
   concrete_substitutions = [V, Γ, F, p, γ] IsThm F⟬γ⟭ ❙
 ❚
 view ConcrToComp : ?Concretization -> ?ComputationProp =
-  include ?FormalSystem ❙
-  include ?Propositions ❙
+  // MMT complains about this line, not sure why or whether it is a bug ❙
+  include ?FormalSystemWithPropositions ❙
 
   // in domain: concrete_substitutions: {V, Γ: Ctx V, F: Exp Γ} (⊦ Γ |- F ∶ cprop) ⟶ GSubst Γ ⟶ prop ❙
   concrete_substitutions = [V, Γ, F, p, γ] (normalSubst γ) ∧ (F⟬γ⟭ ⇝ ctrue) ❙

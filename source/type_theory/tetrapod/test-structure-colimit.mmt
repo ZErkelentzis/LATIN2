@@ -1,31 +1,23 @@
-namespace latin:/wuvtest/structurecolimit❚
-fixmeta ur:?LF❚
+namespace latin:/wuvtest/mmt-view-inclusion-bug-test ❚
 
-theory Syntax =
+fixmeta http://cds.omdoc.org/urtheories?LF ❚
+
+theory A = ❚
+theory B = ❚
+theory C =
+  include ?A ❙
+  include ?B ❙
 ❚
 
-theory Semantics =
-  include ?Syntax ❙
+theory domain =
+  include ?C ❙
 ❚
 
-theory EquivalenceOfSemantics =
-  structure syn : ?Syntax = ❚
-
-  structure sem1 : ?Semantics =
-    include ?Syntax ❘ = ?EquivalenceOfSemantics?syn ❙
-  ❚
-  structure sem2 : ?Semantics =
-    include ?Syntax ❘ = ?EquivalenceOfSemantics?syn ❙
-  ❚
+theory codomain =
+  include ?A ❙
+  include ?B ❙
 ❚
 
-theory EquivalenceOfSemantics2 =
-  // include ?Syntax ❙
-
-  structure sem1 : ?Semantics =
-    include ?Syntax ❙
-  ❚
-  structure sem2 : ?Semantics =
-    include ?Syntax ❙
-  ❚
+view v : ?domain -> ?codomain =
+  include ?C ❙
 ❚
