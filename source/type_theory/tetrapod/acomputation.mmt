@@ -65,6 +65,9 @@ theory CanonicalComputation =
 theory ComputationProp =
   include ?Computation ❙
   include ?PropositionalTrue ❙
+
+  // include this such that the views in interdefinability.mmt can just include the identity morphism on that ❙
+  include ?FormalSystemWithPropositions ❙
 ❚
 
 theory DecidableComputation =
