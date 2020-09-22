@@ -1,0 +1,4 @@
+theory latin:/?NegationTruth
+HasMeta latin:/?NegationTruth http://cds.omdoc.org/urtheories?LF
+Includes latin:/?NegationTruth latin:/?Negation
+Includes latin:/?NegationTruth latin:/?Truth

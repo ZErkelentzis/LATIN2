@@ -1,0 +1,4 @@
+theory latin:/?TypedLogic
+HasMeta latin:/?TypedLogic http://cds.omdoc.org/urtheories?LF
+Includes latin:/?TypedLogic latin:/?Logic
+Includes latin:/?TypedLogic latin:/?TypedTerms

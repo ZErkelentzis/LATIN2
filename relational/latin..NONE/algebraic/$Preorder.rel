@@ -1,0 +1,4 @@
+theory latin:/algebraic?Preorder
+HasMeta latin:/algebraic?Preorder latin:/?SFOLEQND
+Includes latin:/algebraic?Preorder latin:/algebraic?Reflexivity
+Includes latin:/algebraic?Preorder latin:/algebraic?Transitivity

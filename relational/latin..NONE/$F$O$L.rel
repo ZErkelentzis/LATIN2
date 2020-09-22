@@ -1,0 +1,4 @@
+theory latin:/?FOL
+HasMeta latin:/?FOL http://cds.omdoc.org/urtheories?LF
+Includes latin:/?FOL latin:/?PL
+Includes latin:/?FOL latin:/?IFOL

@@ -1,0 +1,7 @@
+dataconstructor latin:/?Conjunction?and
+theory latin:/?Conjunction
+HasMeta latin:/?Conjunction http://cds.omdoc.org/urtheories?LF
+Includes latin:/?Conjunction latin:/?Propositions
+Declares latin:/?Conjunction latin:/?Conjunction?and
+constant latin:/?Conjunction?and
+DependsOn latin:/?Conjunction?and?type latin:/?Propositions?prop?type

@@ -1,0 +1,4 @@
+theory latin:/?PropDynamicLogic
+HasMeta latin:/?PropDynamicLogic http://cds.omdoc.org/urtheories?LF
+Includes latin:/?PropDynamicLogic latin:/?DynamicLogic
+Includes latin:/?PropDynamicLogic latin:/?NonDetProg

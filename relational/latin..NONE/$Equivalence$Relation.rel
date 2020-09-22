@@ -1,0 +1,4 @@
+theory latin:/?EquivalenceRelation
+HasMeta latin:/?EquivalenceRelation http://cds.omdoc.org/urtheories?PLF
+Includes latin:/?EquivalenceRelation latin:/?Preorder
+Includes latin:/?EquivalenceRelation latin:/?Symmetry

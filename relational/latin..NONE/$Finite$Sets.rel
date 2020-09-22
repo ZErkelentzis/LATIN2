@@ -1,0 +1,126 @@
+dataconstructor latin:/?FiniteSets?finset/[latin:/?Collection]/singleton
+dataconstructor latin:/?FiniteSets?finset/[latin:/?Collection]/cons
+dataconstructor latin:/?FiniteSets?finset/[latin:/?EndoMagma]/op
+dataconstructor latin:/?FiniteSets?finset/[latin:/?EndoFunctor]/applyFun
+dataconstructor latin:/?FiniteSets?finset/[latin:/?EndoFunctor]/applyId
+dataconstructor latin:/?FiniteSets?finset/[latin:/?EndoFunctor]/applyComp
+dataconstructor latin:/?FiniteSets?finset/[latin:/?TypedEqualityND]/refl
+dataconstructor latin:/?FiniteSets?finset/[latin:/?TypedEqualityND]/congP
+dataconstructor latin:/?FiniteSets?finset/[latin:/?TypedEqualityND]/congT
+dataconstructor latin:/?FiniteSets?finset/[latin:/?TypedEqualityND]/sym
+dataconstructor latin:/?FiniteSets?finset/[latin:/?TypedEqualityND]/trans
+dataconstructor latin:/?FiniteSets?finset/[latin:/?TypedEqualityND]/trans3
+dataconstructor latin:/?FiniteSets?finset/[latin:/?TypedEqualityND]/trans4
+dataconstructor latin:/?FiniteSets?finset/[latin:/?TypeOperator]/applyType
+dataconstructor latin:/?FiniteSets?finset/[latin:/?EndoNeutral]/e
+dataconstructor latin:/?FiniteSets?finset/[latin:/?EndoNeutral]/neutLeft
+dataconstructor latin:/?FiniteSets?finset/[latin:/?EndoNeutral]/neutRight
+dataconstructor latin:/?FiniteSets?finset/[latin:/?EndoSemigroup]/assoc
+dataconstructor latin:/?FiniteSets?finset/[latin:/?EndoSemigroup]/assocR
+dataconstructor latin:/?FiniteSets?finset/[latin:/?EndoSemigroup]/assoc4
+dataconstructor latin:/?FiniteSets?finset/[latin:/?EndoSemigroup]/assoc4R
+dataconstructor latin:/?FiniteSets?finset/[latin:/?EndoSemigroup]/assoc5
+dataconstructor latin:/?FiniteSets?finset/[latin:/?EndoCommutative]/comm
+dataconstructor latin:/?FiniteSets?finset/[latin:/?EndoIdempotent]/idempotent
+theory latin:/?FiniteSets
+HasMeta latin:/?FiniteSets latin:/?TypedEquality
+Declares latin:/?FiniteSets latin:/?FiniteSets?finset
+HasDomain latin:/?FiniteSets?finset latin:/?FiniteSetSpec
+HasCodomain latin:/?FiniteSets?finset latin:/?FiniteSets
+structure latin:/?FiniteSets?finset
+Declares latin:/?FiniteSets latin:/?FiniteSets?finset/[latin:/?MultisetSpec]
+HasDomain latin:/?FiniteSets?finset/[latin:/?MultisetSpec] latin:/?MultisetSpec
+HasCodomain latin:/?FiniteSets?finset/[latin:/?MultisetSpec] latin:/?FiniteSets
+structure latin:/?FiniteSets?finset/[latin:/?MultisetSpec]
+Declares latin:/?FiniteSets latin:/?FiniteSets?finset/[latin:/?ListSpec]
+HasDomain latin:/?FiniteSets?finset/[latin:/?ListSpec] latin:/?ListSpec
+HasCodomain latin:/?FiniteSets?finset/[latin:/?ListSpec] latin:/?FiniteSets
+structure latin:/?FiniteSets?finset/[latin:/?ListSpec]
+Declares latin:/?FiniteSets latin:/?FiniteSets?finset/[latin:/?Collection]
+HasDomain latin:/?FiniteSets?finset/[latin:/?Collection] latin:/?Collection
+HasCodomain latin:/?FiniteSets?finset/[latin:/?Collection] latin:/?FiniteSets
+structure latin:/?FiniteSets?finset/[latin:/?Collection]
+Declares latin:/?FiniteSets latin:/?FiniteSets?finset/[latin:/?Collection]/singleton
+constant latin:/?FiniteSets?finset/[latin:/?Collection]/singleton
+Declares latin:/?FiniteSets latin:/?FiniteSets?finset/[latin:/?Collection]/cons
+constant latin:/?FiniteSets?finset/[latin:/?Collection]/cons
+Declares latin:/?FiniteSets latin:/?FiniteSets?finset/[latin:/?EndoMagma]
+HasDomain latin:/?FiniteSets?finset/[latin:/?EndoMagma] latin:/?EndoMagma
+HasCodomain latin:/?FiniteSets?finset/[latin:/?EndoMagma] latin:/?FiniteSets
+structure latin:/?FiniteSets?finset/[latin:/?EndoMagma]
+Declares latin:/?FiniteSets latin:/?FiniteSets?finset/[latin:/?EndoMagma]/op
+constant latin:/?FiniteSets?finset/[latin:/?EndoMagma]/op
+Declares latin:/?FiniteSets latin:/?FiniteSets?finset/[latin:/?EndoFunctor]
+HasDomain latin:/?FiniteSets?finset/[latin:/?EndoFunctor] latin:/?EndoFunctor
+HasCodomain latin:/?FiniteSets?finset/[latin:/?EndoFunctor] latin:/?FiniteSets
+structure latin:/?FiniteSets?finset/[latin:/?EndoFunctor]
+Declares latin:/?FiniteSets latin:/?FiniteSets?finset/[latin:/?EndoFunctor]/applyFun
+constant latin:/?FiniteSets?finset/[latin:/?EndoFunctor]/applyFun
+Declares latin:/?FiniteSets latin:/?FiniteSets?finset/[latin:/?EndoFunctor]/applyId
+constant latin:/?FiniteSets?finset/[latin:/?EndoFunctor]/applyId
+Declares latin:/?FiniteSets latin:/?FiniteSets?finset/[latin:/?EndoFunctor]/applyComp
+constant latin:/?FiniteSets?finset/[latin:/?EndoFunctor]/applyComp
+Declares latin:/?FiniteSets latin:/?FiniteSets?finset/[latin:/?TypedEqualityND]
+HasDomain latin:/?FiniteSets?finset/[latin:/?TypedEqualityND] latin:/?TypedEqualityND
+HasCodomain latin:/?FiniteSets?finset/[latin:/?TypedEqualityND] latin:/?FiniteSets
+structure latin:/?FiniteSets?finset/[latin:/?TypedEqualityND]
+Declares latin:/?FiniteSets latin:/?FiniteSets?finset/[latin:/?TypedEqualityND]/refl
+constant latin:/?FiniteSets?finset/[latin:/?TypedEqualityND]/refl
+Declares latin:/?FiniteSets latin:/?FiniteSets?finset/[latin:/?TypedEqualityND]/congP
+constant latin:/?FiniteSets?finset/[latin:/?TypedEqualityND]/congP
+Declares latin:/?FiniteSets latin:/?FiniteSets?finset/[latin:/?TypedEqualityND]/congT
+constant latin:/?FiniteSets?finset/[latin:/?TypedEqualityND]/congT
+Declares latin:/?FiniteSets latin:/?FiniteSets?finset/[latin:/?TypedEqualityND]/sym
+constant latin:/?FiniteSets?finset/[latin:/?TypedEqualityND]/sym
+Declares latin:/?FiniteSets latin:/?FiniteSets?finset/[latin:/?TypedEqualityND]/trans
+constant latin:/?FiniteSets?finset/[latin:/?TypedEqualityND]/trans
+Declares latin:/?FiniteSets latin:/?FiniteSets?finset/[latin:/?TypedEqualityND]/trans3
+constant latin:/?FiniteSets?finset/[latin:/?TypedEqualityND]/trans3
+Declares latin:/?FiniteSets latin:/?FiniteSets?finset/[latin:/?TypedEqualityND]/trans4
+constant latin:/?FiniteSets?finset/[latin:/?TypedEqualityND]/trans4
+Declares latin:/?FiniteSets latin:/?FiniteSets?finset/[latin:/?TypeOperator]
+HasDomain latin:/?FiniteSets?finset/[latin:/?TypeOperator] latin:/?TypeOperator
+HasCodomain latin:/?FiniteSets?finset/[latin:/?TypeOperator] latin:/?FiniteSets
+structure latin:/?FiniteSets?finset/[latin:/?TypeOperator]
+Declares latin:/?FiniteSets latin:/?FiniteSets?finset/[latin:/?TypeOperator]/applyType
+constant latin:/?FiniteSets?finset/[latin:/?TypeOperator]/applyType
+Declares latin:/?FiniteSets latin:/?FiniteSets?finset/[latin:/?EndoNeutral]
+HasDomain latin:/?FiniteSets?finset/[latin:/?EndoNeutral] latin:/?EndoNeutral
+HasCodomain latin:/?FiniteSets?finset/[latin:/?EndoNeutral] latin:/?FiniteSets
+structure latin:/?FiniteSets?finset/[latin:/?EndoNeutral]
+Declares latin:/?FiniteSets latin:/?FiniteSets?finset/[latin:/?EndoNeutral]/e
+constant latin:/?FiniteSets?finset/[latin:/?EndoNeutral]/e
+Declares latin:/?FiniteSets latin:/?FiniteSets?finset/[latin:/?EndoNeutral]/neutLeft
+constant latin:/?FiniteSets?finset/[latin:/?EndoNeutral]/neutLeft
+Declares latin:/?FiniteSets latin:/?FiniteSets?finset/[latin:/?EndoNeutral]/neutRight
+constant latin:/?FiniteSets?finset/[latin:/?EndoNeutral]/neutRight
+Declares latin:/?FiniteSets latin:/?FiniteSets?finset/[latin:/?EndoMonoid]
+HasDomain latin:/?FiniteSets?finset/[latin:/?EndoMonoid] latin:/?EndoMonoid
+HasCodomain latin:/?FiniteSets?finset/[latin:/?EndoMonoid] latin:/?FiniteSets
+structure latin:/?FiniteSets?finset/[latin:/?EndoMonoid]
+Declares latin:/?FiniteSets latin:/?FiniteSets?finset/[latin:/?EndoSemigroup]
+HasDomain latin:/?FiniteSets?finset/[latin:/?EndoSemigroup] latin:/?EndoSemigroup
+HasCodomain latin:/?FiniteSets?finset/[latin:/?EndoSemigroup] latin:/?FiniteSets
+structure latin:/?FiniteSets?finset/[latin:/?EndoSemigroup]
+Declares latin:/?FiniteSets latin:/?FiniteSets?finset/[latin:/?EndoSemigroup]/assoc
+constant latin:/?FiniteSets?finset/[latin:/?EndoSemigroup]/assoc
+Declares latin:/?FiniteSets latin:/?FiniteSets?finset/[latin:/?EndoSemigroup]/assocR
+constant latin:/?FiniteSets?finset/[latin:/?EndoSemigroup]/assocR
+Declares latin:/?FiniteSets latin:/?FiniteSets?finset/[latin:/?EndoSemigroup]/assoc4
+constant latin:/?FiniteSets?finset/[latin:/?EndoSemigroup]/assoc4
+Declares latin:/?FiniteSets latin:/?FiniteSets?finset/[latin:/?EndoSemigroup]/assoc4R
+constant latin:/?FiniteSets?finset/[latin:/?EndoSemigroup]/assoc4R
+Declares latin:/?FiniteSets latin:/?FiniteSets?finset/[latin:/?EndoSemigroup]/assoc5
+constant latin:/?FiniteSets?finset/[latin:/?EndoSemigroup]/assoc5
+Declares latin:/?FiniteSets latin:/?FiniteSets?finset/[latin:/?EndoCommutative]
+HasDomain latin:/?FiniteSets?finset/[latin:/?EndoCommutative] latin:/?EndoCommutative
+HasCodomain latin:/?FiniteSets?finset/[latin:/?EndoCommutative] latin:/?FiniteSets
+structure latin:/?FiniteSets?finset/[latin:/?EndoCommutative]
+Declares latin:/?FiniteSets latin:/?FiniteSets?finset/[latin:/?EndoCommutative]/comm
+constant latin:/?FiniteSets?finset/[latin:/?EndoCommutative]/comm
+Declares latin:/?FiniteSets latin:/?FiniteSets?finset/[latin:/?EndoIdempotent]
+HasDomain latin:/?FiniteSets?finset/[latin:/?EndoIdempotent] latin:/?EndoIdempotent
+HasCodomain latin:/?FiniteSets?finset/[latin:/?EndoIdempotent] latin:/?FiniteSets
+structure latin:/?FiniteSets?finset/[latin:/?EndoIdempotent]
+Declares latin:/?FiniteSets latin:/?FiniteSets?finset/[latin:/?EndoIdempotent]/idempotent
+constant latin:/?FiniteSets?finset/[latin:/?EndoIdempotent]/idempotent

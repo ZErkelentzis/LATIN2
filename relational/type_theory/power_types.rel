@@ -1,0 +1,17 @@
+document latin:/type_theory/power_types.omdoc
+Declares latin:/type_theory/power_types.omdoc latin:/powertypes?PowerTypes
+Declares latin:/type_theory/power_types.omdoc latin:/powertypes?Map
+Declares latin:/type_theory/power_types.omdoc latin:/powertypes?Extensionality
+Declares latin:/type_theory/power_types.omdoc latin:/powertypes?FiniteSets
+Declares latin:/type_theory/power_types.omdoc latin:/powertypes?Subset
+Declares latin:/type_theory/power_types.omdoc latin:/powertypes?FullSet
+Declares latin:/type_theory/power_types.omdoc latin:/powertypes?EmptySet
+Declares latin:/type_theory/power_types.omdoc latin:/powertypes?Complement
+Declares latin:/type_theory/power_types.omdoc latin:/powertypes?Intersection
+Declares latin:/type_theory/power_types.omdoc latin:/powertypes?Union
+Declares latin:/type_theory/power_types.omdoc latin:/powertypes?BigIntersection
+Declares latin:/type_theory/power_types.omdoc latin:/powertypes?BigUnion
+Declares latin:/type_theory/power_types.omdoc latin:/powertypes?Lattice
+Declares latin:/type_theory/power_types.omdoc latin:/powertypes?SubsetRules
+Declares latin:/type_theory/power_types.omdoc latin:/powertypes?ComplementRules
+Declares latin:/type_theory/power_types.omdoc latin:/powertypes?PowerSFOL

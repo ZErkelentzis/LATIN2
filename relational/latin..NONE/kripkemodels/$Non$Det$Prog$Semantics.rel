@@ -1,0 +1,46 @@
+dataconstructor latin:/kripkemodels?NonDetProgSemantics?[latin:/?NonDetProg]/comp
+dataconstructor latin:/kripkemodels?NonDetProgSemantics?[latin:/?NonDetProg]/distrib
+dataconstructor latin:/kripkemodels?NonDetProgSemantics?[latin:/?NonDetProg]/iteration
+dataconstructor latin:/kripkemodels?NonDetProgSemantics?[latin:/?NonDetProg]/test
+dataconstructor latin:/kripkemodels?NonDetProgSemantics?[latin:/?NonDetProg]/skip
+HasDomain latin:/kripkemodels?NonDetProgSemantics latin:/?NonDetProg
+HasCodomain latin:/kripkemodels?NonDetProgSemantics latin:/kripkemodels?State
+view latin:/kripkemodels?NonDetProgSemantics
+HasViewFrom latin:/kripkemodels?State latin:/?NonDetProg
+Includes latin:/kripkemodels?NonDetProgSemantics latin:/?Programs
+Includes latin:/kripkemodels?NonDetProgSemantics latin:/?PL
+Declares latin:/kripkemodels?NonDetProgSemantics latin:/kripkemodels?NonDetProgSemantics?[latin:/?NonDetProg]/comp
+constant latin:/kripkemodels?NonDetProgSemantics?[latin:/?NonDetProg]/comp
+DependsOn latin:/kripkemodels?NonDetProgSemantics?[latin:/?NonDetProg]/comp?definition latin:/kripkemodels?Worlds?world?type
+DependsOn latin:/kripkemodels?NonDetProgSemantics?[latin:/?NonDetProg]/comp?definition latin:/?Propositions?prop?type
+DependsOn latin:/kripkemodels?NonDetProgSemantics?[latin:/?NonDetProg]/comp?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/kripkemodels?NonDetProgSemantics?[latin:/?NonDetProg]/comp?definition latin:/?TypedExistentialQuantification?exists?type
+DependsOn latin:/kripkemodels?NonDetProgSemantics?[latin:/?NonDetProg]/comp?definition latin:/?Conjunction?and?type
+DependsOn latin:/kripkemodels?NonDetProgSemantics?[latin:/?NonDetProg]/comp?definition latin:/?Types?tp?type
+Declares latin:/kripkemodels?NonDetProgSemantics latin:/kripkemodels?NonDetProgSemantics?[latin:/?NonDetProg]/distrib
+constant latin:/kripkemodels?NonDetProgSemantics?[latin:/?NonDetProg]/distrib
+DependsOn latin:/kripkemodels?NonDetProgSemantics?[latin:/?NonDetProg]/distrib?definition latin:/?Propositions?prop?type
+DependsOn latin:/kripkemodels?NonDetProgSemantics?[latin:/?NonDetProg]/distrib?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/kripkemodels?NonDetProgSemantics?[latin:/?NonDetProg]/distrib?definition latin:/?Disjunction?or?type
+Declares latin:/kripkemodels?NonDetProgSemantics latin:/kripkemodels?NonDetProgSemantics?[latin:/?NonDetProg]/iteration
+constant latin:/kripkemodels?NonDetProgSemantics?[latin:/?NonDetProg]/iteration
+DependsOn latin:/kripkemodels?NonDetProgSemantics?[latin:/?NonDetProg]/iteration?definition latin:/kripkemodels?State?trclos?type
+DependsOn latin:/kripkemodels?NonDetProgSemantics?[latin:/?NonDetProg]/iteration?definition latin:/kripkemodels?Worlds?world?type
+DependsOn latin:/kripkemodels?NonDetProgSemantics?[latin:/?NonDetProg]/iteration?definition latin:/?Propositions?prop?type
+DependsOn latin:/kripkemodels?NonDetProgSemantics?[latin:/?NonDetProg]/iteration?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/kripkemodels?NonDetProgSemantics?[latin:/?NonDetProg]/iteration?definition latin:/?Types?tp?type
+Declares latin:/kripkemodels?NonDetProgSemantics latin:/kripkemodels?NonDetProgSemantics?[latin:/?NonDetProg]/test
+constant latin:/kripkemodels?NonDetProgSemantics?[latin:/?NonDetProg]/test
+DependsOn latin:/kripkemodels?NonDetProgSemantics?[latin:/?NonDetProg]/test?definition latin:/kripkemodels?Worlds?world?type
+DependsOn latin:/kripkemodels?NonDetProgSemantics?[latin:/?NonDetProg]/test?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/kripkemodels?NonDetProgSemantics?[latin:/?NonDetProg]/test?definition latin:/?Propositions?prop?type
+DependsOn latin:/kripkemodels?NonDetProgSemantics?[latin:/?NonDetProg]/test?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/kripkemodels?NonDetProgSemantics?[latin:/?NonDetProg]/test?definition latin:/?Conjunction?and?type
+DependsOn latin:/kripkemodels?NonDetProgSemantics?[latin:/?NonDetProg]/test?definition latin:/?Types?tp?type
+Declares latin:/kripkemodels?NonDetProgSemantics latin:/kripkemodels?NonDetProgSemantics?[latin:/?NonDetProg]/skip
+constant latin:/kripkemodels?NonDetProgSemantics?[latin:/?NonDetProg]/skip
+DependsOn latin:/kripkemodels?NonDetProgSemantics?[latin:/?NonDetProg]/skip?definition latin:/kripkemodels?Worlds?world?type
+DependsOn latin:/kripkemodels?NonDetProgSemantics?[latin:/?NonDetProg]/skip?definition latin:/?Propositions?prop?type
+DependsOn latin:/kripkemodels?NonDetProgSemantics?[latin:/?NonDetProg]/skip?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/kripkemodels?NonDetProgSemantics?[latin:/?NonDetProg]/skip?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/kripkemodels?NonDetProgSemantics?[latin:/?NonDetProg]/skip?definition latin:/?Types?tp?type

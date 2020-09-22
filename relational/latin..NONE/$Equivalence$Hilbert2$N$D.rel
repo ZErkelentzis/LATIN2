@@ -1,0 +1,10 @@
+dataconstructor latin:/?EquivalenceHilbert2ND?[latin:/?EquivalenceHilbert]/equivI_ax
+HasDomain latin:/?EquivalenceHilbert2ND latin:/?EquivalenceHilbert
+HasCodomain latin:/?EquivalenceHilbert2ND latin:/?PLND
+view latin:/?EquivalenceHilbert2ND
+HasViewFrom latin:/?PLND latin:/?EquivalenceHilbert
+Includes latin:/?EquivalenceHilbert2ND latin:/?EquivalenceNDE
+Includes latin:/?EquivalenceHilbert2ND latin:/?ImplicationHilbert
+Declares latin:/?EquivalenceHilbert2ND latin:/?EquivalenceHilbert2ND?[latin:/?EquivalenceHilbert]/equivI_ax
+constant latin:/?EquivalenceHilbert2ND?[latin:/?EquivalenceHilbert]/equivI_ax
+IsImplicitly latin:/?PLND latin:/?EquivalenceHilbert

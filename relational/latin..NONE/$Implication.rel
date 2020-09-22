@@ -1,0 +1,7 @@
+dataconstructor latin:/?Implication?impl
+theory latin:/?Implication
+HasMeta latin:/?Implication http://cds.omdoc.org/urtheories?LF
+Includes latin:/?Implication latin:/?Propositions
+Declares latin:/?Implication latin:/?Implication?impl
+constant latin:/?Implication?impl
+DependsOn latin:/?Implication?impl?type latin:/?Propositions?prop?type

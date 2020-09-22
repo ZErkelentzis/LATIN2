@@ -1,0 +1,4 @@
+theory latin:/?NegationImplication
+HasMeta latin:/?NegationImplication http://cds.omdoc.org/urtheories?LF
+Includes latin:/?NegationImplication latin:/?Negation
+Includes latin:/?NegationImplication latin:/?Implication

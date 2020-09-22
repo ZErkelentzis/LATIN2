@@ -1,0 +1,10 @@
+dataconstructor latin:/?DisjunctionHilbert?orE_ax
+theory latin:/?DisjunctionHilbert
+Includes latin:/?DisjunctionHilbert latin:/?DisjunctionNDI
+Includes latin:/?DisjunctionHilbert latin:/?ImplicationHilbert
+Declares latin:/?DisjunctionHilbert latin:/?DisjunctionHilbert?orE_ax
+constant latin:/?DisjunctionHilbert?orE_ax
+DependsOn latin:/?DisjunctionHilbert?orE_ax?type latin:/?Propositions?prop?type
+DependsOn latin:/?DisjunctionHilbert?orE_ax?type latin:/?Implication?impl?type
+DependsOn latin:/?DisjunctionHilbert?orE_ax?type latin:/?Disjunction?or?type
+DependsOn latin:/?DisjunctionHilbert?orE_ax?type latin:/?Proofs?ded?type

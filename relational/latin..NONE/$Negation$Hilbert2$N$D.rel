@@ -1,0 +1,10 @@
+dataconstructor latin:/?NegationHilbert2ND?[latin:/?NegationHilbert]/notI_ax
+HasDomain latin:/?NegationHilbert2ND latin:/?NegationHilbert
+HasCodomain latin:/?NegationHilbert2ND latin:/?PLND
+view latin:/?NegationHilbert2ND
+HasViewFrom latin:/?PLND latin:/?NegationHilbert
+Includes latin:/?NegationHilbert2ND latin:/?NegationNDE
+Includes latin:/?NegationHilbert2ND latin:/?ImplicationHilbert
+Declares latin:/?NegationHilbert2ND latin:/?NegationHilbert2ND?[latin:/?NegationHilbert]/notI_ax
+constant latin:/?NegationHilbert2ND?[latin:/?NegationHilbert]/notI_ax
+IsImplicitly latin:/?PLND latin:/?NegationHilbert

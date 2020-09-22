@@ -1,0 +1,6 @@
+dataconstructor latin:/?TypeOperator?applyType
+theory latin:/?TypeOperator
+HasMeta latin:/?TypeOperator latin:/?TypedEqualityND
+Declares latin:/?TypeOperator latin:/?TypeOperator?applyType
+constant latin:/?TypeOperator?applyType
+DependsOn latin:/?TypeOperator?applyType?type latin:/?Types?tp?type

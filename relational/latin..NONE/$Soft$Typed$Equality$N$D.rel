@@ -1,0 +1,4 @@
+theory latin:/?SoftTypedEqualityND
+HasMeta latin:/?SoftTypedEqualityND http://cds.omdoc.org/urtheories?LF
+Includes latin:/?SoftTypedEqualityND latin:/?SoftTypedLogic
+Includes latin:/?SoftTypedEqualityND latin:/?EqualityND

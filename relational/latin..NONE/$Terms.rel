@@ -1,0 +1,5 @@
+datatypeconstructor latin:/?Terms?term
+theory latin:/?Terms
+HasMeta latin:/?Terms http://cds.omdoc.org/urtheories?LF
+Declares latin:/?Terms latin:/?Terms?term
+constant latin:/?Terms?term

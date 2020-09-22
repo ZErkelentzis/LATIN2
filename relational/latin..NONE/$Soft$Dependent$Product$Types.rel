@@ -1,0 +1,8 @@
+dataconstructor latin:/?SoftDependentProductTypes?softprod
+theory latin:/?SoftDependentProductTypes
+HasMeta latin:/?SoftDependentProductTypes http://cds.omdoc.org/urtheories?LF
+Includes latin:/?SoftDependentProductTypes latin:/?SoftTypedTerms
+Declares latin:/?SoftDependentProductTypes latin:/?SoftDependentProductTypes?softprod
+constant latin:/?SoftDependentProductTypes?softprod
+DependsOn latin:/?SoftDependentProductTypes?softprod?type latin:/?Types?tp?type
+DependsOn latin:/?SoftDependentProductTypes?softprod?type latin:/?Terms?term?type

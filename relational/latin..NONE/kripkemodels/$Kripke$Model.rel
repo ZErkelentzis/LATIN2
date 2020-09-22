@@ -1,0 +1,4 @@
+theory latin:/kripkemodels?KripkeModel
+HasMeta latin:/kripkemodels?KripkeModel http://cds.omdoc.org/urtheories?LF
+Includes latin:/kripkemodels?KripkeModel latin:/?SFOLEQ
+Includes latin:/kripkemodels?KripkeModel latin:/kripkemodels?KripkeFrame

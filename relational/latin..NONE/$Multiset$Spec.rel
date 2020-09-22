@@ -1,0 +1,4 @@
+theory latin:/?MultisetSpec
+HasMeta latin:/?MultisetSpec latin:/?TypedEquality
+Includes latin:/?MultisetSpec latin:/?ListSpec
+Includes latin:/?MultisetSpec latin:/?EndoCommutative

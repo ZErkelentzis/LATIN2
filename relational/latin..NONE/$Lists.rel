@@ -1,0 +1,104 @@
+dataconstructor latin:/?Lists?list/[latin:/?Collection]/singleton
+dataconstructor latin:/?Lists?list/[latin:/?Collection]/cons
+dataconstructor latin:/?Lists?list/[latin:/?EndoMagma]/op
+dataconstructor latin:/?Lists?list/[latin:/?EndoFunctor]/applyFun
+dataconstructor latin:/?Lists?list/[latin:/?EndoFunctor]/applyId
+dataconstructor latin:/?Lists?list/[latin:/?EndoFunctor]/applyComp
+dataconstructor latin:/?Lists?list/[latin:/?TypedEqualityND]/refl
+dataconstructor latin:/?Lists?list/[latin:/?TypedEqualityND]/congP
+dataconstructor latin:/?Lists?list/[latin:/?TypedEqualityND]/congT
+dataconstructor latin:/?Lists?list/[latin:/?TypedEqualityND]/sym
+dataconstructor latin:/?Lists?list/[latin:/?TypedEqualityND]/trans
+dataconstructor latin:/?Lists?list/[latin:/?TypedEqualityND]/trans3
+dataconstructor latin:/?Lists?list/[latin:/?TypedEqualityND]/trans4
+dataconstructor latin:/?Lists?list/[latin:/?TypeOperator]/applyType
+dataconstructor latin:/?Lists?list/[latin:/?EndoNeutral]/e
+dataconstructor latin:/?Lists?list/[latin:/?EndoNeutral]/neutLeft
+dataconstructor latin:/?Lists?list/[latin:/?EndoNeutral]/neutRight
+dataconstructor latin:/?Lists?list/[latin:/?EndoSemigroup]/assoc
+dataconstructor latin:/?Lists?list/[latin:/?EndoSemigroup]/assocR
+dataconstructor latin:/?Lists?list/[latin:/?EndoSemigroup]/assoc4
+dataconstructor latin:/?Lists?list/[latin:/?EndoSemigroup]/assoc4R
+dataconstructor latin:/?Lists?list/[latin:/?EndoSemigroup]/assoc5
+theory latin:/?Lists
+HasMeta latin:/?Lists latin:/?TypedEquality
+Declares latin:/?Lists latin:/?Lists?list
+HasDomain latin:/?Lists?list latin:/?ListSpec
+HasCodomain latin:/?Lists?list latin:/?Lists
+structure latin:/?Lists?list
+Declares latin:/?Lists latin:/?Lists?list/[latin:/?Collection]
+HasDomain latin:/?Lists?list/[latin:/?Collection] latin:/?Collection
+HasCodomain latin:/?Lists?list/[latin:/?Collection] latin:/?Lists
+structure latin:/?Lists?list/[latin:/?Collection]
+Declares latin:/?Lists latin:/?Lists?list/[latin:/?Collection]/singleton
+constant latin:/?Lists?list/[latin:/?Collection]/singleton
+Declares latin:/?Lists latin:/?Lists?list/[latin:/?Collection]/cons
+constant latin:/?Lists?list/[latin:/?Collection]/cons
+Declares latin:/?Lists latin:/?Lists?list/[latin:/?EndoMagma]
+HasDomain latin:/?Lists?list/[latin:/?EndoMagma] latin:/?EndoMagma
+HasCodomain latin:/?Lists?list/[latin:/?EndoMagma] latin:/?Lists
+structure latin:/?Lists?list/[latin:/?EndoMagma]
+Declares latin:/?Lists latin:/?Lists?list/[latin:/?EndoMagma]/op
+constant latin:/?Lists?list/[latin:/?EndoMagma]/op
+Declares latin:/?Lists latin:/?Lists?list/[latin:/?EndoFunctor]
+HasDomain latin:/?Lists?list/[latin:/?EndoFunctor] latin:/?EndoFunctor
+HasCodomain latin:/?Lists?list/[latin:/?EndoFunctor] latin:/?Lists
+structure latin:/?Lists?list/[latin:/?EndoFunctor]
+Declares latin:/?Lists latin:/?Lists?list/[latin:/?EndoFunctor]/applyFun
+constant latin:/?Lists?list/[latin:/?EndoFunctor]/applyFun
+Declares latin:/?Lists latin:/?Lists?list/[latin:/?EndoFunctor]/applyId
+constant latin:/?Lists?list/[latin:/?EndoFunctor]/applyId
+Declares latin:/?Lists latin:/?Lists?list/[latin:/?EndoFunctor]/applyComp
+constant latin:/?Lists?list/[latin:/?EndoFunctor]/applyComp
+Declares latin:/?Lists latin:/?Lists?list/[latin:/?TypedEqualityND]
+HasDomain latin:/?Lists?list/[latin:/?TypedEqualityND] latin:/?TypedEqualityND
+HasCodomain latin:/?Lists?list/[latin:/?TypedEqualityND] latin:/?Lists
+structure latin:/?Lists?list/[latin:/?TypedEqualityND]
+Declares latin:/?Lists latin:/?Lists?list/[latin:/?TypedEqualityND]/refl
+constant latin:/?Lists?list/[latin:/?TypedEqualityND]/refl
+Declares latin:/?Lists latin:/?Lists?list/[latin:/?TypedEqualityND]/congP
+constant latin:/?Lists?list/[latin:/?TypedEqualityND]/congP
+Declares latin:/?Lists latin:/?Lists?list/[latin:/?TypedEqualityND]/congT
+constant latin:/?Lists?list/[latin:/?TypedEqualityND]/congT
+Declares latin:/?Lists latin:/?Lists?list/[latin:/?TypedEqualityND]/sym
+constant latin:/?Lists?list/[latin:/?TypedEqualityND]/sym
+Declares latin:/?Lists latin:/?Lists?list/[latin:/?TypedEqualityND]/trans
+constant latin:/?Lists?list/[latin:/?TypedEqualityND]/trans
+Declares latin:/?Lists latin:/?Lists?list/[latin:/?TypedEqualityND]/trans3
+constant latin:/?Lists?list/[latin:/?TypedEqualityND]/trans3
+Declares latin:/?Lists latin:/?Lists?list/[latin:/?TypedEqualityND]/trans4
+constant latin:/?Lists?list/[latin:/?TypedEqualityND]/trans4
+Declares latin:/?Lists latin:/?Lists?list/[latin:/?TypeOperator]
+HasDomain latin:/?Lists?list/[latin:/?TypeOperator] latin:/?TypeOperator
+HasCodomain latin:/?Lists?list/[latin:/?TypeOperator] latin:/?Lists
+structure latin:/?Lists?list/[latin:/?TypeOperator]
+Declares latin:/?Lists latin:/?Lists?list/[latin:/?TypeOperator]/applyType
+constant latin:/?Lists?list/[latin:/?TypeOperator]/applyType
+Declares latin:/?Lists latin:/?Lists?list/[latin:/?EndoNeutral]
+HasDomain latin:/?Lists?list/[latin:/?EndoNeutral] latin:/?EndoNeutral
+HasCodomain latin:/?Lists?list/[latin:/?EndoNeutral] latin:/?Lists
+structure latin:/?Lists?list/[latin:/?EndoNeutral]
+Declares latin:/?Lists latin:/?Lists?list/[latin:/?EndoNeutral]/e
+constant latin:/?Lists?list/[latin:/?EndoNeutral]/e
+Declares latin:/?Lists latin:/?Lists?list/[latin:/?EndoNeutral]/neutLeft
+constant latin:/?Lists?list/[latin:/?EndoNeutral]/neutLeft
+Declares latin:/?Lists latin:/?Lists?list/[latin:/?EndoNeutral]/neutRight
+constant latin:/?Lists?list/[latin:/?EndoNeutral]/neutRight
+Declares latin:/?Lists latin:/?Lists?list/[latin:/?EndoMonoid]
+HasDomain latin:/?Lists?list/[latin:/?EndoMonoid] latin:/?EndoMonoid
+HasCodomain latin:/?Lists?list/[latin:/?EndoMonoid] latin:/?Lists
+structure latin:/?Lists?list/[latin:/?EndoMonoid]
+Declares latin:/?Lists latin:/?Lists?list/[latin:/?EndoSemigroup]
+HasDomain latin:/?Lists?list/[latin:/?EndoSemigroup] latin:/?EndoSemigroup
+HasCodomain latin:/?Lists?list/[latin:/?EndoSemigroup] latin:/?Lists
+structure latin:/?Lists?list/[latin:/?EndoSemigroup]
+Declares latin:/?Lists latin:/?Lists?list/[latin:/?EndoSemigroup]/assoc
+constant latin:/?Lists?list/[latin:/?EndoSemigroup]/assoc
+Declares latin:/?Lists latin:/?Lists?list/[latin:/?EndoSemigroup]/assocR
+constant latin:/?Lists?list/[latin:/?EndoSemigroup]/assocR
+Declares latin:/?Lists latin:/?Lists?list/[latin:/?EndoSemigroup]/assoc4
+constant latin:/?Lists?list/[latin:/?EndoSemigroup]/assoc4
+Declares latin:/?Lists latin:/?Lists?list/[latin:/?EndoSemigroup]/assoc4R
+constant latin:/?Lists?list/[latin:/?EndoSemigroup]/assoc4R
+Declares latin:/?Lists latin:/?Lists?list/[latin:/?EndoSemigroup]/assoc5
+constant latin:/?Lists?list/[latin:/?EndoSemigroup]/assoc5

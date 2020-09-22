@@ -1,0 +1,21 @@
+judgementconstructor latin:/?Proofs?ded
+judgementconstructor latin:/?Proofs?inconsistent
+dataconstructor latin:/?Proofs?inconsistentE
+theory latin:/?Proofs
+HasMeta latin:/?Proofs http://cds.omdoc.org/urtheories?LF
+Includes latin:/?Proofs latin:/?Propositions
+Declares latin:/?Proofs latin:/?Proofs?ded
+constant latin:/?Proofs?ded
+DependsOn latin:/?Proofs?ded?type latin:/?Propositions?prop?type
+Declares latin:/?Proofs latin:/?Proofs?inconsistent
+constant latin:/?Proofs?inconsistent
+DependsOn latin:/?Proofs?inconsistent?definition latin:/?Propositions?prop?type
+DependsOn latin:/?Proofs?inconsistent?definition latin:/?Proofs?ded?type
+Declares latin:/?Proofs latin:/?Proofs?inconsistentE
+constant latin:/?Proofs?inconsistentE
+DependsOn latin:/?Proofs?inconsistentE?type latin:/?Propositions?prop?type
+DependsOn latin:/?Proofs?inconsistentE?type latin:/?Proofs?inconsistent?type
+DependsOn latin:/?Proofs?inconsistentE?type latin:/?Proofs?ded?type
+DependsOn latin:/?Proofs?inconsistentE?definition latin:/?Propositions?prop?type
+DependsOn latin:/?Proofs?inconsistentE?definition latin:/?Proofs?inconsistent?definition
+DependsOn latin:/?Proofs?inconsistentE?definition latin:/?Proofs?ded?type

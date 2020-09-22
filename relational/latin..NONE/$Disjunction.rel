@@ -1,0 +1,7 @@
+dataconstructor latin:/?Disjunction?or
+theory latin:/?Disjunction
+HasMeta latin:/?Disjunction http://cds.omdoc.org/urtheories?LF
+Includes latin:/?Disjunction latin:/?Propositions
+Declares latin:/?Disjunction latin:/?Disjunction?or
+constant latin:/?Disjunction?or
+DependsOn latin:/?Disjunction?or?type latin:/?Propositions?prop?type

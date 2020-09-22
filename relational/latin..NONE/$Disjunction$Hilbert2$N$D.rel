@@ -1,0 +1,10 @@
+dataconstructor latin:/?DisjunctionHilbert2ND?[latin:/?DisjunctionHilbert]/orE_ax
+HasDomain latin:/?DisjunctionHilbert2ND latin:/?DisjunctionHilbert
+HasCodomain latin:/?DisjunctionHilbert2ND latin:/?PLND
+view latin:/?DisjunctionHilbert2ND
+HasViewFrom latin:/?PLND latin:/?DisjunctionHilbert
+Includes latin:/?DisjunctionHilbert2ND latin:/?DisjunctionNDI
+Includes latin:/?DisjunctionHilbert2ND latin:/?ImplicationHilbert
+Declares latin:/?DisjunctionHilbert2ND latin:/?DisjunctionHilbert2ND?[latin:/?DisjunctionHilbert]/orE_ax
+constant latin:/?DisjunctionHilbert2ND?[latin:/?DisjunctionHilbert]/orE_ax
+IsImplicitly latin:/?PLND latin:/?DisjunctionHilbert
