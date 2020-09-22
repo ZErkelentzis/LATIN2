@@ -1,0 +1,4 @@
+theory latin:/?UniversalQuantificationND
+HasMeta latin:/?UniversalQuantificationND http://cds.omdoc.org/urtheories?LF
+Includes latin:/?UniversalQuantificationND latin:/?UniversalQuantificationNDE
+Includes latin:/?UniversalQuantificationND latin:/?UniversalQuantificationNDI

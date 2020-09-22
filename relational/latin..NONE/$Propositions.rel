@@ -1,0 +1,5 @@
+datatypeconstructor latin:/?Propositions?prop
+theory latin:/?Propositions
+HasMeta latin:/?Propositions http://cds.omdoc.org/urtheories?LF
+Declares latin:/?Propositions latin:/?Propositions?prop
+constant latin:/?Propositions?prop

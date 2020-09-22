@@ -1,0 +1,27 @@
+dataconstructor latin:/algebraic?SetHom?domain/universe
+datatypeconstructor latin:/algebraic?SetHom?domain/U
+dataconstructor latin:/algebraic?SetHom?codomain/universe
+datatypeconstructor latin:/algebraic?SetHom?codomain/U
+dataconstructor latin:/algebraic?SetHom?U
+theory latin:/algebraic?SetHom
+HasMeta latin:/algebraic?SetHom latin:/?SFOLEQND
+Declares latin:/algebraic?SetHom latin:/algebraic?SetHom?domain
+HasDomain latin:/algebraic?SetHom?domain latin:/algebraic?Set
+HasCodomain latin:/algebraic?SetHom?domain latin:/algebraic?SetHom
+structure latin:/algebraic?SetHom?domain
+Declares latin:/algebraic?SetHom latin:/algebraic?SetHom?domain/universe
+constant latin:/algebraic?SetHom?domain/universe
+Declares latin:/algebraic?SetHom latin:/algebraic?SetHom?domain/U
+constant latin:/algebraic?SetHom?domain/U
+Declares latin:/algebraic?SetHom latin:/algebraic?SetHom?codomain
+HasDomain latin:/algebraic?SetHom?codomain latin:/algebraic?Set
+HasCodomain latin:/algebraic?SetHom?codomain latin:/algebraic?SetHom
+structure latin:/algebraic?SetHom?codomain
+Declares latin:/algebraic?SetHom latin:/algebraic?SetHom?codomain/universe
+constant latin:/algebraic?SetHom?codomain/universe
+Declares latin:/algebraic?SetHom latin:/algebraic?SetHom?codomain/U
+constant latin:/algebraic?SetHom?codomain/U
+Declares latin:/algebraic?SetHom latin:/algebraic?SetHom?U
+constant latin:/algebraic?SetHom?U
+DependsOn latin:/algebraic?SetHom?U?type latin:/algebraic?SetHom?domain/U?type
+DependsOn latin:/algebraic?SetHom?U?type latin:/algebraic?SetHom?codomain/U?type

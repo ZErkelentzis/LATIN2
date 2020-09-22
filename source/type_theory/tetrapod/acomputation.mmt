@@ -1,0 +1,77 @@
+namespace latin:/wuvtest❚
+fixmeta ur:?LF❚
+
+theory Computation =
+  include ?FormalSystem ❙
+
+  eval_on_exp: {V, Γ: Ctx V} Exp Γ ⟶ Exp Γ ⟶ prop❘ # 3 ⇝ 4 prec 150 ❙
+
+  eval_on_subst: {V, Γ: Ctx V, Δ: Ctx V} Subst Γ Δ ⟶ Subst Γ Δ ⟶ prop ❘ # EvalSubst 4 5 ❙
+  // subst_pres_thm: {V, Γ, Δ, γ: Subst Γ Δ} ❙
+  eval_pres_subst: {V, Γ: Ctx V, Δ: Ctx V, γ: Subst Γ Δ, η: Subst Γ Δ, e: Exp Γ, f: Exp Γ} ⊦ (e ⇝ f) ∧ (EvalSubst γ η) ⇒ (e⟬γ⟭ ⇝ f⟬η⟭) ❙
+
+  subject_reduction: {V, Γ: Ctx V, e: Exp Γ, E: Exp Γ, f: Exp Γ} ⊦ (Γ |- e ∶ E) ∧ (e ⇝ f) ⇒ (Γ |- f ∶ E) ❙
+
+  normal_expressions
+      :    {V, Γ: Ctx V} Exp Γ ⟶ prop
+      ❘ = [V, Γ, e] ¬∃[f] e ⇝ f
+      ❘ # normal 3 prec 150
+    ❙
+
+  normal_substitutions
+      :    {V, Γ: Ctx V, Δ: Ctx V} Subst Γ Δ ⟶ prop
+      ❘ = [V, Γ, Δ, γ] ¬∃[η] EvalSubst γ η
+      ❘ # normalSubst 4 prec 150
+      ❙
+
+  ground_expr_normal_in_all_contexts: {V, Γ: Ctx V, e: GExp V} ⊦ normal e ⇒ normal (e in Γ) ❙
+❚
+
+theory StronglyNormalizingComputation =
+  include ?Computation ❙
+  include ?DeductionEq ❙
+
+  // todo: fix me ❙
+  strongly_normalizing: ⊦ true ❙
+  // todo: fix me ❙
+  normal_forms_unique: ⊦ true ❙
+
+  bigstep_evaluation
+    :    {V, Γ: Ctx V} Exp Γ ⟶ Exp Γ
+    ❘ // missing definiens: define via choice operator somehow
+    ❘ # Eval 3 prec 160
+    ❙
+❚
+
+theory DeductiveNormalizingComputation =
+  include ?StronglyNormalizingComputation ❙
+  include ?DeductionEq ❙
+  include ?TypedEquality ❙
+  include ?DeductiveTrue ❙
+
+  vtrue_normal: {V} ⊦ normal (designated_true V) ❙
+  vprop_normal: {V} ⊦ normal (designated_prop V) ❙
+
+  eval_eq: {V, Γ: Ctx V, e: Exp Γ, f: Exp Γ} ⊦ (e ⇝ f) ⇒ IsThm (e ≡ f) ❙
+❚
+
+theory CanonicalComputation =
+  include ?StronglyNormalizingComputation ❙
+  include ?DeductionEq ❙
+
+  canonical_eq: {V, Γ: Ctx V, e: Exp Γ, f: Exp Γ} ⊦ (IsThm e ≡ f) ⇔ (Eval e ≐ Eval f) ❙
+❚
+
+theory ComputationProp =
+  include ?Computation ❙
+  include ?PropositionalTrue ❙
+
+  // include this such that the views in interdefinability.mmt can just include the identity morphism on that ❙
+  include ?FormalSystemWithPropositions ❙
+❚
+
+theory DecidableComputation =
+  include ?ComputationProp ❙
+  include ?DeductiveNormalizingComputation ❙
+  include ?CanonicalComputation ❙
+❚

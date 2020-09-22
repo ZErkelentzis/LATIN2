@@ -1,0 +1,3 @@
+theory latin:/?TypeTheoryDiagramOperators
+Includes latin:/?TypeTheoryDiagramOperators latin:/?TypeTheoryDiagramOperatorsSyntax
+Includes latin:/?TypeTheoryDiagramOperators latin:/?TypeTheoryDiagramOperatorsSemantics

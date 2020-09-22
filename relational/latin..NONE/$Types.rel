@@ -1,0 +1,5 @@
+datatypeconstructor latin:/?Types?tp
+theory latin:/?Types
+HasMeta latin:/?Types http://cds.omdoc.org/urtheories?LF
+Declares latin:/?Types latin:/?Types?tp
+constant latin:/?Types?tp

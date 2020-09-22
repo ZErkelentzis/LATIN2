@@ -1,0 +1,4 @@
+theory latin:/?ImplicationConjunction
+HasMeta latin:/?ImplicationConjunction http://cds.omdoc.org/urtheories?LF
+Includes latin:/?ImplicationConjunction latin:/?Implication
+Includes latin:/?ImplicationConjunction latin:/?Conjunction

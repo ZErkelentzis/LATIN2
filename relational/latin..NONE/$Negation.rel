@@ -1,0 +1,7 @@
+dataconstructor latin:/?Negation?not
+theory latin:/?Negation
+HasMeta latin:/?Negation http://cds.omdoc.org/urtheories?LF
+Includes latin:/?Negation latin:/?Propositions
+Declares latin:/?Negation latin:/?Negation?not
+constant latin:/?Negation?not
+DependsOn latin:/?Negation?not?type latin:/?Propositions?prop?type

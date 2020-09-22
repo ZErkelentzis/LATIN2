@@ -1,0 +1,6 @@
+theory latin:/?ISFOLND
+HasMeta latin:/?ISFOLND http://cds.omdoc.org/urtheories?LF
+Includes latin:/?ISFOLND latin:/?ISFOL
+Includes latin:/?ISFOLND latin:/?IPLND
+Includes latin:/?ISFOLND latin:/?TypedUniversalQuantificationND
+Includes latin:/?ISFOLND latin:/?TypedExistentialQuantificationND

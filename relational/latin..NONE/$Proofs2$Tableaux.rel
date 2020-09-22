@@ -1,0 +1,13 @@
+datatypeconstructor latin:/?Proofs2Tableaux?[latin:/?Propositions]/prop
+datatypeconstructor latin:/?Proofs2Tableaux?[latin:/?Proofs]/ded
+HasDomain latin:/?Proofs2Tableaux latin:/?Proofs
+HasCodomain latin:/?Proofs2Tableaux latin:/?Tableaux
+view latin:/?Proofs2Tableaux
+HasViewFrom latin:/?Tableaux latin:/?Proofs
+Declares latin:/?Proofs2Tableaux latin:/?Proofs2Tableaux?[latin:/?Propositions]/prop
+constant latin:/?Proofs2Tableaux?[latin:/?Propositions]/prop
+DependsOn latin:/?Proofs2Tableaux?[latin:/?Propositions]/prop?definition latin:/?Propositions?prop?type
+Declares latin:/?Proofs2Tableaux latin:/?Proofs2Tableaux?[latin:/?Proofs]/ded
+constant latin:/?Proofs2Tableaux?[latin:/?Proofs]/ded
+DependsOn latin:/?Proofs2Tableaux?[latin:/?Proofs]/ded?definition latin:/?Propositions?prop?type
+DependsOn latin:/?Proofs2Tableaux?[latin:/?Proofs]/ded?definition latin:/?Tableaux?marktrue?type

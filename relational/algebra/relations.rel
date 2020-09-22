@@ -1,0 +1,9 @@
+document latin:/algebra/relations.omdoc
+Declares latin:/algebra/relations.omdoc latin:/algebraic?Relation
+Declares latin:/algebra/relations.omdoc latin:/algebraic?Reflexivity
+Declares latin:/algebra/relations.omdoc latin:/algebraic?Symmetry
+Declares latin:/algebra/relations.omdoc latin:/algebraic?Transitivity
+Declares latin:/algebra/relations.omdoc latin:/algebraic?Preorder
+Declares latin:/algebra/relations.omdoc latin:/algebraic?EquivalenceRelation
+Declares latin:/algebra/relations.omdoc latin:/algebraic?AntiSymmetry
+Declares latin:/algebra/relations.omdoc latin:/algebraic?Order

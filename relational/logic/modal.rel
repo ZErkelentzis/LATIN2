@@ -1,0 +1,20 @@
+document latin:/logic/modal.omdoc
+Declares latin:/logic/modal.omdoc latin:/?Box
+Declares latin:/logic/modal.omdoc latin:/?Diamond
+Declares latin:/logic/modal.omdoc latin:/?ML
+Declares latin:/logic/modal.omdoc latin:/?MLHilbert
+Declares latin:/logic/modal.omdoc latin:/kripkemodels?Worlds
+Declares latin:/logic/modal.omdoc latin:/?DisjunctionHilbert2ND
+Declares latin:/logic/modal.omdoc latin:/?NegationHilbert2ND
+Declares latin:/logic/modal.omdoc latin:/?ImplicationHilbert2ND
+Declares latin:/logic/modal.omdoc latin:/?EquivalenceHilbert2ND
+Declares latin:/logic/modal.omdoc latin:/kripkemodels?KripkeFrame
+Declares latin:/logic/modal.omdoc latin:/kripkemodels?KripkeModel
+Declares latin:/logic/modal.omdoc latin:/kripkemodels?PropSemantics
+Declares latin:/logic/modal.omdoc latin:/kripkemodels?LogicSemantics
+Declares latin:/logic/modal.omdoc latin:/kripkemodels?PLSemantics
+Declares latin:/logic/modal.omdoc latin:/kripkemodels?PLHilbertSemantics
+Declares latin:/logic/modal.omdoc latin:/kripkemodels?TermSemantics
+Declares latin:/logic/modal.omdoc latin:/kripkemodels?SFOLSemantics
+Declares latin:/logic/modal.omdoc latin:/kripkemodels?MLSemantics
+Declares latin:/logic/modal.omdoc latin:/kripkemodels?MLHilbertSemantics

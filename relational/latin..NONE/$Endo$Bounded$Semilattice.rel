@@ -1,0 +1,4 @@
+theory latin:/?EndoBoundedSemilattice
+HasMeta latin:/?EndoBoundedSemilattice latin:/?TypedEquality
+Includes latin:/?EndoBoundedSemilattice latin:/?EndoSemilattice
+Includes latin:/?EndoBoundedSemilattice latin:/?EndoCommMonoid

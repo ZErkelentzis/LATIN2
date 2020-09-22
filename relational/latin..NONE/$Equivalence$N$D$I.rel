@@ -1,0 +1,10 @@
+dataconstructor latin:/?EquivalenceNDI?equivI
+theory latin:/?EquivalenceNDI
+HasMeta latin:/?EquivalenceNDI http://cds.omdoc.org/urtheories?LF
+Includes latin:/?EquivalenceNDI latin:/?Equivalence
+Includes latin:/?EquivalenceNDI latin:/?Proofs
+Declares latin:/?EquivalenceNDI latin:/?EquivalenceNDI?equivI
+constant latin:/?EquivalenceNDI?equivI
+DependsOn latin:/?EquivalenceNDI?equivI?type latin:/?Propositions?prop?type
+DependsOn latin:/?EquivalenceNDI?equivI?type latin:/?Equivalence?equiv?type
+DependsOn latin:/?EquivalenceNDI?equivI?type latin:/?Proofs?ded?type

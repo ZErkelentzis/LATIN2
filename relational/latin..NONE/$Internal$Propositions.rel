@@ -1,0 +1,14 @@
+dataconstructor latin:/?InternalPropositions?bool
+datatypeconstructor latin:/?InternalPropositions?[latin:/?Propositions]/prop
+theory latin:/?InternalPropositions
+HasMeta latin:/?InternalPropositions http://cds.omdoc.org/urtheories?LF
+Includes latin:/?InternalPropositions latin:/?TypedTerms
+Declares latin:/?InternalPropositions latin:/?InternalPropositions?bool
+constant latin:/?InternalPropositions?bool
+DependsOn latin:/?InternalPropositions?bool?type latin:/?Types?tp?type
+Includes latin:/?InternalPropositions latin:/?Propositions
+Declares latin:/?InternalPropositions latin:/?InternalPropositions?[latin:/?Propositions]/prop
+constant latin:/?InternalPropositions?[latin:/?Propositions]/prop
+DependsOn latin:/?InternalPropositions?[latin:/?Propositions]/prop?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?InternalPropositions?[latin:/?Propositions]/prop?definition latin:/?Types?tp?type
+DependsOn latin:/?InternalPropositions?[latin:/?Propositions]/prop?definition latin:/?InternalPropositions?bool?type

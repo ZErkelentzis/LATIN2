@@ -1,0 +1,41 @@
+dataconstructor latin:/?RelativizedUniversalQuantificationND?rforallI
+dataconstructor latin:/?RelativizedUniversalQuantificationND?rforallE
+theory latin:/?RelativizedUniversalQuantificationND
+HasMeta latin:/?RelativizedUniversalQuantificationND http://cds.omdoc.org/urtheories?LF
+Includes latin:/?RelativizedUniversalQuantificationND latin:/?RelativizedUniversalQuantification
+Includes latin:/?RelativizedUniversalQuantificationND latin:/?FOLEQND
+Declares latin:/?RelativizedUniversalQuantificationND latin:/?RelativizedUniversalQuantificationND?rforallI
+constant latin:/?RelativizedUniversalQuantificationND?rforallI
+DependsOn latin:/?RelativizedUniversalQuantificationND?rforallI?type latin:/?Propositions?prop?type
+DependsOn latin:/?RelativizedUniversalQuantificationND?rforallI?type latin:/?RelativizedUniversalQuantification?rforall?type
+DependsOn latin:/?RelativizedUniversalQuantificationND?rforallI?type latin:/?Terms?term?type
+DependsOn latin:/?RelativizedUniversalQuantificationND?rforallI?type latin:/?Types?tp?type
+DependsOn latin:/?RelativizedUniversalQuantificationND?rforallI?type latin:/?SoftTypedTerms?of?type
+DependsOn latin:/?RelativizedUniversalQuantificationND?rforallI?type latin:/?Proofs?ded?type
+DependsOn latin:/?RelativizedUniversalQuantificationND?rforallI?definition latin:/?Propositions?prop?type
+DependsOn latin:/?RelativizedUniversalQuantificationND?rforallI?definition latin:/?UniversalQuantification?forall?type
+DependsOn latin:/?RelativizedUniversalQuantificationND?rforallI?definition latin:/?Implication?impl?type
+DependsOn latin:/?RelativizedUniversalQuantificationND?rforallI?definition latin:/?Types?tp?type
+DependsOn latin:/?RelativizedUniversalQuantificationND?rforallI?definition latin:/?Terms?term?type
+DependsOn latin:/?RelativizedUniversalQuantificationND?rforallI?definition latin:/?ImplicationNDI?impI?type
+DependsOn latin:/?RelativizedUniversalQuantificationND?rforallI?definition latin:/?UniversalQuantificationNDI?forallI?type
+DependsOn latin:/?RelativizedUniversalQuantificationND?rforallI?definition latin:/?SoftTypedTerms?of?type
+DependsOn latin:/?RelativizedUniversalQuantificationND?rforallI?definition latin:/?Proofs?ded?type
+Declares latin:/?RelativizedUniversalQuantificationND latin:/?RelativizedUniversalQuantificationND?rforallE
+constant latin:/?RelativizedUniversalQuantificationND?rforallE
+DependsOn latin:/?RelativizedUniversalQuantificationND?rforallE?type latin:/?Propositions?prop?type
+DependsOn latin:/?RelativizedUniversalQuantificationND?rforallE?type latin:/?RelativizedUniversalQuantification?rforall?type
+DependsOn latin:/?RelativizedUniversalQuantificationND?rforallE?type latin:/?Terms?term?type
+DependsOn latin:/?RelativizedUniversalQuantificationND?rforallE?type latin:/?Types?tp?type
+DependsOn latin:/?RelativizedUniversalQuantificationND?rforallE?type latin:/?SoftTypedTerms?of?type
+DependsOn latin:/?RelativizedUniversalQuantificationND?rforallE?type latin:/?Proofs?ded?type
+DependsOn latin:/?RelativizedUniversalQuantificationND?rforallE?definition latin:/?UniversalQuantificationNDE?forallE?type
+DependsOn latin:/?RelativizedUniversalQuantificationND?rforallE?definition latin:/?Propositions?prop?type
+DependsOn latin:/?RelativizedUniversalQuantificationND?rforallE?definition latin:/?ImplicationNDE?impE?type
+DependsOn latin:/?RelativizedUniversalQuantificationND?rforallE?definition latin:/?UniversalQuantification?forall?type
+DependsOn latin:/?RelativizedUniversalQuantificationND?rforallE?definition latin:/?RelativizedUniversalQuantification?rforall?type
+DependsOn latin:/?RelativizedUniversalQuantificationND?rforallE?definition latin:/?Implication?impl?type
+DependsOn latin:/?RelativizedUniversalQuantificationND?rforallE?definition latin:/?Types?tp?type
+DependsOn latin:/?RelativizedUniversalQuantificationND?rforallE?definition latin:/?Terms?term?type
+DependsOn latin:/?RelativizedUniversalQuantificationND?rforallE?definition latin:/?SoftTypedTerms?of?type
+DependsOn latin:/?RelativizedUniversalQuantificationND?rforallE?definition latin:/?Proofs?ded?type

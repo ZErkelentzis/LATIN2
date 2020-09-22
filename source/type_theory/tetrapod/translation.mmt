@@ -1,0 +1,119 @@
+namespace latin:/wuvtest❚
+fixmeta ur:?LF❚
+
+theory VocabularyTranslation =
+  include ?Expressions ❙
+
+  structure L : ?Vocabularies = ❚
+  structure K : ?Vocabularies = ❚
+
+  voc_translation: L/Voc ⟶ K/Voc ❘ # TransVoc 1❙
+❚
+
+theory ContextTranslation =
+  include ?VocabularyTranslation ❙
+
+  // broadening the domain of inherited structures does not work yet in MMT ❙
+  structure L : ?Contexts = ❚
+  structure K : ?Contexts = ❚
+
+  ctx_translation: {V: L/Voc} L/Ctx V ⟶ K/Ctx (TransVoc V) ❘ # TransCtx 2 ❙
+❚
+
+theory ExpressionTranslation =
+  include ?ContextTranslation ❙
+
+  // broadening the domain of inherited structures does not work yet in MMT ❙
+  structure L : ?Expressions = ❚
+  structure K : ?Expressions = ❚
+  expr_translation: {V: L/Voc, Γ: L/Ctx V} L/Exp Γ ⟶ K/Exp (TransCtx Γ} ❘ # TransExp 3 ❙
+
+  type_preservation: {V: L/Voc, Γ: L/Ctx V, e: L/Exp Γ, E: L/Exp Γ}
+       ⊦ L/(Γ |- e ∶ E)
+    ⟶ ⊦ K/((TransCtx Γ) |- (TransExp e) ∶ (TransExp E))
+  ❙
+
+  conservativity: {V: L/Voc, Γ: L/Ctx V, e: L/Exp Γ, E: L/Exp Γ}
+       ⊦ K/((TransCtx Γ) |- e : (TransExp E))
+    ⟶ ⊦ ∃ [f] L/(Γ |- f ∶ E)
+  ❙
+❚
+
+theory SubstitutionTranslations =
+  include ?ExpressionTranslation ❙
+
+  // broadening the domain of inherited structures does not work yet in MMT ❙
+  structure L : ?Substitutions = ❚
+  structure K : ?Substitutions = ❚
+
+  subst_translation: {V: L/Voc, Γ: L/Ctx V, Δ: L/Ctx V} L/(Subst Γ Δ) ⟶ K/(Subst (TransCtx Γ) (TransCtx Δ)) ❘ # TransSubst 4 ❙
+
+  subst_thm: {V: L/Voc, Γ: L/Ctx V, Δ: L/Ctx V, e: L/Exp Γ, E: L/Exp Γ, γ: Subst Γ Δ}
+       ⊦ L/(Γ |- e ∶ E)
+    ⟶ ⊦ K/((TransCtx Γ) |- (TransExp (e[γ])) ≣ (TransExp e)[(TransSubst γ)]
+  ❙
+❚
+
+theory CompositionalTranslations =
+  include ?SubstitutionTranslations ❙
+
+  structure L : ?DeductionEq = ❚
+  structure K : ?DeductionEq = ❚
+
+  is_compositional: {V, Γ: L/Ctx V, Δ: L/Ctx V, γ: Subst Γ Δ, e: Exp Γ}
+    ⊦ K/IsThm ((TransExp (e⟬γ⟭)) ≡ (TransExp e)⟬(TransSubst γ)⟭)
+  ❙
+❚
+
+// Notions of equivalence ❚
+
+theory AspectEquivalence =
+  include ?ScratchSFOL ❙
+
+  structure L : ?FormalSystem =
+    // here and below in the other structures force that we maintain the same base logic
+       as in the outer theory ❙
+    include ?ScratchSFOL ❙
+  ❚
+
+  structure Sem1 : ?AspectSemantics =
+    include ?ScratchSFOL ❙
+    include ?FormalSystem ❘ = ?AspectEquivalence?L ❙
+  ❚
+
+  structure Sem2 : ?AspectSemantics =
+    include ?ScratchSFOL ❙
+    include ?FormalSystem ❘ = ?AspectEquivalence?L ❙
+  ❚
+
+  aspect_axiom: ⊦ ... ❙
+❚
+
+theory DeductionEquivalence =
+  include ?FormalSystemEquivalence ❙
+
+  structure Sem1 : ?Deduction = ❚
+  structure Sem2 : ?Deduction = ❚
+
+  equivalent : {V, Γ: L/Ctx V, e: L/Exp Γ, E: L/Exp Γ} ⊦ (Γ Sem1/|- e ∶ E) ⇔ (Γ Sem2/|- e ∶ E) ❙
+❚
+
+theory ComputationEquivalence =
+  include ?FormalSystemEquivalence ❙
+
+  structure Sem1 : ?Computation = ❚
+  structure Sem2 : ?Computation = ❚
+
+  equivalent : {V, Γ: L/Ctx V, e: L/Exp Γ, f: L/Exp Γ} ⊦ (e Sem1/⇝ f) ⇔ (e Sem2/⇝ f) ❙
+❚
+
+theory ConcretizationEquivalence =
+  include ?FormalSystemEquivalence ❙
+
+  structure Sem1 : ?Concretization = ❚
+  structure Sem2 : ?Concretization = ❚
+
+  // actually Sem2/ConcrRow should not get p, but `q: ⊦ (Γ Sem2/|- F ∶ cprop)`, but that should be equivalent to p
+     if the previous two structures are accordingly unified wrt. L ❙
+  equivalent : {V, Γ: L/Ctx V, F: L/Exp Γ, p: ⊦ (Γ Sem1/|- F ∶ cprop), γ: GSubst Γ} ⊦ (Sem1/ConcrRow p γ) ⇔ (Sem2/ConcrRow p γ) ❙
+❚

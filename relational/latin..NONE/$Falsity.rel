@@ -1,0 +1,7 @@
+dataconstructor latin:/?Falsity?false
+theory latin:/?Falsity
+HasMeta latin:/?Falsity http://cds.omdoc.org/urtheories?LF
+Includes latin:/?Falsity latin:/?Propositions
+Declares latin:/?Falsity latin:/?Falsity?false
+constant latin:/?Falsity?false
+DependsOn latin:/?Falsity?false?type latin:/?Propositions?prop?type

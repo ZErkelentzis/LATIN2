@@ -1,0 +1,44 @@
+dataconstructor latin:/algebraic?Powers?power
+dataconstructor latin:/algebraic?Powers?power_zero
+dataconstructor latin:/algebraic?Powers?power_succ
+theory latin:/algebraic?Powers
+HasMeta latin:/algebraic?Powers latin:/?SFOLEQND
+Includes latin:/algebraic?Powers latin:/algebraic?PowerAssociative
+Includes latin:/algebraic?Powers latin:/algebraic?Unital
+Includes latin:/algebraic?Powers latin:/?Nat
+Declares latin:/algebraic?Powers latin:/algebraic?Powers?power
+constant latin:/algebraic?Powers?power
+DependsOn latin:/algebraic?Powers?power?type latin:/algebraic?Set?U?type
+DependsOn latin:/algebraic?Powers?power?type latin:/?Nat?Nat?type
+Declares latin:/algebraic?Powers latin:/algebraic?Powers?power_zero
+constant latin:/algebraic?Powers?power_zero
+DependsOn latin:/algebraic?Powers?power_zero?type latin:/?Proofs?ded?type
+DependsOn latin:/algebraic?Powers?power_zero?type latin:/?TypedTerms?tm?type
+DependsOn latin:/algebraic?Powers?power_zero?type latin:/?Propositions?prop?type
+DependsOn latin:/algebraic?Powers?power_zero?type latin:/algebraic?Powers?power?type
+DependsOn latin:/algebraic?Powers?power_zero?type latin:/?TypedEquality?equal?type
+DependsOn latin:/algebraic?Powers?power_zero?type latin:/algebraic?Set?U?type
+DependsOn latin:/algebraic?Powers?power_zero?type latin:/algebraic?Set?universe?type
+DependsOn latin:/algebraic?Powers?power_zero?type latin:/algebraic?UnitElement?unitelem/elem?type
+DependsOn latin:/algebraic?Powers?power_zero?type latin:/?Types?tp?type
+DependsOn latin:/algebraic?Powers?power_zero?type latin:/?Nat?Nat?type
+Declares latin:/algebraic?Powers latin:/algebraic?Powers?power_zero/Simplify
+constant latin:/algebraic?Powers?power_zero/Simplify
+Declares latin:/algebraic?Powers latin:/algebraic?Powers?power_succ
+constant latin:/algebraic?Powers?power_succ
+DependsOn latin:/algebraic?Powers?power_succ?type latin:/?Nat?Nat?type
+DependsOn latin:/algebraic?Powers?power_succ?type latin:/?Nat?Nat?definition
+DependsOn latin:/algebraic?Powers?power_succ?type latin:/?TypedTerms?tm?type
+DependsOn latin:/algebraic?Powers?power_succ?type latin:/?Propositions?prop?type
+DependsOn latin:/algebraic?Powers?power_succ?type latin:/algebraic?Powers?power?type
+DependsOn latin:/algebraic?Powers?power_succ?type latin:/algebraic?Set?universe?type
+DependsOn latin:/algebraic?Powers?power_succ?type latin:/algebraic?Magma?op?type
+DependsOn latin:/algebraic?Powers?power_succ?type latin:/?Nat?succ?type
+DependsOn latin:/algebraic?Powers?power_succ?type latin:/?TypedEquality?equal?type
+DependsOn latin:/algebraic?Powers?power_succ?type latin:/algebraic?Set?U?type
+DependsOn latin:/algebraic?Powers?power_succ?type latin:/?Nat?nat?type
+DependsOn latin:/algebraic?Powers?power_succ?type latin:/?Types?tp?type
+DependsOn latin:/algebraic?Powers?power_succ?type latin:/algebraic?Set?U?definition
+DependsOn latin:/algebraic?Powers?power_succ?type latin:/?Proofs?ded?type
+Declares latin:/algebraic?Powers latin:/algebraic?Powers?power_succ/Simplify
+constant latin:/algebraic?Powers?power_succ/Simplify

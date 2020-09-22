@@ -1,0 +1,16 @@
+document latin:/fundamentals/concepts.omdoc
+Declares latin:/fundamentals/concepts.omdoc latin:/?Propositions
+Declares latin:/fundamentals/concepts.omdoc latin:/?Proofs
+Declares latin:/fundamentals/concepts.omdoc latin:/?Logic
+Declares latin:/fundamentals/concepts.omdoc latin:/?Terms
+Declares latin:/fundamentals/concepts.omdoc latin:/?Types
+Declares latin:/fundamentals/concepts.omdoc latin:/?Kinds
+Declares latin:/fundamentals/concepts.omdoc latin:/?TypedTerms
+Declares latin:/fundamentals/concepts.omdoc latin:/?SoftTypedTerms
+Declares latin:/fundamentals/concepts.omdoc latin:/?KindedTypes
+Declares latin:/fundamentals/concepts.omdoc latin:/?UntypedLogic
+Declares latin:/fundamentals/concepts.omdoc latin:/?TypedLogic
+Declares latin:/fundamentals/concepts.omdoc latin:/?SoftTypedLogic
+Declares latin:/fundamentals/concepts.omdoc latin:/?InternalPropositions
+Declares latin:/fundamentals/concepts.omdoc latin:/?InternalLogic
+Declares latin:/fundamentals/concepts.omdoc latin:/?InternalTypes

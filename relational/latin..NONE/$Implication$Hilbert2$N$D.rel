@@ -1,0 +1,12 @@
+dataconstructor latin:/?ImplicationHilbert2ND?[latin:/?ImplicationHilbert]/K_ax
+dataconstructor latin:/?ImplicationHilbert2ND?[latin:/?ImplicationHilbert]/S_ax
+HasDomain latin:/?ImplicationHilbert2ND latin:/?ImplicationHilbert
+HasCodomain latin:/?ImplicationHilbert2ND latin:/?ImplicationND
+view latin:/?ImplicationHilbert2ND
+HasViewFrom latin:/?ImplicationND latin:/?ImplicationHilbert
+Includes latin:/?ImplicationHilbert2ND latin:/?ImplicationNDE
+Declares latin:/?ImplicationHilbert2ND latin:/?ImplicationHilbert2ND?[latin:/?ImplicationHilbert]/K_ax
+constant latin:/?ImplicationHilbert2ND?[latin:/?ImplicationHilbert]/K_ax
+Declares latin:/?ImplicationHilbert2ND latin:/?ImplicationHilbert2ND?[latin:/?ImplicationHilbert]/S_ax
+constant latin:/?ImplicationHilbert2ND?[latin:/?ImplicationHilbert]/S_ax
+IsImplicitly latin:/?ImplicationND latin:/?ImplicationHilbert

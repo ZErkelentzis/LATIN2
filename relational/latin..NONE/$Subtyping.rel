@@ -1,0 +1,47 @@
+dataconstructor latin:/?Subtyping?subtype
+dataconstructor latin:/?Subtyping?subtype_preorder/[latin:/?Reflexivity]/refl
+judgementconstructor latin:/?Subtyping?subtype_preorder/[latin:/?Relation]/rel
+datatypeconstructor latin:/?Subtyping?subtype_preorder/[latin:/?OneTyped]/carrier
+dataconstructor latin:/?Subtyping?subtype_preorder/[latin:/?Transitivity]/trans
+dataconstructor latin:/?Subtyping?subtype_preorder/[latin:/?Transitivity]/trans3
+dataconstructor latin:/?Subtyping?subtype_preorder/[latin:/?Transitivity]/trans4
+theory latin:/?Subtyping
+HasMeta latin:/?Subtyping http://cds.omdoc.org/urtheories?LF
+Includes latin:/?Subtyping latin:/?Types
+Includes latin:/?Subtyping latin:/?Logic
+Declares latin:/?Subtyping latin:/?Subtyping?subtype
+constant latin:/?Subtyping?subtype
+DependsOn latin:/?Subtyping?subtype?type latin:/?Propositions?prop?type
+DependsOn latin:/?Subtyping?subtype?type latin:/?Types?tp?type
+Declares latin:/?Subtyping latin:/?Subtyping?subtype_preorder
+HasDomain latin:/?Subtyping?subtype_preorder latin:/?Preorder
+HasCodomain latin:/?Subtyping?subtype_preorder latin:/?Subtyping
+structure latin:/?Subtyping?subtype_preorder
+Declares latin:/?Subtyping latin:/?Subtyping?subtype_preorder/[latin:/?Reflexivity]
+HasDomain latin:/?Subtyping?subtype_preorder/[latin:/?Reflexivity] latin:/?Reflexivity
+HasCodomain latin:/?Subtyping?subtype_preorder/[latin:/?Reflexivity] latin:/?Subtyping
+structure latin:/?Subtyping?subtype_preorder/[latin:/?Reflexivity]
+Declares latin:/?Subtyping latin:/?Subtyping?subtype_preorder/[latin:/?Reflexivity]/refl
+constant latin:/?Subtyping?subtype_preorder/[latin:/?Reflexivity]/refl
+Declares latin:/?Subtyping latin:/?Subtyping?subtype_preorder/[latin:/?Relation]
+HasDomain latin:/?Subtyping?subtype_preorder/[latin:/?Relation] latin:/?Relation
+HasCodomain latin:/?Subtyping?subtype_preorder/[latin:/?Relation] latin:/?Subtyping
+structure latin:/?Subtyping?subtype_preorder/[latin:/?Relation]
+Declares latin:/?Subtyping latin:/?Subtyping?subtype_preorder/[latin:/?Relation]/rel
+constant latin:/?Subtyping?subtype_preorder/[latin:/?Relation]/rel
+Declares latin:/?Subtyping latin:/?Subtyping?subtype_preorder/[latin:/?OneTyped]
+HasDomain latin:/?Subtyping?subtype_preorder/[latin:/?OneTyped] latin:/?OneTyped
+HasCodomain latin:/?Subtyping?subtype_preorder/[latin:/?OneTyped] latin:/?Subtyping
+structure latin:/?Subtyping?subtype_preorder/[latin:/?OneTyped]
+Declares latin:/?Subtyping latin:/?Subtyping?subtype_preorder/[latin:/?OneTyped]/carrier
+constant latin:/?Subtyping?subtype_preorder/[latin:/?OneTyped]/carrier
+Declares latin:/?Subtyping latin:/?Subtyping?subtype_preorder/[latin:/?Transitivity]
+HasDomain latin:/?Subtyping?subtype_preorder/[latin:/?Transitivity] latin:/?Transitivity
+HasCodomain latin:/?Subtyping?subtype_preorder/[latin:/?Transitivity] latin:/?Subtyping
+structure latin:/?Subtyping?subtype_preorder/[latin:/?Transitivity]
+Declares latin:/?Subtyping latin:/?Subtyping?subtype_preorder/[latin:/?Transitivity]/trans
+constant latin:/?Subtyping?subtype_preorder/[latin:/?Transitivity]/trans
+Declares latin:/?Subtyping latin:/?Subtyping?subtype_preorder/[latin:/?Transitivity]/trans3
+constant latin:/?Subtyping?subtype_preorder/[latin:/?Transitivity]/trans3
+Declares latin:/?Subtyping latin:/?Subtyping?subtype_preorder/[latin:/?Transitivity]/trans4
+constant latin:/?Subtyping?subtype_preorder/[latin:/?Transitivity]/trans4

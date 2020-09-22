@@ -1,0 +1,16 @@
+dataconstructor latin:/?RelativizedExistentialQuantification?rexists
+theory latin:/?RelativizedExistentialQuantification
+HasMeta latin:/?RelativizedExistentialQuantification http://cds.omdoc.org/urtheories?LF
+Includes latin:/?RelativizedExistentialQuantification latin:/?SoftTypedTerms
+Includes latin:/?RelativizedExistentialQuantification latin:/?FOLEQ
+Declares latin:/?RelativizedExistentialQuantification latin:/?RelativizedExistentialQuantification?rexists
+constant latin:/?RelativizedExistentialQuantification?rexists
+DependsOn latin:/?RelativizedExistentialQuantification?rexists?type latin:/?Propositions?prop?type
+DependsOn latin:/?RelativizedExistentialQuantification?rexists?type latin:/?Terms?term?type
+DependsOn latin:/?RelativizedExistentialQuantification?rexists?type latin:/?Types?tp?type
+DependsOn latin:/?RelativizedExistentialQuantification?rexists?definition latin:/?Propositions?prop?type
+DependsOn latin:/?RelativizedExistentialQuantification?rexists?definition latin:/?ExistentialQuantification?exists?type
+DependsOn latin:/?RelativizedExistentialQuantification?rexists?definition latin:/?Conjunction?and?type
+DependsOn latin:/?RelativizedExistentialQuantification?rexists?definition latin:/?Types?tp?type
+DependsOn latin:/?RelativizedExistentialQuantification?rexists?definition latin:/?Terms?term?type
+DependsOn latin:/?RelativizedExistentialQuantification?rexists?definition latin:/?SoftTypedTerms?of?type

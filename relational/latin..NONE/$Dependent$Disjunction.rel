@@ -1,0 +1,9 @@
+dataconstructor latin:/?DependentDisjunction?dor
+theory latin:/?DependentDisjunction
+HasMeta latin:/?DependentDisjunction http://cds.omdoc.org/urtheories?LF
+Includes latin:/?DependentDisjunction latin:/?Logic
+Declares latin:/?DependentDisjunction latin:/?DependentDisjunction?dor
+constant latin:/?DependentDisjunction?dor
+DependsOn latin:/?DependentDisjunction?dor?type latin:/?Propositions?prop?type
+DependsOn latin:/?DependentDisjunction?dor?type latin:/?Proofs?inconsistent?type
+DependsOn latin:/?DependentDisjunction?dor?type latin:/?Proofs?ded?type

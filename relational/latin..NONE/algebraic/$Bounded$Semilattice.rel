@@ -1,0 +1,4 @@
+theory latin:/algebraic?BoundedSemilattice
+HasMeta latin:/algebraic?BoundedSemilattice latin:/?SFOLEQND
+Includes latin:/algebraic?BoundedSemilattice latin:/algebraic?Semilattice
+Includes latin:/algebraic?BoundedSemilattice latin:/algebraic?CommMonoid

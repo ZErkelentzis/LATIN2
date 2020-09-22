@@ -1,0 +1,9 @@
+namespace latin:/wuvtest❚
+fixmeta ur:?LF❚
+
+theory Concretization =
+  include ?FormalSystemWithPropositions ❙
+
+  // Concretization semantics provide a subset of substitutions from Γ to empty context ❙
+  concrete_substitutions: {V, Γ: Ctx V, F: Exp Γ} (⊦ Γ |- F ∶ cprop) ⟶ GSubst Γ ⟶ prop ❘ # ConcrRow 4 5 ❙
+❚

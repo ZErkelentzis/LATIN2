@@ -1,0 +1,32 @@
+namespace latin:/wuvtest❚
+fixmeta ur:?LF❚
+
+theory Deduction =
+  include ?FormalSystemWithPropositions ❙
+
+  thm: {V,Γ: Ctx V} Exp Γ ⟶ prop ❘ # IsThm 3 prec 135 ❘ // Subset of expressions designated as theorems❙
+  ground_theorems = [V: Voc,F: GExp V] IsThm F ❘ # IsGroundThm 1 ❙
+
+  true_instance
+       : {V, Γ: Ctx V, γ: GSubst Γ, e: Exp Γ} (⊦ Γ |- e ∶ cprop) ⟶ prop
+    ❘ = [V, Γ, γ, e, judgement] IsThm e⟬γ⟭
+    ❙
+
+  subst_pres_thm: {V, Γ: Ctx V, Δ: Ctx V, γ: Subst Γ Δ, F: Exp Γ} ⊦ (IsThm F) ⇒ (IsThm F⟬γ⟭) ❙
+❚
+
+theory DeductionEq =
+  include ?Deduction ❙
+  include ?TypedEquality ❙
+
+  eq_refl: {V, Γ: Ctx V, e: Exp Γ} ⊦ IsThm (e ≡ e) ❙
+  eq_symm: {V, Γ: Ctx V, e: Exp Γ, f: Exp Γ} ⊦ IsThm (e ≡ f) ⇒ IsThm (f ≡ e) ❙
+  eq_trans: {V, Γ: Ctx V, e: Exp Γ, f: Exp Γ, g: Exp Γ} ⊦ IsThm (e ≡ f) ∧ IsThm (f ≡ g) ⇒ IsThm (e ≡ g) ❙
+❚
+
+theory DeductiveTrue =
+  include ?Deduction ❙
+  include ?PropositionalTrue ❙
+
+  true_thm: {V, Γ: Ctx V} ⊦ IsThm ((designated_true V) in Γ) ❙
+❚

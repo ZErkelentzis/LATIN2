@@ -1,0 +1,4 @@
+theory latin:/?FiniteSetSpec
+HasMeta latin:/?FiniteSetSpec latin:/?TypedEquality
+Includes latin:/?FiniteSetSpec latin:/?MultisetSpec
+Includes latin:/?FiniteSetSpec latin:/?EndoIdempotent
