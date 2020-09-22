@@ -15,11 +15,7 @@ However, if you modify large portions or face peculiar build errors (like ["no b
 
 ### Complete Rebuilding for elaborate endusers / developers
 
-<<<<<<< HEAD
-> **A note on build order:** The formalizations in this archive require a specific build order. In particular, many `.mmt` files have circular dependencies.
-=======
 > **A note on build order:** The formalizations as well as Scala files in this archive require a specific build order. In particular, there are many circular dependencies between `.mmt` files themselves as well as between them and Scala files.
->>>>>>> devel
 > Unfortunately, the MMT build system cannot deal with such complex dependency management at time of writing, hence the build order has to be manually prescribed.
 > Furthermore, due to the circular dependencies, an iterative approach to building is necessary until – hopefully – an error-free fixpoint is reached.
 > The build file [`build-omdoc.msl`](./build-omdoc.msl) in this archive accounts for both points.
