@@ -1,0 +1,114 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Typed$Equality".
+
+/* generated from refl : {A,x:tm A}ded (equal A x x) */
+
+ded X1 (equal A x x) :- help/refl X1 A x.
+
+help/refl (prodcert X2/1 X2/2) A x :- help/refl X2/1 A x , help/refl X2/2 A x.
+
+help/refl (idcert X3) A x :- X3 > 0 , X2 is X3 - 1.
+
+help/refl (ptcert (refl A x)) A x.
+
+/* Can't create helper for ucert: no hypotheses found */
+
+help/refl (hdcert X2) A x.
+
+help/refl (bccert X3) A x :- bc/pos X3 , X2 is X3 - 1.
+
+/* generated from congP : {A,x,y}ded (equal A x y)⟶{P:tm A⟶prop}ded (P x)⟶ded (P y) */
+
+ded X3 X4 :- help/congP X3 X4 A x y X1 P X2 , X4 = P y , ded X1 (equal A x y) , ded X2 (P x).
+
+help/congP (prodcert X5/1 X5/2) X2 A x y P (prodcert X3/1 X3/2) (prodcert X4/1 X4/2) :- help/congP X5/1 X2 A x y P X3/1 X4/1 , help/congP X5/2 X2 A x y P X3/2 X4/2.
+
+help/congP (idcert X4) X2 A x y P (idcert X3) (idcert X3) :- X4 > 0 , X3 is X4 - 1.
+
+help/congP (ptcert (congP X2 A x y P X3 X4)) X2 A x y P (ptcert X3) (ptcert X4).
+
+help/congP (ucert X3) X2 A x y P (ucert (prep (ded X4 (equal A x y)) X3)) (ucert (prep (ded X4 (equal A x y)) X3)) :- ded X4 (equal A x y) , occatmost (ded X4 (equal A x y)) 1 X3.
+
+help/congP (hdcert X3) X2 A x y P (hdcert X3) (hdcert X3).
+
+help/congP (bccert X4) X2 A x y P (bccert X3) (bccert X3) :- bc/pos X4 , X3 is X4 - 1 , X2 = P y.
+
+/* generated from congT : {A,B,x,y}ded (equal A x y)⟶{T:tm A⟶tm B}ded (equal B (T x) (T y)) */
+
+ded X2 (equal B (T x) (T y)) :- help/congT X2 A B x y X1 T , ded X1 (equal A x y).
+
+help/congT (prodcert X3/1 X3/2) A B x y T (prodcert X2/1 X2/2) :- help/congT X3/1 A B x y T X2/1 , help/congT X3/2 A B x y T X2/2.
+
+help/congT (idcert X3) A B x y T (idcert X2) :- X3 > 0 , X2 is X3 - 1.
+
+help/congT (ptcert (congT A B x y T X2)) A B x y T (ptcert X2).
+
+help/congT (ucert X2) A B x y T (ucert (prep (ded X3 (equal A x y)) X2)) :- ded X3 (equal A x y) , occatmost (ded X3 (equal A x y)) 1 X2.
+
+help/congT (hdcert X2) A B x y T (hdcert X2).
+
+help/congT (bccert X3) A B x y T (bccert X2) :- bc/pos X3 , X2 is X3 - 1.
+
+/* generated from sym : {A,x,y:tm A}ded (equal A x y)⟶ded (equal A y x) */
+
+ded X2 (equal A y x) :- help/sym X2 A x y X1 , ded X1 (equal A x y).
+
+help/sym (prodcert X3/1 X3/2) A x y (prodcert X2/1 X2/2) :- help/sym X3/1 A x y X2/1 , help/sym X3/2 A x y X2/2.
+
+help/sym (idcert X3) A x y (idcert X2) :- X3 > 0 , X2 is X3 - 1.
+
+help/sym (ptcert (sym A x y X2)) A x y (ptcert X2).
+
+help/sym (ucert X2) A x y (ucert (prep (ded X3 (equal A x y)) X2)) :- ded X3 (equal A x y) , occatmost (ded X3 (equal A x y)) 1 X2.
+
+help/sym (hdcert X2) A x y (hdcert X2).
+
+help/sym (bccert X3) A x y (bccert X2) :- bc/pos X3 , X2 is X3 - 1.
+
+/* generated from trans : {A,x,y,z:tm A}ded (equal A x y)⟶ded (equal A y z)⟶ded (equal A x z) */
+
+ded X3 (equal A x z) :- help/trans X3 A x y z X1 X2 , ded X1 (equal A x y) , ded X2 (equal A y z).
+
+help/trans (prodcert X4/1 X4/2) A x y z (prodcert X2/1 X2/2) (prodcert X3/1 X3/2) :- help/trans X4/1 A x y z X2/1 X3/1 , help/trans X4/2 A x y z X2/2 X3/2.
+
+help/trans (idcert X3) A x y z (idcert X2) (idcert X2) :- X3 > 0 , X2 is X3 - 1.
+
+help/trans (ptcert (trans A x y z X2 X3)) A x y z (ptcert X2) (ptcert X3).
+
+help/trans (ucert X2) A x y z (ucert (prep (ded X3 (equal A x y)) X2)) (ucert (prep (ded X3 (equal A x y)) X2)) :- ded X3 (equal A x y) , occatmost (ded X3 (equal A x y)) 1 X2.
+
+help/trans (hdcert X2) A x y z (hdcert X2) (hdcert X2).
+
+help/trans (bccert X3) A x y z (bccert X2) (bccert X2) :- bc/pos X3 , X2 is X3 - 1.
+
+/* generated from trans3 : {A,w,x,y,z:tm A}ded (equal A w x)⟶ded (equal A x y)⟶ded (equal A y z)⟶ded (equal A w z) */
+
+ded X4 (equal A w z) :- help/trans3 X4 A w x y z X1 X2 X3 , ded X1 (equal A w x) , ded X2 (equal A x y) , ded X3 (equal A y z).
+
+help/trans3 (prodcert X5/1 X5/2) A w x y z (prodcert X2/1 X2/2) (prodcert X3/1 X3/2) (prodcert X4/1 X4/2) :- help/trans3 X5/1 A w x y z X2/1 X3/1 X4/1 , help/trans3 X5/2 A w x y z X2/2 X3/2 X4/2.
+
+help/trans3 (idcert X3) A w x y z (idcert X2) (idcert X2) (idcert X2) :- X3 > 0 , X2 is X3 - 1.
+
+help/trans3 (ptcert (trans3 A w x y z X2 X3 X4)) A w x y z (ptcert X2) (ptcert X3) (ptcert X4).
+
+help/trans3 (ucert X2) A w x y z (ucert (prep (ded X3 (equal A w x)) X2)) (ucert (prep (ded X3 (equal A w x)) X2)) (ucert (prep (ded X3 (equal A w x)) X2)) :- ded X3 (equal A w x) , occatmost (ded X3 (equal A w x)) 1 X2.
+
+help/trans3 (hdcert X2) A w x y z (hdcert X2) (hdcert X2) (hdcert X2).
+
+help/trans3 (bccert X3) A w x y z (bccert X2) (bccert X2) (bccert X2) :- bc/pos X3 , X2 is X3 - 1.
+
+/* generated from trans4 : {A,v,w,x,y,z:tm A}ded (equal A v w)⟶ded (equal A w x)⟶ded (equal A x y)⟶ded (equal A y z)⟶ded (equal A v z) */
+
+ded X5 (equal A v z) :- help/trans4 X5 A v w x y z X1 X2 X3 X4 , ded X1 (equal A v w) , ded X2 (equal A w x) , ded X3 (equal A x y) , ded X4 (equal A y z).
+
+help/trans4 (prodcert X6/1 X6/2) A v w x y z (prodcert X2/1 X2/2) (prodcert X3/1 X3/2) (prodcert X4/1 X4/2) (prodcert X5/1 X5/2) :- help/trans4 X6/1 A v w x y z X2/1 X3/1 X4/1 X5/1 , help/trans4 X6/2 A v w x y z X2/2 X3/2 X4/2 X5/2.
+
+help/trans4 (idcert X3) A v w x y z (idcert X2) (idcert X2) (idcert X2) (idcert X2) :- X3 > 0 , X2 is X3 - 1.
+
+help/trans4 (ptcert (trans4 A v w x y z X2 X3 X4 X5)) A v w x y z (ptcert X2) (ptcert X3) (ptcert X4) (ptcert X5).
+
+help/trans4 (ucert X2) A v w x y z (ucert (prep (ded X3 (equal A v w)) X2)) (ucert (prep (ded X3 (equal A v w)) X2)) (ucert (prep (ded X3 (equal A v w)) X2)) (ucert (prep (ded X3 (equal A v w)) X2)) :- ded X3 (equal A v w) , occatmost (ded X3 (equal A v w)) 1 X2.
+
+help/trans4 (hdcert X2) A v w x y z (hdcert X2) (hdcert X2) (hdcert X2) (hdcert X2).
+
+help/trans4 (bccert X3) A v w x y z (bccert X2) (bccert X2) (bccert X2) (bccert X2) :- bc/pos X3 , X2 is X3 - 1.
+

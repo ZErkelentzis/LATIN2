@@ -5,7 +5,7 @@ namespace latin:/❚
   But we record the idea in any case. ❚
 
 view DRTFOL : ?DRT → ?FOL =
-  id = term ❙
+  dr = term ❙
   lit = term ❙
   mode = term ❙
   pos = [x] x ❙

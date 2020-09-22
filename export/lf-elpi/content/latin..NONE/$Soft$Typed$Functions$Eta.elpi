@@ -1,0 +1,12 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Soft$Typed$Functions".
+
+/* generated from eta : {F}ded (equal (lambda [x]apply F x) F) */
+
+ded X1 (equal (lambda x \ apply F x) F) :- help/eta F X1.
+
+help/eta F (prodcert X1/1 X1/2) :- help/eta F X1/1 , help/eta F X1/2.
+
+help/eta F (idcert X2) :- X2 > 0 , X1 is X2 - 1.
+
+help/eta F (ptcert (eta F)).
+

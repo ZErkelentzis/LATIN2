@@ -1,0 +1,80 @@
+/* generated from bool : tp */
+
+/* type bool tp. */
+
+/* generated from tt : tm bool */
+
+/* type tt tm bool. */
+
+/* generated from ff : tm bool */
+
+/* type ff tm bool. */
+
+/* generated from if : {S}tm bool⟶tm S⟶tm S⟶tm S */
+
+/* type if pi (S \ tm bool -> tm S -> tm S -> tm S). */
+
+/* generated from bool_tnd : ded (forall bool [b]or (equal bool b tt) (equal bool b ff)) */
+
+ded X1 (forall bool (b \ or (equal bool b tt) (equal bool b ff))) :- help/bool_tnd X1.
+
+help/bool_tnd (prodcert X2/1 X2/2) :- help/bool_tnd X2/1 , help/bool_tnd X2/2.
+
+help/bool_tnd (idcert X3) :- X3 > 0 , X2 is X3 - 1.
+
+help/bool_tnd (ptcert bool_tnd).
+
+/* Can't create helper for ucert: no hypotheses found */
+
+help/bool_tnd (hdcert X2).
+
+help/bool_tnd (bccert X3) :- bc/pos X3 , X2 is X3 - 1.
+
+/* generated from bool_nontrivial : ded (not (equal bool tt ff)) */
+
+ded X1 (not (equal bool tt ff)) :- help/bool_nontrivial X1.
+
+help/bool_nontrivial (prodcert X2/1 X2/2) :- help/bool_nontrivial X2/1 , help/bool_nontrivial X2/2.
+
+help/bool_nontrivial (idcert X3) :- X3 > 0 , X2 is X3 - 1.
+
+help/bool_nontrivial (ptcert bool_nontrivial).
+
+/* Can't create helper for ucert: no hypotheses found */
+
+help/bool_nontrivial (hdcert X2).
+
+help/bool_nontrivial (bccert X3) :- bc/pos X3 , X2 is X3 - 1.
+
+/* generated from if_tt : {s,x,y:tm s}ded (equal s (if s tt x y) x) */
+
+ded X1 (equal s (if s tt x y) x) :- help/if_tt X1 s x y.
+
+help/if_tt (prodcert X2/1 X2/2) s x y :- help/if_tt X2/1 s x y , help/if_tt X2/2 s x y.
+
+help/if_tt (idcert X3) s x y :- X3 > 0 , X2 is X3 - 1.
+
+help/if_tt (ptcert (if_tt s x y)) s x y.
+
+/* Can't create helper for ucert: no hypotheses found */
+
+help/if_tt (hdcert X2) s x y.
+
+help/if_tt (bccert X3) s x y :- bc/pos X3 , X2 is X3 - 1.
+
+/* generated from if_ff : {s,x,y:tm s}ded (equal s (if s ff x y) y) */
+
+ded X1 (equal s (if s ff x y) y) :- help/if_ff X1 s x y.
+
+help/if_ff (prodcert X2/1 X2/2) s x y :- help/if_ff X2/1 s x y , help/if_ff X2/2 s x y.
+
+help/if_ff (idcert X3) s x y :- X3 > 0 , X2 is X3 - 1.
+
+help/if_ff (ptcert (if_ff s x y)) s x y.
+
+/* Can't create helper for ucert: no hypotheses found */
+
+help/if_ff (hdcert X2) s x y.
+
+help/if_ff (bccert X3) s x y :- bc/pos X3 , X2 is X3 - 1.
+

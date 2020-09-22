@@ -1,9 +1,10 @@
-accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Soft$Typed$Terms.omdoc.elpi".
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Terms".
 
-accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Soft$Typed$Terms.omdoc.elpi".
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Types".
 
-accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Soft$Typed$Terms.omdoc.elpi".
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Propositions".
 
-/* skipping due to error: latin:/?SoftTypedTerms?of
-not a rule: term⟶tp⟶prop */
+/* generated from of : term⟶tp⟶prop */
+
+/* type of term -> tp -> prop. */
 

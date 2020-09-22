@@ -1,0 +1,5 @@
+theory latin:/?HOLAndrews
+HasMeta latin:/?HOLAndrews http://cds.omdoc.org/urtheories?LF
+Includes latin:/?HOLAndrews latin:/?InternalEquality
+Includes latin:/?HOLAndrews latin:/?TypedEqualityND
+Includes latin:/?HOLAndrews latin:/?PropositionalExtensionality

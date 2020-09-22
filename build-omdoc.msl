@@ -1,5 +1,6 @@
-// This build script only builds the parts of LATIN2 which can actually
-// be built successfully.
+// Build MMT/OMDoc and Scala parts of LATIN2
+// To be precise, this build script only builds the parts of LATIN2
+// which can actually be built successfully at time of writing.
 
 server on 8080
 
@@ -12,6 +13,12 @@ mathpath archive ../urtheories
 mathpath archive ../LFX
 mathpath archive .
 
+//log+ debug
+//log+ object-checker
+//log+ object-simplifier
+//log+ structure-simplifier
+//log+ structure-checker
+//log+ object-parser
 // Build the mmt files, tricky due to mutual dependencies
 // Sometimes we even need to build a folder twice as the first run will run into an interdependency situation it cannot resolve (think of LaTeX and bibliography - it also needs multiple runs)
 
@@ -31,6 +38,7 @@ build MMT/LATIN2 mmt-omdoc algebra/sets.mmt
 build MMT/LATIN2 mmt-omdoc algebra/relations.mmt
 build MMT/LATIN2 mmt-omdoc numbers/nat.mmt
 build MMT/LATIN2 mmt-omdoc algebra/magmas.mmt
+build MMT/LATIN2 mmt-omdoc algebra/groups.mmt
 
 // Now build all again
 
@@ -42,3 +50,5 @@ build MMT/LATIN2 mmt-omdoc topology
 build MMT/LATIN2 mmt-omdoc curry-howard
 
 // build MMT/LATIN2 mmt-omdoc algebra
+
+build MMT/LATIN2 lf-scala

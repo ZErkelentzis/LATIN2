@@ -1,0 +1,60 @@
+dataconstructor latin:/?MetaLogic?[latin:/?Truth]/true
+dataconstructor latin:/?MetaLogic?[latin:/?Falsity]/false
+dataconstructor latin:/?MetaLogic?[latin:/?Negation]/not
+dataconstructor latin:/?MetaLogic?[latin:/?MetaLevelUniversalQuantification]/forall
+dataconstructor latin:/?MetaLogic?[latin:/?Conjunction]/and
+dataconstructor latin:/?MetaLogic?[latin:/?Implication]/impl
+dataconstructor latin:/?MetaLogic?[latin:/?Disjunction]/or
+dataconstructor latin:/?MetaLogic?[latin:/?Equivalence]/equiv
+dataconstructor latin:/?MetaLogic?[latin:/?MetaLevelExistentialQuantification]/exists
+theory latin:/?MetaLogic
+HasMeta latin:/?MetaLogic http://cds.omdoc.org/urtheories?PLF
+Includes latin:/?MetaLogic latin:/?MetaLevelEquality
+Includes latin:/?MetaLogic latin:/?IPL
+Includes latin:/?MetaLogic latin:/?MetaLevelUniversalQuantification
+Includes latin:/?MetaLogic latin:/?MetaLevelExistentialQuantification
+Declares latin:/?MetaLogic latin:/?MetaLogic?[latin:/?Truth]/true
+constant latin:/?MetaLogic?[latin:/?Truth]/true
+DependsOn latin:/?MetaLogic?[latin:/?Truth]/true?definition latin:/?MetaLevelEquality?equal?type
+DependsOn latin:/?MetaLogic?[latin:/?Truth]/true?definition latin:/?Propositions?prop?type
+Declares latin:/?MetaLogic latin:/?MetaLogic?[latin:/?Falsity]/false
+constant latin:/?MetaLogic?[latin:/?Falsity]/false
+DependsOn latin:/?MetaLogic?[latin:/?Falsity]/false?definition latin:/?MetaLevelEquality?equal?type
+DependsOn latin:/?MetaLogic?[latin:/?Falsity]/false?definition latin:/?Propositions?prop?type
+DependsOn latin:/?MetaLogic?[latin:/?Falsity]/false?definition latin:/?Truth?true?type
+Declares latin:/?MetaLogic latin:/?MetaLogic?[latin:/?Negation]/not
+constant latin:/?MetaLogic?[latin:/?Negation]/not
+DependsOn latin:/?MetaLogic?[latin:/?Negation]/not?definition latin:/?MetaLevelEquality?equal?type
+DependsOn latin:/?MetaLogic?[latin:/?Negation]/not?definition latin:/?Falsity?false?type
+DependsOn latin:/?MetaLogic?[latin:/?Negation]/not?definition latin:/?Propositions?prop?type
+Declares latin:/?MetaLogic latin:/?MetaLogic?[latin:/?MetaLevelUniversalQuantification]/forall
+constant latin:/?MetaLogic?[latin:/?MetaLevelUniversalQuantification]/forall
+DependsOn latin:/?MetaLogic?[latin:/?MetaLevelUniversalQuantification]/forall?definition latin:/?MetaLevelEquality?equal?type
+DependsOn latin:/?MetaLogic?[latin:/?MetaLevelUniversalQuantification]/forall?definition latin:/?Propositions?prop?type
+DependsOn latin:/?MetaLogic?[latin:/?MetaLevelUniversalQuantification]/forall?definition latin:/?Truth?true?type
+Declares latin:/?MetaLogic latin:/?MetaLogic?[latin:/?Conjunction]/and
+constant latin:/?MetaLogic?[latin:/?Conjunction]/and
+DependsOn latin:/?MetaLogic?[latin:/?Conjunction]/and?definition latin:/?MetaLevelEquality?equal?type
+DependsOn latin:/?MetaLogic?[latin:/?Conjunction]/and?definition latin:/?Propositions?prop?type
+DependsOn latin:/?MetaLogic?[latin:/?Conjunction]/and?definition latin:/?MetaLevelUniversalQuantification?forall?type
+DependsOn latin:/?MetaLogic?[latin:/?Conjunction]/and?definition latin:/?Truth?true?type
+Declares latin:/?MetaLogic latin:/?MetaLogic?[latin:/?Implication]/impl
+constant latin:/?MetaLogic?[latin:/?Implication]/impl
+DependsOn latin:/?MetaLogic?[latin:/?Implication]/impl?definition latin:/?MetaLevelEquality?equal?type
+DependsOn latin:/?MetaLogic?[latin:/?Implication]/impl?definition latin:/?Propositions?prop?type
+DependsOn latin:/?MetaLogic?[latin:/?Implication]/impl?definition latin:/?Conjunction?and?type
+Declares latin:/?MetaLogic latin:/?MetaLogic?[latin:/?Disjunction]/or
+constant latin:/?MetaLogic?[latin:/?Disjunction]/or
+DependsOn latin:/?MetaLogic?[latin:/?Disjunction]/or?definition latin:/?Propositions?prop?type
+DependsOn latin:/?MetaLogic?[latin:/?Disjunction]/or?definition latin:/?MetaLevelUniversalQuantification?forall?type
+DependsOn latin:/?MetaLogic?[latin:/?Disjunction]/or?definition latin:/?Implication?impl?type
+Declares latin:/?MetaLogic latin:/?MetaLogic?[latin:/?Equivalence]/equiv
+constant latin:/?MetaLogic?[latin:/?Equivalence]/equiv
+DependsOn latin:/?MetaLogic?[latin:/?Equivalence]/equiv?definition latin:/?Propositions?prop?type
+DependsOn latin:/?MetaLogic?[latin:/?Equivalence]/equiv?definition latin:/?Conjunction?and?type
+DependsOn latin:/?MetaLogic?[latin:/?Equivalence]/equiv?definition latin:/?Implication?impl?type
+Declares latin:/?MetaLogic latin:/?MetaLogic?[latin:/?MetaLevelExistentialQuantification]/exists
+constant latin:/?MetaLogic?[latin:/?MetaLevelExistentialQuantification]/exists
+DependsOn latin:/?MetaLogic?[latin:/?MetaLevelExistentialQuantification]/exists?definition latin:/?Propositions?prop?type
+DependsOn latin:/?MetaLogic?[latin:/?MetaLevelExistentialQuantification]/exists?definition latin:/?MetaLevelUniversalQuantification?forall?type
+DependsOn latin:/?MetaLogic?[latin:/?MetaLevelExistentialQuantification]/exists?definition latin:/?Implication?impl?type

@@ -14,7 +14,7 @@ theory UniversalQuantificationNDI =
 
 theory UniversalQuantificationNDE =
   include ?UniversalQuantification❙
-  forallE  : {P} ⊦ ∀ P ⟶ {x} ⊦ (P x)❘# 2 forallE 3❘role ForwardRule❙
+  forallE  : {P,X} ⊦ ∀ P ⟶ ⊦ (P X)❘# 3 forallE 2❘role ForwardRule❙
 ❚
 
 theory UniversalQuantificationND =
@@ -29,12 +29,12 @@ theory ExistentialQuantification =
 
 theory ExistentialQuantificationNDI =
   include ?ExistentialQuantification❙
-  existsI  : {P,x} ⊦ P x ⟶ ⊦ ∃ P❘# existsI 2 3❙
+  existsI  : {P,X} ⊦ P X ⟶ ⊦ ∃ P❘# existsI 2 3❙
 ❚
 
 theory ExistentialQuantificationNDE =
   include ?ExistentialQuantification❙
-  existsE  : {P,C} ⊦ ∃ P ⟶ ({x} ⊦ (P x) ⟶ ⊦ C) ⟶ ⊦ C❘# 3 existsE 4❙
+  existsE  : {P,C} ⊦ ∃ P ⟶ ({x} ⊦ (P x) ⟶ ⊦ C) ⟶ ⊦ C❘# 3 existsE 4❘role EliminationRule❙
 ❚
 
 theory ExistentialQuantificationND =

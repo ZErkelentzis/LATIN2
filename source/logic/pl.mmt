@@ -51,13 +51,47 @@ theory NegationNDI =
 theory NegationNDE =
   include ?Negation❙
   include ?Proofs❙
-  notE  : {F} ⊦ ¬ F ⟶ ⊦ F ⟶ ↯❘# 2 notE 3❘role ForwardRule❙
+  notE  : {F} ⊦ ¬ F ⟶ ⊦ F ⟶ ↯❘# 2 notE 3❙
 ❚
 
 theory NegationND =
   include ?NegationNDI❙
   include ?NegationNDE❙
- ❚
+❚
+
+theory Disjunction =
+  include ?Propositions❙
+  or    : prop ⟶ prop ⟶ prop❘# 1 ∨ 2 prec 15❙
+❚
+
+theory DisjunctionNDI =
+  include ?Disjunction❙
+  include ?Proofs❙
+  orIl  : {F,G} ⊦ F ⟶ ⊦ F ∨ G❘# 3 orIl❙
+  orIr  : {F,G} ⊦ G ⟶ ⊦ F ∨ G❘# 3 orIr❙
+❚
+
+theory DisjunctionNDE =
+  include ?Disjunction❙
+  include ?Proofs❙
+  orE   : {F,G,C} ⊦ F ∨ G ⟶ (⊦ F ⟶ ⊦ C) ⟶ (⊦ G ⟶ ⊦ C) ⟶ ⊦ C❘# 4 orE 5 6❘role EliminationRule❙
+❚
+
+theory DisjunctionND =
+  include ?DisjunctionNDI❙
+  include ?DisjunctionNDE❙
+❚
+
+theory AlternativeNegationAndFalsityND =
+  include ?Proofs ❙
+  include ?Falsity ❙
+  include ?Negation ❙
+  include ?Disjunction ❙
+  notIntroduction : {A} (⊦ A ⟶ ⊦ false) ⟶ (⊦ ¬ A) ❘ # altNotI 2 ❙
+  notElimination : {A} ⊦ ¬ ¬ A ⟶ ⊦ A ❘ # altNotE 2 ❙
+  falseIntroduction : {A} ⊦ ¬ A ⟶ ⊦ A ⟶ ⊦ false ❘ # altFI 2 3 ❘ role EliminationRule ❙
+  falseElimination : {A} ⊦ false ⟶ ⊦ A ❘ # altFE 1 2 ❙
+❚
 
 theory Conjunction =
   include ?Propositions❙
@@ -80,29 +114,6 @@ theory ConjunctionNDE =
 theory ConjunctionND =
   include ?ConjunctionNDI❙
   include ?ConjunctionNDE❙
-❚
-
-theory Disjunction =
-  include ?Propositions❙
-  or    : prop ⟶ prop ⟶ prop❘# 1 ∨ 2 prec 15❙
-❚
-
-theory DisjunctionNDI =
-  include ?Disjunction❙
-  include ?Proofs❙
-  orIl  : {F,G} ⊦ F ⟶ ⊦ F ∨ G❘# 3 orIl❙
-  orIr  : {F,G} ⊦ G ⟶ ⊦ F ∨ G❘# 3 orIr❙
-❚
-
-theory DisjunctionNDE =
-  include ?Disjunction❙
-  include ?Proofs❙
-  orE   : {F,G,C} ⊦ F ∨ G ⟶ (⊦ F ⟶ ⊦ C) ⟶ (⊦ G ⟶ ⊦ C) ⟶ ⊦ C❘# 4 orE 5 6❙
-❚
-
-theory DisjunctionND =
-  include ?DisjunctionNDI❙
-  include ?DisjunctionNDE❙
 ❚
 
 theory Implication =

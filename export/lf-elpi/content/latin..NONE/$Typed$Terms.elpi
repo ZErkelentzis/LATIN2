@@ -1,5 +1,6 @@
-accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Typed$Terms.omdoc.elpi".
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Types".
 
-/* skipping due to error: latin:/?TypedTerms?tm
-not a rule: tp⟶type */
+/* generated from tm : tp⟶type */
+
+/* kind tm tp -> type. */
 

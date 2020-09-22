@@ -1,0 +1,46 @@
+dataconstructor latin:/?HOLND?eq_equiv
+dataconstructor latin:/?HOLND?equiv_eq
+theory latin:/?HOLND
+HasMeta latin:/?HOLND http://cds.omdoc.org/urtheories?LF
+Includes latin:/?HOLND latin:/?HOL
+Includes latin:/?HOLND latin:/?IHOLND
+Includes latin:/?HOLND latin:/?SFOLND
+Includes latin:/?HOLND latin:/?SimpleFunctionsEta
+Declares latin:/?HOLND latin:/?HOLND?eq_equiv
+constant latin:/?HOLND?eq_equiv
+DependsOn latin:/?HOLND?eq_equiv?type latin:/?Propositions?prop?definition
+DependsOn latin:/?HOLND?eq_equiv?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?HOLND?eq_equiv?type latin:/?Propositions?prop?type
+DependsOn latin:/?HOLND?eq_equiv?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?HOLND?eq_equiv?type latin:/?Types?tp?type
+DependsOn latin:/?HOLND?eq_equiv?type latin:/?InternalPropositions?bool?type
+DependsOn latin:/?HOLND?eq_equiv?type latin:/?Equivalence?equiv?type
+DependsOn latin:/?HOLND?eq_equiv?type latin:/?Proofs?ded?type
+DependsOn latin:/?HOLND?eq_equiv?definition latin:/?Propositions?prop?definition
+DependsOn latin:/?HOLND?eq_equiv?definition latin:/?TypedEqualityND?sym?type
+DependsOn latin:/?HOLND?eq_equiv?definition latin:/?Propositions?prop?type
+DependsOn latin:/?HOLND?eq_equiv?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?HOLND?eq_equiv?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/?HOLND?eq_equiv?definition latin:/?TypedEqualityND?congP?type
+DependsOn latin:/?HOLND?eq_equiv?definition latin:/?Types?tp?type
+DependsOn latin:/?HOLND?eq_equiv?definition latin:/?InternalPropositions?bool?type
+DependsOn latin:/?HOLND?eq_equiv?definition latin:/?EquivalenceNDI?equivI?type
+DependsOn latin:/?HOLND?eq_equiv?definition latin:/?Proofs?ded?type
+Declares latin:/?HOLND latin:/?HOLND?equiv_eq
+constant latin:/?HOLND?equiv_eq
+DependsOn latin:/?HOLND?equiv_eq?type latin:/?Propositions?prop?definition
+DependsOn latin:/?HOLND?equiv_eq?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?HOLND?equiv_eq?type latin:/?Propositions?prop?type
+DependsOn latin:/?HOLND?equiv_eq?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?HOLND?equiv_eq?type latin:/?Types?tp?type
+DependsOn latin:/?HOLND?equiv_eq?type latin:/?InternalPropositions?bool?type
+DependsOn latin:/?HOLND?equiv_eq?type latin:/?Equivalence?equiv?type
+DependsOn latin:/?HOLND?equiv_eq?type latin:/?Proofs?ded?type
+DependsOn latin:/?HOLND?equiv_eq?definition latin:/?EquivalenceNDE?equivEr?type
+DependsOn latin:/?HOLND?equiv_eq?definition latin:/?Propositions?prop?definition
+DependsOn latin:/?HOLND?equiv_eq?definition latin:/?Propositions?prop?type
+DependsOn latin:/?HOLND?equiv_eq?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?HOLND?equiv_eq?definition latin:/?PropositionalExtensionality?propext?type
+DependsOn latin:/?HOLND?equiv_eq?definition latin:/?EquivalenceNDE?equivEl?type
+DependsOn latin:/?HOLND?equiv_eq?definition latin:/?Equivalence?equiv?type
+DependsOn latin:/?HOLND?equiv_eq?definition latin:/?Proofs?ded?type

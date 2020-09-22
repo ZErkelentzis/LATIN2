@@ -1,0 +1,13 @@
+document latin:/type_theory/endofunctors/endomagmas.omdoc
+Declares latin:/type_theory/endofunctors/endomagmas.omdoc latin:/?EndoMagma
+Declares latin:/type_theory/endofunctors/endomagmas.omdoc latin:/?EndoSemigroup
+Declares latin:/type_theory/endofunctors/endomagmas.omdoc latin:/?EndoCommutative
+Declares latin:/type_theory/endofunctors/endomagmas.omdoc latin:/?EndoNeutral
+Declares latin:/type_theory/endofunctors/endomagmas.omdoc latin:/?EndoIdempotent
+Declares latin:/type_theory/endofunctors/endomagmas.omdoc latin:/?EndoFirstNonNeutral
+Declares latin:/type_theory/endofunctors/endomagmas.omdoc latin:/?EndoMonoid
+Declares latin:/type_theory/endofunctors/endomagmas.omdoc latin:/?EndoCommSemigroup
+Declares latin:/type_theory/endofunctors/endomagmas.omdoc latin:/?EndoBand
+Declares latin:/type_theory/endofunctors/endomagmas.omdoc latin:/?EndoCommMonoid
+Declares latin:/type_theory/endofunctors/endomagmas.omdoc latin:/?EndoSemilattice
+Declares latin:/type_theory/endofunctors/endomagmas.omdoc latin:/?EndoBoundedSemilattice

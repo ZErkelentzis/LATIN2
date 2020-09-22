@@ -1,0 +1,37 @@
+dataconstructor latin:/?DependentProducts?deppair
+dataconstructor latin:/?DependentProducts?deppi1
+dataconstructor latin:/?DependentProducts?deppi2
+dataconstructor latin:/?DependentProducts?compute1
+theory latin:/?DependentProducts
+HasMeta latin:/?DependentProducts http://cds.omdoc.org/urtheories?LF
+Includes latin:/?DependentProducts latin:/?DependentProductTypes
+Includes latin:/?DependentProducts latin:/?TypedEquality
+Includes latin:/?DependentProducts latin:/?Transport
+Declares latin:/?DependentProducts latin:/?DependentProducts?deppair
+constant latin:/?DependentProducts?deppair
+DependsOn latin:/?DependentProducts?deppair?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?DependentProducts?deppair?type latin:/?DependentProductTypes?depprod?type
+DependsOn latin:/?DependentProducts?deppair?type latin:/?Types?tp?type
+Declares latin:/?DependentProducts latin:/?DependentProducts?deppi1
+constant latin:/?DependentProducts?deppi1
+DependsOn latin:/?DependentProducts?deppi1?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?DependentProducts?deppi1?type latin:/?DependentProductTypes?depprod?type
+DependsOn latin:/?DependentProducts?deppi1?type latin:/?Types?tp?type
+Declares latin:/?DependentProducts latin:/?DependentProducts?deppi2
+constant latin:/?DependentProducts?deppi2
+DependsOn latin:/?DependentProducts?deppi2?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?DependentProducts?deppi2?type latin:/?DependentProducts?deppi1?type
+DependsOn latin:/?DependentProducts?deppi2?type latin:/?DependentProductTypes?depprod?type
+DependsOn latin:/?DependentProducts?deppi2?type latin:/?Types?tp?type
+Declares latin:/?DependentProducts latin:/?DependentProducts?compute1
+constant latin:/?DependentProducts?compute1
+DependsOn latin:/?DependentProducts?compute1?type latin:/?DependentProducts?deppair?type
+DependsOn latin:/?DependentProducts?compute1?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?DependentProducts?compute1?type latin:/?Propositions?prop?type
+DependsOn latin:/?DependentProducts?compute1?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?DependentProducts?compute1?type latin:/?DependentProducts?deppi1?type
+DependsOn latin:/?DependentProducts?compute1?type latin:/?DependentProductTypes?depprod?type
+DependsOn latin:/?DependentProducts?compute1?type latin:/?Types?tp?type
+DependsOn latin:/?DependentProducts?compute1?type latin:/?Proofs?ded?type
+Declares latin:/?DependentProducts latin:/?DependentProducts?compute1/Simplify
+constant latin:/?DependentProducts?compute1/Simplify

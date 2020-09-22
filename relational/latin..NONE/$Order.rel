@@ -1,0 +1,4 @@
+theory latin:/?Order
+HasMeta latin:/?Order http://cds.omdoc.org/urtheories?PLF
+Includes latin:/?Order latin:/?Preorder
+Includes latin:/?Order latin:/?AntiSymmetry

@@ -1,13 +1,16 @@
-accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Internal$Types.omdoc.elpi".
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Untyped$Logic".
 
-/* skipping due to error: latin:/?InternalTypes?in
-not a rule: term⟶term⟶prop */
+/* generated from in : term⟶term⟶prop */
 
-accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Internal$Types.omdoc.elpi".
+/* type in term -> term -> prop. */
 
-/* skipping due to error: latin:/?InternalTypes?[latin:/?Types]/tp
-not a rule: type */
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Soft$Typed$Terms".
 
-/* skipping due to error: latin:/?InternalTypes?[latin:/?SoftTypedTerms]/of
-not a rule: term⟶term⟶prop */
+/* generated from [Types]/tp : type */
+
+/* kind [Types]/tp type. */
+
+/* generated from [SoftTypedTerms]/of : term⟶term⟶prop */
+
+/* type [SoftTypedTerms]/of term -> term -> prop. */
 

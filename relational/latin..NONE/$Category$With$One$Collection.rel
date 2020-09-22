@@ -1,0 +1,116 @@
+dataconstructor latin:/?CategoryWithOneCollection?obj
+dataconstructor latin:/?CategoryWithOneCollection?dom
+dataconstructor latin:/?CategoryWithOneCollection?cod
+dataconstructor latin:/?CategoryWithOneCollection?id
+dataconstructor latin:/?CategoryWithOneCollection?ax_dom_preserved
+dataconstructor latin:/?CategoryWithOneCollection?ax_cod_preserved
+dataconstructor latin:/?CategoryWithOneCollection?ax_identities_dom_cod
+dataconstructor latin:/?CategoryWithOneCollection?ax_comp_defined
+dataconstructor latin:/?CategoryWithOneCollection?ax_associativity
+theory latin:/?CategoryWithOneCollection
+HasMeta latin:/?CategoryWithOneCollection latin:/?SFOLEQND
+Includes latin:/?CategoryWithOneCollection latin:/?Option
+Includes latin:/?CategoryWithOneCollection latin:/?ObjectLessComposition
+Declares latin:/?CategoryWithOneCollection latin:/?CategoryWithOneCollection?obj
+constant latin:/?CategoryWithOneCollection?obj
+DependsOn latin:/?CategoryWithOneCollection?obj?type latin:/?Types?tp?type
+Declares latin:/?CategoryWithOneCollection latin:/?CategoryWithOneCollection?dom
+constant latin:/?CategoryWithOneCollection?dom
+DependsOn latin:/?CategoryWithOneCollection?dom?type latin:/?CategoryWithOneCollection?obj?type
+DependsOn latin:/?CategoryWithOneCollection?dom?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?CategoryWithOneCollection?dom?type latin:/?ObjectLessComposition?Mor?type
+DependsOn latin:/?CategoryWithOneCollection?dom?type latin:/?Types?tp?type
+Declares latin:/?CategoryWithOneCollection latin:/?CategoryWithOneCollection?cod
+constant latin:/?CategoryWithOneCollection?cod
+DependsOn latin:/?CategoryWithOneCollection?cod?type latin:/?CategoryWithOneCollection?obj?type
+DependsOn latin:/?CategoryWithOneCollection?cod?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?CategoryWithOneCollection?cod?type latin:/?ObjectLessComposition?Mor?type
+DependsOn latin:/?CategoryWithOneCollection?cod?type latin:/?Types?tp?type
+Declares latin:/?CategoryWithOneCollection latin:/?CategoryWithOneCollection?id
+constant latin:/?CategoryWithOneCollection?id
+DependsOn latin:/?CategoryWithOneCollection?id?type latin:/?CategoryWithOneCollection?obj?type
+DependsOn latin:/?CategoryWithOneCollection?id?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?CategoryWithOneCollection?id?type latin:/?ObjectLessComposition?Mor?type
+DependsOn latin:/?CategoryWithOneCollection?id?type latin:/?Types?tp?type
+Declares latin:/?CategoryWithOneCollection latin:/?CategoryWithOneCollection?ax_dom_preserved
+constant latin:/?CategoryWithOneCollection?ax_dom_preserved
+DependsOn latin:/?CategoryWithOneCollection?ax_dom_preserved?type latin:/?CategoryWithOneCollection?dom?type
+DependsOn latin:/?CategoryWithOneCollection?ax_dom_preserved?type latin:/?Option?option?type
+DependsOn latin:/?CategoryWithOneCollection?ax_dom_preserved?type latin:/?CategoryWithOneCollection?obj?type
+DependsOn latin:/?CategoryWithOneCollection?ax_dom_preserved?type latin:/?ObjectLessComposition?mor?type
+DependsOn latin:/?CategoryWithOneCollection?ax_dom_preserved?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?CategoryWithOneCollection?ax_dom_preserved?type latin:/?Propositions?prop?type
+DependsOn latin:/?CategoryWithOneCollection?ax_dom_preserved?type latin:/?ObjectLessComposition?composition?type
+DependsOn latin:/?CategoryWithOneCollection?ax_dom_preserved?type latin:/?Option?map?type
+DependsOn latin:/?CategoryWithOneCollection?ax_dom_preserved?type latin:/?ObjectLessComposition?OptionMor?type
+DependsOn latin:/?CategoryWithOneCollection?ax_dom_preserved?type latin:/?ObjectLessComposition?Mor?type
+DependsOn latin:/?CategoryWithOneCollection?ax_dom_preserved?type latin:/?Types?tp?type
+DependsOn latin:/?CategoryWithOneCollection?ax_dom_preserved?type latin:/?Option?defined_and_equal_to?type
+DependsOn latin:/?CategoryWithOneCollection?ax_dom_preserved?type latin:/?Proofs?ded?type
+Declares latin:/?CategoryWithOneCollection latin:/?CategoryWithOneCollection?ax_cod_preserved
+constant latin:/?CategoryWithOneCollection?ax_cod_preserved
+DependsOn latin:/?CategoryWithOneCollection?ax_cod_preserved?type latin:/?Option?option?type
+DependsOn latin:/?CategoryWithOneCollection?ax_cod_preserved?type latin:/?CategoryWithOneCollection?obj?type
+DependsOn latin:/?CategoryWithOneCollection?ax_cod_preserved?type latin:/?ObjectLessComposition?mor?type
+DependsOn latin:/?CategoryWithOneCollection?ax_cod_preserved?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?CategoryWithOneCollection?ax_cod_preserved?type latin:/?Propositions?prop?type
+DependsOn latin:/?CategoryWithOneCollection?ax_cod_preserved?type latin:/?CategoryWithOneCollection?cod?type
+DependsOn latin:/?CategoryWithOneCollection?ax_cod_preserved?type latin:/?ObjectLessComposition?composition?type
+DependsOn latin:/?CategoryWithOneCollection?ax_cod_preserved?type latin:/?Option?map?type
+DependsOn latin:/?CategoryWithOneCollection?ax_cod_preserved?type latin:/?ObjectLessComposition?OptionMor?type
+DependsOn latin:/?CategoryWithOneCollection?ax_cod_preserved?type latin:/?ObjectLessComposition?Mor?type
+DependsOn latin:/?CategoryWithOneCollection?ax_cod_preserved?type latin:/?Types?tp?type
+DependsOn latin:/?CategoryWithOneCollection?ax_cod_preserved?type latin:/?Option?defined_and_equal_to?type
+DependsOn latin:/?CategoryWithOneCollection?ax_cod_preserved?type latin:/?Proofs?ded?type
+Declares latin:/?CategoryWithOneCollection latin:/?CategoryWithOneCollection?ax_identities_dom_cod
+constant latin:/?CategoryWithOneCollection?ax_identities_dom_cod
+DependsOn latin:/?CategoryWithOneCollection?ax_identities_dom_cod?type latin:/?CategoryWithOneCollection?dom?type
+DependsOn latin:/?CategoryWithOneCollection?ax_identities_dom_cod?type latin:/?CategoryWithOneCollection?obj?type
+DependsOn latin:/?CategoryWithOneCollection?ax_identities_dom_cod?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?CategoryWithOneCollection?ax_identities_dom_cod?type latin:/?Propositions?prop?type
+DependsOn latin:/?CategoryWithOneCollection?ax_identities_dom_cod?type latin:/?ObjectLessComposition?Mor?definition
+DependsOn latin:/?CategoryWithOneCollection?ax_identities_dom_cod?type latin:/?CategoryWithOneCollection?cod?type
+DependsOn latin:/?CategoryWithOneCollection?ax_identities_dom_cod?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?CategoryWithOneCollection?ax_identities_dom_cod?type latin:/?Conjunction?and?type
+DependsOn latin:/?CategoryWithOneCollection?ax_identities_dom_cod?type latin:/?CategoryWithOneCollection?id?type
+DependsOn latin:/?CategoryWithOneCollection?ax_identities_dom_cod?type latin:/?ObjectLessComposition?Mor?type
+DependsOn latin:/?CategoryWithOneCollection?ax_identities_dom_cod?type latin:/?Types?tp?type
+DependsOn latin:/?CategoryWithOneCollection?ax_identities_dom_cod?type latin:/?Proofs?ded?type
+Declares latin:/?CategoryWithOneCollection latin:/?CategoryWithOneCollection?ax_comp_defined
+constant latin:/?CategoryWithOneCollection?ax_comp_defined
+DependsOn latin:/?CategoryWithOneCollection?ax_comp_defined?type latin:/?CategoryWithOneCollection?dom?type
+DependsOn latin:/?CategoryWithOneCollection?ax_comp_defined?type latin:/?CategoryWithOneCollection?obj?type
+DependsOn latin:/?CategoryWithOneCollection?ax_comp_defined?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?CategoryWithOneCollection?ax_comp_defined?type latin:/?Propositions?prop?type
+DependsOn latin:/?CategoryWithOneCollection?ax_comp_defined?type latin:/?ObjectLessComposition?composition?type
+DependsOn latin:/?CategoryWithOneCollection?ax_comp_defined?type latin:/?CategoryWithOneCollection?cod?type
+DependsOn latin:/?CategoryWithOneCollection?ax_comp_defined?type latin:/?Implication?impl?type
+DependsOn latin:/?CategoryWithOneCollection?ax_comp_defined?type latin:/?Option?option?type
+DependsOn latin:/?CategoryWithOneCollection?ax_comp_defined?type latin:/?ObjectLessComposition?mor?type
+DependsOn latin:/?CategoryWithOneCollection?ax_comp_defined?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?CategoryWithOneCollection?ax_comp_defined?type latin:/?ObjectLessComposition?OptionMor?type
+DependsOn latin:/?CategoryWithOneCollection?ax_comp_defined?type latin:/?Option?defined?type
+DependsOn latin:/?CategoryWithOneCollection?ax_comp_defined?type latin:/?ObjectLessComposition?Mor?type
+DependsOn latin:/?CategoryWithOneCollection?ax_comp_defined?type latin:/?Types?tp?type
+DependsOn latin:/?CategoryWithOneCollection?ax_comp_defined?type latin:/?Proofs?ded?type
+Declares latin:/?CategoryWithOneCollection latin:/?CategoryWithOneCollection?ax_associativity
+constant latin:/?CategoryWithOneCollection?ax_associativity
+DependsOn latin:/?CategoryWithOneCollection?ax_associativity?type latin:/?CategoryWithOneCollection?dom?type
+DependsOn latin:/?CategoryWithOneCollection?ax_associativity?type latin:/?CategoryWithOneCollection?obj?type
+DependsOn latin:/?CategoryWithOneCollection?ax_associativity?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?CategoryWithOneCollection?ax_associativity?type latin:/?Propositions?prop?type
+DependsOn latin:/?CategoryWithOneCollection?ax_associativity?type latin:/?ObjectLessComposition?composition?type
+DependsOn latin:/?CategoryWithOneCollection?ax_associativity?type latin:/?CategoryWithOneCollection?cod?type
+DependsOn latin:/?CategoryWithOneCollection?ax_associativity?type latin:/?ObjectLessComposition?composition_opt?type
+DependsOn latin:/?CategoryWithOneCollection?ax_associativity?type latin:/?Conjunction?and?type
+DependsOn latin:/?CategoryWithOneCollection?ax_associativity?type latin:/?ObjectLessComposition?opt_composition?type
+DependsOn latin:/?CategoryWithOneCollection?ax_associativity?type latin:/?Implication?impl?type
+DependsOn latin:/?CategoryWithOneCollection?ax_associativity?type latin:/?Option?both_defined_and_equal?type
+DependsOn latin:/?CategoryWithOneCollection?ax_associativity?type latin:/?ObjectLessComposition?OptionMor?definition
+DependsOn latin:/?CategoryWithOneCollection?ax_associativity?type latin:/?Option?option?type
+DependsOn latin:/?CategoryWithOneCollection?ax_associativity?type latin:/?ObjectLessComposition?mor?type
+DependsOn latin:/?CategoryWithOneCollection?ax_associativity?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?CategoryWithOneCollection?ax_associativity?type latin:/?ObjectLessComposition?OptionMor?type
+DependsOn latin:/?CategoryWithOneCollection?ax_associativity?type latin:/?ObjectLessComposition?Mor?type
+DependsOn latin:/?CategoryWithOneCollection?ax_associativity?type latin:/?Types?tp?type
+DependsOn latin:/?CategoryWithOneCollection?ax_associativity?type latin:/?Proofs?ded?type

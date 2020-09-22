@@ -1,0 +1,7 @@
+dataconstructor latin:/?MetaLevelUniversalQuantification?forall
+theory latin:/?MetaLevelUniversalQuantification
+HasMeta latin:/?MetaLevelUniversalQuantification http://cds.omdoc.org/urtheories?PLF
+Includes latin:/?MetaLevelUniversalQuantification latin:/?Logic
+Declares latin:/?MetaLevelUniversalQuantification latin:/?MetaLevelUniversalQuantification?forall
+constant latin:/?MetaLevelUniversalQuantification?forall
+DependsOn latin:/?MetaLevelUniversalQuantification?forall?type latin:/?Propositions?prop?type

@@ -1,0 +1,12 @@
+dataconstructor latin:/?TypeErasEquality?[latin:/?TypedEquality]/equal
+HasDomain latin:/?TypeErasEquality latin:/?TypedEquality
+HasCodomain latin:/?TypeErasEquality latin:/?SoftTypedEquality
+view latin:/?TypeErasEquality
+HasViewFrom latin:/?SoftTypedEquality latin:/?TypedEquality
+Includes latin:/?TypeErasEquality latin:/?TypedTerms
+Includes latin:/?TypeErasEquality latin:/?Logic
+Declares latin:/?TypeErasEquality latin:/?TypeErasEquality?[latin:/?TypedEquality]/equal
+constant latin:/?TypeErasEquality?[latin:/?TypedEquality]/equal
+DependsOn latin:/?TypeErasEquality?[latin:/?TypedEquality]/equal?definition latin:/?Propositions?prop?type
+DependsOn latin:/?TypeErasEquality?[latin:/?TypedEquality]/equal?definition latin:/?Equality?equal?type
+DependsOn latin:/?TypeErasEquality?[latin:/?TypedEquality]/equal?definition latin:/?Terms?term?type

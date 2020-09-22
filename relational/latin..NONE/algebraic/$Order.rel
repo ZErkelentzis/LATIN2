@@ -1,0 +1,4 @@
+theory latin:/algebraic?Order
+HasMeta latin:/algebraic?Order latin:/?SFOLEQND
+Includes latin:/algebraic?Order latin:/algebraic?Preorder
+Includes latin:/algebraic?Order latin:/algebraic?AntiSymmetry

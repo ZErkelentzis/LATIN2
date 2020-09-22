@@ -1,0 +1,8 @@
+dataconstructor latin:/algebraic?Pointed?elem
+theory latin:/algebraic?Pointed
+HasMeta latin:/algebraic?Pointed latin:/?SFOLEQND
+Includes latin:/algebraic?Pointed latin:/algebraic?Set
+Declares latin:/algebraic?Pointed latin:/algebraic?Pointed?elem
+constant latin:/algebraic?Pointed?elem
+DependsOn latin:/algebraic?Pointed?elem?type latin:/algebraic?Set?U?type
+DependsOn latin:/algebraic?Pointed?elem?type latin:/algebraic?Set?U?definition

@@ -1,0 +1,48 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$H$O$L$N$D".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/powertypes/$Power$Types".
+
+/* generated from [PowerTypes]/power : tp⟶tp */
+
+/* type [PowerTypes]/power tp -> tp. */
+
+/* generated from [PowerTypes]/filter : {A}(tm A⟶tm bool)⟶tm (simpfun A bool) */
+
+/* type [PowerTypes]/filter pi (A \ tm A -> tm bool -> tm (simpfun A bool)). */
+
+/* generated from [PowerTypes]/in : {A}tm A⟶tm (simpfun A bool)⟶tm bool */
+
+/* type [PowerTypes]/in pi (A \ tm A -> tm (simpfun A bool) -> tm bool). */
+
+/* generated from [PowerTypes]/compute : {A,P,x:tm A}ded (equiv (simpapply A bool (simplambda A bool P) x) (P x)) */
+
+ded X1 (equiv (simpapply A bool (simplambda A bool P) x) (P x)) :- help/[PowerTypes]/compute X1 A P x.
+
+help/[PowerTypes]/compute (prodcert X2/1 X2/2) A P x :- help/[PowerTypes]/compute X2/1 A P x , help/[PowerTypes]/compute X2/2 A P x.
+
+help/[PowerTypes]/compute (idcert X3) A P x :- X3 > 0 , X2 is X3 - 1.
+
+help/[PowerTypes]/compute (ptcert ([PowerTypes]/compute A P x)) A P x.
+
+/* Can't create helper for ucert: no hypotheses found */
+
+help/[PowerTypes]/compute (hdcert X2) A P x.
+
+help/[PowerTypes]/compute (bccert X3) A P x :- bc/pos X3 , X2 is X3 - 1.
+
+/* generated from [PowerTypes]/expand : {A,S:tm (simpfun A bool)}ded (equal (simpfun A bool) S (simplambda A bool [x]simpapply A bool S x)) */
+
+ded X1 (equal (simpfun A bool) S (simplambda A bool (x \ simpapply A bool S x))) :- help/[PowerTypes]/expand X1 A S.
+
+help/[PowerTypes]/expand (prodcert X2/1 X2/2) A S :- help/[PowerTypes]/expand X2/1 A S , help/[PowerTypes]/expand X2/2 A S.
+
+help/[PowerTypes]/expand (idcert X3) A S :- X3 > 0 , X2 is X3 - 1.
+
+help/[PowerTypes]/expand (ptcert ([PowerTypes]/expand A S)) A S.
+
+/* Can't create helper for ucert: no hypotheses found */
+
+help/[PowerTypes]/expand (hdcert X2) A S.
+
+help/[PowerTypes]/expand (bccert X3) A S :- bc/pos X3 , X2 is X3 - 1.
+

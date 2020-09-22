@@ -1,0 +1,60 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/powertypes/$Power$Types".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/powertypes/$Extensionality".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Implication$N$D".
+
+/* generated from subset : {A}tm (power A)⟶tm (power A)⟶prop */
+
+/* type subset pi A \ tm (power A) -> tm (power A) -> prop. */
+
+/* generated from subsetI : {A,S,T}({x:tm A}ded (in A x S)⟶ded (in A x T))⟶ded (subset A S T) */
+
+ded X3 (subset A S T) :- help/subsetI A S T X2 X3 , (pi x \ pi x1 \ ded/hyp x1 (in A x S) => ded (X2 x x1) (in A x T)).
+
+help/subsetI A S T (x \ x1 \ prodcert (X2/1 x x1) (X2/2 x x1)) (prodcert X3/1 X3/2) :- help/subsetI A S T X2/1 X3/1 , help/subsetI A S T X2/2 X3/2.
+
+help/subsetI A S T (x \ x2 \ idcert X1) (idcert X3) :- X3 > 0 , X1 is X3 - 1.
+
+help/subsetI A S T (x \ x2 \ ptcert X1) (ptcert (subsetI A S T X1)).
+
+/* generated from subsetE : {A,S,T,x:tm A}ded (subset A S T)⟶ded (in A x S)⟶ded (in A x T) */
+
+ded X3 (in A x T) :- help/subsetE A S T x X1 X2 X3 , ded X1 (subset A S T) , ded X2 (in A x S).
+
+help/subsetE A S T x (prodcert X1/1 X1/2) (prodcert X2/1 X2/2) (prodcert X3/1 X3/2) :- help/subsetE A S T x X1/1 X2/1 X3/1 , help/subsetE A S T x X1/2 X2/2 X3/2.
+
+help/subsetE A S T x (idcert X1) (idcert X1) (idcert X2) :- X2 > 0 , X1 is X2 - 1.
+
+help/subsetE A S T x (ptcert X1) (ptcert X1) (ptcert (subsetE A S T x X1 X1)).
+
+/* generated from subset_refl : {A,S:tm (power A)}ded (subset A S S) */
+
+ded X1 (subset A S S) :- help/subset_refl A S X1.
+
+help/subset_refl A S (prodcert X1/1 X1/2) :- help/subset_refl A S X1/1 , help/subset_refl A S X1/2.
+
+help/subset_refl A S (idcert X2) :- X2 > 0 , X1 is X2 - 1.
+
+help/subset_refl A S (ptcert (subset_refl A S)).
+
+/* generated from subset_trans : {A,R,S,T:tm (power A)}ded (subset A R S)⟶ded (subset A S T)⟶ded (subset A R T) */
+
+ded X3 (subset A R T) :- help/subset_trans A R S T X1 X2 X3 , ded X1 (subset A R S) , ded X2 (subset A S T).
+
+help/subset_trans A R S T (prodcert X1/1 X1/2) (prodcert X2/1 X2/2) (prodcert X3/1 X3/2) :- help/subset_trans A R S T X1/1 X2/1 X3/1 , help/subset_trans A R S T X1/2 X2/2 X3/2.
+
+help/subset_trans A R S T (idcert X1) (idcert X1) (idcert X2) :- X2 > 0 , X1 is X2 - 1.
+
+help/subset_trans A R S T (ptcert X1) (ptcert X1) (ptcert (subset_trans A R S T X1 X1)).
+
+/* generated from subset_antisym : {A,S,T:tm (power A)}ded (subset A S T)⟶ded (subset A T S)⟶ded (equal (power A) S T) */
+
+ded X3 (equal (power A) S T) :- help/subset_antisym A S T X1 X2 X3 , ded X1 (subset A S T) , ded X2 (subset A T S).
+
+help/subset_antisym A S T (prodcert X1/1 X1/2) (prodcert X2/1 X2/2) (prodcert X3/1 X3/2) :- help/subset_antisym A S T X1/1 X2/1 X3/1 , help/subset_antisym A S T X1/2 X2/2 X3/2.
+
+help/subset_antisym A S T (idcert X1) (idcert X1) (idcert X2) :- X2 > 0 , X1 is X2 - 1.
+
+help/subset_antisym A S T (ptcert X1) (ptcert X1) (ptcert (subset_antisym A S T X1 X1)).
+

@@ -1,0 +1,38 @@
+dataconstructor latin:/algebraic?Magma?op
+dataconstructor latin:/algebraic?Magma?divisibility/[latin:/algebraic?Set]/universe
+datatypeconstructor latin:/algebraic?Magma?divisibility/[latin:/algebraic?Set]/U
+dataconstructor latin:/algebraic?Magma?divisibility/rel
+datatypeconstructor latin:/algebraic?Magma?divisibility/metarel/[latin:/?OneTyped]/carrier
+judgementconstructor latin:/algebraic?Magma?divisibility/metarel/rel
+theory latin:/algebraic?Magma
+HasMeta latin:/algebraic?Magma latin:/?SFOLEQND
+Includes latin:/algebraic?Magma latin:/algebraic?Set
+Declares latin:/algebraic?Magma latin:/algebraic?Magma?op
+constant latin:/algebraic?Magma?op
+DependsOn latin:/algebraic?Magma?op?type latin:/algebraic?Set?U?type
+Declares latin:/algebraic?Magma latin:/algebraic?Magma?divisibility
+HasDomain latin:/algebraic?Magma?divisibility latin:/algebraic?Relation
+HasCodomain latin:/algebraic?Magma?divisibility latin:/algebraic?Magma
+structure latin:/algebraic?Magma?divisibility
+Declares latin:/algebraic?Magma latin:/algebraic?Magma?divisibility/[latin:/algebraic?Set]
+HasDomain latin:/algebraic?Magma?divisibility/[latin:/algebraic?Set] latin:/algebraic?Set
+HasCodomain latin:/algebraic?Magma?divisibility/[latin:/algebraic?Set] latin:/algebraic?Magma
+structure latin:/algebraic?Magma?divisibility/[latin:/algebraic?Set]
+Declares latin:/algebraic?Magma latin:/algebraic?Magma?divisibility/[latin:/algebraic?Set]/universe
+constant latin:/algebraic?Magma?divisibility/[latin:/algebraic?Set]/universe
+Declares latin:/algebraic?Magma latin:/algebraic?Magma?divisibility/[latin:/algebraic?Set]/U
+constant latin:/algebraic?Magma?divisibility/[latin:/algebraic?Set]/U
+Declares latin:/algebraic?Magma latin:/algebraic?Magma?divisibility/rel
+constant latin:/algebraic?Magma?divisibility/rel
+Declares latin:/algebraic?Magma latin:/algebraic?Magma?divisibility/metarel
+HasDomain latin:/algebraic?Magma?divisibility/metarel latin:/?Relation
+HasCodomain latin:/algebraic?Magma?divisibility/metarel latin:/algebraic?Magma
+structure latin:/algebraic?Magma?divisibility/metarel
+Declares latin:/algebraic?Magma latin:/algebraic?Magma?divisibility/metarel/[latin:/?OneTyped]
+HasDomain latin:/algebraic?Magma?divisibility/metarel/[latin:/?OneTyped] latin:/?OneTyped
+HasCodomain latin:/algebraic?Magma?divisibility/metarel/[latin:/?OneTyped] latin:/algebraic?Magma
+structure latin:/algebraic?Magma?divisibility/metarel/[latin:/?OneTyped]
+Declares latin:/algebraic?Magma latin:/algebraic?Magma?divisibility/metarel/[latin:/?OneTyped]/carrier
+constant latin:/algebraic?Magma?divisibility/metarel/[latin:/?OneTyped]/carrier
+Declares latin:/algebraic?Magma latin:/algebraic?Magma?divisibility/metarel/rel
+constant latin:/algebraic?Magma?divisibility/metarel/rel

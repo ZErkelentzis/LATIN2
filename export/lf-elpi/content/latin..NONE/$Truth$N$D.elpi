@@ -1,0 +1,20 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Truth".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Proofs".
+
+/* generated from trueI : ded true */
+
+ded X1 true :- help/trueI X1.
+
+help/trueI (prodcert X2/1 X2/2) :- help/trueI X2/1 , help/trueI X2/2.
+
+help/trueI (idcert X3) :- X3 > 0 , X2 is X3 - 1.
+
+help/trueI (ptcert trueI).
+
+/* Can't create helper for ucert: no hypotheses found */
+
+help/trueI (hdcert X2).
+
+help/trueI (bccert X3) :- bc/pos X3 , X2 is X3 - 1.
+

@@ -1,0 +1,16 @@
+dataconstructor latin:/?EquivalenceNDE?equivEl
+dataconstructor latin:/?EquivalenceNDE?equivEr
+theory latin:/?EquivalenceNDE
+HasMeta latin:/?EquivalenceNDE http://cds.omdoc.org/urtheories?LF
+Includes latin:/?EquivalenceNDE latin:/?Equivalence
+Includes latin:/?EquivalenceNDE latin:/?Proofs
+Declares latin:/?EquivalenceNDE latin:/?EquivalenceNDE?equivEl
+constant latin:/?EquivalenceNDE?equivEl
+DependsOn latin:/?EquivalenceNDE?equivEl?type latin:/?Propositions?prop?type
+DependsOn latin:/?EquivalenceNDE?equivEl?type latin:/?Equivalence?equiv?type
+DependsOn latin:/?EquivalenceNDE?equivEl?type latin:/?Proofs?ded?type
+Declares latin:/?EquivalenceNDE latin:/?EquivalenceNDE?equivEr
+constant latin:/?EquivalenceNDE?equivEr
+DependsOn latin:/?EquivalenceNDE?equivEr?type latin:/?Propositions?prop?type
+DependsOn latin:/?EquivalenceNDE?equivEr?type latin:/?Equivalence?equiv?type
+DependsOn latin:/?EquivalenceNDE?equivEr?type latin:/?Proofs?ded?type

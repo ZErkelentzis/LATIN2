@@ -1,0 +1,4 @@
+theory latin:/?NegationND
+HasMeta latin:/?NegationND http://cds.omdoc.org/urtheories?LF
+Includes latin:/?NegationND latin:/?NegationNDI
+Includes latin:/?NegationND latin:/?NegationNDE

@@ -1,47 +1,6 @@
-accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Typed$Equality.omdoc.elpi".
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Typed$Logic".
 
-/* skipping due to error: latin:/?TypedEquality?equal
-not a rule: {A}tm A⟶tm A⟶prop */
+/* generated from equal : {A}tm A⟶tm A⟶prop */
 
-/* generated from refl : {A,x:tm A}ded (equal A x x) */
-
-ded X1 (equal A x x) :- help/refl A x X1.
-
-help/refl A x (pair X1/1 X1/2) :- help/refl/1 A x X1/1 , help/refl/2 A x X1/2.
-
-/* generated from congP : {A,x,y}ded (equal A x y)⟶{P:tm A⟶prop}ded (P x)⟶ded (P y) */
-
-ded X3 (P y) :- help/congP A x y X1 P X2 X3 , ded X1 (equal A x y) , ded X2 (P x).
-
-help/congP A x y P (pair X1/1 X1/2) (pair X2/1 X2/2) (pair X3/1 X3/2) :- help/congP/1 A x y P X1/1 X2/1 X3/1 , help/congP/2 A x y P X1/2 X2/2 X3/2.
-
-/* generated from congT : {A,B,x,y}ded (equal A x y)⟶{T:tm A⟶tm B}ded (equal B (T x) (T y)) */
-
-ded X2 (equal B (T x) (T y)) :- help/congT A B x y X1 T X2 , ded X1 (equal A x y).
-
-help/congT A B x y T (pair X1/1 X1/2) (pair X2/1 X2/2) :- help/congT/1 A B x y T X1/1 X2/1 , help/congT/2 A B x y T X1/2 X2/2.
-
-/* generated from sym : {A,x,y:tm A}ded (equal A x y)⟶ded (equal A y x) */
-
-ded X2 (equal A y x) :- help/sym A x y X1 X2 , ded X1 (equal A x y).
-
-help/sym A x y (pair X1/1 X1/2) (pair X2/1 X2/2) :- help/sym/1 A x y X1/1 X2/1 , help/sym/2 A x y X1/2 X2/2.
-
-/* generated from trans : {A,x,y,z:tm A}ded (equal A x y)⟶ded (equal A y z)⟶ded (equal A x z) */
-
-ded X3 (equal A x z) :- help/trans A x y z X1 X2 X3 , ded X1 (equal A x y) , ded X2 (equal A y z).
-
-help/trans A x y z (pair X1/1 X1/2) (pair X2/1 X2/2) (pair X3/1 X3/2) :- help/trans/1 A x y z X1/1 X2/1 X3/1 , help/trans/2 A x y z X1/2 X2/2 X3/2.
-
-/* generated from trans3 : {A,w,x,y,z:tm A}ded (equal A w x)⟶ded (equal A x y)⟶ded (equal A y z)⟶ded (equal A w z) */
-
-ded X4 (equal A w z) :- help/trans3 A w x y z X1 X2 X3 X4 , ded X1 (equal A w x) , ded X2 (equal A x y) , ded X3 (equal A y z).
-
-help/trans3 A w x y z (pair X1/1 X1/2) (pair X2/1 X2/2) (pair X3/1 X3/2) (pair X4/1 X4/2) :- help/trans3/1 A w x y z X1/1 X2/1 X3/1 X4/1 , help/trans3/2 A w x y z X1/2 X2/2 X3/2 X4/2.
-
-/* generated from trans4 : {A,v,w,x,y,z:tm A}ded (equal A v w)⟶ded (equal A w x)⟶ded (equal A x y)⟶ded (equal A y z)⟶ded (equal A v z) */
-
-ded X5 (equal A v z) :- help/trans4 A v w x y z X1 X2 X3 X4 X5 , ded X1 (equal A v w) , ded X2 (equal A w x) , ded X3 (equal A x y) , ded X4 (equal A y z).
-
-help/trans4 A v w x y z (pair X1/1 X1/2) (pair X2/1 X2/2) (pair X3/1 X3/2) (pair X4/1 X4/2) (pair X5/1 X5/2) :- help/trans4/1 A v w x y z X1/1 X2/1 X3/1 X4/1 X5/1 , help/trans4/2 A v w x y z X1/2 X2/2 X3/2 X4/2 X5/2.
+/* type equal pi (A \ tm A -> tm A -> prop). */
 

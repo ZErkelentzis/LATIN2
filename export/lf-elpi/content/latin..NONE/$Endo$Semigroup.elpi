@@ -1,0 +1,52 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Endo$Magma".
+
+/* generated from assoc : {a,x,y,z:tm (applyType a)}ded (equal (applyType a) (op a (op a x y) z) (op a x (op a y z))) */
+
+ded X1 (equal (applyType a) (op a (op a x y) z) (op a x (op a y z))) :- help/assoc a x y z X1.
+
+help/assoc a x y z (prodcert X1/1 X1/2) :- help/assoc a x y z X1/1 , help/assoc a x y z X1/2.
+
+help/assoc a x y z (idcert X2) :- X2 > 0 , X1 is X2 - 1.
+
+help/assoc a x y z (ptcert (assoc a x y z)).
+
+/* generated from assocR : {a,x,y,z:tm (applyType a)}ded (equal (applyType a) (op a x (op a y z)) (op a (op a x y) z)) */
+
+ded X1 (equal (applyType a) (op a x (op a y z)) (op a (op a x y) z)) :- help/assocR a x y z X1.
+
+help/assocR a x y z (prodcert X1/1 X1/2) :- help/assocR a x y z X1/1 , help/assocR a x y z X1/2.
+
+help/assocR a x y z (idcert X2) :- X2 > 0 , X1 is X2 - 1.
+
+help/assocR a x y z (ptcert (assocR a x y z)).
+
+/* generated from assoc4 : {a,w,x,y,z:tm (applyType a)}ded (equal (applyType a) (op a (op a (op a w x) y) z) (op a w (op a x (op a y z)))) */
+
+ded X1 (equal (applyType a) (op a (op a (op a w x) y) z) (op a w (op a x (op a y z)))) :- help/assoc4 a w x y z X1.
+
+help/assoc4 a w x y z (prodcert X1/1 X1/2) :- help/assoc4 a w x y z X1/1 , help/assoc4 a w x y z X1/2.
+
+help/assoc4 a w x y z (idcert X2) :- X2 > 0 , X1 is X2 - 1.
+
+help/assoc4 a w x y z (ptcert (assoc4 a w x y z)).
+
+/* generated from assoc4R : {a,w,x,y,z:tm (applyType a)}ded (equal (applyType a) (op a w (op a x (op a y z))) (op a (op a (op a w x) y) z)) */
+
+ded X1 (equal (applyType a) (op a w (op a x (op a y z))) (op a (op a (op a w x) y) z)) :- help/assoc4R a w x y z X1.
+
+help/assoc4R a w x y z (prodcert X1/1 X1/2) :- help/assoc4R a w x y z X1/1 , help/assoc4R a w x y z X1/2.
+
+help/assoc4R a w x y z (idcert X2) :- X2 > 0 , X1 is X2 - 1.
+
+help/assoc4R a w x y z (ptcert (assoc4R a w x y z)).
+
+/* generated from assoc5 : {a,v,w,x,y,z:tm (applyType a)}ded (equal (applyType a) (op a (op a (op a (op a v w) x) y) z) (op a v (op a w (op a x (op a y z))))) */
+
+ded X1 (equal (applyType a) (op a (op a (op a (op a v w) x) y) z) (op a v (op a w (op a x (op a y z))))) :- help/assoc5 a v w x y z X1.
+
+help/assoc5 a v w x y z (prodcert X1/1 X1/2) :- help/assoc5 a v w x y z X1/1 , help/assoc5 a v w x y z X1/2.
+
+help/assoc5 a v w x y z (idcert X2) :- X2 > 0 , X1 is X2 - 1.
+
+help/assoc5 a v w x y z (ptcert (assoc5 a v w x y z)).
+

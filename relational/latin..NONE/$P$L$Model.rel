@@ -1,0 +1,4 @@
+theory latin:/?PLModel
+HasMeta latin:/?PLModel http://cds.omdoc.org/urtheories?LF
+Includes latin:/?PLModel latin:/?SFOLEQND
+Includes latin:/?PLModel latin:/?Booleans

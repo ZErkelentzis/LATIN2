@@ -1,0 +1,4 @@
+theory latin:/?EndoBand
+HasMeta latin:/?EndoBand latin:/?TypedEquality
+Includes latin:/?EndoBand latin:/?EndoSemigroup
+Includes latin:/?EndoBand latin:/?EndoIdempotent

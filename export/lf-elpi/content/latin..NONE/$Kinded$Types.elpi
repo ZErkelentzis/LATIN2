@@ -1,13 +1,16 @@
-accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Kinded$Types.omdoc.elpi".
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Kinds".
 
-/* skipping due to error: latin:/?KindedTypes?tf
-not a rule: kd⟶type */
+/* generated from tf : kd⟶type */
 
-/* skipping due to error: latin:/?KindedTypes?tpk
-not a rule: kd */
+/* kind tf kd -> type. */
 
-accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Kinded$Types.omdoc.elpi".
+/* generated from tpk : kd */
 
-/* skipping due to error: latin:/?KindedTypes?[latin:/?Types]/tp
-not a rule: type */
+/* type tpk kd. */
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Types".
+
+/* generated from [Types]/tp : type */
+
+/* kind [Types]/tp type. */
 

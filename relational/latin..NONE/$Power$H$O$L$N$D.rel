@@ -1,0 +1,55 @@
+dataconstructor latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/power
+dataconstructor latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/filter
+dataconstructor latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/in
+dataconstructor latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/compute
+dataconstructor latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/expand
+theory latin:/?PowerHOLND
+HasMeta latin:/?PowerHOLND http://cds.omdoc.org/urtheories?LF
+Includes latin:/?PowerHOLND latin:/?HOLND
+Includes latin:/?PowerHOLND latin:/powertypes?PowerTypes
+Declares latin:/?PowerHOLND latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/power
+constant latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/power
+DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/power?definition latin:/?Types?tp?type
+DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/power?definition latin:/?InternalPropositions?bool?type
+DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/power?definition latin:/?SimpleFunctionTypes?simpfun?type
+Declares latin:/?PowerHOLND latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/filter
+constant latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/filter
+DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/filter?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/filter?definition latin:/?Types?tp?type
+DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/filter?definition latin:/?InternalPropositions?bool?type
+DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/filter?definition latin:/?SimpleFunctions?simplambda?type
+Declares latin:/?PowerHOLND latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/in
+constant latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/in
+DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/in?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/in?definition latin:/?Types?tp?type
+DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/in?definition latin:/?InternalPropositions?bool?type
+DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/in?definition latin:/?SimpleFunctions?simpapply?type
+DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/in?definition latin:/?SimpleFunctionTypes?simpfun?type
+Declares latin:/?PowerHOLND latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/compute
+constant latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/compute
+DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/compute?definition latin:/?HOLND?eq_equiv?type
+DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/compute?definition latin:/?Propositions?prop?definition
+DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/compute?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/compute?definition latin:/?Propositions?prop?type
+DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/compute?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/compute?definition latin:/?Types?tp?type
+DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/compute?definition latin:/?InternalPropositions?bool?type
+DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/compute?definition latin:/?SimpleFunctions?simpapply?type
+DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/compute?definition latin:/?SimpleFunctions?simplambda?type
+DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/compute?definition latin:/?Equivalence?equiv?type
+DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/compute?definition latin:/?SimpleFunctions?simpbeta?type
+DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/compute?definition latin:/?Proofs?ded?type
+Declares latin:/?PowerHOLND latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/expand
+constant latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/expand
+DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/expand?definition latin:/?Propositions?prop?definition
+DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/expand?definition latin:/?TypedEqualityND?sym?type
+DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/expand?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/expand?definition latin:/?Propositions?prop?type
+DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/expand?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/expand?definition latin:/?SimpleFunctionsEta?eta?type
+DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/expand?definition latin:/?Types?tp?type
+DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/expand?definition latin:/?InternalPropositions?bool?type
+DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/expand?definition latin:/?SimpleFunctions?simpapply?type
+DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/expand?definition latin:/?SimpleFunctions?simplambda?type
+DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/expand?definition latin:/?SimpleFunctionTypes?simpfun?type
+DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/expand?definition latin:/?Proofs?ded?type

@@ -1,19 +1,8 @@
-accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Relativized$Existential$Quantification.omdoc.elpi".
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Soft$Typed$Terms".
 
-accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Relativized$Existential$Quantification.omdoc.elpi".
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$F$O$L$E$Q".
 
-/* skipping due to error: latin:/?RelativizedExistentialQuantification?rexists
-not a rule: tp⟶(term⟶prop)⟶prop */
+/* generated from rexists : tp⟶(term⟶prop)⟶prop */
 
-/* generated from rexistsI : {A,F}{x}ded (of x A)⟶ded (F x)⟶ded (rexists A F) */
-
-ded X3 (rexists A F) :- help/rexistsI A F x X1 X2 X3 , ded X1 (of x A) , ded X2 (F x).
-
-help/rexistsI A F x (pair X1/1 X1/2) (pair X2/1 X2/2) (pair X3/1 X3/2) :- help/rexistsI/1 A F x X1/1 X2/1 X3/1 , help/rexistsI/2 A F x X1/2 X2/2 X3/2.
-
-/* generated from rexistsE : {A,F,C}ded (rexists A F)⟶({x}ded (of x A)⟶ded (F x)⟶ded C)⟶ded C */
-
-ded X5 C :- help/rexistsE A F C X1 X4 X5 , ded X1 (rexists A F) , (pi x \ pi x2 \ pi x3 \ ded/hyp x2 (of x A) , ded/hyp x3 (F x) => ded (X4 x x2 x3) C).
-
-help/rexistsE A F C (pair X1/1 X1/2) (x \ x2 \ x3 \ pair (X4/1 x x2 x3) (X4/2 x x2 x3)) (pair X5/1 X5/2) :- help/rexistsE/1 A F C X1/1 X4/1 X5/1 , help/rexistsE/2 A F C X1/2 X4/2 X5/2.
+/* type rexists tp -> term -> prop -> prop. */
 

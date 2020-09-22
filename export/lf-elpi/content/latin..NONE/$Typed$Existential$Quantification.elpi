@@ -1,17 +1,6 @@
-accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Typed$Existential$Quantification.omdoc.elpi".
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Typed$Logic".
 
-/* skipping due to error: latin:/?TypedExistentialQuantification?exists
-not a rule: {A}(tm A⟶prop)⟶prop */
+/* generated from exists : {A}(tm A⟶prop)⟶prop */
 
-/* generated from existsI : {A,P}{x:tm A}ded (P x)⟶ded (exists A P) */
-
-ded X2 (exists A P) :- help/existsI A P x X1 X2 , ded X1 (P x).
-
-help/existsI A P x (pair X1/1 X1/2) (pair X2/1 X2/2) :- help/existsI/1 A P x X1/1 X2/1 , help/existsI/2 A P x X1/2 X2/2.
-
-/* generated from existsE : {A,P,C}ded (exists A P)⟶({x:tm A}ded (P x)⟶ded C)⟶ded C */
-
-ded X4 C :- help/existsE A P C X1 X3 X4 , ded X1 (exists A P) , (pi x \ pi x2 \ ded/hyp x2 (P x) => ded (X3 x x2) C).
-
-help/existsE A P C (pair X1/1 X1/2) (x \ x2 \ pair (X3/1 x x2) (X3/2 x x2)) (pair X4/1 X4/2) :- help/existsE/1 A P C X1/1 X3/1 X4/1 , help/existsE/2 A P C X1/2 X3/2 X4/2.
+/* type exists pi (A \ tm A -> prop -> prop). */
 

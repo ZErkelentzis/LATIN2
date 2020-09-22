@@ -1,0 +1,49 @@
+package latin2.sfol
+
+import info.kwarc.mmt.api._
+import objects._
+import modules._
+import symbols._
+import libraries._
+import frontend._
+
+import info.kwarc.mmt.lf._
+
+import lf._
+
+
+class SFOLTermGenerator(controller: Controller) {
+   import SFOLPatterns._
+   def makeTerms(mp: MPath) {
+     val theory = new SFOLTheoryAdapter(controller, mp)
+     val tps = theory.getTypeSyms
+     tps foreach {case (p,_) =>
+       println("type symbol " + p.name)
+     }
+     val funs = theory.getFunSyms
+     funs foreach {case (p,tp) =>
+       println("function symbol " + p.name)
+       println("type in LF syntax: " + tp)
+       val FuncDecl(ins,out) = tp
+       println("inputs: " + ins.mkString(", "))
+       println("output: " + out)
+     }
+     val lits = theory.getLiterals
+     lits.foreach {case (a,rt) =>
+       println("literals for type: " + a)
+       println("semantic values: " + rt.semType)
+     }
+   }
+}
+
+object SFOLTermGeneratorTest {
+  def main(args: Array[String]) {
+    val controller = Controller.make(true, true, List("MMT/urtheories", "MMT/LATIN2"))
+
+    // val thyS = "latin:/algebraic?Group"
+    val thyS = "latin:/?Nat"
+    val thy = Path.parseM(thyS, controller.getNamespaceMap)
+    val gen = new SFOLTermGenerator(controller)
+    gen.makeTerms(thy)
+  }
+}

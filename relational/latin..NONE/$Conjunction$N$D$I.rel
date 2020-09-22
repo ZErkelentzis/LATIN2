@@ -1,0 +1,10 @@
+dataconstructor latin:/?ConjunctionNDI?andI
+theory latin:/?ConjunctionNDI
+HasMeta latin:/?ConjunctionNDI http://cds.omdoc.org/urtheories?LF
+Includes latin:/?ConjunctionNDI latin:/?Conjunction
+Includes latin:/?ConjunctionNDI latin:/?Proofs
+Declares latin:/?ConjunctionNDI latin:/?ConjunctionNDI?andI
+constant latin:/?ConjunctionNDI?andI
+DependsOn latin:/?ConjunctionNDI?andI?type latin:/?Propositions?prop?type
+DependsOn latin:/?ConjunctionNDI?andI?type latin:/?Conjunction?and?type
+DependsOn latin:/?ConjunctionNDI?andI?type latin:/?Proofs?ded?type

@@ -1,0 +1,68 @@
+
+
+/* generated from forallT : {P,X}marktrue (forall P)⟶(marktrue (P X)⟶⊥)⟶⊥ */
+
+closedbranch X4 :- help/forallT X4 P X X1 X3 , marktrue X1 (forall P) , (pi (x2 \ marktrue/hyp x2 (P X) => closedbranch (X3 x2))).
+
+help/forallT (prodcert X5/1 X5/2) P X (prodcert X2/1 X2/2) (x3 \ prodcert (X4/1 x3) (X4/2 x3)) :- help/forallT X5/1 P X X2/1 X4/1 , help/forallT X5/2 P X X2/2 X4/2.
+
+help/forallT (idcert X4) P X (idcert X2) (x3 \ idcert X2) :- X4 > 0 , X2 is X4 - 1.
+
+help/forallT (ptcert (forallT P X X2 X4)) P X (ptcert X2) (x3 \ ptcert X4).
+
+help/forallT (ucert X2) P X (ucert (prep (marktrue X3 (forall P)) X2)) (x4 \ ucert (prep (marktrue X3 (forall P)) X2)) :- marktrue X3 (forall P) , occatmost (marktrue X3 (forall P)) 4 X2.
+
+help/forallT (hdcert X2) P X (hdcert X2) (x3 \ hdcert X2).
+
+help/forallT (bccert X4) P X (bccert X2) (x3 \ bccert X2) :- bc/pos X4 , X2 is X4 - 1.
+
+/* generated from forallF : {P}markfalse (forall P)⟶({x}markfalse (P x)⟶⊥)⟶⊥ */
+
+closedbranch X4 :- help/forallF X4 P X1 X3 , markfalse X1 (forall P) , (pi (x \ pi (x2 \ markfalse/hyp x2 (P x) => closedbranch (X3 x x2)))).
+
+help/forallF (prodcert X5/1 X5/2) P (prodcert X2/1 X2/2) (x \ x3 \ prodcert (X4/1 x x3) (X4/2 x x3)) :- help/forallF X5/1 P X2/1 X4/1 , help/forallF X5/2 P X2/2 X4/2.
+
+help/forallF (idcert X4) P (idcert X2) (x \ x3 \ idcert X2) :- X4 > 0 , X2 is X4 - 1.
+
+help/forallF (ptcert (forallF P X2 X4)) P (ptcert X2) (x \ x3 \ ptcert X4).
+
+help/forallF (ucert X2) P (ucert (prep (markfalse X3 (forall P)) X2)) (x \ x4 \ ucert (prep (markfalse X3 (forall P)) X2)) :- markfalse X3 (forall P) , occatmost (markfalse X3 (forall P)) 1 X2.
+
+help/forallF (hdcert X2) P (hdcert X2) (x \ x3 \ hdcert X2).
+
+help/forallF (bccert X4) P (bccert X2) (x \ x3 \ bccert X2) :- bc/pos X4 , X2 is X4 - 1.
+
+
+
+/* generated from existsT : {P}marktrue (exists P)⟶({x}marktrue (P x)⟶⊥)⟶⊥ */
+
+closedbranch X4 :- help/existsT X4 P X1 X3 , marktrue X1 (exists P) , (pi (x \ pi (x2 \ marktrue/hyp x2 (P x) => closedbranch (X3 x x2)))).
+
+help/existsT (prodcert X5/1 X5/2) P (prodcert X2/1 X2/2) (x \ x3 \ prodcert (X4/1 x x3) (X4/2 x x3)) :- help/existsT X5/1 P X2/1 X4/1 , help/existsT X5/2 P X2/2 X4/2.
+
+help/existsT (idcert X4) P (idcert X2) (x \ x3 \ idcert X2) :- X4 > 0 , X2 is X4 - 1.
+
+help/existsT (ptcert (existsT P X2 X4)) P (ptcert X2) (x \ x3 \ ptcert X4).
+
+help/existsT (ucert X2) P (ucert (prep (marktrue X3 (exists P)) X2)) (x \ x4 \ ucert (prep (marktrue X3 (exists P)) X2)) :- marktrue X3 (exists P) , occatmost (marktrue X3 (exists P)) 1 X2.
+
+help/existsT (hdcert X2) P (hdcert X2) (x \ x3 \ hdcert X2).
+
+help/existsT (bccert X4) P (bccert X2) (x \ x3 \ bccert X2) :- bc/pos X4 , X2 is X4 - 1.
+
+/* generated from existsF : {P,X}markfalse (exists P)⟶(markfalse (P X)⟶⊥)⟶⊥ */
+
+closedbranch X4 :- help/existsF X4 P X X1 X3 , markfalse X1 (exists P) , (pi (x2 \ markfalse/hyp x2 (P X) => closedbranch (X3 x2))).
+
+help/existsF (prodcert X5/1 X5/2) P X (prodcert X2/1 X2/2) (x3 \ prodcert (X4/1 x3) (X4/2 x3)) :- help/existsF X5/1 P X X2/1 X4/1 , help/existsF X5/2 P X X2/2 X4/2.
+
+help/existsF (idcert X4) P X (idcert X2) (x3 \ idcert X2) :- X4 > 0 , X2 is X4 - 1.
+
+help/existsF (ptcert (existsF P X X2 X4)) P X (ptcert X2) (x3 \ ptcert X4).
+
+help/existsF (ucert X2) P X (ucert (prep (markfalse X3 (exists P)) X2)) (x4 \ ucert (prep (markfalse X3 (exists P)) X2)) :- markfalse X3 (exists P) , occatmost (markfalse X3 (exists P)) 4 X2.
+
+help/existsF (hdcert X2) P X (hdcert X2) (x3 \ hdcert X2).
+
+help/existsF (bccert X4) P X (bccert X2) (x3 \ bccert X2) :- bc/pos X4 , X2 is X4 - 1.
+

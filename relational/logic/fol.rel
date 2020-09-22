@@ -1,0 +1,27 @@
+document latin:/logic/fol.omdoc
+Declares latin:/logic/fol.omdoc latin:/?UniversalQuantification
+Declares latin:/logic/fol.omdoc latin:/?UniversalQuantificationNDI
+Declares latin:/logic/fol.omdoc latin:/?UniversalQuantificationNDE
+Declares latin:/logic/fol.omdoc latin:/?UniversalQuantificationND
+Declares latin:/logic/fol.omdoc latin:/?ExistentialQuantification
+Declares latin:/logic/fol.omdoc latin:/?ExistentialQuantificationNDI
+Declares latin:/logic/fol.omdoc latin:/?ExistentialQuantificationNDE
+Declares latin:/logic/fol.omdoc latin:/?ExistentialQuantificationND
+Declares latin:/logic/fol.omdoc latin:/?IFOL
+Declares latin:/logic/fol.omdoc latin:/?IFOLND
+Declares latin:/logic/fol.omdoc latin:/?IFOLEQ
+Declares latin:/logic/fol.omdoc latin:/?IFOLEQND
+Declares latin:/logic/fol.omdoc latin:/?FOL
+Declares latin:/logic/fol.omdoc latin:/?FOLND
+Declares latin:/logic/fol.omdoc latin:/?FOLEQ
+Declares latin:/logic/fol.omdoc latin:/?FOLEQND
+Declares latin:/logic/fol.omdoc latin:/?RelativizedUniversalQuantification
+Declares latin:/logic/fol.omdoc latin:/?RelativizedUniversalQuantificationND
+Declares latin:/logic/fol.omdoc latin:/?RelativizedExistentialQuantification
+Declares latin:/logic/fol.omdoc latin:/?RelativizedExistentialQuantificationND
+Declares latin:/logic/fol.omdoc latin:/?UniqueExistentialQuantification
+Declares latin:/logic/fol.omdoc latin:/?UniqueExistentialQuantificationND
+Declares latin:/logic/fol.omdoc latin:/?Description
+Declares latin:/logic/fol.omdoc latin:/?Choice
+Declares latin:/logic/fol.omdoc latin:/?FOLEQDesc
+Declares latin:/logic/fol.omdoc latin:/?FOLEQDescND

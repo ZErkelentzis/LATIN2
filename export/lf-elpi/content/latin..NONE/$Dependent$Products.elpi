@@ -1,0 +1,21 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Dependent$Product$Types".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Typed$Equality".
+
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Transport".
+
+/* generated from deppair : {A,B,a:tm A}tm (B a)⟶tm (depprod A B) */
+
+/* type deppair pi A \ pi B \ pi a \ tm (B a) -> tm (depprod A B). */
+
+/* generated from deppi1 : {A,B:tm A⟶tp}tm (depprod A B)⟶tm A */
+
+/* type deppi1 pi A \ pi B \ tm (depprod A B) -> tm A. */
+
+/* generated from deppi2 : {A,B,u:tm (depprod A [x:tm A]B x)}tm (B (deppi1 A ([x:tm A]B x) u)) */
+
+/* type deppi2 pi A \ pi B \ pi u \ tm (B (deppi1 A (x \ B x) u)). */
+
+/* skipping due to error: latin:/?DependentProducts?compute1
+unknown term: (http://cds.omdoc.org/urtheories?Typed?typeAttribution (http://cds.omdoc.org/urtheories?LambdaPi?apply latin:/?DependentProducts?deppair A B a b) (http://cds.omdoc.org/urtheories?LambdaPi?apply latin:/?TypedTerms?tm (http://cds.omdoc.org/urtheories?LambdaPi?apply latin:/?DependentProductTypes?depprod A B))) */
+

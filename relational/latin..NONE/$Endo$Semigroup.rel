@@ -1,0 +1,92 @@
+dataconstructor latin:/?EndoSemigroup?assoc
+dataconstructor latin:/?EndoSemigroup?assocR
+dataconstructor latin:/?EndoSemigroup?assoc4
+dataconstructor latin:/?EndoSemigroup?assoc4R
+dataconstructor latin:/?EndoSemigroup?assoc5
+theory latin:/?EndoSemigroup
+HasMeta latin:/?EndoSemigroup latin:/?TypedEquality
+Includes latin:/?EndoSemigroup latin:/?EndoMagma
+Declares latin:/?EndoSemigroup latin:/?EndoSemigroup?assoc
+constant latin:/?EndoSemigroup?assoc
+DependsOn latin:/?EndoSemigroup?assoc?type latin:/?EndoMagma?op?type
+DependsOn latin:/?EndoSemigroup?assoc?type latin:/?TypeOperator?applyType?type
+DependsOn latin:/?EndoSemigroup?assoc?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?EndoSemigroup?assoc?type latin:/?Propositions?prop?type
+DependsOn latin:/?EndoSemigroup?assoc?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?EndoSemigroup?assoc?type latin:/?Types?tp?type
+DependsOn latin:/?EndoSemigroup?assoc?type latin:/?Proofs?ded?type
+Declares latin:/?EndoSemigroup latin:/?EndoSemigroup?assocR
+constant latin:/?EndoSemigroup?assocR
+DependsOn latin:/?EndoSemigroup?assocR?type latin:/?EndoMagma?op?type
+DependsOn latin:/?EndoSemigroup?assocR?type latin:/?TypeOperator?applyType?type
+DependsOn latin:/?EndoSemigroup?assocR?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?EndoSemigroup?assocR?type latin:/?Propositions?prop?type
+DependsOn latin:/?EndoSemigroup?assocR?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?EndoSemigroup?assocR?type latin:/?Types?tp?type
+DependsOn latin:/?EndoSemigroup?assocR?type latin:/?Proofs?ded?type
+DependsOn latin:/?EndoSemigroup?assocR?definition latin:/?TypedEqualityND?sym?type
+DependsOn latin:/?EndoSemigroup?assocR?definition latin:/?EndoMagma?op?type
+DependsOn latin:/?EndoSemigroup?assocR?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?EndoSemigroup?assocR?definition latin:/?TypeOperator?applyType?type
+DependsOn latin:/?EndoSemigroup?assocR?definition latin:/?Propositions?prop?type
+DependsOn latin:/?EndoSemigroup?assocR?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/?EndoSemigroup?assocR?definition latin:/?EndoSemigroup?assoc?type
+DependsOn latin:/?EndoSemigroup?assocR?definition latin:/?Types?tp?type
+DependsOn latin:/?EndoSemigroup?assocR?definition latin:/?Proofs?ded?type
+Declares latin:/?EndoSemigroup latin:/?EndoSemigroup?assoc4
+constant latin:/?EndoSemigroup?assoc4
+DependsOn latin:/?EndoSemigroup?assoc4?type latin:/?EndoMagma?op?type
+DependsOn latin:/?EndoSemigroup?assoc4?type latin:/?TypeOperator?applyType?type
+DependsOn latin:/?EndoSemigroup?assoc4?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?EndoSemigroup?assoc4?type latin:/?Propositions?prop?type
+DependsOn latin:/?EndoSemigroup?assoc4?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?EndoSemigroup?assoc4?type latin:/?Types?tp?type
+DependsOn latin:/?EndoSemigroup?assoc4?type latin:/?Proofs?ded?type
+DependsOn latin:/?EndoSemigroup?assoc4?definition latin:/?TypedEqualityND?trans3?type
+DependsOn latin:/?EndoSemigroup?assoc4?definition latin:/?EndoMagma?op?type
+DependsOn latin:/?EndoSemigroup?assoc4?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?EndoSemigroup?assoc4?definition latin:/?TypeOperator?applyType?type
+DependsOn latin:/?EndoSemigroup?assoc4?definition latin:/?Propositions?prop?type
+DependsOn latin:/?EndoSemigroup?assoc4?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/?EndoSemigroup?assoc4?definition latin:/?TypedEqualityND?congT?type
+DependsOn latin:/?EndoSemigroup?assoc4?definition latin:/?EndoSemigroup?assoc?type
+DependsOn latin:/?EndoSemigroup?assoc4?definition latin:/?Types?tp?type
+DependsOn latin:/?EndoSemigroup?assoc4?definition latin:/?Proofs?ded?type
+Declares latin:/?EndoSemigroup latin:/?EndoSemigroup?assoc4R
+constant latin:/?EndoSemigroup?assoc4R
+DependsOn latin:/?EndoSemigroup?assoc4R?type latin:/?EndoMagma?op?type
+DependsOn latin:/?EndoSemigroup?assoc4R?type latin:/?TypeOperator?applyType?type
+DependsOn latin:/?EndoSemigroup?assoc4R?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?EndoSemigroup?assoc4R?type latin:/?Propositions?prop?type
+DependsOn latin:/?EndoSemigroup?assoc4R?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?EndoSemigroup?assoc4R?type latin:/?Types?tp?type
+DependsOn latin:/?EndoSemigroup?assoc4R?type latin:/?Proofs?ded?type
+DependsOn latin:/?EndoSemigroup?assoc4R?definition latin:/?TypedEqualityND?sym?type
+DependsOn latin:/?EndoSemigroup?assoc4R?definition latin:/?EndoMagma?op?type
+DependsOn latin:/?EndoSemigroup?assoc4R?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?EndoSemigroup?assoc4R?definition latin:/?TypeOperator?applyType?type
+DependsOn latin:/?EndoSemigroup?assoc4R?definition latin:/?Propositions?prop?type
+DependsOn latin:/?EndoSemigroup?assoc4R?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/?EndoSemigroup?assoc4R?definition latin:/?Types?tp?type
+DependsOn latin:/?EndoSemigroup?assoc4R?definition latin:/?EndoSemigroup?assoc4?type
+DependsOn latin:/?EndoSemigroup?assoc4R?definition latin:/?Proofs?ded?type
+Declares latin:/?EndoSemigroup latin:/?EndoSemigroup?assoc5
+constant latin:/?EndoSemigroup?assoc5
+DependsOn latin:/?EndoSemigroup?assoc5?type latin:/?EndoMagma?op?type
+DependsOn latin:/?EndoSemigroup?assoc5?type latin:/?TypeOperator?applyType?type
+DependsOn latin:/?EndoSemigroup?assoc5?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?EndoSemigroup?assoc5?type latin:/?Propositions?prop?type
+DependsOn latin:/?EndoSemigroup?assoc5?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?EndoSemigroup?assoc5?type latin:/?Types?tp?type
+DependsOn latin:/?EndoSemigroup?assoc5?type latin:/?Proofs?ded?type
+DependsOn latin:/?EndoSemigroup?assoc5?definition latin:/?EndoMagma?op?type
+DependsOn latin:/?EndoSemigroup?assoc5?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?EndoSemigroup?assoc5?definition latin:/?TypeOperator?applyType?type
+DependsOn latin:/?EndoSemigroup?assoc5?definition latin:/?Propositions?prop?type
+DependsOn latin:/?EndoSemigroup?assoc5?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/?EndoSemigroup?assoc5?definition latin:/?TypedEqualityND?congT?type
+DependsOn latin:/?EndoSemigroup?assoc5?definition latin:/?EndoSemigroup?assoc?type
+DependsOn latin:/?EndoSemigroup?assoc5?definition latin:/?Types?tp?type
+DependsOn latin:/?EndoSemigroup?assoc5?definition latin:/?EndoSemigroup?assoc4?type
+DependsOn latin:/?EndoSemigroup?assoc5?definition latin:/?TypedEqualityND?trans4?type
+DependsOn latin:/?EndoSemigroup?assoc5?definition latin:/?Proofs?ded?type

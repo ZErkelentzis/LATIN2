@@ -1,0 +1,20 @@
+dataconstructor latin:/?NegationTab?negationTab0
+dataconstructor latin:/?NegationTab?negationTab1
+theory latin:/?NegationTab
+HasMeta latin:/?NegationTab http://cds.omdoc.org/urtheories?LF
+Includes latin:/?NegationTab latin:/?Negation
+Includes latin:/?NegationTab latin:/?Tableaux
+Declares latin:/?NegationTab latin:/?NegationTab?negationTab0
+constant latin:/?NegationTab?negationTab0
+DependsOn latin:/?NegationTab?negationTab0?type latin:/?Propositions?prop?type
+DependsOn latin:/?NegationTab?negationTab0?type latin:/?Tableaux?markfalse?type
+DependsOn latin:/?NegationTab?negationTab0?type latin:/?Negation?not?type
+DependsOn latin:/?NegationTab?negationTab0?type latin:/?Tableaux?closedbranch?type
+DependsOn latin:/?NegationTab?negationTab0?type latin:/?Tableaux?marktrue?type
+Declares latin:/?NegationTab latin:/?NegationTab?negationTab1
+constant latin:/?NegationTab?negationTab1
+DependsOn latin:/?NegationTab?negationTab1?type latin:/?Propositions?prop?type
+DependsOn latin:/?NegationTab?negationTab1?type latin:/?Tableaux?markfalse?type
+DependsOn latin:/?NegationTab?negationTab1?type latin:/?Negation?not?type
+DependsOn latin:/?NegationTab?negationTab1?type latin:/?Tableaux?closedbranch?type
+DependsOn latin:/?NegationTab?negationTab1?type latin:/?Tableaux?marktrue?type

@@ -1,0 +1,34 @@
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Implication$N$D$E".
+
+/* generated from K_ax : {F,G}ded (impl F (impl G F)) */
+
+ded X1 (impl F (impl G F)) :- help/K_ax X1 F G.
+
+help/K_ax (prodcert X2/1 X2/2) F G :- help/K_ax X2/1 F G , help/K_ax X2/2 F G.
+
+help/K_ax (idcert X3) F G :- X3 > 0 , X2 is X3 - 1.
+
+help/K_ax (ptcert (K_ax F G)) F G.
+
+/* Can't create helper for ucert: no hypotheses found */
+
+help/K_ax (hdcert X2) F G.
+
+help/K_ax (bccert X3) F G :- bc/pos X3 , X2 is X3 - 1.
+
+/* generated from S_ax : {F,G,H}ded (impl (impl F (impl G H)) (impl (impl F G) (impl F H))) */
+
+ded X1 (impl (impl F (impl G H)) (impl (impl F G) (impl F H))) :- help/S_ax X1 F G H.
+
+help/S_ax (prodcert X2/1 X2/2) F G H :- help/S_ax X2/1 F G H , help/S_ax X2/2 F G H.
+
+help/S_ax (idcert X3) F G H :- X3 > 0 , X2 is X3 - 1.
+
+help/S_ax (ptcert (S_ax F G H)) F G H.
+
+/* Can't create helper for ucert: no hypotheses found */
+
+help/S_ax (hdcert X2) F G H.
+
+help/S_ax (bccert X3) F G H :- bc/pos X3 , X2 is X3 - 1.
+

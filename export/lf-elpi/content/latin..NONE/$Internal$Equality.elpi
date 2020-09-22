@@ -1,9 +1,10 @@
-accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Internal$Equality.omdoc.elpi".
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Internal$Logic".
 
-accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Internal$Equality.omdoc.elpi".
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Typed$Equality".
 
-accumulate "C:\other\oaff\MMT\LATIN2\export\lf-elpi\content\latin..NONE\$Internal$Equality.omdoc.elpi".
+accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Simple$Functions".
 
-/* skipping due to error: latin:/?InternalEquality?equalConstant
-not a rule: {A}tm (simpfun A (simpfun A bool)) */
+/* generated from equalConstant : {A}tm (simpfun A (simpfun A bool)) */
+
+/* type equalConstant pi (A \ tm (simpfun A (simpfun A bool))). */
 

@@ -1,0 +1,11 @@
+datatypeconstructor latin:/?SetFOL?set
+theory latin:/?SetFOL
+HasMeta latin:/?SetFOL http://cds.omdoc.org/urtheories?LF
+Includes latin:/?SetFOL latin:/?FOLEQND
+Declares latin:/?SetFOL latin:/?SetFOL?set
+constant latin:/?SetFOL?set
+DependsOn latin:/?SetFOL?set?definition latin:/?Terms?term?type
+Includes latin:/?SetFOL latin:/?InternalTypes
+Includes latin:/?SetFOL latin:/?Description
+Includes latin:/?SetFOL latin:/?RelativizedUniversalQuantificationND
+Includes latin:/?SetFOL latin:/?RelativizedExistentialQuantificationND
