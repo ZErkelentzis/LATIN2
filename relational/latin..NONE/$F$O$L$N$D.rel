@@ -1,0 +1,5 @@
+theory latin:/?FOLND
+HasMeta latin:/?FOLND http://cds.omdoc.org/urtheories?LF
+Includes latin:/?FOLND latin:/?FOL
+Includes latin:/?FOLND latin:/?PLND
+Includes latin:/?FOLND latin:/?IFOLND

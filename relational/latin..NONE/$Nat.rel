@@ -1,0 +1,27 @@
+dataconstructor latin:/?Nat?nat
+datatypeconstructor latin:/?Nat?Nat
+dataconstructor latin:/?Nat?zero
+dataconstructor latin:/?Nat?succ
+theory latin:/?Nat
+HasMeta latin:/?Nat latin:/?SFOLEQND
+Declares latin:/?Nat latin:/?Nat?nat
+constant latin:/?Nat?nat
+DependsOn latin:/?Nat?nat?type latin:/?Types?tp?type
+Declares latin:/?Nat latin:/?Nat?Nat
+constant latin:/?Nat?Nat
+DependsOn latin:/?Nat?Nat?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?Nat?Nat?definition latin:/?Nat?nat?type
+DependsOn latin:/?Nat?Nat?definition latin:/?Types?tp?type
+Declares latin:/?Nat latin:/?Nat?zero
+constant latin:/?Nat?zero
+DependsOn latin:/?Nat?zero?type latin:/?Nat?Nat?definition
+DependsOn latin:/?Nat?zero?type latin:/?Nat?Nat?type
+Declares latin:/?Nat latin:/?Nat?succ
+constant latin:/?Nat?succ
+DependsOn latin:/?Nat?succ?type latin:/?Nat?Nat?type
+Declares latin:/?Nat latin:/?Nat?[scala://lf.mmt.kwarc.info?Realize]/1957424794
+constant latin:/?Nat?[scala://lf.mmt.kwarc.info?Realize]/1957424794
+Declares latin:/?Nat latin:/?Nat?[scala://lf.mmt.kwarc.info?Realize]/-1776453399
+constant latin:/?Nat?[scala://lf.mmt.kwarc.info?Realize]/-1776453399
+Declares latin:/?Nat latin:/?Nat?[scala://lf.mmt.kwarc.info?Realize]/-19206324
+constant latin:/?Nat?[scala://lf.mmt.kwarc.info?Realize]/-19206324

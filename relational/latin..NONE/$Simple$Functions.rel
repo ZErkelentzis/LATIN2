@@ -1,0 +1,48 @@
+dataconstructor latin:/?SimpleFunctions?simplambda
+dataconstructor latin:/?SimpleFunctions?simpapply
+dataconstructor latin:/?SimpleFunctions?simpbeta
+dataconstructor latin:/?SimpleFunctions?apply1
+dataconstructor latin:/?SimpleFunctions?applyTo
+theory latin:/?SimpleFunctions
+HasMeta latin:/?SimpleFunctions http://cds.omdoc.org/urtheories?LF
+Includes latin:/?SimpleFunctions latin:/?SimpleFunctionTypes
+Includes latin:/?SimpleFunctions latin:/?TypedEquality
+Declares latin:/?SimpleFunctions latin:/?SimpleFunctions?simplambda
+constant latin:/?SimpleFunctions?simplambda
+DependsOn latin:/?SimpleFunctions?simplambda?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?SimpleFunctions?simplambda?type latin:/?Types?tp?type
+DependsOn latin:/?SimpleFunctions?simplambda?type latin:/?SimpleFunctionTypes?simpfun?type
+Declares latin:/?SimpleFunctions latin:/?SimpleFunctions?simpapply
+constant latin:/?SimpleFunctions?simpapply
+DependsOn latin:/?SimpleFunctions?simpapply?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?SimpleFunctions?simpapply?type latin:/?Types?tp?type
+DependsOn latin:/?SimpleFunctions?simpapply?type latin:/?SimpleFunctionTypes?simpfun?type
+Declares latin:/?SimpleFunctions latin:/?SimpleFunctions?simpbeta
+constant latin:/?SimpleFunctions?simpbeta
+DependsOn latin:/?SimpleFunctions?simpbeta?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?SimpleFunctions?simpbeta?type latin:/?Propositions?prop?type
+DependsOn latin:/?SimpleFunctions?simpbeta?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?SimpleFunctions?simpbeta?type latin:/?Types?tp?type
+DependsOn latin:/?SimpleFunctions?simpbeta?type latin:/?SimpleFunctions?simpapply?type
+DependsOn latin:/?SimpleFunctions?simpbeta?type latin:/?SimpleFunctionTypes?simpfun?type
+DependsOn latin:/?SimpleFunctions?simpbeta?type latin:/?SimpleFunctions?simplambda?type
+DependsOn latin:/?SimpleFunctions?simpbeta?type latin:/?Proofs?ded?type
+Declares latin:/?SimpleFunctions latin:/?SimpleFunctions?apply1
+constant latin:/?SimpleFunctions?apply1
+DependsOn latin:/?SimpleFunctions?apply1?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?SimpleFunctions?apply1?type latin:/?Types?tp?type
+DependsOn latin:/?SimpleFunctions?apply1?type latin:/?SimpleFunctionTypes?simpfun?type
+DependsOn latin:/?SimpleFunctions?apply1?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?SimpleFunctions?apply1?definition latin:/?Types?tp?type
+DependsOn latin:/?SimpleFunctions?apply1?definition latin:/?SimpleFunctions?simpapply?type
+DependsOn latin:/?SimpleFunctions?apply1?definition latin:/?SimpleFunctionTypes?simpfun?type
+Declares latin:/?SimpleFunctions latin:/?SimpleFunctions?applyTo
+constant latin:/?SimpleFunctions?applyTo
+DependsOn latin:/?SimpleFunctions?applyTo?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?SimpleFunctions?applyTo?type latin:/?Types?tp?type
+DependsOn latin:/?SimpleFunctions?applyTo?type latin:/?SimpleFunctionTypes?simpfun?type
+DependsOn latin:/?SimpleFunctions?applyTo?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?SimpleFunctions?applyTo?definition latin:/?Types?tp?type
+DependsOn latin:/?SimpleFunctions?applyTo?definition latin:/?SimpleFunctions?simpapply?type
+DependsOn latin:/?SimpleFunctions?applyTo?definition latin:/?SimpleFunctionTypes?simpfun?type
+DependsOn latin:/?SimpleFunctions?applyTo?definition latin:/?SimpleFunctions?simplambda?type

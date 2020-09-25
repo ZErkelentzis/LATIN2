@@ -1,0 +1,5 @@
+datatypeconstructor latin:/?Kinds?kd
+theory latin:/?Kinds
+HasMeta latin:/?Kinds http://cds.omdoc.org/urtheories?LF
+Declares latin:/?Kinds latin:/?Kinds?kd
+constant latin:/?Kinds?kd

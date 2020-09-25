@@ -6,9 +6,8 @@ import modules._
 import symbols._
 import libraries._
 import frontend._
-
+import info.kwarc.mmt.api.uom.RealizedType
 import info.kwarc.mmt.lf._
-
 import lf._
 
 object CommonSymbols {
@@ -84,8 +83,9 @@ object SFOLPatterns {
 
 class SFOLTheoryAdapter(controller: Controller, path: MPath) {
   import SFOLPatterns._
+  private val lup = controller.globalLookup
   private lazy val init = {
-    val theory = controller.globalLookup.getAs(classOf[Theory], path)
+    val theory = lup.getAs(classOf[Theory], path)
     controller.simplifier(theory)
     val constants = Theory.primitiveConstants(path, controller.globalLookup)
     println(constants)
@@ -96,6 +96,8 @@ class SFOLTheoryAdapter(controller: Controller, path: MPath) {
   }
   lazy val theory: Theory = init._1
   lazy val constants: List[(GlobalName,Term)] = init._2.toList
+
+  // TODO FR: extend to PSFOL (so that CC can use collection types)
 
   def getTypeSyms = constants filter {case (p,tp) =>
     tp match {
@@ -113,6 +115,18 @@ class SFOLTheoryAdapter(controller: Controller, path: MPath) {
     tp match {
       case PredDecl(_) => true
       case _ => false
+    }
+  }
+  def getLiterals = {
+    val rules = RuleSet.collectRules(controller, Context(path))
+    val primitive = constants.map(_._1)
+    rules.get(classOf[RealizedType]) flatMap {rt =>
+      val st = lup.ExpandDefinitions(rt.synType, p => !primitive.contains(p))
+      st match {
+        case TypedTerms.tm(a) =>
+          List((a, rt))
+        case _ => Nil
+      }
     }
   }
 }

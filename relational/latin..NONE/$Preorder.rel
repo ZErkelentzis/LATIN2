@@ -1,0 +1,4 @@
+theory latin:/?Preorder
+HasMeta latin:/?Preorder http://cds.omdoc.org/urtheories?PLF
+Includes latin:/?Preorder latin:/?Reflexivity
+Includes latin:/?Preorder latin:/?Transitivity

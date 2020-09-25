@@ -1,0 +1,11 @@
+theory latin:/powertypes?Lattice
+HasMeta latin:/powertypes?Lattice http://cds.omdoc.org/urtheories?LF
+Includes latin:/powertypes?Lattice latin:/powertypes?Extensionality
+Includes latin:/powertypes?Lattice latin:/powertypes?Subset
+Includes latin:/powertypes?Lattice latin:/powertypes?FullSet
+Includes latin:/powertypes?Lattice latin:/powertypes?EmptySet
+Includes latin:/powertypes?Lattice latin:/powertypes?Complement
+Includes latin:/powertypes?Lattice latin:/powertypes?Intersection
+Includes latin:/powertypes?Lattice latin:/powertypes?Union
+Includes latin:/powertypes?Lattice latin:/powertypes?BigIntersection
+Includes latin:/powertypes?Lattice latin:/powertypes?BigUnion

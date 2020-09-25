@@ -1,0 +1,24 @@
+dataconstructor latin:/?BigUnion?bigunion
+dataconstructor latin:/?BigUnion?bigunionI
+dataconstructor latin:/?BigUnion?bigunionE
+theory latin:/?BigUnion
+HasMeta latin:/?BigUnion latin:/?SetFOL
+Declares latin:/?BigUnion latin:/?BigUnion?bigunion
+constant latin:/?BigUnion?bigunion
+DependsOn latin:/?BigUnion?bigunion?type latin:/?SetFOL?set?type
+Declares latin:/?BigUnion latin:/?BigUnion?bigunionI
+constant latin:/?BigUnion?bigunionI
+DependsOn latin:/?BigUnion?bigunionI?type latin:/?Proofs?ded?type
+DependsOn latin:/?BigUnion?bigunionI?type latin:/?Propositions?prop?type
+DependsOn latin:/?BigUnion?bigunionI?type latin:/?SetFOL?set?type
+DependsOn latin:/?BigUnion?bigunionI?type latin:/?Terms?term?type
+DependsOn latin:/?BigUnion?bigunionI?type latin:/?InternalTypes?in?type
+DependsOn latin:/?BigUnion?bigunionI?type latin:/?BigUnion?bigunion?type
+Declares latin:/?BigUnion latin:/?BigUnion?bigunionE
+constant latin:/?BigUnion?bigunionE
+DependsOn latin:/?BigUnion?bigunionE?type latin:/?BigUnion?bigunion?type
+DependsOn latin:/?BigUnion?bigunionE?type latin:/?Propositions?prop?type
+DependsOn latin:/?BigUnion?bigunionE?type latin:/?SetFOL?set?type
+DependsOn latin:/?BigUnion?bigunionE?type latin:/?Terms?term?type
+DependsOn latin:/?BigUnion?bigunionE?type latin:/?InternalTypes?in?type
+DependsOn latin:/?BigUnion?bigunionE?type latin:/?Proofs?ded?type

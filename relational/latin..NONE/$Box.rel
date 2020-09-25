@@ -1,0 +1,7 @@
+dataconstructor latin:/?Box?box
+theory latin:/?Box
+HasMeta latin:/?Box http://cds.omdoc.org/urtheories?LF
+Includes latin:/?Box latin:/?Logic
+Declares latin:/?Box latin:/?Box?box
+constant latin:/?Box?box
+DependsOn latin:/?Box?box?type latin:/?Propositions?prop?type

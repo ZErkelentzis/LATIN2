@@ -1,0 +1,6 @@
+theory latin:/?IHOLND
+HasMeta latin:/?IHOLND http://cds.omdoc.org/urtheories?LF
+Includes latin:/?IHOLND latin:/?InternalEquality
+Includes latin:/?IHOLND latin:/?TypedEqualityND
+Includes latin:/?IHOLND latin:/?ISFOLND
+Includes latin:/?IHOLND latin:/?PropositionalExtensionality

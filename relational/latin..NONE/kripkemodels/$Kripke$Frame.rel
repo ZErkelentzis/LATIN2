@@ -1,0 +1,10 @@
+dataconstructor latin:/kripkemodels?KripkeFrame?accessible
+theory latin:/kripkemodels?KripkeFrame
+HasMeta latin:/kripkemodels?KripkeFrame latin:/?TypedLogic
+Includes latin:/kripkemodels?KripkeFrame latin:/kripkemodels?Worlds
+Declares latin:/kripkemodels?KripkeFrame latin:/kripkemodels?KripkeFrame?accessible
+constant latin:/kripkemodels?KripkeFrame?accessible
+DependsOn latin:/kripkemodels?KripkeFrame?accessible?type latin:/kripkemodels?Worlds?world?type
+DependsOn latin:/kripkemodels?KripkeFrame?accessible?type latin:/?Propositions?prop?type
+DependsOn latin:/kripkemodels?KripkeFrame?accessible?type latin:/?TypedTerms?tm?type
+DependsOn latin:/kripkemodels?KripkeFrame?accessible?type latin:/?Types?tp?type

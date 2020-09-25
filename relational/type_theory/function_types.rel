@@ -1,0 +1,15 @@
+document latin:/type_theory/function_types.omdoc
+Declares latin:/type_theory/function_types.omdoc latin:/?SimpleFunctionTypes
+Declares latin:/type_theory/function_types.omdoc latin:/?DependentFunctionTypes
+Declares latin:/type_theory/function_types.omdoc latin:/?SoftDependentFunctionTypes
+Declares latin:/type_theory/function_types.omdoc latin:/?SimpleFunctions
+Declares latin:/type_theory/function_types.omdoc latin:/?DependentFunctions
+Declares latin:/type_theory/function_types.omdoc latin:/?SoftTypedFunctions
+Declares latin:/type_theory/function_types.omdoc latin:/?SoftTypedSimpleFunctions
+Declares latin:/type_theory/function_types.omdoc latin:/?SoftTypedDependentFunctions
+Declares latin:/type_theory/function_types.omdoc latin:/?SimpleFunctionsEta
+Declares latin:/type_theory/function_types.omdoc latin:/?DependentFunctionsEta
+Declares latin:/type_theory/function_types.omdoc latin:/?SoftTypedFunctionsEta
+Declares latin:/type_theory/function_types.omdoc latin:/?SimpleFunctionsExtensionality
+Declares latin:/type_theory/function_types.omdoc latin:/?DependentFunctionsExtensionality
+Declares latin:/type_theory/function_types.omdoc latin:/?SofttypedFunctionsExtensionality

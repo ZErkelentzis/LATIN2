@@ -1,0 +1,11 @@
+dataconstructor latin:/?ImplNegConj?[latin:/?Implication]/impl
+HasDomain latin:/?ImplNegConj latin:/?Implication
+HasCodomain latin:/?ImplNegConj latin:/?NegationConjunction
+view latin:/?ImplNegConj
+HasViewFrom latin:/?NegationConjunction latin:/?Implication
+Includes latin:/?ImplNegConj latin:/?Propositions
+Declares latin:/?ImplNegConj latin:/?ImplNegConj?[latin:/?Implication]/impl
+constant latin:/?ImplNegConj?[latin:/?Implication]/impl
+DependsOn latin:/?ImplNegConj?[latin:/?Implication]/impl?definition latin:/?Propositions?prop?type
+DependsOn latin:/?ImplNegConj?[latin:/?Implication]/impl?definition latin:/?Conjunction?and?type
+DependsOn latin:/?ImplNegConj?[latin:/?Implication]/impl?definition latin:/?Negation?not?type

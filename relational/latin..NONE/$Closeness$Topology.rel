@@ -1,0 +1,26 @@
+dataconstructor latin:/?ClosenessTopology?empty_union
+dataconstructor latin:/?ClosenessTopology?finite_union
+theory latin:/?ClosenessTopology
+HasMeta latin:/?ClosenessTopology latin:/powertypes?PowerSFOL
+Includes latin:/?ClosenessTopology latin:/?Closeness
+Declares latin:/?ClosenessTopology latin:/?ClosenessTopology?empty_union
+constant latin:/?ClosenessTopology?empty_union
+DependsOn latin:/?ClosenessTopology?empty_union?type latin:/?Closeness?close?type
+DependsOn latin:/?ClosenessTopology?empty_union?type latin:/powertypes?EmptySet?empty?type
+DependsOn latin:/?ClosenessTopology?empty_union?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?ClosenessTopology?empty_union?type latin:/?Propositions?prop?type
+DependsOn latin:/?ClosenessTopology?empty_union?type latin:/?Closeness?X?type
+DependsOn latin:/?ClosenessTopology?empty_union?type latin:/?Negation?not?type
+DependsOn latin:/?ClosenessTopology?empty_union?type latin:/?Types?tp?type
+DependsOn latin:/?ClosenessTopology?empty_union?type latin:/?Proofs?ded?type
+Declares latin:/?ClosenessTopology latin:/?ClosenessTopology?finite_union
+constant latin:/?ClosenessTopology?finite_union
+DependsOn latin:/?ClosenessTopology?finite_union?type latin:/?Closeness?close?type
+DependsOn latin:/?ClosenessTopology?finite_union?type latin:/powertypes?Union?union?type
+DependsOn latin:/?ClosenessTopology?finite_union?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?ClosenessTopology?finite_union?type latin:/?Propositions?prop?type
+DependsOn latin:/?ClosenessTopology?finite_union?type latin:/powertypes?PowerTypes?power?type
+DependsOn latin:/?ClosenessTopology?finite_union?type latin:/?Closeness?X?type
+DependsOn latin:/?ClosenessTopology?finite_union?type latin:/?Disjunction?or?type
+DependsOn latin:/?ClosenessTopology?finite_union?type latin:/?Types?tp?type
+DependsOn latin:/?ClosenessTopology?finite_union?type latin:/?Proofs?ded?type

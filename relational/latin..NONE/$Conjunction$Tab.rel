@@ -1,0 +1,18 @@
+dataconstructor latin:/?ConjunctionTab?conjunctionTab0
+dataconstructor latin:/?ConjunctionTab?conjunctionTab1
+theory latin:/?ConjunctionTab
+HasMeta latin:/?ConjunctionTab http://cds.omdoc.org/urtheories?LF
+Includes latin:/?ConjunctionTab latin:/?Conjunction
+Includes latin:/?ConjunctionTab latin:/?Tableaux
+Declares latin:/?ConjunctionTab latin:/?ConjunctionTab?conjunctionTab0
+constant latin:/?ConjunctionTab?conjunctionTab0
+DependsOn latin:/?ConjunctionTab?conjunctionTab0?type latin:/?Propositions?prop?type
+DependsOn latin:/?ConjunctionTab?conjunctionTab0?type latin:/?Tableaux?markfalse?type
+DependsOn latin:/?ConjunctionTab?conjunctionTab0?type latin:/?Conjunction?and?type
+DependsOn latin:/?ConjunctionTab?conjunctionTab0?type latin:/?Tableaux?closedbranch?type
+Declares latin:/?ConjunctionTab latin:/?ConjunctionTab?conjunctionTab1
+constant latin:/?ConjunctionTab?conjunctionTab1
+DependsOn latin:/?ConjunctionTab?conjunctionTab1?type latin:/?Propositions?prop?type
+DependsOn latin:/?ConjunctionTab?conjunctionTab1?type latin:/?Conjunction?and?type
+DependsOn latin:/?ConjunctionTab?conjunctionTab1?type latin:/?Tableaux?closedbranch?type
+DependsOn latin:/?ConjunctionTab?conjunctionTab1?type latin:/?Tableaux?marktrue?type

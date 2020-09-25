@@ -1,0 +1,10 @@
+theory latin:/?IPL
+HasMeta latin:/?IPL http://cds.omdoc.org/urtheories?LF
+Includes latin:/?IPL latin:/?Propositions
+Includes latin:/?IPL latin:/?Truth
+Includes latin:/?IPL latin:/?Falsity
+Includes latin:/?IPL latin:/?Negation
+Includes latin:/?IPL latin:/?Conjunction
+Includes latin:/?IPL latin:/?Disjunction
+Includes latin:/?IPL latin:/?Implication
+Includes latin:/?IPL latin:/?Equivalence

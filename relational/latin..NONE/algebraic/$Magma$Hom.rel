@@ -1,0 +1,117 @@
+dataconstructor latin:/algebraic?MagmaHom?domain/[latin:/algebraic?Set]/universe
+datatypeconstructor latin:/algebraic?MagmaHom?domain/[latin:/algebraic?Set]/U
+dataconstructor latin:/algebraic?MagmaHom?domain/op
+dataconstructor latin:/algebraic?MagmaHom?domain/divisibility/[latin:/algebraic?Set]/universe
+datatypeconstructor latin:/algebraic?MagmaHom?domain/divisibility/[latin:/algebraic?Set]/U
+dataconstructor latin:/algebraic?MagmaHom?domain/divisibility/rel
+datatypeconstructor latin:/algebraic?MagmaHom?domain/divisibility/metarel/[latin:/?OneTyped]/carrier
+judgementconstructor latin:/algebraic?MagmaHom?domain/divisibility/metarel/rel
+dataconstructor latin:/algebraic?MagmaHom?codomain/[latin:/algebraic?Set]/universe
+datatypeconstructor latin:/algebraic?MagmaHom?codomain/[latin:/algebraic?Set]/U
+dataconstructor latin:/algebraic?MagmaHom?codomain/op
+dataconstructor latin:/algebraic?MagmaHom?codomain/divisibility/[latin:/algebraic?Set]/universe
+datatypeconstructor latin:/algebraic?MagmaHom?codomain/divisibility/[latin:/algebraic?Set]/U
+dataconstructor latin:/algebraic?MagmaHom?codomain/divisibility/rel
+datatypeconstructor latin:/algebraic?MagmaHom?codomain/divisibility/metarel/[latin:/?OneTyped]/carrier
+judgementconstructor latin:/algebraic?MagmaHom?codomain/divisibility/metarel/rel
+dataconstructor latin:/algebraic?MagmaHom?op
+theory latin:/algebraic?MagmaHom
+HasMeta latin:/algebraic?MagmaHom latin:/?SFOLEQND
+Includes latin:/algebraic?MagmaHom latin:/algebraic?SetHom
+Declares latin:/algebraic?MagmaHom latin:/algebraic?MagmaHom?domain
+HasDomain latin:/algebraic?MagmaHom?domain latin:/algebraic?Magma
+HasCodomain latin:/algebraic?MagmaHom?domain latin:/algebraic?MagmaHom
+structure latin:/algebraic?MagmaHom?domain
+Declares latin:/algebraic?MagmaHom latin:/algebraic?MagmaHom?domain/[latin:/algebraic?Set]
+HasDomain latin:/algebraic?MagmaHom?domain/[latin:/algebraic?Set] latin:/algebraic?Set
+HasCodomain latin:/algebraic?MagmaHom?domain/[latin:/algebraic?Set] latin:/algebraic?MagmaHom
+structure latin:/algebraic?MagmaHom?domain/[latin:/algebraic?Set]
+Declares latin:/algebraic?MagmaHom latin:/algebraic?MagmaHom?domain/[latin:/algebraic?Set]/universe
+constant latin:/algebraic?MagmaHom?domain/[latin:/algebraic?Set]/universe
+Declares latin:/algebraic?MagmaHom latin:/algebraic?MagmaHom?domain/[latin:/algebraic?Set]/U
+constant latin:/algebraic?MagmaHom?domain/[latin:/algebraic?Set]/U
+Declares latin:/algebraic?MagmaHom latin:/algebraic?MagmaHom?domain/op
+constant latin:/algebraic?MagmaHom?domain/op
+Declares latin:/algebraic?MagmaHom latin:/algebraic?MagmaHom?domain/divisibility
+HasDomain latin:/algebraic?MagmaHom?domain/divisibility latin:/algebraic?Relation
+HasCodomain latin:/algebraic?MagmaHom?domain/divisibility latin:/algebraic?MagmaHom
+structure latin:/algebraic?MagmaHom?domain/divisibility
+Declares latin:/algebraic?MagmaHom latin:/algebraic?MagmaHom?domain/divisibility/[latin:/algebraic?Set]
+HasDomain latin:/algebraic?MagmaHom?domain/divisibility/[latin:/algebraic?Set] latin:/algebraic?Set
+HasCodomain latin:/algebraic?MagmaHom?domain/divisibility/[latin:/algebraic?Set] latin:/algebraic?MagmaHom
+structure latin:/algebraic?MagmaHom?domain/divisibility/[latin:/algebraic?Set]
+Declares latin:/algebraic?MagmaHom latin:/algebraic?MagmaHom?domain/divisibility/[latin:/algebraic?Set]/universe
+constant latin:/algebraic?MagmaHom?domain/divisibility/[latin:/algebraic?Set]/universe
+Declares latin:/algebraic?MagmaHom latin:/algebraic?MagmaHom?domain/divisibility/[latin:/algebraic?Set]/U
+constant latin:/algebraic?MagmaHom?domain/divisibility/[latin:/algebraic?Set]/U
+Declares latin:/algebraic?MagmaHom latin:/algebraic?MagmaHom?domain/divisibility/rel
+constant latin:/algebraic?MagmaHom?domain/divisibility/rel
+Declares latin:/algebraic?MagmaHom latin:/algebraic?MagmaHom?domain/divisibility/metarel
+HasDomain latin:/algebraic?MagmaHom?domain/divisibility/metarel latin:/?Relation
+HasCodomain latin:/algebraic?MagmaHom?domain/divisibility/metarel latin:/algebraic?MagmaHom
+structure latin:/algebraic?MagmaHom?domain/divisibility/metarel
+Declares latin:/algebraic?MagmaHom latin:/algebraic?MagmaHom?domain/divisibility/metarel/[latin:/?OneTyped]
+HasDomain latin:/algebraic?MagmaHom?domain/divisibility/metarel/[latin:/?OneTyped] latin:/?OneTyped
+HasCodomain latin:/algebraic?MagmaHom?domain/divisibility/metarel/[latin:/?OneTyped] latin:/algebraic?MagmaHom
+structure latin:/algebraic?MagmaHom?domain/divisibility/metarel/[latin:/?OneTyped]
+Declares latin:/algebraic?MagmaHom latin:/algebraic?MagmaHom?domain/divisibility/metarel/[latin:/?OneTyped]/carrier
+constant latin:/algebraic?MagmaHom?domain/divisibility/metarel/[latin:/?OneTyped]/carrier
+Declares latin:/algebraic?MagmaHom latin:/algebraic?MagmaHom?domain/divisibility/metarel/rel
+constant latin:/algebraic?MagmaHom?domain/divisibility/metarel/rel
+Declares latin:/algebraic?MagmaHom latin:/algebraic?MagmaHom?codomain
+HasDomain latin:/algebraic?MagmaHom?codomain latin:/algebraic?Magma
+HasCodomain latin:/algebraic?MagmaHom?codomain latin:/algebraic?MagmaHom
+structure latin:/algebraic?MagmaHom?codomain
+Declares latin:/algebraic?MagmaHom latin:/algebraic?MagmaHom?codomain/[latin:/algebraic?Set]
+HasDomain latin:/algebraic?MagmaHom?codomain/[latin:/algebraic?Set] latin:/algebraic?Set
+HasCodomain latin:/algebraic?MagmaHom?codomain/[latin:/algebraic?Set] latin:/algebraic?MagmaHom
+structure latin:/algebraic?MagmaHom?codomain/[latin:/algebraic?Set]
+Declares latin:/algebraic?MagmaHom latin:/algebraic?MagmaHom?codomain/[latin:/algebraic?Set]/universe
+constant latin:/algebraic?MagmaHom?codomain/[latin:/algebraic?Set]/universe
+Declares latin:/algebraic?MagmaHom latin:/algebraic?MagmaHom?codomain/[latin:/algebraic?Set]/U
+constant latin:/algebraic?MagmaHom?codomain/[latin:/algebraic?Set]/U
+Declares latin:/algebraic?MagmaHom latin:/algebraic?MagmaHom?codomain/op
+constant latin:/algebraic?MagmaHom?codomain/op
+Declares latin:/algebraic?MagmaHom latin:/algebraic?MagmaHom?codomain/divisibility
+HasDomain latin:/algebraic?MagmaHom?codomain/divisibility latin:/algebraic?Relation
+HasCodomain latin:/algebraic?MagmaHom?codomain/divisibility latin:/algebraic?MagmaHom
+structure latin:/algebraic?MagmaHom?codomain/divisibility
+Declares latin:/algebraic?MagmaHom latin:/algebraic?MagmaHom?codomain/divisibility/[latin:/algebraic?Set]
+HasDomain latin:/algebraic?MagmaHom?codomain/divisibility/[latin:/algebraic?Set] latin:/algebraic?Set
+HasCodomain latin:/algebraic?MagmaHom?codomain/divisibility/[latin:/algebraic?Set] latin:/algebraic?MagmaHom
+structure latin:/algebraic?MagmaHom?codomain/divisibility/[latin:/algebraic?Set]
+Declares latin:/algebraic?MagmaHom latin:/algebraic?MagmaHom?codomain/divisibility/[latin:/algebraic?Set]/universe
+constant latin:/algebraic?MagmaHom?codomain/divisibility/[latin:/algebraic?Set]/universe
+Declares latin:/algebraic?MagmaHom latin:/algebraic?MagmaHom?codomain/divisibility/[latin:/algebraic?Set]/U
+constant latin:/algebraic?MagmaHom?codomain/divisibility/[latin:/algebraic?Set]/U
+Declares latin:/algebraic?MagmaHom latin:/algebraic?MagmaHom?codomain/divisibility/rel
+constant latin:/algebraic?MagmaHom?codomain/divisibility/rel
+Declares latin:/algebraic?MagmaHom latin:/algebraic?MagmaHom?codomain/divisibility/metarel
+HasDomain latin:/algebraic?MagmaHom?codomain/divisibility/metarel latin:/?Relation
+HasCodomain latin:/algebraic?MagmaHom?codomain/divisibility/metarel latin:/algebraic?MagmaHom
+structure latin:/algebraic?MagmaHom?codomain/divisibility/metarel
+Declares latin:/algebraic?MagmaHom latin:/algebraic?MagmaHom?codomain/divisibility/metarel/[latin:/?OneTyped]
+HasDomain latin:/algebraic?MagmaHom?codomain/divisibility/metarel/[latin:/?OneTyped] latin:/?OneTyped
+HasCodomain latin:/algebraic?MagmaHom?codomain/divisibility/metarel/[latin:/?OneTyped] latin:/algebraic?MagmaHom
+structure latin:/algebraic?MagmaHom?codomain/divisibility/metarel/[latin:/?OneTyped]
+Declares latin:/algebraic?MagmaHom latin:/algebraic?MagmaHom?codomain/divisibility/metarel/[latin:/?OneTyped]/carrier
+constant latin:/algebraic?MagmaHom?codomain/divisibility/metarel/[latin:/?OneTyped]/carrier
+Declares latin:/algebraic?MagmaHom latin:/algebraic?MagmaHom?codomain/divisibility/metarel/rel
+constant latin:/algebraic?MagmaHom?codomain/divisibility/metarel/rel
+Declares latin:/algebraic?MagmaHom latin:/algebraic?MagmaHom?op
+constant latin:/algebraic?MagmaHom?op
+DependsOn latin:/algebraic?MagmaHom?op?type latin:/algebraic?SetHom?domain/U?definition
+DependsOn latin:/algebraic?MagmaHom?op?type latin:/?Propositions?prop?type
+DependsOn latin:/algebraic?MagmaHom?op?type latin:/?TypedTerms?tm?type
+DependsOn latin:/algebraic?MagmaHom?op?type latin:/algebraic?SetHom?domain/U?type
+DependsOn latin:/algebraic?MagmaHom?op?type latin:/algebraic?MagmaHom?domain/op?type
+DependsOn latin:/algebraic?MagmaHom?op?type latin:/algebraic?SetHom?domain/universe?type
+DependsOn latin:/algebraic?MagmaHom?op?type latin:/?TypedUniversalQuantification?forall?type
+DependsOn latin:/algebraic?MagmaHom?op?type latin:/algebraic?SetHom?codomain/U?type
+DependsOn latin:/algebraic?MagmaHom?op?type latin:/algebraic?MagmaHom?codomain/op?type
+DependsOn latin:/algebraic?MagmaHom?op?type latin:/?TypedEquality?equal?type
+DependsOn latin:/algebraic?MagmaHom?op?type latin:/algebraic?SetHom?codomain/universe?type
+DependsOn latin:/algebraic?MagmaHom?op?type latin:/algebraic?SetHom?codomain/U?definition
+DependsOn latin:/algebraic?MagmaHom?op?type latin:/algebraic?SetHom?U?type
+DependsOn latin:/algebraic?MagmaHom?op?type latin:/?Types?tp?type
+DependsOn latin:/algebraic?MagmaHom?op?type latin:/?Proofs?ded?type

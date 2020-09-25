@@ -1,0 +1,11 @@
+dataconstructor latin:/?EquivImplConj?[latin:/?Equivalence]/equiv
+HasDomain latin:/?EquivImplConj latin:/?Equivalence
+HasCodomain latin:/?EquivImplConj latin:/?ImplicationConjunction
+view latin:/?EquivImplConj
+HasViewFrom latin:/?ImplicationConjunction latin:/?Equivalence
+Includes latin:/?EquivImplConj latin:/?Propositions
+Declares latin:/?EquivImplConj latin:/?EquivImplConj?[latin:/?Equivalence]/equiv
+constant latin:/?EquivImplConj?[latin:/?Equivalence]/equiv
+DependsOn latin:/?EquivImplConj?[latin:/?Equivalence]/equiv?definition latin:/?Propositions?prop?type
+DependsOn latin:/?EquivImplConj?[latin:/?Equivalence]/equiv?definition latin:/?Conjunction?and?type
+DependsOn latin:/?EquivImplConj?[latin:/?Equivalence]/equiv?definition latin:/?Implication?impl?type
