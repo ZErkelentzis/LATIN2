@@ -1,0 +1,136 @@
+namespace http://latin.omdoc.org/foundations/mizar❚
+
+import mmt scala://mmt.kwarc.info❚
+
+theory Mizar : ur:?LF =
+  // terms (a meta-type for all objects)❙
+  set : type ❙
+	// FOL relative to set ❙
+	prop : type ❙
+  true : prop❙
+  false : prop❙
+  not : prop ⟶ prop ❘ # not 1 prec 20 ❘ ## ¬ 1 prec 20❙
+	and: prop ⟶ prop ⟶ prop ❘# 1 and 2 ❙
+	or: prop ⟶ prop ⟶ prop ❘= [a,b] not (not a and not b) ❘# 1 or 2 ❙
+	implies: prop ⟶ prop ⟶ prop ❘ = [a,b] not (a and (not b)) ❘ # 1 ⇒ 2 prec 15 ❘## 1 implies 2 prec 15 ❙
+	iff: prop ⟶ prop ⟶ prop ❘ = [a,b] (a ⇒ b) and (b ⇒ a) ❘ # 1 iff 2 prec 15 ❙
+	equal: set ⟶ set ⟶ prop ❘# 1 eq 2 prec 25 ❘ ## 1 = 2 prec 25 ❙
+	forall: (set ⟶ prop) ⟶ prop ❘ # ∀ 1 ❙
+	exists: (set ⟶ prop) ⟶ prop ❘ = [pred] not (∀ ([x:set] not (pred x))) ❘# ∃ 1 ❙
+	existsUnique: (set ⟶ prop) ⟶ prop ❘ = [pred] ∃ pred and (∀ [x] ∀ [y] (pred x ⇒ pred y ⇒ x eq y)) ❙
+
+	// types ❙
+	mode: type ❙
+	is : set ⟶ mode ⟶ prop ❘# 1 is 2 prec 50 ❙
+	makeMode : (set ⟶ prop) ⟶ mode ❙
+	intersectionMode: mode ⟶ mode ⟶ mode ❘ = [a,b] makeMode ([x] x is a and x is b) ❙
+
+ 
+	// quantification over types ❙
+	for: {A:mode, p: set ⟶ prop} prop ❘= [A, p] ∀ [x] x is A ⇒ p x ❙
+	ex: {A:mode, p: set ⟶ prop} prop ❘= [A, p] ∃ [x] (x is A) and (p x) ❙
+
+	// proofs ❙
+	proof: prop ⟶ type ❘ # ⊦ 1 prec -5❘ ## proof 1 prec -5 ❙
+	be: set ⟶ mode ⟶ type ❘= [x,a] ⊦ x is a ❘# 1 be 2 prec 50❙
+
+  // propositional logic❙
+  contradiction : type ❘= proof Mizar?false❙
+   
+  trueI : proof true❙
+  proof_by_contradiction : {A} (⊦ (not A) ⟶ contradiction) ⟶ ⊦ A❘# %%prefix 1 1❙
+  contradictionE : contradiction ⟶ {B} ⊦ B❙
+  notE : {A} ⊦ (not A) ⟶ ⊦ A ⟶ contradiction❘# %%prefix 1 2❙ 
+   
+  andI : {A,B} ⊦ A ⟶ ⊦ B ⟶ ⊦ A and B ❘  // thus❙
+  andEl : {A,B} ⊦ A and B ⟶ ⊦ A❘            // by/from❙
+  andEr : {A,B} ⊦ A and B ⟶ ⊦ B❘            // by/from❙
+
+  not_idem : {A} ⊦ not (not A) ⟶ ⊦ A ❘= [A,p] proof_by_contradiction ([q] notE p q)❙
+  tnd : {A} ⊦ A or not A ❘// = [A] proof_by_contradiction ([p] notE (andEr (not_idem p)) (andEl (not_idem p)))❙
+   
+  // definitions below are well-typed but cannot be checked yet because LFS beta-reduction is not finished ❙
+   
+  orIl : {A,B} ⊦ A ⟶ ⊦ A or B ❘// = [A,B,p] (proof_by_contradiction [q] notE (andEl (not_idem q)) p)❙
+  orIr : {A,B} ⊦ B ⟶ ⊦ A or B ❘// = [A,B,p] (proof_by_contradiction [q] notE (andEr (not_idem q)) p)❙
+  per_cases : {A,B,C} (⊦ A ⟶ ⊦ C) ⟶ (⊦ B ⟶ ⊦ C) ⟶ (⊦ A or B ⟶ ⊦ C)❙
+   
+  //assume❙
+  impliesI : {A,B} (⊦ A ⟶ ⊦ B) ⟶ ⊦ (A ⇒ B) 
+      ❘// = [A,B,p] per_cases ([q: proof A] proof_by_contradiction ([s] notE (andEr (not_idem s)) (p q) ) ) 
+                       ([r] proof_by_contradiction ([s] notE r (andEl (not_idem s)) ) )
+                            tnd❙ 
+  impliesE : {A,B} ⊦ A ⇒ B ⟶ ⊦ A ⟶ ⊦ B ❘
+            = [A,B][p][q] proof_by_contradiction ([r : ⊦ not B] notE (A and not B) p (andI A (not B) q r)) ❙ 
+  implies_refl : {A} ⊦ A ⇒ A ❘= [A] proof_by_contradiction ([p] notE (andEr A (not A) (not_idem (A and not A) p)) (andEl A (not A) (not_idem (A and not A) p)))❙ 
+   
+  iffI : {A,B} (⊦ A ⟶ ⊦ B) ⟶ (⊦ B ⟶ ⊦ A) ⟶ ⊦ (A iff B) ❘= [A,B][p][q] andI (A ⇒ B) (B ⇒ A) (impliesI A B p) (impliesI B A q)❙
+  iffEl : {A,B} ⊦ A iff B ⟶ ⊦ A ⟶ ⊦ B ❘= [A,B][p][q] impliesE A B (andEl (A ⇒ B) (B ⇒ A) p) q❙
+  iffEr : {A,B} ⊦ A iff B ⟶ ⊦ B ⟶ ⊦ A ❘= [A,B][p][q] impliesE B A (andEr (A ⇒ B) (B ⇒ A) p) q❙
+  iff_refl : {A} ⊦ A iff A ❘= [A] andI (A ⇒ A) (A ⇒ A) (implies_refl A) (implies_refl A) ❙
+
+  // quantifier rules, using Mizar keywords❙
+  let : {A,F} ({x} x be A ⟶ ⊦ (F x)) ⟶ ⊦ (for A [x] F x)❘    //forallI❙
+  consider : {A,F} ⊦ (for A [x] F x) ⟶ {c} c be A ⟶ ⊦ (F c)❘ //forallE❙
+   
+  take : {A,F} {x} x be A ⟶ ⊦ (F x) ⟶ ⊦ (ex A [x] F x)❘    //exI❙
+  given : {A,F,G} ⊦ (ex A [x] F x) ⟶ ({y} y be A ⟶ ⊦ F y ⟶ ⊦ G) ⟶ ⊦ G❘ //exE❙ 
+   
+  // equality rules❙
+  refl  : {X} ⊦ X eq X❙
+  sym   : {X:set,Y:set} ⊦ X eq Y ⟶ ⊦ Y eq X❙
+  trans : {X:set,Y:set,Z:set} ⊦ X eq Y ⟶ ⊦ Y eq Z ⟶ ⊦ X eq Z ❙
+  congP : {X:set,Y:set} ⊦ X eq Y ⟶ {F : set ⟶ prop} ⊦ F Y ⟶ ⊦ F X❙ 
+  congF : {X:set,Y:set} ⊦ X eq Y ⟶ {F : set ⟶ set} ⊦ F X eq F Y❙
+
+  // some important rewrite rules (needed in particular to eliminate artifacts caused by instances with empty sequences)❙
+  impliesLeftNeutral : {a} ⊦ (true ⇒ a) iff a❘role Simplify❙
+  impliesRightAttractive : {a} ⊦ (a ⇒ true) iff true❘role Simplify❙
+  iffLeftNeutral : {a} ⊦ (true iff a) iff a❘role Simplify❙
+  iffRightNeutral: {a} ⊦ (a iff true) iff a❘role Simplify❙
+  // for the flexary connectives, the rewrite rules need programming❙
+  rule mmt/sequences?BoundedSemilattice (and) true❙
+  rule mmt/sequences?BoundedSemilattice (or) false❙
+  
+  // for implicitly defined functions: an element uniquely characterized by a predicate❙
+  func : {A:mode}{f : set ⟶ prop} (⊦ ex A [x] f x) ⟶ ⊦ for A ([x] (for A ([y] (f x and f y) ⇒ (x eq y)))) ⟶ set ❙
+   
+  func_prop : {A : mode, F : set ⟶ prop,EX : ⊦ ex A [x] (F x),UNQ}{S} ⊦ S eq func A F EX UNQ ⟶ ⊦ F S❙
+  // for implicitly defined modes: a type characterized by a predicate❙
+  implMode : {A : mode} {f : set ⟶ prop} ⊦ (ex A [x] (f x)) ⟶ mode❙
+  mode_prop : {X,A,F,P} ⊦ X is (implMode A F P) iff (X is A and F X)❙
+ 
+      
+  // attributes as predicates on types❙
+  attr : mode ⟶ type ❘= [t] (set ⟶ prop)❙
+  neg_attr : {T} attr T ⟶ attr T ❘= [T,a] ([x] not (a x))❙ 
+   
+  // clusters as conjunctions of attributes❙
+  cluster: {T} attr T ⟶ attr T ⟶ attr T ❘= [T][a][b] [x] (a x) and (b x)❙
+     
+   // choice operator ❙
+  choice : mode ⟶ set❙
+  choice_prop : {t : mode} ⊦ (choice t) is t❙
+    
+  // types formed by imposing a possibly negated attribute on a type❙
+  adjective : {t: mode} attr t ⟶ mode ❙
+  adjective_non : {t: mode} attr t ⟶ mode ❙
+
+  // adjective_prop : proof X is (adjective T A) iff X is T and A X❙
+  adjI : {X,A}{x : set} x be X ⟶ (⊦ A x) ⟶ x be (adjective X A)❙
+  adjE : {X,A}{x : set} x be (adjective X A) ⟶  x be X❙
+  adjE_' : {X,A}{x : set} x be (adjective X A) ⟶ ⊦ A x❙
+  adj_nonI : {X,A}{x : set} x be X ⟶ ⊦ not (A x) ⟶ x be (adjective_non X A)❙
+  adj_nonE : {X,A} {x : set} x be (adjective_non X A) ⟶ x be X❙
+  //adj_nonE': {x : be (adjective_non X A)} ⊦ not (A (adj_nonE x))❙
+
+  fraenkel : mode ⟶ (set ⟶ prop) ⟶ (set ⟶ set) ⟶ set❙
+   
+  rule mmt/lf?Realize set mmt/api/uom?StandardInt❙
+
+	// typed vs. untyped quantification ❙
+	univ_restriction_prop: {A: mode, p:set ⟶ prop} ⊦ (∀ [x] p x ⇒ for A [x] p x) ❙
+	exist_restriction_prop: {A: mode, p:set ⟶ prop} ⊦ (ex A [x] p x ⇒ ∃ [x] p x) ❙
+	univ_restriction_suffices: {A: mode, p:set ⟶ prop} ⊦ ∀ ([x] (not (x is A) ⇒ not (p x))) ⟶ ⊦ ((∀ ([x] p x)) iff (for A [x] p x))❙
+	exist_restriction_suffices: {A: mode, p:set ⟶ prop} ⊦ ∀ ([x] (not (x is A) ⇒ not (p x))) ⟶ ⊦ ((∃ ([x] p x)) iff (ex A [x] p x))❙
+❚
