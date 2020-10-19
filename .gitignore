@@ -6,3 +6,5 @@ errors
 relational
 logaux
 build.html
+/bin/
+.gitignore
