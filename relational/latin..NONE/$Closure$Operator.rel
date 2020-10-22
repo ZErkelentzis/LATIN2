@@ -1,0 +1,46 @@
+dataconstructor latin:/?ClosureOperator?X
+dataconstructor latin:/?ClosureOperator?closure
+dataconstructor latin:/?ClosureOperator?extensive
+dataconstructor latin:/?ClosureOperator?monotone
+dataconstructor latin:/?ClosureOperator?idempotent
+theory latin:/?ClosureOperator
+HasMeta latin:/?ClosureOperator latin:/powertypes?PowerSFOL
+Declares latin:/?ClosureOperator latin:/?ClosureOperator?X
+constant latin:/?ClosureOperator?X
+DependsOn latin:/?ClosureOperator?X?type latin:/?Types?tp?type
+Declares latin:/?ClosureOperator latin:/?ClosureOperator?closure
+constant latin:/?ClosureOperator?closure
+DependsOn latin:/?ClosureOperator?closure?type latin:/?ClosureOperator?X?type
+DependsOn latin:/?ClosureOperator?closure?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?ClosureOperator?closure?type latin:/powertypes?PowerTypes?power?type
+DependsOn latin:/?ClosureOperator?closure?type latin:/?Types?tp?type
+Declares latin:/?ClosureOperator latin:/?ClosureOperator?extensive
+constant latin:/?ClosureOperator?extensive
+DependsOn latin:/?ClosureOperator?extensive?type latin:/?ClosureOperator?X?type
+DependsOn latin:/?ClosureOperator?extensive?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?ClosureOperator?extensive?type latin:/?Propositions?prop?type
+DependsOn latin:/?ClosureOperator?extensive?type latin:/?ClosureOperator?closure?type
+DependsOn latin:/?ClosureOperator?extensive?type latin:/powertypes?PowerTypes?power?type
+DependsOn latin:/?ClosureOperator?extensive?type latin:/?Types?tp?type
+DependsOn latin:/?ClosureOperator?extensive?type latin:/powertypes?Subset?subset?type
+DependsOn latin:/?ClosureOperator?extensive?type latin:/?Proofs?ded?type
+Declares latin:/?ClosureOperator latin:/?ClosureOperator?monotone
+constant latin:/?ClosureOperator?monotone
+DependsOn latin:/?ClosureOperator?monotone?type latin:/?ClosureOperator?X?type
+DependsOn latin:/?ClosureOperator?monotone?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?ClosureOperator?monotone?type latin:/?Propositions?prop?type
+DependsOn latin:/?ClosureOperator?monotone?type latin:/?ClosureOperator?closure?type
+DependsOn latin:/?ClosureOperator?monotone?type latin:/powertypes?PowerTypes?power?type
+DependsOn latin:/?ClosureOperator?monotone?type latin:/?Types?tp?type
+DependsOn latin:/?ClosureOperator?monotone?type latin:/powertypes?Subset?subset?type
+DependsOn latin:/?ClosureOperator?monotone?type latin:/?Proofs?ded?type
+Declares latin:/?ClosureOperator latin:/?ClosureOperator?idempotent
+constant latin:/?ClosureOperator?idempotent
+DependsOn latin:/?ClosureOperator?idempotent?type latin:/?ClosureOperator?X?type
+DependsOn latin:/?ClosureOperator?idempotent?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?ClosureOperator?idempotent?type latin:/?Propositions?prop?type
+DependsOn latin:/?ClosureOperator?idempotent?type latin:/?ClosureOperator?closure?type
+DependsOn latin:/?ClosureOperator?idempotent?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?ClosureOperator?idempotent?type latin:/powertypes?PowerTypes?power?type
+DependsOn latin:/?ClosureOperator?idempotent?type latin:/?Types?tp?type
+DependsOn latin:/?ClosureOperator?idempotent?type latin:/?Proofs?ded?type

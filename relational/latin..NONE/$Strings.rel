@@ -1,0 +1,18 @@
+datatypeconstructor latin:/?Strings?string
+dataconstructor latin:/?Strings?concat
+dataconstructor latin:/?Strings?test
+theory latin:/?Strings
+HasMeta latin:/?Strings http://cds.omdoc.org/urtheories?LF
+Declares latin:/?Strings latin:/?Strings?string
+constant latin:/?Strings?string
+Declares latin:/?Strings latin:/?Strings?[scala://mmt.kwarc.info/lf?Realize]/1653063806
+constant latin:/?Strings?[scala://mmt.kwarc.info/lf?Realize]/1653063806
+Declares latin:/?Strings latin:/?Strings?concat
+constant latin:/?Strings?concat
+DependsOn latin:/?Strings?concat?type latin:/?Strings?string?type
+Declares latin:/?Strings latin:/?Strings?[scala://mmt.kwarc.info/lf?Realize]/-1039323630
+constant latin:/?Strings?[scala://mmt.kwarc.info/lf?Realize]/-1039323630
+Declares latin:/?Strings latin:/?Strings?test
+constant latin:/?Strings?test
+DependsOn latin:/?Strings?test?type latin:/?Strings?string?type
+DependsOn latin:/?Strings?test?definition latin:/?Strings?string?type

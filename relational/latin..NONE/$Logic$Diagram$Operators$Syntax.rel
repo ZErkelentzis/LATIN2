@@ -1,0 +1,4 @@
+untypedconstant latin:/?LogicDiagramOperatorsSyntax?fol_typifier
+theory latin:/?LogicDiagramOperatorsSyntax
+Declares latin:/?LogicDiagramOperatorsSyntax latin:/?LogicDiagramOperatorsSyntax?fol_typifier
+constant latin:/?LogicDiagramOperatorsSyntax?fol_typifier

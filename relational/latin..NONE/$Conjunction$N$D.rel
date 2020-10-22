@@ -1,0 +1,4 @@
+theory latin:/?ConjunctionND
+HasMeta latin:/?ConjunctionND http://cds.omdoc.org/urtheories?LF
+Includes latin:/?ConjunctionND latin:/?ConjunctionNDI
+Includes latin:/?ConjunctionND latin:/?ConjunctionNDE

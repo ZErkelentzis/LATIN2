@@ -1,0 +1,10 @@
+document latin:/topology/topology.omdoc
+Declares latin:/topology/topology.omdoc latin:/?ClosureSystem
+Declares latin:/topology/topology.omdoc latin:/?ClosureOperator
+Declares latin:/topology/topology.omdoc latin:/?InteriorTopology
+Declares latin:/topology/topology.omdoc latin:/?ClosureTopology
+Declares latin:/topology/topology.omdoc latin:/?Closeness
+Declares latin:/topology/topology.omdoc latin:/?ClosenessTopology
+Declares latin:/topology/topology.omdoc latin:/?OpenTopology
+Declares latin:/topology/topology.omdoc latin:/?ClosedTopology
+Declares latin:/topology/topology.omdoc latin:/?NeighborhoodTopology

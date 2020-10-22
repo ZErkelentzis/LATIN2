@@ -1,0 +1,19 @@
+dataconstructor latin:/algebraic?OppositeMagma?[latin:/algebraic?Set]/universe
+datatypeconstructor latin:/algebraic?OppositeMagma?[latin:/algebraic?Set]/U
+dataconstructor latin:/algebraic?OppositeMagma?[latin:/algebraic?Magma]/op
+HasDomain latin:/algebraic?OppositeMagma latin:/algebraic?Magma
+HasCodomain latin:/algebraic?OppositeMagma latin:/algebraic?Magma
+view latin:/algebraic?OppositeMagma
+HasViewFrom latin:/algebraic?Magma latin:/algebraic?Magma
+Declares latin:/algebraic?OppositeMagma latin:/algebraic?OppositeMagma?[latin:/algebraic?Set]/universe
+constant latin:/algebraic?OppositeMagma?[latin:/algebraic?Set]/universe
+DependsOn latin:/algebraic?OppositeMagma?[latin:/algebraic?Set]/universe?definition latin:/algebraic?Set?universe?type
+DependsOn latin:/algebraic?OppositeMagma?[latin:/algebraic?Set]/universe?definition latin:/?Types?tp?type
+Declares latin:/algebraic?OppositeMagma latin:/algebraic?OppositeMagma?[latin:/algebraic?Set]/U
+constant latin:/algebraic?OppositeMagma?[latin:/algebraic?Set]/U
+DependsOn latin:/algebraic?OppositeMagma?[latin:/algebraic?Set]/U?definition latin:/algebraic?Set?U?type
+Declares latin:/algebraic?OppositeMagma latin:/algebraic?OppositeMagma?[latin:/algebraic?Magma]/op
+constant latin:/algebraic?OppositeMagma?[latin:/algebraic?Magma]/op
+DependsOn latin:/algebraic?OppositeMagma?[latin:/algebraic?Magma]/op?definition latin:/algebraic?Magma?op?type
+DependsOn latin:/algebraic?OppositeMagma?[latin:/algebraic?Magma]/op?definition latin:/algebraic?Set?U?type
+DependsOn latin:/algebraic?OppositeMagma?[latin:/algebraic?Magma]/op?definition latin:/algebraic?Set?U?definition

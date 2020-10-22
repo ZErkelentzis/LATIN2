@@ -1,0 +1,3 @@
+theory latin:/?PL
+HasMeta latin:/?PL http://cds.omdoc.org/urtheories?LF
+Includes latin:/?PL latin:/?IPL

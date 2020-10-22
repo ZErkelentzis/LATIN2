@@ -1,0 +1,48 @@
+dataconstructor latin:/?SimpleProducts?simppair
+dataconstructor latin:/?SimpleProducts?simppi1
+dataconstructor latin:/?SimpleProducts?simppi2
+dataconstructor latin:/?SimpleProducts?compute1
+dataconstructor latin:/?SimpleProducts?compute2
+theory latin:/?SimpleProducts
+HasMeta latin:/?SimpleProducts http://cds.omdoc.org/urtheories?LF
+Includes latin:/?SimpleProducts latin:/?SimpleProductTypes
+Includes latin:/?SimpleProducts latin:/?TypedEquality
+Declares latin:/?SimpleProducts latin:/?SimpleProducts?simppair
+constant latin:/?SimpleProducts?simppair
+DependsOn latin:/?SimpleProducts?simppair?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?SimpleProducts?simppair?type latin:/?Types?tp?type
+DependsOn latin:/?SimpleProducts?simppair?type latin:/?SimpleProductTypes?simpprod?type
+Declares latin:/?SimpleProducts latin:/?SimpleProducts?simppi1
+constant latin:/?SimpleProducts?simppi1
+DependsOn latin:/?SimpleProducts?simppi1?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?SimpleProducts?simppi1?type latin:/?Types?tp?type
+DependsOn latin:/?SimpleProducts?simppi1?type latin:/?SimpleProductTypes?simpprod?type
+Declares latin:/?SimpleProducts latin:/?SimpleProducts?simppi2
+constant latin:/?SimpleProducts?simppi2
+DependsOn latin:/?SimpleProducts?simppi2?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?SimpleProducts?simppi2?type latin:/?Types?tp?type
+DependsOn latin:/?SimpleProducts?simppi2?type latin:/?SimpleProductTypes?simpprod?type
+Declares latin:/?SimpleProducts latin:/?SimpleProducts?compute1
+constant latin:/?SimpleProducts?compute1
+DependsOn latin:/?SimpleProducts?compute1?type latin:/?Propositions?prop?type
+DependsOn latin:/?SimpleProducts?compute1?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?SimpleProducts?compute1?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?SimpleProducts?compute1?type latin:/?SimpleProducts?simppi1?type
+DependsOn latin:/?SimpleProducts?compute1?type latin:/?Types?tp?type
+DependsOn latin:/?SimpleProducts?compute1?type latin:/?SimpleProducts?simppair?type
+DependsOn latin:/?SimpleProducts?compute1?type latin:/?SimpleProductTypes?simpprod?type
+DependsOn latin:/?SimpleProducts?compute1?type latin:/?Proofs?ded?type
+Declares latin:/?SimpleProducts latin:/?SimpleProducts?compute1/Simplify
+constant latin:/?SimpleProducts?compute1/Simplify
+Declares latin:/?SimpleProducts latin:/?SimpleProducts?compute2
+constant latin:/?SimpleProducts?compute2
+DependsOn latin:/?SimpleProducts?compute2?type latin:/?SimpleProducts?simppi2?type
+DependsOn latin:/?SimpleProducts?compute2?type latin:/?Propositions?prop?type
+DependsOn latin:/?SimpleProducts?compute2?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?SimpleProducts?compute2?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?SimpleProducts?compute2?type latin:/?Types?tp?type
+DependsOn latin:/?SimpleProducts?compute2?type latin:/?SimpleProducts?simppair?type
+DependsOn latin:/?SimpleProducts?compute2?type latin:/?SimpleProductTypes?simpprod?type
+DependsOn latin:/?SimpleProducts?compute2?type latin:/?Proofs?ded?type
+Declares latin:/?SimpleProducts latin:/?SimpleProducts?compute2/Simplify
+constant latin:/?SimpleProducts?compute2/Simplify

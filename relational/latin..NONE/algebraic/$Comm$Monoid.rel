@@ -1,0 +1,4 @@
+theory latin:/algebraic?CommMonoid
+HasMeta latin:/algebraic?CommMonoid latin:/?SFOLEQND
+Includes latin:/algebraic?CommMonoid latin:/algebraic?Monoid
+Includes latin:/algebraic?CommMonoid latin:/algebraic?CommSemigroup

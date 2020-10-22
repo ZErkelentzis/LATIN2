@@ -1,0 +1,34 @@
+dataconstructor latin:/kripkemodels?SFOLSemantics?[latin:/?TypedUniversalQuantification]/forall
+dataconstructor latin:/kripkemodels?SFOLSemantics?[latin:/?TypedExistentialQuantification]/exists
+dataconstructor latin:/kripkemodels?SFOLSemantics?[latin:/?TypedEquality]/equal
+HasDomain latin:/kripkemodels?SFOLSemantics latin:/?SFOLEQ
+HasCodomain latin:/kripkemodels?SFOLSemantics latin:/kripkemodels?Worlds
+view latin:/kripkemodels?SFOLSemantics
+HasViewFrom latin:/kripkemodels?Worlds latin:/?SFOLEQ
+Includes latin:/kripkemodels?SFOLSemantics latin:/?TypedTerms
+Includes latin:/kripkemodels?SFOLSemantics latin:/?PL
+Includes latin:/kripkemodels?SFOLSemantics latin:/?Logic
+Declares latin:/kripkemodels?SFOLSemantics latin:/kripkemodels?SFOLSemantics?[latin:/?TypedUniversalQuantification]/forall
+constant latin:/kripkemodels?SFOLSemantics?[latin:/?TypedUniversalQuantification]/forall
+DependsOn latin:/kripkemodels?SFOLSemantics?[latin:/?TypedUniversalQuantification]/forall?definition latin:/kripkemodels?Worlds?world?type
+DependsOn latin:/kripkemodels?SFOLSemantics?[latin:/?TypedUniversalQuantification]/forall?definition latin:/?Propositions?prop?type
+DependsOn latin:/kripkemodels?SFOLSemantics?[latin:/?TypedUniversalQuantification]/forall?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/kripkemodels?SFOLSemantics?[latin:/?TypedUniversalQuantification]/forall?definition latin:/?TypedUniversalQuantification?forall?type
+DependsOn latin:/kripkemodels?SFOLSemantics?[latin:/?TypedUniversalQuantification]/forall?definition latin:/?Types?tp?type
+DependsOn latin:/kripkemodels?SFOLSemantics?[latin:/?TypedUniversalQuantification]/forall?definition latin:/kripkemodels?Worlds?liftbind?type
+Declares latin:/kripkemodels?SFOLSemantics latin:/kripkemodels?SFOLSemantics?[latin:/?TypedExistentialQuantification]/exists
+constant latin:/kripkemodels?SFOLSemantics?[latin:/?TypedExistentialQuantification]/exists
+DependsOn latin:/kripkemodels?SFOLSemantics?[latin:/?TypedExistentialQuantification]/exists?definition latin:/kripkemodels?Worlds?world?type
+DependsOn latin:/kripkemodels?SFOLSemantics?[latin:/?TypedExistentialQuantification]/exists?definition latin:/?Propositions?prop?type
+DependsOn latin:/kripkemodels?SFOLSemantics?[latin:/?TypedExistentialQuantification]/exists?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/kripkemodels?SFOLSemantics?[latin:/?TypedExistentialQuantification]/exists?definition latin:/?TypedExistentialQuantification?exists?type
+DependsOn latin:/kripkemodels?SFOLSemantics?[latin:/?TypedExistentialQuantification]/exists?definition latin:/?Types?tp?type
+DependsOn latin:/kripkemodels?SFOLSemantics?[latin:/?TypedExistentialQuantification]/exists?definition latin:/kripkemodels?Worlds?liftbind?type
+Declares latin:/kripkemodels?SFOLSemantics latin:/kripkemodels?SFOLSemantics?[latin:/?TypedEquality]/equal
+constant latin:/kripkemodels?SFOLSemantics?[latin:/?TypedEquality]/equal
+DependsOn latin:/kripkemodels?SFOLSemantics?[latin:/?TypedEquality]/equal?definition latin:/kripkemodels?Worlds?world?type
+DependsOn latin:/kripkemodels?SFOLSemantics?[latin:/?TypedEquality]/equal?definition latin:/?Propositions?prop?type
+DependsOn latin:/kripkemodels?SFOLSemantics?[latin:/?TypedEquality]/equal?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/kripkemodels?SFOLSemantics?[latin:/?TypedEquality]/equal?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/kripkemodels?SFOLSemantics?[latin:/?TypedEquality]/equal?definition latin:/?Types?tp?type
+DependsOn latin:/kripkemodels?SFOLSemantics?[latin:/?TypedEquality]/equal?definition latin:/kripkemodels?Worlds?liftPred2?type

@@ -1,0 +1,4 @@
+theory latin:/?OptionSpec
+HasMeta latin:/?OptionSpec latin:/?TypedEquality
+Includes latin:/?OptionSpec latin:/?ListSpec
+Includes latin:/?OptionSpec latin:/?EndoFirstNonNeutral

@@ -1,0 +1,11 @@
+document latin:/logic/pl_hilbert.omdoc
+Declares latin:/logic/pl_hilbert.omdoc latin:/?ImplicationHilbert
+Declares latin:/logic/pl_hilbert.omdoc latin:/?NegationHilbert
+Declares latin:/logic/pl_hilbert.omdoc latin:/?DisjunctionHilbert
+Declares latin:/logic/pl_hilbert.omdoc latin:/?EquivalenceHilbert
+Declares latin:/logic/pl_hilbert.omdoc latin:/?PLHilbert
+Declares latin:/logic/pl_hilbert.omdoc latin:/?ImplicationHilbert2ND
+Declares latin:/logic/pl_hilbert.omdoc latin:/?NegationHilbert2ND
+Declares latin:/logic/pl_hilbert.omdoc latin:/?DisjunctionHilbert2ND
+Declares latin:/logic/pl_hilbert.omdoc latin:/?EquivalenceHilbert2ND
+Declares latin:/logic/pl_hilbert.omdoc latin:/?PLHilbert2ND

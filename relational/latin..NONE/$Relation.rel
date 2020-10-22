@@ -1,0 +1,7 @@
+judgementconstructor latin:/?Relation?rel
+theory latin:/?Relation
+HasMeta latin:/?Relation http://cds.omdoc.org/urtheories?PLF
+Includes latin:/?Relation latin:/?OneTyped
+Declares latin:/?Relation latin:/?Relation?rel
+constant latin:/?Relation?rel
+DependsOn latin:/?Relation?rel?type latin:/?OneTyped?carrier?type

@@ -1,0 +1,14 @@
+HasDomain latin:/?PLHilbert2ND latin:/?PLHilbert
+HasCodomain latin:/?PLHilbert2ND latin:/?PLND
+view latin:/?PLHilbert2ND
+HasViewFrom latin:/?PLND latin:/?PLHilbert
+Includes latin:/?PLHilbert2ND latin:/?PL
+Includes latin:/?PLHilbert2ND latin:/?ImplicationHilbert
+Includes latin:/?PLHilbert2ND latin:/?TruthND
+Includes latin:/?PLHilbert2ND latin:/?FalsityND
+Includes latin:/?PLHilbert2ND latin:/?ConjunctionND
+Includes latin:/?PLHilbert2ND latin:/?NegationHilbert
+Includes latin:/?PLHilbert2ND latin:/?DisjunctionHilbert
+Includes latin:/?PLHilbert2ND latin:/?EquivalenceHilbert
+Includes latin:/?PLHilbert2ND latin:/?Classical
+IsImplicitly latin:/?PLND latin:/?PLHilbert

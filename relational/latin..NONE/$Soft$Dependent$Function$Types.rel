@@ -1,0 +1,8 @@
+dataconstructor latin:/?SoftDependentFunctionTypes?softfun
+theory latin:/?SoftDependentFunctionTypes
+HasMeta latin:/?SoftDependentFunctionTypes http://cds.omdoc.org/urtheories?LF
+Includes latin:/?SoftDependentFunctionTypes latin:/?SoftTypedTerms
+Declares latin:/?SoftDependentFunctionTypes latin:/?SoftDependentFunctionTypes?softfun
+constant latin:/?SoftDependentFunctionTypes?softfun
+DependsOn latin:/?SoftDependentFunctionTypes?softfun?type latin:/?Types?tp?type
+DependsOn latin:/?SoftDependentFunctionTypes?softfun?type latin:/?Terms?term?type
