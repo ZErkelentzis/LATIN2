@@ -11,6 +11,10 @@ theory Nat =
   zero  : ℕ❙
   succ  : ℕ ⟶ ℕ❘ # 1 ' prec 20❙
   
+  even: ℕ ⟶ prop❙
+  teststuff: ℕ ⟶ prop❙
+  thereissomething: ℕ ⟶ prop❙
+  
   rule rules?Realize ℕ uom?StandardNat❙
   rule rules?Realize zero uom?Arithmetic/Zero❙
   rule rules?Realize succ uom?Arithmetic/Succ❙
