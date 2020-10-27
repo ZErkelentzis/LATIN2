@@ -3,5 +3,3 @@ theory latin:/?SFOLITP
 Includes latin:/?SFOLITP latin:/?PLITP
 Declares latin:/?SFOLITP latin:/?SFOLITP?fix
 constant latin:/?SFOLITP?fix
-Declares latin:/?SFOLITP latin:/?SFOLITP?[scala://latin2/proving?FixStep]
-constant latin:/?SFOLITP?[scala://latin2/proving?FixStep]

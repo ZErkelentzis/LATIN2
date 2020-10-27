@@ -11,10 +11,6 @@ DependsOn latin:/?Test?test?type latin:/?TypedUniversalQuantification?forall?typ
 DependsOn latin:/?Test?test?type latin:/?Implication?impl?type
 DependsOn latin:/?Test?test?type latin:/?Types?tp?type
 DependsOn latin:/?Test?test?type latin:/?Proofs?ded?type
-DependsOn latin:/?Test?test?definition latin:/?Propositions?prop?type
-DependsOn latin:/?Test?test?definition latin:/?TypedTerms?tm?type
-DependsOn latin:/?Test?test?definition latin:/?Types?tp?type
-DependsOn latin:/?Test?test?definition latin:/?Proofs?ded?type
 Declares latin:/?Test latin:/?Test?test2
 constant latin:/?Test?test2
 DependsOn latin:/?Test?test2?type latin:/?Propositions?prop?type

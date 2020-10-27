@@ -1,4 +1,4 @@
 theory latin:/algebraic?CommSemigroup
-HasMeta latin:/algebraic?CommSemigroup latin:/?SFOLEQND
+HasMeta latin:/algebraic?CommSemigroup http://cds.omdoc.org/urtheories/?LF
 Includes latin:/algebraic?CommSemigroup latin:/algebraic?Semigroup
 Includes latin:/algebraic?CommSemigroup latin:/algebraic?Commutative

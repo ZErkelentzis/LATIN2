@@ -1,4 +1,4 @@
-package latin2.proving
+/* package latin2.proving
 
 import info.kwarc.mmt.api._
 import objects._
@@ -137,3 +137,5 @@ object UseStep extends ProofStepRule(PropositionsITP.use.path) {
     Some(Nil)
   }
 }
+
+*/

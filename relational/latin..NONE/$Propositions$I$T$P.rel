@@ -5,13 +5,9 @@ untypedconstant latin:/?PropositionsITP?use
 theory latin:/?PropositionsITP
 Declares latin:/?PropositionsITP latin:/?PropositionsITP?proof
 constant latin:/?PropositionsITP?proof
-Declares latin:/?PropositionsITP latin:/?PropositionsITP?[scala://latin2/proving?CheckProof]
-constant latin:/?PropositionsITP?[scala://latin2/proving?CheckProof]
 Declares latin:/?PropositionsITP latin:/?PropositionsITP?hence
 constant latin:/?PropositionsITP?hence
 Declares latin:/?PropositionsITP latin:/?PropositionsITP?suffices
 constant latin:/?PropositionsITP?suffices
 Declares latin:/?PropositionsITP latin:/?PropositionsITP?use
 constant latin:/?PropositionsITP?use
-Declares latin:/?PropositionsITP latin:/?PropositionsITP?[scala://latin2/proving?UseStep]
-constant latin:/?PropositionsITP?[scala://latin2/proving?UseStep]
