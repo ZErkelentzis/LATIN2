@@ -131,6 +131,9 @@ class SFOLTermGenerator(controller: Controller, mp: MPath, varnum: Int = 3, litn
   //distinctive enough to justify this as well
 
   //todo: Add template based generation. Get help with substitution.
+  //substitution: term ^ subs
+  //
+  //subs = Substitution(...)
   //todo: Add new criterias to generation process
   //todo: Research translation of e.g. "ax + c" to MMT terms
 
