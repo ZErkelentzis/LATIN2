@@ -130,6 +130,10 @@ class SFOLTermGenerator(controller: Controller, mp: MPath, varnum: Int = 3, litn
   //considering that, while the MMT sees both as the same type, IRL classification has differences and usage is
   //distinctive enough to justify this as well
 
+  //todo: Add template based generation. Get help with substitution.
+  //todo: Add new criterias to generation process
+  //todo: Research translation of e.g. "ax + c" to MMT terms
+
   def Generator(Crit: GenCriteria): Stream[Term] ={
     if(Crit.form){
       FormulaGenerator(Crit)
@@ -432,24 +436,20 @@ class SFOLTermGenerator(controller: Controller, mp: MPath, varnum: Int = 3, litn
     }
     else if(crit.mode == 0){
       rdepth = requestNumber(crit.max)
+      while(rdepth < crit.min){
+        rdepth = requestNumber(crit.max)
+      }
       //todo: add flag for quantifiers. Check against crit qmax. 1 = quantifiers, 0 = no quantifiers
-      generateFormula(rdepth, crit)._2 #:: generateFormulas(crit)
+      generateFormula(rdepth, crit, 1)._2 #:: generateFormulas(crit)
     }
     else generateFormula(rdepth, crit)._2 #:: generateFormulas(crit)
   }
 
-  def generateFormula(rdepth: Int = 0, crit: GenCriteria): (Complexity, Term) = {
-    //todo: Implement general Formula generation. How to do that.
-    //todo: We have to return atomic formulas as well as more complex formulas
-    //todo: we have to quantify a random number of free variables
-    //todo: we have to use conjunctions, disjunctions, implications, negations, equivalence, etc
-    //todo: First idea: Make init for atomic formulas, and save them. Then, use those to make more complex formulas
-    //todo: from those.
+  def generateFormula(rdepth: Int = 0, crit: GenCriteria, quant: Int = 0): (Complexity, Term) = {
     //todo: Possible criterias:
-    //todo: alternations between quantifiers (should save then the last used quantifier).
-    //todo: number of connectives (should we use a min max system here again?)
-    //todo: number of free variables/bound variables
-    //todo: Equality yes no ratio? Can equality be applied to Formulas (guess is yes)? Equality chains? a = b = c...
+    // alternations between quantifiers (should save then the last used quantifier).
+    // number of connectives (should we use a min max system here again?)
+    // number of free variables/bound variables
     //initialization of all necessary variables for the new complexity object
     var newform: Term = null
     var newcom: Complexity = null
@@ -457,22 +457,16 @@ class SFOLTermGenerator(controller: Controller, mp: MPath, varnum: Int = 3, litn
     var bvar = List[(OMV, Term)]()
     var newtup = (newcom, newform)
     var newvar = mutable.HashSet[(OMV, Term)]()
-    //todo: SFOL Operators don't have a (for me visible?) Globalname. Can we circumnavigate this?
     var newsym = mutable.HashSet[GlobalName]()
     var newdepth = 0
     var qualt = 0
     //mode selection: 0 is backward generation, else forward generation
     if(crit.mode == 0){
       //implementation of backward generation
-      //todo: implement backward generation
-      //todo: Criteria: min, max syntaxtree is relevant for and, or, negation
-      //todo: quantmin, quantmax, free vars for quantifier application
-      //todo: 1. determine formula depth
       newdepth = rdepth
-      //todo: 2. determine operator. Don't forget base case
+      //determine logical operator
       var trnd = requestNumber(5)
-      //todo: 3. generate sub formulas as needed. Determine new formula depth more random (right now f1 is always
-      // considered rdepth-1)
+      //sub formula initialization and generation. Base case makes atomic formula, else recursive sub formula generation
       var f1: (Complexity, Term) = null
       var f2: (Complexity, Term) = null
       if(rdepth == 0){
@@ -492,58 +486,97 @@ class SFOLTermGenerator(controller: Controller, mp: MPath, varnum: Int = 3, litn
         f2._1.variables.foreach(v => newvar += v)
       }
       if(rdepth == 0){
+        //base case: atomic formula, no operator required
         newform = f1._2
         newcom = new Complexity(newdepth, f1._1.output, newvar.toList, newsym.toList, lquant, qualt, bvar)
         newtup = (newcom, newform)
       }
       else if(trnd == 0){
-        //todo: and
+        //conjunction
         newsym += GlobalName(Conjunction._path, Conjunction._name)
         newform = Conjunction.and.apply(f1._2, f2._2)
         newcom = new Complexity(newdepth, f1._1.output, newvar.toList, newsym.toList, lquant, qualt, bvar)
         newtup = (newcom, newform)
       }
       else if(trnd == 1){
-        //todo: or
+        //disjunction
         newsym += GlobalName(Disjunction._path, Disjunction._name)
         newform = Disjunction.or.apply(f1._2, f2._2)
         newcom = new Complexity(newdepth, f1._1.output, newvar.toList, newsym.toList, lquant, qualt, bvar)
         newtup = (newcom, newform)
       }
       else if(trnd == 2){
-        //todo: equiv
+        //equivalence
         newsym += GlobalName(Equivalence._path, Equivalence._name)
         newform = Equivalence.equiv.apply(f1._2, f2._2)
         newcom = new Complexity(newdepth, f1._1.output, newvar.toList, newsym.toList, lquant, qualt, bvar)
         newtup = (newcom, newform)
       }
       else if(trnd == 3){
-        //todo: imp
+        //implication
         newsym += GlobalName(Implication._path, Implication._name)
         newform = Implication.impl.apply(f1._2, f2._2)
         newcom = new Complexity(newdepth, f1._1.output, newvar.toList, newsym.toList, lquant, qualt, bvar)
         newtup = (newcom, newform)
       }
       else if(trnd == 4){
-        //todo: not
+        //not
         newsym += GlobalName(Negation._path, Negation._name)
         newform = Negation.not(f1._2)
         newcom = new Complexity(newdepth, f1._1.output, newvar.toList, newsym.toList, lquant, qualt, bvar)
         newtup = (newcom, newform)
       }
-      //todo: 4. determine number of bound variables
-      trnd = requestNumber(newtup._1.getUnbound().length)
-      //todo: 5. determine number of quantifier alterations
-      qualt = requestNumber(crit.quantmax)
-      var tobind = trnd
-      //todo: 6. apply quantifiers. Consider that only the top level function should have quantifiers. How to ensure
-      // that? Possible through a flag - generator method gives flag == 1, subfunction flag == 0
-      while(tobind != 0){
-        //todo: We have to apply the quantifiers here. We have 3 of them - forall, exist, exist unique. We have to
-        // consider the following values: quantifier alterations, variables to bind
+      //checking flag ensures only top level get's quantified
+      if(quant == 1){
+        //todo: 4. determine number of bound variables. Add possibility to specify min max number through criteria
+        var tobind = requestNumber(newtup._1.getUnbound().length)
+        //todo: 5. determine number of quantifier alterations. Add possibility to specify min through criteria
+        qualt = requestNumber(crit.quantmax)
+        //qalc: counter for the number of still applicable alterations.
+        //todo: Consider case: max quantifers larger then bindable variables.
+        var qalc = qualt
+
+        while(tobind != 0){
+          trnd = requestNumber(3)
+
+          if(trnd == 0){
+            if(f1._1.lastquant != 1 && f1._1.lastquant != 0){
+              qalc -= 1
+            }
+            lquant = 1
+            val wvar = f1._1.getUnbound()
+            val nvar = wvar(requestNumber(wvar.length))
+            bvar = nvar :: bvar
+            newsym += GlobalName(TypedUniversalQuantification._path, TypedUniversalQuantification._name)
+            newform = forall(nvar._2, Lambda(nvar._1.name,tm(nvar._2), newform))
+          }
+          else if(trnd == 1){
+            if(f1._1.lastquant != 2 && f1._1.lastquant != 0){
+              qalc -= 1
+            }
+            lquant = 2
+            val wvar = f1._1.getUnbound()
+            val nvar = wvar(requestNumber(wvar.length))
+            bvar = nvar :: bvar
+            newsym += GlobalName(TypedExistentialQuantification._path, TypedExistentialQuantification._name)
+            newform = exists(nvar._2, Lambda(nvar._1.name,tm(nvar._2), newform))
+          }
+          else{
+            if(f1._1.lastquant != 3 && f1._1.lastquant != 0){
+              qalc -= 1
+            }
+            lquant = 3
+            val wvar = f1._1.getUnbound()
+            val nvar = wvar(requestNumber(wvar.length))
+            bvar = nvar :: bvar
+            newsym += GlobalName(TypedUniqueExistentialQuantification._path, TypedUniqueExistentialQuantification._name)
+            newform = existsUnique(nvar._2, Lambda(nvar._1.name,tm(nvar._2), newform))
+          }
+        }
       }
-      //todo: 7. return formula
-      //todo: See Hornformula generation as reference
+      newcom = new Complexity(newdepth, f1._1.output, newvar.toList, newsym.toList, lquant, qualt, bvar)
+      newtup = (newcom, newform)
+
       newtup
     }
     else{
