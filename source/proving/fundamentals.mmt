@@ -1,0 +1,38 @@
+namespace latin:/❚
+
+import proving scala://latin2/proving❚
+
+theory PropositionsITP =
+  proof # block proof 1;…❙
+  rule proving?CheckProof❙
+
+  hence  # %n L1T by 2❙
+  suffices # %n 1❙ 
+  use # use 1❙
+  rule proving?UseStep❙
+❚
+
+theory PLITP =
+  include ?PropositionsITP❙
+
+  assume # %n L1T❙
+  rule proving?AssumeStep❙
+  cases # %n 1,…❙
+❚
+
+theory SFOLITP =
+  include ?PLITP❙
+  fix    # %n L1T❙
+  rule proving?FixStep❙
+❚
+
+theory Test : ?SFOLITP =
+  include ?SFOLEQND❙
+
+  test : {T,A: tm T⟶ prop} ⊦ ∀ [x] A x ⇒ A x❘
+       = [T,A] proof fix x; assume a; use a❙
+  
+  // the above is equivalent to the following in standard natural deduction❙
+  test2 : {T,A: tm T⟶ prop} ⊦ ∀ [x] A x ⇒ A x❘
+       = [T,A] forallI [x] impI [a] a❙
+❚

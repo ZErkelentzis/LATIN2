@@ -1,0 +1,12 @@
+namespace latin:/❚
+
+
+
+theory Examples : ?Tactics =
+    include ?SFOLEQND ❙
+
+
+    a : type ❙
+    aa :  a ❙
+    test0 :  a ⟶ a ⟶ a  ❘ = [x,y] prooft    void ; void ; void;  uset x ❙
+❚

@@ -5,8 +5,25 @@ namespace latin:/❚
 theory Examples : ?Tactics =
     include ?SFOLEQND ❙
 
+    simple_ex : {T  : tp, A: tm T ⟶ prop} ⊦ ∀ [x] A x ⇒ A x
+    ❘ = [T , A] proof fix x ; assume h ; use h ❙
 
-    a : type ❙
+    void_ex :  {T  : tp, A: tm T ⟶ prop} ⊦ ∀ [x] A x ⇒ A x
+        ❘ = [T , A] proof fix x;  void ; assume a ; use a  ❙
 
-    test0 :  a ⟶ a  ❘ = prooft  assumet h ; uset h ❙
+    pps_ex : {T  : tp, A: tm T ⟶ prop} ⊦ ∀ [x] A x ⇒ A x
+    ❘ = [T , A] proof pps ❙
+
+
+    ignore_ex : {T  : tp, A: tm T ⟶ prop} ⊦ ∀ [x] A x ⇒ A x
+    ❘ = [T , A] proof ignore ❙
+
+    theory bwd_ex_isolated =
+        T : tp❙
+        A : tm T ⟶ prop ❙
+        x : tm T ❙
+        tmp : ⊦ A x ⇒ A x ❙
+        bwd_ex : ⊦  A x ⇒ A x
+        ❘ =  proof  assume h ❙
+    ❚
 ❚

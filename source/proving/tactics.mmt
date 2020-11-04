@@ -2,20 +2,18 @@ namespace latin:/❚
 
 import proving scala://latin2/proving❚
 
-theory Tactics =
+theory Tactics  =
+    include ?SFOLITP ❙
 
+    void # void❙
+    rule proving?VoidTactic ❙
 
-    prooft # block prooft 1;…❙
-    rule proving?CheckProofTactic❙
-    uset # uset 1❙
-    rule proving?UseTactic❙
-    assumet # %n L1T❙
-    rule proving?AssumeTactic❙
-    fixt # %n L1T❙
-    rule proving?FixTactic❙
- //   bwd ❙
- //   fwd ❙
- //   qed ❙
-//    addh # addh❙
-//    rule proving?addh ❙
+    bwd # bwd 1❙
+    rule proving?BwdTactic ❙
+
+    pps # pps ❙
+    rule proving?PrintProofStateTactic ❙
+
+    ignore # ignore ❙
+    rule proving?IgnoreTactic ❙
 ❚
