@@ -1,4 +1,0 @@
-theory latin:/algebraic?Absorptive
-HasMeta latin:/algebraic?Absorptive latin:/?SFOLEQND
-Includes latin:/algebraic?Absorptive latin:/algebraic?LeftAbsorptive
-Includes latin:/algebraic?Absorptive latin:/algebraic?RightAbsorptive

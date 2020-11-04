@@ -1,4 +1,0 @@
-theory latin:/algebraic?CommMonoid
-HasMeta latin:/algebraic?CommMonoid http://cds.omdoc.org/urtheories/?LF
-Includes latin:/algebraic?CommMonoid latin:/algebraic?Monoid
-Includes latin:/algebraic?CommMonoid latin:/algebraic?CommSemigroup

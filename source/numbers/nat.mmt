@@ -11,7 +11,30 @@ theory Nat =
   zero  : ℕ❙
   succ  : ℕ ⟶ ℕ❘ # 1 ' prec 20❙
   
+  even: ℕ ⟶ prop❙
+  teststuff: ℕ ⟶ prop❙
+  thereissomething: ℕ ⟶ prop❙
+  
   rule rules?Realize ℕ uom?StandardNat❙
   rule rules?Realize zero uom?Arithmetic/Zero❙
   rule rules?Realize succ uom?Arithmetic/Succ❙
+❚
+  
+theory NatPlus =
+  include ?Nat❙
+  plus : ℕ ⟶ ℕ ⟶ ℕ ❘ # 1 + 2 prec 40❙
+  plus_zero : ⊦ ∀[n] n+zero ≐ n❙
+  plus_succ : ⊦ ∀[m]∀[n] n+(succ m) ≐ succ(n+m)❙
+  
+  plus_zero_left: ⊦ ∀[n] zero+n ≐ n❘
+               // = proof missing, needs induction p5❘
+  ❙
+
+  assoc : ⊦ ∀[l]∀[m]∀[n] (l+m)+n ≐ l+(m+n)❘
+               // = proof missing, needs induction p5❘  
+  ❙
+  
+  comm : ⊦ ∀[m]∀[n] m+n ≐ n+m❘
+               // = proof missing, needs induction p5❘  
+  ❙
 ❚

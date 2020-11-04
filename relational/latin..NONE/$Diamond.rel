@@ -1,7 +1,0 @@
-dataconstructor latin:/?Diamond?diamond
-theory latin:/?Diamond
-HasMeta latin:/?Diamond http://cds.omdoc.org/urtheories?LF
-Includes latin:/?Diamond latin:/?Logic
-Declares latin:/?Diamond latin:/?Diamond?diamond
-constant latin:/?Diamond?diamond
-DependsOn latin:/?Diamond?diamond?type latin:/?Propositions?prop?type

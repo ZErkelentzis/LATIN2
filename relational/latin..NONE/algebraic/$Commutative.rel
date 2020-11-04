@@ -1,9 +1,0 @@
-dataconstructor latin:/algebraic?Commutative?comm
-theory latin:/algebraic?Commutative
-HasMeta latin:/algebraic?Commutative http://cds.omdoc.org/urtheories/?LF
-Includes latin:/algebraic?Commutative latin:/algebraic?Magma
-Declares latin:/algebraic?Commutative latin:/algebraic?Commutative?comm
-constant latin:/algebraic?Commutative?comm
-DependsOn latin:/algebraic?Commutative?comm?type latin:/algebraic?Magma?op?type
-DependsOn latin:/algebraic?Commutative?comm?type latin:/?EqualityType?equalityRel/[latin:/?Relation]/rel?type
-DependsOn latin:/algebraic?Commutative?comm?type latin:/?OneTyped?carrier?type

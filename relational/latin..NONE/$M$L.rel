@@ -1,5 +1,0 @@
-theory latin:/?ML
-HasMeta latin:/?ML http://cds.omdoc.org/urtheories?LF
-Includes latin:/?ML latin:/?PL
-Includes latin:/?ML latin:/?Box
-Includes latin:/?ML latin:/?Diamond

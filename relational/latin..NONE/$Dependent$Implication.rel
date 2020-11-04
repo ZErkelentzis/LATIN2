@@ -1,8 +1,0 @@
-dataconstructor latin:/?DependentImplication?dimpl
-theory latin:/?DependentImplication
-HasMeta latin:/?DependentImplication http://cds.omdoc.org/urtheories?LF
-Includes latin:/?DependentImplication latin:/?Logic
-Declares latin:/?DependentImplication latin:/?DependentImplication?dimpl
-constant latin:/?DependentImplication?dimpl
-DependsOn latin:/?DependentImplication?dimpl?type latin:/?Propositions?prop?type
-DependsOn latin:/?DependentImplication?dimpl?type latin:/?Proofs?ded?type

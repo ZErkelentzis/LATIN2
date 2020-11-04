@@ -1,5 +1,0 @@
-theory latin:/?LogicDiagramOperatorsSemantics
-HasMeta latin:/?LogicDiagramOperatorsSemantics http://cds.omdoc.org/urtheories?LF
-Includes latin:/?LogicDiagramOperatorsSemantics http://cds.omdoc.org/urtheories?ModExp
-Declares latin:/?LogicDiagramOperatorsSemantics latin:/?LogicDiagramOperatorsSemantics?[scala://diagops.latin2?ComputeFOLTypified]
-constant latin:/?LogicDiagramOperatorsSemantics?[scala://diagops.latin2?ComputeFOLTypified]

@@ -1,4 +1,0 @@
-theory latin:/?ImplicationFalsity
-HasMeta latin:/?ImplicationFalsity http://cds.omdoc.org/urtheories?LF
-Includes latin:/?ImplicationFalsity latin:/?Implication
-Includes latin:/?ImplicationFalsity latin:/?Falsity

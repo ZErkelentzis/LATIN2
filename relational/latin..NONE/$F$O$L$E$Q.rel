@@ -1,4 +1,0 @@
-theory latin:/?FOLEQ
-HasMeta latin:/?FOLEQ http://cds.omdoc.org/urtheories?LF
-Includes latin:/?FOLEQ latin:/?FOL
-Includes latin:/?FOLEQ latin:/?Equality

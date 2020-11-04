@@ -1,4 +1,0 @@
-theory latin:/algebraic?Monoid
-HasMeta latin:/algebraic?Monoid http://cds.omdoc.org/urtheories/?LF
-Includes latin:/algebraic?Monoid latin:/algebraic?Semigroup
-Includes latin:/algebraic?Monoid latin:/algebraic?Neutral

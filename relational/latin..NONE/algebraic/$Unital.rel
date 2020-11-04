@@ -1,4 +1,0 @@
-theory latin:/algebraic?Unital
-HasMeta latin:/algebraic?Unital latin:/?SFOLEQND
-Includes latin:/algebraic?Unital latin:/algebraic?LeftUnital
-Includes latin:/algebraic?Unital latin:/algebraic?RightUnital

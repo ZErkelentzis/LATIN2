@@ -1,4 +1,0 @@
-theory latin:/?DisjunctionND
-HasMeta latin:/?DisjunctionND http://cds.omdoc.org/urtheories?LF
-Includes latin:/?DisjunctionND latin:/?DisjunctionNDI
-Includes latin:/?DisjunctionND latin:/?DisjunctionNDE
