@@ -1,10 +1,14 @@
 package latin2.sfol
 
-import info.kwarc.mmt.api.objects.Term
+import info.kwarc.mmt.api.GlobalName
+import info.kwarc.mmt.api.objects.{OMV, Term}
 
-class GenCriteria(GenMode: Int = 1, RequestedType: Term = null, MinDepth: Int = 0, MaxDepth: Int = -1, Ratio: Int = 50,
-                  Formula: Boolean = false, TermCriteria: GenCriteria = null, qmin: Int = 0, qmax: Int = 0,
-                  anum: Int = 100, skip: Boolean = false) {
+class GenCriteria(GenMode: Int = 1, variables: Int = 3, literals: Int = 3,
+                  RequestedType: Term = null, MinDepth: Int = 0, MaxDepth: Int = -1, escalate: Boolean = false,
+                  Ratio: Int = 50, Formula: Boolean = false, TermCriteria: GenCriteria = null,
+                  qmin: Int = 0, qmax: Int = 0, anum: Int = 100, skip: Boolean = false,
+                  exclude: List[GlobalName] = List[GlobalName](), temp: Term = null,
+                  sublist: List[(OMV, Term, Int)] = null) {
   //todo: do we even have to clarify Formula? We could take that info from the RequestedType. On the other hand,
   //todo: tc generation might require it.
   //todo: here we make all the term criteria
@@ -17,6 +21,8 @@ class GenCriteria(GenMode: Int = 1, RequestedType: Term = null, MinDepth: Int = 
   //tc: term generation criteria for formula generation
   //todo: clarify empty functions, as those are (generally?) definition of base values (zero, true, etc)
   //todo: is it even useful to mix those with literals? might be better to seperate them in generation
+  def varnum = variables
+  def litnum = literals
   def form: Boolean = Formula
   def mode: Int = GenMode
   def tp: Term = RequestedType
@@ -25,6 +31,7 @@ class GenCriteria(GenMode: Int = 1, RequestedType: Term = null, MinDepth: Int = 
   //we can propably delete minimum depth
   def min: Int = MinDepth
   def max: Int = MaxDepth
+  def escdepth: Boolean = escalate
   def rat: Int = Ratio
   //instead of minimal and maximal quantifiers, we should be more concerned with quantifer alteration. Min/Max?
   def quantmax: Int = qmax
@@ -35,6 +42,17 @@ class GenCriteria(GenMode: Int = 1, RequestedType: Term = null, MinDepth: Int = 
     }
     else TermCriteria
   }
+  //a list that allows the targeted exclusion of operators on both theory level and SFOL level
+  def exclusionlist: List[GlobalName] = exclude
+  //a template can come in 2 variants - an absolute template, and an infinite template
+  //examples for absolute templates:
+  //ax^2 + bx + c, where a, b, c are to be substituted with a literal
+  //pred1(t1) and pred(t2) or (t3=t4). where t1 to t4 are terms
+  //examples for infinite template
+  //Horn Formula, CNF, sum.
+  //todo: how to handle infinite templates
+  def template: Term = temp
+  def substitute: List[(OMV, Term, Int)] = sublist
 
   //todo: here we make formula criteria. What are potential criteria for formulas?
   //todo: 1. min/max depth, like with terms

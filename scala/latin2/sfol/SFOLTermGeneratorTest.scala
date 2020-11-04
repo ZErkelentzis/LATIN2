@@ -1,8 +1,9 @@
 package latin2.sfol
 
-import info.kwarc.mmt.api.Path
+import info.kwarc.mmt.api.{GlobalName, Path}
 import info.kwarc.mmt.api.frontend.Controller
-import lf.Nat
+import info.kwarc.mmt.api.objects.OMV
+import lf.{Conjunction, Disjunction, Equivalence, Implication, Nat, Negation}
 
 object SFOLTermGeneratorTest {
   def main(args: Array[String]) {
@@ -11,14 +12,26 @@ object SFOLTermGeneratorTest {
 
     val thyS = "latin:/?NatPlus" //algebraic?Commutative algebraic?Powers latin:/?IPLND
     val thy = Path.parseM(thyS, controller.getNamespaceMap)
-    val gen = new SFOLTermGenerator(controller, thy, 4)
-    val TermCriteria = new GenCriteria(1, Nat.nat.term, 0, 3, 90)
-    val FormulaCriteria = new GenCriteria(1, null, 0, 3, 50, true,
-      TermCriteria)
+    val gen = new SFOLTermGenerator(controller, thy)
+
+    //todo: test template a+t+x, make a literal, t term, x variable not sub
+    val template = gen.generateTemplate()
+    var Tfilterlist = List[GlobalName]()
+    var Ffilterlist = List[GlobalName]()
+    Tfilterlist = Path.parseS("latin:/?Nat?zero", controller.getNamespaceMap) :: Tfilterlist
+    //Ffilterlist = Conjunction.and.path :: Ffilterlist
+    //Ffilterlist = Disjunction.or.path :: Ffilterlist
+    Ffilterlist = Equivalence.equiv.path :: Ffilterlist
+    Ffilterlist = Implication.impl.path :: Ffilterlist
+    Ffilterlist = Negation.not.path :: Ffilterlist
+    val TermCriteria = new GenCriteria(1, 5, 3, null /*Nat.nat.term*/, 0, 3, false,
+      90, false, null, 0, 0, 0, false, Tfilterlist/*, template._1, template._2*/)
+    val FormulaCriteria = new GenCriteria(1, 5, 0, null, 0,5, false, 50,
+      true, TermCriteria, exclude = Ffilterlist)
     //var termstream = gen.TermGenerator()
     //var termstream = gen.TermGenerator(TermCriteria)
     //Nat.nat.term
-    var formstream = gen.FormulaGenerator(FormulaCriteria)
+    var formstream = gen.Generator(TermCriteria)
 
     while(true){
       //println("new term: " + controller.presenter.asString(termstream.head))
