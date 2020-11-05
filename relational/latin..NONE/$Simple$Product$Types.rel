@@ -1,7 +1,0 @@
-dataconstructor latin:/?SimpleProductTypes?simpprod
-theory latin:/?SimpleProductTypes
-HasMeta latin:/?SimpleProductTypes http://cds.omdoc.org/urtheories?LF
-Includes latin:/?SimpleProductTypes latin:/?Types
-Declares latin:/?SimpleProductTypes latin:/?SimpleProductTypes?simpprod
-constant latin:/?SimpleProductTypes?simpprod
-DependsOn latin:/?SimpleProductTypes?simpprod?type latin:/?Types?tp?type

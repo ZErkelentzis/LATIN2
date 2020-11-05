@@ -1,0 +1,40 @@
+namespace latin:/❚
+
+fixmeta ur:?LF❚
+
+theory SoftTypedDefinedFOL =
+  include ?SoftTypedLogic ❙
+	include ?Conjunction ❙
+	include ?Negation ❙
+	include ?Truth ❙
+	include ?Falsity ❙
+	include ?Equality ❙
+	include ?UniversalQuantification ❙
+	or: prop ⟶ prop ⟶ prop❘= [a,b] ¬ (¬ a ∧ ¬ b) ❘# 1 ∨ 2 prec 15 ❙
+	implies: prop ⟶ prop ⟶ prop ❘# 1 ⇒ 2 prec 10 ❘ = [a,b] ¬ (a ∧ (¬ b)) ❙
+	iff: prop ⟶ prop ⟶ prop ❘ = [a,b] (a ⇒ b) ∧ (b ⇒ a) ❘ # 1 ⇔ 2 prec 15 ❙	
+  exists: (term ⟶ prop) ⟶ prop ❘ = [p] ¬ (∀ ([x] (¬ (p x)))) ❘# ∃ 1 ❙
+	existsUnique: (term ⟶ prop) ⟶ prop ❘ = [pred] (∃ pred) ∧ (∀ [x:term] ∀ [y:term] (pred x ⇒ pred y ⇒ (x ≐ y))) ❙
+❚
+
+theory SoftTypedFOL =
+  include ?SoftTypedLogic ❙
+	include ?IFOLEQ ❙
+	include ?UniqueExistentialQuantification ❙
+❚
+
+view MizarView : ?SoftTypedFOL → ?SoftTypedDefinedFOL =
+	include ?SoftTypedLogic ❙
+	include ?Conjunction ❙
+	include ?Negation ❙
+	include ?Truth ❙
+	include ?Falsity ❙
+	include ?Equality ❙
+	include ?UniversalQuantification ❙
+
+	or = or ❙
+	impl = implies ❙
+	equiv = iff ❙
+	exists = exists ❙
+	existsUnique = existsUnique ❙
+❚

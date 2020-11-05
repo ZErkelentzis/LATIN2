@@ -1,4 +1,0 @@
-theory latin:/algebraic?CommIdempotent
-HasMeta latin:/algebraic?CommIdempotent latin:/?SFOLEQND
-Includes latin:/algebraic?CommIdempotent latin:/algebraic?Idempotent
-Includes latin:/algebraic?CommIdempotent latin:/algebraic?Commutative

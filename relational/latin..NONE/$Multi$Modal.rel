@@ -1,6 +1,0 @@
-datatypeconstructor latin:/?MultiModal?modality
-theory latin:/?MultiModal
-HasMeta latin:/?MultiModal http://cds.omdoc.org/urtheories?LF
-Includes latin:/?MultiModal latin:/?Logic
-Declares latin:/?MultiModal latin:/?MultiModal?modality
-constant latin:/?MultiModal?modality

@@ -1,4 +1,0 @@
-theory latin:/algebraic?IdempotentMonoid
-HasMeta latin:/algebraic?IdempotentMonoid latin:/?SFOLEQND
-Includes latin:/algebraic?IdempotentMonoid latin:/algebraic?Monoid
-Includes latin:/algebraic?IdempotentMonoid latin:/algebraic?Band

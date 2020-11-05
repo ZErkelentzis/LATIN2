@@ -1,7 +1,0 @@
-datatypeconstructor latin:/?TypedTerms?tm
-theory latin:/?TypedTerms
-HasMeta latin:/?TypedTerms http://cds.omdoc.org/urtheories?LF
-Includes latin:/?TypedTerms latin:/?Types
-Declares latin:/?TypedTerms latin:/?TypedTerms?tm
-constant latin:/?TypedTerms?tm
-DependsOn latin:/?TypedTerms?tm?type latin:/?Types?tp?type

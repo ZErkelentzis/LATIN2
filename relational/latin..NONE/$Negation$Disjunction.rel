@@ -1,4 +1,0 @@
-theory latin:/?NegationDisjunction
-HasMeta latin:/?NegationDisjunction http://cds.omdoc.org/urtheories?LF
-Includes latin:/?NegationDisjunction latin:/?Negation
-Includes latin:/?NegationDisjunction latin:/?Disjunction

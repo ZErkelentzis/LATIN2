@@ -1,5 +1,0 @@
-datatypeconstructor latin:/?OneTyped?carrier
-theory latin:/?OneTyped
-HasMeta latin:/?OneTyped http://cds.omdoc.org/urtheories?PLF
-Declares latin:/?OneTyped latin:/?OneTyped?carrier
-constant latin:/?OneTyped?carrier

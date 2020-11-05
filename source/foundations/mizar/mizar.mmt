@@ -1,0 +1,171 @@
+namespace latin:/ ❚
+
+theory Mizar : ur:?LFS =
+  include ?SoftTypedDefinedFOL ❙
+	// terms (a meta-type for all objects)❙
+  // term : type 
+	// set in Mizar ❙
+	// FOL relative to term ❙
+	// prop : type ❙
+  // true : prop ❙
+  // false : prop ❙
+  // not : prop ⟶ prop ❘ # not 1 prec 20 ❘ ## ¬ 1 prec 20❙
+	// and: prop ⟶ prop ⟶ prop ❘# 1 and 2 ❙
+	nary_and : {n} prop^n ⟶ prop❘
+       # 2and… prec 10❘## 2&… prec 10❙
+   &   : {n} prop^n ⟶ prop ❘= [n,x] nary_and n x❘
+       # 2&… prec 10❙
+	// or: prop ⟶ prop ⟶ prop ❘= [a,b] not (not a and not b) ❘# 1 or 2 ❙
+	nary_or  : {n} prop^n ⟶ prop ❘= [n][x] not (nary_and n ⟨' (not (x..i)) | i:n '⟩) ❘
+       # 2or… prec 10❘## 2∨… prec 10❙ 
+	// implies: prop ⟶ prop ⟶ prop ❘ = [a,b] ¬ (a ∧ (¬ b)) ❘ # 1 ⇒ 2 prec 15 ❘## 1 implies 2 prec 15 ❙
+	// implies_def: {a,b} ⊦ ¬ (a ∧ (¬ b)) ⟶ ⊦ a ⇒ b ❙
+	// implies_def_conv: {a,b} ⊦ a ⇒ b ⟶ ⊦ ¬ (a ∧ (¬ b)) ❙
+
+	// iff: prop ⟶ prop ⟶ prop ❘ = [a,b] (a ⇒ b) ∧ (b ⇒ a) ❘ # 1 iff 2 prec 15 ❙
+	// equiv_def: {a,b} ⊦ (a ⇒ b) ∧ (b ⇒ a) ⟶ ⊦ a ⇔ b ❙
+	// equiv_def_conv: {a,b} ⊦ a ⇔ b ⟶ ⊦ (a ⇒ b) ∧ (b ⇒ a) ❙
+
+	// equal: term ⟶ term ⟶ prop ❘# 1 ≐ 2 prec 25 ❘ ## 1 = 2 prec 25 ❙
+	// forall: (term ⟶ prop) ⟶ prop ❘ # ∀ 1 ❙
+	// exists: (term ⟶ prop) ⟶ prop ❘ = [pred] ¬ (∀ ([x:term] (¬ (pred x)))) ❘# ∃ 1 ❙
+	// existsUnique: (term ⟶ prop) ⟶ prop ❘ = [pred] (∃ pred) ∧ (∀ [x:term] ∀ [y:term] (pred x ⇒ pred y ⇒ (x ≐ y))) ❙
+
+	// types ❙
+	// TP: type 
+	// MODE in Mizar ❙
+	// of : term ⟶ tp ⟶ prop ❘ # 1 ⦂ 2 prec 50
+  // is in Mizar ❙
+	makeMode : (term ⟶ prop) ⟶ tp ❙
+	intersectionMode: tp ⟶ tp ⟶ tp ❘ = [a,b] makeMode ([x] x ⦂ a ∧ x ⦂ b) ❙
+
+ 
+	// quantification over types ❙
+	for: {A:tp, p: term ⟶ prop} prop ❘= [A, p] ∀ [x] x ⦂ A ⇒ p x ❙
+	ex: {A:tp, p: term ⟶ prop} prop ❘= [A, p] ∃ [x] (x ⦂ A) ∧ (p x) ❙
+
+	// proofs ❙
+	// proof: prop ⟶ type ❘ # ⊦ 1 prec -5❘ ## proof 1 prec -5 ❙
+	be: term ⟶ tp ⟶ type ❘= [x,a] ⊦ x ⦂ a ❘# 1 be 2 prec 50❙
+
+  // propositional logic❙
+  contradiction : type ❘= ⊦ false❙
+	// inconsistent (from ☞base:?Proofs) is formalized as {a} ⊦ a, so we can't use it. ❙
+ 
+  proof_by_contradiction : {A:prop} (⊦ (¬ A) ⟶ contradiction) ⟶ ⊦ A❘# %%prefix 1 1❙
+  contradictionE : contradiction ⟶ {B} ⊦ B❙
+  notE : {A:prop} ⊦ (¬ A) ⟶ ⊦ A ⟶ contradiction❘# %%prefix 1 2❙ 
+   
+  andI : {A:prop,B:prop} ⊦ A ⟶ ⊦ B ⟶ ⊦ A ∧ B ❘  // thus❙
+  andEl : {A,B} ⊦ A ∧ B ⟶ ⊦ A ❘ # andEl 1 2 3 ❘            // by/from❙
+  andEr : {A,B} ⊦ A ∧ B ⟶ ⊦ B❘ # andEr 1 2 3 ❘            // by/from❙
+
+  not_idem : {A:prop} ⊦ ¬ (¬ A) ⟶ ⊦ A ❘= [A,p] proof_by_contradiction ([q] notE p q) ❘ # not_idem 1 2 ❙
+  tnd : {A} ⊦ A ∨ ¬ A ❘// = [A] proof_by_contradiction ([p] notE (andEr (not_idem p)) (andEl (not_idem p)))❙
+   
+  // definitions below are well-typed but cannot be checked yet because LFS beta-reduction of not finished ❙
+   
+  orIl : {A,B} ⊦ A ⟶ ⊦ A ∨ B ❘// = [A,B,p] (proof_by_contradiction [q] notE (andEl (not_idem q)) p)❙
+  orIr : {A,B} ⊦ B ⟶ ⊦ A ∨ B ❘// = [A,B,p] (proof_by_contradiction [q] notE (andEr (not_idem q)) p)❙
+  per_cases : {A,B,C} (⊦ A ⟶ ⊦ C) ⟶ (⊦ B ⟶ ⊦ C) ⟶ (⊦ A ∨ B ⟶ ⊦ C)❙
+   
+  //assume❙
+  impliesI : {A,B} (⊦ A ⟶ ⊦ B) ⟶ ⊦ (A ⇒ B) ❘ # impliesI 1 2 3
+      ❘// = [A,B,p] per_cases ([q: proof A] proof_by_contradiction ([s] notE (andEr (not_idem s)) (p q) ) ) 
+                       ([r] proof_by_contradiction ([s] notE r (andEl (not_idem s)) ) )
+                            tnd❙ 
+  impliesE : {A,B} ⊦ A ⇒ B ⟶ ⊦ A ⟶ ⊦ B ❘
+            = [A,B][p][q] proof_by_contradiction ([r : ⊦ ¬ B] notE (A ∧ ¬ B) p (andI A (¬ B) q r)) ❙
+	implies_refleq: {A:prop} ⊦ (¬ (A ∧ (¬ A))) ❘ = [A] (proof_by_contradiction ([p:⊦ (¬ (¬ (A ∧ (¬ A))))] notE A (andEr A (¬ A) (not_idem (A ∧ (¬ A)) p)) (andEl A (¬ A) (not_idem (A ∧ (¬ A)) p))))❙ 
+	implies_refl : {A:prop} ⊦ A ⇒ A ❘= [A] implies_refleq ❘ # implies_refl 1 2 ❙ 
+   
+  iffI : {A,B} (⊦ A ⟶ ⊦ B) ⟶ (⊦ B ⟶ ⊦ A) ⟶ ⊦ (A ⇔ B) ❘= [A,B][p][q] andI (A ⇒ B) (B ⇒ A) (impliesI A B p) (impliesI B A q)❙
+  iffEl : {A,B} ⊦ A ⇔ B ⟶ ⊦ A ⟶ ⊦ B ❘= [A,B][p][q] impliesE A B (andEl (A ⇒ B) (B ⇒ A) p) q❙
+  iffEr : {A,B} ⊦ A ⇔ B ⟶ ⊦ B ⟶ ⊦ A ❘= [A,B][p][q] impliesE B A (andEr (A ⇒ B) (B ⇒ A) p) q❙
+  iff_refl : {A} ⊦ A ⇔ A ❘= [A] andI (A ⇒ A) (A ⇒ A) (implies_refl A) (implies_refl A) ❙
+
+  // quantifier rules, using Mizar keywords❙
+  let : {A,F} ({x} x be A ⟶ ⊦ (F x)) ⟶ ⊦ (for A [x] F x)❘    //forallI❙
+  consider : {A,F} ⊦ (for A [x] F x) ⟶ {c} c be A ⟶ ⊦ (F c)❘ //forallE❙
+   
+  take : {A,F} {x} x be A ⟶ ⊦ (F x) ⟶ ⊦ (ex A [x] F x)❘    //exI❙
+  given : {A,F,G} ⊦ (ex A [x] F x) ⟶ ({y} y be A ⟶ ⊦ F y ⟶ ⊦ G) ⟶ ⊦ G❘ //exE❙ 
+   
+  // equality rules❙
+  refl  : {X} ⊦ X ≐ X❙
+  sym   : {X:term,Y:term} ⊦ X ≐ Y ⟶ ⊦ Y ≐ X❙
+  trans : {X:term,Y:term,Z:term} ⊦ X ≐ Y ⟶ ⊦ Y ≐ Z ⟶ ⊦ X ≐ Z ❙
+  congP : {X:term,Y:term} ⊦ X ≐ Y ⟶ {F : term ⟶ prop} ⊦ F Y ⟶ ⊦ F X❙ 
+  congF : {X:term,Y:term} ⊦ X ≐ Y ⟶ {F : term ⟶ term} ⊦ F X ≐ F Y❙
+
+  // some important rewrite rules (needed in particular to eliminate artifacts caused by instances with empty sequences)❙
+  impliesLeftNeutral : {a} ⊦ (true ⇒ a) ⇔ a❘role Simplify❙
+  impliesRightAttractive : {a} ⊦ (a ⇒ true) ⇔ true❘role Simplify❙
+  iffLeftNeutral : {a} ⊦ (true ⇔ a) ⇔ a❘role Simplify❙
+  iffRightNeutral: {a} ⊦ (a ⇔ true) ⇔ a❘role Simplify❙
+  // for the flexary connectives, the rewrite rules need programming❙
+  // rule mmt/sequences?BoundedSemilattice (and) true❙
+  // rule mmt/sequences?BoundedSemilattice (or) false❙
+  
+  // for implicitly defined functions: an element uniquely characterized by a predicate❙
+  func : {A:tp}{f : term ⟶ prop} (⊦ ex A [x] f x) ⟶ ⊦ for A ([x] (for A ([y] (f x ∧ f y) ⇒ (x ≐ y)))) ⟶ term ❙
+   
+  func_prop : {A : tp, F : term ⟶ prop,EX : ⊦ ex A [x] (F x),UNQ}{S} ⊦ S ≐ func A F EX UNQ ⟶ ⊦ F S❙
+  // for implicitly defined tps: a type characterized by a predicate❙
+  implMode : {A : tp} {f : term ⟶ prop} ⊦ (ex A [x] (f x)) ⟶ tp ❙
+  tp_prop : {X,A,F,P} ⊦ X ⦂ (implMode A F P) ⇔ (X ⦂ A ∧ F X)❙
+ 
+      
+  // attributes as predicates on types❙
+  attr : tp ⟶ type ❘= [t] (term ⟶ prop)❙
+  neg_attr : {T} attr T ⟶ attr T ❘= [T,a] ([x] ¬ (a x))❙ 
+   
+  // clusters as conjunctions of attributes❙
+  cluster: {T} attr T ⟶ attr T ⟶ attr T ❘= [T][a][b] [x] (a x) ∧ (b x)❙
+     
+   // choice operator ❙
+  choice : tp ⟶ term❙
+  choice_prop : {t : tp} ⊦ (choice t) ⦂ t❙
+    
+  // types formed by imposing a possibly negated attribute on a type❙
+  adjective : {t: tp} attr t ⟶ tp ❙
+  adjective_non : {t: tp} attr t ⟶ tp ❙
+
+  // adjective_prop : proof X of (adjective T A) ⇔ X of T ∧ A X❙
+  adjI : {X,A}{x : term} x be X ⟶ (⊦ A x) ⟶ x be (adjective X A)❙
+  adjE : {X,A}{x : term} x be (adjective X A) ⟶  x be X❙
+  adjE_' : {X,A}{x : term} x be (adjective X A) ⟶ ⊦ A x❙
+  adj_nonI : {X,A}{x : term} x be X ⟶ ⊦ ¬ (A x) ⟶ x be (adjective_non X A)❙
+  adj_nonE : {X,A} {x : term} x be (adjective_non X A) ⟶ x be X❙
+  //adj_nonE': {x : be (adjective_non X A)} ⊦ ¬ (A (adj_nonE x))❙
+
+  fraenkel : tp ⟶ (term ⟶ prop) ⟶ (term ⟶ term) ⟶ term❙
+   
+  // rule mmt/lf?Realize term mmt/api/uom?StandardInt❙
+
+	// typed vs. untyped quantification ❙
+	univ_restriction_prop: {A: tp, p:term ⟶ prop} ⊦ (∀ [x] p x ⇒ for A [x] p x) ❙
+	exist_restriction_prop: {A: tp, p:term ⟶ prop} ⊦ (ex A [x] p x ⇒ ∃ [x] p x) ❙
+	univ_restriction_suffices: {A: tp, p:term ⟶ prop} ⊦ ∀ ([x] (¬ (x ⦂ A) ⇒ ¬ (p x))) ⟶ ⊦ ((∀ ([x] p x)) ⇔ (for A [x] p x))❙
+	exist_restriction_suffices: {A: tp, p:term ⟶ prop} ⊦ ∀ ([x] (¬ (x ⦂ A) ⇒ ¬ (p x))) ⟶ ⊦ ((∃ ([x] p x)) ⇔ (ex A [x] p x))❙
+❚
+
+theory HIDDEN : ur:?LF = 
+   include ?Mizar❙
+   
+	 // sets (submode of object)❙
+   set : tp❙
+   set_ax : {X} ⊦ X ⦂ set ❙
+
+   // eq is already declared in Mizar
+   // eq : any ⟶ any ⟶ prop❘= [x][y] x eq y❘# 1 = 2 prec 25❙
+   inequal : term ⟶ term ⟶ prop❘= [x][y] not (x ≐ y)❘ # 1 <> 2 prec 25❘## 1 ≠ 2 prec 25❙
+   
+   // be object -> be term -> prop❙
+   in : term ⟶ term ⟶ prop❘# 1 in 2 prec 35❘## 1 ‍∈ 2 prec 35❙
+
+   fraenkelE : {a : tp} {p : term ⟶ prop}{f : term ⟶ term}
+     ⊦ for set [x] x in (fraenkel a p f) ⇒ ex a [y] p y ∧ f y ≐ x ❙
+   fraenkelI : {a : tp} {p : term ⟶ prop}{f : term ⟶ term}
+     ⊦ for a [x] p x ⇒ (f x) in (fraenkel a p f)❙
+❚

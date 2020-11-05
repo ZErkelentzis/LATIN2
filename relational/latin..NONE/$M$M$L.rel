@@ -1,5 +1,0 @@
-theory latin:/?MML
-HasMeta latin:/?MML http://cds.omdoc.org/urtheories?LF
-Includes latin:/?MML latin:/?MultiModal
-Includes latin:/?MML latin:/?MultiBox
-Includes latin:/?MML latin:/?MultiDiamond
