@@ -1,0 +1,12 @@
+namespace latin:/❚
+
+
+
+theory Examples :  ?SFOLEQND =
+   // include ?SFOLEQND ❙
+
+    simple_ex : {T  : tp, A: tm T ⟶ prop} ⊦ ∀ [x] A x ⇒ A x ❘ # simple_ex 1 2 ❙
+
+    bla : {T : tp , A : tm T ⟶ prop} ⊦ ∀ [x] A x ⇒ A x ❘ = [T : tp , A : tm T ⟶ prop] (simple_ex T A)  ❙
+
+❚
