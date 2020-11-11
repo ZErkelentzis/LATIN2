@@ -1,0 +1,25 @@
+// Runs the algebra diagram operators on the test input declared in diagop-theories.mmt.
+
+   Responsible: Navid ❚
+namespace latin:/algebraic/diagop-test❚
+
+rule scala://parser.api.mmt.kwarc.info?MMTURILexer ❚
+
+theory AlgebraicDiagOps : ur:/modexp-test?DiagramOperators =
+  hom_operator # HOM ❙
+  rule ☞scala://newoperators.moduleexpressions.mmt.kwarc.info?HomOperator ❙
+
+  sub_operator # SUB ❙
+  rule ☞scala://newoperators.moduleexpressions.mmt.kwarc.info?SubOperator ❙
+❚
+
+theory Diagram : ?AlgebraicDiagOps =
+  diagForHom = SDIAG ☞latin:/?SFOLEQND ?Set ?Magma ?OppositeMagma ❙
+  diagForSub = SDIAG ☞latin:/?SFOLEQND ?Set ?Magma ?Monoid ❙
+
+  subOutput = SUB diagForSub ❙
+❚
+
+// diagram HomMagmas : ?AlgebraicDiagOps := HOM ?Diagram?homDiag ❚
+// diagram SubMagmas : ?AlgebraicDiagOps := SUB ?Diagram?subDiag ❚
+diagram both : ?AlgebraicDiagOps := HOM ?Diagram?subOutput ❚
