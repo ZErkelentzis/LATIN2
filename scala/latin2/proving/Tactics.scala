@@ -1,11 +1,16 @@
 package latin2.proving
 
 import latin2.proving._
-import lf.{Implication, Proofs, Tactics, TypedUniversalQuantification, Types}
+import lf.{Implication, Proofs, PropositionsITP, Tactics, TypedUniversalQuantification, Types}
 import info.kwarc.mmt.api._
-import info.kwarc.mmt.lf.Apply
+import info.kwarc.mmt.api.checking.{History, InferenceAndTypingRule, InferenceRule, Solver, TypingRule}
+import info.kwarc.mmt.api.uom.ConstantScala
+import info.kwarc.mmt.lf.{Apply, OfType, Pi}
 import info.kwarc.mmt.moduleexpressions.operators.typeops.LATIN2Environment.Logic.TypedTerms
+import info.kwarc.mmt.moduleexpressions.operators.typeops.LATIN2Environment.Logic.TypedTerms.tm
+import info.kwarc.mmt.moduleexpressions.operators.typeops.LATIN2Environment.Logic.Types.tp
 import latin2.proving.helperFunctions.{NamedHypothesis, NamedOrUnnamedTerm, UnnamedHypothesis}
+import lf.Tactics.theoremLF
 import objects._
 import prettyprint._
 import objects.OMV
@@ -24,7 +29,7 @@ object VoidTactic extends ProofStepRule(Tactics.void.path){
 
 object PrintProofStateTactic extends  ProofStepRule(Tactics.pps.path){
   def apply(prover: ImperativeProver, goal: ProofGoal, step: Term): Option[List[ProofGoal]] = {
-    prover.solver.report("proofstate" , "-------- Proving: " + prover.solver.checkingUnit.component.toString + " ----------")
+    prover.solver.report("proofstate" , ">>>>>>>>>>>> PROVING: " + prover.solver.checkingUnit.component.toString + " <<<<<<<<<<<<<")
     prover.solver.report("proofstate" , "--------PROOF_STATE-------")
     prover.solver.report("proofstate" , "HYPOTHESIS---------------HYPOTHESIS---------------HYPOTHESIS")
     prover.solver.report("proofstate" ,  prettyPrintHyps(prover.solver ,goal.stack))
@@ -37,7 +42,7 @@ object PrintProofStateTactic extends  ProofStepRule(Tactics.pps.path){
 
 object PrintProofStateRawTactic extends  ProofStepRule(Tactics.ppsr.path){
   def apply(prover: ImperativeProver, goal: ProofGoal, step: Term): Option[List[ProofGoal]] = {
-    prover.solver.report("proofstate" , "-------- Proving: " + prover.solver.checkingUnit.component.toString + " ----------")
+    prover.solver.report("proofstate" , ">>>>>>>>>>>> PROVING: " + prover.solver.checkingUnit.component.toString + " <<<<<<<<<<<<<")
     prover.solver.report("proofstate" , "--------PROOF_STATE-------")
     prover.solver.report("proofstate" , "HYPOTHESIS---------------HYPOTHESIS---------------HYPOTHESIS")
     prover.solver.report("proofstate" ,  printHypsRaw(goal.stack))
@@ -119,16 +124,32 @@ object IgnoreTactic extends  ProofStepRule(Tactics.ignore.path){
     Some(Nil)
   }
 }
+/*
+object BuildTactic extends  ProofStepRule(Tactics.build.path){
 
-object build {
+
+
+  def apply(prover: ImperativeProver, goal: ProofGoal, step: Term): Option[List[ProofGoal]] = {
+    val Tactics.build(trm) = step
+    val trmC = prover.clean(goal.stack  ,trm)
+
+  }
+}
+*/
+object HoleIaT extends  TypingRule(Tactics.holeBuild.path) {
+  def apply(solver: Solver)( tm: Term, tpO: Term)(implicit stack: Stack, history: History):  Option[Boolean] = {
+    solver.report("holestate", "hole has type "  + solver.presentObj(tpO))
+    Some(true )
+  }
+
 
 }
 
-// used inside build
-object hole {
 
-}
 
+
+
+/*
 object FwdTactic extends  ProofStepRule(Tactics.fwd.path){
   def apply(prover: ImperativeProver, goal: ProofGoal, step: Term): Option[List[ProofGoal]] = {
     val Tactics.fwd(OML(h , None , None , _ , _) , hs) = step
@@ -173,7 +194,7 @@ object FwdTactic extends  ProofStepRule(Tactics.fwd.path){
     }
   }
 
-
+*/
 
 /*    val hyps = helperFunctions.getHyps(tmp.tp.getOrElse(return None))
     val tmp0 = hyps.map { case NamedHypothesis(ln, t) => t; case UnnamedHypothesis(t) => t }
@@ -201,9 +222,9 @@ object FwdTactic extends  ProofStepRule(Tactics.fwd.path){
         ProofGoal()
       }
     }
-  } */
+  }
 }
-
+*/
 object printType {
 
 }
@@ -251,3 +272,67 @@ object switchGoalTactic {
 
 }
 
+
+/** starts an [[ImperativeProver]] when checking a term of the form proof(steps) */
+object CheckProofLF extends TypingRule(Tactics.proofLF.path) {
+  def apply(solver: Solver) (tm: Term, tp0 : Term )(implicit stack: Stack, history: History): ( Option[Boolean]) = {
+    val Tactics.proofLF(tp , steps) = tm
+    var goal = ProofGoal(stack, tp, history + "starting proverLF")
+    val rules = solver.rules.getOrdered(classOf[ProofStepRule])
+    val prover = new ImperativeProver(solver, rules, goal)
+    //   Solver.breakAfter(350)
+    steps.foreach {step =>
+      // history += step.head.name
+      val r = prover.makeStep(step)
+      if (!r) {
+        solver.error("proof step application failed (LF): " + solver.presentObj(step))(prover.currentHistory)
+        return ( Some(false))
+      }
+    }
+    if (prover.isSolved)
+    {
+      solver.report("proofstate" , "proof succeeded: " + solver.checkingUnit.component.toString ) ; ( Some(true))
+    } else
+    {
+      solver.report("proofstate" , "proof failed: " +  solver.checkingUnit.component.toString)  ; (None)
+    }
+  }
+}
+
+
+
+object theoremLFTactic extends InferenceRule(Tactics.theoremLF.path, OfType.path) {
+  def apply(solver: Solver)( tm: Term, covered: Boolean)(implicit stack: Stack, history: History): Option[Term]= {
+    val Tactics.theoremLF(typ , prf) = tm
+    val tmp = prf match {
+      case PropositionsITP.proof(args) => {
+        Tactics.proofLF(typ , args)
+      }
+    }
+    CheckProofLF(solver)(tmp, typ) match {
+      case Some(true)  => Some(typ)
+      case Some(false) | None => None
+    }
+  }
+}
+
+
+object FixLFTactic extends ProofStepRule(Tactics.fixLF.path) {
+  def apply(prover: ImperativeProver, goal: ProofGoal, step: Term) = {
+    val Tactics.fixLF(OML(n,tO,_,_,_)) = step
+    goal.tp match {
+      case Pi(nm , typ , bd) =>
+        val stackN = goal.stack ++ OMV(n) %  typ
+        val bodyN = prover.solver.simplify(Apply(bd, OMV(nm)))(stackN, goal.history)
+        tO.foreach {t =>
+          val tC = prover.clean(goal.stack, t)
+          prover.solver.check(Equality(goal.stack, tC, typ, Some(Types.tp.term)))(goal.history + "fixLF must equal quantification domain")
+        }
+        val pg = ProofGoal(stackN, bodyN, goal.history + "fixLF")
+        Some(List(pg))
+      case tp =>
+        prover.solver.error("(fixLF) only applicable to pi quantified goal: found " + prover.solver.presentObj(tp))(goal.history)
+        None
+    }
+  }
+}

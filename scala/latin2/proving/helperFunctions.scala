@@ -1,7 +1,8 @@
 package latin2.proving
 
 import info.kwarc.mmt.api.LocalName
-import info.kwarc.mmt.api.objects.{OML, Term}
+import info.kwarc.mmt.api.objects.{OMA, OMID, OML, Term}
+
 import lf.{Implication, Proofs, TypedUniversalQuantification}
 
 object helperFunctions {
@@ -62,7 +63,13 @@ object helperFunctions {
       case trm => loop(trm)
     }
   }
-
-
-
+/*
+  def containsHole(t : Term): Boolean = t match{
+    case OMID(holeBuild.path) => true
+    case OMA(s , ls) =>{
+      containsHole(s) || ls.foldRight(false)((x,y) => y || containsHole(x))
+    }
+    case _ => false
+  }
+*/
 }

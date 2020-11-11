@@ -42,6 +42,13 @@ object CheckProof extends InferenceAndTypingRule(PropositionsITP.proof.path, OfT
   }
 }
 
+
+
+
+
+
+
+
 /** proof goal in an [[ImperativeProver]]
   * @param stack the context of the goal, including local extensions
   * @param tp the type to prove

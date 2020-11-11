@@ -26,6 +26,22 @@ theory Tactics  =
     addh # addh L2 1 ❙
     rule proving?AddhTactic ❙
 
-    fwd # fwd L1 2%w… ❙
-    rule proving?FwdTactic ❙
+//    fwd # fwd L1 2%w… ❙
+//    rule proving?FwdTactic ❙
+
+//    build # build 1 ❙
+//    rule proving?BuildTactic ❙
+
+    holeBuild # holeBuild ❙
+    rule proving?HoleIaT ❙
+
+    theoremLF # theoremLF 1 2 ❙
+    rule proving?theoremLFTactic ❙
+
+    proofLF # proofLF 1 2;… ❙
+    rule proving?CheckProofLF ❙
+
+
+    fixLF # fixLF L1 ❙
+    rule proving?FixLFTactic ❙
 ❚
