@@ -23,16 +23,31 @@ object CheckProof extends InferenceAndTypingRule(PropositionsITP.proof.path, OfT
     var goal = ProofGoal(stack, tp, history + "starting prover")
     val rules = solver.rules.getOrdered(classOf[ProofStepRule])
     val prover = new ImperativeProver(solver, rules, goal)
+ //   Solver.breakAfter(350)
     steps.foreach {step =>
+      // history += step.head.name
       val r = prover.makeStep(step)
       if (!r) {
         solver.error("proof step application failed: " + solver.presentObj(step))(prover.currentHistory)
         return (None,Some(false))
       }
     }
-    if (prover.isSolved) (tpO,Some(true)) else (tpO,None)
+    if (prover.isSolved)
+    {
+      solver.report("proofstate" , "proof succeeded: " + solver.checkingUnit.component.toString ) ; (tpO,Some(true))
+    } else
+    {
+      solver.report("proofstate" , "proof failed: " +  solver.checkingUnit.component.toString)  ; (tpO,None)
+    }
   }
 }
+
+
+
+
+
+
+
 
 /** proof goal in an [[ImperativeProver]]
   * @param stack the context of the goal, including local extensions
@@ -137,3 +152,5 @@ object UseStep extends ProofStepRule(PropositionsITP.use.path) {
     Some(Nil)
   }
 }
+
+
