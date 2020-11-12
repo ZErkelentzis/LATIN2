@@ -4,6 +4,8 @@ fixmeta ?SetFOL❚
 
 theory ZFTyped =
   include ?ZFBase❙
+  // TODO: are these already induced by including InternalTypes?❙
+  
   // Class P is the class of all sets satisfying P❙
   Class : (set ⟶ prop) ⟶ type❙
   celem : {P:(set ⟶ prop)}{a:set} ⊦ P a ⟶ Class P❙
