@@ -11,7 +11,7 @@ theory SetFOL : ur:?LF =
 
 fixmeta ?SetFOL❚
 
-theory Empty =
+theory EmptySet =
   isempty : set ⟶ prop❘= [x] ¬ ∃[y] y ∈ x❙
   empty : set❘# ∅❙
   empty_prop : ⊦ isempty ∅❙
