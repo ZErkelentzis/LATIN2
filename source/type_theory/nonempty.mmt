@@ -1,0 +1,17 @@
+namespace latin:/❚
+
+fixmeta ur:?LF❚
+
+theory UniverseNonEmpty =
+  include ?UntypedLogic❙
+  
+  // the universe is non-empty, i.e., we can pick fresh elements at any point in a proof❙
+  nonempty : {C} (term ⟶ ⊦ C) ⟶ ⊦ C❙ 
+❚
+
+theory TypesNonEmpty =
+  include ?TypedLogic❙
+  
+  // all types are non-empty, i.e., we can pick fresh elements at any point in a proof❙
+  nonempty : {A:tp}{C} (tm A ⟶ ⊦ C) ⟶ ⊦ C❙ 
+❚
