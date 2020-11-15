@@ -26,8 +26,12 @@ theory Tactics  =
     addh # addh L2 1 ❙
     rule proving?AddhTactic ❙
 
-//    fwd # fwd L1 2%w… ❙
-//    rule proving?FwdTactic ❙
+ //   fwd # fwd L1 2,…  prec -1000 ❙
+  //  rule proving?FwdTactic ❙
+
+
+    fwd # fwd L1 2 ❙
+    rule proving?FwdTactic ❙
 
 //    build # build 1 ❙
 //    rule proving?BuildTactic ❙
@@ -44,4 +48,37 @@ theory Tactics  =
 
     fixLF # fixLF L1 ❙
     rule proving?FixLFTactic ❙
+
+    assumeLFX # assumeLFX L1 ❙
+    rule proving?AssumeLFXTactic ❙
+
+    cntra # cntra 1,…❙
+    rule proving?ContradictionTactic ❙
+
+ //   ppsv # ppsv ❙
+ //   rule proving?PrintProofStateVoidTactic ❙
+
+    rmh # rmh L1,… ❙
+    rule proving?RemoveHypsTactic ❙
+
+    switchGoal # switchGoal L1 ❙
+    rule proving?SwitchGoalTactic ❙
+
+    papg # papg ❙
+    rule proving?PrintAllProofGoalsTactic ❙
+
+    ignoreall # ignoreall ❙
+    rule proving?IgnoreAllTactic ❙
+
+    exp # exp 1❙
+    rule proving?ExpandTactic ❙
+
+    rw # rw 1 ❙
+    rule proving?RewriteTactic ❙
+
+    appto # appto 1 2 ❙
+    rule proving?ApptoTactic ❙
+
+//    arg # arg 1,… ❙
+
 ❚

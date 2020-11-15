@@ -1,16 +1,23 @@
 namespace latin:/❚
 
+// rule scala://parser.api.mmt.kwarc.info?MMTURILexer ❚
 
-theory ExMeta =
+// import urr http://cds.omdoc.org/urtheories ❚
+// import lfx http://gl.mathhub.info/MMT/LFX/TypedHierarchy ❚
+
+
+theory ExMeta   =
     include ?SFOLEQND ❙
     include ?Tactics ❙
+ //   include ☞lfx:?LFHierarchy ❙
+ //  include ☞urr:?PLF ❙
 ❚
 
 theory Examples : ?ExMeta =
 
 
 
-    simple_ex : {T  : tp, A: tm T ⟶ prop} ⊦ ∀ [x] A x ⇒ A x
+ //   simple_ex : {T  : tp, A: tm T ⟶ prop} ⊦ ∀ [x] A x ⇒ A x
     ❘# simple_ex ❘ = [T , A] ( proof fix x ; assume h ; use h) ❙
 
 
@@ -30,10 +37,10 @@ theory Examples : ?ExMeta =
 
 
     theory bwd_ex_isolated =
-        T : tp❙
-        A : tm T ⟶ prop ❙
-        B : prop ❙
-        x : tm T ❙
+    //    T : tp❙
+    //    A : tm T ⟶ prop ❙
+    //    B : prop ❙
+   //     x : tm T ❙
 //        tmp : ⊦ B ⇒ A x ⇒ A x ❙
 //        tmp0 : ⊦ A x ❙
  //       tmp1 : ⊦ B ❙
@@ -74,9 +81,25 @@ theory Examples : ?ExMeta =
 
  //       theorem_test = theoremLF ( {T : tp  , A : tm T ⟶ prop} ⊦ A x ⇒ A x) (proof assume h ; use h ) ❙
 
-    T : tp ❙
-    A : tm T ⟶  prop ❙
-    theorem_test0 = theoremLF ( ⊦  ∀ [x] A x ⇒ A x) (proof   fix x ;   assume h ; use h ) ❙
+
+
+//    T : type ❙
+//    theorem_test0_type :  {T : type, A : T} T   ❙
+//    theorem_test0_proof = theoremLF theorem_test0_type (proof fixLF t ; fixLF a  ;  use a ) ❙
+
+
+
+
+        T : tp ❙
+        A : tm T ⟶  prop ❙
+       x : tm T ❙
+    //    y : tm T ❙
+    B : tm T ⟶ tm T ❙
+
+    //    rweq : ⊦ (x ≐ y) ❙
+
+       theorem : ⊦  (∀ [z] A z) ⇒ A (B x) ❘ = proof   appto B,B too B,B❙
+
+
+
 ❚
-
-

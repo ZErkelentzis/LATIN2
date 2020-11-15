@@ -1,8 +1,7 @@
 package latin2.proving
 
 import info.kwarc.mmt.api.LocalName
-import info.kwarc.mmt.api.objects.{OMA, OMID, OML, Term}
-
+import info.kwarc.mmt.api.objects.{OMA, OMAorAny, OMID, OML, OMV, Substitution, Term}
 import lf.{Implication, Proofs, TypedUniversalQuantification}
 
 object helperFunctions {
@@ -72,4 +71,47 @@ object helperFunctions {
     case _ => false
   }
 */
+
+  def removeDed(t : Term) : Term = t match {
+    case Proofs.ded(trm) => trm
+    case _ => t
+  }
+
+
+  def simpleSubstitution (l : LocalName ,orig  : Term  , rep : Term) : Term  = orig match {
+    case OMV(n) => if (n == l) {rep} else orig
+    case OML(n , _ , _ , _ , _) => {
+      if (n == l) {
+        rep
+      } else {
+        orig
+      }
+    }
+    case OMA(f , ags ) => {
+      OMA(simpleSubstitution(l , f , rep) , ags.map(x => simpleSubstitution(l , x , rep)) )
+    }
+    case OMID(p) => {
+      if (p.name == l ) {rep} else orig
+    }
+    case OMAorAny(f , ags ) => {
+      OMA(simpleSubstitution(l , f , rep) , ags.map(x => simpleSubstitution(l , x , rep)) )
+    }
+    case _ => orig
+  }
+
+  def simpleSubstituteRw(orig : Term , l : Term , r : Term) : Term = (orig == l) match {
+    case true => r
+    case false => orig match {
+      case OMA(f , ags) => OMA(simpleSubstituteRw(f , l , r) , ags.map(x => simpleSubstituteRw(x , l , r)))
+      case _ => orig
+    }
+  }
+
+
+  def isNumberTerm(t : Term) : Boolean = t match {
+    case OMV(n) => n.toString.forall(c => c.isDigit)
+    case OML(n , None , None , None , None) => n.toString.forall(c => c.isDigit)
+    case _ => false
+  }
+
 }

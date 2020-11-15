@@ -44,11 +44,6 @@ object CheckProof extends InferenceAndTypingRule(PropositionsITP.proof.path, OfT
 
 
 
-
-
-
-
-
 /** proof goal in an [[ImperativeProver]]
   * @param stack the context of the goal, including local extensions
   * @param tp the type to prove
@@ -71,6 +66,10 @@ class ImperativeProver(val solver: Solver, rules: List[ProofStepRule], initGoal:
   def getGoals = goals
   /** done if all no open goals left */
   def isSolved = goals.isEmpty
+
+  def clearGoals = {goals = Nil}
+
+  def setGoals(gls : List[ProofGoal]) = {goals = gls  }
 
   /**
     * applies one step to the first open goal, new open goals are added to the beginning
