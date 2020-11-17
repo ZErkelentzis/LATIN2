@@ -3,8 +3,8 @@ package latin2.sfol
 import info.kwarc.mmt.api.GlobalName
 import info.kwarc.mmt.api.objects.{OMV, Term}
 
-class GenCriteria(GenMode: Int = 1, variables: Int = 3, literals: Int = 3,
-                  RequestedType: Term = null, MinDepth: Int = 0, MaxDepth: Int = -1, escalate: Boolean = false,
+class GenCriteria(GenMode: Int = 1, variables: Int = 3, literals: Int = 3, RequestedType: Term = null,
+                  MinDepth: Int = 0, MaxDepth: Int = -1, escalate: Boolean = false, enum: Int = 100, senum: Int = 100,
                   Ratio: Int = 50, Formula: Boolean = false, TermCriteria: GenCriteria = null,
                   qmin: Int = 0, qmax: Int = 0, anum: Int = 100, skip: Boolean = false,
                   exclude: List[GlobalName] = List[GlobalName](), temp: Term = null,
@@ -31,7 +31,9 @@ class GenCriteria(GenMode: Int = 1, variables: Int = 3, literals: Int = 3,
   //we can propably delete minimum depth
   def min: Int = MinDepth
   def max: Int = MaxDepth
-  def escdepth: Boolean = escalate
+  def escdepth: Int = enum
+  def sescdepth: Int = senum
+  def escalation: Boolean = escalate
   def rat: Int = Ratio
   //instead of minimal and maximal quantifiers, we should be more concerned with quantifer alteration. Min/Max?
   def quantmax: Int = qmax
