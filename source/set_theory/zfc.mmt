@@ -1,0 +1,38 @@
+namespace latin:/❚
+
+fixmeta ?SetFOL❚
+
+theory Extensionality =
+
+❚
+
+theory ZFBase =
+  include ?Extensionality❙
+  include ?UniverseNonEmpty❙
+  // ... ❙
+❚
+
+theory ZFEmptySet =
+  include ?ZFBase❙
+  realize ?EmptySet❙
+
+  emptyUnique : ⊦ ∃¹ isempty❘ // = ❙
+  empty = the isempty emptyUnique❙
+  empty_prop = the_ax isempty empty❙
+❚
+
+theory ZF =
+  include ?ZFBase❙
+  include ?ZFEmptySet❙
+
+❚
+
+theory ZFChoice =
+  include ?ZFBase❙
+  // realize ?SetChoice❙
+❚
+
+theory ZFC = 
+  include ?ZF❙
+  include ?ZFChoice❙
+❚

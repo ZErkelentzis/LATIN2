@@ -1,0 +1,84 @@
+namespace latin:/❚
+
+import proving scala://latin2/proving❚
+
+theory Tactics  =
+    include ?SFOLITP ❙
+
+    void # void❙
+    rule proving?VoidTactic ❙
+
+    bwd # bwd 1❙
+    rule proving?BwdTactic ❙
+
+    pps # pps ❙
+    rule proving?PrintProofStateTactic ❙
+
+    ppsr # ppsr ❙
+    rule proving?PrintProofStateRawTactic ❙
+
+    ignore # ignore ❙
+    rule proving?IgnoreTactic ❙
+
+    subgoal # subgoal L1 2 ❙
+    rule proving?SubgoalTactic ❙
+
+    addh # addh L2 1 ❙
+    rule proving?AddhTactic ❙
+
+ //   fwd # fwd L1 2,…  prec -1000 ❙
+  //  rule proving?FwdTactic ❙
+
+
+    fwd # fwd L1 2 ❙
+    rule proving?FwdTactic ❙
+
+//    build # build 1 ❙
+//    rule proving?BuildTactic ❙
+
+    holeBuild # holeBuild ❙
+    rule proving?HoleIaT ❙
+
+    theoremLF # theoremLF 1 2 ❙
+    rule proving?theoremLFTactic ❙
+
+    proofLF # proofLF 1 2;… ❙
+    rule proving?CheckProofLF ❙
+
+
+    fixLF # fixLF L1 ❙
+    rule proving?FixLFTactic ❙
+
+    assumeLFX # assumeLFX L1 ❙
+    rule proving?AssumeLFXTactic ❙
+
+    cntra # cntra 1,…❙
+    rule proving?ContradictionTactic ❙
+
+ //   ppsv # ppsv ❙
+ //   rule proving?PrintProofStateVoidTactic ❙
+
+    rmh # rmh L1,… ❙
+    rule proving?RemoveHypsTactic ❙
+
+    switchGoal # switchGoal L1 ❙
+    rule proving?SwitchGoalTactic ❙
+
+    papg # papg ❙
+    rule proving?PrintAllProofGoalsTactic ❙
+
+    ignoreall # ignoreall ❙
+    rule proving?IgnoreAllTactic ❙
+
+    exp # exp 1❙
+    rule proving?ExpandTactic ❙
+
+    rw # rw 1 ❙
+    rule proving?RewriteTactic ❙
+
+    appto # appto 1 2 ❙
+    rule proving?ApptoTactic ❙
+
+//    arg # arg 1,… ❙
+
+❚
