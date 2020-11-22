@@ -1,0 +1,446 @@
+/T namespace http://latin.omdoc.org/foundations/lutins❚
+namespace latin:/❚
+
+import rules scala://imps.mmt.kwarc.info❚
+
+/T   The underlying logic for IMPS is called LUTINS (Logic of Undefined
+Terms for Inference in a Natural Style). This Higher-Order-Logic
+incorporates partial functions, undefinedness and subtyping.
+
+More details can be found at http://imps.mcmaster.ca/manual/node12.html❚
+
+theory Lutins : http://cds.omdoc.org/urtheories?LF =
+
+  rule rules?IntLiterals❙
+  rule rules?RatLiterals❙
+
+    # Type System❙
+
+    /T Lutins types (which are technically just maximal sorts)
+       are represented as LF terms of type "tp".❙
+    tp : type❙
+    
+    /T Sorts refine types. They cannot be empty, but they may
+       overlap. A sort that refines type A is represented as
+       an LF term of the type "sort A"❙
+    sort : tp ⟶ type❙
+    
+    /T Every expression can have many sorts, but only one type.
+       That type (i.e. maximal sort) is the unique type b such that the expression's
+       sort a is ≺ b. with respect to the enclosing sort relation ≺.❙
+   exp : {A : tp} sort A ⟶ type❘# exp 2 prec -1❙
+
+   /T Function types are only needed to keep track of the type of function sorts.❙
+   funType: tp ⟶ tp ⟶ tp❙
+   
+   /T Sorts are formed from the base types and by using function sorts.
+      All functions are partial.
+      The function sort constructor is actually.❙
+   top: {A : tp} sort A❘# ' 1❙
+   fun: {A, B} sort A ⟶ sort B ⟶ sort (funType A B)❘# 3 ⇒ 4 prec 50❙
+   
+   /T LUTINS has primitive booleans, often called ★ in documentation.❙
+   boolType : tp❙
+   bool = ' boolType❙
+   
+   /T λ-abstractions❙
+   lambda : {A, B, α : sort A, β : sort B} (exp α ⟶ exp β) ⟶ exp (α ⇒ β)❘# λ 5❙
+   
+   /T You can apply a function to any argument that refines the given type.
+      This will always be well-sorted but may still be undefined.❙
+   apply : {A, B, α : sort A, γ : sort A, β : sort B} exp (α ⇒ β) ⟶ exp γ ⟶ exp β❘# 6 @ 7 prec 100❙
+      
+   /T The description operator ι returns the _unique_ object (of kind ι)
+      if such an object exists. Otherwise, it is undefined.❙
+   description_i : {A, α : sort A} (exp α ⟶ exp bool) ⟶ exp α❘# ι 3 ❙
+   
+   /T There's a second unique description operator for kind ★, 
+      though little supported and hardly ever used. The difference being, 
+      when this predicate isn't uniquely witnessed, the expression
+      is not undefined, but actually false.❙
+   description_p : {α : sort boolType} (exp α ⟶ exp bool) ⟶ exp α❘# ι★ 2❙
+   
+   /T An ordinary if-then-else operator. Branches can be undefined.❙
+   ifthenelse : {A, α : sort A} exp bool ⟶ exp α ⟶ exp α ⟶ exp α❘# if 3 then 4 else 5❙
+   
+   /T A generic undefined Term, independent of sort.
+      Equal to false in ★, since booleans must always be defined.
+      Undefined functions mapping into ★ are treated as if the returned false.❙
+   undefined : {A, α : sort A} exp α❘# ? 2❙
+   
+    # Logic❙
+   
+    /T Standard stuff, no surprises here.❙
+   
+   thetrue  : exp bool❘# TT❙
+   thefalse : exp bool❘# FF❙
+   
+   not      : exp bool ⟶ exp bool❘# ¬ 1 prec 40❙
+   
+   and      : exp bool ⟶ exp bool ⟶ exp bool❘# 1 ∧ 2 prec 30❙
+   or       : exp bool ⟶ exp bool ⟶ exp bool❘# 1 ∨ 2 prec 30❙
+   implies  : exp bool ⟶ exp bool ⟶ exp bool❘# 1 ⊃ 2 prec 30❙
+   
+   iff      : exp bool ⟶ exp bool ⟶ exp bool❘# 1 ⇔ 2 prec 30❙
+   
+   if_form  : exp bool ⟶ exp bool ⟶ exp bool ⟶ exp bool❘# ifform 1 then 2 else 3❘
+            = [p,t,e] if p then t else e❙
+   
+   forall   : {A, α : sort A} (exp α ⟶ exp bool) ⟶ exp bool❘# ∀ 3 prec 20❙
+   forsome  : {A, α : sort A} (exp α ⟶ exp bool) ⟶ exp bool❘# ∃ 3 prec 20❙
+   
+   /T A theorem is a (boolean) expression T for which there exists a proof
+      (that is, an LF-term of type ⊢ T).❙
+   thm : exp bool ⟶ type❘# ⊢ 1 prec -1 ❘ role Judgment❙
+   
+   /T Equality takes two expressions of the same type, though
+      not necessarily the same sort. Evaluates to false if either
+      argument is undefined. If this is inconvenient, consider quasi-equality.❙
+   equals   : {A, α : sort A, β : sort A} exp α ⟶ exp β ⟶ exp bool❘# 4 = 5 prec 50❙
+   
+   isdefinedin : {A, α : sort A} exp α ⟶ sort A ⟶ exp bool❘# 3 ↓ 4 prec 95❙
+   
+   isdefined   : {A, α : sort A} exp α ⟶ exp bool❘# 3 ↓ prec 100❘
+               = [A,a,x] x↓a❙
+               
+   /T α being a subsort of β means everyting in α is also defined in β.❙
+   subsort     : {A} sort A ⟶ sort A ⟶ exp bool❘# 2 ≤ 3 prec 50❘
+               = [A,a,b] ∀ [x : exp a] x↓b❙
+   
+   # Quasi-Constructors❙
+   
+   /T Quasi-Equality also holds, even if either (!) term is undefined.❙
+   quasiequals : {A, α : sort A, β : sort A} exp α ⟶ exp β ⟶ exp bool❘# 4 ≃ 5 prec 50❘
+               = [A,a,b,x,y] (x↓ ∨ y↓) ⊃ x = y❙
+               
+   /T Predicate for checking a function for totality.❙
+   totality    : {A, B, α : sort A, β : sort B} exp (α ⇒ β) ⟶ exp bool❘# total 5❘
+               = [A,B,a,b,f] ∀[x: exp a] ((f@x)↓)❙
+         
+   /T A meta-predicate that checks if a predicate is empty.❙
+   nonvacuous  : {A, α : sort A} exp (α ⇒ bool) ⟶ exp bool❘# nonvacuous 3❘
+               = [A,a,p] ∃[x : exp a]p@x❙
+               
+   /T A predicate for testing if a function is defined at an argument.❙
+   domain      : {A, B, α : sort A, β : sort B} exp (α ⇒ β) ⟶ exp (α ⇒ bool)❘# domain 5❘
+               = [A,B,a,b,f] λ [x] (f@x)↓❙
+               
+  /T IMPS also uses a quasi-constructor falselike, which takes an eventually-boolean-valued
+     sort and returns the expression of that sort that returns false. This can be used to
+     avoid functions that returns undefined booleans. It is not used in the library though.❙
+         
+  // This actually isn't in LUTINS, but it's apparently helpful for dealing with ι.❙
+  forone       : {A, α : sort A} (exp α ⟶ exp bool) ⟶ exp bool❘# forone 3 prec 20❘
+               = [A,a,F] ∃[x] F x ∧ (∀ [y] F y ⊃ x = y)❙
+               
+  # Individuals❙
+  
+  /T Like booleans, the type of individuals (and also a unit sort) are built-in.❙
+  indType : tp❙
+  unitsort @ ind ❘: sort indType ❘ = ' indType❙
+  
+  anIndividual : exp unitsort❙
+  
+  unitsortElem : ⊢ ∀ [x : exp unitsort] x = anIndividual❙
+  
+  /T Subsets of a sort are partial functions into the unit sort.❙
+  sets : {A, α : sort A} sort (funType A indType)❘# sets [ 2 ]❘
+       = [A, a] (a ⇒ unitsort)❙
+
+  # Numeric Types❙
+  
+  integerType  : sort indType❘# ℤ❙
+  rationalType : sort indType❘# ℚ❙
+  octetType    : sort indType❘# ⑧❙
+❚
+  
+theory LutinsProofs : http://latin.omdoc.org/foundations/lutins?Lutins =
+
+  magic : {e : exp bool} ⊢ e❘# ✓❙
+
+  proofof : exp bool -> type❙
+  proves  : {φ : exp bool} (⊢ φ) -> proofof φ
+
+  # See IMPS manual pg. 208 ❙
+  ant_inf_imp : { ψ : exp bool, φ : exp bool, ϑ : exp bool } (ψ proves ϑ) ⟶ ((¬ φ) proves ϑ) ⟶ ((φ ⊃ ψ) proves ϑ) ❙
+❚
+  
+theory QuasiLutins : http://latin.omdoc.org/foundations/lutins?Lutins =
+
+  include ?LutinsProofs❙
+
+  # User-defined Quasi-Constructors❙
+  # Found in indicators.t❙
+  
+  /T "lambda(s:[uu,prop], lambda(x:uu, if(s(x), an%individual, ?unit%sort)))"❙
+  pred2indicQC : {U, υ : sort U} exp (υ ⇒ bool) ⟶ exp (sets[υ])❘# pred2indic 3❘
+               = [U,υ,s] λ [x : exp υ] if (s @ x) then anIndividual else (? unitsort)❙
+               
+  /T "lambda(e:uu, lambda(x:uu, an%individual))"❙
+  sort2indicQC : {A, α : sort A} exp α ⟶ exp (sets[α]) ❘# sort2indic 2 3❘
+               = [U,a,e] λ [x : exp a] anIndividual❙
+  
+  /T "lambda(x:uu,a:sets[uu], #(a(x)))"❙
+  inQC : {A, α : sort A} exp α ⟶ exp (sets[α]) ⟶ exp bool ❘# 3 in 4❘
+       = [U,u,x,a] (a @ x) ↓ ❙
+       
+  /T "lambda(a,b:sets[uu], forall(x:uu, (x in a) implies (x in b)))"❙
+  subseteqQC : {A, α : sort A} exp (sets[α]) ⟶ exp (sets[α]) ⟶ exp bool❘# 3 subseteq 4❘
+             = [U,u,a,b] ∀ [x : exp u] ((x in a) ⊃ (x in b))❙
+             
+  /T "lambda(a,b:sets[uu], (a subseteq b) and not(a = b))" ❙
+  subsetQC : {A, α : sort A} exp (sets[α]) ⟶ exp (sets[α]) ⟶ exp bool❘# 3 subset 4❘
+           = [U,u,a,b] ((a subseteq b) ∧ (¬(a = b)))❙
+  
+  /T "lambda(e:uu, lambda(x:uu,?unit%sort))"❙
+  emptyIndicQC : {A, α : sort A} (exp (sets[α]))❘# empty_indic 2❘
+               = [U,e] λ [x: exp e] (? unitsort)❙
+               
+  /T "lambda(a:sets[uu], forsome(x:uu, x in a))"❙
+  nonEmptyIndicQQC : {A, α : sort A} exp (sets[α]) ⟶ exp bool❘# nonempty_indic_q 3❘
+                   = [U,u,a] ∃ [x : exp u] (x in a)❙
+                   
+  /T "lambda(a:sets[uu], forall(x:uu, not(x in a)))"❙
+  emptyIndicQQC : {A, α : sort A} exp (sets[α]) ⟶ exp bool❘# empty_indic_q 3❘
+                = [U,u,a] ∀ [x : exp u] ¬(x in a)❙
+                
+  /T "lambda(s:sets[uu], indic(x:uu, (not #(s(x)))))"❙
+  complementQC : {A, α : sort A} exp (sets[α]) ⟶ exp (sets[α])❘# 3 ^^❘
+               = [U,u,s] pred2indic (λ [x : exp u] (¬((s @ x)↓)))❙
+               
+  /T "lambda(s,t:sets[uu], indic(x:uu, #(s(x)) or #(t(x))))"❙
+  unionQC : {A, α : sort A} exp (sets[α]) ⟶ exp (sets[α]) ⟶ exp (sets[α])❘# 3 union 4❘
+          = [U,u,s,t] pred2indic (λ [x : exp u] ((s @ x)↓ ∨ (t @ x)↓))❙
+          
+  /T "lambda(s,t:sets[uu], indic(x:uu, #(s(x)) or #(t(x))))"❙
+  intersectionQC : {A, α : sort A} exp (sets[α]) ⟶ exp (sets[α]) ⟶ exp (sets[α])❘# 3 intersection 4❘
+                 = [U,u,s,t] pred2indic (λ [x : exp u] ((s @ x)↓ ∧ (t @ x)↓))❙
+         
+  /T "lambda(s,t:sets[uu], indic(x:uu, #(s(x)) and (not #(t(x)))))"❙
+  differenceQC : {A, α : sort A} exp (sets[α]) ⟶ exp (sets[α]) ⟶ exp (sets[α])❘# 3 diff 4❘
+               = [U,u,s,t] pred2indic (λ [x : exp u]  (s @ x)↓ ∧ ¬ (t @ x)↓)❙
+               
+  /T "lambda(s,t:sets[uu], 
+                 indic(x:uu, (#(s(x)) and (not #(t(x)))) or ((not #(s(x))) and #(t(x)))))"❙
+  symDifferenceQC : {A, α : sort A} exp (sets[α]) ⟶ exp (sets[α]) ⟶ exp (sets[α])❘# 3 sym_diff 4❘
+                  = [U,u,s,t] pred2indic (λ [x : exp u] ((s @ x)↓   ∧ ¬(t @ x)↓)
+                                                      ∨ (¬(s @ x)↓) ∧ (t @ x)↓)❙
+  
+  /T "lambda(s,t:sets[uu], forall(x:uu, not(x in s) or not(x in t)))"❙
+  disjointQC : {A, α : sort A} exp (sets[α]) ⟶ exp (sets[α]) ⟶ exp bool❘# 3 disj 4❘
+             = [U,u,s,t] ∀ [x : exp u] ¬(x in s) ∨ ¬(x in t)❙
+  
+  /T "lambda(w:sets[sets[uu]],s:sets[uu],
+     forall(u,v:sets[uu], 
+       ((not (u = v)) and (u in w) and (v in w)) implies (u disj v)) and 
+     forall(x:uu, (x in s) iff forsome(u:sets[uu], (u in w) and (x in u))))"❙
+  partitionQQC : {A, α : sort A} exp (sets[(sets[α])]) ⟶  exp (sets[α]) ⟶ exp bool❘# partition_q 3 4❘
+             = [U,uu,w,s] (∀ [u : exp (sets[uu])] ∀ [v : exp (sets[uu])] 
+                                     ((¬(u = v) ∧ (u in w) ∧ (v in w)) ⊃ (u disj v)))
+                        ∧ (∀ [x : exp uu] (x in s) ⇔ (∃ [y : exp(sets[uu])] (y in w) ∧ (x in y)))❙
+                        
+  /T "lambda(a:uu, indic(x:uu, x=a))"❙
+  singletonQC : {A, α : sort A} exp α ⟶ exp (sets[α])❘# singleton 3❘
+              = [U,u,a] pred2indic (λ [x : exp u] (x = a))❙
+              
+  /T "lambda(f:[index,sets[uu]], indic(x:uu, forsome(i:index, #(f(i)(x)))))"❙
+  bigUnionQC : {A, I, α : sort A, ζ : sort I} exp (ζ ⇒ (sets[α])) ⟶ exp (sets[α])❘# big_u 5❘
+             = [A,I,a,z,f] pred2indic (λ [x : exp a] ∃ [i : exp z] ((f @ i) @ x)↓)❙
+              
+  /T "lambda(f:[index,sets[uu]], indic(x:uu, forall(i:index, #(f(i)(x)))))"❙
+  bigIntersectionQC : {A, I, α : sort A, ζ : sort I} exp (ζ ⇒ (sets[α])) ⟶ exp (sets[α])❘# big_i 5❘
+                    = [A,I,a,z,f] pred2indic (λ [x : exp a] ∀ [i : exp z] ((f @ i) @ x)↓)❙
+                    
+                    
+  # Found in mappings.t ❙
+  
+  /T "lambda(f:[ind_2,ind_3],g:[ind_1,ind_2], lambda(x:ind_1, f(g(x))))"❙
+  mcompositionQC : {A, B, C, α : sort A, β : sort B, γ : sort C } exp (β ⇒ γ) ⟶ exp (α ⇒ β) ⟶ exp (α ⇒ γ)❘# 7 oo 8❘
+                 = [A,B,C,a,b,c,f,g] λ [x] (f @ (g @ x))❙
+                 
+  /T "lambda(f:[ind_1,ind_2], indic(x:ind_1, #(f(x))))"❙
+  mdomainQC : {A, B, α : sort A, β : sort B} exp (α ⇒ β) ⟶ exp (sets[α])❘# dom 5 ❘
+            = [A,B,a,b,f] pred2indic (λ [x : exp a] (f @ x)↓)❙
+
+  /T  "lambda(f:[ind_1,ind_2], indic(y:ind_2, forsome(x:ind_1, y=f(x))))"❙
+  mrangeQC : {A, B, α : sort A, β : sort B} exp (α ⇒ β) ⟶ exp (sets[β])❘# ran 5 ❘
+           = [A,B,a,b,f] pred2indic (λ [y : exp b] (∃ [x : exp a] y = f @ x))❙ 
+  
+  /T "lambda(f:[ind_1,ind_2],a:sets[ind_1], indic(y:ind_2, forsome(x:ind_1, (x in a) and y=f(x))))"❙
+  mimageQC : {A, B, α : sort A, β : sort B} exp (α ⇒ β) ⟶ exp (sets[α]) ⟶ exp (sets[β])❘# image 5 6❘
+           = [A,B,a,b,f,as] pred2indic (λ [y : exp b] (∃ [x : exp a] ((x in as) ∧ (y = (f @ x)))))❙ 
+
+  /T "lambda(f:[ind_1,ind_2],b:sets[ind_2], b oo f)" minverseimageQC ❙
+  minverseimageQC : {A, B, α : sort A, β : sort B} exp (α ⇒ β) ⟶ exp (sets[β]) ⟶ exp (sets[α])❘# inv_image 5 6❘
+                  = [A,B,a,b,f,bs] (bs oo f) ❙ 
+  
+  /T "lambda(f:[ind_1,ind_2], lambda(x:ind_2, iota(y:ind_1, f(y)=x)))"❙
+  minverseQC : {A, B, α : sort A, β : sort B} exp (α ⇒ β) ⟶ exp (β ⇒ α)❘# inverse 5❘
+             = [A,B,a,b,f] λ [x : exp b] (ι [y : exp a] (f @ y) = x)❙ 
+
+  /T "lambda(a:sets[ind_1], lambda(x:ind_1, if(x in a, x, ?ind_1)))"❙
+  midQC : {A, α : sort A} exp (sets[α]) ⟶ exp (α ⇒ α)❘# id 3❘
+        = [A,a,as] λ [x : exp a] (if (x in as) then x else (? a))❙ 
+
+  /T "lambda(f:[ind_1,ind_2],a:sets[ind_1], lambda(x:ind_1, if(x in a, f(x), ?ind_2)))"❙
+  mrestrictQC : {A, B, α : sort A, β : sort B} exp (α ⇒ β) ⟶ exp (sets[α]) ⟶ exp (α ⇒ β)❘# restrict 5 6❘
+              = [A,B,a,b,f,as] λ [x : exp a] (if (x in as) then (f@x) else (? b))❙ 
+
+  /T "lambda(f:[ind_1,ind_2,ind_3],a:sets[ind_1],b:sets[ind_2],
+     lambda(x:ind_1,y:ind_2, if(x in a and y in b, f(x,y), ?ind_3)))"❙
+  mrestrict2QC : {A, B, C, α : sort A, β : sort B, γ : sort C} exp (α ⇒ (β ⇒ γ)) ⟶ exp (sets[α]) ⟶ exp (sets[β]) ⟶ exp (α ⇒ (β ⇒ γ))❘# restrict2 7 8 9❘
+               = [A,B,C,a,b,c,f,as,bs] λ [x] (λ [y] (if ((x in as) ∧ (y in bs)) then (f@x)@y else ? c))❙ 
+
+  /T "lambda(f:[ind_1,ind_2], forall(x:ind_1, x in dom(f)) and forall(y:ind_2, y in ran(f)))"❙
+  msurjectiveQQC : {A, B, α : sort A, β : sort B} exp (α ⇒ β) ⟶ exp bool❘# surjective_q 5❘
+                 = [A,B,a,b,f] (∀ [x] (x in (dom f))) ∧ (∀ [y] (y in (ran f)))❙
+
+  /T "lambda(f:[ind_1,ind_2], forall(x_1,x_2:ind_1, f(x_1)=f(x_2) implies x_1=x_2))"❙
+  minjectiveQQC : {A, B, α : sort A, β : sort B} exp (α ⇒ β) ⟶ exp bool❘# injective_q 5❘
+                = [A,B,a,b,f] (∀ [x : exp a] (∀ [y : exp a] ((f@x) = (f@y)) ⊃ (x=y)))❙ 
+
+  /T "lambda(f:[ind_1,ind_2], surjective_q(f) and injective_q(f))"❙
+  mbijectiveQQC : {A, B, α : sort A, β : sort B} exp (α ⇒ β) ⟶ exp bool❘# bijective_q 5❘
+                = [A,B,a,b,f] ((surjective_q f) ∧ (injective_q f))❙ 
+
+  /T "lambda(f:[ind_1,ind_2],a:sets[ind_1],b:sets[ind_2], dom(f)=a and ran(f)=b)"❙
+  msurjectiveonQQC : {A, B, α : sort A, β : sort B} exp (α ⇒ β) ⟶ exp (sets[α]) ⟶ exp (sets[β]) ⟶ exp bool❘# surjective_on_q 5 6 7❘
+                   = [A,B,a,b,f,as,bs] (((dom f) = as) ∧ ((ran f) = bs))❙
+
+  /T "lambda(f:[ind_1,ind_2],a:sets[ind_1], forall(x_1,x_2:ind_1, ((x_1 in a) and (x_2 in a) and f(x_1)=f(x_2)) implies x_1=x_2))"❙
+  minjectiveonQQC : {A, B, α : sort A, β : sort B} exp (α ⇒ β) ⟶ exp (sets[α]) ⟶ exp bool❘# injective_on_q 5 6❘
+                  = [A,B,α,β,f,a] (∀ [x : exp α] (∀ [y : exp α] ((((x in a) ∧ (y in a)) ∧ ((f @ x) = (f @ y))) ⊃ (x = y))))❙
+
+  /T "lambda(f:[ind_1,ind_2],a:sets[ind_1],b:sets[ind_2], surjective_on_q(f,a,b) and injective_on_q(f,a))"❙
+  mbijectiveonQQC : {A, B, α : sort A, β : sort B} exp (α ⇒ β) ⟶ exp (sets[α]) ⟶ exp (sets[β]) ⟶ exp bool❘# bijective_on_q 5 6 7❘
+                  = [A,B,a,b,f,as,bs] (surjective_on_q f as bs) ∧ (injective_on_q f as)❙
+                  
+                  
+  # Found in groups.t ❙
+  
+  /T   "lambda(gg%:sets[gg], mul%:[gg,gg,gg], e%:gg, inv%:[gg,gg], 
+     forall(x,y:gg, x in gg% and y in gg% implies mul%(x,y) in gg%) and
+     e% in gg% and 
+     forall(x:gg, x in gg% implies inv%(x) in gg%) and
+     forall(x:gg, x in gg% implies mul%(e%,x)=x) and 
+     forall(x:gg, x in gg% implies mul%(x,e%)=x) and
+     forall(x:gg, x in gg% implies mul%(inv%(x),x)=e%) and 
+     forall(x:gg, x in gg% implies mul%(x,inv%(x))=e%) and
+     forall(x,y,z:gg, ((x in gg%) and (y in gg%) and (z in gg%)) implies
+       mul%(mul%(x,y),z) = mul%(x,mul%(y,z))))" ❙
+  groupsQC : {A, α : sort A} (exp (sets[α])) ⟶ (exp (α ⇒ (α ⇒ α))) ⟶ (exp α) ⟶ (exp (α ⇒ α)) ⟶ (exp bool)❘# group 3 4 5 6❘
+           = [A,α,g,m,e,i] ((∀ [x : exp α] ∀ [y : exp α] (((x in g) ∧ (y in g)) ⊃ (((m@x)@y) in g)))
+           ∧ (e in g)
+           ∧ (∀ [x : exp α] (x in g) ⊃ ((i@x) in g))
+           ∧ (∀ [x : exp α] (x in g) ⊃ (((m@e)@x) = x))
+           ∧ (∀ [x : exp α] (x in g) ⊃ (((m@x)@e) = x))
+           ∧ (∀ [x : exp α] (x in g) ⊃ (((m@(i@x))@x) = e))
+           ∧ (∀ [x : exp α] (x in g) ⊃ (((m@x)@(i@x)) = e))
+           ∧ (∀ [x : exp α] ∀ [y : exp α] ∀ [z : exp α] ((x in g) ∧ (y in g) ∧ (z in g)) ⊃ (((m@((m@x)@y))@z) = ((m@x)@((m@y)@z)))))❙
+           
+  # Found in iterate-supplements.t ❙
+  
+  /T "lambda(s:sets[ind_1], f:[ind_1 -> ind_1], forall(m:ind_1, m in s and #(f(m)) implies f(m) in s))" ❙
+  invariantQC : {A, α : sort A} exp (sets[α]) ⟶ exp (α ⇒ α) ⟶ exp bool ❘# invariant 3 4❘
+              = [A,α,s,f] (∀ [m : exp α] ((m in s) ∧ ((f@m)↓)) ⊃ ((f@m) in s))❙
+              
+  # Found in pairs.t❙
+  
+  /T "lambda(a:ind_1,b:ind_2, lambda(x:ind_1,y:ind_2, if(a=x and b=y, an%individual, ?unit%sort)))" ❙
+  pairQC : {A, B, α : sort A, β : sort B} exp α ⟶ exp β ⟶ exp (α ⇒ (β ⇒ unitsort))❘# pair 5 6❘
+         = [A,B,α,β,a,b] λ [x : exp α] (λ [y : exp β] (if (a = x) ∧ (b = y) then anIndividual else (? unitsort)))❙
+  
+  /T "lambda(p:sets[ind_1,ind_2], forsome(x:ind_1,y:ind_2, p=pair(x,y)))" ❙
+  pairQQC : {A, B, α : sort A, β : sort B} exp (α ⇒ (β ⇒ unitsort)) ⟶ exp bool❘# pair_q 5❘
+          = [A,B,α,β,p] ∃ [x : exp α] (∃ [y : exp β] (p = (pair x y)))❙
+  
+  /T "lambda(p:sets[ind_1,ind_2], iota(x:ind_1,forsome(y:ind_2, p=pair(x,y))))" ❙
+  firstQC : {A, B, α : sort A, β : sort B} exp (α ⇒ (β ⇒ unitsort)) ⟶ exp α❘# first 5❘
+          = [A,B,α,β,p] ι [x : exp α] (∃ [y : exp β] (p = (pair x y)))❙ 
+  
+  /T "lambda(p:sets[ind_1,ind_2], iota(y:ind_2,forsome(x:ind_1, p=pair(x,y))))" ❙
+  secondQC : {A, B, α : sort A, β : sort B} exp (α ⇒ (β ⇒ unitsort)) ⟶ exp β❘# second 5❘
+           = [A,B,α,β,p] ι [y : exp β] (∃ [x : exp α] (p = (pair x y)))❙
+  
+  /T "lambda(a:sets[ind_1],b:sets[ind_2],indic(p:sets[ind_1,ind_2], pair_q{p} and (first{p} in a) and (second{p} in b)))" -- Defunct?❙
+  crossProductQC : {A, B, α : sort A, β : sort B} exp (sets[α]) ⟶ exp (sets[β]) ⟶ exp (sets[(α ⇒ (β ⇒ unitsort))])❘# crossProduct 5 6❘
+                 = [A,B,α,β,a,b] pred2indic (λ [p : exp (α ⇒ (β ⇒ unitsort))] ((pair_q p) ∧ (((first p) in a) ∧ ((second p) in b))))❙
+  
+  # Found in cardinality.t ❙
+  
+  /T "lambda(a:sets[ind_1],b:sets[ind_2], forsome(f:[ind_1,ind_2], bijective_on_q(f,a,b)))"❙
+  equinumerousQC : {A, B, α : sort A, β : sort B} exp (sets[α]) ⟶ exp (sets[β]) ⟶ exp bool❘# 5 equinumerous 6❘
+                 = [A,B,α,β,a,b] ∃ [f : exp (α ⇒ β)] (bijective_on_q f a b)❙
+  
+  /T "lambda(a:sets[ind_1],b:sets[ind_2], forsome(f:[ind_1,ind_2], dom(f)=a and (ran(f) subseteq b) and injective_on_q(f,a)))"❙
+  embedsQC : {A, B, α : sort A, β : sort B} exp (sets[α]) ⟶ exp (sets[β]) ⟶ exp bool❘# 5 embeds 6❘
+           = [A,B,α,β,a,b] (∃ [f : exp (α ⇒ β)] ((((dom f) = a) ∧ ((ran f) subseteq b)) ∧ (injective_on_q f a)))❙
+  
+  # Found in finite-cardinality.t ❙
+  
+  /T "lambda(a:sets[ind_1], iota(n:nn, a equinumerous omega(n)))"❙
+  finiteCardinalityQC : {A, α : sort A, ℕ : sort indType, ω : exp (ℕ ⇒ (ℕ ⇒ unitsort))} exp (sets[α]) ⟶ exp ℕ❘# f_card 3 4 5❘
+                      = [A,α,ℕ,w,a] ι [n : exp ℕ] (a equinumerous (w@n))❙
+  
+  /T "lambda(a:sets[ind_1], #(f_card{a}))" ❙
+  finiteIndicatorQC : {A, α : sort A, ℕ : sort indType, ω : exp (ℕ ⇒ (ℕ ⇒ unitsort))} exp (sets[α]) ⟶ exp bool❘# f_indic_q 3 4 5❘
+                    = [A,α,ℕ,ω,a] (f_card ℕ ω a) ↓❙
+  
+  /T "lambda(e:ind_1, f_indic_q{sort_to_indic{ind_1}})" ❙
+  finiteSortQC : {A, α : sort A, ℕ : sort indType, ω : exp (ℕ ⇒ (ℕ ⇒ unitsort))} exp α ⟶ exp bool❘# f_sort_q 3 4 5❘
+               = [A,α,ℕ,ω,e] f_indic_q ℕ ω (sort2indic α e)❙
+  
+  # Found in sequences.t ❙
+  
+  /T "lambda(s:[nn,ind_1],iota(n:nn,forall(m:nn, m<n iff #(s(m)))))" ❙
+  lengthQC : {A, α : sort A, ℕ : sort indType, leq : exp (ℕ ⇒ (ℕ ⇒ bool))} exp (ℕ ⇒ α) ⟶ exp ℕ❘# length 3 4 5❘
+           = [A,α,ℕ,leq,s] ι [n : exp ℕ] (∀ [m : exp ℕ] (((leq@m)@n) ⇔ ((s@m)↓)))❙
+  
+  /T "lambda(s:[nn,ind_1], #(length(s)))" ❙
+  fSeqQQC : {A, α : sort A, ℕ : sort indType, leq : exp (ℕ ⇒ (ℕ ⇒ bool))} exp (ℕ ⇒ α) ⟶ exp bool❘# f_seq_q 3 4 5❘
+          = [A,α,ℕ,leq,s] (length ℕ leq s)↓❙
+  
+  /T "lambda(e:ind_1, lambda(n:nn, ?ind_1))"❙
+  nilQC : {A, α : sort A, ℕ : sort indType} exp α ⟶ exp (ℕ ⇒ α)❘# nil 3 4❘
+        = [A,α,ℕ,e] λ [n : exp ℕ] (? α)❙
+  
+  /T "lambda(e:ind_1, s:[nn,ind_1],  lambda(n:nn, if(n<1, e, s(n-1))))"❙
+  consQC : {A, α : sort A, ℕ : sort indType} exp (ℕ ⇒ (ℕ ⇒ bool)) ⟶ exp (ℕ ⇒ (ℕ ⇒ ℕ)) ⟶ exp ℕ ⟶ exp α ⟶ exp (ℕ ⇒ α) ⟶ exp (ℕ ⇒ α)❘# cons 3 4 5 6 7 8❘
+         = [A,α,ℕ,leq,minus,one,e,s] λ [n : exp ℕ] (if (leq@n)@one then e else s@((minus@n)@one))❙
+  
+  /T "lambda(s:[nn,ind_1], n:ind, lambda(m:nn, if(#(n,nn), s(n+m), ?ind_1)))"❙
+  dropQC : {A, α : sort A, ν : sort indType, ℕ : sort indType} exp (ℕ ⇒ (ℕ ⇒ ℕ)) ⟶ exp (ℕ ⇒ α) ⟶ exp ν ⟶ exp (ℕ ⇒ α)❘# drop 4 5 6 7❘
+         = [A,α,ν,ℕ,plus,s,n] λ [m : exp ℕ] (if (n ↓ ℕ) then s@((plus@n)@m) else ? α)❙
+  
+  /T "lambda(s:[nn,ind_1], n:ind,lambda(m:nn, if(m<n, s(m), ?ind_1)))"❙
+  takeFirstQC : {A, α : sort A, ν : sort indType, ℕ : sort indType} exp (ℕ ⇒ (ℕ ⇒ bool)) ⟶ exp (ℕ ⇒ α) ⟶ exp ν ⟶ exp (ℕ ⇒ α)❘# takeFirst 4 5 6 7❘
+              = [A,α,ν,ℕ,leq,s,n] λ [m : exp ℕ] (if ((leq@m)@n) then (s@m) else ? α)❙
+  
+  /T "lambda(s_1,s_2:[nn,ind_1],lambda(m:nn, if(length(s_1)<=m, s_2(m-length(s_1)), s_1(m))))" ❙
+  appendQC : {A, α : sort A, ℕ : sort indType} exp (ℕ ⇒ (ℕ ⇒ bool)) ⟶ exp (ℕ ⇒ (ℕ ⇒ ℕ)) ⟶ exp (ℕ ⇒ α) ⟶ exp (ℕ ⇒ α) ⟶ exp (ℕ ⇒ α)❘# append 3 4 5 6 7❘
+           = [A,α,ℕ,leq,minus,s1,s2] λ [m : exp ℕ] (if ((leq@(length ℕ leq s1))@m) then (s2@((minus@(m))@(length ℕ leq s1))) else (s1@m))❙
+  
+  /T "lambda(x:ind_1, s_1:[nn,ind_1],forsome(i:nn, s_1(i)=x))"❙
+  inSeqQC : {A, α : sort A, ℕ : sort indType} exp α ⟶ exp (ℕ ⇒ α) ⟶ exp bool❘# inSeq 3 4 5❘
+          = [A,α,ℕ,x,s] ∃ [i : exp ℕ] ((s@i) = x)❙
+  
+  # Found in sequences-supplements.t ❙
+  
+  /T "lambda(f:[nn,ind_1], lambda(n:nn, f (omega%embedding(dom{f})(n))))" ❙
+  collapseQC : {A, α : sort A, ℕ : sort indType} exp ((sets[ℕ]) ⇒ (ℕ ⇒ ℕ)) ⟶ exp (ℕ ⇒ α) ⟶ exp (ℕ ⇒ α)❘# collapse 3 4 5❘
+             = [A,α,ℕ,ω,f] λ [n : exp ℕ] (f@((ω@(dom f))@n))❙
+  
+  /T "lambda(f:[nn,ind_1],a:sets[ind_1],collapse(lambda(n:nn, if(f(n) in a, f(n), ?ind_1))))" ❙
+  constrictQC : {A, α : sort A, ℕ : sort indType} exp ((sets[ℕ]) ⇒ (ℕ ⇒ ℕ)) ⟶ exp (ℕ ⇒ α) ⟶ exp (sets[α]) ⟶ exp (ℕ ⇒ α)❘# constrict 3 4 5 6❘
+              = [A,α,ℕ,ω,f,a] collapse ℕ ω (λ [n : exp ℕ] (if ((f@n) in a) then f@n else (? α)))❙
+  
+  # Found in covers.t ❙
+  
+  /T "lambda(v:[zz,sets[ind_1]],a:sets[ind_1],forall(x:ind_1,x in a implies forsome(n:zz,x in v(n))))" ❙
+  countableCoverQC : { A, B, α : sort A, β : sort B} exp (α ⇒ (sets[β])) ⟶ exp (sets[β]) ⟶ exp bool❘# countable%cover 5 6❘
+                   = [A,B,z,b,v,a] ∀ [x : exp b] ((x in a) ⊃ (∃ [n : exp z] (x in (v@n))))❙ 
+  
+  /T "lambda(v:[zz,sets[ind_1]],a:sets[ind_1],forsome(m:zz,forall(x:ind_1,x in a implies forsome(n:zz,-m<=n and n<=m and x in v(n)))))" ❙
+  finiteCoverQC : {A, B, α : sort A, β : sort B} exp (α ⇒ α) ⟶ exp (α ⇒ (α ⇒ bool)) ⟶ exp (α ⇒ (sets[β])) ⟶ exp (sets[β]) ⟶ exp bool❘# finite%cover 7 8❘
+                = [A,B,z,i,minus,leq,v,a] ∃ [m : exp z] (∀ [x : exp i] ((x in a) ⊃ (∃ [n : exp z] (((leq@(minus@m))@n) ∧ ((leq@n)@m) ∧ (x in (v@n))))))❙
+❚
