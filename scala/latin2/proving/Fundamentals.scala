@@ -5,7 +5,6 @@ import objects._
 import checking._
 import info.kwarc.mmt.api.symbols.OMLReplacer
 import info.kwarc.mmt.lf._
-
 import lf.PropositionsITP
 import lf.Proofs
 import lf.Types
@@ -32,6 +31,7 @@ object CheckProof extends InferenceAndTypingRule(PropositionsITP.proof.path, OfT
         return (None,Some(false))
       }
     }
+    solver.report("itp" , "normal proof")
     if (prover.isSolved)
     {
       solver.report("proofstate" , "proof succeeded: " + solver.checkingUnit.component.toString ) ; (tpO,Some(true))
@@ -39,6 +39,7 @@ object CheckProof extends InferenceAndTypingRule(PropositionsITP.proof.path, OfT
     {
       solver.report("proofstate" , "proof failed: " +  solver.checkingUnit.component.toString)  ; (tpO,None)
     }
+
   }
 }
 
@@ -55,10 +56,13 @@ case class ProofGoal(stack: Stack, tp: Term, history: History)
   * @param rules the rules for all steps
   * @param initGoal the initial goal
   */
-class ImperativeProver(val solver: Solver, rules: List[ProofStepRule], initGoal: ProofGoal) {
+
+
+
+class ImperativeProver(var solver: Solver, val rules: List[ProofStepRule], initGoal: ProofGoal) {
   private def initContext = initGoal.stack.context
   // the proof state: the list of open goals
-  private var goals: List[ProofGoal] = List(initGoal)
+  protected var goals: List[ProofGoal] = List(initGoal)
 
   implicit def currentHistory = goals.head.history
 
@@ -71,17 +75,26 @@ class ImperativeProver(val solver: Solver, rules: List[ProofStepRule], initGoal:
 
   def setGoals(gls : List[ProofGoal]) = {goals = gls  }
 
+  def lambdaProofTerm : Box = Box(HoleNode())
+
+  def lambdaGoals = List(lambdaProofTerm)
+
+
+
   /**
     * applies one step to the first open goal, new open goals are added to the beginning
     * @return true if the step was applied successfully
     */
+
   def makeStep(step: Term): Boolean = {
     val currentGoal = goals.head
     val stepRule = rules.find(_.applicable(step)).getOrElse(return solver.error("no applicable rule"))
+
+
     val newGoalsO = stepRule(this, currentGoal, step)
     newGoalsO match {
       case Some(newGoals) =>
-        goals = newGoals ::: goals.tail
+        goals = newGoals ::: (if (goals.isEmpty) Nil else  goals.tail)
       case None =>
         return solver.error("step failed")
     }
@@ -93,6 +106,19 @@ class ImperativeProver(val solver: Solver, rules: List[ProofStepRule], initGoal:
     val localExtension: Context = stack.context.drop(initContext.length)
     OMLReplacer(localExtension.id)(tm, initContext)
   }
+
+
+  def executeSteps(steps : List[Term]) : Boolean = {
+    steps.foreach {step =>
+      // history += step.head.name
+      val r = makeStep(step)
+      if (!r) {
+        solver.error("proof step application failed: " + solver.presentObj(step))(currentHistory)
+        return false
+      }
+    }
+    true
+  }
 }
 
 /** a rule for applying a proof step in an [[ImperativeProver]] */
@@ -102,7 +128,7 @@ abstract class ProofStepRule(val head: GlobalName) extends SingleTermBasedChecki
     */
   def apply(prover: ImperativeProver, goal: ProofGoal, step: Term): Option[List[ProofGoal]]
 }
-
+/*
 object AssumeStep extends ProofStepRule(PLITP.assume.path) {
   def apply(prover: ImperativeProver, goal: ProofGoal, step: Term) = {
     val PLITP.assume(OML(n,tO,_,_,_)) = step
@@ -121,7 +147,7 @@ object AssumeStep extends ProofStepRule(PLITP.assume.path) {
     }
   }
 }
-
+*/
 object FixStep extends ProofStepRule(SFOLITP.fix.path) {
   def apply(prover: ImperativeProver, goal: ProofGoal, step: Term) = {
     val SFOLITP.fix(OML(n,tO,_,_,_)) = step
@@ -142,7 +168,7 @@ object FixStep extends ProofStepRule(SFOLITP.fix.path) {
     }
   }
 }
-
+/*
 object UseStep extends ProofStepRule(PropositionsITP.use.path) {
   def apply(prover: ImperativeProver, goal: ProofGoal, step: Term) = {
     val PropositionsITP.use(p) = step
@@ -152,4 +178,4 @@ object UseStep extends ProofStepRule(PropositionsITP.use.path) {
   }
 }
 
-
+*/

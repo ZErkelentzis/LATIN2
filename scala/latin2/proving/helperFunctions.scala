@@ -1,8 +1,14 @@
 package latin2.proving
 
-import info.kwarc.mmt.api.LocalName
-import info.kwarc.mmt.api.objects.{OMA, OMAorAny, OMID, OML, OMV, Substitution, Term}
+import info.kwarc.mmt.api.{CPath, LocalName}
+import info.kwarc.mmt.api.checking.{CheckingUnit, Solver}
+import info.kwarc.mmt.api.objects.{Context, OMA, OMAorAny, OMID, OML, OMSemiFormal, OMV, Stack, Substitution, Term, WFJudgement}
+import info.kwarc.mmt.api.parser.ParseResult
 import lf.{Implication, Proofs, TypedUniversalQuantification}
+import info.kwarc.mmt.lf._
+import latin2.proving.prettyprint.printHypsRaw
+
+import scala.collection.mutable.ListBuffer
 
 object helperFunctions {
 
@@ -113,5 +119,158 @@ object helperFunctions {
     case OML(n , None , None , None , None) => n.toString.forall(c => c.isDigit)
     case _ => false
   }
+
+  def applyTacticsToGoal(ip : ImperativeProver , g : ProofGoal , ts : List[Term] ) : Option[List[ProofGoal]] = ts match {
+    case Nil => Some(List(g))
+    case x::xs => {
+      val r = ip.rules.find(v => v.applicable(x)).getOrElse(return None)
+      r(ip , g , x) match {
+        case None => None
+        case Some(gg) => {
+          val tmp = gg.map(ggg => applyTacticsToGoal(ip, ggg, xs))
+          tmp.foldLeft[Option[List[ProofGoal]]](Some(Nil))((p , p0) => (p , p0) match {
+            case (None , _) => None
+            case (_ , None) => None
+            case (Some(res) , Some(curr)) => Some(curr ++ res)
+          } )
+        }
+      }
+    }
+  }
+
+
+  def termToInt(t : Term) : Option[Int] = t match {
+    case OML(n , _ , _ , _ , _) => try Some(n.toString.toInt) catch {case e => None}
+    case OMV(n) => try Some(n.toString.toInt) catch {case e => None}
+    case OMSemiFormal(ls) => try Some(ls.head.freeVars.head.toString.toInt) catch {case e => None}
+  }
+
+  def replaceTermInTerm(rep : Term  , orig : Term) : Term = (orig == rep) match {
+    case true => rep
+    case false  => orig match {
+      case OMA(f , args) => {
+        OMA(replaceTermInTerm(rep , f)  , args.map(x => replaceTermInTerm(rep, x))  )
+      }
+      case _ => orig
+    }
+  }
+
+
+  def containsTerm( searchTerm : Term ,  searchedTerm : Term) : Boolean = (searchTerm == searchedTerm) match {
+    case true => true
+    case false => searchedTerm match {
+      case OMA(f , ags) =>  containsTerm(searchTerm , f) || ags.foldLeft(false) ((b , t) => b || containsTerm(searchTerm , t))
+      case _ => false
+    }
+  }
+
+/*
+  def unify(t : Term , t0 : Term , vars : Term => List[OMV]) : Term  = {
+
+    var freeTVars = vars(t)
+    var freeT0Vars = vars(t0)
+    var allVars = freeTVars.union(freeT0Vars)
+    var sol : ListBuffer[(LocalName , Term)] = ListBuffer.empty
+
+
+//    def eraseArgs(args : List[Term] , args0 : List[Term]):  = {
+
+//    }
+
+//    def genLambda()
+
+
+    def unifyFreeFN(t : OMA , t0 : OMA) : Boolean = (t , t0) match {
+      case (OMA(f, args), OMA(f0, args0)) =>  (allVars.contains(f) , allVars.contains(f0)) match{
+        case (true , false) => args.head match {
+          case OMV(ln) => {
+            val tmp : (LocalName , Term) =  (ln , Lambda(Context() , replaceTermInTerm(OMV(ln) , OMA(f0 , args0))))
+            sol += tmp
+            true
+          }
+          case _ => false
+
+        }
+        case (false , true) => {
+          unifyFreeFN(t0 , t)
+        }
+        case (true , true ) => {
+          false
+        }
+      }
+    }
+/*
+    def unifyFN(t : OMA , t0 : OMA) : Boolean = (t , t0) match {
+      case (p @ OMA(f , args ) , p0 @ OMA(f0 , args0)) => (allVars.contains(f) , allVars.contains(f0)) match {
+        case (true , _) | (_ , true) =>unifyFreeFN(p , p0)
+        case (false , false) => (f == f0  && args.length == args0.length) match{
+          case false => false
+          case true => {
+
+          }
+        }
+      }
+    }
+
+    def loop(nt : Term , nt0 : Term): Boolean = (allVars.isEmpty) match {
+      case true => {
+        true
+      }
+      case false => (nt , nt0) match {
+        case (p : OMA , p0 : OMA ) => unifyFN(p , p0)
+      }
+
+    }
+
+*/
+    val bla : OMA = t.asInstanceOf[OMA]
+    val bla0 : OMA = t0.asInstanceOf[OMA]
+    val tmpp = unifyFreeFN(bla , bla0)
+    if (tmpp) t else t0
+
+  }
+
+// deep copying a term
+  def termCopyt(t : Term): Term = {
+
+  }
+
+  def copyGoals(gls : List[ProofGoal]) : List[ProofGoal] = gls match {
+    case Nil => Nil
+    case (ProofGoal(a,b,c))::xs =>
+
+  }
+
+ */
+
+  def printGoals(solver : Solver , gls : List[ProofGoal]) : String = {
+    val res : ListBuffer[String] = ListBuffer()
+    gls.foldLeft(1)((i , g) =>  {
+      res += ("Goal " + i.toString + " :" + solver.presentObj(g.tp))
+      i + 1
+    })
+    res.mkString("\n")
+  }
+
+
+  def printProofState(s : Solver ,   gls : List[ProofGoal]) : String ={
+    if (gls.isEmpty) {return "done"}
+    val goal = gls.head
+    val res : String = ">>>>>>>>>>>> PROVING: " + s.checkingUnit.component.toString + " <<<<<<<<<<<<<\n\n" +
+      "HYPOTHESIS---------------HYPOTHESIS---------------HYPOTHESIS\n\n" +
+      prettyprint.prettyPrintHyps(s , goal.stack) +
+      "\n\n\nGOAL---------------GOAL---------------GOAL\n\n" + s.presentObj(goal.tp) + "\n\n\n" +
+      printGoals(s , gls.tail)
+    "<html>" + res.replaceAll("<","&lt;").replaceAll(">", "&gt;").replaceAll("\n", "<br/>") + "</html>"
+  }
+
+
+  def updateCheckingUnit(cu : CheckingUnit , p : ParseResult ): CheckingUnit = cu match {
+    case CheckingUnit(component: Option[CPath], context: Context, unknowns: Context, judgement: WFJudgement) => {
+      CheckingUnit(component , context , unknowns ++ p.unknown ,  judgement)
+    }
+
+  }
+
 
 }
