@@ -1,0 +1,18 @@
+namespace latin:/❚
+
+fixmeta ur:?LF❚
+
+theory UndefELPITest =
+    include ?Undefined❙
+    include ?IPLND❙
+    include ?Equality❙
+
+    zero : term ❘# ⓪❙
+    succ : term ⟶ term ❘# S 1❙
+
+    foo : term ⟶ term❙
+
+    no_foo_of_zero   : ⊦ (foo ⓪)↑❙
+    foo_of_all_else  : {t : term} ⊦ ((¬(t ≐ ⓪)) ⇒ ((foo t)↓))❙
+    foo_of_successor : {t : term} ⊦ (foo (S t))↓❙
+❚

@@ -18,8 +18,8 @@ log+ debug
 //log+ object-parser
 
 // build the mmt files (no need to repeat if unchanged)
-// build MMT/LATIN2 mmt-omdoc fundamentals
-// build MMT/LATIN2 mmt-omdoc logic
+build MMT/LATIN2 mmt-omdoc fundamentals
+build MMT/LATIN2 mmt-omdoc logic
 
 // generate the ELPI file (stored in the folder export/lf-elpi/content, one file per theory)
 build MMT/LATIN2 lf-elpi fundamentals
