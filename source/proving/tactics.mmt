@@ -26,6 +26,76 @@ theory Tactics  =
     addh # addh L2 1 ❙
     rule proving?AddhTactic ❙
 
-    fwd # fwd L1 2%w… ❙
-    rule proving?FwdTactic ❙
+    fwd # fwd L1 with 2,…  ❙
+   rule proving?FwdTactic ❙
+
+
+ //   fwd # fwd L1 2 ❙
+ //   rule proving?FwdTactic ❙
+
+//    build # build 1 ❙
+//    rule proving?BuildTactic ❙
+
+    holeBuild # holeBuild ❙
+    rule proving?HoleIaT ❙
+
+    theoremLF # theoremLF 1 2 ❙
+    rule proving?theoremLFTactic ❙
+
+    proofLF # proofLF 1 2;… ❙
+    rule proving?CheckProofLF ❙
+
+
+    fixLF # fixLF L1 ❙
+    rule proving?FixLFTactic ❙
+
+    assumeLFX # assumeLFX L1 ❙
+    rule proving?AssumeLFXTactic ❙
+
+    cntra # cntra 1,…❙
+    rule proving?ContradictionTactic ❙
+
+ //   ppsv # ppsv ❙
+ //   rule proving?PrintProofStateVoidTactic ❙
+
+    rmh # rmh L1,… ❙
+    rule proving?RemoveHypsTactic ❙
+
+    switchgoal # switchGoal L1 ❙
+    rule proving?SwitchGoalTactic ❙
+
+    papg # papg ❙
+    rule proving?PrintAllProofGoalsTactic ❙
+
+    ignoreall # ignoreall ❙
+    rule proving?IgnoreAllTactic ❙
+
+    exp # exp 1❙
+    rule proving?ExpandTactic ❙
+
+    rw # rw 1 ❙
+    rule proving?RewriteTactic ❙
+
+    appto # appto 1 2 ❙
+    rule proving?ApptoTactic ❙
+
+    arg # arg 1,… ❙
+
+    argl # argl L1,… ❙
+
+    reflt # reflt ❙
+    rule proving?RefltTactic ❙
+
+ //   proofalt # proofalt 1;… ❙
+ //   rule proving?proofaltTactic ❙
+
+ //   induct # induct 1 2 ❙
+ //   rule proving?InductTactic ❙
+
+    iproof # block iproof 1;… ❙
+    rule proving?InteractiveProof ❙
+
+    subproof # block subproof 1;… done prec -400 ❙
+    rule proving?SubproofTactic ❙
+
 ❚

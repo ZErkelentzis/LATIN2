@@ -1,17 +1,8 @@
 namespace latin:/❚
 
-theory SetFOL : ur:?LF =
-  include ?FOLEQND❙
-  set = term❙
-  include ?InternalTypes❙
-  include ?Description❙
-  include ?RelativizedUniversalQuantificationND❙
-  include ?RelativizedExistentialQuantificationND❙
-❚
-
 fixmeta ?SetFOL❚
 
-theory Empty =
+theory EmptySet =
   isempty : set ⟶ prop❘= [x] ¬ ∃[y] y ∈ x❙
   empty : set❘# ∅❙
   empty_prop : ⊦ isempty ∅❙

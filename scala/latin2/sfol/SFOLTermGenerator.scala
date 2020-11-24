@@ -90,10 +90,12 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
   var quants = mutable.HashSet[(Complexity, Term)]()
 
   //if incremented depth is used, these counters will be utilized
-  var tdepth = 0
+  var tdepth = 1
   var dinct = 0
-  var fdepth = 0
+  var dsect = 0
+  var fdepth = 1
   var dincf = 0
+  var dsecf = 0
 
   //Predicates and functions are read out from a theory here
   if(funs.isEmpty){
@@ -136,6 +138,7 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
 
     crit = CriteriaCheck(Criteria)
     initialize()
+    if(crit.min > 0) tdepth = crit.min
 
     //first we check if a template exists. If not, then we use the regular Formulae or Term generation
     if(crit.template != null){
@@ -151,7 +154,7 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
   }
 
   def TemplateGenerator(): Stream[Term] = {
-    //todo: Research translation of e.g. "ax + c" to MMT terms
+    //todo: Research translation of e.g. "ax + c" to MMT terms and or (x_i)
     generatebyTemplate() #:: TemplateGenerator()
   }
 
@@ -185,21 +188,22 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
     //todo: every single time.
     //todo: Wait. We actually might need that here after all. Think about that.
     //todo: redefine Crit.max, where 0 is single variable/literal, -1 is unrestricted.
-    val rdepth = {
-      if(Crit.escdepth){
-        //todo: rename atomicformulas to indicate general iteration steps
-        //right now, we increment the generation depth when the step number is reached. If we reach the specified
-        //maximum, we cycle back.
-        //todo: maybe we should abort when exceed the maximum?
-        if(Crit.atomicformulas == dinct){
-          tdepth += 1
-          tdepth = tdepth%Crit.max
-          dinct = 0
-        }
-        tdepth
+    dsect = 0
+    if(Crit.escalation){
+      //we increment the generation depth when the step number is reached, up to the maximum depth
+      if((Crit.escdepth == dinct) && (tdepth < Crit.max)){
+        tdepth += 1
+        dinct = 0
       }
-      else if(Crit.mode == 0){
-        requestDepth(Crit)
+      else dinct += 1
+    }
+
+    val rdepth = {
+      if(Crit.mode == 0){
+        if(Crit.escalation){
+          tdepth
+        }
+        else requestDepth(Crit)
       }
       else 0
     }
@@ -225,31 +229,19 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
       if(fnamem(Crit.tp).toList.isEmpty && liter(Crit.tp).toList.isEmpty){
         throw new RuntimeException("Error: There are no functions to produce terms for the requested type.")
       }
-      val fops = fnamem(Crit.tp).toList.filterNot(n => crit.exclusionlist.contains(n))
+      val fops = fnamem(Crit.tp).toList.filterNot(n => Crit.exclusionlist.contains(n))
       //in backward generation we have 2 cases. The requested term depth is not zero, in which case a recursive call
       //is required for subterm generation. If the requested depth is 0, a literal or a variable is returned
       if(rdepth != 0){
         newdepth = rdepth
-        var op: Term = null
-        var opname: GlobalName = null
-        var r = 0
-        //the breakable loop here ensures that requested terms with a depth > 0 don't use functions without input
-        breakable{
-          while(true){
-            r = requestNumber(fops.length)
-            opname = fops(requestNumber(fops.length))
-            op = funcs.getOrEmpty(opname).head //extract operator by Globalname
-            val FuncDecl(ins, out) = op
-            if(ins.nonEmpty){
-              break()
-            }
-          }
-        }
+        var r = requestNumber(fops.length)
+        val opname = fops(requestNumber(fops.length))
+        val op = funcs.getOrEmpty(opname).head //extract operator by Globalname
+        val FuncDecl(ins, out) = op
         //adding the operator to the hashmap for the new complexity object
         newsym += opname
         //with depthmax and depthmin = 0 there are no constraints regarding depth. If constraints are given, we
         //have to regenerate depth until the constraints are hit.
-        val FuncDecl(ins, out) = op
         //generate all input terms for the new term. The maximal depth is 1 smaller then the current maximum, the
         //minimum is zero as we have to generate inputs down to the smallest possible term (literal or variable) here
         //the input terms are saved in the inputs list
@@ -317,6 +309,9 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
           newtup = liter(Crit.tp).toList(requestNumber(liter(Crit.tp).toList.length))
         }
       }
+
+      escalate(Crit)
+
       //since we generate terms from up to down and don't reuse old terms, we don't have to save the tuple in the
       //hashmap
       newtup
@@ -435,19 +430,32 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
             m
           }
           newdepth += 1
+          //println("Newdepth: " +newdepth)
+          //println("depth of escalation: " +tdepth)
           //println("Arguments: " + inputs)
           newterm = ApplyGeneral(OMS(fops(trnd)), inputs)
           newcom = new Complexity(newdepth, out, newvar.toList, newsym.toList)
           newtup = (newcom, newterm)
-          terms(out) += newtup
+          if((newcom.depth <= Crit.max) && ((!Crit.escalation) || (newcom.depth == tdepth))){
+            terms(out) += newtup
+          }
+
+          escalate(Crit)
+
           //we check here if the generated term fulfilles constraints that might exit, and whether or not their are
           //constraints at all. If the term fulfilles the constraints, or there are no constraints, we break the loop
           //and can return the term
+          //println("We are generating")
           if(((out == Crit.tp) || (Crit.tp == null)) && ((newcom.depth <= Crit.max)
-            || (Crit.max == -1)) && (newcom.depth >= Crit.min))
+            || (Crit.max == -1)) && (newcom.depth >= Crit.min) && ((!Crit.escalation) || (newcom.depth == tdepth)))
           {
             break()
           }
+
+          //Safety block for escalating syntax depth. Automatically escalates the depth after x generations without
+          //yielding a useful term. Will abort generation at all after x generations on max depth without yielding
+          //a useful term
+
           //println("new term: " + newterm.toStr(false))
           //terms.foreach(a => println(a))
           // make a random new term for each function symbol
@@ -485,13 +493,30 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
   def generateFormulas(crit: GenCriteria): Stream[Term] = {
     //todo: Request depth for backward generation? Return atomic formula if rdepth is 0?
     var rdepth = 0
+    dsecf = 0
+    if(crit.escalation){
+      //we increment the generation depth when the step number is reached, up to the maximum depth
+      if((crit.escdepth == dincf) && (fdepth < crit.max)){
+        fdepth += 1
+        dincf = 0
+      }
+      else dincf += 1
+    }
     if(crit.mode == 2){
       generateFormulaHorn(crit)._2 #:: generateFormulas(crit)
     }
     else if(crit.mode == 0){
-      rdepth = requestNumber(crit.max)
-      while(rdepth < crit.min){
-        rdepth = requestNumber(crit.max)
+      rdepth = {
+        if(crit.escalation){
+          fdepth
+        }
+        else{
+          var depth = requestNumber(crit.max)
+          while(rdepth < crit.min){
+            depth = requestNumber(crit.max)
+          }
+          depth
+        }
       }
       //todo: add flag for quantifiers. Check against crit qmax. 1 = quantifiers, 0 = no quantifiers
       generateFormula(rdepth, crit, 1)._2 #:: generateFormulas(crit)
@@ -522,7 +547,7 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
     var qualt = 0
     var inputs = List[Term]()
     //mode selection: 0 is backward generation, else forward generation
-    if(crit.mode == 0){
+    if (crit.mode == 0) {
       //implementation of backward generation
       newdepth = rdepth
       //determine logical operator
@@ -530,13 +555,13 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
       //sub formula initialization and generation. Base case makes atomic formula, else recursive sub formula generation
       var f1: (Complexity, Term) = null
       var f2: (Complexity, Term) = null
-      if(rdepth == 0){
+      if (rdepth == 0) {
         f1 = makeAtomicFormula(crit)
       }
-      else{
-        f1 = generateFormula(rdepth-1, crit)
+      else {
+        f1 = generateFormula(rdepth - 1, crit)
         f2 = {
-          if(fops(trnd) != Negation.not.path){
+          if (fops(trnd) != Negation.not.path) {
             generateFormula(requestNumber(rdepth), crit)
           }
           else null
@@ -544,53 +569,24 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
       }
       f1._1.variables.foreach(v => newvar += v)
       inputs = f1._2 :: inputs
-      if(f2 != null){
+      if (f2 != null) {
         f2._1.variables.foreach(v => newvar += v)
         inputs = f2._2 :: inputs
       }
-      if(rdepth == 0){
+      if (rdepth == 0) {
         //base case: atomic formula, no operator required
         newform = f1._2
         newcom = new Complexity(newdepth, f1._1.output, newvar.toList, newsym.toList, lquant, qualt, bvar)
         newtup = (newcom, newform)
       }
-      else{
+      else {
         newsym += fops(trnd)
         newform = ApplyGeneral(OMID(fops(trnd)), inputs) //and(f1._2, f2._2)
         newcom = new Complexity(newdepth, f1._1.output, newvar.toList, newsym.toList, lquant, qualt, bvar)
         newtup = (newcom, newform)
       }
-      /*
-      else if(trnd == 1){
-        //disjunction
-        newsym += GlobalName(Disjunction._path, Disjunction._name)
-        newform = or(f1._2, f2._2)
-        newcom = new Complexity(newdepth, f1._1.output, newvar.toList, newsym.toList, lquant, qualt, bvar)
-        newtup = (newcom, newform)
-      }
-      else if(trnd == 2){
-        //equivalence
-        newsym += GlobalName(Equivalence._path, Equivalence._name)
-        newform = equiv(f1._2, f2._2)
-        newcom = new Complexity(newdepth, f1._1.output, newvar.toList, newsym.toList, lquant, qualt, bvar)
-        newtup = (newcom, newform)
-      }
-      else if(trnd == 3){
-        //implication
-        newsym += GlobalName(Implication._path, Implication._name)
-        newform = impl(f1._2, f2._2)
-        newcom = new Complexity(newdepth, f1._1.output, newvar.toList, newsym.toList, lquant, qualt, bvar)
-        newtup = (newcom, newform)
-      }
-      else if(trnd == 4){
-        //not
-        newsym += GlobalName(Negation._path, Negation._name)
-        newform = not(f1._2)
-        newcom = new Complexity(newdepth, f1._1.output, newvar.toList, newsym.toList, lquant, qualt, bvar)
-        newtup = (newcom, newform)
-      }*/
       //checking flag ensures only top level get's quantified
-      if(quant == 1){
+      if (quant == 1) {
         //todo: 4. determine number of bound variables. Add possibility to specify min max number through criteria
         var tobind = requestNumber(newtup._1.getUnbound().length)
         //todo: 5. determine number of quantifier alterations. Add possibility to specify min through criteria
@@ -599,11 +595,11 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
         //todo: Consider case: max quantifers larger then bindable variables.
         var qalc = qualt
 
-        while(tobind != 0){
+        while (tobind != 0) {
           trnd = requestNumber(3)
 
-          if(trnd == 0){
-            if(f1._1.lastquant != 1 && f1._1.lastquant != 0){
+          if (trnd == 0) {
+            if (f1._1.lastquant != 1 && f1._1.lastquant != 0) {
               qalc -= 1
             }
             lquant = 1
@@ -611,10 +607,10 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
             val nvar = wvar(requestNumber(wvar.length))
             bvar = nvar :: bvar
             newsym += GlobalName(TypedUniversalQuantification._path, TypedUniversalQuantification._name)
-            newform = forall(nvar._2, Lambda(nvar._1.name,tm(nvar._2), newform))
+            newform = forall(nvar._2, Lambda(nvar._1.name, tm(nvar._2), newform))
           }
-          else if(trnd == 1){
-            if(f1._1.lastquant != 2 && f1._1.lastquant != 0){
+          else if (trnd == 1) {
+            if (f1._1.lastquant != 2 && f1._1.lastquant != 0) {
               qalc -= 1
             }
             lquant = 2
@@ -622,10 +618,10 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
             val nvar = wvar(requestNumber(wvar.length))
             bvar = nvar :: bvar
             newsym += GlobalName(TypedExistentialQuantification._path, TypedExistentialQuantification._name)
-            newform = exists(nvar._2, Lambda(nvar._1.name,tm(nvar._2), newform))
+            newform = exists(nvar._2, Lambda(nvar._1.name, tm(nvar._2), newform))
           }
-          else{
-            if(f1._1.lastquant != 3 && f1._1.lastquant != 0){
+          else {
+            if (f1._1.lastquant != 3 && f1._1.lastquant != 0) {
               qalc -= 1
             }
             lquant = 3
@@ -633,178 +629,167 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
             val nvar = wvar(requestNumber(wvar.length))
             bvar = nvar :: bvar
             newsym += GlobalName(TypedUniqueExistentialQuantification._path, TypedUniqueExistentialQuantification._name)
-            newform = existsUnique(nvar._2, Lambda(nvar._1.name,tm(nvar._2), newform))
+            newform = existsUnique(nvar._2, Lambda(nvar._1.name, tm(nvar._2), newform))
           }
         }
       }
       newcom = new Complexity(newdepth, f1._1.output, newvar.toList, newsym.toList, lquant, qualt, bvar)
       newtup = (newcom, newform)
 
+      escalate(crit)
+
       newtup
     }
-    else{
+    else {
       //implementation of forward generation
       //todo: implement forward generation
       //todo: 1. determine operator (and, or, not, implication, equivalence, forall, exist, exist unique)
       // also add check if we want no quantifier
-      val quantify = {
-        if(requestNumber(2) == 0) false
-        else true
-      }
-      var trnd = {
-        if(quantify) requestNumber(3)
-        else requestNumber(fops.length)
-      }
-      //get the formula('s). We only require 2 formulas in half the cases.
-      val f1 = {
-        if(!quantify){
-          var f = forms.toList(requestNumber(forms.toList.length))
-          while((f._1.depth >= crit.max) && (crit.max != -1)){
-            f = forms.toList(requestNumber(forms.toList.length))
+      /*
+     lname = Conjunction.and.path :: lname
+    lname = Disjunction.or.path :: lname
+    lname = Equivalence.equiv.path :: lname
+    lname = Implication.impl.path :: lname
+    lname = Negation.not.path :: lname
+    qname = TypedUniversalQuantification.forall.path :: lname
+    qname = TypedExistentialQuantification.exists.path :: lname
+    qname = TypedUniqueExistentialQuantification.existsUnique.path :: lname
+      */
+      breakable {
+        while (true) {
+          inputs = List[Term]()
+          val quantify = {
+            if (requestNumber(2) == 0) false
+            else true
           }
-          f
-        }
-        else{
-          //todo: Else here combines formula list with a list of quantor applied formulas. Makes sure that quantors
-          //todo: are outermost level
-          val l = forms.toList ::: quants.toList
-          var f = l(requestNumber(l.length))
-          //todo: Consider alteration criteria! Should we allow for a minimum of alterations? Also, do we perhaps want
-          //todo: a certain number of unbound variables.
-          while(f._1.getUnbound().isEmpty || (f._1.quantalt > crit.quantmax)){
-            f = l(requestNumber(l.length))
+          var trnd = {
+            if (quantify) requestNumber(3)
+            else requestNumber(fops.length)
           }
-          bvar = f._1.boundVars
-          qualt = f._1.quantalt
-          lquant = f._1.lastquant
-          f
-        }
-      }
-      val f2 = {
-        if(!quantify && (fops(trnd) != GlobalName(Negation._path, Negation._name))){
-          var f = forms.toList(requestNumber(forms.toList.length))
-          while((f._1.depth >= crit.max) && (crit.max != -1)){
-            f = forms.toList(requestNumber(forms.toList.length))
+          //get the formula('s). We only require 2 formulas in half the cases.
+          val f1 = {
+            if (!quantify) {
+              var f = forms.toList(requestNumber(forms.toList.length))
+              while ((f._1.depth >= crit.max) && (crit.max != -1)) {
+                f = forms.toList(requestNumber(forms.toList.length))
+              }
+              f
+            }
+            else {
+              //todo: Else here combines formula list with a list of quantor applied formulas. Makes sure that quantors
+              //todo: are outermost level
+              val l = forms.toList ::: quants.toList
+              var f = l(requestNumber(l.length))
+              //todo: Consider alteration criteria! Should we allow for a minimum of alterations? Also, do we perhaps want
+              //todo: a certain number of unbound variables.
+              while (f._1.getUnbound().isEmpty || (f._1.quantalt > crit.quantmax)) {
+                f = l(requestNumber(l.length))
+              }
+              bvar = f._1.boundVars
+              qualt = f._1.quantalt
+              lquant = f._1.lastquant
+              f
+            }
           }
-          f
+          val f2 = {
+            if (!quantify && (fops(trnd) != Negation.not.path)) {
+              var f = forms.toList(requestNumber(forms.toList.length))
+              while ((f._1.depth >= crit.max) && (crit.max != -1)) {
+                f = forms.toList(requestNumber(forms.toList.length))
+              }
+              f
+            }
+            else null
+          }
+          //prepare new complexity values
+          f1._1.variables.foreach(v => newvar += v)
+          inputs = f1._2 :: inputs
+          //we don't count quantifiers against the depth. This is of course factually not correct, but we ultimately care
+          //only about the depth of the quantified formula, not the quantifiers themselves.
+          if (!quantify) {
+            newdepth = f1._1.depth + 1
+          }
+          else newdepth = f1._1.depth
+          if (f2 != null) {
+            f2._1.variables.foreach(v => newvar += v)
+            inputs = f2._2 :: inputs
+            if (f2._1.depth + 1 > newdepth) {
+              newdepth = f2._1.depth + 1
+            }
+          }
+          if (!quantify) {
+            newsym += fops(trnd)
+            newform = ApplyGeneral(OMID(fops(trnd)), inputs) //and(f1._2, f2._2)
+            newcom = new Complexity(newdepth, f1._1.output, newvar.toList, newsym.toList, lquant, qualt, bvar)
+            newtup = (newcom, newform)
+            if((newcom.depth <= crit.max) && ((!crit.escalation) || (newcom.depth == fdepth))){
+              forms += newtup
+            }
+          }
+          else if (trnd == 0) {
+            //fall
+            //we extract all unbound variables from the term, choose one at random and apply our quantor
+            if (f1._1.lastquant != 1 && f1._1.lastquant != 0) {
+              qualt += 1
+            }
+            lquant = 1
+            val wvar = f1._1.getUnbound()
+            val nvar = wvar(requestNumber(wvar.length))
+            bvar = nvar :: bvar
+            newsym += GlobalName(TypedUniversalQuantification._path, TypedUniversalQuantification._name)
+            newform = forall(nvar._2, Lambda(nvar._1.name, tm(nvar._2), f1._2))
+            newcom = new Complexity(newdepth, f1._1.output, newvar.toList, newsym.toList, lquant, qualt, bvar)
+            newtup = (newcom, newform)
+            if((newcom.depth <= crit.max) && ((!crit.escalation) || (newcom.depth == fdepth))){
+              quants += newtup
+            }
+          }
+          else if (trnd == 1) {
+            //exist
+            if (f1._1.lastquant != 2 && f1._1.lastquant != 0) {
+              qualt += 1
+            }
+            lquant = 2
+            val wvar = f1._1.getUnbound()
+            val nvar = wvar(requestNumber(wvar.length))
+            bvar = nvar :: bvar
+            newsym += GlobalName(TypedExistentialQuantification._path, TypedExistentialQuantification._name)
+            newform = exists(nvar._2, Lambda(nvar._1.name, tm(nvar._2), f1._2)) //makeForall(nvar, Nat.nat.term, f1._2)
+            newcom = new Complexity(newdepth, f1._1.output, newvar.toList, newsym.toList, lquant, qualt, bvar)
+            newtup = (newcom, newform)
+            if((newcom.depth <= crit.max) && ((!crit.escalation) || (newcom.depth == fdepth))){
+              quants += newtup
+            }
+          }
+          else {
+            //existU
+            if (f1._1.lastquant != 3 && f1._1.lastquant != 0) {
+              qualt += 1
+            }
+            lquant = 3
+            val wvar = f1._1.getUnbound()
+            val nvar = wvar(requestNumber(wvar.length))
+            bvar = nvar :: bvar
+            newsym += GlobalName(TypedUniqueExistentialQuantification._path, TypedUniqueExistentialQuantification._name)
+            newform = existsUnique(nvar._2, Lambda(nvar._1.name, tm(nvar._2), f1._2))
+            newcom = new Complexity(newdepth, f1._1.output, newvar.toList, newsym.toList, lquant, qualt, bvar)
+            newtup = (newcom, newform)
+            if((newcom.depth <= crit.max) && ((!crit.escalation) || (newcom.depth == fdepth))){
+              quants += newtup
+            }
+          }
+          //we check here if the generated term fulfilles constraints that might exit, and whether or not their are
+          //constraints at all. If the term fulfilles the constraints, or there are no constraints, we break the loop
+          //and can return the term
+          //println("We are generating")
+          escalate(crit)
+          if(((newcom.depth <= crit.max) || (crit.max == -1)) && (newcom.depth >= crit.min) &&
+            ((!crit.escalation) || (newcom.depth == fdepth)))
+          {
+            break()
+          }
         }
-        else null
       }
-      //prepare new complexity values
-      f1._1.variables.foreach(v => newvar += v)
-      inputs = f1._2 :: inputs
-      //we don't count quantifiers against the depth. This is of course factually not correct, but we ultimately care
-      //only about the depth of the quantified formula, not the quantifiers themselves.
-      if(trnd < 5){
-        newdepth = f1._1.depth + 1
-      }
-      else newdepth = f1._1.depth
-      if(f2 != null){
-        f2._1.variables.foreach(v => newvar += v)
-        inputs = f2._2 :: inputs
-        if(f2._1.depth + 1 > newdepth){
-          newdepth = f2._1.depth + 1
-        }
-      }
-      if(!quantify){
-        newsym += fops(trnd)
-        newform = ApplyGeneral(OMID(fops(trnd)), inputs) //and(f1._2, f2._2)
-        newcom = new Complexity(newdepth, f1._1.output, newvar.toList, newsym.toList, lquant, qualt, bvar)
-        newtup = (newcom, newform)
-        forms += newtup
-      }
-      /*if(trnd == 0){
-        //todo: and
-        newsym += GlobalName(Conjunction._path, Conjunction._name)
-        newform = Conjunction.and.apply(f1._2, f2._2)
-        newcom = new Complexity(newdepth, f1._1.output, newvar.toList, newsym.toList, lquant, qualt, bvar)
-        newtup = (newcom, newform)
-        forms += newtup
-      }
-      else if(trnd == 1){
-        //todo: or
-        newsym += GlobalName(Disjunction._path, Disjunction._name)
-        newform = Disjunction.or.apply(f1._2, f2._2)
-        newcom = new Complexity(newdepth, f1._1.output, newvar.toList, newsym.toList, lquant, qualt, bvar)
-        newtup = (newcom, newform)
-        forms += newtup
-      }
-      else if(trnd == 2){
-        //todo: equiv
-        newsym += GlobalName(Equivalence._path, Equivalence._name)
-        newform = Equivalence.equiv.apply(f1._2, f2._2)
-        newcom = new Complexity(newdepth, f1._1.output, newvar.toList, newsym.toList, lquant, qualt, bvar)
-        newtup = (newcom, newform)
-        forms += newtup
-      }
-      else if(trnd == 3){
-        //todo: imp
-        newsym += GlobalName(Implication._path, Implication._name)
-        newform = Implication.impl.apply(f1._2, f2._2)
-        newcom = new Complexity(newdepth, f1._1.output, newvar.toList, newsym.toList, lquant, qualt, bvar)
-        newtup = (newcom, newform)
-        forms += newtup
-      }
-      else if(trnd == 4){
-        //todo: not
-        newsym += GlobalName(Negation._path, Negation._name)
-        newform = Negation.not(f1._2)
-        newcom = new Complexity(newdepth, f1._1.output, newvar.toList, newsym.toList, lquant, qualt, bvar)
-        newtup = (newcom, newform)
-        forms += newtup
-      }*/
-      else if(trnd == 0){
-        //todo: fall
-        //we extract all unbound variables from the term, choose one at random and apply our quantor
-        if(f1._1.lastquant != 1 && f1._1.lastquant != 0){
-          qualt += 1
-        }
-        lquant = 1
-        val wvar = f1._1.getUnbound()
-        val nvar = wvar(requestNumber(wvar.length))
-        bvar = nvar :: bvar
-        newsym += GlobalName(TypedUniversalQuantification._path, TypedUniversalQuantification._name)
-        newform = forall(nvar._2, Lambda(nvar._1.name,tm(nvar._2), f1._2))
-        newcom = new Complexity(newdepth, f1._1.output, newvar.toList, newsym.toList, lquant, qualt, bvar)
-        newtup = (newcom, newform)
-        quants += newtup
-      }
-      else if(trnd == 1){
-        //todo: exist
-        if(f1._1.lastquant != 2 && f1._1.lastquant != 0){
-          qualt += 1
-        }
-        lquant = 2
-        val wvar = f1._1.getUnbound()
-        val nvar = wvar(requestNumber(wvar.length))
-        bvar = nvar :: bvar
-        newsym += GlobalName(TypedExistentialQuantification._path, TypedExistentialQuantification._name)
-        newform = exists(nvar._2, Lambda(nvar._1.name,tm(nvar._2), f1._2)) //makeForall(nvar, Nat.nat.term, f1._2)
-        newcom = new Complexity(newdepth, f1._1.output, newvar.toList, newsym.toList, lquant, qualt, bvar)
-        newtup = (newcom, newform)
-        quants += newtup
-      }
-      else{
-        //todo: existU
-        if(f1._1.lastquant != 3 && f1._1.lastquant != 0){
-          qualt += 1
-        }
-        lquant = 3
-        val wvar = f1._1.getUnbound()
-        val nvar = wvar(requestNumber(wvar.length))
-        bvar = nvar :: bvar
-        newsym += GlobalName(TypedUniqueExistentialQuantification._path, TypedUniqueExistentialQuantification._name)
-        newform = existsUnique(nvar._2, Lambda(nvar._1.name,tm(nvar._2), f1._2))
-        newcom = new Complexity(newdepth, f1._1.output, newvar.toList, newsym.toList, lquant, qualt, bvar)
-        newtup = (newcom, newform)
-        quants += newtup
-      }
-      //todo: 2. get appropriate number of input formulas (we have already initialized atomics)
-      //todo:    don't forget to check them for the max criteria's, and unbound variables
-      //todo: 3. apply operator, save to hashmap
-      //todo: 4. Check for minimal criteria (min, quantmin). Considering dropping min criteria, can't really think
-      //todo:    of an application here
-      //todo: 5. return formula
       newtup
     }
   }
@@ -839,7 +824,7 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
     var newsym = mutable.HashSet[GlobalName]()
     var newdepth = 0
     val qualt = 0
-    //todo: generate random number of terms to use in conjunctions, requires a given maximum
+    //generate random number of terms to use in conjunctions, requires a given maximum
     //we request the depth of the Horn Clause here. 0 generates a fact clause, otherwise we make a implication form
     var trnd = requestNumber(Crit.max)
     while(newdepth < trnd){
@@ -860,7 +845,7 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
     }
     workform._1.variables.foreach(v => newvar += v)
     newform = Implication.impl.apply(newform, workform._2)
-    //todo: Apply All-quantors
+    //pply All-quantors
     for(v <- newvar.toList){
       newform = forall(v._2, Lambda(v._1.name,tm(v._2), newform))
       bvar += v
@@ -906,12 +891,12 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
             //even important at that point?
             if(Crit.tp == tp || Crit.tp == null){
               val rdepth = {
-                if(crit.tc.mode == 0){
-                  requestDepth(crit.tc)
+                if(Crit.tc.mode == 0){
+                  requestDepth(Crit.tc)
                 }
                 else 0
               }
-              val newterm = generateTerm(rdepth, crit.tc)
+              val newterm = generateTerm(rdepth, Crit.tc)
               newterm._1.variables.foreach(v => newvar += v)
               args = newterm._2 :: args
             }
@@ -938,19 +923,19 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
         tp = Crit.tp
       }
       var rdepth = {
-        if(crit.tc.mode == 0){
-          requestDepth(crit.tc)
+        if(Crit.tc.mode == 0){
+          requestDepth(Crit.tc)
         }
         else 0
       }
-      val t1 = generateTerm(rdepth, crit.tc)
+      val t1 = generateTerm(rdepth, Crit.tc)
       rdepth = {
-        if(crit.tc.mode == 0){
-          requestDepth(crit.tc)
+        if(Crit.tc.mode == 0){
+          requestDepth(Crit.tc)
         }
         else 0
       }
-      val t2 = generateTerm(rdepth, crit.tc)
+      val t2 = generateTerm(rdepth, Crit.tc)
       //todo: complexity object, saving formulas
       //todo: clarify as equality seems to want x0, x1, x2. Is one of those the type of the others?
       t1._1.variables.foreach(v => newvar += v)
@@ -1038,10 +1023,12 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
     forms = mutable.HashSet[(Complexity, Term)]()
     quants = mutable.HashSet[(Complexity, Term)]()
 
-    tdepth = 0
-    dinct = 0
-    fdepth = 0
-    dincf = 0
+    var tdepth = 1
+    var dinct = 0
+    var dsect = 0
+    var fdepth = 1
+    var dincf = 0
+    var dsecf = 0
 
     //todo: this might be better back at the top init, since the predicates and functions don't change through criterias
     // the literals and variables do, though
@@ -1054,7 +1041,7 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
         val rawlits = rt.semType.enumerate(1).get //OrElse {Nil}
         println("making literal ")// + rawlits.toList.head)
       var i = 0
-        while(i <= crit.litnum){
+        while(i < crit.litnum){
           val lit = OMLIT(rawlits.next, rt)//rt.semType.enumerate(0).getOrElse(Nil) //.map(v => rt.of(v))
           val com = new Complexity(0, tp, mutable.HashSet[(OMV, Term)]().toList, mutable.HashSet[GlobalName]().toList)
           println("new literal: " + lit)
@@ -1148,6 +1135,35 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
     qname = TypedUniversalQuantification.forall.path :: lname
     qname = TypedExistentialQuantification.exists.path :: lname
     qname = TypedUniqueExistentialQuantification.existsUnique.path :: lname
+  }
+
+  def escalate(Crit: GenCriteria): Unit = {
+    if(Crit.escalation){
+      if(Crit.form){
+        dsecf += 1
+        if(dsecf > Crit.sescdepth){
+          if(fdepth == Crit.max){
+            throw new RuntimeException(Crit.sescdepth +" terms where generated, but didn't meet criteria. Maximum depth reached. Abort!")
+          }
+          println(Crit.sescdepth +" terms where generated, but didn't meet criteria. Escalating syntactic depth to " +(tdepth+1))
+          fdepth += 1
+          dincf = 0
+          dsecf = 0
+        }
+      }
+      else{
+        dsect += 1
+        if(dsect > Crit.sescdepth){
+          if(tdepth == Crit.max){
+            throw new RuntimeException(Crit.sescdepth +" terms where generated, but didn't meet criteria. Maximum depth reached. Abort!")
+          }
+          println(Crit.sescdepth +" terms where generated, but didn't meet criteria. Escalating syntactic depth to " +(tdepth+1))
+          tdepth += 1
+          dinct = 0
+          dsect = 0
+        }
+      }
+    }
   }
 
   //a simple method to make a literal

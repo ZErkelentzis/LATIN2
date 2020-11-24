@@ -27,14 +27,33 @@ theory NatPlus =
   plus_succ : ⊦ ∀[m]∀[n] n+(succ m) ≐ succ(n+m)❙
   
   plus_zero_left: ⊦ ∀[n] zero+n ≐ n❘
-               // = proof missing, needs induction p5❘
+               // = proof ommited❘
   ❙
 
   assoc : ⊦ ∀[l]∀[m]∀[n] (l+m)+n ≐ l+(m+n)❘
-               // = proof missing, needs induction p5❘  
+               // = proof ommited❘  
   ❙
   
   comm : ⊦ ∀[m]∀[n] m+n ≐ n+m❘
-               // = proof missing, needs induction p5❘  
+               // = proof ommited❘  
+  ❙
+❚
+
+theory NatPlusTimes =
+  include ?NatPlus❙
+  times : ℕ ⟶ ℕ ⟶ ℕ ❘ # 1 * 2 prec 40❙
+  times_zero : ⊦ ∀[n] n*zero ≐ zero❙
+  times_succ : ⊦ ∀[m]∀[n] n*(succ m) ≐ n*m+n❙
+  
+  times_zero_left: ⊦ ∀[n] zero*n ≐ zero❘
+               // = proof ommited❘
+  ❙
+
+  assoc : ⊦ ∀[l]∀[m]∀[n] (l*m)*n ≐ l*(m*n)❘
+               // = proof ommited❘  
+  ❙
+  
+  comm : ⊦ ∀[m]∀[n] m*n ≐ n*m❘
+               // = proof ommited❘  
   ❙
 ❚

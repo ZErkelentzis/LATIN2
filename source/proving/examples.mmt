@@ -1,17 +1,24 @@
 namespace latin:/❚
 
+// rule scala://parser.api.mmt.kwarc.info?MMTURILexer ❚
 
-theory ExMeta =
+// import urr http://cds.omdoc.org/urtheories ❚
+// import lfx http://gl.mathhub.info/MMT/LFX/TypedHierarchy ❚
+
+
+theory ExMeta   =
     include ?SFOLEQND ❙
     include ?Tactics ❙
+ //   include ☞lfx:?LFHierarchy ❙
+ //  include ☞urr:?PLF ❙
 ❚
 
 theory Examples : ?ExMeta =
 
 
 
-    simple_ex : {T  : tp, A: tm T ⟶ prop} ⊦ ∀ [x] A x ⇒ A x
-    ❘# simple_ex ❘ = [T , A] proof fix x ; assume h ; use h ❙
+ //   simple_ex : {T  : tp, A: tm T ⟶ prop} ⊦ ∀ [x] A x ⇒ A x
+    ❘# simple_ex ❘ = [T , A] ( proof fix x ; assume h ; use h) ❙
 
 
 
@@ -30,14 +37,17 @@ theory Examples : ?ExMeta =
 
 
     theory bwd_ex_isolated =
- //       T : tp❙
- //       A : tm T ⟶ prop ❙
- //       B : prop ❙
- //       x : tm T ❙
+    //    T : tp❙
+    //    A : tm T ⟶ prop ❙
+    //    B : prop ❙
+   //     x : tm T ❙
 //        tmp : ⊦ B ⇒ A x ⇒ A x ❙
 //        tmp0 : ⊦ A x ❙
  //       tmp1 : ⊦ B ❙
    //     tmp2 : ⊦ A x  ⇒ A x  ❙
+
+
+//        prooflf_ex = proofLF ( ⊦ A x  ⇒ A x) (void)  ❙
 
     //    bwd_ex : ⊦  A x
         ❘ =  proof   bwd tmp    ; use tmp1 ; use tmp0 ❙
@@ -48,28 +58,55 @@ theory Examples : ?ExMeta =
 
        // bwd_ex2 : ⊦ A x ⇒ A x ❘= proof assume h ; bwd tmp  ; use tmp1 ; bwd (tmp2 impE tmp0) ❙
 
+   //     theorem_test = theoremLF (⊦  A x ⇒ A x) (proof assume h ; use h ) ❙
 
     ❚
 
 //   bla = [T A] (simple_ex )❙
 
-    bwd_ex4 : {T  : tp , A : tm T ⟶ prop} ⊦ ∀ [x] A x ⇒ A x
+//    bwd_ex4 : {T  : tp , A : tm T ⟶ prop} ⊦ ∀ [x] A x ⇒ A x
     ❘ = [T , A] proof fix x ; assume h ; addh hh ((simple_ex T A) forallE x) ; pps   ❙
-//    blo = [T : tp , A : tm T ⟶ prop , x ]  A x  ❙
-//    bli : {T  : tp} {A: tm T ⟶ prop} ⊦ ∀ [x] A x ⇒ A x ❙
 
-//    bla = [T][ A] (bli T A)  ❙
-
-//    bla : {T : tp , A : tm T ⟶ prop} ⊦ ∀ [x] A x ⇒ A x ❘ = [T : tp , A : tm T ⟶ prop] (simple_ex T A)  ❙
 
 //    addh_ex : {T : tp , A : tm T ⟶ prop} ⊦ ∀ [x] A x ⇒ A x
     ❘ = [T , A] proof addh hh simple_ex  ; use (hh T A)❙
 
-    subgoal_ex : {T : tp , A : tm T ⟶ prop} ⊦ ∀ [x] A x ⇒ A x
+//    subgoal_ex : {T : tp , A : tm T ⟶ prop} ⊦ ∀ [x] A x ⇒ A x
     ❘ = [T , A] proof fix x ; assume h ; subgoal thm (⊦ A x)  ; use h ; use thm ❙
 
 //    addh_ex0 : {T : tp , A : tm T ⟶ prop} ⊦ ∀ [x] A x ⇒ A x
     ❘ = [T , A] proof fix  x  ; addh hh ((simple_ex T A) forallE x)  ; pps  ❙
+
+//    simple_ex_lf_tp : {T : tp , A : tm T ⟶ prop} ⊦ ∀ [x] A x ⇒ A x  ❘ = [T , A] holeBuild❙
+
+ //       theorem_test = theoremLF ( {T : tp  , A : tm T ⟶ prop} ⊦ A x ⇒ A x) (proof assume h ; use h ) ❙
+
+
+
+//    T : type ❙
+//    theorem_test0_type :  {T : type, A : T} T   ❙
+//    theorem_test0_proof = theoremLF theorem_test0_type (proof fixLF t ; fixLF a  ;  use a ) ❙
+
+b : prop ❙
+
+
+    T : tp ❙
+    A : tm T ⟶  prop ❙
+    x : tm T ❙
+    AA : tm T ⟶ prop ❙
+    C : tm T ⟶ prop ❙
+  //  h : ⊦ (C x ⇒ C x) ⇒ (AA x ⇒ AA x) ⇒ (A x ⇒ A x) ⇒ A x ❙
+
+ //   theorem : ⊦ A x ❘ = proof bwd h ; (proof assume hh ; use hh) ; assume hhh ; use hhh  ❙
+
+
+// test : ⊦ (A x ⇒ A x ⇒ A x) ⇒ A x ⇒ A x ❘ = proof assume h ; assume h0 ; pps ; fwd h with h0,h0 ; pps ; use h  ❙
+
+
+// test : {P : tm T ⟶ prop , Q : tm T ⟶ prop } prop  ❘ = [p , q] proof induct (p x) (q x)    ❙
+
+
+
+
+
 ❚
-
-
