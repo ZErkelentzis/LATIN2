@@ -3,8 +3,9 @@ namespace latin:/❚
 fixmeta ?SetFOL❚
 
 theory ZFExtensionality =
-	is_extensional = [x,y](∀[z](z∈x ⇔ z∈y) ⇒ x≐y)❙
-	extensionality_axiom : {x,y} ⊦is_extensional x y❙
+  // FR: this can be a feature that ZFC includes❙
+	is_extensional = [x,y]∀[z] (z∈x ⇔ z∈y) ⇒ x≐y❙
+	extensionality_axiom : {x,y} ⊦ is_extensional x y❙
 ❚
 
 theory ZFPairing =
@@ -47,7 +48,7 @@ theory ZFPowerSet =
 
 theory ZFSeparation =
 	// which name should be chosen? Separation, Specification, Comprehension, ...?❙
-	is_separation = [P,X,z] ∀[a]((a ∈ X ∧ (P a)) ⇔ a ∈ z)❙
+	is_separation = [P,X,z] ∀[a](a∈X ∧ (P a)) ⇔ a∈z❙
 	separation_axiom : {P,X} ⊦ ∃[z] is_separation P X z❙
 	separation_unique : {P,X} ⊦ ∃¹[z] is_separation P X z❘ // = _ ❙
 	
@@ -56,7 +57,7 @@ theory ZFSeparation =
 
 theory ZFReplacement =
 	// like in the lecture❙
-	is_replacement = [P,X,y] ∀[a] a ∈ y ⇔(∃[x] x ∈ X ∧ a ≐ (P x))❙
+	is_replacement = [P,X,y] ∀[a] a∈y ⇔ (∃[x] x∈X ∧ a≐(P x))❙
 	replacement_axiom : {P,X} ⊦ ∃[y] is_replacement P X y❙
 	replacement_unique : {P,X} ⊦ ∃¹[y] is_replacement P X y❘ // = _ ❙
 	
@@ -66,7 +67,9 @@ theory ZFReplacement =
 theory ZFRegularity =
 	// should it be called Foundation?❙
 	// can I write it like this?❙
-	is_regular = [x,y] (∃[t](t ∈ x)) ⇒ (y ∈ x ∧ ¬ (∃[z] (z ∈ x ∧ z ∈ y)))❙
+	
+	// FR: only axiom here, no constant; can be a feature a that ZFC includes❙ 
+	is_regular = [x,y] (∃[t](t∈x)) ⇒ (y∈x ∧ ¬(∃[z] (z∈x ∧ z∈y)))❙
 	regularity_axiom : {x} ⊦ ∃[y] is_regular x y❙
 	regularity_unique : {x} ⊦ ∃¹[y] is_regular x y❘ // = _ ❙
 	regularity : set ⟶ set❘ = [x] the ([y] is_regular x y) regularity_unique❙
@@ -87,8 +90,10 @@ theory ZFBase =
   // ... ❙
 ❚
 
+// FR: this should be just like UnorderedPairs and the others❙
 theory ZFEmptySet =
   include ?ZFBase❙
+  // no axiom needed because we already get existence of some element from the non-emptyiness axiom❙
   // Why realize?❙
   realize ?EmptySet❙
 
@@ -108,6 +113,7 @@ theory ZF =
 
 ❚
 
+// FR: maybe this is not needed - can just be incuded from ZF-independent feature Choice❚
 theory ZFChoice =
   include ?ZFBase❙
   // realize ?SetChoice❙
