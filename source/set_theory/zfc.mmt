@@ -2,23 +2,109 @@ namespace latin:/❚
 
 fixmeta ?SetFOL❚
 
-theory Extensionality =
-
+theory ZFExtensionality =
+  // FR: this can be a feature that ZFC includes❙
+	is_extensional = [x,y]∀[z] (z∈x ⇔ z∈y) ⇒ x≐y❙
+	extensionality_axiom : {x,y} ⊦ is_extensional x y❙
 ❚
 
+theory ZFPairing =
+	is_uo_pair = [x,y,z] ∀[a]a∈z ⇔ (a≐x ∨ a≐y)❙
+  uo_pair_axiom : {x,y} ⊦ ∃[z] is_uo_pair x y z❙
+  uo_pair_unique : {x,y} ⊦ ∃¹[z] is_uo_pair x y z❘ // = _ ❙
+  uo_pair : set ⟶ set ⟶ set❘ # uopair 1 2❘
+          = [x,y] the ([z] is_uo_pair x y z) uo_pair_unique❙
+          
+  // include theory UnorderedPairs from features?❙
+❚
+
+theory ZFBigUnion =
+	// definition of big union from KRMT script❙
+	is_big_union = [Y,z] ∀[x]∀[y](y ∈ Y ⇒ x ∈ y ⇒ x ∈ z)❙
+	big_union_axiom : {Y} ⊦ ∃[z] is_big_union Y z❙
+	big_union_unique : {Y} ⊦ ∃¹[z] is_big_union Y z❘ // = _ ❙
+	
+	// is it right to include this? BigUnion has introduction and elimination rule❙
+	include ?BigUnion❙
+❚
+
+theory ZFSmallUnion = 
+	// is small union necessary?❙
+	is_small_union = [x,y,z] (∀[a](a ∈ x ∨ a ∈ y) ⇒ a ∈ z)❙
+	small_union_axiom : {x,y} ⊦ ∃[z] is_small_union x y z❙
+	small_union_unique : {x,y} ⊦ ∃¹[z] is_small_union x y z❘ // = _ ❙
+	small_union : set ⟶ set ⟶ set❘ # 1 ∪ 2❘
+					= [x,y] the ([z] is_small_union x y z) small_union_unique❙
+❚
+
+theory ZFPowerSet =
+	is_powerset = [x,p] ∀[z]((∀[t](t ∈ z ⇒ t ∈ x)) ⇒ z ∈ p)❙
+	powerset_axiom : {x} ⊦ ∃[p] is_powerset x p❙
+	powerset_unique : {x} ⊦ ∃¹[p] is_powerset x p❘ // = _ ❙
+	
+	// is it right to include this? PowerSets has introduction and elimination rule❙
+	include ?PowerSets❙
+❚
+
+theory ZFSeparation =
+	// which name should be chosen? Separation, Specification, Comprehension, ...?❙
+	is_separation = [P,X,z] ∀[a](a∈X ∧ (P a)) ⇔ a∈z❙
+	separation_axiom : {P,X} ⊦ ∃[z] is_separation P X z❙
+	separation_unique : {P,X} ⊦ ∃¹[z] is_separation P X z❘ // = _ ❙
+	
+	// include Comprehension?❙
+❚
+
+theory ZFReplacement =
+	// like in the lecture❙
+	is_replacement = [P,X,y] ∀[a] a∈y ⇔ (∃[x] x∈X ∧ a≐(P x))❙
+	replacement_axiom : {P,X} ⊦ ∃[y] is_replacement P X y❙
+	replacement_unique : {P,X} ⊦ ∃¹[y] is_replacement P X y❘ // = _ ❙
+	
+	include ?Replacement❙ 
+❚
+
+theory ZFRegularity =
+	// should it be called Foundation?❙
+	// can I write it like this?❙
+	
+	// FR: only axiom here, no constant; can be a feature a that ZFC includes❙ 
+	is_regular = [x,y] (∃[t](t∈x)) ⇒ (y∈x ∧ ¬(∃[z] (z∈x ∧ z∈y)))❙
+	regularity_axiom : {x} ⊦ ∃[y] is_regular x y❙
+	regularity_unique : {x} ⊦ ∃¹[y] is_regular x y❘ // = _ ❙
+	regularity : set ⟶ set❘ = [x] the ([y] is_regular x y) regularity_unique❙
+❚
+
+// Add Infinity Axiom and Choice? Choice from fol?❚
+
 theory ZFBase =
-  include ?Extensionality❙
+  include ?ZFExtensionality❙
   include ?UniverseNonEmpty❙
+  include ?ZFPairing❙
+  include ?ZFBigUnion❙
+  // include ?ZFSmallUnion❙
+  include ?ZFPowerSet❙
+  include ?ZFSeparation❙
+  include ?ZFReplacement❙
+  include ?ZFRegularity❙
   // ... ❙
 ❚
 
+// FR: this should be just like UnorderedPairs and the others❙
 theory ZFEmptySet =
   include ?ZFBase❙
+  // no axiom needed because we already get existence of some element from the non-emptyiness axiom❙
+  // Why realize?❙
   realize ?EmptySet❙
 
+  // isempty copied❙
+  isempty : set ⟶ prop❘ = [x] ¬ ∃[y] y ∈ x❙
   emptyUnique : ⊦ ∃¹ isempty❘ // = ❙
   empty = the isempty emptyUnique❙
-  empty_prop = the_ax isempty empty❙
+  // the_ax {P,p} ⊦ P (the P p), so empty should be emptyUnique❙
+  // empty_prop = the_ax isempty empty❙
+  // for some reason MMT seems to apply emptyUnique to isempty and therefore misses an argument for the_ax❙
+  empty_prop = the_ax isempty emptyUnique❙
 ❚
 
 theory ZF =
@@ -27,6 +113,7 @@ theory ZF =
 
 ❚
 
+// FR: maybe this is not needed - can just be incuded from ZF-independent feature Choice❚
 theory ZFChoice =
   include ?ZFBase❙
   // realize ?SetChoice❙
