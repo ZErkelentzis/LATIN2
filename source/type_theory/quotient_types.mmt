@@ -1,0 +1,92 @@
+// Quotient types - does not fully typecheck yet. Responsible: Navid. ❚
+
+namespace latin:/❚
+import lfx http://gl.mathhub.info/MMT/LFX ❚
+
+fixmeta ur:?LF❚
+
+// We would like to use the ?EquivalenceRelation theory from relations.mmt, but
+   it is not parametric in the carrier type.
+   Thus, if we used "Mod ?EquivalenceRelation", there would no way to force that the carrier type
+   is indeed (tm A), see below.
+
+   (Un)boxing operators would make this nice.
+❚
+
+theory DummyEqvRel > carrier : type ❘ =
+  rel : carrier ⟶ carrier ⟶ type❘# 1 $ 2 prec 30 ❘ role Judgment❙
+❚
+
+theory QuotientTypesBase =
+  include ?TypedTerms❙
+  include ?Proofs ❙
+  include ☞lfx:/Records?LFRecords ❙
+  include ☞lfx:/TypedHierarchy?LFHierarchy ❙
+
+  eqv = [A: tp] Mod ?DummyEqvRel (tm A) ❙
+
+  // A type whose elements can be imagined as equivalence classes.
+
+
+    |- A : tp   rel eqv relation
+   -----------------------------
+          |- A / rel : tp
+  ❙
+  quot : {A: tp} eqv A ⟶ tp  ❘ # 1 / 2 prec 50 ❙
+
+  // The canonical projection from A to A/rel.
+
+    |- x : tm A   rel eqv relation
+   --------------------------------
+          |- π x : A / rel
+  ❙
+  quot_project : {A, rel} tm A ⟶ tm (A / rel)❘ # π 3 prec 50 ❙
+❚
+
+theory QuotientFunctionAccessor =
+  include ?QuotientTypesBase ❙
+  include ?TypedEquality❙
+
+  b: {B: tp} tm B ❙ // <-- works, but below "tm B" INHABITABLE, strange ❙
+  function_quotient:
+        {A: tp, B: tp, f: tm A ⟶ tm B, rel: eqv A}
+          ({x, y} (rel . rel) x y ⟶ (f x) ≐ (f y)) ⟶ tm (A / rel) ⟶ tm B
+      ❘ # 3 ÷ 4
+  ❙
+
+  quote_ax: {A, B, f: tm A ⟶ tm B, rel, x: tm A} (f ÷ rel) (π x) ≐ f x ❙
+❚
+
+theory QuotientArbitraryAccessor =
+  include ?QuotientTypesBase ❙
+  include ?TypedEquality❙
+
+  // A postulated pre-inverse to the canonical projection π.
+     "Extracts an arbitrary element from an equivalence class
+      such that π ∘ ι ≐ identity."
+
+      |- x : tm A   |- [x] : tm (A / rel)
+   -----------------------------------------
+                 |- ι [x] : tm A
+  ❙
+  quot_injection : {A, rel} tm (A / rel) ⟶ tm A ❘ # ι 3 ❙
+
+  quot_inj_proj_inverse : {A, rel, z: tm (A / rel)} ⊦ (π (ι z)) ≐ z ❙
+
+  // The arbitrary element from an equivalence class (by quot_take_any) is the same
+     as a projected element -- up to the equivalence relation.
+
+      |- x : tm A   rel eqv relation
+   -----------------------------------
+    x and ι (π x) are in relation rel
+  ❙
+  quot_proj_inj_almost_inverse : {A, rel: eqv A, x: tm A} (rel . rel) x (quot_injection A rel (π x)) ❙
+   // type inference somehow didn't work with ι instead of quot_injection ❙
+❚
+
+theory QuotientTypes =
+  include ☞latin:/?QuotientTypesBase ❙
+  include ?QuotientFunctionAccessor ❙
+  include ?QuotientArbitraryAccessor ❙
+❚
+

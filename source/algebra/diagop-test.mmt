@@ -9,16 +9,23 @@ import operators scala://newoperators.moduleexpressions.mmt.kwarc.info ❚
 import alg latin:/algebraic ❚
 
 theory AlgebraicDiagOps : ur:?DiagramOperators =
-  hom_operator      # HOM_OP          ❙ rule ☞operators:?HomOperator     ❙
-  hom_dom_connector # HOM_DOM      ❙ rule ☞operators:?HomDomConnector ❙
-  hom_cod_connector # HOM_COD      ❙ rule ☞operators:?HomCodConnector ❙
+  hom_operator       # HOM_OP       ❙ rule ☞operators:?HomOperator          ❙
+  hom_dom_connector  # HOM_DOM      ❙ rule ☞operators:?HomDomConnector      ❙
+  hom_cod_connector  # HOM_COD      ❙ rule ☞operators:?HomCodConnector      ❙
+  hom_img_connector  # HOM_IMG      ❙ rule ☞operators:?HomImgConnector      ❙
   hom_all = HOM_OP :+: HOM_DOM :+: HOM_COD ❘ # HOM ❙
 
-  sub_operator      # SUB_OP       ❙ rule ☞operators:?SubOperator     ❙
-  submodel_conector # SUB_SUBMODEL ❙ rule ☞operators:?SubSubmodelConnector ❙
+  sub_operator       # SUB_OP       ❙ rule ☞operators:?SubOperator          ❙
+  submodel_conector  # SUB_SUBMODEL ❙ rule ☞operators:?SubSubmodelConnector ❙
   sub_all = SUB_OP :+: SUB_SUBMODEL ❘ # SUB ❙
 
-  universal_algebra = SUB :+: HOM  ❘ # UNIVALG ❙
+  hom_sub = HOM :+: SUB :+: HOM_IMG ❘ # HOMSUB ❙
+
+  quot_operator      # QUOT_OP      ❙ rule ☞operators:?QuotOperator         ❙
+  quot_mod_connector # QUOT_MOD     ❙ rule ☞operators:?QuotModConnector     ❙
+  quot_all = QUOT_OP :+: QUOT_MOD ❘ # QUOT ❙
+
+  universal_algebra = HOMSUB :+: QUOT ❘ # UNIVALG ❙
 
   // copy_operator     # COPY         ❙ // rule ☞oprscala://modules.api.mmt.kwarc.info?CopyOperator copy_operator ☞latin:/?SFOLEQND ☞latin:/?SFOLEQND ❙
 ❚
@@ -29,6 +36,8 @@ theory Diagram : ?AlgebraicDiagOps =
   diagForSub = SDIAG ☞latin:/?SFOLEQND ?Set ?Pointed ?PointedSet ❙
 
   // subOutput = SUB diagForSub ❙
+
+  playDiag = SDIAG ☞latin:/?SFOLEQND ?Set ?Magma ?TertiaryStructure ❙
 
   realDiag =
     SDIAG
@@ -45,10 +54,10 @@ theory Diagram : ?AlgebraicDiagOps =
   ❙
 ❚
 
-// diagram HomMagmas : ?AlgebraicDiagOps := HOM ?Diagram?diagForHom ❚
+// diagram HomTest : ?AlgebraicDiagOps := QUOT_OP ?Diagram?playDiag ❚
+diagram PlayTest : ?AlgebraicDiagOps := QUOT ?Diagram?playDiag ❚
 // diagram Substructures : ?AlgebraicDiagOps := SUB ?Diagram?diagForSub ❚
 // diagram SubmodelConnectors : ?AlgebraicDiagOps := SUB_SUBMODEL ?Diagram?diagForSub ❚
 // diagram both : ?AlgebraicDiagOps := HOM ?Diagram?subOutput ❚
 // diagram CopyMagmas : ?AlgebraicDiagOps := COPY ?Diagram?diagForSub ❚
-
-diagram RealTest : ?AlgebraicDiagOps := UNIVALG ?Diagram?realDiag ❚
+// diagram RealTest : ?AlgebraicDiagOps := UNIVALG ?Diagram?realDiag ❚

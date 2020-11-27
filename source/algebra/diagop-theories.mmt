@@ -10,7 +10,17 @@ fixmeta latin:/?SFOLEQND❚
 
 theory Set =
   U : tp❙
-  // V : type ❘ = tm U ❙
+❚
+
+theory Magma =
+  include ?Set ❙
+  op: tm U ⟶ tm U ⟶ tm U ❘ # 1 ∘ 2 prec 50 ❙
+❚
+
+theory TertiaryStructure =
+  include ?Set ❙
+  op: tm U ⟶ tm U ⟶ tm U ⟶ tm U ❙
+  pred: tm U ⟶ tm U ⟶ prop ❙
 ❚
 
 theory Pointed =
@@ -32,11 +42,6 @@ theory PointedMagma =
   structure my_point : ?Pointed =
     include ?Set ❙
   ❚
-❚
-
-theory Magma =
-  include ?Set ❙
-  op: tm U ⟶ tm U ⟶ tm U ❘ # 1 ∘ 2 prec 50 ❙
 ❚
 
 theory Graph =
