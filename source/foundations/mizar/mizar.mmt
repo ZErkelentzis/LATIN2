@@ -134,7 +134,7 @@ theory Mizar : ur:?LFS =
   // adjective_prop : proof X of (adjective T A) ⇔ X of T ∧ A X❙
   adjI : {X,A}{x : term} x be X ⟶ (⊦ A x) ⟶ x be (adjective X A)❙
   adjE : {X,A}{x : term} x be (adjective X A) ⟶  x be X❙
-  adjE_' : {X,A}{x : term} x be (adjective X A) ⟶ ⊦ A x❙
+//  adjE_' : {X,A}{x : term} x be (adjective X A) ⟶ ⊦ A x❙
   adj_nonI : {X,A}{x : term} x be X ⟶ ⊦ ¬ (A x) ⟶ x be (adjective_non X A)❙
   adj_nonE : {X,A} {x : term} x be (adjective_non X A) ⟶ x be X❙
   //adj_nonE': {x : be (adjective_non X A)} ⊦ ¬ (A (adj_nonE x))❙

@@ -11,7 +11,7 @@ import latin2.proving.prettyprint.printHypsRaw
 import scala.collection.mutable.ListBuffer
 
 object helperFunctions {
-
+/*
   abstract class NamedOrUnnamedTerm
 
   case class UnnamedHypothesis(t : Term) extends  NamedOrUnnamedTerm
@@ -242,7 +242,7 @@ object helperFunctions {
   }
 
  */
-
+*/
   def printGoals(solver : Solver , gls : List[ProofGoal]) : String = {
     val res : ListBuffer[String] = ListBuffer()
     gls.foldLeft(1)((i , g) =>  {
@@ -269,8 +269,26 @@ object helperFunctions {
     case CheckingUnit(component: Option[CPath], context: Context, unknowns: Context, judgement: WFJudgement) => {
       CheckingUnit(component , context , unknowns ++ p.unknown ,  judgement)
     }
-
   }
 
+  def genFresh( ln : LocalName , ctx : Context) : LocalName = {
+    var freeln = ln
+    var cnt = 0
+    while(ctx.index(freeln).isDefined){
+      freeln = LocalName(ln.toString)/ LocalName(cnt.toString)
+      cnt += 1
+    }
+    freeln
+  }
+
+  def genHoleName(ctx : Context) : LocalName = {
+    val tmp = genFresh(LocalName("!!") , ctx)
+    tmp
+  }
+
+  def removeDed(t : Term) : Term = t match {
+    case Proofs.ded(trm) => trm
+    case _ => t
+  }
 
 }

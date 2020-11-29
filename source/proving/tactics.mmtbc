@@ -27,16 +27,12 @@ theory Tactics  =
     rule proving?AddhTactic ❙
 
     fwd # fwd L1 with 2,…  ❙
-   rule proving?FwdTactic ❙
-
-
- //   fwd # fwd L1 2 ❙
- //   rule proving?FwdTactic ❙
+    rule proving?FwdTactic ❙
 
 //    build # build 1 ❙
 //    rule proving?BuildTactic ❙
 
-    holeBuild # holeBuild ❙
+    lambdahole # ??  ❙
     rule proving?HoleIaT ❙
 
     theoremLF # theoremLF 1 2 ❙
@@ -55,8 +51,6 @@ theory Tactics  =
     cntra # cntra 1,…❙
     rule proving?ContradictionTactic ❙
 
- //   ppsv # ppsv ❙
- //   rule proving?PrintProofStateVoidTactic ❙
 
     rmh # rmh L1,… ❙
     rule proving?RemoveHypsTactic ❙

@@ -3,7 +3,7 @@ namespace latin:/❚
 
 theory ExMeta   =
     include ?SFOLEQND ❙
-    include ?Tactics2 ❙
+    include ?NewTactics ❙
 ❚
 
 theory Examples : ?ExMeta =
@@ -14,13 +14,16 @@ theory Examples : ?ExMeta =
     D : tm T ⟶ prop ❙
     h : ⊦  (C ⇒ C) ⇒(B ⇒ B)  ⇒ A ❙
 
-   // test : ⊦ A ❘ = iproof bwd h ; subproof subgoal hh (⊦ C ⇒ C) ; (subproof assume hc ; use hc   done)  done  ❙
+ //  test : ⊦ A ❘ = iproof bwd h ; subproof subgoal hh (⊦ C ⇒ C) ; (subproof assume hc ; use hc   done)  done  ❙
 
-   test : ⊦ A ❘ = iproof bwd h ; subgoal hc (⊦ C) ; assume hcc ; use hcc  ❙
+//   test : ⊦ A ❘ = iproof bwd h ; subgoal hc (⊦ C) ; assume hcc ; use hcc  ❙
 
  //  test1 : ⊦ ∀ [x] D x ⇒ ∀ [y] D y ❙
-//   test1 : ⊦ A ⇒ A  ❘ = iproof assume hh ; use hh ❙
+
+// test1 : ⊦ A ⇒ A  ❘ = iproof  assume hhh   ;  bwd h ;  subproof assume hc ; use hc done ; assume hb ; use hb  ❙
 
 
     // test0 : ⊦ A ⇒ A ❘ = proof assume hh ; bwd h ; pps ; papg  ; assume hc ; use hc ; assume hb ; use hb  ❙
+
+  //  test : ⊦  A ⇒ ?? ❙
 ❚
