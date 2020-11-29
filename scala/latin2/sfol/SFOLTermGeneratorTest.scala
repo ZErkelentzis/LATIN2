@@ -26,7 +26,7 @@ object SFOLTermGeneratorTest {
     Ffilterlist = Implication.impl.path :: Ffilterlist
     Ffilterlist = Negation.not.path :: Ffilterlist
     val TermCriteria = new GenCriteria(0, 5, 0, Nat.nat.term, 0, 3, false,
-      100, 100, 50, false, null, 0, 0, 0, false, Tfilterlist/*, template._1, template._2*/)
+      100, 100, 50, false, null, 0, 0, true, 0, false, Tfilterlist/*, template._1, template._2*/)
     val FormulaCriteria = new GenCriteria(1, 5, 0, null, 0,5, true, 50,
       100, 50,true, TermCriteria, exclude = Ffilterlist)
     //var termstream = gen.TermGenerator()

@@ -6,7 +6,7 @@ import info.kwarc.mmt.api.objects.{OMV, Term}
 class GenCriteria(GenMode: Int = 1, variables: Int = 3, literals: Int = 3, RequestedType: Term = null,
                   MinDepth: Int = 0, MaxDepth: Int = -1, escalate: Boolean = false, enum: Int = 100, senum: Int = 100,
                   Ratio: Int = 50, Formula: Boolean = false, TermCriteria: GenCriteria = null,
-                  qmin: Int = 0, qmax: Int = 0, anum: Int = 100, skip: Boolean = false,
+                  qmin: Int = 0, qmax: Int = 0, quant: Boolean = true, anum: Int = 100, skip: Boolean = false,
                   exclude: List[GlobalName] = List[GlobalName](), temp: Term = null,
                   sublist: List[(OMV, Term, Int)] = null) {
   //todo: do we even have to clarify Formula? We could take that info from the RequestedType. On the other hand,
@@ -36,6 +36,7 @@ class GenCriteria(GenMode: Int = 1, variables: Int = 3, literals: Int = 3, Reque
   def escalation: Boolean = escalate
   def rat: Int = Ratio
   //instead of minimal and maximal quantifiers, we should be more concerned with quantifer alteration. Min/Max?
+  def quantors: Boolean = quant
   def quantmax: Int = qmax
   def quantmin: Int = qmin
   def tc: GenCriteria = {
