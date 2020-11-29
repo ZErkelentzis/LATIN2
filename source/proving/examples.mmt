@@ -87,18 +87,25 @@ theory Examples : ?ExMeta =
 //    theorem_test0_type :  {T : type, A : T} T   ❙
 //    theorem_test0_proof = theoremLF theorem_test0_type (proof fixLF t ; fixLF a  ;  use a ) ❙
 
+b : prop ❙
 
 
+    T : tp ❙
+    A : tm T ⟶  prop ❙
+    x : tm T ❙
+    AA : tm T ⟶ prop ❙
+    C : tm T ⟶ prop ❙
+  //  h : ⊦ (C x ⇒ C x) ⇒ (AA x ⇒ AA x) ⇒ (A x ⇒ A x) ⇒ A x ❙
 
-        T : tp ❙
-        A : tm T ⟶  prop ❙
-       x : tm T ❙
-    //    y : tm T ❙
-    B : tm T ⟶ tm T ❙
+ //   theorem : ⊦ A x ❘ = proof bwd h ; (proof assume hh ; use hh) ; assume hhh ; use hhh  ❙
 
-    //    rweq : ⊦ (x ≐ y) ❙
 
-       theorem : ⊦  (∀ [z] A z) ⇒ A (B x) ❘ = proof   appto B,B too B,B❙
+// test : ⊦ (A x ⇒ A x ⇒ A x) ⇒ A x ⇒ A x ❘ = proof assume h ; assume h0 ; pps ; fwd h with h0,h0 ; pps ; use h  ❙
+
+
+// test : {P : tm T ⟶ prop , Q : tm T ⟶ prop } prop  ❘ = [p , q] proof induct (p x) (q x)    ❙
+
+
 
 
 

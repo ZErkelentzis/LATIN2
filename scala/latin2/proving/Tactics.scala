@@ -225,7 +225,7 @@ object FwdTactic extends  ProofStepRule(Tactics.fwd.path) {
       case (trm, _) => Some(Proofs.ded(trm))
     }
 
-    val tmp0 = loop(tmp.tp.getOrElse(return None), List(hs))
+    val tmp0 = loop(tmp.tp.getOrElse(return None), hs)
     tmp0 match {
       case None => None
       case Some(a) => {
@@ -410,9 +410,9 @@ object ContradictionTactic extends ProofStepRule(Tactics.cntra.path) {
 
 
 
-object SwitchGoalTactic extends ProofStepRule(Tactics.switchGoal.path) {
+object SwitchGoalTactic extends ProofStepRule(Tactics.switchgoal.path) {
   def apply(prover: ImperativeProver, goal: ProofGoal, step: Term): Option[List[ProofGoal]] = {
-    val Tactics.switchGoal(OML(ln , _ , _ , _ , _)) = step
+    val Tactics.switchgoal(OML(ln , _ , _ , _ , _)) = step
     val n = ln.toString.toInt
     val gls = prover.getGoals
     (gls.length < n || n <= 0) match {
@@ -565,11 +565,26 @@ object generalize {
 // apply several tactics to multiple subgoals
 object ApptoTactic extends ProofStepRule(Tactics.appto.path) {
   def apply(prover: ImperativeProver, goal: ProofGoal, step: Term) = {
-    val Tactics.appto(ls, l0) = step
+    val Tactics.appto(Tactics.argl(ls), Tactics.arg(l0)) = step
+    val targets = ls.map {  x => helperFunctions.termToInt(x).get }
     val gls = prover.getGoals
-  //  val targets = ls.takeWhile(x => helperFunctions.isNumberTerm(x))
-  //  val
-    Some(List(goal))
+    prover.clearGoals
+    val tmp = gls.zip(Stream.from(1))
+    val cgoals = tmp.filter(p => targets.contains(p._2)).map(_._1)
+    val ncgoals = tmp.filter(p => ! targets.contains(p._2)).map(_._1)
+    val newgoals = cgoals.map(gg => helperFunctions.applyTacticsToGoal(prover , gg , l0))
+    val tmpgs = newgoals.foldLeft[Option[List[ProofGoal]]](Some(Nil))((res, curr) => (res , curr)  match {
+      case (None , _) => None
+      case (_ , None) => None
+      case (Some(ls) , Some(ls0) ) => Some(ls ++ ls0)
+    })
+    tmpgs match{
+      case None => None
+      case Some(ls) => {
+        prover.setGoals(ls ++ ncgoals)
+        Some(List())
+      }
+    }
   }
 }
 
@@ -609,11 +624,115 @@ object RewriteTactic extends ProofStepRule(Tactics.rw.path) {
     }
   }
 }
+/*
+object InductTactic extends ProofStepRule(Tactics.induct.path) {
+  def apply(prover: ImperativeProver, goal: ProofGoal, step: Term) : Option[List[ProofGoal]] = step match  {
+    case Tactics.induct(h , v) => {
 
-object induct {
+      def dings(t : Term) : List[OMV] = t match {
+        case OMA(OMV(n) , ags) => n.toString match {
+          case "p" => List(OMV(n))
+          case _ => Nil
+        }
+
+      }
+
+      helperFunctions.unify(h , v , dings)
+      Some(Nil)
+    }
+  }
+}
+
+*/
+object cases {
 
 }
 
-object cases {
+// doesnt work with refl as name because there is another rule that has this name ... but this shouldnt actually matter because the other rule is not a tactic
+object RefltTactic extends ProofStepRule(Tactics.reflt.path) {
+  def apply(prover: ImperativeProver, goal: ProofGoal, step: Term) : Option[List[ProofGoal]] = helperFunctions.getConclusion(goal.tp) match {
+    case TypedEquality.equal(_ , a , b) =>{
+      prover.solver.check(Equality(goal.stack , a , b, None ))(goal.history) match  {
+        case true => Some (Nil)
+        case false => None
+      }
+    }
+    case _ => None
+  }
+}
+
+
+//view between different tactics
+
+// splits conjunction in goal
+object split {
+
+}
+
+// for or statement
+object left {
+
+}
+
+
+// for or statement
+object right {
+
+}
+
+// possibly the same as cases
+object destruct {
+
+}
+
+/*
+object proofaltTactic extends ProofStepRule(Tactics.proofalt.path) {
+  def apply(prover: ImperativeProver, goal: ProofGoal, step: Term) : Option[List[ProofGoal]] = helperFunctions.getConclusion(goal.tp) match {
+    case Tactics.proofalt(stps) = step
+  }
+}
+*/
+
+
+object apRule {
+
+}
+
+
+// {P} (P 0) -> (P n -> P (n +1)) -> P n
+
+//mmt-api algebra
+//lf simplificationrulegenerator  , proving
+
+/*
+Key proof steps:
+
+backwards steps
+special case induction
+relevant existing code: BackwardsPiElimination
+equality steps
+special case algebraic simplification
+relevant existing code: SimplificationRuleGenerator, uom.Algebra
+
+ */
+//  |a -> b   bulid ([a] _)
+
+object interactive {
+
+}
+
+
+object SubproofTactic extends ProofStepRule(Tactics.subproof.path) {
+  def apply(prover: ImperativeProver, goal: ProofGoal, step: Term) : Option[List[ProofGoal]] =  {
+    val Tactics.subproof(stps) = step
+    prover.executeSteps(stps) match {
+      case true => Some(prover.getGoals)
+      case false => None
+    }
+  }
+}
+
+
+object repeat {
 
 }
