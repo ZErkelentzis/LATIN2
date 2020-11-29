@@ -1,0 +1,33 @@
+namespace latin:/playground ❚
+import latin latin:/ ❚
+
+rule scala://parser.api.mmt.kwarc.info?MMTURILexer ❚
+
+// Bug: total view gets marked as partial if some domain constants has 'role Simplify' annotation.
+   Author: ComFreek
+
+   Steps to reproduce:
+     1. typecheck this file (should typecheck fine)
+     2. add `❘ role Simplify` to my_rule in the theory below
+     3. typecheck again.
+
+        Now in the view RoleSimplifyBug below,
+
+        (1) the include errors with:
+
+           > unknown error in declaration: general error: error while simplifying COMPOSE(composition)
+
+        (2) the assignment for my_rule errors with:
+
+           > error while adding successfully parsed element latin:/playground?RoleSimplifyBug_view?[latin:/playground?RoleSimplifyBug]/my_rule: general error: error while simplifying {A,a:tm A}⊦a≐a
+             (Pi [A : tp, a : (apply tm A)] (apply ded (apply equal A a a)))
+❚
+theory RoleSimplifyBug =
+  include ☞latin:?TypedEquality ❙
+  include ☞latin:?Proofs ❙
+  my_rule : {A,a: tm A} ⊦ a ≐ a ❙ // ❘ role Simplify ❙
+❚
+view RoleSimplifyBug_view : ?RoleSimplifyBug -> ?RoleSimplifyBug =
+  include ☞latin:?TypedEquality ❙
+  my_rule = ?RoleSimplifyBug?my_rule ❙
+❚

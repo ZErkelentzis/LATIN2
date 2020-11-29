@@ -50,11 +50,42 @@ theory BigUnion =
   bigunionE : {A,X,x,C} ⊦ x ∈ ⋃A ⟶ (⊦ X∈A ⟶ ⊦ x∈X ⟶ ⊦ C) ⟶ ⊦ C❙
 ❚
 
+theory SmallUnion =
+
+❚
+
+// FR additional features: Union, BigIntersection, Intersection❚
+// no changes in zfc.mmt needed to realize those - 
+instead we can state here already that, e.g., BigUnion and UnorderedPair are enough to realize SmallUnion;
+we can do that with either a realize statement or a view
+view is often better; realize A within B in those cases where anybody who includes B can be expected to want A as well
+view also helpful when multiple features are needed, e.g., BigUnion and UnorderedPair
+❚
+
+// FR: not sure if any syntax like this already works
+view SmallUnionAsBigUnion: ?SmallUnion → ?BigUnion, ?UnorderedPair =
+
+❚
+// if it doesn't we can use this as a fallback❚
+theory SmallUnionAsBigUnion =
+  include ?UnorderedPairs❙
+  include ?BigUnion❙
+  realize ?SmallUnion❙
+❚
+
+
 theory PowerSets =
   power : set ⟶ set❘# ℘ 1 prec 60❙
   powerI : {X,A} ({u} ⊦u∈X ⟶ ⊦u∈A) ⟶ ⊦X∈℘ A❙
   powerE : {X,A} ⊦X∈℘A ⟶ {u} ⊦u∈X ⟶ ⊦u∈A❙
 ❚
 
+// FR: these two need some abbreviation just to state them; those can be here and then reused in the ZF theory that realizes them❚
+
+// FR: maybe use inifite to define ℕ, either here or in ZFInfinite
+somewhere we should then realize the theory of Peano axioms❚
 theory Infinite =
+❚
+
+theory Choice =
 ❚

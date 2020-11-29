@@ -14,7 +14,34 @@ theory Set =
 
 theory Magma =
   include ?Set ❙
+  op: tm U ⟶ tm U ⟶ tm U ❘ # 1 ∘ 2 prec 50 ❙
+❚
+
+theory TertiaryStructure =
+  include ?Set ❙
+  op: tm U ⟶ tm U ⟶ tm U ⟶ tm U ❙
+  pred: tm U ⟶ tm U ⟶ prop ❙
+❚
+
+theory Pointed =
+  include ?Set❙
+  elem : tm U❙
+❚
+
+theory PointedSet =
+  include ?Set ❙
+  structure my_point : ?Pointed =
+    include ?Set ❙
+  ❚
+❚
+
+theory PointedMagma =
+  include ?Set ❙
   op : tm U ⟶ tm U ⟶ tm U ❘# 1 ∘ 2 prec 50❙
+
+  structure my_point : ?Pointed =
+    include ?Set ❙
+  ❚
 ❚
 
 theory Graph =
@@ -96,9 +123,4 @@ theory Semilattice =
   include ?CommSemigroup❙
   include ?Band❙
   include ?CommIdempotent❙
-❚
-
-theory Pointed =
-  include ?Set❙
-  elem : tm U❙
 ❚
