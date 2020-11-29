@@ -43,22 +43,39 @@ theory QuotientTypesBase =
   ❙
   quot_project : {A, rel} tm A ⟶ tm (A / rel)❘ # π 3 prec 50 ❙
 
-  fun_is_congruence
-         : {A, B, f: tm A ⟶ tm B, rel: eqv A} type
-      ❘ = [A, B, f, rel] {x, y} (rel . rel) x y ⟶ ⊦ f x ≐ f y
-      ❘ #  3 ⟂ 4❙
-  fun_congruence_extract
-         : {A, B, f: tm A ⟶ tm B, rel} f ⟂ rel ⟶ ({x, y} (rel . rel) x y ⟶ ⊦ f x ≐ f y)
-         ❘ # fun_congruence_extract 1 2 3 4 5
-         ❙
+  related_elements_identified
+     : {A, rel, x, y} (rel . rel) x y ⟶ ⊦ quot_project A rel x ≐ quot_project A rel y
+    ❘# related_elements_identified 3 4 5
+  ❙
+
+  identified_elements_related
+      : {A, rel: eqv A, x: tm A, y: tm A} ⊦ quot_project A rel x ≐ quot_project A rel y ⟶ (rel . rel) x y
+  ❙
+
+  // Is this a good formalization of functions being congruences? ❙
+  fun_congruence: {A, B, f: tm A ⟶ tm B, rel: eqv A} type ❘ # 3 ⟂ 4 ❙
+  fun_congruenceI
+      : {A, B, f: tm A ⟶ tm B, rel: eqv A} ({x, y} (rel . rel) x y ⟶ ⊦ f x ≐ f y) ⟶ f ⟂ rel
+  ❙
+  fun_congruenceE
+      : {A, B, f: tm A ⟶ tm B, rel: eqv A} f ⟂ rel ⟶ {x, y} (rel . rel) x y ⟶ ⊦ f x ≐ f y
+      ❘ # fun_congruenceE 5 6 7 8
+  ❙
+
+  projection_is_congruence
+       :  {A, rel: eqv A} (quot_project A rel) ⟂ rel
+      ❘= [A, rel] fun_congruenceI A (A / rel) (quot_project A rel) rel
+                    ([x: tm A, y: tm A, xInRelY: (rel . rel) x y]
+                      (related_elements_identified x y xInRelY))
+  ❙
 ❚
 
-theory QuotientFunctionAccessor =
+theory QuotientFunctionAccess =
   include ?QuotientTypesBase ❙
 
   quot_fun:
         {A, B, f: tm A ⟶ tm B, rel} f ⟂ rel ⟶ (tm (A / rel) ⟶ tm B)
-      ❘ # 3 ÷ 4
+      ❘ # 3 ÷ 5
   ❙
 
   // The axiom that the following diagram commutes:
@@ -69,11 +86,30 @@ theory QuotientFunctionAccessor =
          \------------> B ❙
   quote_fun_ax
     : {A, B, f: tm A ⟶ tm B, rel, p: f ⟂ rel} {x: tm A} ⊦ (quot_fun A B f rel p (π x)) ≐ f x
-    ❘ role Simplify
-  ❙ // using the notation "(f ÷ rel) (π x) ≐ (f x)" leads to inhabitable errors strangely ❙
+    ❘ // using the notation "(f ÷ rel) (π x) ≐ (f x)" leads to inhabitable errors strangely
+    ❘ // no role Simplify due to https://github.com/UniFormal/MMT/issues/554
+  ❙
 ❚
 
-theory QuotientArbitraryAccessor =
+/T Examples of building functions into quotient types ❚
+theory QuotientFunctionExamples =
+  include ?QuotientFunctionAccess ❙
+
+  /T The canonical identity given by LF's identity on tm (A / rel) ❙
+  canonical_id: {A, rel: eqv A} tm (A / rel) ⟶ tm (A / rel)  ❘ = [A, rel, a] a ❙
+  canonical_id_notation = [A, rel: eqv A] canonical_id A rel ❘ # id_quot 2 ❙
+
+  /T The projection π: tm A ⟶ tm (A / ~) induces a function tm (A / rel) ⟶ tm (A / rel). ❙
+  induced_id:   {A, rel: eqv A} tm (A / rel) ⟶ tm (A / rel)
+    ❘ = [A, rel] (quot_project A rel) ÷ (projection_is_congruence A rel)
+  ❙
+  induced_id_notation = [A, rel: eqv A] induced_id A rel ❘ # id_quot_induced 2 ❙
+
+  /T I (Navid) think this isn't provable in QuotientFunctionAccess (but in QuotientIndefiniteAccess ❙
+  identities_extensionally_equal: {A, rel: eqv A, a} ⊦ (id_quot rel) a ≐ (id_quot_induced rel) a ❙
+❚
+
+theory QuotientIndefiniteAccess =
   include ?QuotientTypesBase ❙
 
   // A postulated pre-inverse to the canonical projection π.
@@ -99,22 +135,30 @@ theory QuotientArbitraryAccessor =
    // type inference somehow didn't work with ι instead of quot_injection ❙
 ❚
 
+/T Phrases function access in terms of indefinite access.
 
-
-view v : ?QuotientFunctionAccessor -> ?QuotientArbitraryAccessor =
+   The other direction is impossible: indefinite access is a stronger tool than function access.
+❚
+view QuotientFunctionViaIndefiniteAccess : ?QuotientFunctionAccess -> ?QuotientIndefiniteAccess =
   include ?QuotientTypesBase ❙
 
   quot_fun = [A, B, f, rel, p: f ⟂ rel] [a: tm (A / rel)] f (ι a) ❙
   // have (ι (π x)) ~ x
      hence f ι (π x) ≐ x ❙
   quote_fun_ax = [A, B, f, rel, p: f ⟂ rel] [x: tm A]
-                    fun_congruence_extract A B f rel p (quot_inj A rel (π x)) x
-                    (quot_proj_inj_almost_inverse A rel x) ❙
+                    fun_congruenceE p (quot_inj A rel (π x)) x
+                      (quot_proj_inj_almost_inverse A rel x) ❙
+❚
+
+// view QuotientFunctionEx : ?QuotientFunctionExamples -> ?QuotientIndefiniteAccess =
+  include ?QuotientFunctionViaIndefiniteAccess ❙
+  // identities_extensionally_equal: {A, rel: eqv A, a} ⊦ (id_quot rel) a ≐ (id_quot_induced rel) a ❙
+  // identities_extensionally_equal:
 ❚
 
 theory QuotientTypes =
   include ☞latin:/?QuotientTypesBase ❙
-  include ?QuotientFunctionAccessor ❙
-  include ?QuotientArbitraryAccessor ❙
+  include ?QuotientIndefiniteAccess ❙
+  include ?QuotientFunctionAccess ❘ = ?QuotientFunctionViaIndefiniteAccess ❙
 ❚
 
