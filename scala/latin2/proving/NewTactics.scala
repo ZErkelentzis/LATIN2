@@ -1,9 +1,9 @@
 package latin2.proving
 
 import info.kwarc.mmt.api.LocalName
-import info.kwarc.mmt.api.objects.{Context, Equality, OMID, OML, OMS, OMV, PlainSubstitutionApplier, Stack, Sub, Substitution, Term, Typing, VarDecl}
+import info.kwarc.mmt.api.objects.{Context, Equality, OMBINDC, OMID, OML, OMS, OMV, PlainSubstitutionApplier, Stack, Sub, Substitution, Term, Typing, VarDecl}
 import info.kwarc.mmt.lf.{Apply, ApplySpine, Lambda, Typed}
-import lf.{Implication, ImplicationNDI, NewTactics, Proofs, TypedTerms, TypedUniversalQuantification, Types}
+import lf.{Implication, ImplicationNDI, NewTactics, Proofs, TypedTerms, TypedUniversalQuantification, TypedUniversalQuantificationND, Types}
 
 import scala.collection.mutable.ListBuffer
 
@@ -34,8 +34,11 @@ object UseTactic extends SimpleProofStepRule(NewTactics.use.path) {
   def apply(step: Term , goal : ProofGoal , prover: ImperativeProver) = {
     val NewTactics.use(p) = step
     val pC = prover.clean(goal.stack, p)
-    prover.solver.check(Typing(goal.stack, pC, goal.tp))(goal.history + "check proof term")
-    Some((List() ,  pC , List()))
+    prover.solver.check(Typing(goal.stack, pC, goal.tp))(goal.history + "check proof term") match {
+      case true =>  Some((List() ,  pC , List()))
+      case false => prover.solver.error("use needs a term that has exactly the type of the goal")(goal.history); None
+    }
+
   }
 }
 
@@ -66,7 +69,7 @@ object SubgoalTactic extends SimpleProofStepRule(NewTactics.subgoal.path) {
     val newFVar = helperFunctions.genHoleName(prover.solver.checkingUnit.context ++ goal.stack.context  ++ prover.lambdaGoalsToContext )
     val newFVar2 = helperFunctions.genHoleName(prover.solver.checkingUnit.context ++ goal.stack.context  ++ prover.lambdaGoalsToContext ++ VarDecl(newFVar) )
     val lt : Term = Apply (Lambda( h, trm , OMV(newFVar) )   , OMV(newFVar2) )
-    Some(List(newg , subg) , lt , List(OMV(newFVar), OMV(newFVar2)))
+    Some(List(subg , newg) , lt , List(OMV(newFVar), OMV(newFVar2)))
   }
 }
 
@@ -116,7 +119,7 @@ object BwdTactic extends SimpleProofStepRule(NewTactics.bwd.path){
               val hname = helperFunctions.genHoleName(ctx ++ Context(holes.map(ln => VarDecl(ln)) : _*))
               holes.insert(0 , hname)
             }
-
+//applygeneral maybe
             val lterm = ApplySpine(trm , holes.map(x => OMV(x)) : _ *)
 
             //lambda term
@@ -193,3 +196,53 @@ object FwdTactic extends  SimpleProofStepRule(NewTactics.fwd.path) {
     }
   }
 }
+
+
+object AddhTactic extends SimpleProofStepRule(NewTactics.addh.path){
+  def apply(step : Term, goal : ProofGoal ,   prover : ImperativeProver ): Option[(List[ProofGoal], Term , List[OMV])] = {
+    val NewTactics.addh(trm, nn) = step
+    if (goal.stack.context.variables.exists(p => p.name == nn.name)) {return None }
+    val trm0 = prover.clean(goal.stack  , trm)
+    val tp = prover.solver.inferType(trm0 , false)(goal.stack , goal.history)
+    val gls = List(ProofGoal(goal.stack ++ OMV(nn.name) % tp.get  , goal.tp , goal.history + ("addh: added hypothesis :" + prover.solver.presentObj(OMV(nn.name) % tp.get))))
+    //lambdaterm
+
+    val ctx = prover.solver.checkingUnit.context ++ goal.stack.context  ++ prover.lambdaGoalsToContext
+    val newG = helperFunctions.genHoleName(ctx)
+    val lam = Lambda(nn.name , tp.get ,  OMV(newG))
+
+    //lambdaterm
+    Some((gls, lam , List(OMV(newG)) ))
+  }
+}
+
+
+
+object FixTactic extends SimpleProofStepRule(NewTactics.fix.path) {
+  def apply(step: Term , goal: ProofGoal ,  prover: ImperativeProver) = step match {
+    case NewTactics.fix(OML(n, None, None, _, _)) => {
+      goal.tp match {
+        case Proofs.ded(TypedUniversalQuantification.forall(tp, body)) => {
+          val ntp = TypedTerms.tm(tp)
+          val stackN = goal.stack ++ OMV(n) % ntp
+          val bodyN = prover.solver.simplify(Apply(body, OMV(n)))(stackN, goal.history)
+          val pg = ProofGoal(stackN, Proofs.ded(bodyN), goal.history + "fix")
+          // lambda
+
+
+          val ctx = prover.solver.checkingUnit.context ++ goal.stack.context  ++ prover.lambdaGoalsToContext
+          val newG = helperFunctions.genHoleName(ctx)
+          val lam = TypedUniversalQuantificationND.forallI( tp , bodyN , Lambda(n , ntp ,  OMV(newG)) )
+
+          //lambda
+
+          Some(List(pg) , lam , List(OMV(newG)))
+        }
+      }
+    }
+    case _ => prover.solver.error("fix has not the right form: " + step.toString())(goal.history); None
+  }
+}
+
+
+

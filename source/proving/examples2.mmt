@@ -20,10 +20,17 @@ theory Examples : ?ExMeta =
 
  //  test1 : ⊦ ∀ [x] D x ⇒ ∀ [y] D y ❙
 
-// test1 : ⊦ A ⇒ A  ❘ = iproof  assume hhh   ;  bwd h ;  subproof assume hc ; use hc done ; assume hb ; use hb  ❙
 
 
     // test0 : ⊦ A ⇒ A ❘ = proof assume hh ; bwd h ; pps ; papg  ; assume hc ; use hc ; assume hb ; use hb  ❙
 
   //  test : ⊦  A ⇒ ?? ❙
+
+
+
+
+// test1 : ⊦  A ⇒ A  ❘ = iproof  assume hhh   ;  addh hh h ; subgoal hc (⊦ C ⇒ C) ; subproof assume hc ; use hc done ; fwd hh with hc   ❙
+
+    test2 : ⊦ ∀ [x] D x ⇒ A ⇒ D x ❘ = iproof fix x   ; assume hd ;  assume ha ; use ha ❙
+
 ❚

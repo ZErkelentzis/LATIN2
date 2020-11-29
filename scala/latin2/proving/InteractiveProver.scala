@@ -141,8 +141,9 @@ class InteractiveLFProver(solver : Solver,  val rules: List[ProofStepRule], init
         class NextStep() extends ActionListener {
 
           def nextStep: Unit = {
-            if (prover.toDoSteps.isEmpty) {return}
+            if (prover.toDoSteps.isEmpty || prover.errorstate) {return}
             prover.redoStep()
+            if (prover.errorstate) {completeProofPanel.nexterror ;  return}
             proofStateLabel.setText(helperFunctions.printProofState(solver, prover.getGoals))
             val trmTxt = solver.presentObj(prover.lambdaProofTerm)
             lambdaLabel.setText(trmTxt)
@@ -159,6 +160,7 @@ class InteractiveLFProver(solver : Solver,  val rules: List[ProofStepRule], init
 
           def undoStep: Unit = {
             if (prover.stepHistory.isEmpty) return
+            if (prover.errorstate) {completeProofPanel.undoerror; prover.undoErrorStep() ; return }
             prover.undoStep()
             proofStateLabel.setText(helperFunctions.printProofState(solver, prover.getGoals))
             val trmTxt = solver.presentObj(prover.lambdaProofTerm)
@@ -206,6 +208,10 @@ class ImperativeProofPresenter(ip : ImperativeProver) extends  JEditorPane {
   var currpos = 0
   val hl = new DefaultHighlightPainter(Color.GREEN)
   val hl0: AnyRef = getHighlighter.addHighlight(0  , 0 , hl)
+
+  val errorhl = new DefaultHighlightPainter(Color.RED)
+  val errorhl0: AnyRef = getHighlighter.addHighlight(0  , 0 , errorhl)
+
 //ordered list
   val delims : List[(String , Int) ] = List((";" , 0), ("subproof" , 0))
 
@@ -214,6 +220,38 @@ class ImperativeProofPresenter(ip : ImperativeProver) extends  JEditorPane {
   val maxpos : Int = txt.length
   val posStack : ListBuffer[Int] = ListBuffer()
   setText(txt)
+
+
+  def nextDelimStart(ls : List[(String , Int)]) : (Int, String) = ls match {
+    case Nil =>(maxpos, "")
+    case lss@(s , v)::xs => {
+      val tmp = lss.takeWhile(n => n._2 == v)
+      val tmp0 = lss.dropWhile(n => n._2 == v)
+
+      def loop2(ls0 : List[(String , Int)]) : Option[(Int,String)] = ls0 match{
+        case Nil => None
+        case (s0 , _)::ys => {
+          val tmp1 =  txt.indexOf(s0 , currpos) match {case xx if xx < 0 => None ; case xx => Some(xx) }
+          (tmp1, loop2(ys)) match {
+            case (None, None) => None
+            case (Some(ps) , None) => Some((ps , s0))
+            case (None , ret) => ret
+            case (Some(ps) , ret@Some((ps0 , ss))) => {
+              if (ps < ps0){
+                Some((ps , s0))
+              }else {
+                ret
+              }
+            }
+          }
+        }
+      }
+      loop2(tmp) match {
+        case None => nextDelimStart(tmp0)
+        case Some(vl) => vl
+      }
+    }
+  }
 
   def next (): Unit = {
 
@@ -258,6 +296,17 @@ class ImperativeProofPresenter(ip : ImperativeProver) extends  JEditorPane {
     currpos = posStack.head
     posStack.remove(0)
     getHighlighter.changeHighlight(hl0 , 0 , currpos)
+  }
+
+  def nexterror: Unit = {
+    val oldcurr = currpos
+    val (pos , ss) = nextDelimStart(delims)
+    val newcurr = pos + ss.length
+    getHighlighter.changeHighlight(errorhl0 , oldcurr , newcurr)
+  }
+
+  def undoerror = {
+    getHighlighter.changeHighlight(errorhl0 , 0 , 0)
   }
 
 }

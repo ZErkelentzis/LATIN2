@@ -96,6 +96,8 @@ class ImperativeProver( initGoal: ProofGoal,  val rules: List[ProofStepRule],val
 
   var lambdaTermHistory : List[Term] = List(lambdaProofTerm)
 
+  var errorstate : Boolean = false
+
 //  var makeStep : Term => Boolean = makeStepConcrete
 //  var redoStep : () =>  Boolean = redoStepConcrete
 //  var undoStep : () => Boolean = undoStepConcrete
@@ -117,19 +119,32 @@ class ImperativeProver( initGoal: ProofGoal,  val rules: List[ProofStepRule],val
   def executeProof(stps : List[Term]): Unit ={
     stps.foreach {step =>
       // history += step.head.name
-      val r = makeStep(step)
-      if (!r) {
+      makeStep(step)
+      if (errorstate) {
         solver.error("proof step application failed: " + solver.presentObj(step))(currentHistory)
       }
     }
   }
 
-  def makeStep(step : Term): Boolean = {
-    val stepRule = rules.find(_.applicable(step)).getOrElse(return solver.error("no applicable rule"))
+  def makeErrorStep(step : Term) = {
+    errorstate = true
+    stepHistory = step ::  stepHistory
+  }
+
+  def undoErrorStep() ={
+    errorstate = false
+    toDoSteps = stepHistory.head :: toDoSteps
+    stepHistory = stepHistory.tail
+
+  }
+
+  def makeStep(step : Term): Unit = {
+    if (errorstate) return
+    val stepRule = rules.find(_.applicable(step)).getOrElse({solver.error("no applicable rule"); makeErrorStep(step) ; return})
     stepRule.isInstanceOf[SimpleProofStepRule] match {
       case true => {
         val sStepRule = stepRule.asInstanceOf[SimpleProofStepRule]
-        val (gls , lt , lgls) = sStepRule(step , goals.head , this).getOrElse(return false)
+        val (gls , lt , lgls) = sStepRule(step , goals.head , this).getOrElse({makeErrorStep(step) ; return})
         stepHistory = step ::  stepHistory
         goalsHistory = goals :: goalsHistory
         goals =  gls ++ goals.tail
@@ -139,20 +154,20 @@ class ImperativeProver( initGoal: ProofGoal,  val rules: List[ProofStepRule],val
         lambdaProofTerm = PlainSubstitutionApplier(lambdaProofTerm , sb)
         lambdaGoalsHistory = lambdaGoals :: lambdaGoalsHistory
         lambdaGoals =  lgls ++ lambdaGoals.tail
-        true
+
       }
       case false => {
         val cStepRule = stepRule.asInstanceOf[ComplexProofStepRule]
         cStepRule(step , this)
-        true
+
       }
     }
   }
 
 
-  def redoStep(): Boolean ={
+  def redoStep(): Unit ={
     toDoSteps match {
-      case Nil => false
+      case Nil =>
       case x :: xs => {
         toDoSteps = toDoSteps.tail
         makeStep(x)
@@ -161,8 +176,8 @@ class ImperativeProver( initGoal: ProofGoal,  val rules: List[ProofStepRule],val
   }
 
 
-  def makeUndoStep(step : Term): Boolean = {
-    val stepRule = rules.find(_.applicable(step)).getOrElse(return solver.error("no applicable rule"))
+  def makeUndoStep(step : Term): Unit = {
+    val stepRule = rules.find(_.applicable(step)).getOrElse({solver.error("no applicable rule") ; errorstate= true ; return })
     stepRule.isInstanceOf[SimpleProofStepRule] match {
       case true => {
         toDoSteps = stepHistory.head :: toDoSteps
@@ -173,23 +188,24 @@ class ImperativeProver( initGoal: ProofGoal,  val rules: List[ProofStepRule],val
         lambdaTermHistory = lambdaTermHistory.tail
         lambdaGoals = lambdaGoalsHistory.head
         lambdaGoalsHistory = lambdaGoalsHistory.tail
-        true
+
       }
       case false => {
         val cStepRule = stepRule.asInstanceOf[ComplexProofStepRule]
         cStepRule.undoStep(step, this)
-        true
+
       }
     }
+    errorstate = false
   }
 
-  def undoStep(): Boolean = {
+  def undoStep(): Unit = {
+    if (errorstate) {undoErrorStep() ; return}
     stepHistory match {
-      case Nil => false
+      case Nil =>
       case x :: xs => {
         val trm = stepHistory.head
         makeUndoStep(trm)
-        true
       }
     }
   }
