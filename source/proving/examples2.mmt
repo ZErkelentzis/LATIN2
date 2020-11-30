@@ -7,12 +7,16 @@ theory ExMeta   =
 ❚
 
 theory Examples : ?ExMeta =
+    include ?AlternativeNegationAndFalsityND ❙
     A : prop ❙
     C : prop ❙
     B : prop ❙
     T : tp ❙
     D : tm T ⟶ prop ❙
-    h : ⊦  (C ⇒ C) ⇒(B ⇒ B)  ⇒ A ❙
+    testh : ⊦  (C ⇒ C) ⇒(B ⇒ B)  ⇒ A ❙
+
+   // bla = falseE ❙
+   // blu  = notElimination ❙
 
  //  test : ⊦ A ❘ = iproof bwd h ; subproof subgoal hh (⊦ C ⇒ C) ; (subproof assume hc ; use hc   done)  done  ❙
 
@@ -28,9 +32,12 @@ theory Examples : ?ExMeta =
 
 
 
+  //  errortest : ⊦ A ⇒ B ⇒ A ❘= iproof assume ha ; use ha  ❙
+  //  test1 : ⊦  A ⇒ A  ❘ = iproof  assume hhh   ;  addh hh testh ; subgoal hc (⊦ C ⇒ C) ; subproof assume hc ; use hc done ; fwd hh with hc ; bwd hh; assume hb ; use hb  ❙
+    simpletest = theoremLF (⊦ A ⟶  ⊦ A) (proof assumelfx hh ; use hh)   ❙
 
-// test1 : ⊦  A ⇒ A  ❘ = iproof  assume hhh   ;  addh hh h ; subgoal hc (⊦ C ⇒ C) ; subproof assume hc ; use hc done ; fwd hh with hc   ❙
 
-    test2 : ⊦ ∀ [x] D x ⇒ A ⇒ D x ❘ = iproof fix x   ; assume hd ;  assume ha ; use ha ❙
+
+   // pierce : {p , q} ⊦  ((p ⇒ q) ⇒ p) ⇒ p ❘ = [p , q] iproof assume h ; addh hfe (notElimination)   ❙
 
 ❚

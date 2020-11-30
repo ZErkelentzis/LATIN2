@@ -256,7 +256,8 @@ object helperFunctions {
   def printProofState(s : Solver ,   gls : List[ProofGoal]) : String ={
     if (gls.isEmpty) {return "done"}
     val goal = gls.head
-    val res : String = ">>>>>>>>>>>> PROVING: " + s.checkingUnit.component.toString + " <<<<<<<<<<<<<\n\n" +
+    val goalName = s.checkingUnit.component
+    val res : String = ">>>>>>>>>>>> PROVING: " + (if (goalName.isEmpty) {"Unnamed Goal"} else goalName.get.toString) + " <<<<<<<<<<<<<\n\n" +
       "HYPOTHESIS---------------HYPOTHESIS---------------HYPOTHESIS\n\n" +
       prettyprint.prettyPrintHyps(s , goal.stack) +
       "\n\n\nGOAL---------------GOAL---------------GOAL\n\n" + s.presentObj(goal.tp) + "\n\n\n" +

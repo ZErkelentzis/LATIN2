@@ -1,9 +1,10 @@
 package latin2.proving
 
 import info.kwarc.mmt.api.LocalName
+import info.kwarc.mmt.api.checking.{History, InferenceAndTypingRule, Solver}
 import info.kwarc.mmt.api.objects.{Context, Equality, OMBINDC, OMID, OML, OMS, OMV, PlainSubstitutionApplier, Stack, Sub, Substitution, Term, Typing, VarDecl}
-import info.kwarc.mmt.lf.{Apply, ApplySpine, Lambda, Typed}
-import lf.{Implication, ImplicationNDI, NewTactics, Proofs, TypedTerms, TypedUniversalQuantification, TypedUniversalQuantificationND, Types}
+import info.kwarc.mmt.lf.{Apply, ApplySpine, Arrow, Lambda, OfType, Typed}
+import lf.{Implication, ImplicationNDI, NewTactics, Proofs, PropositionsITP, TypedTerms, TypedUniversalQuantification, TypedUniversalQuantificationND, Types}
 
 import scala.collection.mutable.ListBuffer
 
@@ -246,3 +247,34 @@ object FixTactic extends SimpleProofStepRule(NewTactics.fix.path) {
 
 
 
+object AssumelfxTactic extends SimpleProofStepRule(NewTactics.assumelfx.path) {
+  def apply( step: Term ,  goal: ProofGoal, prover: ImperativeProver): Option[(List[ProofGoal], Term  , List[OMV] )] = {
+    step match {
+      case NewTactics.assumelfx(OML(nm , None , None , _  , _ )) => {
+        goal.tp match {
+          case Arrow(df,g) =>{
+            val freenm = helperFunctions.genFresh(nm , goal.stack.context ++ prover.solver.checkingUnit.context ++ prover.lambdaGoalsToContext )
+            val pg = ProofGoal(goal.stack ++ OMV(freenm) % df, g, goal.history + "assumelfx")
+            val newFVar = helperFunctions.genHoleName(prover.solver.checkingUnit.context ++ goal.stack.context ++ prover.lambdaGoalsToContext)
+            val newLam =  Lambda(freenm , df , OMV(newFVar))
+            Some(List(pg) , newLam , List(OMV(newFVar)))
+          }
+        }
+      }
+      case _ => prover.solver.error("assume has not the right form")(goal.history) ; None
+    }
+  }
+}
+
+
+
+object theoremLFTactic extends InferenceAndTypingRule(NewTactics.theoremLF.path, OfType.path) {
+  def apply(solver: Solver, tm: Term , tpD : Option[Term], covered: Boolean)(implicit stack: Stack, history: History): (Option[Term] , Option[Boolean])= {
+    val NewTactics.theoremLF(typN, prf) = tm
+    val  PropositionsITP.proof(steps) = prf
+    val rules = solver.rules.getOrdered(classOf[ProofStepRule])
+    val interp = new InteractiveLFProver(solver , rules , ProofGoal(stack , typN, history + "starting lf prover"))
+    interp.executeInteractiveProof(steps)
+    (Some(interp.prover.lambdaProofTerm) , Some(true))
+  }
+}

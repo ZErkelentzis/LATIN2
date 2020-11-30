@@ -1,10 +1,11 @@
 package latin2.proving
 
-import java.awt.Color
+import java.awt.{BorderLayout, Color}
 import java.awt.event.{ActionEvent, ActionListener, WindowEvent, WindowListener}
+import java.util.Calendar
 
 import info.kwarc.mmt.api.{ErrorThrower, GlobalName}
-import info.kwarc.mmt.api.checking.{CheckingUnit, History, InferenceAndTypingRule, SingleTermBasedCheckingRule, Solver, TypingRule}
+import info.kwarc.mmt.api.checking.{CheckingUnit, History, InferenceAndTypingRule, SingleTermBasedCheckingRule, Solver, SolverError, TypingRule}
 import info.kwarc.mmt.api.documents.InterpretationInstructionContext
 import info.kwarc.mmt.api.objects.{Context, Stack, Term}
 import info.kwarc.mmt.api.parser.{NotationBasedParser, ParseResult, ParsingUnit, SourceRef}
@@ -24,7 +25,8 @@ object InteractiveProof extends InferenceAndTypingRule(NewTactics.iproof.path ,O
     val rules = solver.rules.getOrdered(classOf[ProofStepRule])
     val prover = new InteractiveLFProver(solver, rules, goal)
     prover.executeInteractiveProof(stps)
-    (tpO,Some(true))
+
+    (Some(prover.prover.lambdaProofTerm) ,Some(true))
   }
 }
 
@@ -33,11 +35,10 @@ object InteractiveProof extends InferenceAndTypingRule(NewTactics.iproof.path ,O
 class InteractiveLFProver(solver : Solver,  val rules: List[ProofStepRule], initGoal: ProofGoal )  {
 
 
-
+  val prover = new ImperativeProver(initGoal , rules , solver)
 
   def executeInteractiveProof(stps : List[Term]): Unit = {
     val lock = new Object
-    val prover = new ImperativeProver(initGoal , rules , solver)
     SwingUtilities.invokeAndWait(new GuiProof)
     lock.synchronized{lock.wait()}
 
@@ -50,8 +51,9 @@ class InteractiveLFProver(solver : Solver,  val rules: List[ProofStepRule], init
         prover.toDoSteps = stps
       //  val ipp = new ImperativeProofPresenter(prover)
         val jf: JFrame = new JFrame("Interactive Proof")
+        jf.getContentPane.setLayout(new BorderLayout)
 
-        jf.setSize(500, 500)
+        jf.setSize(1000, 700)
         jf.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE)
         val splt0 = new JSplitPane(SwingConstants.HORIZONTAL)
         val splt1 = new JSplitPane(SwingConstants.VERTICAL)
@@ -62,16 +64,55 @@ class InteractiveLFProver(solver : Solver,  val rules: List[ProofStepRule], init
         val inputPanel = new JPanel
         val completeProofPanel = new ImperativeProofPresenter(prover)
       //  val completeProofLabel = new JLabel(stps.map(x => solver.presentObj(x)).mkString("; "))
-        val lambdaPanel = new JPanel()
-        val lambdaLabel = new JLabel(prover.solver.presentObj(prover.lambdaProofTerm))
-        lambdaPanel.add(lambdaLabel)
+
+        val lambdaLabel = new JTextPane()
+        lambdaLabel.setText((prover.solver.presentObj(prover.lambdaProofTerm)))
+
+        //  lambdaLabel.setEditable(false)
+        val lambdaPanel = new JScrollPane(lambdaLabel)
+
+        val outputLabel = new JTextArea()
+        outputLabel.setEditable(false)
+        val outputPanel = new JScrollPane(outputLabel)
+
+
+
+        val errorOutputLabel = new JTextArea()
+        errorOutputLabel.setEditable(false)
+        val errorOutputPanel = new JScrollPane(errorOutputLabel)
+
+        val rawOutputLabel = new JTextArea()
+        rawOutputLabel.setEditable(false)
+        val rawOutputPanel = new JScrollPane(rawOutputLabel)
+
+        val searchPanel = new JPanel()
+        val rawPrintPanel = new JPanel()
+        val unicodePrintPanel = new JPanel()
+        val pinRulesPanel = new JPanel()
+        val scratchPanel = new JPanel()
+        // tabs
+
+        val tabbedOutput = new JTabbedPane()
+        tabbedOutput.addTab("Proof/Lambda Term" , lambdaPanel)
+        tabbedOutput.addTab("Output" , outputPanel)
+        tabbedOutput.addTab("Error Output" , errorOutputPanel)
+        tabbedOutput.addTab("Raw Output" , rawOutputPanel)
+        tabbedOutput.addTab("Search" , searchPanel)
+        tabbedOutput.addTab("Raw Print" , rawPrintPanel)
+        tabbedOutput.addTab("Unicode Print" , unicodePrintPanel)
+        tabbedOutput.addTab("Pin Rules" , pinRulesPanel)
+        tabbedOutput.addTab("Scratch" , scratchPanel)
+
+        //tabs
+
+ //       lambdaPanel.add(lambdaLabel)
      //   completeProofPanel.add(completeProofLabel)
         splt0.setBottomComponent(inputPanel)
         splt0.setTopComponent(splt1)
-        splt1.setLeftComponent(proofStatePanel)
+        splt1.setLeftComponent(completeProofPanel)
         splt1.setRightComponent(splt2)
-        splt2.setTopComponent(completeProofPanel)
-        splt2.setBottomComponent(lambdaPanel)
+        splt2.setTopComponent(proofStatePanel)
+        splt2.setBottomComponent(tabbedOutput)
      //   splt3.setLeftComponent(completeProofLabel)
      //   splt3.setRightComponent(lambdaPanel)
         val proofStateLabel = new JLabel(helperFunctions.printProofState(solver, List(initGoal)))
@@ -92,10 +133,13 @@ class InteractiveLFProver(solver : Solver,  val rules: List[ProofStepRule], init
         jf.addWindowListener(new WakeUp)
 
 
+
+
+
         //start: adding titles to the panes
 
         proofStatePanel.setBorder(BorderFactory.createTitledBorder("Proof State"))
-        lambdaPanel.setBorder(BorderFactory.createTitledBorder("Proof/Lambda Term"))
+ //       lambdaPanel.setBorder(BorderFactory.createTitledBorder("Proof/Lambda Term"))
         inputPanel.setBorder(BorderFactory.createTitledBorder("Proof Control"))
         completeProofPanel.setBorder(BorderFactory.createTitledBorder("Proof"))
         //end: adding titles to the panes
@@ -104,7 +148,7 @@ class InteractiveLFProver(solver : Solver,  val rules: List[ProofStepRule], init
         //start: divider ration
 
         splt0.setDividerLocation(1.0)
-        splt0.setEnabled( false )
+   //     splt0.setEnabled( false )
         splt0.setResizeWeight(1.0)
 
 
@@ -112,7 +156,7 @@ class InteractiveLFProver(solver : Solver,  val rules: List[ProofStepRule], init
         // splt1.setEnabled( false )
         splt1.setResizeWeight(0.4)
         splt2.setDividerLocation(0.7)
-        splt2.setResizeWeight(0.5)
+        splt2.setResizeWeight(0.7)
         //end: divider ration
 
 
@@ -140,10 +184,17 @@ class InteractiveLFProver(solver : Solver,  val rules: List[ProofStepRule], init
 
         class NextStep() extends ActionListener {
 
+
+          def errorOutput = {
+            val errTxt : List[SolverError] = prover.solver.getErrors
+            val now = Calendar.getInstance().getTime
+            errorOutputLabel.setText(now.toString + "\n" +  errTxt.mkString("\n"))
+          }
+
           def nextStep: Unit = {
             if (prover.toDoSteps.isEmpty || prover.errorstate) {return}
             prover.redoStep()
-            if (prover.errorstate) {completeProofPanel.nexterror ;  return}
+            if (prover.errorstate) {completeProofPanel.nexterror ; errorOutput ;  return}
             proofStateLabel.setText(helperFunctions.printProofState(solver, prover.getGoals))
             val trmTxt = solver.presentObj(prover.lambdaProofTerm)
             lambdaLabel.setText(trmTxt)
@@ -160,7 +211,7 @@ class InteractiveLFProver(solver : Solver,  val rules: List[ProofStepRule], init
 
           def undoStep: Unit = {
             if (prover.stepHistory.isEmpty) return
-            if (prover.errorstate) {completeProofPanel.undoerror; prover.undoErrorStep() ; return }
+            if (prover.errorstate) {completeProofPanel.undoerror; prover.undoErrorStep()  ; return }
             prover.undoStep()
             proofStateLabel.setText(helperFunctions.printProofState(solver, prover.getGoals))
             val trmTxt = solver.presentObj(prover.lambdaProofTerm)
@@ -189,7 +240,7 @@ class InteractiveLFProver(solver : Solver,  val rules: List[ProofStepRule], init
                 undoButton.getActionListeners.filter(p => p.isInstanceOf[UndoStep]).head.asInstanceOf[UndoStep].undoStep
               }
             }else if (currpos < cpos){
-              while(completeProofPanel.currpos < cpos  ){
+              while(completeProofPanel.currpos < cpos  && ! prover.errorstate){
                 forwardButton.getActionListeners.filter(p => p.isInstanceOf[NextStep]).head.asInstanceOf[NextStep].nextStep
               }
             }

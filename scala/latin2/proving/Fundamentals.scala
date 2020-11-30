@@ -151,7 +151,7 @@ class ImperativeProver( initGoal: ProofGoal,  val rules: List[ProofStepRule],val
         val lg = lambdaGoals.head
         val sb = Substitution(Sub( lg.name , lt ))
         lambdaTermHistory = lambdaProofTerm :: lambdaTermHistory
-        lambdaProofTerm = PlainSubstitutionApplier(lambdaProofTerm , sb)
+        lambdaProofTerm = StructureSharingSubstitutionApplier(lambdaProofTerm , sb)
         lambdaGoalsHistory = lambdaGoals :: lambdaGoalsHistory
         lambdaGoals =  lgls ++ lambdaGoals.tail
 
