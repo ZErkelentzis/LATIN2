@@ -102,8 +102,6 @@ theory ZFEmptySet =
   emptyUnique : ⊦ ∃¹ isempty❘ // =❙
   empty = the isempty emptyUnique❙
   // the_ax {P,p} ⊦ P (the P p), so empty should be emptyUnique❙
-  // empty_prop = the_ax isempty empty❙
-  // for some reason MMT seems to apply emptyUnique to isempty and therefore misses an argument for the_ax❙
   empty_prop = the_ax isempty emptyUnique❙
 ❚
 
