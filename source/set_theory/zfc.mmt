@@ -90,7 +90,7 @@ theory ZFBase =
   // ... ❙
 ❚
 
-// FR: this should be just like UnorderedPairs and the others❙
+// FR: this should be just like UnorderedPairs and the others❚
 theory ZFEmptySet =
   include ?ZFBase❙
   // no axiom needed because we already get existence of some element from the non-emptyiness axiom❙
@@ -99,7 +99,7 @@ theory ZFEmptySet =
 
   // isempty copied❙
   isempty : set ⟶ prop❘ = [x] ¬ ∃[y] y ∈ x❙
-  emptyUnique : ⊦ ∃¹ isempty❘ // = ❙
+  emptyUnique : ⊦ ∃¹ isempty❘ // =❙
   empty = the isempty emptyUnique❙
   // the_ax {P,p} ⊦ P (the P p), so empty should be emptyUnique❙
   // empty_prop = the_ax isempty empty❙
