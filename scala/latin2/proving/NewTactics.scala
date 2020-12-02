@@ -275,6 +275,26 @@ object theoremLFTactic extends InferenceAndTypingRule(NewTactics.theoremLF.path,
     val rules = solver.rules.getOrdered(classOf[ProofStepRule])
     val interp = new InteractiveLFProver(solver , rules , ProofGoal(stack , typN, history + "starting lf prover"))
     interp.executeInteractiveProof(steps)
+    tpD match {
+      case None =>
+      case Some(tptp) => solver.check(Typing(stack , interp.prover.lambdaProofTerm , tptp ))
+    }
     (Some(interp.prover.lambdaProofTerm) , Some(true))
+  }
+}
+
+
+object BuildTactic extends SimpleProofStepRule(NewTactics.build.path) {
+  def apply( step: Term ,  goal: ProofGoal, prover: ImperativeProver): Option[(List[ProofGoal], Term  , List[OMV] )] = {
+    step match {
+      case NewTactics.build(t) => {
+        val tp = prover.solver.inferType(t , false)(goal.stack , goal.history).getOrElse(return None)
+        prover.solver.check(Equality(goal.stack, goal.tp , tp , None))(goal.history) match {
+          case false => None
+          case true => Some(List() , t , List())
+        }
+      }
+      case _ => prover.solver.error("build has not the right form " + step.toString)(goal.history) ; None
+    }
   }
 }

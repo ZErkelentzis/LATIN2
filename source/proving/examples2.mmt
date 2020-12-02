@@ -34,8 +34,8 @@ theory Examples : ?ExMeta =
 
   //  errortest : ⊦ A ⇒ B ⇒ A ❘= iproof assume ha ; use ha  ❙
   //  test1 : ⊦  A ⇒ A  ❘ = iproof  assume hhh   ;  addh hh testh ; subgoal hc (⊦ C ⇒ C) ; subproof assume hc ; use hc done ; fwd hh with hc ; bwd hh; assume hb ; use hb  ❙
-    simpletest = theoremLF (⊦ A ⟶  ⊦ A) (proof assumelfx hh ; use hh)   ❙
-
+ //   simpletest = theoremLF (⊦ A ⟶  ⊦ A) (proof assumelfx hh ; use hh)   ❙
+    simpletest2   = theoremLF (⊦ A ⟶  ⊦ A) (proof build ([h] h)) ❙
 
 
    // pierce : {p , q} ⊦  ((p ⇒ q) ⇒ p) ⇒ p ❘ = [p , q] iproof assume h ; addh hfe (notElimination)   ❙
