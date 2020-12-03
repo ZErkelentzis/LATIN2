@@ -134,6 +134,11 @@ theory Description =
   include ?Logic❙
   include ?UniqueExistentialQuantification❙
   the : {P} ⊦ ∃¹ P ⟶ term❘# the 1 2❙
+❚
+
+theory DescriptionND =
+  include ?Description❙
+  include ?UniqueExistentialQuantificationND❙
   the_ax : {P,p} ⊦ P (the P p)❘# the_ax 1 2❙
 ❚
 
@@ -141,6 +146,11 @@ theory Choice =
   include ?Logic❙
   include ?ExistentialQuantification❙
   some : {P} ⊦ ∃ P ⟶ term❘# some 1 2❙
+❚
+
+theory ChoiceND =
+  include ?Choice❙
+  include ?ExistentialQuantificationND❙
   some_ax : {P,p} ⊦ P (some P p)❘# some_ax 1 2❙
 ❚
 
