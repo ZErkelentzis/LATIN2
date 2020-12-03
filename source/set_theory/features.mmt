@@ -72,21 +72,6 @@ theory SmallUnion =
 	unionE : {X,Y,x,C} ⊦ x ∈ (X∪Y) ⟶ (⊦ x∈X ⟶ ⊦ C) ⟶ (⊦ x∈Y ⟶ ⊦ C) ⟶ ⊦ C❙ 
 ❚
 
-theory BigIntersection =
-	// AS: maybe check introduction and elimination again❙
-	biginter : set ⟶ set❘ # ⋂ 1❙
-	biginterI : {A,X,x} (⊦ X∈A ⟶ ⊦ x∈X) ⟶ ⊦ x ∈ ⋂A❙
-	biginterE : {A,X,x} ⊦ x ∈ ⋂A ⟶ ⊦ X∈A ⟶ ⊦ x∈X❙
-❚
-
-theory Intersection =
-	// AS: maybe check introduction and elimination again❙
-	inter : set ⟶ set ⟶ set❘ # 1 ∩ 2❙
-	interI : {X,Y,x} ⊦ x∈X ⟶ ⊦ x∈Y ⟶ ⊦ x ∈ (X∩Y)❙
-	interEL : {X,Y,x} ⊦ x ∈ (X∩Y) ⟶ ⊦ x∈X❙
-	interER : {X,Y,x} ⊦ x ∈ (X∩Y) ⟶ ⊦ x∈Y❙
-❚
-
 // FR additional features: Union, BigIntersection, Intersection❚
 // no changes in zfc.mmt needed to realize those - 
 instead we can state here already that, e.g., BigUnion and UnorderedPair are enough to realize SmallUnion;
@@ -112,6 +97,20 @@ theory SmallUnionAsBigUnion =
   // unionE = _ ❙
 ❚
 
+theory BigIntersection =
+	// AS: maybe check introduction and elimination again❙
+	biginter : set ⟶ set❘ # ⋂ 1❙
+	biginterI : {A,X,x} (⊦ X∈A ⟶ ⊦ x∈X) ⟶ ⊦ x ∈ ⋂A❙
+	biginterE : {A,X,x} ⊦ x ∈ ⋂A ⟶ ⊦ X∈A ⟶ ⊦ x∈X❙
+❚
+
+theory Intersection =
+	// AS: maybe check introduction and elimination again❙
+	inter : set ⟶ set ⟶ set❘ # 1 ∩ 2❙
+	interI : {X,Y,x} ⊦ x∈X ⟶ ⊦ x∈Y ⟶ ⊦ x ∈ (X∩Y)❙
+	interEL : {X,Y,x} ⊦ x ∈ (X∩Y) ⟶ ⊦ x∈X❙
+	interER : {X,Y,x} ⊦ x ∈ (X∩Y) ⟶ ⊦ x∈Y❙
+❚
 
 theory PowerSets =
   powerset : set ⟶ set❘# ℘ 1 prec 60❙
