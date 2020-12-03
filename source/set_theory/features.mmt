@@ -4,15 +4,18 @@ fixmeta ?SetFOL❚
 
 theory EmptySet =
   isempty : set ⟶ prop❘= [x] ¬ ∃[y] y ∈ x❙
-  empty : set❘# ∅❙
-  empty_prop : ⊦ isempty ∅❙
-  emptyE : {x} ⊦ x∈∅ ⟶ ↯❘= [x,p] empty_prop notE (existsI x p)❙
+  emptyUnique : ⊦ ∃¹ isempty❘ // = ❙
+  empty : set❘# ∅❘
+  		= the isempty emptyUnique❙
+  empty_prop : ⊦ isempty ∅❘
+  		= the_ax isempty emptyUnique❙
+  emptyE : {x} ⊦ x∈∅ ⟶ ↯❘ = [x,p] empty_prop notE (existsI x p)❙
 ❚
 
 theory UnorderedPairs =
   uopair : set ⟶ set ⟶ set❙
   uopairIL : {X,Xˈ} ⊦ X ∈ uopair X Xˈ❙
-  uopairIR : {X,Xˈ} ⊦ X ∈ uopair X Xˈ❙
+  uopairIR : {X,Xˈ} ⊦ Xˈ ∈ uopair X Xˈ❙
   uopairE  : {U,X,Xˈ} ⊦ U ∈ uopair X Xˈ ⟶ ⊦ U≐X ∨ U≐Xˈ❙
 ❚
 
@@ -21,14 +24,24 @@ theory Singletons =
   singletonI : {x} ⊦ x ∈ singleton x❙
   singletonE : {x,u} ⊦ u ∈ singleton x ⟶ ⊦ u≐x❙
   
-  issingleton : set ⟶ prop❘= [x] ∃¹[u]u∈x❙
-  singleton_the : {x} ⊦ issingleton x ⟶ set❘= [x,p] the ([u] u ∈ x) p❙
+  is_singleton : set ⟶ prop❘= [x] ∃¹[u]u∈x❙
+  singleton_the : {x} ⊦ is_singleton x ⟶ set❘= [x,p] the ([u] u ∈ x) p❙
 ❚
 
 view SelfPair : ?Singletons → ?UnorderedPairs =
   singleton = [x] uopair x x❙
   singletonI = [x] uopairIL❙
   singletonE = [x,u,p] uopairE p orE ([q] q) ([q] q)❙
+❚
+
+theory Extensionality =
+	is_extensional = [x,y]∀[z] (z∈x ⇔ z∈y) ⇒ x≐y❙
+	extensionality_axiom : {x,y} ⊦ is_extensional x y❙
+❚
+
+theory Regularity =	
+	// FR: only axiom here, no constant; can be a feature a that ZFC includes❙ 
+	regularity_axiom : ⊦ ∀[x](∃[t] t∈x) ⇒ ∃[y] y∈x ∧ ¬(∃[z] z∈x ∧ z∈y)❙
 ❚
 
 theory Comprehension =
@@ -39,19 +52,39 @@ theory Comprehension =
 ❚
 
 theory Replacement =
-  replace  : set ⟶ (set ⟶ set) ⟶ set❘# 1 map 2 prec 40❙
+  replace  : set ⟶ (set ⟶ set) ⟶ set❘ # 1 map 2 prec 40❙
   replaceI : {A,F,X} ⊦ X∈A ⟶ ⊦ (F X) ∈ A map F❙
   replaceE : {A,F,X} ⊦ X ∈ A map F ⟶ ⊦ ∃'A [x] (F x) ≐ X❙
 ❚
 
 theory BigUnion =
-  bigunion : set ⟶ set❘# ⋃ 1❙
+  bigunion : set ⟶ set❘ # ⋃ 1❙
   bigunionI : {A,X,x} ⊦ x∈X ⟶ ⊦ X∈A ⟶ ⊦ x ∈ ⋃A❙
   bigunionE : {A,X,x,C} ⊦ x ∈ ⋃A ⟶ (⊦ X∈A ⟶ ⊦ x∈X ⟶ ⊦ C) ⟶ ⊦ C❙
 ❚
 
 theory SmallUnion =
+	// AS: maybe check introduction and elimination again❙
+	union : set ⟶ set ⟶ set❘ # 1 ∪ 2❙
+	unionIL : {X,Y,x} ⊦ x∈X ⟶ ⊦ x ∈ (X∪Y)❙
+	unionIR : {X,Y,x} ⊦ x∈Y ⟶ ⊦ x ∈ (X∪Y)❙
+	// AS: is unionE like this or shall ⊦x∈X ∨ x∈Y be the result?❙
+	unionE : {X,Y,x,C} ⊦ x ∈ (X∪Y) ⟶ (⊦ x∈X ⟶ ⊦ C) ⟶ (⊦ x∈Y ⟶ ⊦ C) ⟶ ⊦ C❙ 
+❚
 
+theory BigIntersection =
+	// AS: maybe check introduction and elimination again❙
+	biginter : set ⟶ set❘ # ⋂ 1❙
+	biginterI : {A,X,x} (⊦ X∈A ⟶ ⊦ x∈X) ⟶ ⊦ x ∈ ⋂A❙
+	biginterE : {A,X,x} ⊦ x ∈ ⋂A ⟶ ⊦ X∈A ⟶ ⊦ x∈X❙
+❚
+
+theory Intersection =
+	// AS: maybe check introduction and elimination again❙
+	inter : set ⟶ set ⟶ set❘ # 1 ∩ 2❙
+	interI : {X,Y,x} ⊦ x∈X ⟶ ⊦ x∈Y ⟶ ⊦ x ∈ (X∩Y)❙
+	interEL : {X,Y,x} ⊦ x ∈ (X∩Y) ⟶ ⊦ x∈X❙
+	interER : {X,Y,x} ⊦ x ∈ (X∩Y) ⟶ ⊦ x∈Y❙
 ❚
 
 // FR additional features: Union, BigIntersection, Intersection❚
@@ -71,21 +104,44 @@ theory SmallUnionAsBigUnion =
   include ?UnorderedPairs❙
   include ?BigUnion❙
   realize ?SmallUnion❙
+  
+  union = [X,Y] ⋃ (uopair X Y)❙
+  unionIL = [X,Y,x,p] bigunionI (uopair X Y) X x p uopairIL❙
+  unionIR = [X,Y,x,p] bigunionI (uopair X Y) Y x p uopairIR❙
+  // AS: first check whether the definition of unionE is right❙
+  // unionE = _ ❙
 ❚
 
 
 theory PowerSets =
-  power : set ⟶ set❘# ℘ 1 prec 60❙
-  powerI : {X,A} ({u} ⊦u∈X ⟶ ⊦u∈A) ⟶ ⊦X∈℘ A❙
-  powerE : {X,A} ⊦X∈℘A ⟶ {u} ⊦u∈X ⟶ ⊦u∈A❙
+  powerset : set ⟶ set❘# ℘ 1 prec 60❙
+  powersetI : {X,A} ({u} ⊦u∈X ⟶ ⊦u∈A) ⟶ ⊦X∈℘ A❙
+  powersetE : {X,A} ⊦X∈℘A ⟶ {u} ⊦u∈X ⟶ ⊦u∈A❙
 ❚
 
 // FR: these two need some abbreviation just to state them; those can be here and then reused in the ZF theory that realizes them❚
 
-// FR: maybe use inifite to define ℕ, either here or in ZFInfinite
+// FR: maybe use inifity to define ℕ, either here or in ZFInfinity
 somewhere we should then realize the theory of Peano axioms❚
-theory Infinite =
+theory Infinity =
+	include ?EmptySet❙
+	include ?Singletons❙
+	include ?SmallUnion❙
+	
+	// like in the lecture❙
+	infinity_axiom : ⊦ ∃[X] ∅∈X ∧ ∀[Y] Y∈X ⇒ (Y ∪ (singleton Y))∈X❙
 ❚
 
 theory Choice =
+	include ?EmptySet❙
+	include ?Intersection❙
+	include ?Singletons❙
+	// AS: ZFTyped needs to be changed. Until it is changed, I cannot include Eq directly❙
+	include ?ZFTyped❙
+	// AS: define choice like in the lecture or shall Choice from FOL be used? ❙
+	// like in KRMT❙
+	is_choice = [X,C] ∀[x] x∈X ⇒ ∃¹[c]c∈C∧c∈x❙
+  all_nonempty: set ⟶ prop❘ // = ❙
+  pairwise_disjoint: set ⟶ prop❘ // = ❙
+  choice_axiom : ⊦ ∀[X] (all_nonempty X ∧ pairwise_disjoint X) ⇒ ∃[C] is_choice X C❙
 ❚
