@@ -6,6 +6,7 @@ theory SetFOL : ur:?LF =
   include ?InternalTypes❙
   
   // AS: Description includes UniqueExistential but not UniqueExistentialND - FR: split Description into Description for syntax and DescriptionND for the axiom, then include DescriptionND❙
+  // AS: This might already been done in FOLEQDesc and FOLEQDescND❙
   include ?Description❙
   include ?RelativizedUniversalQuantificationND❙
   include ?RelativizedExistentialQuantificationND❙
