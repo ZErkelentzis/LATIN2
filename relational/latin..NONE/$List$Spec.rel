@@ -1,4 +1,0 @@
-theory latin:/?ListSpec
-HasMeta latin:/?ListSpec latin:/?TypedEquality
-Includes latin:/?ListSpec latin:/?Collection
-Includes latin:/?ListSpec latin:/?EndoMonoid

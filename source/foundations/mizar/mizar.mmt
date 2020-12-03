@@ -153,6 +153,7 @@ theory Mizar : ur:?LFS =
 	exist_restriction_suffices: {A: tp, p:term ⟶ prop} ⊦ ∀ ([x] (¬ (x ⦂ A) ⇒ ¬ (p x))) ⟶ ⊦ ((∃ ([x] p x)) ⇔ (ex A [x] p x))❙
 ❚
 
+
 theory HIDDEN : ur:?LF = 
    include ?Mizar❙
    

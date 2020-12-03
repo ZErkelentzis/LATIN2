@@ -1,4 +1,0 @@
-theory latin:/?MLHilbert
-HasMeta latin:/?MLHilbert http://cds.omdoc.org/urtheories?LF
-Includes latin:/?MLHilbert latin:/?ML
-Includes latin:/?MLHilbert latin:/?PLHilbert

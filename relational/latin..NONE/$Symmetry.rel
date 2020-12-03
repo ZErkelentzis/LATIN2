@@ -1,8 +1,0 @@
-dataconstructor latin:/?Symmetry?sym
-theory latin:/?Symmetry
-HasMeta latin:/?Symmetry http://cds.omdoc.org/urtheories?PLF
-Includes latin:/?Symmetry latin:/?Relation
-Declares latin:/?Symmetry latin:/?Symmetry?sym
-constant latin:/?Symmetry?sym
-DependsOn latin:/?Symmetry?sym?type latin:/?Relation?rel?type
-DependsOn latin:/?Symmetry?sym?type latin:/?OneTyped?carrier?type

@@ -1,4 +1,0 @@
-theory latin:/algebraic?Band
-HasMeta latin:/algebraic?Band latin:/?SFOLEQND
-Includes latin:/algebraic?Band latin:/algebraic?Semigroup
-Includes latin:/algebraic?Band latin:/algebraic?Idempotent

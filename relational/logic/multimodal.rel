@@ -1,8 +1,0 @@
-document latin:/logic/multimodal.omdoc
-Declares latin:/logic/multimodal.omdoc latin:/?MultiModal
-Declares latin:/logic/multimodal.omdoc latin:/?MultiBox
-Declares latin:/logic/multimodal.omdoc latin:/?MultiDiamond
-Declares latin:/logic/multimodal.omdoc latin:/?MML
-Declares latin:/logic/multimodal.omdoc latin:/?SMML
-Declares latin:/logic/multimodal.omdoc latin:/kripkemodels?MMLSemantics
-Declares latin:/logic/multimodal.omdoc latin:/kripkemodels?SMMLSemantics

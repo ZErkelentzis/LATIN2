@@ -1,6 +1,0 @@
-HasDomain latin:/kripkemodels?MLHilbertSemantics latin:/?MLHilbert
-HasCodomain latin:/kripkemodels?MLHilbertSemantics latin:/kripkemodels?KripkeModel
-view latin:/kripkemodels?MLHilbertSemantics
-HasViewFrom latin:/kripkemodels?KripkeModel latin:/?MLHilbert
-Includes latin:/kripkemodels?MLHilbertSemantics latin:/?ML
-Includes latin:/kripkemodels?MLHilbertSemantics latin:/?PLHilbert

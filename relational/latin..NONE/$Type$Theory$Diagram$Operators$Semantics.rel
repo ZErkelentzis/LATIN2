@@ -1,7 +1,0 @@
-theory latin:/?TypeTheoryDiagramOperatorsSemantics
-HasMeta latin:/?TypeTheoryDiagramOperatorsSemantics http://cds.omdoc.org/urtheories?LF
-Includes latin:/?TypeTheoryDiagramOperatorsSemantics http://cds.omdoc.org/urtheories?ModExp
-Declares latin:/?TypeTheoryDiagramOperatorsSemantics latin:/?TypeTheoryDiagramOperatorsSemantics?[scala://diagops.latin2?ComputeSingleTypeIndexed]
-constant latin:/?TypeTheoryDiagramOperatorsSemantics?[scala://diagops.latin2?ComputeSingleTypeIndexed]
-Declares latin:/?TypeTheoryDiagramOperatorsSemantics latin:/?TypeTheoryDiagramOperatorsSemantics?[scala://diagops.latin2?ComputeMultiTypeIndexed]
-constant latin:/?TypeTheoryDiagramOperatorsSemantics?[scala://diagops.latin2?ComputeMultiTypeIndexed]

@@ -1,4 +1,0 @@
-theory latin:/?SMML
-HasMeta latin:/?SMML http://cds.omdoc.org/urtheories?LF
-Includes latin:/?SMML latin:/?MML
-Includes latin:/?SMML latin:/?SFOLEQ

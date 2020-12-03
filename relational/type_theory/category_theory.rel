@@ -1,6 +1,0 @@
-document latin:/type_theory/category_theory.omdoc
-Declares latin:/type_theory/category_theory.omdoc latin:/?Option
-Declares latin:/type_theory/category_theory.omdoc latin:/?ObjectLessComposition
-Declares latin:/type_theory/category_theory.omdoc latin:/?ObjectLessCategory
-Declares latin:/type_theory/category_theory.omdoc latin:/?CategoryWithOneCollection
-Declares latin:/type_theory/category_theory.omdoc latin:/?CategoryWithHomSetsSFOL

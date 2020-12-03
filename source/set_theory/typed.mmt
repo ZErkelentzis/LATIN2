@@ -1,0 +1,34 @@
+namespace latin:/❚
+
+fixmeta ?SetFOL❚
+
+theory ZFTyped =
+  include ?ZFBase❙
+  // TODO: are these already induced by including InternalTypes?❙
+  
+  // Class P is the class of all sets satisfying P❙
+  Class : (set ⟶ prop) ⟶ type❙
+  celem : {P:(set ⟶ prop)}{a:set} ⊦ P a ⟶ Class P❙
+  cwhich : {P} Class P ⟶ set❘ # cwhich 2❙
+  cwhy : {P}{a:Class P} ⊦ (P (cwhich a))❘ # cwhy 2❙ 
+
+  // rules for Classes❙
+  // A term with a proof is equal to the original term❙
+  ceq_which : {P:(set ⟶ prop),a:set,p:⊦ P a} ⊦(cwhich (celem P a p)) ≐ a❙
+  // Elements of classes are equal if their first components are (proof irrelevance)❙
+  EqcongEl : {A}{X: Class A}{Y: Class A}{F: Class A ⟶ prop} ⊦ ((cwhich X) ≐ (cwhich Y)) ⟶ ⊦ F X ⟶ ⊦ F Y❙
+  
+  // Set or Elem❙
+  Elem : set ⟶ type❘ = [a] Class [x] x ∈ a❙
+  elem : {A}{a} ⊦ a∈A ⟶ Elem A❘
+  	= [A,a,p] celem ([x] x∈A) a p❙
+  which : {A} Elem A ⟶ set❘ # which 2❘
+  	= [A,a] cwhich a❙
+  why : {A}{a:Elem A} ⊦ (which a)∈A❘ # why 2❘
+  	= [A,a] cwhy a❙
+  eqwhich : {A}{X}{P} ⊦ (which (elem A X P)) ≐ X❙
+  
+  // Typed equality → already exists in LATIN2! Import?❙
+  Eq : {A} Elem A ⟶ Elem A ⟶ prop❘
+  		= [A,a,b] ((which a) ≐ (which b))❙ 
+❚

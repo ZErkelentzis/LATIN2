@@ -134,14 +134,14 @@ theory Description =
   include ?Logic❙
   include ?UniqueExistentialQuantification❙
   the : {P} ⊦ ∃¹ P ⟶ term❘# the 1 2❙
-  the_ax : {P,p} ⊦ P (the P p)❙
+  the_ax : {P,p} ⊦ P (the P p)❘# the_ax 1 2❙
 ❚
 
 theory Choice =
   include ?Logic❙
   include ?ExistentialQuantification❙
   some : {P} ⊦ ∃ P ⟶ term❘# some 1 2❙
-  some_ax : {P,p} ⊦ P (some P p)❙
+  some_ax : {P,p} ⊦ P (some P p)❘# some_ax 1 2❙
 ❚
 
 theory FOLEQDesc = 

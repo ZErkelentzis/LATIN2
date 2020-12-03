@@ -1,9 +1,0 @@
-dataconstructor latin:/?TypedExistentialQuantification?exists
-theory latin:/?TypedExistentialQuantification
-HasMeta latin:/?TypedExistentialQuantification http://cds.omdoc.org/urtheories?LF
-Includes latin:/?TypedExistentialQuantification latin:/?TypedLogic
-Declares latin:/?TypedExistentialQuantification latin:/?TypedExistentialQuantification?exists
-constant latin:/?TypedExistentialQuantification?exists
-DependsOn latin:/?TypedExistentialQuantification?exists?type latin:/?Propositions?prop?type
-DependsOn latin:/?TypedExistentialQuantification?exists?type latin:/?TypedTerms?tm?type
-DependsOn latin:/?TypedExistentialQuantification?exists?type latin:/?Types?tp?type

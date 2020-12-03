@@ -83,7 +83,7 @@ theory Semigroup =
     include ?Magma/divisibility❙
 //    metarel/trans = [x,y,z,p,q] p existsE [xy,xyP] q existsE [yz,yzP]
       existsI (xy ∘ yz) trans3 assocR (xyP congT [u]u∘yz) yzP❙
-//  ❙
+//  ❚
 ❚
 
 view OppositeSemigroup : ?Semigroup → ?Semigroup = 
@@ -122,7 +122,7 @@ theory UnitElement =
   include ?Magma❙
   structure unitelem : ?Pointed =
     include ?Set❙
-    elem # e❙
+    elem @ e❙
   ❚
   involution : U ⟶ prop❘ = [x] x∘x≐e❙
 ❚
@@ -148,7 +148,7 @@ theory AbsorbingElement =
   include ?Magma❙
   structure absorbingelem : ?Pointed =
     include ?Set❙
-    elem # abs❙
+    elem @ abs❙
   ❚
 ❚
 

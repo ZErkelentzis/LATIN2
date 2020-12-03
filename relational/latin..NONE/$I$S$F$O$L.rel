@@ -1,6 +1,0 @@
-theory latin:/?ISFOL
-HasMeta latin:/?ISFOL http://cds.omdoc.org/urtheories?LF
-Includes latin:/?ISFOL latin:/?TypedTerms
-Includes latin:/?ISFOL latin:/?IPL
-Includes latin:/?ISFOL latin:/?TypedUniversalQuantification
-Includes latin:/?ISFOL latin:/?TypedExistentialQuantification

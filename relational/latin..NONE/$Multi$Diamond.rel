@@ -1,8 +1,0 @@
-dataconstructor latin:/?MultiDiamond?diamond
-theory latin:/?MultiDiamond
-HasMeta latin:/?MultiDiamond http://cds.omdoc.org/urtheories?LF
-Includes latin:/?MultiDiamond latin:/?MultiModal
-Declares latin:/?MultiDiamond latin:/?MultiDiamond?diamond
-constant latin:/?MultiDiamond?diamond
-DependsOn latin:/?MultiDiamond?diamond?type latin:/?MultiModal?modality?type
-DependsOn latin:/?MultiDiamond?diamond?type latin:/?Propositions?prop?type

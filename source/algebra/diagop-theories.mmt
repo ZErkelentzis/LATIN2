@@ -1,0 +1,126 @@
+// Declares all test input for the algebra diagram opreators.
+   diagop-test.mmt actually runs those operators on this test input.
+
+   Responsible: Navid ❚
+namespace latin:/algebraic/diagop-test❚
+
+rule scala://parser.api.mmt.kwarc.info?MMTURILexer ❚
+
+fixmeta latin:/?SFOLEQND❚
+
+theory Set =
+  U : tp❙
+❚
+
+theory Magma =
+  include ?Set ❙
+  op: tm U ⟶ tm U ⟶ tm U ❘ # 1 ∘ 2 prec 50 ❙
+❚
+
+theory TertiaryStructure =
+  include ?Set ❙
+  op: tm U ⟶ tm U ⟶ tm U ⟶ tm U ❙
+  pred: tm U ⟶ tm U ⟶ prop ❙
+❚
+
+theory Pointed =
+  include ?Set❙
+  elem : tm U❙
+❚
+
+theory PointedSet =
+  include ?Set ❙
+  structure my_point : ?Pointed =
+    include ?Set ❙
+  ❚
+❚
+
+theory PointedMagma =
+  include ?Set ❙
+  op : tm U ⟶ tm U ⟶ tm U ❘# 1 ∘ 2 prec 50❙
+
+  structure my_point : ?Pointed =
+    include ?Set ❙
+  ❚
+❚
+
+theory Graph =
+  include ?Set ❙
+  hasEdge: tm U ⟶ tm U ⟶ prop ❙
+❚
+
+theory Monoid =
+  include ?Magma ❙
+  e: tm U ❙
+  neutrality: ⊦ ∀ [x] x ∘ e ≐ x ❙
+❚
+
+theory Commutative =
+  include ?Magma ❙
+  comm_ax : ⊦ ∀[x]∀[y] x∘y ≐ y∘x❙
+❚
+
+view OppositeMagma : ?Magma → ?Magma =
+  U = U ❙
+  op = [x, y] y ∘ x ❙
+❚
+
+theory Idempotent =
+  include ?Magma ❙
+  idem_ax: ⊦ ∀[x] x∘x ≐ x ❙
+❚
+
+view OppositeCommMagma : ?Commutative → ?Commutative =
+  include ?OppositeMagma ❙
+  op = op ❙
+  comm_ax = comm_ax ❙
+❚
+
+theory PowerAssociative =
+  include ?Magma ❙
+  power_assoc : ⊦ ∀[x] (x∘x)∘x ≐ x∘(x∘x)❙
+❚
+
+theory Semigroup =
+  include ?Magma ❙
+  assoc_ax : ⊦ ∀[x]∀[y]∀[z] (x∘y)∘z ≐ x∘(y∘z)❙
+
+  assoc: {x,y,z} ⊦ (x∘y)∘z ≐ x∘(y∘z)❘
+       = [x,y,z] assoc_ax forallE x forallE y forallE z❙
+  assocR: {x,y,z} ⊦ x∘(y∘z) ≐ (x∘y)∘z❘
+        = [x,y,z] assoc sym❙
+  assoc4:  {w,x,y,z} ⊦ ((w∘x)∘y)∘z ≐ w∘(x∘(y∘z))❘
+        =  [w,x,y,z] trans3 (assoc congT [u]u∘z) assoc (assoc congT [u]w∘u)❙
+  assoc4R: {w,x,y,z} ⊦ w∘(x∘(y∘z)) ≐ ((w∘x)∘y)∘z❘
+          = [w,x,y,z] assoc4 sym❙
+  assoc5: {v,w,x,y,z} ⊦ (((v∘w)∘x)∘y)∘z ≐ v∘(w∘(x∘(y∘z)))❘
+        = [v,w,x,y,z] trans4 (assoc4 congT [u]u∘z) assoc
+                             (assoc congT [u]v∘u) (assoc congT [u]v∘(w∘u))❙
+❚
+
+view OppositeSemigroup : ?Semigroup → ?Semigroup =
+  include ?OppositeMagma ❙
+  op = op ❙
+  assoc_ax = assoc_ax❙
+❚
+
+theory CommSemigroup =
+  include ?Semigroup ❙
+  include ?Commutative ❙
+❚
+
+theory Band =
+  include ?Semigroup ❙
+  include ?Idempotent ❙
+❚
+
+theory CommIdempotent =
+  include ?Idempotent❙
+  include ?Commutative❙
+❚
+
+theory Semilattice =
+  include ?CommSemigroup❙
+  include ?Band❙
+  include ?CommIdempotent❙
+❚
