@@ -8,6 +8,36 @@ rule scala://parser.api.mmt.kwarc.info?MMTURILexer ❚
 import operators scala://newoperators.moduleexpressions.mmt.kwarc.info ❚
 import alg latin:/algebraic ❚
 
+//
+
+theory Magma =
+  U: tp
+  op: tm U -> tm U -> tm U
+||
+
+theory Monoid =
+  include ?Magma
+  ...
+||
+
+theory Hom(Magma) =
+  struct dom : ?Magma = ||
+  struct cod : ?Magma = ||
+
+  h: tm dom/U -> tm cod/U |
+  hom_condition: |- h(a op b) = h(a) op h(b)
+||
+
+theory Hom(Monoid) =
+  include ?Hom(Magma) // include-preserving
+  ...
+|||
+
+❚
+
+// Operatoren in Mathematik, Modelltheorie ❚
+
+
 theory AlgebraicDiagOps : ur:?DiagramOperators =
   hom_operator       # HOM_OP       ❙ rule ☞operators:?HomOperator          ❙
   hom_dom_connector  # HOM_DOM      ❙ rule ☞operators:?HomDomConnector      ❙
@@ -56,6 +86,9 @@ theory Diagram : ?AlgebraicDiagOps =
 
 // diagram HomTest : ?AlgebraicDiagOps := QUOT_OP ?Diagram?playDiag ❚
 diagram PlayTest : ?AlgebraicDiagOps := QUOT ?Diagram?playDiag ❚
+
+// ?Set_quot ❚
+
 // diagram Substructures : ?AlgebraicDiagOps := SUB ?Diagram?diagForSub ❚
 // diagram SubmodelConnectors : ?AlgebraicDiagOps := SUB_SUBMODEL ?Diagram?diagForSub ❚
 // diagram both : ?AlgebraicDiagOps := HOM ?Diagram?subOutput ❚
