@@ -13,12 +13,7 @@ theory ExMeta   =
 
 theory Examples : ?ExMeta =
     include ?AlternativeNegationAndFalsityND ❙
- //   A : prop ❙
-//    C : prop ❙
-//    B : prop ❙
-//    T : tp ❙
-//    D : tm T ⟶ prop ❙
-//    testh : ⊦  (C ⇒ C) ⇒(B ⇒ B)  ⇒ A ❙
+
 
    // bla = falseE ❙
    // blu  = notElimination ❙
@@ -35,10 +30,15 @@ theory Examples : ?ExMeta =
 
   //  test : ⊦  A ⇒ ?? ❙
 
-
+    A : prop ❙
+    C : prop ❙
+    B : prop ❙
+//    T : tp ❙
+//    D : tm T ⟶ prop ❙
+    testh : ⊦  (C ⇒ C) ⇒(B ⇒ B)  ⇒ A ❙
 
   //  errortest : ⊦ A ⇒ B ⇒ A ❘= iproof assume ha ; use ha  ❙
-  //  test1 : ⊦  A ⇒ A  ❘ = iproof  assume hhh   ;  addh hh testh ; subgoal hc (⊦ C ⇒ C) ; subproof assume hc ; use hc done ; fwd hh with hc ; bwd hh; assume hb ; use hb  ❙
+    test1 : ⊦  A ⇒ A  ❘ = iproof  assume hhh   ;  leth hh testh ; subgoal hc (⊦ C ⇒ C) ; subproof assume hc ; use hc done ; fwd hh with hc ; bwd hh; assume hb ; use hb  ❙
  //   simpletest = theoremLF (⊦ A ⟶  ⊦ A) (proof assumelfx hh ; use hh)   ❙
  //   simpletest2   = theoremLF (⊦ A ⟶  ⊦ A) (proof build ([h] h)) ❙
     // simpletest7  = theoremLF (⊦ A ⟶ ⊦ A) (proof build ([h:⊦A] h) ) ❙
@@ -50,13 +50,13 @@ theory Examples : ?ExMeta =
    // pierce : {p , q} ⊦  ((p ⇒ q) ⇒ p) ⇒ p ❘ = [p , q] iproof assume h ; addh hfe (notElimination)   ❙
 
   //  TT : type ❙
-  //  test = theoremLF ({TT : type , BB  : type} TT ⟶ BB ⟶ {TT : type} TT ⟶ TT) (proof  fixlfx TT ; fixlfx BB ; assumelfx tt ; assumelfx bb ; fixlfx TT0; assumelfx tt0  ; use tt0)❙
+    test = theoremLF ({TT : type , BB  : type} TT ⟶ BB ⟶ {TT : type} TT ⟶ TT) (proof  fixlfx TT ; fixlfx BB ; assumelfx tt ; assumelfx bb ; fixlfx TT0; assumelfx tt0  ; use tt)❙
 
-    A : type ❙
-    B : type ❙
+  //  D : type ❙
+ //   E : type ❙
 
-    testh : A ⟶ B ❙
-    test = theoremLF (B ⟶ A ⟶ B) (proof  assumelfx hb ; assumelfx ha ; leth th testh ; use hb) ❙
+ //   testhh : D ⟶ E ❙
+ //   test0 = theoremLF (E ⟶ D ⟶ E) (proof  assumelfx hb ; assumelfx ha ; leth th testhh ; use hb) ❙
 
 
 
