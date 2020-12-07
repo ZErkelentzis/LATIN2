@@ -49,7 +49,8 @@ theory Mizar : ur:?LFS =
 	be: term ⟶ tp ⟶ type ❘= [x,a] ⊦ x ⦂ a ❘# 1 be 2 prec 50❙
 
   // propositional logic❙
-  contradiction : type ❘= ⊦ false❙
+  contradiction : type ❘= ⊦ false ❙
+	not_contradition : prop ❘= true ❙
 	// inconsistent (from ☞base:?Proofs) is formalized as {a} ⊦ a, so we can't use it. ❙
  
   proof_by_contradiction : {A:prop} (⊦ (¬ A) ⟶ contradiction) ⟶ ⊦ A❘# %%prefix 1 1❙
@@ -140,6 +141,8 @@ theory Mizar : ur:?LFS =
   //adj_nonE': {x : be (adjective_non X A)} ⊦ ¬ (A (adj_nonE x))❙
 
   fraenkel : tp ⟶ (term ⟶ prop) ⟶ (term ⟶ term) ⟶ term❙
+  fraenkelTerm : {univ:tp, n, expr: term^n ⟶ term, cond: term^n ⟶ prop} term ❙
+  simpleFraenkelTerm : {univ:tp, n, expr: term^n ⟶ term} term ❘= [u,n,expr] fraenkelTerm u n expr ([tms:term^n] not_contradition) ❙
    
   // rule mmt/lf?Realize term mmt/api/uom?StandardInt❙
 
@@ -149,6 +152,7 @@ theory Mizar : ur:?LFS =
 	univ_restriction_suffices: {A: tp, p:term ⟶ prop} ⊦ ∀ ([x] (¬ (x ⦂ A) ⇒ ¬ (p x))) ⟶ ⊦ ((∀ ([x] p x)) ⇔ (for A [x] p x))❙
 	exist_restriction_suffices: {A: tp, p:term ⟶ prop} ⊦ ∀ ([x] (¬ (x ⦂ A) ⇒ ¬ (p x))) ⟶ ⊦ ((∃ ([x] p x)) ⇔ (ex A [x] p x))❙
 ❚
+
 
 theory HIDDEN : ur:?LF = 
    include ?Mizar❙
