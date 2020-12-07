@@ -62,6 +62,7 @@ abstract class ConcreteProver( initGoal: ProofGoal , val rules: List[ProofStepRu
 }
 
 
+// case class LambdaGoal(Goal : OMV  , Hyps : List[OMV])
 
 class ImperativeProver( initGoal: ProofGoal,  val rules: List[ProofStepRule],val solver: Solver)  {
   private def initContext = initGoal.stack.context
@@ -83,6 +84,8 @@ class ImperativeProver( initGoal: ProofGoal,  val rules: List[ProofStepRule],val
   var lambdaProofTerm : Term = OMV(Context.pickFresh(solver.checkingUnit.context ++ initGoal.stack.context,  LocalName("!!"))._1)
 
   var lambdaGoals : List[OMV]  = List(lambdaProofTerm.asInstanceOf[OMV])
+
+//  var lambdaGoals : List[LambdaGoal]  = List(LambdaGoal(lambdaProofTerm.asInstanceOf[OMV] , List())   )
 
   var stepHistory : List[Term] = Nil
 
@@ -137,7 +140,7 @@ class ImperativeProver( initGoal: ProofGoal,  val rules: List[ProofStepRule],val
     stepHistory = stepHistory.tail
 
   }
-
+/*
   def makeStep(step : Term): Unit = {
     if (errorstate) return
     val stepRule = rules.find(_.applicable(step)).getOrElse({solver.error("no applicable rule"); makeErrorStep(step) ; return})
@@ -145,13 +148,16 @@ class ImperativeProver( initGoal: ProofGoal,  val rules: List[ProofStepRule],val
       case true => {
         val sStepRule = stepRule.asInstanceOf[SimpleProofStepRule]
         val (gls , lt , lgls) = sStepRule(step , goals.head , this).getOrElse({makeErrorStep(step) ; return})
+
+       // val newLam = Lambda( lt)
+
         stepHistory = step ::  stepHistory
         goalsHistory = goals :: goalsHistory
         goals =  gls ++ goals.tail
         val lg = lambdaGoals.head
         val sb = Substitution(Sub( lg.name , lt ))
         lambdaTermHistory = lambdaProofTerm :: lambdaTermHistory
-        lambdaProofTerm = StructureSharingSubstitutionApplier(lambdaProofTerm , sb)
+        lambdaProofTerm = PlainSubstitutionApplier(lambdaProofTerm , sb)
         lambdaGoalsHistory = lambdaGoals :: lambdaGoalsHistory
         lambdaGoals =  lgls ++ lambdaGoals.tail
 
@@ -163,7 +169,33 @@ class ImperativeProver( initGoal: ProofGoal,  val rules: List[ProofStepRule],val
       }
     }
   }
+*/
+  def makeStep(step : Term): Unit = {
+    if (errorstate) return
+    val stepRule = rules.find(_.applicable(step)).getOrElse({solver.error("no applicable rule"); makeErrorStep(step) ; return})
+    stepRule  match {
+      case sStepRule : SimpleProofStepRule  => {
+        val (gls , lt , lgls) =  sStepRule(step , goals.head , this).getOrElse({makeErrorStep(step) ; return})
 
+
+        stepHistory = step ::  stepHistory
+        goalsHistory = goals :: goalsHistory
+        goals =  gls ++ goals.tail
+        val lg = lambdaGoals.head
+        val sb = Substitution(Sub( lg.name , lt ))
+        lambdaTermHistory = lambdaProofTerm :: lambdaTermHistory
+        lambdaProofTerm = PlainSubstitutionApplier(lambdaProofTerm , sb)
+        lambdaGoalsHistory = lambdaGoals :: lambdaGoalsHistory
+        lambdaGoals =  lgls ++ lambdaGoals.tail
+
+      }
+
+      case cStepRule : ComplexProofStepRule => {
+        cStepRule(step , this)
+
+      }
+    }
+  }
 
   def redoStep(): Unit ={
     toDoSteps match {
@@ -344,9 +376,16 @@ abstract class ProofStepRule(val head: GlobalName) extends SingleTermBasedChecki
 */
 
 abstract class SimpleProofStepRule(val head : GlobalName) extends ProofStepRule {
-  def apply (t : Term , g : ProofGoal , ip : ImperativeProver): Option[(List[ProofGoal], Term /* new part of lambdaterm */ , List[OMV] /*new goals in lambda */)]
+  def apply (t : Term , g : ProofGoal , ip : ImperativeProver): Option[(List[ProofGoal] /*new goal in lambda */, Term /* new part of lambdaterm */ , List[OMV])]
 
 }
+/*
+abstract class SemiComplexProofStepRule(val head : GlobalName) extends ProofStepRule {
+  def apply (t : Term , g : ProofGoal , ip : ImperativeProver): Option[(List[(ProofGoal ,OMV /*new goals in lambda */)], Term /* new part of lambdaterm */  )]
+
+}
+
+ */
 
 abstract class ComplexProofStepRule(val head : GlobalName) extends ProofStepRule {
   def apply (t : Term , ip : ImperativeProver): Unit

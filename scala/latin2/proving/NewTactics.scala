@@ -35,8 +35,9 @@ object UseTactic extends SimpleProofStepRule(NewTactics.use.path) {
   def apply(step: Term , goal : ProofGoal , prover: ImperativeProver) = {
     val NewTactics.use(p) = step
     val pC = prover.clean(goal.stack, p)
+    val lam = Lambda(goal.stack.context , pC)
     prover.solver.check(Typing(goal.stack, pC, goal.tp))(goal.history + "check proof term") match {
-      case true =>  Some((List() ,  pC , List()))
+      case true =>  Some((List() ,  lam , List()))
       case false => prover.solver.error("use needs a term that has exactly the type of the goal")(goal.history); None
     }
 
@@ -199,23 +200,7 @@ object FwdTactic extends  SimpleProofStepRule(NewTactics.fwd.path) {
 }
 
 
-object AddhTactic extends SimpleProofStepRule(NewTactics.addh.path){
-  def apply(step : Term, goal : ProofGoal ,   prover : ImperativeProver ): Option[(List[ProofGoal], Term , List[OMV])] = {
-    val NewTactics.addh(trm, nn) = step
-    if (goal.stack.context.variables.exists(p => p.name == nn.name)) {return None }
-    val trm0 = prover.clean(goal.stack  , trm)
-    val tp = prover.solver.inferType(trm0 , false)(goal.stack , goal.history)
-    val gls = List(ProofGoal(goal.stack ++ OMV(nn.name) % tp.get  , goal.tp , goal.history + ("addh: added hypothesis :" + prover.solver.presentObj(OMV(nn.name) % tp.get))))
-    //lambdaterm
 
-    val ctx = prover.solver.checkingUnit.context ++ goal.stack.context  ++ prover.lambdaGoalsToContext
-    val newG = helperFunctions.genHoleName(ctx)
-    val lam = Lambda(nn.name , tp.get ,  OMV(newG))
-
-    //lambdaterm
-    Some((gls, lam , List(OMV(newG)) ))
-  }
-}
 
 
 
@@ -246,55 +231,3 @@ object FixTactic extends SimpleProofStepRule(NewTactics.fix.path) {
 }
 
 
-
-object AssumelfxTactic extends SimpleProofStepRule(NewTactics.assumelfx.path) {
-  def apply( step: Term ,  goal: ProofGoal, prover: ImperativeProver): Option[(List[ProofGoal], Term  , List[OMV] )] = {
-    step match {
-      case NewTactics.assumelfx(OML(nm , None , None , _  , _ )) => {
-        goal.tp match {
-          case Arrow(df,g) =>{
-            val freenm = helperFunctions.genFresh(nm , goal.stack.context ++ prover.solver.checkingUnit.context ++ prover.lambdaGoalsToContext )
-            val pg = ProofGoal(goal.stack ++ OMV(freenm) % df, g, goal.history + "assumelfx")
-            val newFVar = helperFunctions.genHoleName(prover.solver.checkingUnit.context ++ goal.stack.context ++ prover.lambdaGoalsToContext)
-            val newLam =  Lambda(freenm , df , OMV(newFVar))
-            Some(List(pg) , newLam , List(OMV(newFVar)))
-          }
-        }
-      }
-      case _ => prover.solver.error("assume has not the right form")(goal.history) ; None
-    }
-  }
-}
-
-
-
-object theoremLFTactic extends InferenceAndTypingRule(NewTactics.theoremLF.path, OfType.path) {
-  def apply(solver: Solver, tm: Term , tpD : Option[Term], covered: Boolean)(implicit stack: Stack, history: History): (Option[Term] , Option[Boolean])= {
-    val NewTactics.theoremLF(typN, prf) = tm
-    val  PropositionsITP.proof(steps) = prf
-    val rules = solver.rules.getOrdered(classOf[ProofStepRule])
-    val interp = new InteractiveLFProver(solver , rules , ProofGoal(stack , typN, history + "starting lf prover"))
-    interp.executeInteractiveProof(steps)
-    tpD match {
-      case None =>
-      case Some(tptp) => solver.check(Typing(stack , interp.prover.lambdaProofTerm , tptp ))
-    }
-    (Some(interp.prover.lambdaProofTerm) , Some(true))
-  }
-}
-
-
-object BuildTactic extends SimpleProofStepRule(NewTactics.build.path) {
-  def apply( step: Term ,  goal: ProofGoal, prover: ImperativeProver): Option[(List[ProofGoal], Term  , List[OMV] )] = {
-    step match {
-      case NewTactics.build(t) => {
-        val tp = prover.solver.inferType(t , false)(goal.stack , goal.history).getOrElse(return None)
-        prover.solver.check(Equality(goal.stack, goal.tp , tp , None))(goal.history) match {
-          case false => None
-          case true => Some(List() , t , List())
-        }
-      }
-      case _ => prover.solver.error("build has not the right form " + step.toString)(goal.history) ; None
-    }
-  }
-}

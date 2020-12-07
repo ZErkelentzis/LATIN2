@@ -33,7 +33,7 @@ object InteractiveProof extends InferenceAndTypingRule(NewTactics.iproof.path ,O
 
 
 class InteractiveLFProver(solver : Solver,  val rules: List[ProofStepRule], initGoal: ProofGoal )  {
-
+  val bla  = info.kwarc.mmt.api.frontend.Run
 
   val prover = new ImperativeProver(initGoal , rules , solver)
 
