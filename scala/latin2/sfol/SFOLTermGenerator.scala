@@ -85,10 +85,10 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
   var quants = mutable.HashSet[(Complexity, Term)]()
 
   //if incremented depth is used, these counters will be utilized
-  var tdepth = 1
+  var tdepth = 0
   var dinct = 0
   var dsect = 0
-  var fdepth = 1
+  var fdepth = 0
   var dincf = 0
   var dsecf = 0
 
@@ -665,6 +665,10 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
       //sub formula initialization and generation. Base case makes atomic formula, else recursive sub formula generation
       var f1: (Complexity, Term) = null
       var f2: (Complexity, Term) = null
+      val qfy = {
+        if(!logmode && !crit.quanttop && (requestNumber(100) > crit.quantors)) false
+        else true
+      }
       if (rdepth == 0) {
         if(!logmode){
           f1 = makeAtomicFormula()
@@ -678,7 +682,7 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
         f1 = generateFormula(rdepth - 1)
         f2 = {
           if (fops(trnd) != Negation.not.path) {
-            generateFormula(requestNumber(rdepth))
+            generateFormula(requestNumber(rdepth), qfy)
           }
           else null
         }
@@ -788,9 +792,13 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
           //get the formula('s). We only require 2 formulas in half the cases.
           val f1 = {
             if (!quantify) {
-              var f = forms.toList(requestNumber(forms.toList.length))
+              val l = {
+                if(!crit.quanttop) forms.toList ::: quants.toList
+                else forms.toList
+              }
+              var f = l(requestNumber(l.length))
               while ((f._1.depth >= crit.max) && (crit.max != -1)) {
-                f = forms.toList(requestNumber(forms.toList.length))
+                f = l(requestNumber(l.length))
               }
               f
             }
@@ -1098,24 +1106,34 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
     forms = mutable.HashSet[(Complexity, Term)]()
     quants = mutable.HashSet[(Complexity, Term)]()
 
-    tdepth = 1
+    tdepth = 0
     dinct = 0
     dsect = 0
-    fdepth = 1
+    fdepth = 0
     dincf = 0
     dsecf = 0
+
+    if(crit.escalation){
+      if(crit.mode == 0){
+        if(crit.form){
+          fdepth = crit.min
+          tdepth = crit.tc.min
+        }
+        else tdepth = crit.min
+      }
+    }
 
     //todo: this might be better back at the top init, since the predicates and functions don't change through criterias
     // the literals and variables do, though
     if(!logmode){
-      println("Init Literals: " + lits)
+      println("Init Literals: ")
       lits.foreach{
         case(tp, rt) =>
           println(rt.semType)
           val raw = rt.semType.enumerate(1)
           println(raw)
           val rawlits = rt.semType.enumerate(1).get //OrElse {Nil}
-          println("making literal ")// + rawlits.toList.head)
+          //println("making literal ")// + rawlits.toList.head)
         var i = 0
           while(i < crit.litnum){
             val lit = OMLIT(rawlits.next, rt)//rt.semType.enumerate(0).getOrElse(Nil) //.map(v => rt.of(v))
@@ -1142,7 +1160,7 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
     }
     else{
       //initialize propositional variables for logic mode
-      println("Init variables:")
+      println("Init propositional variables:")
       val t = Propositions.prop.term
       for (i <- 1 to variables.length) {
         val c = new Complexity(0, t, List[(OMV, Term)]((variables(i - 1), t)), List[GlobalName]())
@@ -1159,19 +1177,37 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
     //todo: things to check:
     // - min depth > max depth
     println("Checking Criteria...")
+    if((Criteria.varnum < 0) || (Criteria.litnum < 0)){
+      throw new RuntimeException("Error: Negative variable or literal number")
+    }
+    if((Criteria.varnum == 0) && (Criteria.litnum == 0)){
+      throw new RuntimeException("Error: Variable and Literal number both 0.")
+    }
     if((Criteria.min > Criteria.max) && (Criteria.max > 0)){
       throw new RuntimeException("Error: The requested minimal depth is larger then the requested maximum depth.")
     }
     if((Criteria.max < 0) && (Criteria.mode == 0)){
       throw new RuntimeException("Error: Backward generation can't be called without limiting the maximum depth.")
     }
-    if((Criteria.quantmin > Criteria.quantmax) && (Criteria.quantmax > 0)){
+    if((Criteria.quantmin > Criteria.quantmax) && (Criteria.quantmax > -1)){
       throw new RuntimeException("Error: Quantifier alterations min and max inconsistent.")
+    }
+    if((Criteria.minfreevars > Criteria.maxfreevars) && (Criteria.maxfreevars > -1)){
+      throw new RuntimeException("Error: free variable min and max inconsistent.")
     }
     if(!Criteria.form && logmode){
       throw new RuntimeException("Error: Logic mode active, but theory term requested.")
     }
     if(Criteria.tc != null){
+      if(Criteria.tc.template != null){
+        throw new RuntimeException("Error: Embedded criteria can not contain template.")
+      }
+      if(!Criteria.form){
+        throw new RuntimeException("Error: Term criteria contains more criteria.")
+      }
+      if(Criteria.tc.form){
+        throw new RuntimeException("Error: Formula criteria contains more formula criteria.")
+      }
       val sub = CriteriaCheck(Criteria.tc)
     }
     if(Criteria.template != null){
@@ -1183,6 +1219,19 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
 
   def TemplateCheck(template: TermTemplate): Unit ={
     println("Checking Template...")
+    var i = 0
+    while(i < template.continoustemplate.length){
+      if(i != 0){
+        if(qname.contains(template.continoustemplate(i)._1)){
+          throw new RuntimeException("Error: Only continuoustemplate(0) can contain a quantifier.")
+        }
+        if((template.continoustemplate(i)._1 == TypedEquality.equal.path)
+          || preds.getOrEmpty(template.continoustemplate(i)._1).nonEmpty){
+          throw new RuntimeException("Error: continuoustemplate can't contain predicates or equality.")
+        }
+        i += 1
+      }
+    }
     println("Template check complete!")
   }
 
