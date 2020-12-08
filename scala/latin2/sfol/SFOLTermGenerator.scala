@@ -31,20 +31,15 @@ import scala.util.control.Breaks._
 //git@gl.mathhub.info:MMT/LATIN2.git
 class SFOLTermGenerator(controller: Controller, mp: MPath) {
   import SFOLPatterns._
-  //todo: restructure the generator module. Enable a logic mode, in which
-  // 1. term generator is not used
-  // 2. variables are boolean values
-  // 3. literals are only true/false
-  // Makes a theory then optional
-  // Special Formula forms so far: Horn Formulae, CNF
-  //ensure that either both controller and theory path are present, or that logic mode is chosen
+
   //we save the criteria as a global variable and is fed on execution of the Generator() method
   //that means the generator can be resetted with new criterias, but within the same theory
   var crit: GenCriteria = _
 
-  if(controller == null || mp == null){
-    throw new RuntimeException("Error: No Controller or theory.")
-  }
+  //logic mode is automatically set when no theory is present, allowing for the generation of logic expressions
+  //without the need of a filler theory
+  var logmode = false
+
   var rnd = new Random()
   //logicmode is a flag that can be used to set the generator into a mode that produces logical formulae only,
   //without requiring a theory. Logical variables are treated as atomic formulae
@@ -59,16 +54,18 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
 
   //generation of variables for terms, called x1 ... xn
   var variables = List[OMV]()
-  //val literals = initLit(lits)
-  //println("Variables:")
-  //println(variables)
+
   //initialisation of all required lists and maps. fname simply saves all globalnames of function symbols in a list,
   //fnamem saves the global names in relation to the output type for easier access if a specific type is requested.
+  //ftypes is a list of all output types that exist in a theory
   //funcs saves the GlobalName and the corresponding type in LF syntax (required to build the terms later)
   //pname and preds does the same, but for predicate symbolds.
   //liter is a hashmap of literals (generated in usable function form), and saves them corresponding to the output
   //type (makes access easier again)
   var fname = List[GlobalName]()
+  var fnamea = List[GlobalName]()
+  var ftypes = List[Term]()
+  var ftypesa = List[Term]()
   var fnamem = new HashMapToSet[Term, GlobalName]
   var funcs = new HashMapToSet[GlobalName, Term]
   var pname = List[GlobalName]()
@@ -80,8 +77,6 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
   //initialization of SFOL functions
   initLogic()
 
-    //todo: define interestingness further for complexity
-  //eg number of equal symbols/variables on both sides of a symbol
   //terms and forms are HashMaps that save generated tuples of Complexity object and terms in correspondence with their
   //output type. terms for Terms, forms for formulas. Kinda redundand for formulas, as those are all props anyway,
   //we can propably use them in terms. Or we use forms for atomic formulas specifically, might be useful
@@ -113,6 +108,7 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
       preds += (p, tp)
   }
   println("Init functions: " + funs)
+  var types = mutable.HashSet[Term]()
   funs.foreach {
     case (p, tp) =>
       println("function symbol " + p.name)
@@ -126,7 +122,9 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
       fname = p::fname
       fnamem += (out, p)
       funcs += (p, tp)
+      types += out
   }
+  ftypes = types.toList
   println("Functions: " + fnamem)
   //two makeTerms functions - one creates a stream of terms, the other a stream of (complexity, term) tuples
   //consider making the formula generator a seperate function, as it requires its own term list to generate formulas
@@ -136,17 +134,17 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
   def Generator(Criteria: GenCriteria): Stream[Term] ={
     //Generator(Criteria) is top level function and used to initialize the generator according to the Criterias.
 
-    crit = CriteriaCheck(Criteria)
+    crit = Criteria //CriteriaCheck(Criteria)
     initialize()
     if(crit.min > 0) tdepth = crit.min
 
-    //first we check if a template exists. If not, then we use the regular Formulae or Term generation
+    //first we check if a template exists within the criteria.
+    //If not, then we use the regular Formulae or Term generation
     if(crit.template != null){
-      //todo: only absolute templates are supported now. Consider a way of making continous templates work.
       TemplateGenerator()
     }
     else if(crit.form){
-      FormulaGenerator(crit)
+      FormulaGenerator()
     }
     else{
       TermGenerator()
@@ -154,31 +152,116 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
   }
 
   def TemplateGenerator(): Stream[Term] = {
-    //todo: Research translation of e.g. "ax + c" to MMT terms and or (x_i)
-    generatebyTemplate() #:: TemplateGenerator()
+    generatebyTemplate(crit.template)._2 #:: TemplateGenerator()
   }
 
-  def generatebyTemplate(): Term = {
-    //todo: We have to
-    // 1. get template
-    // 2. get list of stuff to substitute. Has variable to be substituted, as well as object flag
-    // (0 = literal, 1 = term, 2 = do nothing (can be deleted), 3 = formula)
-    // 3. determine what will be substituted with what.
-    // 4. get/generate term, formula, literal, depending on 3 - we get that info from the sublist
-    // 5. Substitute
-    // 6. return term
-    var term = crit.template
-    for(t <- crit.substitute){
-      val substi = {
-        if(t._3 == 0) liter(t._2).toList(requestNumber(liter(t._2).toList.length))._2
-        else if (t._3 == 1) generateTerm(requestDepth(crit))._2
-        else if (t._3 == 2) generateFormula(requestDepth(crit))._2
-        else t._1
+  def generatebyTemplate(template: TermTemplate): (Complexity, Term) = {
+    dsecf = 0
+    dsect = 0
+    var newterm: Term = null
+    var newcomp: Complexity = null
+    var newtup: (Complexity, Term) = null
+    var avar = mutable.HashSet[(OMV,Term)]()
+    var bvar = mutable.HashSet[(OMV,Term)]()
+    if(template.continoustemplate.nonEmpty){
+      //handling of continuous levels
+      val op = template.continoustemplate.head
+      val nltemp = new TermTemplate(template.template, template.substitutions, template.continoustemplate.tail)
+      if(qname.contains(op._1)){
+        //todo: handling of quantifiers. Only a single quantifier at the time is supported, and that quantifier
+        // will be applied until all variables are bound
+        newtup = generatebyTemplate(nltemp)
+        newtup._1.variables.foreach(v => avar += v)
+        newterm = newtup._2
+        if (op._1 == TypedUniversalQuantification.forall.path) {
+          while(avar.toList.length > bvar.toList.length){
+            var tobind = avar.toList.filterNot(v => bvar.contains(v)).head
+            newterm = forall(tobind._2, Lambda(tobind._1.name, tm(tobind._2), newterm))
+            bvar += tobind
+          }
+        }
+        else if (op._1 == TypedExistentialQuantification.exists.path) {
+          var tobind = avar.toList.filterNot(v => bvar.contains(v)).head
+          newterm = exists(tobind._2, Lambda(tobind._1.name, tm(tobind._2), newterm))
+          bvar += tobind
+        }
+        else {
+          var tobind = avar.toList.filterNot(v => bvar.contains(v)).head
+          newterm = existsUnique(tobind._2, Lambda(tobind._1.name, tm(tobind._2), newterm))
+          bvar += tobind
+        }
       }
-      val sub = Sub(t._1.name, substi) //substi
-      term = term^sub
+      else if(lname.contains(op._1)){
+        //handling of logical function symbols except quantifiers
+        newtup = generatebyTemplate(nltemp)
+        newterm = newtup._2
+        newtup._1.variables.foreach(v => avar += v)
+        var i = requestNumber(op._3, op._2)
+        while(i > 0){
+          var args = newterm :: List[Term]()
+          if(op._1 != Negation.not.path){
+            newtup = generatebyTemplate(nltemp)
+            args = newtup._2 :: args
+            newtup._1.variables.foreach(v => avar += v)
+          }
+          newterm = ApplyGeneral(OMS(op._1), args)
+          i -= 1
+        }
+      }
+      else{
+        //handling of theory specific function symbols
+        println(op._1)
+        val FuncDecl(ins, out) = funcs(op._1).head
+        var i = requestNumber(op._3, op._2)
+        newtup = generatebyTemplate(nltemp)
+        newterm = newtup._2
+        newtup._1.variables.foreach(v => avar += v)
+        while(i > 0){
+          var args = newterm :: List[Term]()
+          while(ins.length > args.length){
+            newtup = generatebyTemplate(nltemp)
+            args = newtup._2 :: args
+            newtup._1.variables.foreach(v => avar += v)
+          }
+          newterm = ApplyGeneral(OMS(op._1), args)
+          i -= 1
+        }
+        //val symbol = funcs(op._1).head
+      }
     }
-    term
+    else{
+      //code for the handling of absolute templates. Variables can be substituted (indicated by flag) with literals (0),
+      //generated terms (1), generated formulas (2) or ignored (else).
+      newterm = template.template
+      for(t <- template.substitutions){
+        val substi = {
+          var s: (Complexity, Term) = null
+          if(t._3 == 0) {
+            s = liter(t._2).toList(requestNumber(liter(t._2).toList.length))
+          }
+          else if (t._3 == 1){
+            val types =  ftypes.filterNot(n => crit.excludedtypes.contains(n))
+            s = generateTerm(requestDepth(crit), types(requestNumber(types.length)))
+          }
+          else if(t._3 == 2){
+            s = generateFormula(requestDepth(crit))
+          }
+          else if(t._3 == 3){
+            s = generatebyTemplate(t._4)
+          }
+          else{
+            s = (new Complexity(0, t._2, (t._1, t._2) :: List[(OMV, Term)](), List[GlobalName]()), t._1)
+          }
+          s._1.variables.foreach(v => avar += v)
+          s
+        }
+        val sub = Sub(t._1.name, substi._2) //substi
+        newterm = newterm^sub
+      }
+    }
+    //depth and type are irrelevant for the template method, we just have to write somthing in
+    newcomp = new Complexity(0, null, avar.toList, List[GlobalName](), bvar = bvar.toList)
+    (newcomp, newterm)
   }
 
   def TermGenerator(): Stream[Term] ={
@@ -192,7 +275,9 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
       if(crit.form) crit.tc
       else crit
     }
+
     dsect = 0
+
     if(Crit.escalation){
       //we increment the generation depth when the step number is reached, up to the maximum depth
       if((Crit.escdepth == dinct) && (tdepth < Crit.max)){
@@ -211,13 +296,18 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
       }
       else 0
     }
-    generateTerm(rdepth)._2 #:: TermGenerator()
+    val rtype = {
+      if(crit.mode == 0) ftypesa(requestNumber(ftypesa.length))
+      else null
+    }
+    generateTerm(rdepth, rtype)._2 #:: TermGenerator()
   }
 
-  def generateTerm(rdepth: Int): (Complexity, Term) ={
+  def generateTerm(rdepth: Int, rtype: Term): (Complexity, Term) ={
     //mode == 0 indicates backward generation, meaning only the requested type is generated and returned. input types
     //are also requested backwards. Requires (some) initialization
-    //tp is the requested type (e.g. "latin:/?Nat")
+    //rtype is a requested type the term should be off (e.g. "latin:/?Nat"), important for backward generation
+    //symbol is also important for backward generation, to allow for enforcement of function symbol alterations
     //standard mode is forward generation
     //todo: What do we have to generate and save or return? Init that here
     //we have to generate a new complexity, the term we want to return and the tuple of the two
@@ -232,12 +322,13 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
     var newsym = mutable.HashSet[GlobalName]()
     var newdepth = 0
     //implementation of backward generation. backward is only called if mode is selected and a type is requested
-    if(Crit.mode == 0 && Crit.tp != null){
+    if(Crit.mode == 0){
       //error handling: backward generation called, but no type requested
-      if(fnamem(Crit.tp).toList.isEmpty && liter(Crit.tp).toList.isEmpty){
+      /*if(fnamem(rtype).toList.isEmpty && liter(rtype).toList.isEmpty){
         throw new RuntimeException("Error: There are no functions to produce terms for the requested type.")
-      }
-      val fops = fnamem(Crit.tp).toList.filterNot(n => Crit.exclusionlist.contains(n))
+      }*/
+
+      val fops = fnamem(rtype).toList.filterNot(n => Crit.exclusionlist.contains(n))
       //in backward generation we have 2 cases. The requested term depth is not zero, in which case a recursive call
       //is required for subterm generation. If the requested depth is 0, a literal or a variable is returned
       if(rdepth != 0){
@@ -259,6 +350,7 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
           //we pre determine the depth of subterms here. One of them is set to be n-1, as to ensure depth n
           val subdepth = Array.fill[Int](ins.length)(0)
           r = requestNumber(subdepth.length)
+          val j = r
           subdepth(r) = rdepth - 1
           var i = 0
           while(i < subdepth.length){
@@ -275,7 +367,10 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
           }
           i = 0
           for(t <- ins){
-            val term = generateTerm(subdepth(i))
+            val term = {
+              generateTerm(subdepth(i), t)
+              //if(i == j)else generateTerm(subdepth(i), t, null, nfalt)
+            }
             inputs = term._2 :: inputs
             term._1.variables.foreach(v => newvar += v)
             term._1.symbols.foreach(s => newsym += s)
@@ -309,12 +404,12 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
         if(varli < Crit.rat){
           val r = requestNumber(variables.length)
           newterm = variables(r)
-          newtup = (new Complexity(0, Crit.tp, (variables(r), Crit.tp) :: newvar.toList, newsym.toList), newterm)
+          newtup = (new Complexity(0, rtype, (variables(r), rtype) :: newvar.toList, newsym.toList), newterm)
         }
         else{
           //OMLIT(getLiteral(tp), liter(tp).head)
           //since we already saved a complexity/literal tuple during generation, we can directly use it
-          newtup = liter(Crit.tp).toList(requestNumber(liter(Crit.tp).toList.length))
+          newtup = liter(rtype).toList(requestNumber(liter(rtype).toList.length))
         }
       }
 
@@ -328,16 +423,13 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
       //implementation of forward generation
     }
     else{
-      if(Crit.mode == 0){
-        println("Warning: Backward generation called, but no type requested. Falling back to forward generation.")
-      }
-      //we break the loop if no specific type is requested, or if the generated term matches the requested type
-      //todo: Forward generation seems to apply one type of function overly often (with nat: natzero). Why? Is the
-      //todo: RNG scewed?
 
       val fops = {
-        if(Crit.tp != null) fnamem(Crit.tp).toList.filterNot(n => crit.exclusionlist.contains(n))
-        else fname.filterNot(n => crit.exclusionlist.contains(n))
+        var symbols = List[GlobalName]()
+        if(Crit.excludedtypes.nonEmpty) ftypes.filterNot(t => Crit.excludedtypes.contains(t)).foreach(t =>
+          symbols = fnamem(t).toList.filterNot(n => Crit.exclusionlist.contains(n)) ++ symbols)
+        else symbols = fname.filterNot(n => Crit.exclusionlist.contains(n))
+        symbols
       }
 
       breakable{
@@ -454,8 +546,8 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
           //constraints at all. If the term fulfilles the constraints, or there are no constraints, we break the loop
           //and can return the term
           //println("We are generating")
-          if(((out == Crit.tp) || (Crit.tp == null)) && ((newcom.depth <= Crit.max)
-            || (Crit.max == -1)) && (newcom.depth >= Crit.min) && ((!Crit.escalation) || (newcom.depth == tdepth)))
+          if(((newcom.depth <= Crit.max) || (Crit.max == -1)) && (newcom.depth >= Crit.min)
+            && ((!Crit.escalation) || (newcom.depth == tdepth)) && ftypesa.contains(out))
           {
             break()
           }
@@ -476,7 +568,7 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
   //user method, that prepares and returns first atomic formulas, and then builds more complex ones from them.
   //Formulageneration supports 3 modes -> Forwardgeneration, Backwardgeneration and Hornformulageneration
   //todo: Customizable number of atomic formulas? Option to forgoe the return of atomic formulas?
-  def FormulaGenerator(crit: GenCriteria): Stream[Term] = {
+  def FormulaGenerator(): Stream[Term] = {
     //todo: Possibly make this an init method to prepare atomic formulas. A stream can also be prepared here, so that
     //todo: atomic formulas are returned. How many Atomic Formulas should we generate here?
     val init = FormulaInit()
@@ -492,8 +584,14 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
   //initialization method, to pre produce a number of atomic formulas for general formula construction later
   def FormulaInit(): Stream[Term] = {
     var formulas = List[Term]()
-    for(i <- 1 to crit.atomicformulas){
-      formulas = makeAtomicFormula()._2 :: formulas
+    if(!logmode){
+      for(i <- 1 to crit.atomicformulas){
+        formulas = makeAtomicFormula()._2 :: formulas
+      }
+    }
+    else{
+      forms = terms(Propositions.prop.term)
+      forms.foreach(t => formulas = t._2 :: formulas)
     }
     formulas.toStream
   }
@@ -502,6 +600,10 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
     //todo: Request depth for backward generation? Return atomic formula if rdepth is 0?
     var rdepth = 0
     dsecf = 0
+    val quantify = {
+      if(requestNumber(100) > crit.quantors) false
+      else true
+    }
     if(crit.escalation){
       //we increment the generation depth when the step number is reached, up to the maximum depth
       if((crit.escdepth == dincf) && (fdepth < crit.max)){
@@ -510,10 +612,10 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
       }
       else dincf += 1
     }
-    if(crit.mode == 2){
-      generateFormulaHorn()._2 #:: generateFormulas()
-    }
-    else if(crit.mode == 0){
+    //if(crit.mode == 2){
+      //generateFormulaHorn()._2 #:: generateFormulas()
+    //}
+    if(crit.mode == 0){
       rdepth = {
         if(crit.escalation){
           fdepth
@@ -526,13 +628,11 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
           depth
         }
       }
-      //todo: add flag for quantifiers. Check against crit qmax. 1 = quantifiers, 0 = no quantifiers
-      generateFormula(rdepth)._2 #:: generateFormulas()
     }
-    else generateFormula(rdepth)._2 #:: generateFormulas()
+    generateFormula(rdepth, quantify)._2 #:: generateFormulas()
   }
 
-  def generateFormula(rdepth: Int = 0): (Complexity, Term) = {
+  def generateFormula(rdepth: Int = 0, quantify: Boolean = false): (Complexity, Term) = {
     //todo: Possible criterias:
     // alternations between quantifiers (should save then the last used quantifier).
     // Quantors on/off
@@ -546,13 +646,15 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
     val fops = lname.filterNot(n => crit.exclusionlist.contains(n))
     var newform: Term = null
     var newcom: Complexity = null
-    var lquant: Int = 0
+    val lsym: GlobalName = null
+    var lquant: GlobalName = null
     var bvar = List[(OMV, Term)]()
     var newtup = (newcom, newform)
     var newvar = mutable.HashSet[(OMV, Term)]()
     var newsym = mutable.HashSet[GlobalName]()
     var newdepth = 0
     var qualt = 0
+    var falt = 0
     var inputs = List[Term]()
     //mode selection: 0 is backward generation, else forward generation
     if (crit.mode == 0) {
@@ -564,7 +666,13 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
       var f1: (Complexity, Term) = null
       var f2: (Complexity, Term) = null
       if (rdepth == 0) {
-        f1 = makeAtomicFormula()
+        if(!logmode){
+          f1 = makeAtomicFormula()
+        }
+        else{
+          val atomics = terms(Propositions.prop.term).toList
+          f1 = atomics(requestNumber(atomics.length))
+        }
       }
       else {
         f1 = generateFormula(rdepth - 1)
@@ -584,64 +692,81 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
       if (rdepth == 0) {
         //base case: atomic formula, no operator required
         newform = f1._2
-        newcom = new Complexity(newdepth, f1._1.output, newvar.toList, newsym.toList, lquant, qualt, bvar)
+        newcom = new Complexity(newdepth, f1._1.output, newvar.toList, newsym.toList, lsym, lquant, qualt, bvar)
         newtup = (newcom, newform)
       }
       else {
         newsym += fops(trnd)
         newform = ApplyGeneral(OMID(fops(trnd)), inputs) //and(f1._2, f2._2)
-        newcom = new Complexity(newdepth, f1._1.output, newvar.toList, newsym.toList, lquant, qualt, bvar)
+        newcom = new Complexity(newdepth, f1._1.output, newvar.toList, newsym.toList, lsym, lquant, qualt, bvar)
         newtup = (newcom, newform)
       }
-      //checking flag ensures only top level get's quantified
-      if (crit.quantors) {
-        //todo: 4. determine number of bound variables. Add possibility to specify min max number through criteria
-        var tobind = requestNumber(newtup._1.getUnbound().length)
-        //todo: 5. determine number of quantifier alterations. Add possibility to specify min through criteria
-        qualt = requestNumber(crit.quantmax)
+      //checking flag ensures only top level get's quantified. We only quantify if enough variables exist if free var
+      //minimum is given
+      if (quantify && (newtup._1.getUnbound().length > crit.minfreevars)) {
+        //determine number of applied quantifiers.
+        var min = {
+          if((newtup._1.getUnbound().length <= crit.maxfreevars) || (crit.maxfreevars == -1)) 0
+          else newtup._1.getUnbound().length - crit.maxfreevars
+        }
+        var max = {
+          if(newtup._1.getUnbound().length <= crit.minfreevars) 0
+          else newtup._1.getUnbound().length - crit.minfreevars
+        }
+        var tobind = requestNumber(max, min)
+        //the generator will attempt to ensure the usage of minimal quantifier alteration. If, however, not enough
+        //free variables are available, there will be simply as many alterations as possible (soft criteria)
+        max = {
+          if((tobind < crit.quantmax) || (crit.quantmax == -1)) tobind
+          else crit.quantmax
+        }
+        min = {
+          if(tobind <= crit.quantmin) tobind
+          else crit.quantmin
+        }
         //qalc: counter for the number of still applicable alterations.
-        //todo: Consider case: max quantifers larger then bindable variables.
-        var qalc = qualt
-
+        var qalc = requestNumber(max, min)
+        val aq = qname.filterNot(q => crit.exclusionlist.contains(q))
+        var quantifier = aq(requestNumber(aq.length))
+        var uvar = newtup._1.getUnbound()
         while (tobind != 0) {
-          trnd = requestNumber(3)
+          while((qalc > 0) && (quantifier == lquant)){
+            quantifier = aq(requestNumber(aq.length))
+          }
+          //take one of the unbound variables out and add it to the bound variables. Then bind it.
+          val nvar = uvar(requestNumber(uvar.length))
+          uvar = uvar.filterNot(q => q == nvar)
+          bvar = nvar :: bvar
 
-          if (trnd == 0) {
-            if (f1._1.lastquant != 1 && f1._1.lastquant != 0) {
+          if (quantifier == TypedUniversalQuantification.forall.path) {
+            if ((lquant != TypedUniversalQuantification.forall.path) && (lquant != null)) {
               qalc -= 1
+              qualt += 1
             }
-            lquant = 1
-            val wvar = f1._1.getUnbound()
-            val nvar = wvar(requestNumber(wvar.length))
-            bvar = nvar :: bvar
-            newsym += GlobalName(TypedUniversalQuantification._path, TypedUniversalQuantification._name)
+            newsym += TypedUniversalQuantification.forall.path//GlobalName(TypedUniversalQuantification._path, TypedUniversalQuantification._name)
             newform = forall(nvar._2, Lambda(nvar._1.name, tm(nvar._2), newform))
           }
-          else if (trnd == 1) {
-            if (f1._1.lastquant != 2 && f1._1.lastquant != 0) {
+          else if (quantifier == TypedExistentialQuantification.exists.path) {
+            if ((lquant != TypedExistentialQuantification.exists.path) && (lquant != null)) {
               qalc -= 1
+              qualt += 1
             }
-            lquant = 2
-            val wvar = f1._1.getUnbound()
-            val nvar = wvar(requestNumber(wvar.length))
-            bvar = nvar :: bvar
-            newsym += GlobalName(TypedExistentialQuantification._path, TypedExistentialQuantification._name)
+            newsym += TypedExistentialQuantification.exists.path//GlobalName(TypedExistentialQuantification._path, TypedExistentialQuantification._name)
             newform = exists(nvar._2, Lambda(nvar._1.name, tm(nvar._2), newform))
           }
           else {
-            if (f1._1.lastquant != 3 && f1._1.lastquant != 0) {
+            if ((lquant != TypedUniqueExistentialQuantification.existsUnique.path) && (lquant != null)) {
               qalc -= 1
+              qualt += 1
             }
-            lquant = 3
-            val wvar = f1._1.getUnbound()
-            val nvar = wvar(requestNumber(wvar.length))
-            bvar = nvar :: bvar
-            newsym += GlobalName(TypedUniqueExistentialQuantification._path, TypedUniqueExistentialQuantification._name)
+            newsym += TypedUniqueExistentialQuantification.existsUnique.path//GlobalName(TypedUniqueExistentialQuantification._path, TypedUniqueExistentialQuantification._name)
             newform = existsUnique(nvar._2, Lambda(nvar._1.name, tm(nvar._2), newform))
           }
+          lquant = quantifier
+          tobind -= 1
         }
       }
-      newcom = new Complexity(newdepth, f1._1.output, newvar.toList, newsym.toList, lquant, qualt, bvar)
+      newcom = new Complexity(newdepth, f1._1.output, newvar.toList, newsym.toList, null, lquant, qualt, bvar)
       newtup = (newcom, newform)
 
       escalate(crit)
@@ -650,29 +775,15 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
     }
     else {
       //implementation of forward generation
-      //todo: implement forward generation
-      //todo: 1. determine operator (and, or, not, implication, equivalence, forall, exist, exist unique)
-      // also add check if we want no quantifier
-      /*
-     lname = Conjunction.and.path :: lname
-    lname = Disjunction.or.path :: lname
-    lname = Equivalence.equiv.path :: lname
-    lname = Implication.impl.path :: lname
-    lname = Negation.not.path :: lname
-    qname = TypedUniversalQuantification.forall.path :: lname
-    qname = TypedExistentialQuantification.exists.path :: lname
-    qname = TypedUniqueExistentialQuantification.existsUnique.path :: lname
-      */
       breakable {
         while (true) {
           inputs = List[Term]()
-          val quantify = {
-            if (requestNumber(2) == 0) false
-            else true
-          }
-          var trnd = {
-            if (quantify) requestNumber(3)
-            else requestNumber(fops.length)
+          var op = {
+            if(quantify){
+              val aq = qname.filterNot(q => crit.exclusionlist.contains(q))
+              aq(requestNumber(aq.length))
+            }
+            else fops(requestNumber(fops.length))
           }
           //get the formula('s). We only require 2 formulas in half the cases.
           val f1 = {
@@ -684,13 +795,13 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
               f
             }
             else {
-              //todo: Else here combines formula list with a list of quantor applied formulas. Makes sure that quantors
-              //todo: are outermost level
+              //we apply quantifiers only on the outermost level to simplify generation a bit
+              //Else here combines formula list with a list of quantor applied formulas.
               val l = forms.toList ::: quants.toList
               var f = l(requestNumber(l.length))
               //todo: Consider alteration criteria! Should we allow for a minimum of alterations? Also, do we perhaps want
               //todo: a certain number of unbound variables.
-              while (f._1.getUnbound().isEmpty || (f._1.quantalt > crit.quantmax)) {
+              while (f._1.getUnbound().isEmpty || ((f._1.quantalt > crit.quantmax) && (crit.quantmax != -1))) {
                 f = l(requestNumber(l.length))
               }
               bvar = f._1.boundVars
@@ -700,7 +811,7 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
             }
           }
           val f2 = {
-            if (!quantify && (fops(trnd) != Negation.not.path)) {
+            if (!quantify && (op != Negation.not.path)) {
               var f = forms.toList(requestNumber(forms.toList.length))
               while ((f._1.depth >= crit.max) && (crit.max != -1)) {
                 f = forms.toList(requestNumber(forms.toList.length))
@@ -725,74 +836,50 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
               newdepth = f2._1.depth + 1
             }
           }
+          newsym += op
           if (!quantify) {
-            newsym += fops(trnd)
-            newform = ApplyGeneral(OMID(fops(trnd)), inputs) //and(f1._2, f2._2)
-            newcom = new Complexity(newdepth, f1._1.output, newvar.toList, newsym.toList, lquant, qualt, bvar)
-            newtup = (newcom, newform)
-            if((newcom.depth <= crit.max) && ((!crit.escalation) || (newcom.depth == fdepth))){
-              forms += newtup
-            }
+            newform = ApplyGeneral(OMID(op), inputs) //and(f1._2, f2._2)
           }
-          else if (trnd == 0) {
-            //fall
-            //we extract all unbound variables from the term, choose one at random and apply our quantor
-            if (f1._1.lastquant != 1 && f1._1.lastquant != 0) {
-              qualt += 1
-            }
-            lquant = 1
-            val wvar = f1._1.getUnbound()
-            val nvar = wvar(requestNumber(wvar.length))
-            bvar = nvar :: bvar
-            newsym += GlobalName(TypedUniversalQuantification._path, TypedUniversalQuantification._name)
-            newform = forall(nvar._2, Lambda(nvar._1.name, tm(nvar._2), f1._2))
-            newcom = new Complexity(newdepth, f1._1.output, newvar.toList, newsym.toList, lquant, qualt, bvar)
-            newtup = (newcom, newform)
-            if((newcom.depth <= crit.max) && ((!crit.escalation) || (newcom.depth == fdepth))){
-              quants += newtup
-            }
-          }
-          else if (trnd == 1) {
-            //exist
-            if (f1._1.lastquant != 2 && f1._1.lastquant != 0) {
-              qualt += 1
-            }
-            lquant = 2
-            val wvar = f1._1.getUnbound()
-            val nvar = wvar(requestNumber(wvar.length))
-            bvar = nvar :: bvar
-            newsym += GlobalName(TypedExistentialQuantification._path, TypedExistentialQuantification._name)
-            newform = exists(nvar._2, Lambda(nvar._1.name, tm(nvar._2), f1._2)) //makeForall(nvar, Nat.nat.term, f1._2)
-            newcom = new Complexity(newdepth, f1._1.output, newvar.toList, newsym.toList, lquant, qualt, bvar)
-            newtup = (newcom, newform)
-            if((newcom.depth <= crit.max) && ((!crit.escalation) || (newcom.depth == fdepth))){
-              quants += newtup
-            }
-          }
+          //todo: atm we are not yet checking for the free variable number already existing. We have to add that.
+          // handle freevars as maximum number of free variables. => only return if freevarnum <= freevars
           else {
-            //existU
-            if (f1._1.lastquant != 3 && f1._1.lastquant != 0) {
+            if (f1._1.lastquant != op) {
               qualt += 1
             }
-            lquant = 3
+            lquant = op
             val wvar = f1._1.getUnbound()
             val nvar = wvar(requestNumber(wvar.length))
             bvar = nvar :: bvar
-            newsym += GlobalName(TypedUniqueExistentialQuantification._path, TypedUniqueExistentialQuantification._name)
-            newform = existsUnique(nvar._2, Lambda(nvar._1.name, tm(nvar._2), f1._2))
-            newcom = new Complexity(newdepth, f1._1.output, newvar.toList, newsym.toList, lquant, qualt, bvar)
-            newtup = (newcom, newform)
-            if((newcom.depth <= crit.max) && ((!crit.escalation) || (newcom.depth == fdepth))){
-              quants += newtup
+            if (op == TypedUniversalQuantification.forall.path) {
+              //fall
+              //we extract all unbound variables from the term, choose one at random and apply our quantor
+              newform = forall(nvar._2, Lambda(nvar._1.name, tm(nvar._2), f1._2))
             }
+            else if (op == TypedExistentialQuantification.exists.path) {
+              //exist
+              newform = exists(nvar._2, Lambda(nvar._1.name, tm(nvar._2), f1._2)) //makeForall(nvar, Nat.nat.term, f1._2)
+            }
+            else {
+              //existU
+              newform = existsUnique(nvar._2, Lambda(nvar._1.name, tm(nvar._2), f1._2))
+            }
+          }
+          newcom = new Complexity(newdepth, Propositions.prop.term, newvar.toList, newsym.toList, null, lquant, qualt, bvar)
+          newtup = (newcom, newform)
+          if(((newcom.depth <= crit.max) || (crit.max == -1)) && ((qualt < crit.quantmax) || (crit.quantmax == -1))
+            && ((!crit.escalation) || (newcom.depth == fdepth))){
+            if(!quantify) forms += newtup
+            else quants += newtup
           }
           //we check here if the generated term fulfilles constraints that might exit, and whether or not their are
           //constraints at all. If the term fulfilles the constraints, or there are no constraints, we break the loop
           //and can return the term
           //println("We are generating")
           escalate(crit)
-          if(((newcom.depth <= crit.max) || (crit.max == -1)) && (newcom.depth >= crit.min) &&
-            ((!crit.escalation) || (newcom.depth == fdepth)))
+          if(((newcom.depth <= crit.max) || (crit.max == -1)) && ((qualt < crit.quantmax) || (crit.quantmax == -1))
+            && (newcom.depth >= crit.min) && ((!crit.escalation) || (newcom.depth == fdepth))
+            && (newcom.getUnbound().length >= crit.minfreevars) &&
+            ((newcom.getUnbound().length <= crit.maxfreevars) || (crit.maxfreevars == -1)))
           {
             break()
           }
@@ -805,26 +892,10 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
   //def makeForall(v: OMV, tp: Term, body: Term) = forall(tp, Lambda(v.name,tm(tp), body))
 
   def generateFormulaHorn(): (Complexity, Term) = {
-    //todo: let's start making horn formulas!
-    //horn formulas can be produced in disjunction form or implication form. The latter uses conjunctions and
-    //should be easier to produce. (p and q and ... => x). Further, there are three types if horn formulas:
-    //1: Definite Clauses (p and q and ... and t => u)
-    //2: facts (u) (we have to make this)
-    //3: goal clauses (p and q and ... and t => false) (we can ignore this)
-    //todo: Aren't Horn Formulas conjunctions from 1 or more clauses? So, this is then a clause generator? Important?
-    //step 1: use rnd to determine type of formula
-    //step 2: produce atomic formulas
-    //todo: How can we generate a horn formula. And -> when is a horn formula interesting.
-    //todo: Problem -> Horn Formulas are potentially infinite. How can we possibly constraint size of the Formula
-    //todo: First try: make a number of clauses (number random within constraint), then apply conjunctions.
-    //todo: important: conjunctions are binary operators, we will have to apply n-1 conjunctions (maybe in a loop)
-    //todo: Apply implication on another generated clause
-    //todo: Apply Quantifiers, such that there are no free variables in the end.
-    //todo: Return Formula. Important: Each step has to use and update complexity
     var workform = makeAtomicFormula()
     var newform: Term = workform._2
     var newcom: Complexity = null
-    val lquant: Int = 1
+    val lquant: GlobalName = TypedUniversalQuantification.forall.path
     var bvar = mutable.HashSet[(OMV, Term)]()
     var newtup = (newcom, newform)
     var newvar = mutable.HashSet[(OMV, Term)]()
@@ -832,6 +903,7 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
     var newsym = mutable.HashSet[GlobalName]()
     var newdepth = 0
     val qualt = 0
+    var falt = 0
     //generate random number of terms to use in conjunctions, requires a given maximum
     //we request the depth of the Horn Clause here. 0 generates a fact clause, otherwise we make a implication form
     var trnd = requestNumber(crit.max)
@@ -847,18 +919,19 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
     if(trnd > 0){
       newform = Implication.impl.apply(newform, workform._2)
       newdepth += 1
+      falt += 1
     }
     else{
       newform = workform._2
     }
-    workform._1.variables.foreach(v => newvar += v)
-    newform = Implication.impl.apply(newform, workform._2)
-    //pply All-quantors
+    //workform._1.variables.foreach(v => newvar += v)
+    //newform = Implication.impl.apply(newform, workform._2)
+    //apply All-quantifier
     for(v <- newvar.toList){
       newform = forall(v._2, Lambda(v._1.name,tm(v._2), newform))
       bvar += v
     }
-    newcom = new Complexity(newdepth, workform._1.output, newvar.toList, newsym.toList, lquant, qualt, bvar.toList)
+    newcom = new Complexity(newdepth, workform._1.output, newvar.toList, newsym.toList, null, lquant, qualt, bvar.toList)
     newtup = (newcom, newform)
     newtup
   }
@@ -897,17 +970,15 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
             //todo: rethink requested depth here for backward generation.
             //Currently, we can request a specific type of input terms in the FormulaCriteria object. Is the Term tp
             //even important at that point?
-            if(crit.tp == tp || crit.tp == null){
-              val rdepth = {
-                if(crit.tc.mode == 0){
-                  requestDepth(crit.tc)
-                }
-                else 0
+            val rdepth = {
+              if(crit.tc.mode == 0){
+                requestDepth(crit.tc)
               }
-              val newterm = generateTerm(rdepth)
-              newterm._1.variables.foreach(v => newvar += v)
-              args = newterm._2 :: args
+              else 0
             }
+            val newterm = generateTerm(rdepth, tp)
+            newterm._1.variables.foreach(v => newvar += v)
+            args = newterm._2 :: args
         }
         args
       }
@@ -925,25 +996,22 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
       //todo: We have to randomize the depth of the terms.
       //todo: We have to allow for forward and backward generation of the terms
       //first, we get random a type for the terms we want to apply equality to. Both terms have to be of the same type
-      trnd = requestNumber(fnamem.keys.toList.length)
-      var tp = fnamem.keys.toList(trnd)
-      if(crit.tp != null){
-        tp = crit.tp
-      }
+      trnd = requestNumber(ftypesa.length)
+      var tp = ftypesa(trnd)
       var rdepth = {
         if(crit.tc.mode == 0){
           requestDepth(crit.tc)
         }
         else 0
       }
-      val t1 = generateTerm(rdepth)
+      val t1 = generateTerm(rdepth, tp)
       rdepth = {
         if(crit.tc.mode == 0){
           requestDepth(crit.tc)
         }
         else 0
       }
-      val t2 = generateTerm(rdepth)
+      val t2 = generateTerm(rdepth, tp)
       //todo: complexity object, saving formulas
       //todo: clarify as equality seems to want x0, x1, x2. Is one of those the type of the others?
       t1._1.variables.foreach(v => newvar += v)
@@ -956,6 +1024,7 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
   }
 
   def makeVars(n: Int): List[OMV] = {
+    //todo: rework variable generation such that the same variable name is not used for several data types
     //makes n variables
     val v = new mutable.HashSet[OMV]
     if(n == 1){
@@ -967,24 +1036,15 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
     }
     v.toList
   }
-  //todo: we may delete constants, as internally they are just variables
-  def makeCons(): List[Term] = {
-    val v = new mutable.HashSet[Term]
-    for(i <- 1 to 3){
-      val c = OMV("c"+i)
-      v += c
-    }
-    v.toList
-  }
   //todo: we may delete this, as we are not using this anymore
-  def emptyCheck(ref: Int): Boolean = {
+  /*def emptyCheck(ref: Int): Boolean = {
     val FuncDecl(ins, out) = funcs.getOrEmpty(fname(ref)).head
     var isempty = false
     if(ins.isEmpty){
       isempty = true
     }
     isempty
-  }
+  }*/
 
   //method to request a random depth for backward generation calls
   def requestDepth(Crit: GenCriteria): Int ={
@@ -1003,7 +1063,8 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
   }
 
   //method to request a non-negative random number. If the modifier is 0, 0 is returned, if > 0, rnd%mod operation.
-  def requestNumber(mod: Int): Int = {
+  def requestNumber(mod: Int, min: Int = 0): Int = {
+    var number = -1
     if(mod < 0){
       throw new RuntimeException("requestNumber requires non negative modifiers")
     }
@@ -1011,9 +1072,11 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
       0
     }
     else{
-      var number = rnd.nextInt()%mod
-      if(number < 0){
-        number *= -1
+      while(number < min){
+        number = rnd.nextInt()%mod
+        if(number < 0){
+          number *= -1
+        }
       }
       number
     }
@@ -1021,9 +1084,13 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
 
   def initialize() = {
 
+    logmode = crit.logmode
+
     rnd = new Random()
 
     variables = makeVars(crit.varnum)
+
+    ftypesa = ftypes.filterNot(t => crit.excludedtypes.contains(t))
 
     liter = new HashMapToSet[Term,(Complexity, Term)]
 
@@ -1031,59 +1098,59 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
     forms = mutable.HashSet[(Complexity, Term)]()
     quants = mutable.HashSet[(Complexity, Term)]()
 
-    var tdepth = 1
-    var dinct = 0
-    var dsect = 0
-    var fdepth = 1
-    var dincf = 0
-    var dsecf = 0
+    tdepth = 1
+    dinct = 0
+    dsect = 0
+    fdepth = 1
+    dincf = 0
+    dsecf = 0
 
     //todo: this might be better back at the top init, since the predicates and functions don't change through criterias
     // the literals and variables do, though
-    println("Init Literals: " + lits)
-    lits.foreach{
-      case(tp, rt) =>
-        println(rt.semType)
-        val raw = rt.semType.enumerate(1)
-        println(raw)
-        val rawlits = rt.semType.enumerate(1).get //OrElse {Nil}
-        println("making literal ")// + rawlits.toList.head)
-      var i = 0
-        while(i < crit.litnum){
-          val lit = OMLIT(rawlits.next, rt)//rt.semType.enumerate(0).getOrElse(Nil) //.map(v => rt.of(v))
-          val com = new Complexity(0, tp, mutable.HashSet[(OMV, Term)]().toList, mutable.HashSet[GlobalName]().toList)
-          println("new literal: " + lit)
-          liter += (tp, (com, lit))
-          i += 1
-        }
-      //val values = rt.semType.enumerate(0).getOrElse(Nil)
-      //val lits = values map {v => rt(v)}
-    }
-    println("Init variables:")
-    funs.foreach {
-      case (p, tp) =>
-        val FuncDecl(ins, out) = tp
-        //we apply the variables to every distinct input universe to generate the most
-        //basic term of each universe, which is a single variable
-        //part of initialisation, as those are permanent
-        ins.distinct.foreach(t => for (i <- 1 to variables.length) {
-          val c = new Complexity(0, t, List[(OMV, Term)]((variables(i - 1), t)), List[GlobalName]())
-          terms += (t, (c, variables(i - 1)))//(t, terdep)
-        })
-      //println("Terms:")
-      //terms.foreach(a => println(a))
-    }
-    /*
-    else{
-      //todo: generate propositional variables here. Requires type/realized type (StandardBool, is semantic type)
-      // we don't have predicates or functions from a theory. Term construction does not apply.
-      println("Init variables:")
-      val tp = Propositions.prop.term
-      for(i <- 1 to variables.length) {
-        val c = new Complexity(0, tp, List[(OMV, Term)]((variables(i - 1), tp)), List[GlobalName]())
-        terms += (tp, (c, variables(i - 1)))
+    if(!logmode){
+      println("Init Literals: " + lits)
+      lits.foreach{
+        case(tp, rt) =>
+          println(rt.semType)
+          val raw = rt.semType.enumerate(1)
+          println(raw)
+          val rawlits = rt.semType.enumerate(1).get //OrElse {Nil}
+          println("making literal ")// + rawlits.toList.head)
+        var i = 0
+          while(i < crit.litnum){
+            val lit = OMLIT(rawlits.next, rt)//rt.semType.enumerate(0).getOrElse(Nil) //.map(v => rt.of(v))
+            val com = new Complexity(0, tp, mutable.HashSet[(OMV, Term)]().toList, mutable.HashSet[GlobalName]().toList)
+            println("new literal: " + lit)
+            liter += (tp, (com, lit))
+            i += 1
+          }
+        //val values = rt.semType.enumerate(0).getOrElse(Nil)
+        //val lits = values map {v => rt(v)}
       }
-    }*/
+      println("Init variables:")
+      funs.foreach {
+        case (p, tp) =>
+          val FuncDecl(ins, out) = tp
+          //we apply the variables to every distinct input universe to generate the most
+          //basic term of each universe, which is a single variable
+          //part of initialisation, as those are permanent
+          ins.distinct.foreach(t => for (i <- 1 to variables.length) {
+            val c = new Complexity(0, t, List[(OMV, Term)]((variables(i - 1), t)), List[GlobalName]())
+            terms += (t, (c, variables(i - 1)))//(t, terdep)
+          })
+      }
+    }
+    else{
+      //initialize propositional variables for logic mode
+      println("Init variables:")
+      val t = Propositions.prop.term
+      for (i <- 1 to variables.length) {
+        val c = new Complexity(0, t, List[(OMV, Term)]((variables(i - 1), t)), List[GlobalName]())
+        val tup = (c, variables(i - 1))
+        terms += (t, tup)
+        forms += tup
+      }
+    }
     println("Init complete!")
   }
 
@@ -1098,22 +1165,66 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
     if((Criteria.max < 0) && (Criteria.mode == 0)){
       throw new RuntimeException("Error: Backward generation can't be called without limiting the maximum depth.")
     }
-    if((Criteria.template != null) && (Criteria.substitute == null)){
-      throw new RuntimeException("Error: Template detected, but no substitution list exists.")
+    if((Criteria.quantmin > Criteria.quantmax) && (Criteria.quantmax > 0)){
+      throw new RuntimeException("Error: Quantifier alterations min and max inconsistent.")
     }
-    if((Criteria.template == null) && (Criteria.substitute != null)){
-      println("Warning: Substitution list detected, but no template was given. Regular generation will be used.")
+    if(!Criteria.form && logmode){
+      throw new RuntimeException("Error: Logic mode active, but theory term requested.")
+    }
+    if(Criteria.tc != null){
+      val sub = CriteriaCheck(Criteria.tc)
+    }
+    if(Criteria.template != null){
+      TemplateCheck(Criteria.template)
     }
     println("Criteria check complete!")
     Criteria
   }
 
+  def TemplateCheck(template: TermTemplate): Unit ={
+    println("Checking Template...")
+    println("Template check complete!")
+  }
+
+  def generatectemp(): (Term, List[(OMV, Term, Int, TermTemplate)]) = {
+    var list = List[(OMV, Term, Int, TermTemplate)]()
+    list = (OMV("x"), Propositions.prop.term, 2, null) :: list
+    val tup = (list.head._1, list)
+    tup
+  }
   //example template
-  def generateTemplate(): (Term, List[(OMV, Term, Int)]) = {
-    var list = List[(OMV, Term, Int)]()
-    list = (OMV("a"), Nat.nat.term, 0) :: list
-    list = (OMV("t"), Nat.nat.term, 1) :: list
-    list = (OMV("x"), Nat.nat.term, 3) :: list
+  def generateHornTemplate(): TermTemplate = {
+
+    var forallconti = List[(GlobalName, Int, Int)]()
+    var andconti = List[(GlobalName, Int, Int)]()
+
+    val a = OMV("a")
+    val x = OMV("x")
+    val y = OMV("y")
+    //and template initialization
+
+    val andterm = x
+    andconti = (Conjunction.and.path, 1, 5) :: andconti
+    var andlist = List[(OMV, Term, Int, TermTemplate)]()
+    andlist = (x, Propositions.prop.term, 2, null) :: andlist
+
+    val andtemp = new TermTemplate(andterm, andlist, andconti)
+
+    val implication = Implication.impl.apply(a, y)
+    forallconti = (TypedUniversalQuantification.forall.path, 0, 0) :: forallconti
+    var foralllist = List[(OMV, Term, Int, TermTemplate)]()
+    foralllist = (a, Propositions.prop.term, 3, andtemp) :: foralllist
+    foralllist = (y, Propositions.prop.term, 2, null) :: foralllist
+
+    val foralltemp = new TermTemplate(implication, foralllist, forallconti)
+    foralltemp
+  }
+
+  def generateTemplate(): (Term, List[(OMV, Term, Int, TermTemplate)]) = {
+    var list = List[(OMV, Term, Int, TermTemplate)]()
+    list = (OMV("a"), Nat.nat.term, 0, null) :: list
+    list = (OMV("t"), Nat.nat.term, 1, null) :: list
+    list = (OMV("x"), Nat.nat.term, 3, null) :: list
 
     var op: Term = null
     var opname: GlobalName = null
@@ -1123,7 +1234,7 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
     op = funcs.getOrEmpty(opname).head //extract operators Globalname
 
     var inputs = List[Term]()
-    inputs = list(0)._1 :: list(1)._1 :: inputs
+    inputs = list.head._1 :: list(1)._1 :: inputs
 
     //ins.foreach(tp => generateTerm(1, tp, 0, max-1))
     var newterm = ApplyGeneral(OMS(opname), inputs)
@@ -1135,14 +1246,15 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
   }
 
   def initLogic(): Unit ={
+    //initializes lists of GlobalNames for logical function symbols and Quantifiers
     lname = Conjunction.and.path :: lname
     lname = Disjunction.or.path :: lname
     lname = Equivalence.equiv.path :: lname
     lname = Implication.impl.path :: lname
     lname = Negation.not.path :: lname
-    qname = TypedUniversalQuantification.forall.path :: lname
-    qname = TypedExistentialQuantification.exists.path :: lname
-    qname = TypedUniqueExistentialQuantification.existsUnique.path :: lname
+    qname = TypedUniversalQuantification.forall.path :: qname
+    qname = TypedExistentialQuantification.exists.path :: qname
+    qname = TypedUniqueExistentialQuantification.existsUnique.path :: qname
   }
 
   def escalate(Crit: GenCriteria): Unit = {
@@ -1153,7 +1265,7 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
           if(fdepth == Crit.max){
             throw new RuntimeException(Crit.sescdepth +" terms where generated, but didn't meet criteria. Maximum depth reached. Abort!")
           }
-          println(Crit.sescdepth +" terms where generated, but didn't meet criteria. Escalating syntactic depth to " +(tdepth+1))
+          println(Crit.sescdepth +" terms where generated, but didn't meet criteria. Escalating syntactic depth to " +(fdepth+1))
           fdepth += 1
           dincf = 0
           dsecf = 0
@@ -1172,6 +1284,10 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
         }
       }
     }
+  }
+
+  def manualescalation(esc: Int): Unit ={
+    //todo: term depth, formula depth,
   }
 
   //a simple method to make a literal

@@ -3,12 +3,13 @@ package latin2.sfol
 import info.kwarc.mmt.api.GlobalName
 import info.kwarc.mmt.api.objects.{OMV, Term}
 
-class GenCriteria(GenMode: Int = 1, variables: Int = 3, literals: Int = 3, RequestedType: Term = null,
+class GenCriteria(GenMode: Int = 1, variables: Int = 3, literals: Int = 3, excludedTypes: List[Term] = List[Term](),
                   MinDepth: Int = 0, MaxDepth: Int = -1, escalate: Boolean = false, enum: Int = 100, senum: Int = 100,
-                  Ratio: Int = 50, Formula: Boolean = false, TermCriteria: GenCriteria = null,
-                  qmin: Int = 0, qmax: Int = 0, quant: Boolean = true, anum: Int = 100, skip: Boolean = false,
-                  exclude: List[GlobalName] = List[GlobalName](), temp: Term = null,
-                  sublist: List[(OMV, Term, Int)] = null) {
+                  Ratio: Int = 50, Formula: Boolean = false, TermCriteria: GenCriteria = null, qtop: Boolean = false,
+                  qmin: Int = 0, qmax: Int = -1, quant: Int = 0, minfv: Int = 0, maxfv: Int = -1,
+                  anum: Int = 100, skip: Boolean = false,
+                  excludedfunctions: List[GlobalName] = List[GlobalName](), temp: TermTemplate = null,
+                  logicmode: Boolean = false) {
   //todo: do we even have to clarify Formula? We could take that info from the RequestedType. On the other hand,
   //todo: tc generation might require it.
   //todo: here we make all the term criteria
@@ -21,24 +22,27 @@ class GenCriteria(GenMode: Int = 1, variables: Int = 3, literals: Int = 3, Reque
   //tc: term generation criteria for formula generation
   //todo: clarify empty functions, as those are (generally?) definition of base values (zero, true, etc)
   //todo: is it even useful to mix those with literals? might be better to seperate them in generation
-  def varnum = variables
-  def litnum = literals
+  def varnum: Int = variables
+  def litnum: Int = literals
   def form: Boolean = Formula
+  def logmode: Boolean = logicmode
   def mode: Int = GenMode
-  def tp: Term = RequestedType
-  def atomicformulas = anum
-  def skipatomics = skip
-  //we can propably delete minimum depth
+  def excludedtypes: List[Term] = excludedTypes
+  def atomicformulas: Int = anum
+  def skipatomics: Boolean = skip
   def min: Int = MinDepth
-  def max: Int = MaxDepth
+  def max: Int = MaxDepth+1
+
   def escdepth: Int = enum
   def sescdepth: Int = senum
   def escalation: Boolean = escalate
   def rat: Int = Ratio
-  //instead of minimal and maximal quantifiers, we should be more concerned with quantifer alteration. Min/Max?
-  def quantors: Boolean = quant
+  def quantors: Int = quant
+  def quanttop: Boolean = qtop
   def quantmax: Int = qmax
   def quantmin: Int = qmin
+  def maxfreevars: Int = maxfv
+  def minfreevars: Int = minfv
   def tc: GenCriteria = {
     if(Formula && (TermCriteria == null)){
       new GenCriteria()
@@ -46,7 +50,7 @@ class GenCriteria(GenMode: Int = 1, variables: Int = 3, literals: Int = 3, Reque
     else TermCriteria
   }
   //a list that allows the targeted exclusion of operators on both theory level and SFOL level
-  def exclusionlist: List[GlobalName] = exclude
+  def exclusionlist: List[GlobalName] = excludedfunctions
   //a template can come in 2 variants - an absolute template, and an infinite template
   //examples for absolute templates:
   //ax^2 + bx + c, where a, b, c are to be substituted with a literal
@@ -54,8 +58,7 @@ class GenCriteria(GenMode: Int = 1, variables: Int = 3, literals: Int = 3, Reque
   //examples for infinite template
   //Horn Formula, CNF, sum.
   //todo: how to handle infinite templates
-  def template: Term = temp
-  def substitute: List[(OMV, Term, Int)] = sublist
+  def template: TermTemplate = temp
 
   //todo: here we make formula criteria. What are potential criteria for formulas?
   //todo: 1. min/max depth, like with terms
