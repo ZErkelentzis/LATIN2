@@ -1,10 +1,36 @@
 package latin2.proving
 
-import info.kwarc.mmt.api.objects.{Equality, OML, OMS, OMV, Term, Typing}
-import info.kwarc.mmt.lf.{Apply, Typed}
-import lf.{Implication, Proofs, Tactics2, TypedTerms, TypedUniversalQuantification, Types}
+import info.kwarc.mmt.api.LocalName
+import info.kwarc.mmt.api.objects.{Context, Equality, OMID, OML, OMS, OMV, PlainSubstitutionApplier, Sub, Substitution, Term, Typing}
+import info.kwarc.mmt.lf.{Apply, Lambda, Typed}
+import lf.{Implication, ImplicationNDI, Proofs, Tactics, Tactics2, TypedTerms, TypedUniversalQuantification, Types}
 
 
+/*
+object AssumeTactic extends SimpleProofStepRule(Tactics2.assume.path) {
+  def apply( step: Term ,  goal: ProofGoal, prover: ImperativeProver): Option[(List[ProofGoal], Term  , List[OMV] )] = {
+    step match {
+      case Tactics2.assume(OML(nm , None , None , _  , _ )) => {
+        goal.tp match {
+          case Proofs.ded(Implication.impl(f,g)) =>{
+            val df = Proofs.ded(f)
+            val pg = ProofGoal(goal.stack ++ OMV(nm) % df, Proofs.ded(g), goal.history + "assume")
+
+            //new
+
+            val newFVar = Context.pickFresh(prover.solver.checkingUnit.context ++ goal.stack.context, LocalName("??"))
+            val newLam =  ImplicationNDI.impI(df, g , Lambda(nm , df , OMV(newFVar._1)))
+            Some(List(pg) , newLam , List(OMV(newFVar._1)))
+          }
+        }
+      }
+      case _ => prover.solver.error("assume has not the right form")(goal.history) ; None
+    }
+  }
+}
+
+*/
+/*
 object AssumeTactic extends ProofStepRule(Tactics2.assume.path) {
   def apply(prover: ImperativeProver, goal: ProofGoal, step: Term) = {
     step match {
@@ -13,6 +39,26 @@ object AssumeTactic extends ProofStepRule(Tactics2.assume.path) {
           case Proofs.ded(Implication.impl(f,g)) =>{
             val df = Proofs.ded(f)
             val pg = ProofGoal(goal.stack ++ OMV(nm) % df, Proofs.ded(g), goal.history + "assume")
+
+            //new
+
+            val lg = prover.lambdaGoals.head
+            val tmplgs = prover.lambdaGoals.tail
+            val newFVar = Context.pickFresh(prover.solver.checkingUnit.context ++ goal.stack.context, LocalName("??"))
+            val sb : Substitution =  (Substitution( Sub(lg.name , ImplicationNDI.impI(df, g , Lambda(nm , df , OMV(newFVar._1))))))
+            val newlam = PlainSubstitutionApplier(prover.lambdaProofTerm , sb)
+            prover.lambdaProofTerm = newlam
+            prover.lambdaGoals = OMV(newFVar._1) :: tmplgs
+/*           val newHole = Box(HoleNode())
+            val lambdat : LambdaTree = OMBINDNode(ValueNode (Lambda.term) , OMV(nm) % df , newHole )
+            val tmp = OMANode(ValueNode(OMID(ImplicationNDI.impI.path)), List(ValueNode(df) , ValueNode(g) , lambdat ) )
+            prover.lambdaGoalsHistory = prover.lambdaGoals :: prover.lambdaGoalsHistory
+            prover.calcLambdaGoalsHistory = List(0)  :: prover.calcLambdaGoalsHistory
+            prover.lambdaGoals = newHole :: tmplgs
+            lg.v = tmp
+*/
+            //new
+
             Some(List(pg))
           }
         }
@@ -25,14 +71,25 @@ object AssumeTactic extends ProofStepRule(Tactics2.assume.path) {
 
 
 object UseTactic extends ProofStepRule(Tactics2.use.path) {
-  def apply(prover: ImperativeProver, goal: ProofGoal, step: Term) = {
+  def apply(prover: ImperativeProver, step: Term) = {
     val Tactics2.use(p) = step
     val pC = prover.clean(goal.stack, p)
     prover.solver.check(Typing(goal.stack, pC, goal.tp))(goal.history + "check proof term")
+
+    //new
+/*    prover.lambdaGoalsHistory = prover.lambdaGoals :: prover.lambdaGoalsHistory
+    prover.calcLambdaGoalsHistory = List(0)  :: prover.calcLambdaGoalsHistory
+    val lg = prover.lambdaGoals.head
+    prover.lambdaGoals = prover.lambdaGoals.tail
+    lg.v  = ValueNode(pC)
+*/
+
+
+    //new
     Some(Nil)
   }
 }
-
+*/
 /*
 object FixTactic extends ProofStepRule(Tactics2.fix.path) {
   def apply(prover: ImperativeProver, goal: ProofGoal, step: Term) = step match {

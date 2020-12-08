@@ -5,9 +5,10 @@ theory SetFOL : ur:?LF =
   set = term❙
   include ?InternalTypes❙
   
-  // AS: Description includes UniqueExistential but not UniqueExistentialND - FR: split Description into Description for syntax and DescriptionND for the axiom, then include DescriptionND❙
-  include ?Description❙
+  include ?DescriptionND❙
   include ?RelativizedUniversalQuantificationND❙
   include ?RelativizedExistentialQuantificationND❙
 
+  include ?DependentConjunctionND❙
+  include ?DependentImplicationND❙
 ❚

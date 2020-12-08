@@ -8,13 +8,13 @@ import info.kwarc.mmt.api.symbols.FinalConstant
 import info.kwarc.mmt.api.uom.ConstantScala
 import info.kwarc.mmt.lf.{Apply, Arrow, OfType, Pi, Typed}
 
-import latin2.proving.helperFunctions.{NamedHypothesis, NamedOrUnnamedTerm, UnnamedHypothesis}
+// import latin2.proving.helperFunctions.{NamedHypothesis, NamedOrUnnamedTerm, UnnamedHypothesis}
 import lf.Tactics.{cntra, theoremLF}
 import objects._
 import prettyprint._
 import objects.OMV
 
-
+/*
 object VoidTactic extends ProofStepRule(Tactics.void.path){
   def apply(prover : ImperativeProver , goal : ProofGoal , step : Term) = {
     step match {
@@ -175,7 +175,7 @@ object BuildTactic extends  ProofStepRule(Tactics.build.path){
   }
 }
 */
-object HoleIaT extends  InferenceAndTypingRule(Tactics.holeBuild.path , OfType.path) {
+object HoleIaT extends  InferenceAndTypingRule(Tactics.lambdahole.path , OfType.path) {
   def apply(solver: Solver, tm: Term, tpO: Option[Term], covered : Boolean)(implicit stack: Stack, history: History):  (Option[Term] , Option[Boolean]) = {
     solver.report("holestate", "hole has type "  + tpO.toString)
     (tpO , Some(true ))
@@ -736,3 +736,5 @@ object SubproofTactic extends ProofStepRule(Tactics.subproof.path) {
 object repeat {
 
 }
+
+ */
