@@ -48,8 +48,8 @@ theory MizarPatterns : ur:?LFS =
   ❚
 	pattern indirectParAttrDef(n:NAT, argTps:(term^n ⟶ tp)^n, motherTp:(term^n ⟶ tp), m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^(succ n) ⟶ prop)^m, defRes: term^(succ n) ⟶ prop) ❘ =
     attr: {x:term^n} (motherTp x) ⟶ prop ❙
-		mtype: {x:term^n, p: ⟨' (x..i) ⦂ ((argTps..i) x) | i:n '⟩} ⟶ forall ([y] y ⦂ (adjective motherTp (attr x p)) ⇒ y ⦂ (motherTp x)) ❙
-		means: {x:term^n, p: ⟨' (x..i) ⦂ ((argTps..i) x) | i:n '⟩} ⟶ ⊦ 
+		mtype: {x:term^n, p: ⟨' (x..i) ⦂ ((argTps..i) x) | i:n '⟩} forall ([y] y ⦂ (adjective motherTp (attr x p)) ⇒ y ⦂ (motherTp x)) ❙
+		means: {x:term^n, p: ⟨' (x..i) ⦂ ((argTps..i) x) | i:n '⟩} ⊦ 
 						(nary_and m ⟨' (((cases..j) x) ⇒ forall ([y] y ⦂ (adjective motherTp (attr x p)) ⇔ (caseRes..j) ⟨ x, y ⟩)) | j:m '⟩)
 						∧  ((nary_and m ⟨' ¬ ((cases..k) x) | k:m '⟩) ⇒ forall ([y] y ⦂ (adjective motherTp (attr x p)) ⇔ defRes ⟨ x, y ⟩)) ❙
   ❚
@@ -87,8 +87,8 @@ theory MizarPatterns : ur:?LFS =
 		completeness: {x:set^n} ⟨' (x..i) ⦂ ((argTps..i) x) | i:n '⟩ ⟶ ⊦
 						(nary_or m ⟨' ((cases..j) x) | j:m '⟩) ❙
   ❚
-	pattern schemeDef(n:NAT, argTps:(set^n ⟶ tp)^n, m:NAT, asumptions:(set^n ⟶ prop)^m, p: set^n ⟶ prop) ❘ =
-  	scheme: {x:set^n} ⟨' (x..i) ⦂ ((argTps..i) x) | i:n '⟩ ⟶ ⊦ (nary_and m ⟨' ((assumptions..j) x) | j:m '⟩) ⟶ ⊦ p x ❙
+	pattern schemeDef(n:NAT, argTps:(set^n ⟶ tp)^n, m:NAT, assumptions:(set^n ⟶ prop)^m, p: set^n ⟶ prop) ❘ =
+  	scheme: {x:set^n} {p: ⟨' (x..i) ⦂ ((argTps..i) x) | i:n '⟩} ⊦ (nary_and m ⟨' ((assumptions..j) x) | j:m '⟩) ⟶ ⊦ p x ❙
   ❚
 	pattern synonymicNotation(n:NAT, argTps:(term^n ⟶ tp)^n, v: term^n ⟶ prop) ❘ =
   	notation: {x:term^n} ⟨' (x..i) ⦂ ((argTps..i) x) | i:n '⟩ ⟶ prop ❘ = [x] [p] v x ❙
@@ -96,7 +96,7 @@ theory MizarPatterns : ur:?LFS =
 	pattern antonymicNotation(n:NAT, argTps:(term^n ⟶ tp)^n, v: term^n ⟶ prop) ❘ =
   	notation: {x:term^n} ⟨' (x..i) ⦂ ((argTps..i) x) | i:n '⟩ ⟶ prop ❘ = [x] [p] ¬ (v x) ❙
   ❚
-	pattern attrRegistration(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, t:Lsynonymic term^n ⟶ tp, a: (dep_typed_attr n t)^m) ❘ =
+	pattern attrRegistration(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, t:term^n ⟶ tp, a: (dep_typed_attr n t)^m) ❘ =
   	registration: {x:term^n} ⟨' (x .. i) ⦂ ((argTps .. i) x) | i:n '⟩ ⟶ ⊦ ∃ [y] (y ⦂ (a @ t)) ❙
   ❚
 	
