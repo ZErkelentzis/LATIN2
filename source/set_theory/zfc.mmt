@@ -2,7 +2,31 @@ namespace latin:/❚
 
 fixmeta ?SetFOL❚
 
+theory ZFBase =
+  include ?UniverseNonEmpty❙
+  include ?Extensionality❙
+❚
+
+theory ZFEmptySet =
+  include ?ZFBase❙
+  realize ?EmptySet❙
+
+  emptyUnique : ⊦ ∃¹ isempty❘ // = ❙
+  empty = the isempty emptyUnique❙
+  empty_prop = the_ax isempty emptyUnique❙
+❚
+
+
+// FR: this should be just like UnorderedPairs and the others❚
+// AS: I moved the definitions to EmptySet (features.mmt). Is ZFEmptySet necessary?❚
+theory ZFEmptySet =
+  include ?ZFBase❙
+  // no axiom needed because we already get existence of some element from the non-emptyiness axiom❙
+  include ?EmptySet❙
+❚
+
 theory ZFPairing =
+  include ?ZFBase❙
 	is_uopair = [x,y,z] ∀[a]a∈z ⇔ (a≐x ∨ a≐y)❙
   uopair_axiom : {x,y} ⊦ ∃[z] is_uopair x y z❙
   uopair_unique : {x,y} ⊦ ∃¹[z] is_uopair x y z❘ // = _ ❙
@@ -16,6 +40,7 @@ theory ZFPairing =
 ❚
 
 theory ZFBigUnion =
+  include ?ZFBase❙
 	// definition of big union from KRMT script❙
 	is_bigunion = [Y,z] ∀[x]∀[y](y ∈ Y ⇒ x ∈ y ⇒ x ∈ z)❙
 	bigunion_axiom : {Y} ⊦ ∃[z] is_bigunion Y z❙
@@ -31,6 +56,7 @@ theory ZFBigUnion =
 
 // Small Union is not really necessary here. This theory can be seen as practice❚
 theory ZFSmallUnion = 
+  include ?ZFBase❙
 	is_small_union = [x,y,z] (∀[a](a ∈ x ∨ a ∈ y) ⇒ a ∈ z)❙
 	small_union_axiom : {x,y} ⊦ ∃[z] is_small_union x y z❙
 	small_union_unique : {x,y} ⊦ ∃¹[z] is_small_union x y z❘ // = _ ❙
@@ -39,6 +65,7 @@ theory ZFSmallUnion =
 ❚
 
 theory ZFPowerSet =
+  include ?ZFBase❙
 	is_powerset = [x,p] ∀[z]((∀[t](t ∈ z ⇒ t ∈ x)) ⇒ z ∈ p)❙
 	powerset_axiom : {x} ⊦ ∃[p] is_powerset x p❙
 	powerset_unique : {x} ⊦ ∃¹[p] is_powerset x p❘ // = _ ❙
@@ -52,6 +79,7 @@ theory ZFPowerSet =
 ❚
 
 theory ZFComprehension =
+  include ?ZFBase❙
 	// AS: changed name here to match given theory in features❙
 	is_comprehension = [X,P,z] ∀[a](a∈X ∧ (P a)) ⇔ a∈z❙
 	comprehension_axiom : {X,P} ⊦ ∃[z] is_comprehension X P z❙
@@ -66,6 +94,7 @@ theory ZFComprehension =
 ❚
 
 theory ZFReplacement =
+  include ?ZFBase❙
 	// like in the lecture❙
 	is_replacement = [X,F,z] ∀[a] a∈z ⇔ (∃[x] x∈X ∧ a≐(F x))❙
 	replacement_axiom : {X,F} ⊦ ∃[z] is_replacement X F z❙
@@ -81,34 +110,20 @@ theory ZFReplacement =
 
 // AS: Do I need ZFInfinity?❚
 theory ZFInfinity =
-	include ?Infinity❙
-❚
-
-theory ZFBase =
-  include ?Extensionality❙
-  include ?UniverseNonEmpty❙
-  include ?ZFPairing❙
-  include ?ZFBigUnion❙
-  // include ?ZFSmallUnion❙
-  include ?ZFPowerSet❙
-  include ?ZFComprehension❙
-  include ?ZFReplacement❙
-  include ?Regularity❙
-  include ?ZFInfinity❙
-  // ... ❙
-❚
-
-// FR: this should be just like UnorderedPairs and the others❚
-// AS: I moved the definitions to EmptySet (features.mmt). Is ZFEmptySet necessary?❚
-theory ZFEmptySet =
   include ?ZFBase❙
-  // no axiom needed because we already get existence of some element from the non-emptyiness axiom❙
-  include ?EmptySet❙
+	include ?Infinity❙
 ❚
 
 theory ZF =
   include ?ZFBase❙
   include ?ZFEmptySet❙
+  include ?ZFPairing❙
+  include ?ZFBigUnion❙
+  include ?ZFPowerSet❙
+  include ?ZFComprehension❙
+  include ?ZFReplacement❙
+  include ?Regularity❙
+  include ?ZFInfinity❙
 ❚
 
 // FR: maybe this is not needed - can just be included from ZF-independent feature Choice❚

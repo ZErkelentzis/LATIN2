@@ -4,11 +4,8 @@ fixmeta ?SetFOL❚
 
 theory EmptySet =
   isempty : set ⟶ prop❘= [x] ¬ ∃[y] y ∈ x❙
-  emptyUnique : ⊦ ∃¹ isempty❘ // = ❙
-  empty : set❘# ∅❘
-  		= the isempty emptyUnique❙
-  empty_prop : ⊦ isempty ∅❘
-  		= the_ax isempty emptyUnique❙
+  empty : set❘# ∅❙
+  empty_prop : ⊦ isempty ∅❙
   emptyE : {x} ⊦ x∈∅ ⟶ ↯❘ = [x,p] empty_prop notE (existsI x p)❙
 ❚
 
@@ -54,7 +51,7 @@ theory Comprehension =
 theory Replacement =
   replace  : set ⟶ (set ⟶ set) ⟶ set❘ # 1 map 2 prec 40❙
   replaceI : {A,F,X} ⊦ X∈A ⟶ ⊦ (F X) ∈ A map F❙
-  replaceE : {A,F,X} ⊦ X ∈ A map F ⟶ ⊦ ∃'A [x] (F x) ≐ X❙
+  replaceE : {A,F,X,C} ⊦ X ∈ A map F ⟶ ({x} ⊦x∈A ⟶ ⊦(F x) ≐ X ⟶ ⊦C) ⟶ ⊦C❙
 ❚
 
 theory BigUnion =
@@ -64,12 +61,10 @@ theory BigUnion =
 ❚
 
 theory SmallUnion =
-	// AS: maybe check introduction and elimination again❙
-	union : set ⟶ set ⟶ set❘ # 1 ∪ 2❙
-	unionIL : {X,Y,x} ⊦ x∈X ⟶ ⊦ x ∈ (X∪Y)❙
-	unionIR : {X,Y,x} ⊦ x∈Y ⟶ ⊦ x ∈ (X∪Y)❙
-	// AS: is unionE like this or shall ⊦x∈X ∨ x∈Y be the result?❙
-	unionE : {X,Y,x,C} ⊦ x ∈ (X∪Y) ⟶ (⊦ x∈X ⟶ ⊦ C) ⟶ (⊦ x∈Y ⟶ ⊦ C) ⟶ ⊦ C❙ 
+	union : set ⟶ set ⟶ set❘ # 1 ∪ 2 prec 50❙
+	unionIL : {X,Y,x} ⊦ x∈X ⟶ ⊦ x∈X∪Y❙
+	unionIR : {X,Y,y} ⊦ y∈Y ⟶ ⊦ y∈X∪Y❙
+	unionE : {X,Y,x,C} ⊦ x∈X∪Y ⟶ (⊦x∈X ⟶ ⊦ C) ⟶ (⊦x∈Y ⟶ ⊦ C) ⟶ ⊦ C❙ 
 ❚
 
 // FR additional features: Union, BigIntersection, Intersection❚
@@ -93,23 +88,20 @@ theory SmallUnionAsBigUnion =
   union = [X,Y] ⋃ (uopair X Y)❙
   unionIL = [X,Y,x,p] bigunionI (uopair X Y) X x p uopairIL❙
   unionIR = [X,Y,x,p] bigunionI (uopair X Y) Y x p uopairIR❙
-  // AS: first check whether the definition of unionE is right❙
   // unionE = _ ❙
 ❚
 
 theory BigIntersection =
-	// AS: maybe check introduction and elimination again❙
 	biginter : set ⟶ set❘ # ⋂ 1❙
 	biginterI : {A,X,x} (⊦ X∈A ⟶ ⊦ x∈X) ⟶ ⊦ x ∈ ⋂A❙
 	biginterE : {A,X,x} ⊦ x ∈ ⋂A ⟶ ⊦ X∈A ⟶ ⊦ x∈X❙
 ❚
 
 theory Intersection =
-	// AS: maybe check introduction and elimination again❙
-	inter : set ⟶ set ⟶ set❘ # 1 ∩ 2❙
-	interI : {X,Y,x} ⊦ x∈X ⟶ ⊦ x∈Y ⟶ ⊦ x ∈ (X∩Y)❙
-	interEL : {X,Y,x} ⊦ x ∈ (X∩Y) ⟶ ⊦ x∈X❙
-	interER : {X,Y,x} ⊦ x ∈ (X∩Y) ⟶ ⊦ x∈Y❙
+	inter : set ⟶ set ⟶ set❘ # 1 ∩ 2 prec 50❙
+	interI : {X,Y,x} ⊦ x∈X ⟶ ⊦ x∈Y ⟶ ⊦ x∈X∩Y❙
+	interEL : {X,Y,x} ⊦ x∈X∩Y ⟶ ⊦ x∈X❙
+	interER : {X,Y,x} ⊦ x∈X∩Y ⟶ ⊦ x∈Y❙
 ❚
 
 theory PowerSets =

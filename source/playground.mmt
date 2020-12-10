@@ -22,12 +22,15 @@ rule scala://parser.api.mmt.kwarc.info?MMTURILexer ❚
            > error while adding successfully parsed element latin:/playground?RoleSimplifyBug_view?[latin:/playground?RoleSimplifyBug]/my_rule: general error: error while simplifying {A,a:tm A}⊦a≐a
              (Pi [A : tp, a : (apply tm A)] (apply ded (apply equal A a a)))
 ❚
-theory RoleSimplifyBug =
+theory RoleSimplifyBugABC =
   include ☞latin:?TypedEquality ❙
   include ☞latin:?Proofs ❙
-  my_rule : {A,a: tm A} ⊦ a ≐ a ❙ // ❘ role Simplify ❙
+  my_op   : {A: tp} tm A ⟶ tm A ⟶ tm A ❘ # 2 ∘ 3 prec 100 ❙
+  my_rule : {A: tp,a: tm A} ⊦ my_op A a a ≐ a ❙ // ❘ role Simplify ❙
 ❚
-view RoleSimplifyBug_view : ?RoleSimplifyBug -> ?RoleSimplifyBug =
+view RoleSimplifyBug_view : ?RoleSimplifyBugABC -> ?RoleSimplifyBugABC =
   include ☞latin:?TypedEquality ❙
-  my_rule = ?RoleSimplifyBug?my_rule ❙
+  include ☞latin:?Proofs ❙
+  my_op = ?RoleSimplifyBugABC?my_op ❙
+  my_rule = ?RoleSimplifyBugABC?my_rule ❙
 ❚
