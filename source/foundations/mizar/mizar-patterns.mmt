@@ -1,6 +1,6 @@
 namespace latin:/ ❚
 
-theory MizarPatterns : ur:?LF =
+theory MizarPatterns : ur:?LFS =
   include ?Mizar ❙
 	include ?HIDDEN ❙
 	pattern directPartFuncDef(n:NAT, argTps:(term^n ⟶ tp)^n, ret:tp, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ term)^m, defRes: term^n ⟶ term) ❘ =
@@ -56,7 +56,7 @@ theory MizarPatterns : ur:?LF =
 	pattern indirectComplAttrDef(n:NAT, argTps:(term^n ⟶ tp)^n, motherTp:(term^n ⟶ tp), m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^(succ n) ⟶ prop)^m) ❘ =
     attr: {x:term^n} (motherTp x) ⟶ prop ❙
 		mtype: {x:term^n} {p: ⟨' (x..i) ⦂ ((argTps..i) x) | i:n '⟩} forall ([y] y ⦂ (adjective motherTp (attr x p)) ⇒ y ⦂ (motherTp x)) ❙
-		means: {x:term^n} ⟨' (x..i) ⦂ ((argTps..i) x) | i:n '⟩ ⟶ ⊦ 
+		means: {x:term^n} {p: ⟨' (x..i) ⦂ ((argTps..i) x) | i:n '⟩} ⊦ 
 						(nary_and m ⟨' (((cases..j) x) ⇒ forall ([y] y ⦂ (adjective motherTp (attr x p)) ⇔ (caseRes..j) ⟨ x, y ⟩)) | j:m '⟩) ❙
 		completeness: {x:term^n} ⟨' (x..i) ⦂ ((argTps..i) x) | i:n '⟩ ⟶ ⊦
 						(nary_or m ⟨' ((cases..j) x) | j:m '⟩) ❙
