@@ -11,30 +11,23 @@ theory ZFEmptySet =
   include ?ZFBase❙
   realize ?EmptySet❙
 
+  // copied from features❙
+  isempty : set ⟶ prop❘ = [X] ¬ ∃[x] x ∈ X❙
   emptyUnique : ⊦ ∃¹ isempty❘ // = ❙
   empty = the isempty emptyUnique❙
   empty_prop = the_ax isempty emptyUnique❙
 ❚
 
-
-// FR: this should be just like UnorderedPairs and the others❚
-// AS: I moved the definitions to EmptySet (features.mmt). Is ZFEmptySet necessary?❚
-theory ZFEmptySet =
-  include ?ZFBase❙
-  // no axiom needed because we already get existence of some element from the non-emptyiness axiom❙
-  include ?EmptySet❙
-❚
-
 theory ZFPairing =
   include ?ZFBase❙
-	is_uopair = [x,y,z] ∀[a]a∈z ⇔ (a≐x ∨ a≐y)❙
-  uopair_axiom : {x,y} ⊦ ∃[z] is_uopair x y z❙
-  uopair_unique : {x,y} ⊦ ∃¹[z] is_uopair x y z❘ // = _ ❙
+	is_uopair = [X,Y,M] ∀[Z]Z∈M ⇔ (Z≐X ∨ Z≐Y)❙
+  uopair_axiom : {X,Y} ⊦ ∃[M] is_uopair X Y M❙
+  uopair_unique : {X,Y} ⊦ ∃¹[M] is_uopair X Y M❘ // = _ ❙
   
   realize ?UnorderedPairs❙
   
   uopair : set ⟶ set ⟶ set❘ # uopair 1 2❘
-          = [x,y] the ([z] is_uopair x y z) uopair_unique❙
+          = [X,Y] the ([M] is_uopair X Y M) uopair_unique❙
   // AS: the introduction and elimination rules should be defined❙
   // uopairIL, uopairIR, uopairE❙ 
 ❚
@@ -42,14 +35,14 @@ theory ZFPairing =
 theory ZFBigUnion =
   include ?ZFBase❙
 	// definition of big union from KRMT script❙
-	is_bigunion = [Y,z] ∀[x]∀[y](y ∈ Y ⇒ x ∈ y ⇒ x ∈ z)❙
-	bigunion_axiom : {Y} ⊦ ∃[z] is_bigunion Y z❙
-	bigunion_unique : {Y} ⊦ ∃¹[z] is_bigunion Y z❘ // = _ ❙
+	is_bigunion = [M,Z] ∀[x]∀[X](X∈M ⇒ x∈X ⇒ x∈Z)❙
+	bigunion_axiom : {M} ⊦ ∃[Z] is_bigunion M Z❙
+	bigunion_unique : {M} ⊦ ∃¹[Z] is_bigunion M Z❘ // = _ ❙
 	
 	realize ?BigUnion❙
 	
 	bigunion : set ⟶ set❘# ⋃ 1❘
-					= [Y] the ([z] is_bigunion Y z) bigunion_unique❙
+					= [M] the ([Z] is_bigunion M Z) bigunion_unique❙
 	// AS: the introduction and elimination rules should be defined❙
   // bigunionI, bigunionE❙ 
 ❚
@@ -57,38 +50,37 @@ theory ZFBigUnion =
 // Small Union is not really necessary here. This theory can be seen as practice❚
 theory ZFSmallUnion = 
   include ?ZFBase❙
-	is_small_union = [x,y,z] (∀[a](a ∈ x ∨ a ∈ y) ⇒ a ∈ z)❙
-	small_union_axiom : {x,y} ⊦ ∃[z] is_small_union x y z❙
-	small_union_unique : {x,y} ⊦ ∃¹[z] is_small_union x y z❘ // = _ ❙
+	is_small_union = [X,Y,Z] (∀[a](a ∈ X ∨ a ∈ Y) ⇒ a ∈ Z)❙
+	small_union_axiom : {X,Y} ⊦ ∃[Z] is_small_union X Y Z❙
+	small_union_unique : {X,Y} ⊦ ∃¹[Z] is_small_union X Y Z❘ // = _ ❙
 	small_union : set ⟶ set ⟶ set❘ # 1 ∪ 2❘
-					= [x,y] the ([z] is_small_union x y z) small_union_unique❙
+					= [X,Y] the ([Z] is_small_union X Y Z) small_union_unique❙
 ❚
 
 theory ZFPowerSet =
   include ?ZFBase❙
-	is_powerset = [x,p] ∀[z]((∀[t](t ∈ z ⇒ t ∈ x)) ⇒ z ∈ p)❙
-	powerset_axiom : {x} ⊦ ∃[p] is_powerset x p❙
-	powerset_unique : {x} ⊦ ∃¹[p] is_powerset x p❘ // = _ ❙
+	is_powerset = [X,M] ∀[Z]((∀[t](t ∈ Z ⇒ t ∈ X)) ⇒ Z ∈ M)❙
+	powerset_axiom : {X} ⊦ ∃[M] is_powerset X M❙
+	powerset_unique : {X} ⊦ ∃¹[M] is_powerset X M❘ // = _ ❙
 	
 	realize ?PowerSets❙
 	
 	powerset : set ⟶ set❘# ℘ 1 prec 60❘
-					= [x] the ([p] is_powerset x p) powerset_unique❙
+					= [X] the ([M] is_powerset X M) powerset_unique❙
 	// AS: the introduction and elimination rules should be defined❙
   // powersetI, powersetE❙ 
 ❚
 
 theory ZFComprehension =
   include ?ZFBase❙
-	// AS: changed name here to match given theory in features❙
-	is_comprehension = [X,P,z] ∀[a](a∈X ∧ (P a)) ⇔ a∈z❙
-	comprehension_axiom : {X,P} ⊦ ∃[z] is_comprehension X P z❙
-	comprehension_unique : {X,P} ⊦ ∃¹[z] is_comprehension X P z❘ // = _ ❙
+	is_comprehension = [X,P,Z] ∀[a](a∈X ∧ (P a)) ⇔ a∈Z❙
+	comprehension_axiom : {X,P} ⊦ ∃[Z] is_comprehension X P Z❙
+	comprehension_unique : {X,P} ⊦ ∃¹[Z] is_comprehension X P Z❘ // = _ ❙
 	
 	realize ?Comprehension❙
 	
 	comprehend  : set ⟶ (set ⟶ prop) ⟶ set❘# 1 | 2 prec 40❘
-					= [X,P] the ([z] is_comprehension X P z) comprehension_unique❙
+					= [X,P] the ([Z] is_comprehension X P Z) comprehension_unique❙
 	// AS: the introduction and elimination rules should be defined❙
   // comprehendI, comprehend_sub, comprehendE❙ 
 ❚
@@ -96,14 +88,14 @@ theory ZFComprehension =
 theory ZFReplacement =
   include ?ZFBase❙
 	// like in the lecture❙
-	is_replacement = [X,F,z] ∀[a] a∈z ⇔ (∃[x] x∈X ∧ a≐(F x))❙
-	replacement_axiom : {X,F} ⊦ ∃[z] is_replacement X F z❙
-	replacement_unique : {X,F} ⊦ ∃¹[z] is_replacement X F z❘ // = _ ❙
+	is_replacement = [X,F,Z] ∀[a] a∈Z ⇔ (∃[x] x∈X ∧ a≐(F x))❙
+	replacement_axiom : {X,F} ⊦ ∃[Z] is_replacement X F Z❙
+	replacement_unique : {X,F} ⊦ ∃¹[Z] is_replacement X F Z❘ // = _ ❙
 	
 	realize ?Replacement❙
 	
 	replace  : set ⟶ (set ⟶ set) ⟶ set❘# 1 map 2 prec 40❘
-					= [X,F] the ([z] is_replacement X F z) replacement_unique❙
+					= [X,F] the ([Z] is_replacement X F Z) replacement_unique❙
 	// AS: the introduction and elimination rules should be defined❙
   // replaceI, replaceE❙ 
 ❚
