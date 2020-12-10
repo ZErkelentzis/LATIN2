@@ -13,6 +13,13 @@ theory Subtyping =
   ❚
 ❚
 
+theory SoftSubtyping = 
+  include ?SoftTypedTerms❙
+  include ?Subtyping❙
+  subtypeI : {A,B} ({x} ⊦ x⦂A ⟶ ⊦x⦂B) ⟶ ⊦ A⪽B❙
+  subtypeE : {A,B}{x} ⊦ A⪽B ⟶ ⊦ x⦂A ⟶ ⊦x⦂B❙
+❚
+
 theory SubtypeInjections =
   include ?TypedTerms❙
   include ?Subtyping❙

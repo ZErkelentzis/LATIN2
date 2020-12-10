@@ -11,11 +11,18 @@ theory EmptySetDefinitions =
            = [X,C,ne,P] ne existsE [x,p] P x p❙
 ❚
 
+theory Subsets =
+  include ?SoftSubtyping❙
+❚
+
 theory EmptySet =
   include ?EmptySetDefinitions❙
   empty : set❘ # ∅❙
   empty_prop : ⊦ isempty ∅❙
   emptyE : {x} ⊦ x∈∅ ⟶ ↯❘ = [x,p] isemptyE empty_prop p❙
+  
+  include ?Subsets❙
+  empty_sub : {X} ⊦ ∅ ⪽ X❘ // = ???❙
 ❚
 
 theory UnorderedPairs =
@@ -145,6 +152,13 @@ theory Intersection =
 	interI : {X,Y,x} ⊦ x∈X ⟶ ⊦ x∈Y ⟶ ⊦ x∈X∩Y❘ # interI 4 5❙
 	interEL : {X,Y,x} ⊦ x∈X∩Y ⟶ ⊦ x∈X❘ # interEL 4❙
 	interER : {X,Y,y} ⊦ y∈X∩Y ⟶ ⊦ y∈Y❘ # interER 4❙
+	
+	// this does not work because all algebra theories are written relative to SFOL and we're in FOL❙ 
+	// total structure algebra : algebraic?BoundedSemilattice =
+	//   universe = set❙
+	//   op = inter❙
+  //   comm_ax = forallI [X] forallI [Y] extensionalityI ([p] interI (interER p) (interEL p)) (([p] interI (interER p) (interEL p)))❙
+  // ❚
 ❚
 
 theory IntersectionAsBigIntersection = 
