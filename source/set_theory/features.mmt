@@ -2,11 +2,27 @@ namespace latin:/❚
 
 fixmeta ?SetFOL❚
 
+theory EmptySetDefinitions =
+  isempty : set ⟶ prop❘ = [X] ¬∃[x]x∈X❙
+  nonempty: set ⟶ prop❘ = [X] ∃[x]x∈X❙
+  isemptyE : {X,x} ⊦ isempty X ⟶ ⊦ x∈X ⟶ ↯❘ # isemptyE 3 4❘
+           = [X,x,p,q] p notE (existsI x q)❙
+  nonemptyE: {X,C} ⊦ nonempty X ⟶ ({x} ⊦x∈X ⟶ ⊦C) ⟶ ⊦C❘
+           = [X,C,ne,P] ne existsE [x,p] P x p❙
+❚
+
+theory Subsets =
+  include ?SoftSubtyping❙
+❚
+
 theory EmptySet =
+  include ?EmptySetDefinitions❙
   empty : set❘ # ∅❙
-  isempty : set ⟶ prop❘ = [X] ¬ ∃[x] x ∈ X❙
   empty_prop : ⊦ isempty ∅❙
-  emptyE : {x} ⊦ x∈∅ ⟶ ↯❘ = [x,p] empty_prop notE (existsI x p)❙
+  emptyE : {x} ⊦ x∈∅ ⟶ ↯❘ = [x,p] isemptyE empty_prop p❙
+  
+  include ?Subsets❙
+  empty_sub : {X} ⊦ ∅ ⪽ X❘ // = ???❙
 ❚
 
 theory UnorderedPairs =
@@ -58,7 +74,7 @@ theory Replacement =
 
 theory BigUnion =
   bigunion : set ⟶ set❘ # ⋃ 1 prec 45❙
-  bigunionI : {M,X,x} ⊦ x∈X ⟶ ⊦ X∈M ⟶ ⊦ x ∈ ⋃M❘ # bigunionI 4 5❙
+  bigunionI : {M,X,x} ⊦ X∈M ⟶ ⊦ x∈X ⟶ ⊦ x ∈ ⋃M❘ # bigunionI 4 5❙
   bigunionE : {M,X,x,C} ⊦ x ∈ ⋃M ⟶ (⊦ X∈M ⟶ ⊦ x∈X ⟶ ⊦ C) ⟶ ⊦ C❘ # bigunionE 5 6❙
   
   // AS: subset not included yet
@@ -113,9 +129,11 @@ theory UnionAsBigUnion =
 ❚
 
 theory BigIntersection =
+  include ?EmptySetDefinitions❙
 	biginter : set ⟶ set❘ # ⋂ 1 prec 45❙
-	biginterI : {M,X,x} (⊦ X∈M ⟶ ⊦ x∈X) ⟶ ⊦ x ∈ ⋂M❘ # biginterI 4❙
-	biginterE : {M,X,x} ⊦ x ∈ ⋂M ⟶ ⊦ X∈M ⟶ ⊦ x∈X❘ # biginterE 4 5❙
+	// M must be nonempty because otherwise intrsection would produce the set of all sets❙
+	biginterI : {M,x} ⊦ nonempty M ⟶ ({X} ⊦ X∈M ⟶ ⊦ x∈X) ⟶ ⊦ x ∈ ⋂M❙
+	biginterE : {M,X,x} ⊦ x ∈ ⋂M ⟶ ⊦ X∈M ⟶ ⊦ x∈X❙
 ❚
 
 theory BigIntersectionAsComprehension =
@@ -123,9 +141,9 @@ theory BigIntersectionAsComprehension =
 	include ?Comprehension❙
 	realize ?BigIntersection❙
 	
-	biginter = [M] ⋃M | ([x] ∀[X] X∈M ∧ x∈X)❙
+	biginter = [M] ⋃M|[x]∀[X] X∈M ⇒ x∈X❙
 	// AS: I need ⊦ X∈M for this proof, but don't know how to get it right now❙
-	biginterI = [M,X,x,f] comprehendI❙
+	biginterI = [M,x,ne,P] comprehendI (nonemptyE ne [u,p] bigunionI p (P u p)) (forallI [X] impI [p] P X p)❙
 	biginterE = [M,X,x,p,q] (comprehendE p) forallE X andEr❙
 ❚
 
@@ -134,6 +152,13 @@ theory Intersection =
 	interI : {X,Y,x} ⊦ x∈X ⟶ ⊦ x∈Y ⟶ ⊦ x∈X∩Y❘ # interI 4 5❙
 	interEL : {X,Y,x} ⊦ x∈X∩Y ⟶ ⊦ x∈X❘ # interEL 4❙
 	interER : {X,Y,y} ⊦ y∈X∩Y ⟶ ⊦ y∈Y❘ # interER 4❙
+	
+	// this does not work because all algebra theories are written relative to SFOL and we're in FOL❙ 
+	// total structure algebra : algebraic?BoundedSemilattice =
+	//   universe = set❙
+	//   op = inter❙
+  //   comm_ax = forallI [X] forallI [Y] extensionalityI ([p] interI (interER p) (interEL p)) (([p] interI (interER p) (interEL p)))❙
+  // ❚
 ❚
 
 theory IntersectionAsBigIntersection = 
