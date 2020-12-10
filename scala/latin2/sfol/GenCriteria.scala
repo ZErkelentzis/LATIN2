@@ -3,7 +3,7 @@ package latin2.sfol
 import info.kwarc.mmt.api.GlobalName
 import info.kwarc.mmt.api.objects.{OMV, Term}
 
-class GenCriteria(GenMode: Int = 1, variables: Int = 3, literals: Int = 3, excludedTypes: List[Term] = List[Term](),
+class GenCriteria(GenMode: Boolean = true, variables: Int = 3, literals: Int = 3, excludedTypes: List[Term] = List[Term](),
                   MinDepth: Int = 0, MaxDepth: Int = -1, escalate: Boolean = false, enum: Int = 100, senum: Int = 100,
                   Ratio: Int = 50, Formula: Boolean = false, TermCriteria: GenCriteria = null, qtop: Boolean = false,
                   qmin: Int = 0, qmax: Int = -1, quant: Int = 0, minfv: Int = 0, maxfv: Int = -1,
@@ -22,20 +22,32 @@ class GenCriteria(GenMode: Int = 1, variables: Int = 3, literals: Int = 3, exclu
   //tc: term generation criteria for formula generation
   //todo: clarify empty functions, as those are (generally?) definition of base values (zero, true, etc)
   //todo: is it even useful to mix those with literals? might be better to seperate them in generation
+  //initialization criteria
+  //number of variables and literals instantiated on generator call
   def varnum: Int = variables
   def litnum: Int = literals
-  def form: Boolean = Formula
+  //if logic mode is used, propositional variables are instantiated
+  //and only formulas without quantifiers can be generated
   def logmode: Boolean = logicmode
-  def mode: Int = GenMode
+  //specifies if formulas or terms are generated
+  def form: Boolean = Formula
+  //mode: 0 = backward generation, 1 = forward generation
+  def mode: Boolean = GenMode
+
   def excludedtypes: List[Term] = excludedTypes
+  def exclusionlist: List[GlobalName] = excludedfunctions
+
+  def escalation: Boolean = escalate
+  def escdepth: Int = enum
+  def sescdepth: Int = senum
+
   def atomicformulas: Int = anum
   def skipatomics: Boolean = skip
   def min: Int = MinDepth
-  def max: Int = MaxDepth+1
+  def max: Int = MaxDepth
 
-  def escdepth: Int = enum
-  def sescdepth: Int = senum
-  def escalation: Boolean = escalate
+
+
   def rat: Int = Ratio
   def quantors: Int = quant
   def quanttop: Boolean = qtop
@@ -50,7 +62,7 @@ class GenCriteria(GenMode: Int = 1, variables: Int = 3, literals: Int = 3, exclu
     else TermCriteria
   }
   //a list that allows the targeted exclusion of operators on both theory level and SFOL level
-  def exclusionlist: List[GlobalName] = excludedfunctions
+
   //a template can come in 2 variants - an absolute template, and an infinite template
   //examples for absolute templates:
   //ax^2 + bx + c, where a, b, c are to be substituted with a literal

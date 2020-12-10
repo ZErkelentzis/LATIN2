@@ -11,9 +11,6 @@ class Complexity(d: Int, tp: Term, varlist: List[(OMV, Term)], symlist: List[Glo
   //object to save term complexity. Can save depth (level of nesting), variables and symbols of a term
   //if a formula is described, sub term complexities are not taken into account here, as we finished using them in term
   //generation. Formula specific complexities are optional, to make term generation easier to program.
-  //todo: Question is: Are the complexities of sub terms interesting for the evaluation of formulas? If yes, we might
-  //todo: want to consider an access method to get the complexities of subterms, and store subterms here in a list.
-  //todo: But is that useful at all?
   def depth: Int = d
   def output: Term = tp
   //term generator saves variables, symbols etc unique, so we have information which symbols are contained, but not
@@ -32,8 +29,6 @@ class Complexity(d: Int, tp: Term, varlist: List[(OMV, Term)], symlist: List[Glo
   def getsymnum(): Int = symbols.length
 
   //extension to save formula information with standard values set to regular terms
-  //todo: save number or different predicates/quantifiers/etc too? Where to save? In new list? Or together with
-  //todo: symbols? Consideration of different kinds of complexity here required.
   //Formulas are terms that return a proposition. We use that here to determine if we have a Formula
   def isFormula(): Boolean = {
     if(output == Propositions.prop.term) true
@@ -43,7 +38,6 @@ class Complexity(d: Int, tp: Term, varlist: List[(OMV, Term)], symlist: List[Glo
   //the unbound variables
   def boundVars: List[(OMV, Term)] = bvar
   def getUnbound(): List[(OMV, Term)] = variables.filterNot(bvar.contains(_))
-  //todo: Quantifier alternations
 
   def getboundnum(): Int = boundVars.length
   def getunboundnum(): Int = getvarnum() - getboundnum()

@@ -9,10 +9,10 @@ theory Nat =
   nat   : tp❙
   Nat = tm nat❘# ℕ❙
   zero  : ℕ❙
-  succ  : ℕ ⟶ ℕ❘ # s 1 prec 15❙
+  succ  : ℕ ⟶ ℕ❘ # 1' prec 15❙
   
-  even: ℕ ⟶ prop ❘ # even 1 prec 70❙
-  uneven: ℕ ⟶ prop ❘ # uneven 1 prec 70❙
+  even: ℕ ⟶ prop ❙
+  uneven: ℕ ⟶ prop ❙
   
   rule rules?Realize ℕ uom?StandardNat❙
   rule rules?Realize zero uom?Arithmetic/Zero❙
@@ -36,25 +36,15 @@ theory NatPlus =
   comm : ⊦ ∀[m]∀[n] m+n ≐ n+m❘
                // = proof ommited❘  
   ❙
+  
+  // realization rules ommited❙
 ❚
 
 theory NatPlusTimes =
   include ?NatPlus❙
   times : ℕ ⟶ ℕ ⟶ ℕ ❘ # 1 * 2 prec 60❙
-  times_zero : ⊦ ∀[n] n*zero ≐ zero❙
-  times_succ : ⊦ ∀[m]∀[n] n*(succ m) ≐ n*m+n❙
   
-  times_zero_left: ⊦ ∀[n] zero*n ≐ zero❘
-               // = proof ommited❘
-  ❙
-
-  assoc : ⊦ ∀[l]∀[m]∀[n] (l*m)*n ≐ l*(m*n)❘
-               // = proof ommited❘  
-  ❙
-  
-  comm : ⊦ ∀[m]∀[n] m*n ≐ n*m❘
-               // = proof ommited❘  
-  ❙
+  // axioms and realization rules ommited❙
 ❚
 
 theory Int =
@@ -72,9 +62,5 @@ theory Int =
   ieven: ℤ ⟶ prop ❘ # even 1 prec 70❙
   iuneven: ℤ ⟶ prop ❘ # uneven 1 prec 70❙
   
-  // how do I actually include natural numbers and make them a unified theory? succ, pred? ❙ 
-  
-  rule rules?Realize ℤ uom?StandardInt❙
-  rule rules?Realize zero uom?Arithmetic/Zero❙
-  rule rules?Realize succ uom?Arithmetic/Succ❙
+  // axioms and realization rules ommited❙
 ❚

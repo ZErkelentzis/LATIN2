@@ -14,7 +14,6 @@ object SFOLTermGeneratorTest {
     val thy = Path.parseM(thyS, controller.getNamespaceMap)
     val gen = new SFOLTermGenerator(controller, thy)
 
-    //todo: test template a+t+x, make a literal, t term, x variable not sub
     val temp = gen.generatectemp()
     val ctemp = (Conjunction.and.path, 3, 5) :: (Disjunction.or.path, 3, 5) :: List[(GlobalName, Int, Int)]()
     val cnftemp = new TermTemplate(temp._1, temp._2, ctemp)
@@ -44,21 +43,22 @@ object SFOLTermGeneratorTest {
     Tfilterlist = Path.parseS("latin:/?Nat?succ", controller.getNamespaceMap) :: Tfilterlist
     //Ffilterlist = Conjunction.and.path :: Ffilterlist
     //Ffilterlist = Disjunction.or.path :: Ffilterlist
-    Ffilterlist = Equivalence.equiv.path :: Ffilterlist
-    Ffilterlist = Implication.impl.path :: Ffilterlist
-    Ffilterlist = Negation.not.path :: Ffilterlist
-    val TermCriteria = new GenCriteria(0, 5, 0, typefilter, 0, 3,
-      false,100, 100, 50, false, null, false,2, 0, 0,
+    //Ffilterlist = Equivalence.equiv.path :: Ffilterlist
+    //Ffilterlist = Implication.impl.path :: Ffilterlist
+    //Ffilterlist = Negation.not.path :: Ffilterlist
+    val TermCriteria = new GenCriteria(false, 5, 3, typefilter, 0, 0,
+      false,1, 100, 50, false, null, false,0, 0, 0,
       0, 0, 0, false, Tfilterlist/*, template._1, template._2*/)
-    val FormulaCriteria = new GenCriteria(0, 5, 0, typefilter, 0,5,
-      true, 50,100, 50,true, TermCriteria, excludedfunctions = Ffilterlist, logicmode = false)
-    val AbsoluteTemplate = new GenCriteria(0, 5, 0, typefilter, 0, 3,
+    val FormulaCriteria = new GenCriteria(false, 5, 0, typefilter, 0,0,
+      false, 50,100, 50,true, TermCriteria, true, 0, 1, 0,
+      1,1,0,excludedfunctions = Ffilterlist, logicmode = false)
+    val AbsoluteTemplate = new GenCriteria(false, 5, 0, typefilter, 0, 3,
       false,100, 100, 50, false, null,false, 0, 0, 50,
       0, 0, 0,false, Tfilterlist)
-    val ContTemplate = new GenCriteria(0, 10, 0, typefilter, 0,1,
+    val ContTemplate = new GenCriteria(false, 10, 0, typefilter, 0,1,
       true, 50,100, 50,true, TermCriteria, excludedfunctions = cnffilter,
       temp = cnftemp, logicmode = true)
-    val HornTemplate = new GenCriteria(0, 5, 0, typefilter, 0,0,
+    val HornTemplate = new GenCriteria(false, 3, 0, typefilter, 0,0,
       true, 50,100, 50,true, TermCriteria, excludedfunctions = Efilterlist,
       temp = htemp, logicmode = false)
     //var termstream = gen.TermGenerator()
@@ -69,12 +69,11 @@ object SFOLTermGeneratorTest {
     while(true){
       //println("new term: " + controller.presenter.asString(termstream.head))
       //println("new term: " + termstream.head)
-      //termstream = termstream.tail
-      println("New Term: " + controller.presenter.asString(formstream.head))
+      //termstream = termstream.tail "New Term: " +
+      println(controller.presenter.asString(formstream.head))
       //println("new formula: " + formstream.head)
       formstream = formstream.tail
     }
-    //todo: possible problem with generated code (identifiers) if different capitalization is used in theory
     //level, criteria of generation, integration in applications
   }
 }
