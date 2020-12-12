@@ -8,8 +8,7 @@ theory Propositions =
 
 theory Proofs =
   include ?Propositions❙
-  /T Judgement as types
-     Enter notation by "jder", *not* "jvdash" ❙
+  /T Judgement as types (enter notation by "jder", not "jvdash") ❙
   ded   : prop ⟶ type❘# ⊦ 1  prec -5❘role Judgment ❙
   
   inconsistent : type❘= {a} ⊦ a❘# ↯❘role Judgment❙
