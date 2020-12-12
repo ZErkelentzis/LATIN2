@@ -5,72 +5,61 @@ namespace latin:/algebraic/diagop-test ❚
 
 rule scala://parser.api.mmt.kwarc.info?MMTURILexer ❚
 
-import operators scala://newoperators.moduleexpressions.mmt.kwarc.info ❚
+import operators scala://diagop.odk.mmt.kwarc.info ❚
 import alg latin:/algebraic ❚
 
-//
+theory AlgebraicDiagOps : ur:?DiagramOperators =
+  hom_operator       # HOM_OP 1       ❙ rule ☞operators:?HomOperator          ❙
+  hom_dom_connector  # HOM_DOM 1      ❙ rule ☞operators:?HomDomConnector      ❙
+  hom_cod_connector  # HOM_COD 1      ❙ rule ☞operators:?HomCodConnector      ❙
+  hom_img_connector  # HOM_IMG 1      ❙ rule ☞operators:?HomImgConnector      ❙ // depends on HOM and SUB ❙
+  hom_id_connector   # HOM_ID 1       ❙ rule ☞operators:?HomIdConnector       ❙
 
-theory Magma =
-  U: tp
-  op: tm U -> tm U -> tm U
-||
+  hom = hom_operator ~> hom_id_connector ~> hom_dom_connector ~> hom_cod_connector ❘ # HOM 1 ❙
 
-theory Monoid =
-  include ?Magma
-  ...
-||
+  sub_operator        # SUB_OP 1       ❙ rule ☞operators:?SubOperator          ❙
+  sub_full_connector  # SUB_FULL 1     ❙ rule ☞operators:?SubFullConnector     ❙
+  sub_par_connector   # SUB_PAR 1      ❙ rule ☞operators:?SubParentConnector   ❙
+  sub_sub_connector   # SUB_SUBMODEL 1 ❙ rule ☞operators:?SubSubmodelConnector ❙
 
-theory Hom(Magma) =
-  struct dom : ?Magma = ||
-  struct cod : ?Magma = ||
+  sub = sub_operator ~> sub_full_connector ~> sub_par_connector ~> sub_sub_connector ❘ # SUB 1 ❙
 
-  h: tm dom/U -> tm cod/U |
-  hom_condition: |- h(a op b) = h(a) op h(b)
-||
+  hom_sub = hom ~> sub ~> hom_img_connector ❘ # HOMSUB 1 ❙
 
-theory Hom(Monoid) =
-  include ?Hom(Magma) // include-preserving
-  ...
-|||
+  quot_operator      # QUOT_OP 1    ❙ rule ☞operators:?QuotOperator         ❙
+  quot_par_connector # QUOT_PAR 1   ❙ rule ☞operators:?QuotParentConnector  ❙
+  quot_mod_connector # QUOT_MOD 1   ❙ rule ☞operators:?QuotModConnector     ❙
+  quot_hom_connector # QUOT_HOM 1   ❙ rule ☞operators:?QuotHomConnector     ❙ // depends on QUOT and HOM ❙
+  quot = quot_operator ~> quot_par_connector ~> quot_mod_connector ❘ # QUOT 1 ❙
 
+  // careful ordering of operators with dependencies ❙
+  universal_algebra = hom_sub ~> quot_operator ~> quot_hom_connector ~> quot ❘ # UNIVALG 1 ❙
+
+  modrel_operator    # MODREL 1 2 3 ❙  rule ☞operators:?ModRelOperator      ❙
+
+  // copy_operator     # COPY 1     ❙ // rule ☞oprscala://modules.api.mmt.kwarc.info?CopyOperator copy_operator ☞latin:/?SFOLEQND ☞latin:/?SFOLEQND ❙
+
+  /T Some diagram operators (e.g. MODREL) take natural numbers as parameters.
+         Only do inclusion here such that the notations above generate OMAs, not ApplySpines❙
+  include ☞ur:?NatLiterals ❙
 ❚
 
-// Operatoren in Mathematik, Modelltheorie ❚
-
-
-theory AlgebraicDiagOps : ur:?DiagramOperators =
-  hom_operator       # HOM_OP       ❙ rule ☞operators:?HomOperator          ❙
-  hom_dom_connector  # HOM_DOM      ❙ rule ☞operators:?HomDomConnector      ❙
-  hom_cod_connector  # HOM_COD      ❙ rule ☞operators:?HomCodConnector      ❙
-  hom_img_connector  # HOM_IMG      ❙ rule ☞operators:?HomImgConnector      ❙
-  hom_all = HOM_OP :+: HOM_DOM :+: HOM_COD ❘ # HOM ❙
-
-  sub_operator       # SUB_OP       ❙ rule ☞operators:?SubOperator          ❙
-  submodel_conector  # SUB_SUBMODEL ❙ rule ☞operators:?SubSubmodelConnector ❙
-  sub_all = SUB_OP :+: SUB_SUBMODEL ❘ # SUB ❙
-
-  hom_sub = HOM :+: SUB :+: HOM_IMG ❘ # HOMSUB ❙
-
-  quot_operator      # QUOT_OP      ❙ rule ☞operators:?QuotOperator         ❙
-  quot_mod_connector # QUOT_MOD     ❙ rule ☞operators:?QuotModConnector     ❙
-  quot_all = QUOT_OP :+: QUOT_MOD ❘ # QUOT ❙
-
-  universal_algebra = HOMSUB :+: QUOT ❘ # UNIVALG ❙
-
-  // copy_operator     # COPY         ❙ // rule ☞oprscala://modules.api.mmt.kwarc.info?CopyOperator copy_operator ☞latin:/?SFOLEQND ☞latin:/?SFOLEQND ❙
+theory StrengthenedSFOL =
+  include ☞latin:/?SFOLEQND ❙
+  include ☞http://gl.mathhub.info/MMT/LFX/Records?LFRecords ❙
 ❚
 
 theory Diagram : ?AlgebraicDiagOps =
-  diagForHom = SDIAG ☞latin:/?SFOLEQND ?Set ?Magma ?OppositeMagma ❙
-  // diagForSub = SDIAG ☞latin:/?SFOLEQND ?Set ?Magma ?Monoid ?Graph ❙
-  diagForSub = SDIAG ☞latin:/?SFOLEQND ?Set ?Pointed ?PointedSet ❙
+  // diagForHom = BDIAG ☞latin:/?SFOLEQND ?Set ! ?Magma ! ?OppositeMagma ❙
+  // diagForSub = BDIAG ☞latin:/?SFOLEQND ?Set ?Magma ?Monoid ?Graph ❙
+  // diagForSub = BDIAG ☞latin:/?SFOLEQND ?Set ?Pointed ?PointedSet ❙
 
   // subOutput = SUB diagForSub ❙
 
-  playDiag = SDIAG ☞latin:/?SFOLEQND ?Set ?Magma ?TertiaryStructure ❙
+  playDiag = BDIAG ☞latin:/?SFOLEQND ! ?Set ! ?Magma ! ?Pointed ! ?PointedSet ! ?TertiaryStructure ❙
 
-  realDiag =
-    SDIAG
+  // realDiag =
+    BDIAG
         ☞latin:/?SFOLEQND
         ☞alg:?Set
         ☞alg:?Magma
@@ -85,12 +74,54 @@ theory Diagram : ?AlgebraicDiagOps =
 ❚
 
 // diagram HomTest : ?AlgebraicDiagOps := QUOT_OP ?Diagram?playDiag ❚
-diagram PlayTest : ?AlgebraicDiagOps := QUOT ?Diagram?playDiag ❚
+diagram PlayTest : ?AlgebraicDiagOps := UNIVALG ?Diagram?playDiag ❚
 
-// ?Set_quot ❚
+// theory Set_hom : latin:/?SFOLEQND  =
+   	U_d
+   		   : tp
+   ❙
+   	U_c
+   		   : tp
+   ❙
+   	U_h
+   		   : tm U_d⟶tm U_c
+   ❙
 
-// diagram Substructures : ?AlgebraicDiagOps := SUB ?Diagram?diagForSub ❚
-// diagram SubmodelConnectors : ?AlgebraicDiagOps := SUB_SUBMODEL ?Diagram?diagForSub ❚
-// diagram both : ?AlgebraicDiagOps := HOM ?Diagram?subOutput ❚
-// diagram CopyMagmas : ?AlgebraicDiagOps := COPY ?Diagram?diagForSub ❚
-// diagram RealTest : ?AlgebraicDiagOps := UNIVALG ?Diagram?realDiag ❚
+   ❚
+
+fixmeta latin:/?SFOLEQND ❚
+
+// theory TrivialSetHom =
+  include ?Set ❙
+
+  realize ?Set_hom ❙
+  U_d = U ❙
+  U_c = U ❙
+  U_h = [x] x ❙
+❚
+
+ // theory Magma_hom : latin:/?SFOLEQND  =
+   	include ☞latin:/algebraic/diagop-test?Set_hom ❙
+   	op_d
+   		   : tm U_d⟶tm U_d⟶tm U_d
+   ❙
+   	op_c
+   		   : tm U_c⟶tm U_c⟶tm U_c
+   ❙
+   	op_h
+   		   : ⊦∀[x_0:tm U_d]∀[x_1:tm U_d](U_h (op_d x_0 x_1))≐(op_c (U_h x_0) (U_h x_1))
+   ❙
+
+   ❚
+
+// theory TrivialMagmaHom =
+  include ?Magma ❙
+  include ?TrivialSetHom ❙
+  include ☞latin:/?InformalProofs ❙
+
+  realize ?Magma_hom ❙
+  op_d = op ❙
+  op_c = op ❙
+  // op_h = sketch "trivial" ❙
+  op_h = forallI ([x_0] forallI ([x_1] refl)) ❙
+❚

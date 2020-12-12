@@ -17,12 +17,6 @@ theory Magma =
   op: tm U ⟶ tm U ⟶ tm U ❘ # 1 ∘ 2 prec 50 ❙
 ❚
 
-theory TertiaryStructure =
-  include ?Set ❙
-  op: tm U ⟶ tm U ⟶ tm U ⟶ tm U ❙
-  pred: tm U ⟶ tm U ⟶ prop ❙
-❚
-
 theory Pointed =
   include ?Set❙
   elem : tm U❙
@@ -42,6 +36,13 @@ theory PointedMagma =
   structure my_point : ?Pointed =
     include ?Set ❙
   ❚
+❚
+
+theory TertiaryStructure =
+  include ?Set ❙
+  op: tm U ⟶ tm U ⟶ tm U ⟶ tm U ❙
+
+  ternary_pred: tm U ⟶ tm U ⟶ tm U ⟶ prop ❙
 ❚
 
 theory Graph =
