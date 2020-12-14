@@ -5,7 +5,7 @@ fixmeta ur:?LF❚
 theory TypedQuotients =
   include ?TypedLogic❙
   include ?TypedEquality❙
-  quotient: {A} (tm A ⟶ tm A ⟶ prop) ⟶ tp❘ # 1 ⧸ 2 prec 30❙
+  quotient: {A} (tm A ⟶ tm A ⟶ prop) ⟶ tp❘ # 1 ⧸ 2 prec 40❙
   class: {A,R} tm A ⟶ tm A⧸R❘# 3 class 2 prec 35❙
   equiv: {A,R,x:tm A,y} ⊦ R x y ⟶ ⊦ x class R ≐ y class R❙ 
   welldefined : {A,R} tm A⧸R ⟶ {B,F:tm A ⟶ tm B} ({x,y} ⊦ R x y ⟶ ⊦ F x ≐ F y) ⟶ tm B❘
@@ -15,8 +15,44 @@ theory TypedQuotients =
 theory SoftTypedQuotients =
   include ?SoftTypedLogic❙
   include ?SoftTypedEquality❙
-  quotient: tp ⟶ (term ⟶ term ⟶ prop) ⟶ tp❘ # 1 ⧸ 2 prec 30❙
+  quotient: tp ⟶ (term ⟶ term ⟶ prop) ⟶ tp❘ # 1 ⧸ 2 prec 40❙
   equiv: {A,R,x,y} ⊦x⦂A ⟶ ⊦y⦂A ⟶ ⊦ R x y ⟶ ⊦ x ≐(A⧸R) y❙ 
   welldefined : {A,R,B,F:term ⟶ term} ({x,y, p:⊦x⦂A, q:⊦x⦂A} ⊦ R x y ⟶ ⊦ F ↑p ≐B F ↑q)
             ⟶ {x,p:⊦x⦂(A⧸R)} ⊦ F ↑p ⦂ B❙ 
+❚
+
+theory InternallyTypedQuotients =
+  include ?InternallyTypedLogic❙
+  include ?UntypedEquality❙
+  /T All declarations in this theory take first arguments
+     [A:term,R:term⟶term⟶prop] where $A$ is the base set and $R$ is relation to quotient $A$ by
+     
+     The theory is intended to be realized in set theory.
+     However, set theory's key conception of a class as a set of equivalent elements
+     is abstracted from and considered an impelmentation detail of set theory
+     (akin to how, e.g., the definition of pairs as Kuratowski pairs is abstracted from).
+     In particular, there are no axioms governing what the elements of a class.
+
+     Contrary to set theory, we do not require that $R$ is an equivalence relation.
+     Instead, we use an additional axiom that makes the kernel of the projection (which is always
+     an equivalence) an extension of $R$.
+     Then, the typing rule of lifting applies to any function whose kernel extends $R$ (and thus extends the equivalence closure of R); that ensures that the kernel of the projection is minimal.
+  ❙
+     
+  /T the quotient❙
+  quotient:    term ⟶ (term ⟶ term ⟶ prop) ⟶ term❘ # 1 ⧸ 2 prec 40❙
+  /T the projection function mapping elements to classes in the quotient❙
+  class:       term ⟶ (term ⟶ term ⟶ prop) ⟶ term ⟶ term❘# 3 class 1 2 prec 35❙
+  /T the lifting function that maps functions out of the base set to a well-defined function out of the quotient❙
+  welldefined: term ⟶ (term ⟶ term ⟶ prop) ⟶ (term ⟶ term) ⟶ term ⟶ term❘# 1 2 wldf 3 4 prec 35❙
+
+  /T related elements have equal classes❙
+  equiv: {A,R,x,y} ⊦ R x y ⟶ ⊦ x class A R ≐ y class A R❙
+  
+  /T the typing rule for the projection: The projection of an element of the base set is in the quotient.❙
+  quotientI: {A,R,x} ⊦ x∈A ⟶ ⊦ x class A R ∈ A⧸R❙
+  /T the typing rule for the lifting: Given [A:term,R:term⟶term⟶prop,B:term,F:term⟶term] if $F$ is a function from $A$ to $B$ that preserves $R$, then its lifting is the function from $A⧸R$ to $B$ defined by $F$.
+  ❙
+  quotientE : {A,R,B,F} ({x}⊦x∈A ⟶ ⊦ F x ∈ B) ⟶ ({x,y} ⊦x∈A ⟶ ⊦y∈A ⟶ ⊦ R x y ⟶ ⊦ F x ≐ F y)
+            ⟶ {x} ⊦x ∈ A⧸R ⟶ ⊦ A R wldf F x ≐ F x❙
 ❚
