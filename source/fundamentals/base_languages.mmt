@@ -1,0 +1,45 @@
+namespace latin:/❚
+
+fixmeta ur:?LF❚
+
+/T This file defines a number of alternative base languages for language features.
+   
+   Typically,
+   - every language extends exactly one of them
+   - every language feature can be defined relative to all or at least multiple of them.
+❚
+
+/T logics without any typing
+   paradigmatic languages: first-order logic❚
+theory UntypedLogic =
+  include ?Logic❙
+  include ?Terms❙
+❚
+
+/T typed logics
+   paradigmatic languages: sorted/typed first-order logic, λ-cube logic❚
+theory TypedLogic =
+  include ?Logic❙
+  include ?TypedTerms❙
+❚
+
+/T logics with flexible type systems
+   paradigmatic languages: mathematics (arguably)❚
+theory SoftTypedLogic =
+  include ?SoftTypedTerms❙
+  include ?Logic❙
+❚         
+
+/T logics whose propositions are terms
+   paradigmatic languages: higher-order logic❚
+theory InternalLogic =
+  include ?InternalPropositions❙
+  include ?Proofs❙
+❚
+
+/T logics whose types are terms
+   paradigmatic languages: set theory❚
+theory InternallyTypedLogic =
+  include ?InternalTypes❙
+  include ?Logic❙
+❚
