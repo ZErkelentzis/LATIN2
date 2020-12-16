@@ -116,15 +116,15 @@ theory MizarPatterns : ?HIDDEN =
 
 theory patternTests : ☞latin:/?MizarPatterns =
 	/T This structure is from struct_0 ❙
-	mizarStructure oneSorted(:) ❘ =
+	mizarStructure oneSorted() ❘ =
 		carrier: tp ❙
 	❚
 
 	/T The following example is from algstr_0 ❙
 	binOp: {t: tp} tp ❙
-	/T Unfortunatley still doesn't typecheck yet ❙
-	/T mizarStructure addMagma(:oneSorted) ❘ = 
-	/T	carrier: tp ❙
-	/T	addF: binOp carrier ❙
-	/T ❚
+	mizarStructure addMagma() ❘ = 
+		include ?patternTests/oneSorted ❙
+		carrier: tp ❙
+		addF: tp ❘ = binOp carrier ❙
+	❚
 ❚
