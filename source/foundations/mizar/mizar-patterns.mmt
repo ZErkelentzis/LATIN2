@@ -1,8 +1,8 @@
 namespace latin:/ ❚
 
-theory MizarPatterns : ur:?LFS =
-  include ?Mizar ❙
-	include ?HIDDEN ❙
+import rules scala://mmtwrapper.newxml.mizar.mmt.kwarc.info ❚
+
+theory MizarPatterns : ?HIDDEN =
 	pattern directPartFuncDef(n:NAT, argTps:(term^n ⟶ tp)^n, ret:tp, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ term)^m, defRes: term^n ⟶ term) ❘ =
     funct: term^n ⟶ term❙
 		rtype: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ funct x ⦂ ret ❙
@@ -53,7 +53,7 @@ theory MizarPatterns : ur:?LFS =
 	    cases:(term^n ⟶ prop)^m,
 			caseRes:(term^(succ n) ⟶ prop)^m,
 			defRes: term^(succ n) ⟶ prop) ❘ =
-    attribute: term^n ⟶ term ⟶ prop❙
+    attribute: {x: term^n} attr (motherTp x) ❙
 		mtype: {x:term^n, p: ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩} ⊦ 
 		   forall [y] y ⦂ adjective (motherTp x) (attribute x) ⇒ y ⦂ motherTp x ❙
 		means: {x:term^n, p: ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩} ⊦ 
@@ -111,9 +111,20 @@ theory MizarPatterns : ur:?LFS =
 	pattern attrRegistration(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, t:term^n ⟶ tp, a: (dep_typed_attr n t)^m) ❘ =
   	registration: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ ∃ [y] (y ⦂ (a @ t)) ❙
   ❚
-	
+	rule rules?MizarStructure ❙
 ❚
 
 theory patternTests : ☞latin:/?MizarPatterns =
-  
+	/T This structure is from struct_0 ❙
+	mizarStructure oneSorted(:) ❘ =
+		carrier: tp ❙
+	❚
+
+	/T The following example is from algstr_0 ❙
+	binOp: {t: tp} tp ❙
+	/T Unfortunatley still doesn't typecheck yet ❙
+	/T mizarStructure addMagma(:oneSorted) ❘ = 
+	/T	carrier: tp ❙
+	/T	addF: binOp carrier ❙
+	/T ❚
 ❚
