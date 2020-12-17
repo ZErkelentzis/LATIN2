@@ -1,0 +1,48 @@
+namespace latin:/❚
+
+fixmeta ?SetFOL❚
+
+theory EmptySetDefinitions =
+  isempty : set ⟶ prop❘ = [X] ¬∃[x]x∈X❙
+  nonempty: set ⟶ prop❘ = [X] ∃[x]x∈X❙
+  isemptyE : {X,x} ⊦ isempty X ⟶ ⊦ x∈X ⟶ ↯❘ # isemptyE 3 4❘
+           = [X,x,p,q] p notE (existsI x q)❙
+  nonemptyE: {X,C} ⊦ nonempty X ⟶ ({x} ⊦x∈X ⟶ ⊦C) ⟶ ⊦C❘
+           = [X,C,ne,P] ne existsE [x,p] P x p❙
+❚
+
+theory BigUnionDefinition =
+	isbigunion = [M,Z] ∀[x]∀[X](X∈M ⇒ x∈X ⇒ x∈Z)❙
+❚
+
+theory ChoiceDefinition =
+	ischoice = [M,C] ∀[X] X∈M ⇒ ∃¹[c]c∈C∧c∈X❙
+❚
+
+theory ComprehensionDefinition =
+	iscomprehension = [X,P,Z] ∀[a](a∈X ∧ (P a)) ⇔ a∈Z❙
+❚
+
+theory ExtensionalityDefinition =
+	isextensional = [X,Y]∀[z] (z∈X ⇔ z∈Y) ⇒ X≐Y❙
+❚
+
+theory PowerSetDefinition =
+	ispowerset = [X,M] ∀[Z]((∀[t](t ∈ Z ⇒ t ∈ X)) ⇒ Z ∈ M)❙
+❚
+
+theory ReplacementDefinition =
+	isreplacement = [X,F,Z] ∀[a] a∈Z ⇔ (∃[x] x∈X ∧ a≐(F x))❙
+❚
+
+theory SingletonDefinition =
+  issingleton : set ⟶ prop❘ = [X] ∃¹[x] x∈X❙
+❚
+
+theory UnionDefinition =
+	isunion = [X,Y,Z] (∀[a](a ∈ X ∨ a ∈ Y) ⇒ a ∈ Z)❙
+❚
+
+theory UnorderedPairDefinition =
+	isuopair = [X,Y,M] ∀[Z]Z∈M ⇔ (Z≐X ∨ Z≐Y)❙
+❚
