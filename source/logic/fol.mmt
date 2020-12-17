@@ -57,7 +57,7 @@ theory IFOLND =
 
 theory IFOLEQ =
   include ?IPL❙
-  include ?Equality❙
+  include ?UntypedEquality❙
   include ?UniversalQuantification❙
   include ?ExistentialQuantification❙
 ❚
@@ -65,7 +65,7 @@ theory IFOLEQ =
 theory IFOLEQND =
   include ?IFOLEQ❙
   include ?IPLND❙
-  include ?EqualityND❙
+  include ?UntypedEqualityND❙
   include ?UniversalQuantificationND❙
   include ?ExistentialQuantificationND❙
 ❚
@@ -120,7 +120,7 @@ theory RelativizedExistentialQuantificationND =
 
 theory UniqueExistentialQuantification =
   include ?ExistentialQuantification❙
-  include ?Equality❙
+  include ?UntypedEquality❙
   existsUnique  : (term ⟶ prop) ⟶ prop❘# ∃¹ 1❙  
  ❚
 
