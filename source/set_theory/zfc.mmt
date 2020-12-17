@@ -38,6 +38,7 @@ theory ZFBigUnion =
 	bigunion_axiom : {M} ⊦ ∃[Z] isbigunion M Z❙
 	bigunion_unique : {M} ⊦ ∃¹[Z] isbigunion M Z❘ // = _ ❙
 	
+	include ?Subsets❙
 	realize ?BigUnion❙
 	
 	bigunion : set ⟶ set❘# ⋃ 1❘

@@ -83,13 +83,13 @@ theory FOLND =
 
 theory FOLEQ =
   include ?FOL❙
-  include ?Equality❙
+  include ?UntypedEquality❙
 ❚
 
 theory FOLEQND =
   include ?FOLEQ❙
   include ?FOLND❙
-  include ?EqualityND❙
+  include ?UntypedEqualityND❙
 ❚
 
 theory RelativizedUniversalQuantification =

@@ -30,7 +30,10 @@ theory UnionAsBigUnion =
   unionIl = [X,Y,x,p] bigunionI uopairIl p❙
   unionIr = [X,Y,y,p] bigunionI uopairIr p❙
   // AS: how to handle U?❙
-  unionE = [X,Y,x,C,p,f,g] p bigunionE ({U} [q: ⊦ U∈ uopair X Y,r] uopairE q orE ([s] f (s congP ([V] x∈V) r)) ([s] g (s congP ([V] x∈V) r)))❙
+  unionE = [X,Y,x,C,p,f,g] p bigunionE ([U,q: ⊦ U∈ uopair X Y, r] uopairE q 
+    ([s] f (in_eq r (eq/sym s))) 
+    ([s] g (in_eq r (eq/sym s)))
+  )❙
 ❚
 
 theory BigIntersectionAsComprehension =
@@ -56,7 +59,10 @@ theory IntersectionAsBigIntersection =
 	
 	inter = [X,Y] ⋂ uopair X Y❙
 	// AS: this is wrong❙
-	interI = [X,Y,x,p,q] biginterI (existsI X uopairIl) ([U,r: ⊦ U ∈ uopair X Y] (uopairE r) orE ([s] sym U X s congP ([V] x∈V) p) ([s] sym U X s congP ([V] x∈V) q))❙
+	interI = [X,Y,x,p,q] biginterI (existsI X uopairIl) [U,r: ⊦ U ∈ uopair X Y] (uopairE r
+	  ([s] (eq/sym s) congP ([V] x∈V) p)
+	  ([s] (eq/sym s) congP ([V] x∈V) q)
+	)❙
 	interEl = [X,Y,x,p] p biginterE uopairIl❙
 	interEr = [X,Y,y,p] p biginterE uopairIr❙
 ❚

@@ -20,7 +20,7 @@ theory UnorderedPairs =
   uopair : set ⟶ set ⟶ set❘ # uopair 1 2 prec 40❙
   uopairIl : {X,Y} ⊦ X ∈ uopair X Y❙
   uopairIr : {X,Y} ⊦ Y ∈ uopair X Y❙
-  uopairE  : {U,X,Y} ⊦ U ∈ uopair X Y ⟶ ⊦ U≐X ∨ U≐Y❙
+  uopairE  : {U,X,Y,C} ⊦ U ∈ uopair X Y ⟶ (⊦ U≐X ⟶ ⊦C) ⟶ (⊦ U≐Y ⟶ ⊦C) ⟶ ⊦C❙
   
   uopair_comm : {X,Y} ⊦ uopair X Y ≐ uopair Y X❙
 ❚
@@ -63,8 +63,8 @@ theory Replacement =
 
 theory BigUnion =
   bigunion : set ⟶ set❘ # ⋃ 1 prec 45❙
-  bigunionI : {M,X,x} ⊦ X∈M ⟶ ⊦ x∈X ⟶ ⊦ x ∈ ⋃M❙
-  bigunionE : {M,X,x,C} ⊦ x ∈ ⋃M ⟶ (⊦ X∈M ⟶ ⊦ x∈X ⟶ ⊦ C) ⟶ ⊦ C❘ # 5 bigunionE 6❙
+  bigunionI : {M,X,x} ⊦ X∈M ⟶ ⊦ x∈X ⟶ ⊦ x∈ ⋃M❙
+  bigunionE : {M,x,C} ⊦ x∈⋃M ⟶ ({X}⊦X∈M ⟶ ⊦ x∈X ⟶ ⊦C) ⟶ ⊦C❘ # 4 bigunionE 5❙
   
   include ?Subsets❙
   bigunion_subset : {M,X} ⊦ X∈M ⟶ ⊦ X ⪽ ⋃M❙ 

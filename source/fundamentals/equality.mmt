@@ -8,7 +8,7 @@ theory UntypedEquality =
 ❚
 
 theory UntypedEqualityND =
-  include ?Equality❙
+  include ?UntypedEquality❙
   refl  : {x} ⊦ x ≐ x❘# refl %I1❙
   congP : {x,y} ⊦ x ≐ y ⟶ {P: term ⟶ prop} ⊦ P x ⟶ ⊦ P y❘# 3 congP 4 5❙
   
