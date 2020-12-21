@@ -2,8 +2,12 @@ namespace latin:/❚
 
 fixmeta ?TypedEqualityND❚
 
-theory Category =
+theory Class =
   obj: type❙
+❚
+
+theory Category =
+  include ?Class❙
 
   hom: obj ⟶ obj ⟶ tp❙
   Hom: obj ⟶ obj ⟶ type❘= [a,b] tm (hom a b)❙
@@ -15,3 +19,13 @@ theory Category =
   assoc: {a,b,c,d, f:Hom a b, g:Hom b c, h:Hom c d} ⊦ f;(g;h) ≐ (f;g);h❙ 
 ❚
 
+theory SmallClass =
+  sobj: tp❙
+  realize ?Class❙
+  obj = tm sobj❙ 
+❚
+
+theory SmallCategory =
+  include ?SmallClass❙
+  include ?Category❙
+❚
