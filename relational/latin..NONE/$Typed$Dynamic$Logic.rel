@@ -11,17 +11,17 @@ constant latin:/?TypedDynamicLogic?var
 DependsOn latin:/?TypedDynamicLogic?var?type latin:/?Types?tp?type
 Declares latin:/?TypedDynamicLogic latin:/?TypedDynamicLogic?retrieve
 constant latin:/?TypedDynamicLogic?retrieve
-DependsOn latin:/?TypedDynamicLogic?retrieve?type latin:/?TypedDynamicLogic?var?type
 DependsOn latin:/?TypedDynamicLogic?retrieve?type latin:/?TypedTerms?tm?type
 DependsOn latin:/?TypedDynamicLogic?retrieve?type latin:/?Types?tp?type
+DependsOn latin:/?TypedDynamicLogic?retrieve?type latin:/?TypedDynamicLogic?var?type
 Declares latin:/?TypedDynamicLogic latin:/?TypedDynamicLogic?assign
 constant latin:/?TypedDynamicLogic?assign
-DependsOn latin:/?TypedDynamicLogic?assign?type latin:/?TypedDynamicLogic?var?type
 DependsOn latin:/?TypedDynamicLogic?assign?type latin:/?TypedTerms?tm?type
 DependsOn latin:/?TypedDynamicLogic?assign?type latin:/?Programs?prog?type
 DependsOn latin:/?TypedDynamicLogic?assign?type latin:/?Types?tp?type
+DependsOn latin:/?TypedDynamicLogic?assign?type latin:/?TypedDynamicLogic?var?type
 Declares latin:/?TypedDynamicLogic latin:/?TypedDynamicLogic?random_assign
 constant latin:/?TypedDynamicLogic?random_assign
-DependsOn latin:/?TypedDynamicLogic?random_assign?type latin:/?TypedDynamicLogic?var?type
 DependsOn latin:/?TypedDynamicLogic?random_assign?type latin:/?Programs?prog?type
 DependsOn latin:/?TypedDynamicLogic?random_assign?type latin:/?Types?tp?type
+DependsOn latin:/?TypedDynamicLogic?random_assign?type latin:/?TypedDynamicLogic?var?type

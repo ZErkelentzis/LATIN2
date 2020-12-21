@@ -6,8 +6,8 @@ HasViewFrom latin:/kripkemodels?Worlds latin:/?Logic
 Includes latin:/kripkemodels?LogicSemantics latin:/?Propositions
 Declares latin:/kripkemodels?LogicSemantics latin:/kripkemodels?LogicSemantics?[latin:/?Proofs]/ded
 constant latin:/kripkemodels?LogicSemantics?[latin:/?Proofs]/ded
-DependsOn latin:/kripkemodels?LogicSemantics?[latin:/?Proofs]/ded?definition latin:/kripkemodels?Worlds?world?type
 DependsOn latin:/kripkemodels?LogicSemantics?[latin:/?Proofs]/ded?definition latin:/?TypedTerms?tm?type
 DependsOn latin:/kripkemodels?LogicSemantics?[latin:/?Proofs]/ded?definition latin:/?Propositions?prop?type
-DependsOn latin:/kripkemodels?LogicSemantics?[latin:/?Proofs]/ded?definition latin:/?Types?tp?type
+DependsOn latin:/kripkemodels?LogicSemantics?[latin:/?Proofs]/ded?definition latin:/kripkemodels?Worlds?world?type
 DependsOn latin:/kripkemodels?LogicSemantics?[latin:/?Proofs]/ded?definition latin:/?Proofs?ded?type
+DependsOn latin:/kripkemodels?LogicSemantics?[latin:/?Proofs]/ded?definition latin:/?Types?tp?type

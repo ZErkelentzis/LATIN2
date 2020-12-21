@@ -9,6 +9,6 @@ constant latin:/kripkemodels?TermSemantics?[latin:/?Types]/tp
 DependsOn latin:/kripkemodels?TermSemantics?[latin:/?Types]/tp?definition latin:/?Types?tp?type
 Declares latin:/kripkemodels?TermSemantics latin:/kripkemodels?TermSemantics?[latin:/?TypedTerms]/tm
 constant latin:/kripkemodels?TermSemantics?[latin:/?TypedTerms]/tm
-DependsOn latin:/kripkemodels?TermSemantics?[latin:/?TypedTerms]/tm?definition latin:/kripkemodels?Worlds?world?type
 DependsOn latin:/kripkemodels?TermSemantics?[latin:/?TypedTerms]/tm?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/kripkemodels?TermSemantics?[latin:/?TypedTerms]/tm?definition latin:/kripkemodels?Worlds?world?type
 DependsOn latin:/kripkemodels?TermSemantics?[latin:/?TypedTerms]/tm?definition latin:/?Types?tp?type

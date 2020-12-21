@@ -6,6 +6,6 @@ HasViewFrom latin:/?ImplicationFalsity latin:/?Negation
 Includes latin:/?NegImplFalsity latin:/?Propositions
 Declares latin:/?NegImplFalsity latin:/?NegImplFalsity?[latin:/?Negation]/not
 constant latin:/?NegImplFalsity?[latin:/?Negation]/not
-DependsOn latin:/?NegImplFalsity?[latin:/?Negation]/not?definition latin:/?Falsity?false?type
 DependsOn latin:/?NegImplFalsity?[latin:/?Negation]/not?definition latin:/?Propositions?prop?type
+DependsOn latin:/?NegImplFalsity?[latin:/?Negation]/not?definition latin:/?Falsity?false?type
 DependsOn latin:/?NegImplFalsity?[latin:/?Negation]/not?definition latin:/?Implication?impl?type

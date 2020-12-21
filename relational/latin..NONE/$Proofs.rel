@@ -16,6 +16,6 @@ constant latin:/?Proofs?inconsistentE
 DependsOn latin:/?Proofs?inconsistentE?type latin:/?Propositions?prop?type
 DependsOn latin:/?Proofs?inconsistentE?type latin:/?Proofs?inconsistent?type
 DependsOn latin:/?Proofs?inconsistentE?type latin:/?Proofs?ded?type
-DependsOn latin:/?Proofs?inconsistentE?definition latin:/?Propositions?prop?type
 DependsOn latin:/?Proofs?inconsistentE?definition latin:/?Proofs?inconsistent?definition
+DependsOn latin:/?Proofs?inconsistentE?definition latin:/?Propositions?prop?type
 DependsOn latin:/?Proofs?inconsistentE?definition latin:/?Proofs?ded?type

@@ -5,6 +5,6 @@ Includes latin:/?NegationHilbert latin:/?ImplicationHilbert
 Declares latin:/?NegationHilbert latin:/?NegationHilbert?notI_ax
 constant latin:/?NegationHilbert?notI_ax
 DependsOn latin:/?NegationHilbert?notI_ax?type latin:/?Propositions?prop?type
+DependsOn latin:/?NegationHilbert?notI_ax?type latin:/?Proofs?ded?type
 DependsOn latin:/?NegationHilbert?notI_ax?type latin:/?Negation?not?type
 DependsOn latin:/?NegationHilbert?notI_ax?type latin:/?Implication?impl?type
-DependsOn latin:/?NegationHilbert?notI_ax?type latin:/?Proofs?ded?type

@@ -5,5 +5,5 @@ Includes latin:/?UndefinedSoftTypedTerms latin:/?SoftTypedTerms
 Declares latin:/?UndefinedSoftTypedTerms latin:/?UndefinedSoftTypedTerms?defined
 constant latin:/?UndefinedSoftTypedTerms?defined
 DependsOn latin:/?UndefinedSoftTypedTerms?defined?type latin:/?Propositions?prop?type
-DependsOn latin:/?UndefinedSoftTypedTerms?defined?type latin:/?Types?tp?type
 DependsOn latin:/?UndefinedSoftTypedTerms?defined?type latin:/?Terms?term?type
+DependsOn latin:/?UndefinedSoftTypedTerms?defined?type latin:/?Types?tp?type

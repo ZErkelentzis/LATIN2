@@ -1,5 +1,5 @@
 theory latin:/?ProofIrrelevance
 HasMeta latin:/?ProofIrrelevance http://cds.omdoc.org/urtheories?LF
 Includes latin:/?ProofIrrelevance latin:/?Logic
-Declares latin:/?ProofIrrelevance latin:/?ProofIrrelevance?[scala://lf.mmt.kwarc.info?TermIrrelevanceRule]/-1779917007
-constant latin:/?ProofIrrelevance?[scala://lf.mmt.kwarc.info?TermIrrelevanceRule]/-1779917007
+Declares latin:/?ProofIrrelevance latin:/?ProofIrrelevance?[scala://lf.mmt.kwarc.info?TermIrrelevanceRule]/-1559719470
+constant latin:/?ProofIrrelevance?[scala://lf.mmt.kwarc.info?TermIrrelevanceRule]/-1559719470

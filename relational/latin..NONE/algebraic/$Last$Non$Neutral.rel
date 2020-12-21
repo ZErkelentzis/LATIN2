@@ -4,15 +4,15 @@ HasMeta latin:/algebraic?LastNonNeutral latin:/?SFOLEQND
 Includes latin:/algebraic?LastNonNeutral latin:/algebraic?Unital
 Declares latin:/algebraic?LastNonNeutral latin:/algebraic?LastNonNeutral?lastNonNeutral
 constant latin:/algebraic?LastNonNeutral?lastNonNeutral
-DependsOn latin:/algebraic?LastNonNeutral?lastNonNeutral?type latin:/algebraic?Magma?op?type
-DependsOn latin:/algebraic?LastNonNeutral?lastNonNeutral?type latin:/?SFOLEQ?notequal?type
-DependsOn latin:/algebraic?LastNonNeutral?lastNonNeutral?type latin:/?Propositions?prop?type
 DependsOn latin:/algebraic?LastNonNeutral?lastNonNeutral?type latin:/?TypedTerms?tm?type
+DependsOn latin:/algebraic?LastNonNeutral?lastNonNeutral?type latin:/?Propositions?prop?type
 DependsOn latin:/algebraic?LastNonNeutral?lastNonNeutral?type latin:/?TypedEquality?equal?type
-DependsOn latin:/algebraic?LastNonNeutral?lastNonNeutral?type latin:/algebraic?Set?U?type
 DependsOn latin:/algebraic?LastNonNeutral?lastNonNeutral?type latin:/?TypedUniversalQuantification?forall?type
-DependsOn latin:/algebraic?LastNonNeutral?lastNonNeutral?type latin:/?Implication?impl?type
 DependsOn latin:/algebraic?LastNonNeutral?lastNonNeutral?type latin:/algebraic?Set?universe?type
-DependsOn latin:/algebraic?LastNonNeutral?lastNonNeutral?type latin:/algebraic?UnitElement?unitelem/elem?type
-DependsOn latin:/algebraic?LastNonNeutral?lastNonNeutral?type latin:/?Types?tp?type
+DependsOn latin:/algebraic?LastNonNeutral?lastNonNeutral?type latin:/?Implication?impl?type
+DependsOn latin:/algebraic?LastNonNeutral?lastNonNeutral?type latin:/algebraic?Set?U?type
+DependsOn latin:/algebraic?LastNonNeutral?lastNonNeutral?type latin:/algebraic?Magma?op?type
 DependsOn latin:/algebraic?LastNonNeutral?lastNonNeutral?type latin:/?Proofs?ded?type
+DependsOn latin:/algebraic?LastNonNeutral?lastNonNeutral?type latin:/?SFOLEQ?notequal?type
+DependsOn latin:/algebraic?LastNonNeutral?lastNonNeutral?type latin:/?Types?tp?type
+DependsOn latin:/algebraic?LastNonNeutral?lastNonNeutral?type latin:/algebraic?UnitElement?unitelem/elem?type

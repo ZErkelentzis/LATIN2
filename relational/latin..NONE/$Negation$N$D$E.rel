@@ -7,5 +7,5 @@ Declares latin:/?NegationNDE latin:/?NegationNDE?notE
 constant latin:/?NegationNDE?notE
 DependsOn latin:/?NegationNDE?notE?type latin:/?Propositions?prop?type
 DependsOn latin:/?NegationNDE?notE?type latin:/?Proofs?inconsistent?type
-DependsOn latin:/?NegationNDE?notE?type latin:/?Negation?not?type
 DependsOn latin:/?NegationNDE?notE?type latin:/?Proofs?ded?type
+DependsOn latin:/?NegationNDE?notE?type latin:/?Negation?not?type

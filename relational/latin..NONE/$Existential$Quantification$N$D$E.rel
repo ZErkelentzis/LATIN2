@@ -6,5 +6,5 @@ Declares latin:/?ExistentialQuantificationNDE latin:/?ExistentialQuantificationN
 constant latin:/?ExistentialQuantificationNDE?existsE
 DependsOn latin:/?ExistentialQuantificationNDE?existsE?type latin:/?Propositions?prop?type
 DependsOn latin:/?ExistentialQuantificationNDE?existsE?type latin:/?ExistentialQuantification?exists?type
-DependsOn latin:/?ExistentialQuantificationNDE?existsE?type latin:/?Terms?term?type
 DependsOn latin:/?ExistentialQuantificationNDE?existsE?type latin:/?Proofs?ded?type
+DependsOn latin:/?ExistentialQuantificationNDE?existsE?type latin:/?Terms?term?type

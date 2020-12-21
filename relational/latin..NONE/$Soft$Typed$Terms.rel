@@ -7,5 +7,5 @@ Includes latin:/?SoftTypedTerms latin:/?Propositions
 Declares latin:/?SoftTypedTerms latin:/?SoftTypedTerms?of
 constant latin:/?SoftTypedTerms?of
 DependsOn latin:/?SoftTypedTerms?of?type latin:/?Propositions?prop?type
-DependsOn latin:/?SoftTypedTerms?of?type latin:/?Types?tp?type
 DependsOn latin:/?SoftTypedTerms?of?type latin:/?Terms?term?type
+DependsOn latin:/?SoftTypedTerms?of?type latin:/?Types?tp?type

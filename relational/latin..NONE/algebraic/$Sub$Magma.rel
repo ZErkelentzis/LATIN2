@@ -52,14 +52,14 @@ Declares latin:/algebraic?SubMagma latin:/algebraic?SubMagma?parent/divisibility
 constant latin:/algebraic?SubMagma?parent/divisibility/metarel/rel
 Declares latin:/algebraic?SubMagma latin:/algebraic?SubMagma?op
 constant latin:/algebraic?SubMagma?op
-DependsOn latin:/algebraic?SubMagma?op?type latin:/algebraic?SubMagma?parent/op?type
-DependsOn latin:/algebraic?SubMagma?op?type latin:/?Propositions?prop?type
-DependsOn latin:/algebraic?SubMagma?op?type latin:/algebraic?SubSet?parent/U?type
-DependsOn latin:/algebraic?SubMagma?op?type latin:/?TypedTerms?tm?type
-DependsOn latin:/algebraic?SubMagma?op?type latin:/algebraic?SubSet?universe?type
-DependsOn latin:/algebraic?SubMagma?op?type latin:/algebraic?SubSet?parent/U?definition
-DependsOn latin:/algebraic?SubMagma?op?type latin:/?TypedUniversalQuantification?forall?type
-DependsOn latin:/algebraic?SubMagma?op?type latin:/?Implication?impl?type
 DependsOn latin:/algebraic?SubMagma?op?type latin:/algebraic?SubSet?parent/universe?type
-DependsOn latin:/algebraic?SubMagma?op?type latin:/?Types?tp?type
+DependsOn latin:/algebraic?SubMagma?op?type latin:/?TypedTerms?tm?type
+DependsOn latin:/algebraic?SubMagma?op?type latin:/?Propositions?prop?type
+DependsOn latin:/algebraic?SubMagma?op?type latin:/algebraic?SubSet?universe?type
+DependsOn latin:/algebraic?SubMagma?op?type latin:/algebraic?SubSet?parent/U?type
 DependsOn latin:/algebraic?SubMagma?op?type latin:/?Proofs?ded?type
+DependsOn latin:/algebraic?SubMagma?op?type latin:/?TypedUniversalQuantification?forall?type
+DependsOn latin:/algebraic?SubMagma?op?type latin:/algebraic?SubMagma?parent/op?type
+DependsOn latin:/algebraic?SubMagma?op?type latin:/?Types?tp?type
+DependsOn latin:/algebraic?SubMagma?op?type latin:/?Implication?impl?type
+DependsOn latin:/algebraic?SubMagma?op?type latin:/algebraic?SubSet?parent/U?definition

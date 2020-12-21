@@ -9,5 +9,5 @@ DependsOn latin:/?SimpleFunctionTypes?simpfun?type latin:/?Types?tp?type
 Declares latin:/?SimpleFunctionTypes latin:/?SimpleFunctionTypes?test
 constant latin:/?SimpleFunctionTypes?test
 DependsOn latin:/?SimpleFunctionTypes?test?type latin:/?Types?tp?type
-DependsOn latin:/?SimpleFunctionTypes?test?definition latin:/?Types?tp?type
 DependsOn latin:/?SimpleFunctionTypes?test?definition latin:/?SimpleFunctionTypes?simpfun?type
+DependsOn latin:/?SimpleFunctionTypes?test?definition latin:/?Types?tp?type

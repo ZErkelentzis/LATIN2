@@ -7,14 +7,14 @@ Includes latin:/?ExistentialQuantificationTab latin:/?Tableaux
 Declares latin:/?ExistentialQuantificationTab latin:/?ExistentialQuantificationTab?existsT
 constant latin:/?ExistentialQuantificationTab?existsT
 DependsOn latin:/?ExistentialQuantificationTab?existsT?type latin:/?Propositions?prop?type
-DependsOn latin:/?ExistentialQuantificationTab?existsT?type latin:/?ExistentialQuantification?exists?type
-DependsOn latin:/?ExistentialQuantificationTab?existsT?type latin:/?Tableaux?closedbranch?type
 DependsOn latin:/?ExistentialQuantificationTab?existsT?type latin:/?Tableaux?marktrue?type
+DependsOn latin:/?ExistentialQuantificationTab?existsT?type latin:/?ExistentialQuantification?exists?type
 DependsOn latin:/?ExistentialQuantificationTab?existsT?type latin:/?Terms?term?type
+DependsOn latin:/?ExistentialQuantificationTab?existsT?type latin:/?Tableaux?closedbranch?type
 Declares latin:/?ExistentialQuantificationTab latin:/?ExistentialQuantificationTab?existsF
 constant latin:/?ExistentialQuantificationTab?existsF
 DependsOn latin:/?ExistentialQuantificationTab?existsF?type latin:/?Propositions?prop?type
 DependsOn latin:/?ExistentialQuantificationTab?existsF?type latin:/?ExistentialQuantification?exists?type
+DependsOn latin:/?ExistentialQuantificationTab?existsF?type latin:/?Terms?term?type
 DependsOn latin:/?ExistentialQuantificationTab?existsF?type latin:/?Tableaux?markfalse?type
 DependsOn latin:/?ExistentialQuantificationTab?existsF?type latin:/?Tableaux?closedbranch?type
-DependsOn latin:/?ExistentialQuantificationTab?existsF?type latin:/?Terms?term?type

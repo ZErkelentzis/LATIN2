@@ -4,5 +4,5 @@ HasMeta latin:/?Congruence http://cds.omdoc.org/urtheories?PLF
 Includes latin:/?Congruence latin:/?Relation
 Declares latin:/?Congruence latin:/?Congruence?congT
 constant latin:/?Congruence?congT
-DependsOn latin:/?Congruence?congT?type latin:/?Relation?rel?type
 DependsOn latin:/?Congruence?congT?type latin:/?OneTyped?carrier?type
+DependsOn latin:/?Congruence?congT?type latin:/?Relation?rel?type

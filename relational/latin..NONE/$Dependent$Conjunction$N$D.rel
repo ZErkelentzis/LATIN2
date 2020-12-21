@@ -6,17 +6,17 @@ HasMeta latin:/?DependentConjunctionND http://cds.omdoc.org/urtheories?LF
 Includes latin:/?DependentConjunctionND latin:/?DependentConjunction
 Declares latin:/?DependentConjunctionND latin:/?DependentConjunctionND?dandI
 constant latin:/?DependentConjunctionND?dandI
-DependsOn latin:/?DependentConjunctionND?dandI?type latin:/?DependentConjunction?dand?type
 DependsOn latin:/?DependentConjunctionND?dandI?type latin:/?Propositions?prop?type
 DependsOn latin:/?DependentConjunctionND?dandI?type latin:/?Proofs?ded?type
+DependsOn latin:/?DependentConjunctionND?dandI?type latin:/?DependentConjunction?dand?type
 Declares latin:/?DependentConjunctionND latin:/?DependentConjunctionND?dandEl
 constant latin:/?DependentConjunctionND?dandEl
-DependsOn latin:/?DependentConjunctionND?dandEl?type latin:/?DependentConjunction?dand?type
 DependsOn latin:/?DependentConjunctionND?dandEl?type latin:/?Propositions?prop?type
 DependsOn latin:/?DependentConjunctionND?dandEl?type latin:/?Proofs?ded?type
+DependsOn latin:/?DependentConjunctionND?dandEl?type latin:/?DependentConjunction?dand?type
 Declares latin:/?DependentConjunctionND latin:/?DependentConjunctionND?dandEr
 constant latin:/?DependentConjunctionND?dandEr
-DependsOn latin:/?DependentConjunctionND?dandEr?type latin:/?DependentConjunction?dand?type
 DependsOn latin:/?DependentConjunctionND?dandEr?type latin:/?Propositions?prop?type
 DependsOn latin:/?DependentConjunctionND?dandEr?type latin:/?DependentConjunctionND?dandEl?type
 DependsOn latin:/?DependentConjunctionND?dandEr?type latin:/?Proofs?ded?type
+DependsOn latin:/?DependentConjunctionND?dandEr?type latin:/?DependentConjunction?dand?type

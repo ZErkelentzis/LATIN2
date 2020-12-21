@@ -7,10 +7,10 @@ Includes latin:/?DisjunctionNDI latin:/?Proofs
 Declares latin:/?DisjunctionNDI latin:/?DisjunctionNDI?orIl
 constant latin:/?DisjunctionNDI?orIl
 DependsOn latin:/?DisjunctionNDI?orIl?type latin:/?Propositions?prop?type
-DependsOn latin:/?DisjunctionNDI?orIl?type latin:/?Disjunction?or?type
 DependsOn latin:/?DisjunctionNDI?orIl?type latin:/?Proofs?ded?type
+DependsOn latin:/?DisjunctionNDI?orIl?type latin:/?Disjunction?or?type
 Declares latin:/?DisjunctionNDI latin:/?DisjunctionNDI?orIr
 constant latin:/?DisjunctionNDI?orIr
 DependsOn latin:/?DisjunctionNDI?orIr?type latin:/?Propositions?prop?type
-DependsOn latin:/?DisjunctionNDI?orIr?type latin:/?Disjunction?or?type
 DependsOn latin:/?DisjunctionNDI?orIr?type latin:/?Proofs?ded?type
+DependsOn latin:/?DisjunctionNDI?orIr?type latin:/?Disjunction?or?type

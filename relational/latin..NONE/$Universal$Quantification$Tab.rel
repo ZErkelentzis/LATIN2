@@ -7,14 +7,14 @@ Includes latin:/?UniversalQuantificationTab latin:/?Tableaux
 Declares latin:/?UniversalQuantificationTab latin:/?UniversalQuantificationTab?forallT
 constant latin:/?UniversalQuantificationTab?forallT
 DependsOn latin:/?UniversalQuantificationTab?forallT?type latin:/?Propositions?prop?type
-DependsOn latin:/?UniversalQuantificationTab?forallT?type latin:/?UniversalQuantification?forall?type
-DependsOn latin:/?UniversalQuantificationTab?forallT?type latin:/?Tableaux?closedbranch?type
 DependsOn latin:/?UniversalQuantificationTab?forallT?type latin:/?Tableaux?marktrue?type
 DependsOn latin:/?UniversalQuantificationTab?forallT?type latin:/?Terms?term?type
+DependsOn latin:/?UniversalQuantificationTab?forallT?type latin:/?Tableaux?closedbranch?type
+DependsOn latin:/?UniversalQuantificationTab?forallT?type latin:/?UniversalQuantification?forall?type
 Declares latin:/?UniversalQuantificationTab latin:/?UniversalQuantificationTab?forallF
 constant latin:/?UniversalQuantificationTab?forallF
 DependsOn latin:/?UniversalQuantificationTab?forallF?type latin:/?Propositions?prop?type
-DependsOn latin:/?UniversalQuantificationTab?forallF?type latin:/?UniversalQuantification?forall?type
+DependsOn latin:/?UniversalQuantificationTab?forallF?type latin:/?Terms?term?type
 DependsOn latin:/?UniversalQuantificationTab?forallF?type latin:/?Tableaux?markfalse?type
 DependsOn latin:/?UniversalQuantificationTab?forallF?type latin:/?Tableaux?closedbranch?type
-DependsOn latin:/?UniversalQuantificationTab?forallF?type latin:/?Terms?term?type
+DependsOn latin:/?UniversalQuantificationTab?forallF?type latin:/?UniversalQuantification?forall?type

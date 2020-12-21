@@ -6,5 +6,5 @@ Includes latin:/?DisjunctionNDE latin:/?Proofs
 Declares latin:/?DisjunctionNDE latin:/?DisjunctionNDE?orE
 constant latin:/?DisjunctionNDE?orE
 DependsOn latin:/?DisjunctionNDE?orE?type latin:/?Propositions?prop?type
-DependsOn latin:/?DisjunctionNDE?orE?type latin:/?Disjunction?or?type
 DependsOn latin:/?DisjunctionNDE?orE?type latin:/?Proofs?ded?type
+DependsOn latin:/?DisjunctionNDE?orE?type latin:/?Disjunction?or?type

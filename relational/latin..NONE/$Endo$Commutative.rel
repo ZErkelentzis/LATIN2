@@ -4,10 +4,10 @@ HasMeta latin:/?EndoCommutative latin:/?TypedEquality
 Includes latin:/?EndoCommutative latin:/?EndoMagma
 Declares latin:/?EndoCommutative latin:/?EndoCommutative?comm
 constant latin:/?EndoCommutative?comm
-DependsOn latin:/?EndoCommutative?comm?type latin:/?EndoMagma?op?type
-DependsOn latin:/?EndoCommutative?comm?type latin:/?TypeOperator?applyType?type
 DependsOn latin:/?EndoCommutative?comm?type latin:/?TypedTerms?tm?type
 DependsOn latin:/?EndoCommutative?comm?type latin:/?Propositions?prop?type
+DependsOn latin:/?EndoCommutative?comm?type latin:/?TypeOperator?applyType?type
 DependsOn latin:/?EndoCommutative?comm?type latin:/?TypedEquality?equal?type
-DependsOn latin:/?EndoCommutative?comm?type latin:/?Types?tp?type
+DependsOn latin:/?EndoCommutative?comm?type latin:/?EndoMagma?op?type
 DependsOn latin:/?EndoCommutative?comm?type latin:/?Proofs?ded?type
+DependsOn latin:/?EndoCommutative?comm?type latin:/?Types?tp?type

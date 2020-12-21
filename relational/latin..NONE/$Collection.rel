@@ -6,16 +6,16 @@ Includes latin:/?Collection latin:/?EndoMagma
 Includes latin:/?Collection latin:/?EndoNeutral
 Declares latin:/?Collection latin:/?Collection?singleton
 constant latin:/?Collection?singleton
-DependsOn latin:/?Collection?singleton?type latin:/?TypeOperator?applyType?type
 DependsOn latin:/?Collection?singleton?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?Collection?singleton?type latin:/?TypeOperator?applyType?type
 DependsOn latin:/?Collection?singleton?type latin:/?Types?tp?type
 Declares latin:/?Collection latin:/?Collection?cons
 constant latin:/?Collection?cons
-DependsOn latin:/?Collection?cons?type latin:/?TypeOperator?applyType?type
 DependsOn latin:/?Collection?cons?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?Collection?cons?type latin:/?TypeOperator?applyType?type
 DependsOn latin:/?Collection?cons?type latin:/?Types?tp?type
-DependsOn latin:/?Collection?cons?definition latin:/?EndoMagma?op?type
+DependsOn latin:/?Collection?cons?definition latin:/?Collection?singleton?type
 DependsOn latin:/?Collection?cons?definition latin:/?TypedTerms?tm?type
 DependsOn latin:/?Collection?cons?definition latin:/?TypeOperator?applyType?type
+DependsOn latin:/?Collection?cons?definition latin:/?EndoMagma?op?type
 DependsOn latin:/?Collection?cons?definition latin:/?Types?tp?type
-DependsOn latin:/?Collection?cons?definition latin:/?Collection?singleton?type

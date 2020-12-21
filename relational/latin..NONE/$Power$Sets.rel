@@ -8,17 +8,17 @@ constant latin:/?PowerSets?power
 DependsOn latin:/?PowerSets?power?type latin:/?SetFOL?set?type
 Declares latin:/?PowerSets latin:/?PowerSets?powerI
 constant latin:/?PowerSets?powerI
-DependsOn latin:/?PowerSets?powerI?type latin:/?PowerSets?power?type
 DependsOn latin:/?PowerSets?powerI?type latin:/?Propositions?prop?type
-DependsOn latin:/?PowerSets?powerI?type latin:/?SetFOL?set?type
-DependsOn latin:/?PowerSets?powerI?type latin:/?Terms?term?type
 DependsOn latin:/?PowerSets?powerI?type latin:/?InternalTypes?in?type
+DependsOn latin:/?PowerSets?powerI?type latin:/?SetFOL?set?type
 DependsOn latin:/?PowerSets?powerI?type latin:/?Proofs?ded?type
+DependsOn latin:/?PowerSets?powerI?type latin:/?Terms?term?type
+DependsOn latin:/?PowerSets?powerI?type latin:/?PowerSets?power?type
 Declares latin:/?PowerSets latin:/?PowerSets?powerE
 constant latin:/?PowerSets?powerE
-DependsOn latin:/?PowerSets?powerE?type latin:/?PowerSets?power?type
 DependsOn latin:/?PowerSets?powerE?type latin:/?Propositions?prop?type
-DependsOn latin:/?PowerSets?powerE?type latin:/?SetFOL?set?type
-DependsOn latin:/?PowerSets?powerE?type latin:/?Terms?term?type
 DependsOn latin:/?PowerSets?powerE?type latin:/?InternalTypes?in?type
+DependsOn latin:/?PowerSets?powerE?type latin:/?SetFOL?set?type
 DependsOn latin:/?PowerSets?powerE?type latin:/?Proofs?ded?type
+DependsOn latin:/?PowerSets?powerE?type latin:/?Terms?term?type
+DependsOn latin:/?PowerSets?powerE?type latin:/?PowerSets?power?type

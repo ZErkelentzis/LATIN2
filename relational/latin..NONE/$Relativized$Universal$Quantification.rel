@@ -8,9 +8,9 @@ constant latin:/?RelativizedUniversalQuantification?rforall
 DependsOn latin:/?RelativizedUniversalQuantification?rforall?type latin:/?Propositions?prop?type
 DependsOn latin:/?RelativizedUniversalQuantification?rforall?type latin:/?Terms?term?type
 DependsOn latin:/?RelativizedUniversalQuantification?rforall?type latin:/?Types?tp?type
+DependsOn latin:/?RelativizedUniversalQuantification?rforall?definition latin:/?SoftTypedTerms?of?type
 DependsOn latin:/?RelativizedUniversalQuantification?rforall?definition latin:/?Propositions?prop?type
+DependsOn latin:/?RelativizedUniversalQuantification?rforall?definition latin:/?Terms?term?type
+DependsOn latin:/?RelativizedUniversalQuantification?rforall?definition latin:/?Types?tp?type
 DependsOn latin:/?RelativizedUniversalQuantification?rforall?definition latin:/?UniversalQuantification?forall?type
 DependsOn latin:/?RelativizedUniversalQuantification?rforall?definition latin:/?Implication?impl?type
-DependsOn latin:/?RelativizedUniversalQuantification?rforall?definition latin:/?Types?tp?type
-DependsOn latin:/?RelativizedUniversalQuantification?rforall?definition latin:/?Terms?term?type
-DependsOn latin:/?RelativizedUniversalQuantification?rforall?definition latin:/?SoftTypedTerms?of?type

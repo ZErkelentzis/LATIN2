@@ -19,9 +19,9 @@ DependsOn latin:/?Nat?zero?type latin:/?Nat?Nat?type
 Declares latin:/?Nat latin:/?Nat?succ
 constant latin:/?Nat?succ
 DependsOn latin:/?Nat?succ?type latin:/?Nat?Nat?type
-Declares latin:/?Nat latin:/?Nat?[scala://lf.mmt.kwarc.info?Realize]/1957424794
-constant latin:/?Nat?[scala://lf.mmt.kwarc.info?Realize]/1957424794
-Declares latin:/?Nat latin:/?Nat?[scala://lf.mmt.kwarc.info?Realize]/-1776453399
-constant latin:/?Nat?[scala://lf.mmt.kwarc.info?Realize]/-1776453399
-Declares latin:/?Nat latin:/?Nat?[scala://lf.mmt.kwarc.info?Realize]/-19206324
-constant latin:/?Nat?[scala://lf.mmt.kwarc.info?Realize]/-19206324
+Declares latin:/?Nat latin:/?Nat?[scala://lf.mmt.kwarc.info?Realize]/1258274603
+constant latin:/?Nat?[scala://lf.mmt.kwarc.info?Realize]/1258274603
+Declares latin:/?Nat latin:/?Nat?[scala://lf.mmt.kwarc.info?Realize]/-179762866
+constant latin:/?Nat?[scala://lf.mmt.kwarc.info?Realize]/-179762866
+Declares latin:/?Nat latin:/?Nat?[scala://lf.mmt.kwarc.info?Realize]/520165938
+constant latin:/?Nat?[scala://lf.mmt.kwarc.info?Realize]/520165938

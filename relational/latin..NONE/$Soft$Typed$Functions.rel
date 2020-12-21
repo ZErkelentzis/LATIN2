@@ -13,9 +13,9 @@ constant latin:/?SoftTypedFunctions?apply
 DependsOn latin:/?SoftTypedFunctions?apply?type latin:/?Terms?term?type
 Declares latin:/?SoftTypedFunctions latin:/?SoftTypedFunctions?beta
 constant latin:/?SoftTypedFunctions?beta
-DependsOn latin:/?SoftTypedFunctions?beta?type latin:/?Propositions?prop?type
 DependsOn latin:/?SoftTypedFunctions?beta?type latin:/?SoftTypedFunctions?lambda?type
 DependsOn latin:/?SoftTypedFunctions?beta?type latin:/?Equality?equal?type
+DependsOn latin:/?SoftTypedFunctions?beta?type latin:/?Propositions?prop?type
+DependsOn latin:/?SoftTypedFunctions?beta?type latin:/?Proofs?ded?type
 DependsOn latin:/?SoftTypedFunctions?beta?type latin:/?Terms?term?type
 DependsOn latin:/?SoftTypedFunctions?beta?type latin:/?SoftTypedFunctions?apply?type
-DependsOn latin:/?SoftTypedFunctions?beta?type latin:/?Proofs?ded?type

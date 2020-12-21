@@ -8,17 +8,17 @@ Declares latin:/?DependentDisjunctionND latin:/?DependentDisjunctionND?dorIl
 constant latin:/?DependentDisjunctionND?dorIl
 DependsOn latin:/?DependentDisjunctionND?dorIl?type latin:/?Propositions?prop?type
 DependsOn latin:/?DependentDisjunctionND?dorIl?type latin:/?Proofs?inconsistent?type
-DependsOn latin:/?DependentDisjunctionND?dorIl?type latin:/?DependentDisjunction?dor?type
 DependsOn latin:/?DependentDisjunctionND?dorIl?type latin:/?Proofs?ded?type
+DependsOn latin:/?DependentDisjunctionND?dorIl?type latin:/?DependentDisjunction?dor?type
 Declares latin:/?DependentDisjunctionND latin:/?DependentDisjunctionND?dorIr
 constant latin:/?DependentDisjunctionND?dorIr
 DependsOn latin:/?DependentDisjunctionND?dorIr?type latin:/?Propositions?prop?type
 DependsOn latin:/?DependentDisjunctionND?dorIr?type latin:/?Proofs?inconsistent?type
-DependsOn latin:/?DependentDisjunctionND?dorIr?type latin:/?DependentDisjunction?dor?type
 DependsOn latin:/?DependentDisjunctionND?dorIr?type latin:/?Proofs?ded?type
+DependsOn latin:/?DependentDisjunctionND?dorIr?type latin:/?DependentDisjunction?dor?type
 Declares latin:/?DependentDisjunctionND latin:/?DependentDisjunctionND?dorE
 constant latin:/?DependentDisjunctionND?dorE
 DependsOn latin:/?DependentDisjunctionND?dorE?type latin:/?Propositions?prop?type
 DependsOn latin:/?DependentDisjunctionND?dorE?type latin:/?Proofs?inconsistent?type
-DependsOn latin:/?DependentDisjunctionND?dorE?type latin:/?DependentDisjunction?dor?type
 DependsOn latin:/?DependentDisjunctionND?dorE?type latin:/?Proofs?ded?type
+DependsOn latin:/?DependentDisjunctionND?dorE?type latin:/?DependentDisjunction?dor?type

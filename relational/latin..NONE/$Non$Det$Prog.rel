@@ -26,18 +26,18 @@ DependsOn latin:/?NonDetProg?test?type latin:/?Programs?prog?type
 Declares latin:/?NonDetProg latin:/?NonDetProg?skip
 constant latin:/?NonDetProg?skip
 DependsOn latin:/?NonDetProg?skip?type latin:/?Programs?prog?type
-DependsOn latin:/?NonDetProg?skip?definition latin:/?Propositions?prop?type
-DependsOn latin:/?NonDetProg?skip?definition latin:/?NonDetProg?test?type
-DependsOn latin:/?NonDetProg?skip?definition latin:/?Programs?prog?type
 DependsOn latin:/?NonDetProg?skip?definition latin:/?Truth?true?type
+DependsOn latin:/?NonDetProg?skip?definition latin:/?Propositions?prop?type
+DependsOn latin:/?NonDetProg?skip?definition latin:/?Programs?prog?type
+DependsOn latin:/?NonDetProg?skip?definition latin:/?NonDetProg?test?type
 Declares latin:/?NonDetProg latin:/?NonDetProg?ifte
 constant latin:/?NonDetProg?ifte
 DependsOn latin:/?NonDetProg?ifte?type latin:/?Propositions?prop?type
 DependsOn latin:/?NonDetProg?ifte?type latin:/?Programs?prog?type
-DependsOn latin:/?NonDetProg?ifte?definition latin:/?NonDetProg?distrib?type
 DependsOn latin:/?NonDetProg?ifte?definition latin:/?Propositions?prop?type
-DependsOn latin:/?NonDetProg?ifte?definition latin:/?NonDetProg?test?type
 DependsOn latin:/?NonDetProg?ifte?definition latin:/?Programs?prog?type
+DependsOn latin:/?NonDetProg?ifte?definition latin:/?NonDetProg?test?type
+DependsOn latin:/?NonDetProg?ifte?definition latin:/?NonDetProg?distrib?type
 DependsOn latin:/?NonDetProg?ifte?definition latin:/?Negation?not?type
 DependsOn latin:/?NonDetProg?ifte?definition latin:/?NonDetProg?comp?type
 Declares latin:/?NonDetProg latin:/?NonDetProg?while
@@ -45,18 +45,18 @@ constant latin:/?NonDetProg?while
 DependsOn latin:/?NonDetProg?while?type latin:/?Propositions?prop?type
 DependsOn latin:/?NonDetProg?while?type latin:/?Programs?prog?type
 DependsOn latin:/?NonDetProg?while?definition latin:/?Propositions?prop?type
-DependsOn latin:/?NonDetProg?while?definition latin:/?NonDetProg?test?type
 DependsOn latin:/?NonDetProg?while?definition latin:/?Programs?prog?type
+DependsOn latin:/?NonDetProg?while?definition latin:/?NonDetProg?test?type
 DependsOn latin:/?NonDetProg?while?definition latin:/?Negation?not?type
-DependsOn latin:/?NonDetProg?while?definition latin:/?NonDetProg?comp?type
 DependsOn latin:/?NonDetProg?while?definition latin:/?NonDetProg?iteration?type
+DependsOn latin:/?NonDetProg?while?definition latin:/?NonDetProg?comp?type
 Declares latin:/?NonDetProg latin:/?NonDetProg?until
 constant latin:/?NonDetProg?until
 DependsOn latin:/?NonDetProg?until?type latin:/?Propositions?prop?type
 DependsOn latin:/?NonDetProg?until?type latin:/?Programs?prog?type
 DependsOn latin:/?NonDetProg?until?definition latin:/?Propositions?prop?type
-DependsOn latin:/?NonDetProg?until?definition latin:/?NonDetProg?test?type
 DependsOn latin:/?NonDetProg?until?definition latin:/?Programs?prog?type
+DependsOn latin:/?NonDetProg?until?definition latin:/?NonDetProg?test?type
 DependsOn latin:/?NonDetProg?until?definition latin:/?Negation?not?type
-DependsOn latin:/?NonDetProg?until?definition latin:/?NonDetProg?comp?type
 DependsOn latin:/?NonDetProg?until?definition latin:/?NonDetProg?iteration?type
+DependsOn latin:/?NonDetProg?until?definition latin:/?NonDetProg?comp?type

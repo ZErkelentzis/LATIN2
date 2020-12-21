@@ -6,5 +6,5 @@ Includes latin:/?AntiSymmetry latin:/?Relation
 Declares latin:/?AntiSymmetry latin:/?AntiSymmetry?antisym
 constant latin:/?AntiSymmetry?antisym
 DependsOn latin:/?AntiSymmetry?antisym?type latin:/?EqualityType?equalityRel/[latin:/?Relation]/rel?type
-DependsOn latin:/?AntiSymmetry?antisym?type latin:/?Relation?rel?type
 DependsOn latin:/?AntiSymmetry?antisym?type latin:/?OneTyped?carrier?type
+DependsOn latin:/?AntiSymmetry?antisym?type latin:/?Relation?rel?type

@@ -8,31 +8,31 @@ Includes latin:/?PredicateSubtypes latin:/?Subtyping
 Includes latin:/?PredicateSubtypes latin:/?SubtypeInjections
 Declares latin:/?PredicateSubtypes latin:/?PredicateSubtypes?predsub
 constant latin:/?PredicateSubtypes?predsub
-DependsOn latin:/?PredicateSubtypes?predsub?type latin:/?Propositions?prop?type
 DependsOn latin:/?PredicateSubtypes?predsub?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?PredicateSubtypes?predsub?type latin:/?Propositions?prop?type
 DependsOn latin:/?PredicateSubtypes?predsub?type latin:/?Types?tp?type
 Declares latin:/?PredicateSubtypes latin:/?PredicateSubtypes?in
 constant latin:/?PredicateSubtypes?in
-DependsOn latin:/?PredicateSubtypes?in?type latin:/?PredicateSubtypes?predsub?type
-DependsOn latin:/?PredicateSubtypes?in?type latin:/?Propositions?prop?type
 DependsOn latin:/?PredicateSubtypes?in?type latin:/?TypedTerms?tm?type
-DependsOn latin:/?PredicateSubtypes?in?type latin:/?Types?tp?type
+DependsOn latin:/?PredicateSubtypes?in?type latin:/?Propositions?prop?type
 DependsOn latin:/?PredicateSubtypes?in?type latin:/?Proofs?ded?type
+DependsOn latin:/?PredicateSubtypes?in?type latin:/?PredicateSubtypes?predsub?type
+DependsOn latin:/?PredicateSubtypes?in?type latin:/?Types?tp?type
 Declares latin:/?PredicateSubtypes latin:/?PredicateSubtypes?predsub_sub
 constant latin:/?PredicateSubtypes?predsub_sub
-DependsOn latin:/?PredicateSubtypes?predsub_sub?type latin:/?PredicateSubtypes?predsub?type
-DependsOn latin:/?PredicateSubtypes?predsub_sub?type latin:/?Propositions?prop?type
 DependsOn latin:/?PredicateSubtypes?predsub_sub?type latin:/?TypedTerms?tm?type
-DependsOn latin:/?PredicateSubtypes?predsub_sub?type latin:/?Types?tp?type
+DependsOn latin:/?PredicateSubtypes?predsub_sub?type latin:/?Propositions?prop?type
 DependsOn latin:/?PredicateSubtypes?predsub_sub?type latin:/?Subtyping?subtype?type
 DependsOn latin:/?PredicateSubtypes?predsub_sub?type latin:/?Proofs?ded?type
+DependsOn latin:/?PredicateSubtypes?predsub_sub?type latin:/?PredicateSubtypes?predsub?type
+DependsOn latin:/?PredicateSubtypes?predsub_sub?type latin:/?Types?tp?type
 Declares latin:/?PredicateSubtypes latin:/?PredicateSubtypes?predsub_prop
 constant latin:/?PredicateSubtypes?predsub_prop
-DependsOn latin:/?PredicateSubtypes?predsub_prop?type latin:/?PredicateSubtypes?predsub?type
-DependsOn latin:/?PredicateSubtypes?predsub_prop?type latin:/?PredicateSubtypes?predsub_sub?type
 DependsOn latin:/?PredicateSubtypes?predsub_prop?type latin:/?TypedTerms?tm?type
 DependsOn latin:/?PredicateSubtypes?predsub_prop?type latin:/?Propositions?prop?type
-DependsOn latin:/?PredicateSubtypes?predsub_prop?type latin:/?SubtypeInjections?inject?type
-DependsOn latin:/?PredicateSubtypes?predsub_prop?type latin:/?Types?tp?type
+DependsOn latin:/?PredicateSubtypes?predsub_prop?type latin:/?PredicateSubtypes?predsub_sub?type
 DependsOn latin:/?PredicateSubtypes?predsub_prop?type latin:/?Subtyping?subtype?type
 DependsOn latin:/?PredicateSubtypes?predsub_prop?type latin:/?Proofs?ded?type
+DependsOn latin:/?PredicateSubtypes?predsub_prop?type latin:/?SubtypeInjections?inject?type
+DependsOn latin:/?PredicateSubtypes?predsub_prop?type latin:/?PredicateSubtypes?predsub?type
+DependsOn latin:/?PredicateSubtypes?predsub_prop?type latin:/?Types?tp?type

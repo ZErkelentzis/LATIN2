@@ -5,6 +5,6 @@ Includes latin:/?TruthND latin:/?Truth
 Includes latin:/?TruthND latin:/?Proofs
 Declares latin:/?TruthND latin:/?TruthND?trueI
 constant latin:/?TruthND?trueI
-DependsOn latin:/?TruthND?trueI?type latin:/?Propositions?prop?type
 DependsOn latin:/?TruthND?trueI?type latin:/?Truth?true?type
+DependsOn latin:/?TruthND?trueI?type latin:/?Propositions?prop?type
 DependsOn latin:/?TruthND?trueI?type latin:/?Proofs?ded?type

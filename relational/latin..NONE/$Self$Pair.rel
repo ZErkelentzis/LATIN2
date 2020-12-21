@@ -7,29 +7,29 @@ view latin:/?SelfPair
 HasViewFrom latin:/?UnorderedPairs latin:/?Singletons
 Declares latin:/?SelfPair latin:/?SelfPair?[latin:/?Singletons]/singleton
 constant latin:/?SelfPair?[latin:/?Singletons]/singleton
-DependsOn latin:/?SelfPair?[latin:/?Singletons]/singleton?definition latin:/?UnorderedPairs?uopair?type
-DependsOn latin:/?SelfPair?[latin:/?Singletons]/singleton?definition latin:/?SetFOL?set?definition
 DependsOn latin:/?SelfPair?[latin:/?Singletons]/singleton?definition latin:/?SetFOL?set?type
+DependsOn latin:/?SelfPair?[latin:/?Singletons]/singleton?definition latin:/?SetFOL?set?definition
+DependsOn latin:/?SelfPair?[latin:/?Singletons]/singleton?definition latin:/?UnorderedPairs?uopair?type
 Declares latin:/?SelfPair latin:/?SelfPair?[latin:/?Singletons]/singletonI
 constant latin:/?SelfPair?[latin:/?Singletons]/singletonI
 DependsOn latin:/?SelfPair?[latin:/?Singletons]/singletonI?definition latin:/?Propositions?prop?type
+DependsOn latin:/?SelfPair?[latin:/?Singletons]/singletonI?definition latin:/?InternalTypes?in?type
+DependsOn latin:/?SelfPair?[latin:/?Singletons]/singletonI?definition latin:/?SetFOL?set?type
+DependsOn latin:/?SelfPair?[latin:/?Singletons]/singletonI?definition latin:/?Proofs?ded?type
+DependsOn latin:/?SelfPair?[latin:/?Singletons]/singletonI?definition latin:/?Terms?term?type
+DependsOn latin:/?SelfPair?[latin:/?Singletons]/singletonI?definition latin:/?SetFOL?set?definition
 DependsOn latin:/?SelfPair?[latin:/?Singletons]/singletonI?definition latin:/?UnorderedPairs?uopair?type
 DependsOn latin:/?SelfPair?[latin:/?Singletons]/singletonI?definition latin:/?UnorderedPairs?uopairIL?type
-DependsOn latin:/?SelfPair?[latin:/?Singletons]/singletonI?definition latin:/?SetFOL?set?definition
-DependsOn latin:/?SelfPair?[latin:/?Singletons]/singletonI?definition latin:/?SetFOL?set?type
-DependsOn latin:/?SelfPair?[latin:/?Singletons]/singletonI?definition latin:/?Terms?term?type
-DependsOn latin:/?SelfPair?[latin:/?Singletons]/singletonI?definition latin:/?InternalTypes?in?type
-DependsOn latin:/?SelfPair?[latin:/?Singletons]/singletonI?definition latin:/?Proofs?ded?type
 Declares latin:/?SelfPair latin:/?SelfPair?[latin:/?Singletons]/singletonE
 constant latin:/?SelfPair?[latin:/?Singletons]/singletonE
-DependsOn latin:/?SelfPair?[latin:/?Singletons]/singletonE?definition latin:/?UnorderedPairs?uopairE?type
-DependsOn latin:/?SelfPair?[latin:/?Singletons]/singletonE?definition latin:/?DisjunctionNDE?orE?type
-DependsOn latin:/?SelfPair?[latin:/?Singletons]/singletonE?definition latin:/?Propositions?prop?type
-DependsOn latin:/?SelfPair?[latin:/?Singletons]/singletonE?definition latin:/?UnorderedPairs?uopair?type
 DependsOn latin:/?SelfPair?[latin:/?Singletons]/singletonE?definition latin:/?Equality?equal?type
-DependsOn latin:/?SelfPair?[latin:/?Singletons]/singletonE?definition latin:/?SetFOL?set?definition
-DependsOn latin:/?SelfPair?[latin:/?Singletons]/singletonE?definition latin:/?SetFOL?set?type
-DependsOn latin:/?SelfPair?[latin:/?Singletons]/singletonE?definition latin:/?Disjunction?or?type
-DependsOn latin:/?SelfPair?[latin:/?Singletons]/singletonE?definition latin:/?Terms?term?type
+DependsOn latin:/?SelfPair?[latin:/?Singletons]/singletonE?definition latin:/?Propositions?prop?type
 DependsOn latin:/?SelfPair?[latin:/?Singletons]/singletonE?definition latin:/?InternalTypes?in?type
+DependsOn latin:/?SelfPair?[latin:/?Singletons]/singletonE?definition latin:/?SetFOL?set?type
 DependsOn latin:/?SelfPair?[latin:/?Singletons]/singletonE?definition latin:/?Proofs?ded?type
+DependsOn latin:/?SelfPair?[latin:/?Singletons]/singletonE?definition latin:/?Terms?term?type
+DependsOn latin:/?SelfPair?[latin:/?Singletons]/singletonE?definition latin:/?DisjunctionNDE?orE?type
+DependsOn latin:/?SelfPair?[latin:/?Singletons]/singletonE?definition latin:/?SetFOL?set?definition
+DependsOn latin:/?SelfPair?[latin:/?Singletons]/singletonE?definition latin:/?UnorderedPairs?uopairE?type
+DependsOn latin:/?SelfPair?[latin:/?Singletons]/singletonE?definition latin:/?Disjunction?or?type
+DependsOn latin:/?SelfPair?[latin:/?Singletons]/singletonE?definition latin:/?UnorderedPairs?uopair?type

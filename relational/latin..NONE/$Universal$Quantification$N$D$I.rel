@@ -5,6 +5,6 @@ Includes latin:/?UniversalQuantificationNDI latin:/?UniversalQuantification
 Declares latin:/?UniversalQuantificationNDI latin:/?UniversalQuantificationNDI?forallI
 constant latin:/?UniversalQuantificationNDI?forallI
 DependsOn latin:/?UniversalQuantificationNDI?forallI?type latin:/?Propositions?prop?type
-DependsOn latin:/?UniversalQuantificationNDI?forallI?type latin:/?UniversalQuantification?forall?type
-DependsOn latin:/?UniversalQuantificationNDI?forallI?type latin:/?Terms?term?type
 DependsOn latin:/?UniversalQuantificationNDI?forallI?type latin:/?Proofs?ded?type
+DependsOn latin:/?UniversalQuantificationNDI?forallI?type latin:/?Terms?term?type
+DependsOn latin:/?UniversalQuantificationNDI?forallI?type latin:/?UniversalQuantification?forall?type

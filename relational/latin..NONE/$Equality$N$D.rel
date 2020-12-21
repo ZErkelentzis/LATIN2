@@ -13,16 +13,16 @@ HasMeta latin:/?EqualityND http://cds.omdoc.org/urtheories?LF
 Includes latin:/?EqualityND latin:/?Equality
 Declares latin:/?EqualityND latin:/?EqualityND?refl
 constant latin:/?EqualityND?refl
-DependsOn latin:/?EqualityND?refl?type latin:/?Propositions?prop?type
 DependsOn latin:/?EqualityND?refl?type latin:/?Equality?equal?type
-DependsOn latin:/?EqualityND?refl?type latin:/?Terms?term?type
+DependsOn latin:/?EqualityND?refl?type latin:/?Propositions?prop?type
 DependsOn latin:/?EqualityND?refl?type latin:/?Proofs?ded?type
+DependsOn latin:/?EqualityND?refl?type latin:/?Terms?term?type
 Declares latin:/?EqualityND latin:/?EqualityND?congP
 constant latin:/?EqualityND?congP
-DependsOn latin:/?EqualityND?congP?type latin:/?Propositions?prop?type
 DependsOn latin:/?EqualityND?congP?type latin:/?Equality?equal?type
-DependsOn latin:/?EqualityND?congP?type latin:/?Terms?term?type
+DependsOn latin:/?EqualityND?congP?type latin:/?Propositions?prop?type
 DependsOn latin:/?EqualityND?congP?type latin:/?Proofs?ded?type
+DependsOn latin:/?EqualityND?congP?type latin:/?Terms?term?type
 Declares latin:/?EqualityND latin:/?EqualityND?eq
 HasDomain latin:/?EqualityND?eq latin:/?EquivalenceCongruence
 HasCodomain latin:/?EqualityND?eq latin:/?EqualityND

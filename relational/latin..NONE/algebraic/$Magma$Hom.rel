@@ -100,18 +100,18 @@ Declares latin:/algebraic?MagmaHom latin:/algebraic?MagmaHom?codomain/divisibili
 constant latin:/algebraic?MagmaHom?codomain/divisibility/metarel/rel
 Declares latin:/algebraic?MagmaHom latin:/algebraic?MagmaHom?op
 constant latin:/algebraic?MagmaHom?op
-DependsOn latin:/algebraic?MagmaHom?op?type latin:/algebraic?SetHom?domain/U?definition
-DependsOn latin:/algebraic?MagmaHom?op?type latin:/?Propositions?prop?type
 DependsOn latin:/algebraic?MagmaHom?op?type latin:/?TypedTerms?tm?type
-DependsOn latin:/algebraic?MagmaHom?op?type latin:/algebraic?SetHom?domain/U?type
-DependsOn latin:/algebraic?MagmaHom?op?type latin:/algebraic?MagmaHom?domain/op?type
-DependsOn latin:/algebraic?MagmaHom?op?type latin:/algebraic?SetHom?domain/universe?type
-DependsOn latin:/algebraic?MagmaHom?op?type latin:/?TypedUniversalQuantification?forall?type
-DependsOn latin:/algebraic?MagmaHom?op?type latin:/algebraic?SetHom?codomain/U?type
-DependsOn latin:/algebraic?MagmaHom?op?type latin:/algebraic?MagmaHom?codomain/op?type
+DependsOn latin:/algebraic?MagmaHom?op?type latin:/?Propositions?prop?type
 DependsOn latin:/algebraic?MagmaHom?op?type latin:/?TypedEquality?equal?type
-DependsOn latin:/algebraic?MagmaHom?op?type latin:/algebraic?SetHom?codomain/universe?type
+DependsOn latin:/algebraic?MagmaHom?op?type latin:/algebraic?MagmaHom?codomain/op?type
 DependsOn latin:/algebraic?MagmaHom?op?type latin:/algebraic?SetHom?codomain/U?definition
+DependsOn latin:/algebraic?MagmaHom?op?type latin:/?TypedUniversalQuantification?forall?type
+DependsOn latin:/algebraic?MagmaHom?op?type latin:/algebraic?MagmaHom?domain/op?type
+DependsOn latin:/algebraic?MagmaHom?op?type latin:/algebraic?SetHom?codomain/U?type
+DependsOn latin:/algebraic?MagmaHom?op?type latin:/algebraic?SetHom?domain/universe?type
+DependsOn latin:/algebraic?MagmaHom?op?type latin:/algebraic?SetHom?domain/U?definition
+DependsOn latin:/algebraic?MagmaHom?op?type latin:/algebraic?SetHom?domain/U?type
+DependsOn latin:/algebraic?MagmaHom?op?type latin:/?Proofs?ded?type
 DependsOn latin:/algebraic?MagmaHom?op?type latin:/algebraic?SetHom?U?type
 DependsOn latin:/algebraic?MagmaHom?op?type latin:/?Types?tp?type
-DependsOn latin:/algebraic?MagmaHom?op?type latin:/?Proofs?ded?type
+DependsOn latin:/algebraic?MagmaHom?op?type latin:/algebraic?SetHom?codomain/universe?type

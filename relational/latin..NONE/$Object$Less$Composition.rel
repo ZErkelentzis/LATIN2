@@ -12,42 +12,42 @@ constant latin:/?ObjectLessComposition?mor
 DependsOn latin:/?ObjectLessComposition?mor?type latin:/?Types?tp?type
 Declares latin:/?ObjectLessComposition latin:/?ObjectLessComposition?Mor
 constant latin:/?ObjectLessComposition?Mor
-DependsOn latin:/?ObjectLessComposition?Mor?definition latin:/?ObjectLessComposition?mor?type
 DependsOn latin:/?ObjectLessComposition?Mor?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?ObjectLessComposition?Mor?definition latin:/?ObjectLessComposition?mor?type
 DependsOn latin:/?ObjectLessComposition?Mor?definition latin:/?Types?tp?type
 Declares latin:/?ObjectLessComposition latin:/?ObjectLessComposition?OptionMor
 constant latin:/?ObjectLessComposition?OptionMor
+DependsOn latin:/?ObjectLessComposition?OptionMor?definition latin:/?TypedTerms?tm?type
 DependsOn latin:/?ObjectLessComposition?OptionMor?definition latin:/?Option?option?type
 DependsOn latin:/?ObjectLessComposition?OptionMor?definition latin:/?ObjectLessComposition?mor?type
-DependsOn latin:/?ObjectLessComposition?OptionMor?definition latin:/?TypedTerms?tm?type
 DependsOn latin:/?ObjectLessComposition?OptionMor?definition latin:/?Types?tp?type
 Declares latin:/?ObjectLessComposition latin:/?ObjectLessComposition?composition
 constant latin:/?ObjectLessComposition?composition
-DependsOn latin:/?ObjectLessComposition?composition?type latin:/?ObjectLessComposition?OptionMor?type
 DependsOn latin:/?ObjectLessComposition?composition?type latin:/?ObjectLessComposition?Mor?type
+DependsOn latin:/?ObjectLessComposition?composition?type latin:/?ObjectLessComposition?OptionMor?type
 Declares latin:/?ObjectLessComposition latin:/?ObjectLessComposition?opt_composition
 constant latin:/?ObjectLessComposition?opt_composition
-DependsOn latin:/?ObjectLessComposition?opt_composition?type latin:/?ObjectLessComposition?OptionMor?type
 DependsOn latin:/?ObjectLessComposition?opt_composition?type latin:/?ObjectLessComposition?Mor?type
-DependsOn latin:/?ObjectLessComposition?opt_composition?definition latin:/?ObjectLessComposition?OptionMor?definition
-DependsOn latin:/?ObjectLessComposition?opt_composition?definition latin:/?Option?option?type
+DependsOn latin:/?ObjectLessComposition?opt_composition?type latin:/?ObjectLessComposition?OptionMor?type
 DependsOn latin:/?ObjectLessComposition?opt_composition?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?ObjectLessComposition?opt_composition?definition latin:/?ObjectLessComposition?Mor?type
+DependsOn latin:/?ObjectLessComposition?opt_composition?definition latin:/?Option?option?type
+DependsOn latin:/?ObjectLessComposition?opt_composition?definition latin:/?Option?flatMap?type
+DependsOn latin:/?ObjectLessComposition?opt_composition?definition latin:/?ObjectLessComposition?OptionMor?type
 DependsOn latin:/?ObjectLessComposition?opt_composition?definition latin:/?ObjectLessComposition?mor?type
 DependsOn latin:/?ObjectLessComposition?opt_composition?definition latin:/?ObjectLessComposition?composition?type
-DependsOn latin:/?ObjectLessComposition?opt_composition?definition latin:/?ObjectLessComposition?OptionMor?type
-DependsOn latin:/?ObjectLessComposition?opt_composition?definition latin:/?ObjectLessComposition?Mor?type
 DependsOn latin:/?ObjectLessComposition?opt_composition?definition latin:/?Types?tp?type
-DependsOn latin:/?ObjectLessComposition?opt_composition?definition latin:/?Option?flatMap?type
+DependsOn latin:/?ObjectLessComposition?opt_composition?definition latin:/?ObjectLessComposition?OptionMor?definition
 Declares latin:/?ObjectLessComposition latin:/?ObjectLessComposition?composition_opt
 constant latin:/?ObjectLessComposition?composition_opt
-DependsOn latin:/?ObjectLessComposition?composition_opt?type latin:/?ObjectLessComposition?OptionMor?type
 DependsOn latin:/?ObjectLessComposition?composition_opt?type latin:/?ObjectLessComposition?Mor?type
-DependsOn latin:/?ObjectLessComposition?composition_opt?definition latin:/?ObjectLessComposition?OptionMor?definition
-DependsOn latin:/?ObjectLessComposition?composition_opt?definition latin:/?Option?option?type
+DependsOn latin:/?ObjectLessComposition?composition_opt?type latin:/?ObjectLessComposition?OptionMor?type
 DependsOn latin:/?ObjectLessComposition?composition_opt?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?ObjectLessComposition?composition_opt?definition latin:/?ObjectLessComposition?Mor?type
+DependsOn latin:/?ObjectLessComposition?composition_opt?definition latin:/?Option?option?type
+DependsOn latin:/?ObjectLessComposition?composition_opt?definition latin:/?Option?flatMap?type
+DependsOn latin:/?ObjectLessComposition?composition_opt?definition latin:/?ObjectLessComposition?OptionMor?type
 DependsOn latin:/?ObjectLessComposition?composition_opt?definition latin:/?ObjectLessComposition?mor?type
 DependsOn latin:/?ObjectLessComposition?composition_opt?definition latin:/?ObjectLessComposition?composition?type
-DependsOn latin:/?ObjectLessComposition?composition_opt?definition latin:/?ObjectLessComposition?OptionMor?type
-DependsOn latin:/?ObjectLessComposition?composition_opt?definition latin:/?ObjectLessComposition?Mor?type
 DependsOn latin:/?ObjectLessComposition?composition_opt?definition latin:/?Types?tp?type
-DependsOn latin:/?ObjectLessComposition?composition_opt?definition latin:/?Option?flatMap?type
+DependsOn latin:/?ObjectLessComposition?composition_opt?definition latin:/?ObjectLessComposition?OptionMor?definition

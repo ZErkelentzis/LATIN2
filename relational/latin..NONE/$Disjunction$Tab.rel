@@ -13,6 +13,6 @@ DependsOn latin:/?DisjunctionTab?disjunctionTab0?type latin:/?Disjunction?or?typ
 Declares latin:/?DisjunctionTab latin:/?DisjunctionTab?disjunctionTab1
 constant latin:/?DisjunctionTab?disjunctionTab1
 DependsOn latin:/?DisjunctionTab?disjunctionTab1?type latin:/?Propositions?prop?type
-DependsOn latin:/?DisjunctionTab?disjunctionTab1?type latin:/?Tableaux?closedbranch?type
 DependsOn latin:/?DisjunctionTab?disjunctionTab1?type latin:/?Tableaux?marktrue?type
+DependsOn latin:/?DisjunctionTab?disjunctionTab1?type latin:/?Tableaux?closedbranch?type
 DependsOn latin:/?DisjunctionTab?disjunctionTab1?type latin:/?Disjunction?or?type

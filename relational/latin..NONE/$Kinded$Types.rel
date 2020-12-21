@@ -14,5 +14,5 @@ Includes latin:/?KindedTypes latin:/?Types
 Declares latin:/?KindedTypes latin:/?KindedTypes?[latin:/?Types]/tp
 constant latin:/?KindedTypes?[latin:/?Types]/tp
 DependsOn latin:/?KindedTypes?[latin:/?Types]/tp?definition latin:/?KindedTypes?tf?type
-DependsOn latin:/?KindedTypes?[latin:/?Types]/tp?definition latin:/?KindedTypes?tpk?type
 DependsOn latin:/?KindedTypes?[latin:/?Types]/tp?definition latin:/?Kinds?kd?type
+DependsOn latin:/?KindedTypes?[latin:/?Types]/tp?definition latin:/?KindedTypes?tpk?type

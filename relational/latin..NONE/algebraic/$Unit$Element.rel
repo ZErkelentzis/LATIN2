@@ -23,11 +23,11 @@ Declares latin:/algebraic?UnitElement latin:/algebraic?UnitElement?involution
 constant latin:/algebraic?UnitElement?involution
 DependsOn latin:/algebraic?UnitElement?involution?type latin:/?Propositions?prop?type
 DependsOn latin:/algebraic?UnitElement?involution?type latin:/algebraic?Set?U?type
-DependsOn latin:/algebraic?UnitElement?involution?definition latin:/algebraic?Magma?op?type
-DependsOn latin:/algebraic?UnitElement?involution?definition latin:/?Propositions?prop?type
 DependsOn latin:/algebraic?UnitElement?involution?definition latin:/?TypedTerms?tm?type
-DependsOn latin:/algebraic?UnitElement?involution?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/algebraic?UnitElement?involution?definition latin:/?Propositions?prop?type
 DependsOn latin:/algebraic?UnitElement?involution?definition latin:/algebraic?Set?U?type
-DependsOn latin:/algebraic?UnitElement?involution?definition latin:/algebraic?UnitElement?unitelem/elem?type
-DependsOn latin:/algebraic?UnitElement?involution?definition latin:/algebraic?Set?universe?type
+DependsOn latin:/algebraic?UnitElement?involution?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/algebraic?UnitElement?involution?definition latin:/algebraic?Magma?op?type
 DependsOn latin:/algebraic?UnitElement?involution?definition latin:/?Types?tp?type
+DependsOn latin:/algebraic?UnitElement?involution?definition latin:/algebraic?Set?universe?type
+DependsOn latin:/algebraic?UnitElement?involution?definition latin:/algebraic?UnitElement?unitelem/elem?type

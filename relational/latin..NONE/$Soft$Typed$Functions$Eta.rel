@@ -4,9 +4,9 @@ HasMeta latin:/?SoftTypedFunctionsEta http://cds.omdoc.org/urtheories?LF
 Includes latin:/?SoftTypedFunctionsEta latin:/?SoftTypedFunctions
 Declares latin:/?SoftTypedFunctionsEta latin:/?SoftTypedFunctionsEta?eta
 constant latin:/?SoftTypedFunctionsEta?eta
-DependsOn latin:/?SoftTypedFunctionsEta?eta?type latin:/?Propositions?prop?type
 DependsOn latin:/?SoftTypedFunctionsEta?eta?type latin:/?SoftTypedFunctions?lambda?type
 DependsOn latin:/?SoftTypedFunctionsEta?eta?type latin:/?Equality?equal?type
+DependsOn latin:/?SoftTypedFunctionsEta?eta?type latin:/?Propositions?prop?type
+DependsOn latin:/?SoftTypedFunctionsEta?eta?type latin:/?Proofs?ded?type
 DependsOn latin:/?SoftTypedFunctionsEta?eta?type latin:/?Terms?term?type
 DependsOn latin:/?SoftTypedFunctionsEta?eta?type latin:/?SoftTypedFunctions?apply?type
-DependsOn latin:/?SoftTypedFunctionsEta?eta?type latin:/?Proofs?ded?type

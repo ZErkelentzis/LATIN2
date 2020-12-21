@@ -6,5 +6,5 @@ Includes latin:/?ImplicationNDI latin:/?Proofs
 Declares latin:/?ImplicationNDI latin:/?ImplicationNDI?impI
 constant latin:/?ImplicationNDI?impI
 DependsOn latin:/?ImplicationNDI?impI?type latin:/?Propositions?prop?type
-DependsOn latin:/?ImplicationNDI?impI?type latin:/?Implication?impl?type
 DependsOn latin:/?ImplicationNDI?impI?type latin:/?Proofs?ded?type
+DependsOn latin:/?ImplicationNDI?impI?type latin:/?Implication?impl?type

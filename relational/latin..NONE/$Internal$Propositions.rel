@@ -10,5 +10,5 @@ Includes latin:/?InternalPropositions latin:/?Propositions
 Declares latin:/?InternalPropositions latin:/?InternalPropositions?[latin:/?Propositions]/prop
 constant latin:/?InternalPropositions?[latin:/?Propositions]/prop
 DependsOn latin:/?InternalPropositions?[latin:/?Propositions]/prop?definition latin:/?TypedTerms?tm?type
-DependsOn latin:/?InternalPropositions?[latin:/?Propositions]/prop?definition latin:/?Types?tp?type
 DependsOn latin:/?InternalPropositions?[latin:/?Propositions]/prop?definition latin:/?InternalPropositions?bool?type
+DependsOn latin:/?InternalPropositions?[latin:/?Propositions]/prop?definition latin:/?Types?tp?type

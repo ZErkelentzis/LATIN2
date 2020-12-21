@@ -10,30 +10,30 @@ Includes latin:/kripkemodels?TypedDynamicSemantics latin:/?PropDynamicLogic
 Includes latin:/kripkemodels?TypedDynamicSemantics latin:/?SFOLEQ
 Declares latin:/kripkemodels?TypedDynamicSemantics latin:/kripkemodels?TypedDynamicSemantics?[latin:/?TypedDynamicLogic]/var
 constant latin:/kripkemodels?TypedDynamicSemantics?[latin:/?TypedDynamicLogic]/var
-DependsOn latin:/kripkemodels?TypedDynamicSemantics?[latin:/?TypedDynamicLogic]/var?definition latin:/kripkemodels?State?cell?type
 DependsOn latin:/kripkemodels?TypedDynamicSemantics?[latin:/?TypedDynamicLogic]/var?definition latin:/?TypedTerms?tm?type
 DependsOn latin:/kripkemodels?TypedDynamicSemantics?[latin:/?TypedDynamicLogic]/var?definition latin:/?Types?tp?type
+DependsOn latin:/kripkemodels?TypedDynamicSemantics?[latin:/?TypedDynamicLogic]/var?definition latin:/kripkemodels?State?cell?type
 Declares latin:/kripkemodels?TypedDynamicSemantics latin:/kripkemodels?TypedDynamicSemantics?[latin:/?TypedDynamicLogic]/retrieve
 constant latin:/kripkemodels?TypedDynamicSemantics?[latin:/?TypedDynamicLogic]/retrieve
-DependsOn latin:/kripkemodels?TypedDynamicSemantics?[latin:/?TypedDynamicLogic]/retrieve?definition latin:/kripkemodels?State?cell?type
 DependsOn latin:/kripkemodels?TypedDynamicSemantics?[latin:/?TypedDynamicLogic]/retrieve?definition latin:/?TypedTerms?tm?type
 DependsOn latin:/kripkemodels?TypedDynamicSemantics?[latin:/?TypedDynamicLogic]/retrieve?definition latin:/kripkemodels?State?state?type
 DependsOn latin:/kripkemodels?TypedDynamicSemantics?[latin:/?TypedDynamicLogic]/retrieve?definition latin:/?Types?tp?type
+DependsOn latin:/kripkemodels?TypedDynamicSemantics?[latin:/?TypedDynamicLogic]/retrieve?definition latin:/kripkemodels?State?cell?type
 Declares latin:/kripkemodels?TypedDynamicSemantics latin:/kripkemodels?TypedDynamicSemantics?[latin:/?TypedDynamicLogic]/assign
 constant latin:/kripkemodels?TypedDynamicSemantics?[latin:/?TypedDynamicLogic]/assign
-DependsOn latin:/kripkemodels?TypedDynamicSemantics?[latin:/?TypedDynamicLogic]/assign?definition latin:/kripkemodels?State?cell?type
-DependsOn latin:/kripkemodels?TypedDynamicSemantics?[latin:/?TypedDynamicLogic]/assign?definition latin:/?Propositions?prop?type
 DependsOn latin:/kripkemodels?TypedDynamicSemantics?[latin:/?TypedDynamicLogic]/assign?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/kripkemodels?TypedDynamicSemantics?[latin:/?TypedDynamicLogic]/assign?definition latin:/?Propositions?prop?type
 DependsOn latin:/kripkemodels?TypedDynamicSemantics?[latin:/?TypedDynamicLogic]/assign?definition latin:/kripkemodels?State?extends?type
 DependsOn latin:/kripkemodels?TypedDynamicSemantics?[latin:/?TypedDynamicLogic]/assign?definition latin:/?Types?tp?type
+DependsOn latin:/kripkemodels?TypedDynamicSemantics?[latin:/?TypedDynamicLogic]/assign?definition latin:/kripkemodels?State?cell?type
 Declares latin:/kripkemodels?TypedDynamicSemantics latin:/kripkemodels?TypedDynamicSemantics?[latin:/?TypedDynamicLogic]/random_assign
 constant latin:/kripkemodels?TypedDynamicSemantics?[latin:/?TypedDynamicLogic]/random_assign
-DependsOn latin:/kripkemodels?TypedDynamicSemantics?[latin:/?TypedDynamicLogic]/random_assign?definition latin:/kripkemodels?State?cell?type
-DependsOn latin:/kripkemodels?TypedDynamicSemantics?[latin:/?TypedDynamicLogic]/random_assign?definition latin:/kripkemodels?Worlds?world?type
-DependsOn latin:/kripkemodels?TypedDynamicSemantics?[latin:/?TypedDynamicLogic]/random_assign?definition latin:/?Propositions?prop?type
 DependsOn latin:/kripkemodels?TypedDynamicSemantics?[latin:/?TypedDynamicLogic]/random_assign?definition latin:/?TypedTerms?tm?type
-DependsOn latin:/kripkemodels?TypedDynamicSemantics?[latin:/?TypedDynamicLogic]/random_assign?definition latin:/?TypedExistentialQuantification?exists?type
+DependsOn latin:/kripkemodels?TypedDynamicSemantics?[latin:/?TypedDynamicLogic]/random_assign?definition latin:/?Propositions?prop?type
 DependsOn latin:/kripkemodels?TypedDynamicSemantics?[latin:/?TypedDynamicLogic]/random_assign?definition latin:/kripkemodels?State?extends?type
-DependsOn latin:/kripkemodels?TypedDynamicSemantics?[latin:/?TypedDynamicLogic]/random_assign?definition latin:/?Types?tp?type
-DependsOn latin:/kripkemodels?TypedDynamicSemantics?[latin:/?TypedDynamicLogic]/random_assign?definition latin:/?SimpleFunctions?simpapply?type
+DependsOn latin:/kripkemodels?TypedDynamicSemantics?[latin:/?TypedDynamicLogic]/random_assign?definition latin:/?TypedExistentialQuantification?exists?type
+DependsOn latin:/kripkemodels?TypedDynamicSemantics?[latin:/?TypedDynamicLogic]/random_assign?definition latin:/kripkemodels?Worlds?world?type
 DependsOn latin:/kripkemodels?TypedDynamicSemantics?[latin:/?TypedDynamicLogic]/random_assign?definition latin:/?SimpleFunctionTypes?simpfun?type
+DependsOn latin:/kripkemodels?TypedDynamicSemantics?[latin:/?TypedDynamicLogic]/random_assign?definition latin:/?SimpleFunctions?simpapply?type
+DependsOn latin:/kripkemodels?TypedDynamicSemantics?[latin:/?TypedDynamicLogic]/random_assign?definition latin:/?Types?tp?type
+DependsOn latin:/kripkemodels?TypedDynamicSemantics?[latin:/?TypedDynamicLogic]/random_assign?definition latin:/kripkemodels?State?cell?type

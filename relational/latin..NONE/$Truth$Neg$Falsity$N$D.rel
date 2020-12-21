@@ -8,9 +8,9 @@ Includes latin:/?TruthNegFalsityND latin:/?Proofs
 Includes latin:/?TruthNegFalsityND latin:/?Truth
 Declares latin:/?TruthNegFalsityND latin:/?TruthNegFalsityND?[latin:/?TruthND]/trueI
 constant latin:/?TruthNegFalsityND?[latin:/?TruthND]/trueI
-DependsOn latin:/?TruthNegFalsityND?[latin:/?TruthND]/trueI?definition latin:/?Falsity?false?type
-DependsOn latin:/?TruthNegFalsityND?[latin:/?TruthND]/trueI?definition latin:/?NegationNDI?notI?type
-DependsOn latin:/?TruthNegFalsityND?[latin:/?TruthND]/trueI?definition latin:/?Propositions?prop?type
 DependsOn latin:/?TruthNegFalsityND?[latin:/?TruthND]/trueI?definition latin:/?Proofs?inconsistent?definition
+DependsOn latin:/?TruthNegFalsityND?[latin:/?TruthND]/trueI?definition latin:/?Propositions?prop?type
 DependsOn latin:/?TruthNegFalsityND?[latin:/?TruthND]/trueI?definition latin:/?FalsityND?falseE?type
 DependsOn latin:/?TruthNegFalsityND?[latin:/?TruthND]/trueI?definition latin:/?Proofs?ded?type
+DependsOn latin:/?TruthNegFalsityND?[latin:/?TruthND]/trueI?definition latin:/?Falsity?false?type
+DependsOn latin:/?TruthNegFalsityND?[latin:/?TruthND]/trueI?definition latin:/?NegationNDI?notI?type

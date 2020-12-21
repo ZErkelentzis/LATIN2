@@ -5,6 +5,6 @@ Includes latin:/?TypedUniqueExistentialQuantification latin:/?TypedExistentialQu
 Includes latin:/?TypedUniqueExistentialQuantification latin:/?TypedEquality
 Declares latin:/?TypedUniqueExistentialQuantification latin:/?TypedUniqueExistentialQuantification?existsUnique
 constant latin:/?TypedUniqueExistentialQuantification?existsUnique
-DependsOn latin:/?TypedUniqueExistentialQuantification?existsUnique?type latin:/?Propositions?prop?type
 DependsOn latin:/?TypedUniqueExistentialQuantification?existsUnique?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?TypedUniqueExistentialQuantification?existsUnique?type latin:/?Propositions?prop?type
 DependsOn latin:/?TypedUniqueExistentialQuantification?existsUnique?type latin:/?Types?tp?type

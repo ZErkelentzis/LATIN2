@@ -9,13 +9,13 @@ constant latin:/?TypedChoice?some
 DependsOn latin:/?TypedChoice?some?type latin:/?TypedTerms?tm?type
 DependsOn latin:/?TypedChoice?some?type latin:/?Propositions?prop?type
 DependsOn latin:/?TypedChoice?some?type latin:/?TypedExistentialQuantification?exists?type
-DependsOn latin:/?TypedChoice?some?type latin:/?Types?tp?type
 DependsOn latin:/?TypedChoice?some?type latin:/?Proofs?ded?type
+DependsOn latin:/?TypedChoice?some?type latin:/?Types?tp?type
 Declares latin:/?TypedChoice latin:/?TypedChoice?some_ax
 constant latin:/?TypedChoice?some_ax
-DependsOn latin:/?TypedChoice?some_ax?type latin:/?TypedChoice?some?type
-DependsOn latin:/?TypedChoice?some_ax?type latin:/?Propositions?prop?type
 DependsOn latin:/?TypedChoice?some_ax?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?TypedChoice?some_ax?type latin:/?Propositions?prop?type
+DependsOn latin:/?TypedChoice?some_ax?type latin:/?TypedChoice?some?type
 DependsOn latin:/?TypedChoice?some_ax?type latin:/?TypedExistentialQuantification?exists?type
-DependsOn latin:/?TypedChoice?some_ax?type latin:/?Types?tp?type
 DependsOn latin:/?TypedChoice?some_ax?type latin:/?Proofs?ded?type
+DependsOn latin:/?TypedChoice?some_ax?type latin:/?Types?tp?type

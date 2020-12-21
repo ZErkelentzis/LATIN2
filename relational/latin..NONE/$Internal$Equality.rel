@@ -7,13 +7,13 @@ Includes latin:/?InternalEquality latin:/?SimpleFunctions
 Declares latin:/?InternalEquality latin:/?InternalEquality?equalConstant
 constant latin:/?InternalEquality?equalConstant
 DependsOn latin:/?InternalEquality?equalConstant?type latin:/?TypedTerms?tm?type
-DependsOn latin:/?InternalEquality?equalConstant?type latin:/?Types?tp?type
 DependsOn latin:/?InternalEquality?equalConstant?type latin:/?InternalPropositions?bool?type
 DependsOn latin:/?InternalEquality?equalConstant?type latin:/?SimpleFunctionTypes?simpfun?type
+DependsOn latin:/?InternalEquality?equalConstant?type latin:/?Types?tp?type
 DependsOn latin:/?InternalEquality?equalConstant?definition latin:/?TypedTerms?tm?type
 DependsOn latin:/?InternalEquality?equalConstant?definition latin:/?Propositions?prop?type
+DependsOn latin:/?InternalEquality?equalConstant?definition latin:/?SimpleFunctions?simplambda?type
 DependsOn latin:/?InternalEquality?equalConstant?definition latin:/?TypedEquality?equal?type
-DependsOn latin:/?InternalEquality?equalConstant?definition latin:/?Types?tp?type
 DependsOn latin:/?InternalEquality?equalConstant?definition latin:/?InternalPropositions?bool?type
 DependsOn latin:/?InternalEquality?equalConstant?definition latin:/?SimpleFunctionTypes?simpfun?type
-DependsOn latin:/?InternalEquality?equalConstant?definition latin:/?SimpleFunctions?simplambda?type
+DependsOn latin:/?InternalEquality?equalConstant?definition latin:/?Types?tp?type

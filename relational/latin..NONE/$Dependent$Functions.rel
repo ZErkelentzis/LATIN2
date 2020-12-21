@@ -20,8 +20,8 @@ constant latin:/?DependentFunctions?depbeta
 DependsOn latin:/?DependentFunctions?depbeta?type latin:/?DependentFunctionTypes?depfun?type
 DependsOn latin:/?DependentFunctions?depbeta?type latin:/?TypedTerms?tm?type
 DependsOn latin:/?DependentFunctions?depbeta?type latin:/?Propositions?prop?type
-DependsOn latin:/?DependentFunctions?depbeta?type latin:/?DependentFunctions?deplambda?type
 DependsOn latin:/?DependentFunctions?depbeta?type latin:/?TypedEquality?equal?type
-DependsOn latin:/?DependentFunctions?depbeta?type latin:/?DependentFunctions?depapply?type
-DependsOn latin:/?DependentFunctions?depbeta?type latin:/?Types?tp?type
+DependsOn latin:/?DependentFunctions?depbeta?type latin:/?DependentFunctions?deplambda?type
 DependsOn latin:/?DependentFunctions?depbeta?type latin:/?Proofs?ded?type
+DependsOn latin:/?DependentFunctions?depbeta?type latin:/?Types?tp?type
+DependsOn latin:/?DependentFunctions?depbeta?type latin:/?DependentFunctions?depapply?type

@@ -7,8 +7,8 @@ constant latin:/?DependentFunctionsEta?eta
 DependsOn latin:/?DependentFunctionsEta?eta?type latin:/?DependentFunctionTypes?depfun?type
 DependsOn latin:/?DependentFunctionsEta?eta?type latin:/?TypedTerms?tm?type
 DependsOn latin:/?DependentFunctionsEta?eta?type latin:/?Propositions?prop?type
-DependsOn latin:/?DependentFunctionsEta?eta?type latin:/?DependentFunctions?deplambda?type
 DependsOn latin:/?DependentFunctionsEta?eta?type latin:/?TypedEquality?equal?type
-DependsOn latin:/?DependentFunctionsEta?eta?type latin:/?DependentFunctions?depapply?type
-DependsOn latin:/?DependentFunctionsEta?eta?type latin:/?Types?tp?type
+DependsOn latin:/?DependentFunctionsEta?eta?type latin:/?DependentFunctions?deplambda?type
 DependsOn latin:/?DependentFunctionsEta?eta?type latin:/?Proofs?ded?type
+DependsOn latin:/?DependentFunctionsEta?eta?type latin:/?Types?tp?type
+DependsOn latin:/?DependentFunctionsEta?eta?type latin:/?DependentFunctions?depapply?type

@@ -7,13 +7,13 @@ Includes latin:/?Description latin:/?UniqueExistentialQuantification
 Declares latin:/?Description latin:/?Description?the
 constant latin:/?Description?the
 DependsOn latin:/?Description?the?type latin:/?Propositions?prop?type
-DependsOn latin:/?Description?the?type latin:/?UniqueExistentialQuantification?existsUnique?type
-DependsOn latin:/?Description?the?type latin:/?Terms?term?type
 DependsOn latin:/?Description?the?type latin:/?Proofs?ded?type
+DependsOn latin:/?Description?the?type latin:/?Terms?term?type
+DependsOn latin:/?Description?the?type latin:/?UniqueExistentialQuantification?existsUnique?type
 Declares latin:/?Description latin:/?Description?the_ax
 constant latin:/?Description?the_ax
 DependsOn latin:/?Description?the_ax?type latin:/?Propositions?prop?type
-DependsOn latin:/?Description?the_ax?type latin:/?UniqueExistentialQuantification?existsUnique?type
 DependsOn latin:/?Description?the_ax?type latin:/?Description?the?type
-DependsOn latin:/?Description?the_ax?type latin:/?Terms?term?type
 DependsOn latin:/?Description?the_ax?type latin:/?Proofs?ded?type
+DependsOn latin:/?Description?the_ax?type latin:/?Terms?term?type
+DependsOn latin:/?Description?the_ax?type latin:/?UniqueExistentialQuantification?existsUnique?type

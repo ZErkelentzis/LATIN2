@@ -5,7 +5,7 @@ view latin:/kripkemodels?PropSemantics
 HasViewFrom latin:/kripkemodels?Worlds latin:/?Propositions
 Declares latin:/kripkemodels?PropSemantics latin:/kripkemodels?PropSemantics?[latin:/?Propositions]/prop
 constant latin:/kripkemodels?PropSemantics?[latin:/?Propositions]/prop
-DependsOn latin:/kripkemodels?PropSemantics?[latin:/?Propositions]/prop?definition latin:/kripkemodels?Worlds?world?type
-DependsOn latin:/kripkemodels?PropSemantics?[latin:/?Propositions]/prop?definition latin:/?Propositions?prop?type
 DependsOn latin:/kripkemodels?PropSemantics?[latin:/?Propositions]/prop?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/kripkemodels?PropSemantics?[latin:/?Propositions]/prop?definition latin:/?Propositions?prop?type
+DependsOn latin:/kripkemodels?PropSemantics?[latin:/?Propositions]/prop?definition latin:/kripkemodels?Worlds?world?type
 DependsOn latin:/kripkemodels?PropSemantics?[latin:/?Propositions]/prop?definition latin:/?Types?tp?type

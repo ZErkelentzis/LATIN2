@@ -5,10 +5,10 @@ Includes latin:/?ImplicationHilbert latin:/?ImplicationNDE
 Declares latin:/?ImplicationHilbert latin:/?ImplicationHilbert?K_ax
 constant latin:/?ImplicationHilbert?K_ax
 DependsOn latin:/?ImplicationHilbert?K_ax?type latin:/?Propositions?prop?type
-DependsOn latin:/?ImplicationHilbert?K_ax?type latin:/?Implication?impl?type
 DependsOn latin:/?ImplicationHilbert?K_ax?type latin:/?Proofs?ded?type
+DependsOn latin:/?ImplicationHilbert?K_ax?type latin:/?Implication?impl?type
 Declares latin:/?ImplicationHilbert latin:/?ImplicationHilbert?S_ax
 constant latin:/?ImplicationHilbert?S_ax
 DependsOn latin:/?ImplicationHilbert?S_ax?type latin:/?Propositions?prop?type
-DependsOn latin:/?ImplicationHilbert?S_ax?type latin:/?Implication?impl?type
 DependsOn latin:/?ImplicationHilbert?S_ax?type latin:/?Proofs?ded?type
+DependsOn latin:/?ImplicationHilbert?S_ax?type latin:/?Implication?impl?type
