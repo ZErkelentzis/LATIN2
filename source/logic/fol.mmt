@@ -101,8 +101,8 @@ theory RelativizedUniversalQuantification =
 theory RelativizedUniversalQuantificationND =
   include ?RelativizedUniversalQuantification❙
   include ?FOLEQND❙
-  rforallI : {A,F} ({x} ⊦x⦂A ⟶ ⊦ F x) ⟶ ⊦ ∀' A F❘= [A,F,P] forallI [x] impI [xa] P x xa❙
-  rforallE : {A,F} ⊦ ∀' A F ⟶ {x} ⊦x⦂A ⟶ ⊦ F x❘= [A,F,p,x,xa] p forallE x impE xa❙
+  rforallI : {A,F} ({x} ⊦x⦂A ⟶ ⊦ F x) ⟶ ⊦ ∀' A F❘= [A,F,P] forallI [x] implI [xa] P x xa❙
+  rforallE : {A,F} ⊦ ∀' A F ⟶ {x} ⊦x⦂A ⟶ ⊦ F x❘= [A,F,p,x,xa] p forallE x implE xa❙
 ❚
 
 theory RelativizedExistentialQuantification =
