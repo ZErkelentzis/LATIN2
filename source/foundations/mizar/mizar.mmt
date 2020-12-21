@@ -32,7 +32,7 @@ theory Mizar : ur:?LFS =
 	// existsUnique: (term ⟶ prop) ⟶ prop ❘ = [pred] (∃ pred) ∧ (∀ [x:term] ∀ [y:term] (pred x ⇒ pred y ⇒ (x ≐ y))) ❙
 
 	// types ❙
-	// TP: type 
+	// tp: type 
 	// MODE in Mizar ❙
 	// of : term ⟶ tp ⟶ prop ❘ # 1 ⦂ 2 prec 50
   // is in Mizar ❙
@@ -41,8 +41,8 @@ theory Mizar : ur:?LFS =
 	intersectionMode: {n:NAT, tps: tp^n} tp ❘ = [n, tps] makeMode ([x] (nary_and n ⟨' x ⦂ (tps .. i) | i:n '⟩)) ❙
  
 	// quantification over types ❙
-	for: {A:tp, p: term ⟶ prop} prop ❘= [A, p] ∀ [x] x ⦂ A ⇒ p x ❙
-	ex: {A:tp, p: term ⟶ prop} prop ❘= [A, p] ∃ [x] (x ⦂ A) ∧ (p x) ❙
+	// for: {A:tp, p: term ⟶ prop} prop ❘ = [A, p] ∀ [x] x ⦂ A ⇒ p x ❙
+	// ex: {A:tp, p: term ⟶ prop} prop ❘ = [A, p] ∃ [x] (x ⦂ A) ∧ (p x) ❙
 
 	// proofs ❙
 	// proof: prop ⟶ type ❘ # ⊦ 1 prec -5❘ ## proof 1 prec -5 ❙
@@ -121,7 +121,6 @@ theory Mizar : ur:?LFS =
   attr : tp ⟶ type ❘= [t] (term ⟶ prop)❙
   dep_typed_attr : {n:NAT, t:term^n ⟶ tp} type ❘= [n, t] (term ⟶ prop) ❙
   neg_attr : {T} attr T ⟶ attr T ❘= [T,a] ([x] ¬ (a x))❙ 
-
    
   // clusters as conjunctions of attributes❙
   cluster: {T} attr T ⟶ attr T ⟶ attr T ❘= [T][a][b] [x] (a x) ∧ (b x)❙
@@ -158,18 +157,21 @@ theory Mizar : ur:?LFS =
 ❚
 
 
-theory HIDDEN : ur:?LF = 
+theory HIDDEN : ?SoftTypedDefinedFOL = 
+	// realize ?Mizar ❙
    include ?Mizar❙
    
 	 // sets (submode of object)❙
-   set : tp❙
-   set_ax : {X} ⊦ X ⦂ set ❙
+   set : tp ❙
+   set_ax : {X:term} ⊦ X ⦂ set ❙
+   // set: type ❙
 
    // eq is already declared in Mizar
    // eq : any ⟶ any ⟶ prop❘= [x][y] x eq y❘# 1 = 2 prec 25❙
    inequal : term ⟶ term ⟶ prop❘= [x][y] not (x ≐ y)❘ # 1 <> 2 prec 25❘## 1 ≠ 2 prec 25❙
-   
+   // include ?InternalTypes ❙
    // be object -> be term -> prop❙
+		
    in : term ⟶ term ⟶ prop❘# 1 in 2 prec 35❘## 1 ‍∈ 2 prec 35❙
 
    fraenkelE : {a : tp} {p : term ⟶ prop}{f : term ⟶ term}

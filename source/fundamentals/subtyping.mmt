@@ -5,9 +5,9 @@ fixmeta ur:?LF❚
 theory Subtyping =
   include ?Types❙
   include ?Logic❙
-  subtype : tp ⟶ tp ⟶ prop❘# 1 ⪽ 2 prec 30❙
+  subtype : tp ⟶ tp ⟶ prop❘# 1 ⪽ 2 prec 30❘ role Judgment❙
   
-  structure subtype_preorder : ?Preorder =
+  structure subtype_relation : ?Relation =
     carrier = tp❙
     rel = [A,B] ⊦ A⪽B❙
   ❚
@@ -17,7 +17,13 @@ theory SoftSubtyping =
   include ?SoftTypedTerms❙
   include ?Subtyping❙
   subtypeI : {A,B} ({x} ⊦ x⦂A ⟶ ⊦x⦂B) ⟶ ⊦ A⪽B❙
-  subtypeE : {A,B}{x} ⊦ A⪽B ⟶ ⊦ x⦂A ⟶ ⊦x⦂B❙
+  subtypeE : {A,B} ⊦ A⪽B ⟶ {x}⊦ x⦂A ⟶ ⊦x⦂B❘ # 5 subtypeE 3❙
+  
+  total structure sub : ?Preorder =
+    include ?Subtyping?subtype_relation❙
+    refl = [A] subtypeI [x,p] p❙
+    trans = [A,B,C,ab,bc] subtypeI ([x,a] a subtypeE ab subtypeE bc)❙
+  ❚
 ❚
 
 theory SubtypeInjections =
@@ -27,6 +33,6 @@ theory SubtypeInjections =
   
   inject : {A,B} ⊦ A ⪽ B ⟶ tm A ⟶ tm B❘# 4 ↑ 3 prec 50❙
   
-  inject_refl : {A,x: tm A} ⊦ x ↑ subtype_preorder/refl ≐ x❙
-  inject_trans : {A,B,C,x: tm A,P:⊦A⪽B, Q:⊦B⪽C} ⊦ x↑(P subtype_preorder/trans Q) ≐ (x↑P)↑Q❙
+  inject_refl : {A,x: tm A} ⊦ x ↑ sub/refl ≐ x❙
+  inject_trans : {A,B,C,x: tm A,P:⊦A⪽B, Q:⊦B⪽C} ⊦ x↑(P sub/trans Q) ≐ (x↑P)↑Q❙
 ❚

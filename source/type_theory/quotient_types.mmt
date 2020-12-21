@@ -1,165 +1,73 @@
-// Quotient types - does not fully typecheck yet.
-   Original author: Navid. ❚
-
 namespace latin:/❚
-import lfx http://gl.mathhub.info/MMT/LFX ❚
 
 fixmeta ur:?LF❚
 
-// We would like to use the ?EquivalenceRelation theory from relations.mmt, but
-   it is not parametric in the carrier type.
-   Thus, if we used "Mod ?EquivalenceRelation", there would no way to force that the carrier type
-   is indeed (tm A), see below.
-
-   (Un)boxing operators would make this nice.
-❚
-
-theory DummyEqvRel > carrier : type ❘ =
-  rel : carrier ⟶ carrier ⟶ type❘# 1 $ 2 prec 30 ❘ role Judgment❙
-❚
-
-theory QuotientTypesBase =
-  include ?TypedTerms❙
+theory TypedQuotients =
+  include ?TypedLogic❙
   include ?TypedEquality❙
-  include ?Proofs ❙
-  include ☞lfx:/Records?LFRecords ❙
-  include ☞lfx:/TypedHierarchy?LFHierarchy ❙
-
-  eqv = [A: tp] Mod ?DummyEqvRel (tm A) ❙
-
-  // A type whose elements can be imagined as equivalence classes.
-
-
-    |- A : tp   rel eqv relation
-   -----------------------------
-          |- A / rel : tp
-  ❙
-  quot : {A: tp} eqv A ⟶ tp  ❘ # 1 / 2 prec 50 ❙
-
-  // The canonical projection from A to A/rel.
-
-    |- x : tm A   rel eqv relation
-   --------------------------------
-          |- π x : A / rel
-  ❙
-  quot_project : {A, rel} tm A ⟶ tm (A / rel)❘ # π 3 prec 50 ❙
-
-  related_elements_identified
-     : {A, rel, x, y} (rel . rel) x y ⟶ ⊦ quot_project A rel x ≐ quot_project A rel y
-    ❘# related_elements_identified 3 4 5
-  ❙
-
-  identified_elements_related
-      : {A, rel: eqv A, x: tm A, y: tm A} ⊦ quot_project A rel x ≐ quot_project A rel y ⟶ (rel . rel) x y
-  ❙
-
-  // Is this a good formalization of functions being congruences? ❙
-  fun_congruence: {A, B, f: tm A ⟶ tm B, rel: eqv A} type ❘ # 3 ⟂ 4 ❙
-  fun_congruenceI
-      : {A, B, f: tm A ⟶ tm B, rel: eqv A} ({x, y} (rel . rel) x y ⟶ ⊦ f x ≐ f y) ⟶ f ⟂ rel
-  ❙
-  fun_congruenceE
-      : {A, B, f: tm A ⟶ tm B, rel: eqv A} f ⟂ rel ⟶ {x, y} (rel . rel) x y ⟶ ⊦ f x ≐ f y
-      ❘ # fun_congruenceE 5 6 7 8
-  ❙
-
-  projection_is_congruence
-       :  {A, rel: eqv A} (quot_project A rel) ⟂ rel
-      ❘= [A, rel] fun_congruenceI A (A / rel) (quot_project A rel) rel
-                    ([x: tm A, y: tm A, xInRelY: (rel . rel) x y]
-                      (related_elements_identified x y xInRelY))
-  ❙
+  quotient: {A} (tm A ⟶ tm A ⟶ prop) ⟶ tp❘ # 1 ⧸ 2 prec 40❙
+  class: {A,R} tm A ⟶ tm A⧸R❘# 3 class 2 prec 35❙
+  equiv: {A,R,x:tm A,y} ⊦ R x y ⟶ ⊦ x class R ≐ y class R❙ 
+  welldefined : {A,R} tm A⧸R ⟶ {B,F:tm A ⟶ tm B} ({x,y} ⊦ R x y ⟶ ⊦ F x ≐ F y) ⟶ tm B❘
+              # 3 wldf 5 6❙ 
 ❚
 
-theory QuotientFunctionAccess =
-  include ?QuotientTypesBase ❙
+/T A special form of quotient types for type-dependent equality.
+   Because the equality of elements at the quotient type can deviate from the equality at the base type,
+   this formulation allows for the usual mathematical practice of
+   reusing the elements of the base type as elements of the quotient.
+   Thus, (like for predicate subtypes) no computation is needed for projection and lifting - the two functions are just type-casts.
+   
+   Maybe surprisingly, the quotient type technically becomes a super-type of the base type:
+   indeed, the projection function preserves typing and equality.
+   In particular, using a larger relation produces larger quotients and
+   - the smallest (= empty) relation yields the smallest quotient, one isomorphic to the base set
+   - the biggest (= universal) relation yields the biggest (terminal) type, i.e., a singleton.
+   This is dual to the properties of predicate subtypes.
+❚
+theory SoftTypedQuotients =
+  include ?SoftTypedLogic❙
+  include ?SoftTypedEquality❙
+  quotient: tp ⟶ (term ⟶ term ⟶ prop) ⟶ tp❘ # 1 ⧸ 2 prec 40❙
+  equiv: {A,R,x,y} ⊦x⦂A ⟶ ⊦y⦂A ⟶ ⊦ R x y ⟶ ⊦ x ≐(A⧸R) y❙ 
+  welldefined : {A,R,B,F:term ⟶ term} ({x,y, p:⊦x⦂A, q:⊦x⦂A} ⊦ R x y ⟶ ⊦ F ↑p ≐B F ↑q)
+            ⟶ {x,p:⊦x⦂(A⧸R)} ⊦ F ↑p ⦂ B❙ 
+❚
 
-  quot_fun:
-        {A, B, f: tm A ⟶ tm B, rel} f ⟂ rel ⟶ (tm (A / rel) ⟶ tm B)
-      ❘ # 3 ÷ 5
+/T   Set theory-like quotients
+
+     The theory is intended to be realized in set theory.
+     However, set theory's key conception of a class as a set of equivalent elements
+     is abstracted from and considered an impelmentation detail of set theory
+     (akin to how, e.g., the definition of pairs as Kuratowski pairs is abstracted from).
+     In particular, there are no axioms governing what the elements of a class.
+❚
+theory InternallyTypedQuotients =
+  include ?InternallyTypedLogic❙
+  include ?UntypedEquality❙
+  /T All declarations in this theory take first arguments
+     [A:term,R:term⟶term⟶prop] where $A$ is the base set and $R$ is relation to quotient $A$ by.❙
+
+  /T the quotient❙
+  quotient:    term ⟶ (term ⟶ term ⟶ prop) ⟶ term❘ # 1 ⧸ 2 prec 40❙
+  /T the projection function mapping elements to classes in the quotient❙
+  class:       term ⟶ (term ⟶ term ⟶ prop) ⟶ term ⟶ term❘# 3 class 1 2 prec 35❙
+  /T the lifting function that maps functions out of the base set to a well-defined function out of the quotient❙
+  welldefined: term ⟶ (term ⟶ term ⟶ prop) ⟶ (term ⟶ term) ⟶ term ⟶ term❘# 1 2 wldf 3 4 prec 35❙
+
+  /T Contrary to set theory, we do not require that [R:term⟶term⟶prop] is an equivalence relation.
+     Instead, we use an additional axiom that makes the kernel of the projection (which is always
+     an equivalence) an extension of $R$.
+     Then, the typing rule of lifting applies to any function whose kernel extends $R$ (and thus extends the equivalence closure of $R$); that ensures that the kernel of the projection is minimal.
   ❙
-
-  // The axiom that the following diagram commutes:
-
-      A ----- π -----> A/rel
-       \                | f ÷ rel
-        \  f            v
-         \------------> B ❙
-  quote_fun_ax
-    : {A, B, f: tm A ⟶ tm B, rel, p: f ⟂ rel} {x: tm A} ⊦ (quot_fun A B f rel p (π x)) ≐ f x
-    ❘ // using the notation "(f ÷ rel) (π x) ≐ (f x)" leads to inhabitable errors strangely
-    ❘ // no role Simplify due to https://github.com/UniFormal/MMT/issues/554
+  
+  /T related elements have equal classes❙
+  equiv: {A,R,x,y} ⊦ R x y ⟶ ⊦ x class A R ≐ y class A R❙
+  
+  /T the typing rule for the projection: The projection of an element of the base set is in the quotient.❙
+  quotientI: {A,R,x} ⊦ x∈A ⟶ ⊦ x class A R ∈ A⧸R❙
+  /T the typing rule for the lifting: Given [A:term,R:term⟶term⟶prop,B:term,F:term⟶term] if $F$ is a function from $A$ to $B$ that preserves $R$, then its lifting is the function from $A⧸R$ to $B$ defined by $F$.
   ❙
+  quotientE : {A,R,B,F} ({x}⊦x∈A ⟶ ⊦ F x ∈ B) ⟶ ({x,y} ⊦x∈A ⟶ ⊦y∈A ⟶ ⊦ R x y ⟶ ⊦ F x ≐ F y)
+            ⟶ {x} ⊦x ∈ A⧸R ⟶ ⊦ A R wldf F x ≐ F x❙
 ❚
-
-/T Examples of building functions into quotient types ❚
-theory QuotientFunctionExamples =
-  include ?QuotientFunctionAccess ❙
-
-  /T The canonical identity given by LF's identity on tm (A / rel) ❙
-  canonical_id: {A, rel: eqv A} tm (A / rel) ⟶ tm (A / rel)  ❘ = [A, rel, a] a ❙
-  canonical_id_notation = [A, rel: eqv A] canonical_id A rel ❘ # id_quot 2 ❙
-
-  /T The projection π: tm A ⟶ tm (A / ~) induces a function tm (A / rel) ⟶ tm (A / rel). ❙
-  induced_id:   {A, rel: eqv A} tm (A / rel) ⟶ tm (A / rel)
-    ❘ = [A, rel] (quot_project A rel) ÷ (projection_is_congruence A rel)
-  ❙
-  induced_id_notation = [A, rel: eqv A] induced_id A rel ❘ # id_quot_induced 2 ❙
-
-  /T I (Navid) think this isn't provable in QuotientFunctionAccess (but in QuotientIndefiniteAccess ❙
-  identities_extensionally_equal: {A, rel: eqv A, a} ⊦ (id_quot rel) a ≐ (id_quot_induced rel) a ❙
-❚
-
-theory QuotientIndefiniteAccess =
-  include ?QuotientTypesBase ❙
-
-  // A postulated pre-inverse to the canonical projection π.
-     "Extracts an arbitrary element from an equivalence class
-      such that π ∘ ι ≐ identity."
-
-      |- x : tm A   |- [x] : tm (A / rel)
-   -----------------------------------------
-                 |- ι [x] : tm A
-  ❙
-  quot_inj : {A, rel} tm (A / rel) ⟶ tm A ❘ # ι 3 ❙
-
-  quot_inj_proj_inverse : {A, rel, z: tm (A / rel)} ⊦ (π (ι z)) ≐ z ❙
-
-  // The arbitrary element from an equivalence class (by quot_take_any) is the same
-     as a projected element -- up to the equivalence relation.
-
-      |- x : tm A   rel eqv relation
-   -----------------------------------
-    x and ι (π x) are in relation rel
-  ❙
-  quot_proj_inj_almost_inverse : {A, rel: eqv A, x: tm A} (rel . rel) (quot_inj A rel (π x)) x ❙
-   // type inference somehow didn't work with ι instead of quot_injection ❙
-❚
-
-/T Phrases function access in terms of indefinite access.
-
-   The other direction is impossible: indefinite access is a stronger tool than function access.
-❚
-view QuotientFunctionViaIndefiniteAccess : ?QuotientFunctionAccess -> ?QuotientIndefiniteAccess =
-  include ?QuotientTypesBase ❙
-
-  quot_fun = [A, B, f, rel, p: f ⟂ rel] [a: tm (A / rel)] f (ι a) ❙
-  // have (ι (π x)) ~ x
-     hence f ι (π x) ≐ x ❙
-  quote_fun_ax = [A, B, f, rel, p: f ⟂ rel] [x: tm A]
-                    fun_congruenceE p (quot_inj A rel (π x)) x
-                      (quot_proj_inj_almost_inverse A rel x) ❙
-❚
-
-// view QuotientFunctionEx : ?QuotientFunctionExamples -> ?QuotientIndefiniteAccess =
-  include ?QuotientFunctionViaIndefiniteAccess ❙
-  // identities_extensionally_equal: {A, rel: eqv A, a} ⊦ (id_quot rel) a ≐ (id_quot_induced rel) a ❙
-  // identities_extensionally_equal:
-❚
-
-theory QuotientTypes =
-  include ☞latin:/?QuotientTypesBase ❙
-  include ?QuotientIndefiniteAccess ❙
-  include ?QuotientFunctionAccess ❘ = ?QuotientFunctionViaIndefiniteAccess ❙
-❚
-
