@@ -118,11 +118,11 @@ object BwdTactic extends SimpleProofStepRule(NewTactics.bwd.path){
             val holes : ListBuffer[LocalName] = ListBuffer()
             val ctx = prover.solver.checkingUnit.context ++ goal.stack.context  ++ prover.lambdaGoalsToContext
             for (i <- 0 until numHoles){
-              val hname = helperFunctions.genHoleName(ctx ++ Context(holes.map(ln => VarDecl(ln)) : _*))
+              val hname = helperFunctions.genHoleName(ctx ++ new Context(holes.map(ln => VarDecl(ln)).toSeq :_*))
               holes.insert(0 , hname)
             }
 //applygeneral maybe
-            val lterm = ApplySpine(trm , holes.map(x => OMV(x)) : _ *)
+            val lterm = ApplySpine(trm , holes.map(x => OMV(x)).toSeq : _ *)
 
             //lambda term
 

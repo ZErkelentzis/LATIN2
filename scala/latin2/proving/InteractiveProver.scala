@@ -10,7 +10,7 @@ import info.kwarc.mmt.api.documents.InterpretationInstructionContext
 import info.kwarc.mmt.api.objects.{Context, Stack, Term}
 import info.kwarc.mmt.api.parser.{NotationBasedParser, ParseResult, ParsingUnit, SourceRef}
 import info.kwarc.mmt.lf.OfType
-import lf.{NewTactics, PropositionsITP, Tactics}
+import lf.{NewTactics, PropositionsITP}
 import javax.swing._
 import LambdaProofTerm._
 import javax.swing.text.DefaultHighlighter.DefaultHighlightPainter
