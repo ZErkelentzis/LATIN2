@@ -4,7 +4,7 @@ fixmeta ur:?LF❚
 
 theory TypeEquality =
   include ?TypedLogic❙
-  structure tpeq : ?EqualityND =
+  structure tpeq : ?UntypedEqualityND =
     include ?Logic❙
     term = tp❙
     equal # 1 ≛ 2 prec 50❙   
