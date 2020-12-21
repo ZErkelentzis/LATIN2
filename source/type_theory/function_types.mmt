@@ -5,7 +5,6 @@ fixmeta ur:?LF❚
 theory SimpleFunctionTypes =
   include ?Types❙
   simpfun : tp ⟶ tp ⟶ tp❘# 1 %R→ 2 prec 50❙
-  test = [a:tp] a → a → a❙
 ❚
 
 theory DependentFunctionTypes =
@@ -22,10 +21,19 @@ theory SoftDependentFunctionTypes =
 
 theory SimpleFunctions =
   include ?SimpleFunctionTypes❙
-  include ?TypedEquality❙
+  include ?TypedEqualityND❙
   simplambda: {A,B} (tm A ⟶ tm B) ⟶ tm A → B❘# λ 3 prec 40❙
   simpapply: {A,B} tm A → B ⟶ tm A ⟶ tm B❘# 3 @ 4 prec 50❙
-  simpbeta : {A,B,F: tm A ⟶ tm B, X} ⊦ (λ F) @ X ≐ F X❙
+  simpbeta : {A,B,F: tm A ⟶ tm B, X} ⊦ (λ F) @ X ≐ F X❘ role Simplify❙
+  
+  simpxi : {A,B,F,G:tm A ⟶ tm B} ({x} ⊦F x≐G x) ⟶ ⊦λ F≐λ G❘
+         = [A,B,F,G,p] congB p ([U] λ F ≐ λ U) refl❙
+  apply_eq : {A,B,F,G:tm A→B,x,y:tm A} ⊦ F≐G ⟶ ⊦x≐y ⟶ ⊦ F@x ≐ G@y❘
+           = [A,B,F,G,x,y,p,q] p q congT2 [u,v]u@v❙  
+  apply_eq_l : {A,B,F,G:tm A→B} ⊦ F≐G ⟶ {x:tm A} ⊦ F@x ≐ G@x❘
+           = [A,B,F,G,p,x] apply_eq p refl❙ 
+  apply_eq_r : {A,B,x,y:tm A} ⊦x≐y ⟶ {F:tm A→B} ⊦ F@x ≐ F@y❘
+           = [A,B,x,y,p,F] apply_eq refl p❙ 
 
   // should be an extra notation for simpapply❙
   apply1 : {a,b} tm a→b ⟶ (tm a ⟶ tm b)❘
@@ -48,7 +56,7 @@ theory DependentFunctions =
 
 theory SoftTypedFunctions =
   include ?Terms❙
-  include ?SoftTypedEquality❙
+  include ?UntypedEquality❙
   lambda: (term ⟶ term) ⟶ term❘# λ 1 prec 40❙
   apply : term ⟶ term ⟶ term❘# 1 @ 2 prec 50❙
   beta  : {F,X} ⊦ (λ F) @ X ≐ F X❙

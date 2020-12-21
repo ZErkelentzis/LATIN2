@@ -82,16 +82,6 @@ theory DisjunctionND =
   include ?DisjunctionNDE❙
 ❚
 
-theory AlternativeNegationAndFalsityND =
-  include ?Proofs ❙
-  include ?Falsity ❙
-  include ?Negation ❙
-  include ?Disjunction ❙
-  notIntroduction : {A} (⊦ A ⟶ ⊦ false) ⟶ (⊦ ¬ A) ❘ # altNotI 2 ❙
-  notElimination : {A} ⊦ ¬ ¬ A ⟶ ⊦ A ❘ # altNotE 2 ❙
-  falseIntroduction : {A} ⊦ ¬ A ⟶ ⊦ A ⟶ ⊦ false ❘ # altFI 2 3 ❘ role EliminationRule ❙
-  falseElimination : {A} ⊦ false ⟶ ⊦ A ❘ # altFE 1 2 ❙
-❚
 
 theory Conjunction =
   include ?Propositions❙
@@ -124,13 +114,13 @@ theory Implication =
 theory ImplicationNDI =
   include ?Implication❙
   include ?Proofs❙
-  impI  : {F,G} (⊦ F ⟶ ⊦ G) ⟶ ⊦ F ⇒ G❙
+  implI  : {F,G} (⊦ F ⟶ ⊦ G) ⟶ ⊦ F ⇒ G❙
 ❚
 
 theory ImplicationNDE =
   include ?Implication❙
   include ?Proofs❙
-  impE  : {F,G} ⊦ F ⇒ G ⟶ ⊦ F ⟶ ⊦ G❘# 3 impE 4❘role ForwardRule❙
+  implE  : {F,G} ⊦ F ⇒ G ⟶ ⊦ F ⟶ ⊦ G❘# 3 implE 4❘role ForwardRule❙
 ❚
 
 theory ImplicationND =
@@ -140,8 +130,8 @@ theory ImplicationND =
   total structure impl_preorder : ?Preorder =
     carrier = prop❙
     rel = [x,y] ⊦ x ⇒ y❙
-    refl = [F] impI [f] f❙
-    trans = [F,G,H,fg,gh] impI [f] gh impE (fg impE f)❙ 
+    refl = [F] implI [f] f❙
+    trans = [F,G,H,fg,gh] implI [f] gh implE (fg implE f)❙ 
   ❚
 ❚
 
@@ -206,7 +196,7 @@ theory IPLND =
   total structure impl_order : ?Order =
     include ?ImplicationND/impl_preorder❙ 
     structure equalityRel = ?EquivalenceND/equiv_equivalence❙
-    antisym = [F,G,fg,gf] equivI ([f] fg impE f) ([g] gf impE g)❙
+    antisym = [F,G,fg,gf] equivI ([f] fg implE f) ([g] gf implE g)❙
   ❚
 ❚
 
@@ -234,6 +224,18 @@ theory PLND =
   dne : {F} ⊦¬¬F ⟶ ⊦F❘= [F,p] indirect [q] p notE q❙
   tnd : {F} ⊦F∨¬F❘= [F] dne nntnd❙
 ❚
+
+theory AlternativeNegationAndFalsityND =
+  include ?Proofs ❙
+  include ?Falsity ❙
+  include ?Negation ❙
+  include ?Disjunction ❙
+  notIntroduction : {A} (⊦ A ⟶ ⊦ false) ⟶ (⊦ ¬ A) ❘ # altNotI 2 ❙
+  notElimination : {A} ⊦ ¬ ¬ A ⟶ ⊦ A ❘ # altNotE 2 ❙
+  falseIntroduction : {A} ⊦ ¬ A ⟶ ⊦ A ⟶ ⊦ false ❘ # altFI 2 3 ❘ role EliminationRule ❙
+  falseElimination : {A} ⊦ false ⟶ ⊦ A ❘ # altFE 1 2 ❙
+❚
+
 
 /T Conjunction where the second conjunct's well-formedness may depend on the truth of the first conjunct
    Curry-Howard analogue of Sigma types ❚

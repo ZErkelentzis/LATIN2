@@ -1,0 +1,44 @@
+namespace latin:/❚
+
+fixmeta ur:?LF❚
+
+/T Conjunction where the second conjunct's well-formedness may depend on the truth of the first conjunct
+   Curry-Howard analogue of Sigma types ❚
+theory DependentConjunction =
+  include ?Logic❙
+  dand   : {F} (⊦ F ⟶ prop) ⟶ prop❘# 1 ∧- 2 prec 10❙
+❚
+
+theory DependentConjunctionND =
+  include ?DependentConjunction❙
+  dandI  : {F,G} {p:⊦ F} ⊦ G p ⟶ ⊦ F ∧- G❙
+  dandEl : {F,G} ⊦ F ∧- G ⟶ ⊦ F❘# 3 dandEl❘role ForwardRule❙
+  dandEr : {F,G} {p: ⊦ F ∧- G} ⊦ G (p dandEl)❘# 3 dandEr❘role ForwardRule❙
+❚
+
+/T Disjunction where the second disjunct's well-formedness may depend on the falsity of the first disjunct
+   Curry-Howard analogue of an unusual union type where the second argument is only considered if the first one is empty❚ 
+theory DependentDisjunction =
+  include ?Logic❙
+  dor    : {F} ((⊦ F ⟶ ↯) ⟶ prop) ⟶ prop❘# 1 ∨- 2 prec 10❙
+❚
+
+theory DependentDisjunctionND =
+  include ?DependentDisjunction❙
+  dorIl  : {F,G} ⊦ F ⟶ ⊦ F ∨- G❘# 3 dorIl❙
+  dorIr  : {F,G} ({p:⊦ F ⟶ ↯} ⊦ G p) ⟶ ⊦ F ∨- G❘# 3 dorIr❙
+  dorE   : {F,G,C} ⊦ F ∨- G ⟶ (⊦ F ⟶ ⊦ C) ⟶ ({p: ⊦ F ⟶ ↯} ⊦ G p ⟶ ⊦ C) ⟶ ⊦ C❘# 4 dorE 5 6❙
+❚
+
+/T Implication where the implicate's well-formedness may depend on the truth of the implicant
+   Curry-Howard analogue of Pi types ❚
+theory DependentImplication =
+  include ?Logic❙
+  dimpl  : {F} (⊦ F ⟶ prop) ⟶ prop❘# 1 ⇒- 2 prec 10❙
+❚
+
+theory DependentImplicationND =
+  include ?DependentImplication❙
+  dimpI  : {F,G} ({p} ⊦ G p) ⟶ ⊦ F ⇒- G❙
+  dimpE  : {F,G} ⊦ F ⇒- G ⟶ {p:⊦ F} ⊦ G p❘# 3 dimpE 4❘role ForwardRule❙
+❚
