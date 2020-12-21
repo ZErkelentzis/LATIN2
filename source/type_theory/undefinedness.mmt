@@ -6,7 +6,7 @@ theory UndefinedTerms =
   include ?UntypedLogic❙
   defined : term ⟶ prop❘# 1 ↓ prec 70❙
   strict_equal : term ⟶ term ⟶ prop❘ # 1 ≚ 2 prec 50❙ 
-❚
+❚ 
 
 theory UndefinedTypedTerms =
   include ?TypedLogic❙
@@ -16,7 +16,7 @@ theory UndefinedTypedTerms =
 
 theory UndefinedSoftTypedTerms =
   include ?SoftTypedTerms❙
-  defined : term ⟶ tp ⟶ prop❘# 1 ↓ 2 prec 50❙
+  defined : term ⟶ tp ⟶ prop❘# 1 ↓ 2 prec 70❙
   strict_equal : tp ⟶ term ⟶ term ⟶ prop❘# 2 ≚ 3 prec 50❙
 ❚
 

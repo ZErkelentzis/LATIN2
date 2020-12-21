@@ -1,0 +1,17 @@
+namespace latin:/❚
+
+fixmeta ?TypedEqualityND❚
+
+theory Category =
+  obj: type❙
+
+  hom: obj ⟶ obj ⟶ tp❙
+  Hom: obj ⟶ obj ⟶ type❘= [a,b] tm (hom a b)❙
+  id : {a} Hom a a❙
+  comp : {a,b,c} Hom a b ⟶ Hom b c ⟶ Hom a c❘# 4 ; 5 prec 50❙
+
+  neutLeft : {a,b,f:Hom a b} ⊦ (id a);f ≐ f❙
+  neutRight : {a,b,f:Hom a b} ⊦ f;(id b) ≐ f❙
+  assoc: {a,b,c,d, f:Hom a b, g:Hom b c, h:Hom c d} ⊦ f;(g;h) ≐ (f;g);h❙ 
+❚
+
