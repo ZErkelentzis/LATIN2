@@ -13,10 +13,9 @@ theory EndoFunctor =
   applyComp : {a,b,c,f:tm a ⟶ tm b, g: tm b ⟶ tm c, xs: tm &a} ⊦ xs map f map g ≐ xs map [x] g (f x)❙
 ❚
 
-fixmeta ?HOLND❚
-
-theory Category = 
+theory Category =
   obj: type❙
+
   hom: obj ⟶ obj ⟶ tp❙
   Hom: obj ⟶ obj ⟶ type❘= [a,b] tm (hom a b)❙
   id : {a} Hom a a❙
@@ -27,8 +26,8 @@ theory Category =
   assoc: {a,b,c,d, f:Hom a b, g:Hom b c, h:Hom c d} ⊦ f;(g;h) ≐ (f;g);h❙ 
 ❚
 
-/T View currently not total ❚
-implicit view CategoryOfTypes : ?Category → ?HOLND =
+/T View currently not total, needs Extensionality❚
+implicit view CategoryOfTypes : ?Category → ?SimpleFunctions =
   obj = tp❙
   hom = [a,b] a→b❙
   id = [a] λ[x]x❙
@@ -37,6 +36,7 @@ implicit view CategoryOfTypes : ?Category → ?HOLND =
 
 theory InternalEndoFunctor =
   include ?TypeOperator❙
+  include ?SimpleFunctions❙
   fmap : {a,b} tm a→b ⟶ tm &a→&b❘# fmap 3 prec 50❙
   fmapApply : {a,b} tm a→b ⟶ tm &a ⟶ tm &b❘= [a,b,f,x] (fmap f)@x❘# 3 <$> 4❙
   fmapId : {a} ⊦ fmap (id a) ≐ id (&a)❙
