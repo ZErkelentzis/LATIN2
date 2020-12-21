@@ -40,7 +40,7 @@ private object FOLTyper {
   def typify(decl: OML): OML = {
     val adder = new DependenciesAndTypeOperatorAdder
 
-    val tmpDecl = adder.traverse(decl)(Context.empty, Unit).asInstanceOf[OML] // return value is indeed an OML by recursion
+    val tmpDecl = adder.traverse(decl)(Context.empty, ()).asInstanceOf[OML] // return value is indeed an OML by recursion
 
     tmpDecl.copy(
       tp = tmpDecl.tp.map(dependentlyTypeTypeComponent),

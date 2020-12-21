@@ -92,7 +92,7 @@ private object SingleTypeIndexer {
   def typeIndex(decl: OML, abstractedDeclsSoFar: List[LocalName]): OML = {
     val adder = new DependencyAndTypeOperatorAdder(abstractedDeclsSoFar)
 
-    val tmpDecl = adder.traverse(decl)(Context.empty, Unit).asInstanceOf[OML] // return value is indeed an OML by recursion
+    val tmpDecl = adder.traverse(decl)(Context.empty, ()).asInstanceOf[OML] // return value is indeed an OML by recursion
 
     tmpDecl.copy(
       tp = tmpDecl.tp.map(dependentlyTypeTypeComponent),

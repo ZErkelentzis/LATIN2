@@ -75,7 +75,7 @@ private object MultiTypeIndexer {
     )
   }
 
-  def dependentlyTypeTypeComponent(typeComponent: Term, dependenciesToAbstract: Seq[LocalName]): Term = {
+  def dependentlyTypeTypeComponent(typeComponent: Term, dependenciesToAbstract: collection.Seq[LocalName]): Term = {
     val dependentlyBoundVariables = dependenciesToAbstract.map(sortName =>
       (Some(sortName), TypedTerms.tp())
     ).toList
@@ -83,7 +83,7 @@ private object MultiTypeIndexer {
     FunType(dependentlyBoundVariables, typeComponent)
   }
 
-  def lambdaBindDefComponent(defComponent: Term, dependenciesToBind: Seq[LocalName]): Term = {
+  def lambdaBindDefComponent(defComponent: Term, dependenciesToBind: collection.Seq[LocalName]): Term = {
     val variablesToBind = dependenciesToBind.map(sortName =>
       (sortName, TypedTerms.tp())
     ).toList
