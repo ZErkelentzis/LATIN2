@@ -65,7 +65,7 @@ theory EqualityType =
   include ?OneTyped❙
   structure equalityRel : ?EquivalenceRelation =
     include ?OneTyped❙
-    rel # 1 = 2❙
+    rel # 1 = 2 prec 30❙
     refl @ refl❙
     sym @ sym❙
     trans @ trans❙
