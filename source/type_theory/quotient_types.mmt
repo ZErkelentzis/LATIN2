@@ -31,7 +31,7 @@ theory SoftTypedQuotients =
   quotient: tp ⟶ (term ⟶ term ⟶ prop) ⟶ tp❘ # 1 ⧸ 2 prec 40❙
   class : {A,R,x} ⊦ x⦂A ⟶ ⊦ x⦂A⧸R❙
   equiv: {A,R,x,y} ⊦x⦂A ⟶ ⊦y⦂A ⟶ ⊦ R x y ⟶ ⊦ x ≐(A⧸R) y❙ 
-  welldefined : {A,R,B,F:term ⟶ term} ({x,y, p:⊦x⦂A, q:⊦x⦂A} ⊦ R x y ⟶ ⊦ F ↑p ≐B F ↑q)
+  welldefined : {A,R,B,F:term ⟶ term} ({x,y, p:⊦x⦂A, q:⊦x⦂A} ⊦ R x y ⟶ ⊦ (F ↑p) ≐B (F ↑q))
             ⟶ {x,p:⊦x⦂(A⧸R)} ⊦ F ↑p ⦂ B❙
 ❚
 
