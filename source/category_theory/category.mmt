@@ -25,7 +25,7 @@ theory Category =
     carrier = obj❙
     rel = [a,b] ⊦ iso a b❙
     refl = [a] existsI id existsI id andI neutLeft neutLeft❙
-    trans = [a,b,c,p,q] p existsE [abf,pˈ] pˈ existsE [abg,abi]
+//    trans = [a,b,c,p,q] p existsE [abf,pˈ] pˈ existsE [abg,abi]
                         q existsE [bcf,qˈ] qˈ existsE [bcg,bci]
                         existsI (abf;bcf) existsI (bcg;abg) andI _ _ ❙
     sym = [a,b,p] p existsE [f,pˈ] pˈ existsE [g,i] existsI g existsI f and_swap i❙
