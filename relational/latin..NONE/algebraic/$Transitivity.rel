@@ -1,0 +1,30 @@
+judgementconstructor latin:/algebraic?Transitivity?metarel/[latin:/?Relation]/rel
+datatypeconstructor latin:/algebraic?Transitivity?metarel/[latin:/?OneTyped]/carrier
+dataconstructor latin:/algebraic?Transitivity?metarel/trans
+dataconstructor latin:/algebraic?Transitivity?metarel/trans3
+dataconstructor latin:/algebraic?Transitivity?metarel/trans4
+theory latin:/algebraic?Transitivity
+HasMeta latin:/algebraic?Transitivity latin:/?SFOLEQND
+Includes latin:/algebraic?Transitivity latin:/algebraic?Relation
+Declares latin:/algebraic?Transitivity latin:/algebraic?Transitivity?metarel
+HasDomain latin:/algebraic?Transitivity?metarel latin:/?Transitivity
+HasCodomain latin:/algebraic?Transitivity?metarel latin:/algebraic?Transitivity
+structure latin:/algebraic?Transitivity?metarel
+Declares latin:/algebraic?Transitivity latin:/algebraic?Transitivity?metarel/[latin:/?Relation]
+HasDomain latin:/algebraic?Transitivity?metarel/[latin:/?Relation] latin:/?Relation
+HasCodomain latin:/algebraic?Transitivity?metarel/[latin:/?Relation] latin:/algebraic?Transitivity
+structure latin:/algebraic?Transitivity?metarel/[latin:/?Relation]
+Declares latin:/algebraic?Transitivity latin:/algebraic?Transitivity?metarel/[latin:/?Relation]/rel
+constant latin:/algebraic?Transitivity?metarel/[latin:/?Relation]/rel
+Declares latin:/algebraic?Transitivity latin:/algebraic?Transitivity?metarel/[latin:/?OneTyped]
+HasDomain latin:/algebraic?Transitivity?metarel/[latin:/?OneTyped] latin:/?OneTyped
+HasCodomain latin:/algebraic?Transitivity?metarel/[latin:/?OneTyped] latin:/algebraic?Transitivity
+structure latin:/algebraic?Transitivity?metarel/[latin:/?OneTyped]
+Declares latin:/algebraic?Transitivity latin:/algebraic?Transitivity?metarel/[latin:/?OneTyped]/carrier
+constant latin:/algebraic?Transitivity?metarel/[latin:/?OneTyped]/carrier
+Declares latin:/algebraic?Transitivity latin:/algebraic?Transitivity?metarel/trans
+constant latin:/algebraic?Transitivity?metarel/trans
+Declares latin:/algebraic?Transitivity latin:/algebraic?Transitivity?metarel/trans3
+constant latin:/algebraic?Transitivity?metarel/trans3
+Declares latin:/algebraic?Transitivity latin:/algebraic?Transitivity?metarel/trans4
+constant latin:/algebraic?Transitivity?metarel/trans4

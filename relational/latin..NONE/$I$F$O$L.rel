@@ -1,0 +1,5 @@
+theory latin:/?IFOL
+HasMeta latin:/?IFOL http://cds.omdoc.org/urtheories?LF
+Includes latin:/?IFOL latin:/?IPL
+Includes latin:/?IFOL latin:/?UniversalQuantification
+Includes latin:/?IFOL latin:/?ExistentialQuantification

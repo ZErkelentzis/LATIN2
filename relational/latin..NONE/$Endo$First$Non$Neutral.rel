@@ -8,7 +8,7 @@ DependsOn latin:/?EndoFirstNonNeutral?firstNonNeutral?type latin:/?TypedTerms?tm
 DependsOn latin:/?EndoFirstNonNeutral?firstNonNeutral?type latin:/?Propositions?prop?type
 DependsOn latin:/?EndoFirstNonNeutral?firstNonNeutral?type latin:/?EndoNeutral?e?type
 DependsOn latin:/?EndoFirstNonNeutral?firstNonNeutral?type latin:/?TypeOperator?applyType?type
-DependsOn latin:/?EndoFirstNonNeutral?firstNonNeutral?type latin:/?Proofs?inconsistent?type
+DependsOn latin:/?EndoFirstNonNeutral?firstNonNeutral?type latin:/?Logic?inconsistent?type
 DependsOn latin:/?EndoFirstNonNeutral?firstNonNeutral?type latin:/?TypedEquality?equal?type
 DependsOn latin:/?EndoFirstNonNeutral?firstNonNeutral?type latin:/?EndoMagma?op?type
 DependsOn latin:/?EndoFirstNonNeutral?firstNonNeutral?type latin:/?Proofs?ded?type

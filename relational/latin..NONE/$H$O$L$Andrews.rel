@@ -1,0 +1,421 @@
+dataconstructor latin:/?HOLAndrews?[latin:/?Truth]/true
+dataconstructor latin:/?HOLAndrews?[latin:/?TruthND]/trueI
+dataconstructor latin:/?HOLAndrews?[latin:/?Falsity]/false
+dataconstructor latin:/?HOLAndrews?[latin:/?FalsityND]/falseE
+dataconstructor latin:/?HOLAndrews?[latin:/?Negation]/not
+dataconstructor latin:/?HOLAndrews?[latin:/?NegationNDI]/notI
+dataconstructor latin:/?HOLAndrews?[latin:/?NegationNDE]/notE
+dataconstructor latin:/?HOLAndrews?[latin:/?TypedUniversalQuantification]/forall
+dataconstructor latin:/?HOLAndrews?[latin:/?TypedUniversalQuantificationND]/forallI
+dataconstructor latin:/?HOLAndrews?[latin:/?TypedUniversalQuantificationND]/forallE
+dataconstructor latin:/?HOLAndrews?[latin:/?Conjunction]/and
+dataconstructor latin:/?HOLAndrews?[latin:/?ConjunctionNDI]/andI
+dataconstructor latin:/?HOLAndrews?[latin:/?ConjunctionNDE]/andEl
+dataconstructor latin:/?HOLAndrews?[latin:/?ConjunctionNDE]/andEr
+dataconstructor latin:/?HOLAndrews?[latin:/?Implication]/impl
+dataconstructor latin:/?HOLAndrews?[latin:/?ImplicationNDI]/implI
+dataconstructor latin:/?HOLAndrews?[latin:/?ImplicationNDE]/implE
+dataconstructor latin:/?HOLAndrews?[latin:/?Disjunction]/or
+dataconstructor latin:/?HOLAndrews?[latin:/?DisjunctionNDI]/orIl
+dataconstructor latin:/?HOLAndrews?[latin:/?DisjunctionNDI]/orIr
+dataconstructor latin:/?HOLAndrews?[latin:/?DisjunctionNDE]/orE
+dataconstructor latin:/?HOLAndrews?[latin:/?Equivalence]/equiv
+dataconstructor latin:/?HOLAndrews?[latin:/?EquivalenceNDI]/equivI
+dataconstructor latin:/?HOLAndrews?[latin:/?EquivalenceNDE]/equivEl
+dataconstructor latin:/?HOLAndrews?[latin:/?EquivalenceNDE]/equivEr
+dataconstructor latin:/?HOLAndrews?[latin:/?TypedExistentialQuantification]/exists
+dataconstructor latin:/?HOLAndrews?[latin:/?TypedExistentialQuantificationND]/existsI
+dataconstructor latin:/?HOLAndrews?[latin:/?TypedExistentialQuantificationND]/existsE
+theory latin:/?HOLAndrews
+HasMeta latin:/?HOLAndrews http://cds.omdoc.org/urtheories?LF
+Includes latin:/?HOLAndrews latin:/?InternalEquality
+Includes latin:/?HOLAndrews latin:/?TypedEqualityND
+Includes latin:/?HOLAndrews latin:/?PropositionalExtensionality
+Includes latin:/?HOLAndrews latin:/?IHOLND
+Declares latin:/?HOLAndrews latin:/?HOLAndrews?[latin:/?Truth]/true
+constant latin:/?HOLAndrews?[latin:/?Truth]/true
+DependsOn latin:/?HOLAndrews?[latin:/?Truth]/true?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?HOLAndrews?[latin:/?Truth]/true?definition latin:/?Propositions?prop?type
+DependsOn latin:/?HOLAndrews?[latin:/?Truth]/true?definition latin:/?SimpleFunctions?simplambda?type
+DependsOn latin:/?HOLAndrews?[latin:/?Truth]/true?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/?HOLAndrews?[latin:/?Truth]/true?definition latin:/?InternalPropositions?bool?type
+DependsOn latin:/?HOLAndrews?[latin:/?Truth]/true?definition latin:/?SimpleFunctionTypes?simpfun?type
+DependsOn latin:/?HOLAndrews?[latin:/?Truth]/true?definition latin:/?Types?tp?type
+Declares latin:/?HOLAndrews latin:/?HOLAndrews?[latin:/?TruthND]/trueI
+constant latin:/?HOLAndrews?[latin:/?TruthND]/trueI
+DependsOn latin:/?HOLAndrews?[latin:/?TruthND]/trueI?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?HOLAndrews?[latin:/?TruthND]/trueI?definition latin:/?Propositions?prop?type
+DependsOn latin:/?HOLAndrews?[latin:/?TruthND]/trueI?definition latin:/?SimpleFunctions?simplambda?type
+DependsOn latin:/?HOLAndrews?[latin:/?TruthND]/trueI?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/?HOLAndrews?[latin:/?TruthND]/trueI?definition latin:/?InternalPropositions?bool?type
+DependsOn latin:/?HOLAndrews?[latin:/?TruthND]/trueI?definition latin:/?Proofs?ded?type
+DependsOn latin:/?HOLAndrews?[latin:/?TruthND]/trueI?definition latin:/?SimpleFunctionTypes?simpfun?type
+DependsOn latin:/?HOLAndrews?[latin:/?TruthND]/trueI?definition latin:/?TypedEqualityND?refl?type
+DependsOn latin:/?HOLAndrews?[latin:/?TruthND]/trueI?definition latin:/?Propositions?prop?definition
+DependsOn latin:/?HOLAndrews?[latin:/?TruthND]/trueI?definition latin:/?Types?tp?type
+Declares latin:/?HOLAndrews latin:/?HOLAndrews?[latin:/?Falsity]/false
+constant latin:/?HOLAndrews?[latin:/?Falsity]/false
+DependsOn latin:/?HOLAndrews?[latin:/?Falsity]/false?definition latin:/?Truth?true?type
+DependsOn latin:/?HOLAndrews?[latin:/?Falsity]/false?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?HOLAndrews?[latin:/?Falsity]/false?definition latin:/?Propositions?prop?type
+DependsOn latin:/?HOLAndrews?[latin:/?Falsity]/false?definition latin:/?SimpleFunctions?simplambda?type
+DependsOn latin:/?HOLAndrews?[latin:/?Falsity]/false?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/?HOLAndrews?[latin:/?Falsity]/false?definition latin:/?InternalPropositions?bool?type
+DependsOn latin:/?HOLAndrews?[latin:/?Falsity]/false?definition latin:/?SimpleFunctionTypes?simpfun?type
+DependsOn latin:/?HOLAndrews?[latin:/?Falsity]/false?definition latin:/?Types?tp?type
+Declares latin:/?HOLAndrews latin:/?HOLAndrews?[latin:/?FalsityND]/falseE
+constant latin:/?HOLAndrews?[latin:/?FalsityND]/falseE
+DependsOn latin:/?HOLAndrews?[latin:/?FalsityND]/falseE?definition latin:/?Logic?inconsistent?definition
+DependsOn latin:/?HOLAndrews?[latin:/?FalsityND]/falseE?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?HOLAndrews?[latin:/?FalsityND]/falseE?definition latin:/?Propositions?prop?type
+DependsOn latin:/?HOLAndrews?[latin:/?FalsityND]/falseE?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/?HOLAndrews?[latin:/?FalsityND]/falseE?definition latin:/?SimpleFunctionTypes?simpfun?type
+DependsOn latin:/?HOLAndrews?[latin:/?FalsityND]/falseE?definition latin:/?SimpleFunctions?simpapply?type
+DependsOn latin:/?HOLAndrews?[latin:/?FalsityND]/falseE?definition latin:/?TruthND?trueI?type
+DependsOn latin:/?HOLAndrews?[latin:/?FalsityND]/falseE?definition latin:/?Truth?true?type
+DependsOn latin:/?HOLAndrews?[latin:/?FalsityND]/falseE?definition latin:/?SimpleFunctions?simplambda?type
+DependsOn latin:/?HOLAndrews?[latin:/?FalsityND]/falseE?definition latin:/?InternalPropositions?bool?type
+DependsOn latin:/?HOLAndrews?[latin:/?FalsityND]/falseE?definition latin:/?Proofs?ded?type
+DependsOn latin:/?HOLAndrews?[latin:/?FalsityND]/falseE?definition latin:/?TypedEqualityND?sym?type
+DependsOn latin:/?HOLAndrews?[latin:/?FalsityND]/falseE?definition latin:/?IHOLND?eq_thm?type
+DependsOn latin:/?HOLAndrews?[latin:/?FalsityND]/falseE?definition latin:/?Propositions?prop?definition
+DependsOn latin:/?HOLAndrews?[latin:/?FalsityND]/falseE?definition latin:/?Types?tp?type
+DependsOn latin:/?HOLAndrews?[latin:/?FalsityND]/falseE?definition latin:/?TypedEqualityND?congT?type
+Declares latin:/?HOLAndrews latin:/?HOLAndrews?[latin:/?Negation]/not
+constant latin:/?HOLAndrews?[latin:/?Negation]/not
+DependsOn latin:/?HOLAndrews?[latin:/?Negation]/not?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?HOLAndrews?[latin:/?Negation]/not?definition latin:/?Propositions?prop?type
+DependsOn latin:/?HOLAndrews?[latin:/?Negation]/not?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/?HOLAndrews?[latin:/?Negation]/not?definition latin:/?InternalPropositions?bool?type
+DependsOn latin:/?HOLAndrews?[latin:/?Negation]/not?definition latin:/?Falsity?false?type
+DependsOn latin:/?HOLAndrews?[latin:/?Negation]/not?definition latin:/?Types?tp?type
+Declares latin:/?HOLAndrews latin:/?HOLAndrews?[latin:/?NegationNDI]/notI
+constant latin:/?HOLAndrews?[latin:/?NegationNDI]/notI
+DependsOn latin:/?HOLAndrews?[latin:/?NegationNDI]/notI?definition latin:/?Logic?inconsistent?definition
+DependsOn latin:/?HOLAndrews?[latin:/?NegationNDI]/notI?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?HOLAndrews?[latin:/?NegationNDI]/notI?definition latin:/?Propositions?prop?type
+DependsOn latin:/?HOLAndrews?[latin:/?NegationNDI]/notI?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/?HOLAndrews?[latin:/?NegationNDI]/notI?definition latin:/?FalsityND?falseE?type
+DependsOn latin:/?HOLAndrews?[latin:/?NegationNDI]/notI?definition latin:/?SimpleFunctionTypes?simpfun?type
+DependsOn latin:/?HOLAndrews?[latin:/?NegationNDI]/notI?definition latin:/?Truth?true?type
+DependsOn latin:/?HOLAndrews?[latin:/?NegationNDI]/notI?definition latin:/?SimpleFunctions?simplambda?type
+DependsOn latin:/?HOLAndrews?[latin:/?NegationNDI]/notI?definition latin:/?InternalPropositions?bool?type
+DependsOn latin:/?HOLAndrews?[latin:/?NegationNDI]/notI?definition latin:/?Proofs?ded?type
+DependsOn latin:/?HOLAndrews?[latin:/?NegationNDI]/notI?definition latin:/?Falsity?false?type
+DependsOn latin:/?HOLAndrews?[latin:/?NegationNDI]/notI?definition latin:/?Propositions?prop?definition
+DependsOn latin:/?HOLAndrews?[latin:/?NegationNDI]/notI?definition latin:/?Types?tp?type
+DependsOn latin:/?HOLAndrews?[latin:/?NegationNDI]/notI?definition latin:/?PropositionalExtensionality?propext?type
+Declares latin:/?HOLAndrews latin:/?HOLAndrews?[latin:/?NegationNDE]/notE
+constant latin:/?HOLAndrews?[latin:/?NegationNDE]/notE
+DependsOn latin:/?HOLAndrews?[latin:/?NegationNDE]/notE?definition latin:/?Logic?inconsistent?definition
+DependsOn latin:/?HOLAndrews?[latin:/?NegationNDE]/notE?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?HOLAndrews?[latin:/?NegationNDE]/notE?definition latin:/?Propositions?prop?type
+DependsOn latin:/?HOLAndrews?[latin:/?NegationNDE]/notE?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/?HOLAndrews?[latin:/?NegationNDE]/notE?definition latin:/?FalsityND?falseE?type
+DependsOn latin:/?HOLAndrews?[latin:/?NegationNDE]/notE?definition latin:/?SimpleFunctionTypes?simpfun?type
+DependsOn latin:/?HOLAndrews?[latin:/?NegationNDE]/notE?definition latin:/?Truth?true?type
+DependsOn latin:/?HOLAndrews?[latin:/?NegationNDE]/notE?definition latin:/?SimpleFunctions?simplambda?type
+DependsOn latin:/?HOLAndrews?[latin:/?NegationNDE]/notE?definition latin:/?InternalPropositions?bool?type
+DependsOn latin:/?HOLAndrews?[latin:/?NegationNDE]/notE?definition latin:/?Proofs?ded?type
+DependsOn latin:/?HOLAndrews?[latin:/?NegationNDE]/notE?definition latin:/?Falsity?false?type
+DependsOn latin:/?HOLAndrews?[latin:/?NegationNDE]/notE?definition latin:/?IHOLND?eq_thm?type
+DependsOn latin:/?HOLAndrews?[latin:/?NegationNDE]/notE?definition latin:/?Propositions?prop?definition
+DependsOn latin:/?HOLAndrews?[latin:/?NegationNDE]/notE?definition latin:/?Types?tp?type
+Declares latin:/?HOLAndrews latin:/?HOLAndrews?[latin:/?TypedUniversalQuantification]/forall
+constant latin:/?HOLAndrews?[latin:/?TypedUniversalQuantification]/forall
+DependsOn latin:/?HOLAndrews?[latin:/?TypedUniversalQuantification]/forall?definition latin:/?Truth?true?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedUniversalQuantification]/forall?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedUniversalQuantification]/forall?definition latin:/?Propositions?prop?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedUniversalQuantification]/forall?definition latin:/?SimpleFunctions?simplambda?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedUniversalQuantification]/forall?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedUniversalQuantification]/forall?definition latin:/?InternalPropositions?bool?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedUniversalQuantification]/forall?definition latin:/?SimpleFunctionTypes?simpfun?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedUniversalQuantification]/forall?definition latin:/?Types?tp?type
+Declares latin:/?HOLAndrews latin:/?HOLAndrews?[latin:/?TypedUniversalQuantificationND]/forallI
+constant latin:/?HOLAndrews?[latin:/?TypedUniversalQuantificationND]/forallI
+DependsOn latin:/?HOLAndrews?[latin:/?TypedUniversalQuantificationND]/forallI?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedUniversalQuantificationND]/forallI?definition latin:/?Propositions?prop?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedUniversalQuantificationND]/forallI?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedUniversalQuantificationND]/forallI?definition latin:/?SimpleFunctionTypes?simpfun?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedUniversalQuantificationND]/forallI?definition latin:/?IHOLND?thm_true?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedUniversalQuantificationND]/forallI?definition latin:/?SimpleFunctions?simpxi?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedUniversalQuantificationND]/forallI?definition latin:/?Truth?true?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedUniversalQuantificationND]/forallI?definition latin:/?SimpleFunctions?simplambda?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedUniversalQuantificationND]/forallI?definition latin:/?InternalPropositions?bool?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedUniversalQuantificationND]/forallI?definition latin:/?Proofs?ded?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedUniversalQuantificationND]/forallI?definition latin:/?Propositions?prop?definition
+DependsOn latin:/?HOLAndrews?[latin:/?TypedUniversalQuantificationND]/forallI?definition latin:/?Types?tp?type
+Declares latin:/?HOLAndrews latin:/?HOLAndrews?[latin:/?TypedUniversalQuantificationND]/forallE
+constant latin:/?HOLAndrews?[latin:/?TypedUniversalQuantificationND]/forallE
+DependsOn latin:/?HOLAndrews?[latin:/?TypedUniversalQuantificationND]/forallE?definition latin:/?SimpleFunctions?apply_eq_l?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedUniversalQuantificationND]/forallE?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedUniversalQuantificationND]/forallE?definition latin:/?Propositions?prop?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedUniversalQuantificationND]/forallE?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedUniversalQuantificationND]/forallE?definition latin:/?SimpleFunctionTypes?simpfun?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedUniversalQuantificationND]/forallE?definition latin:/?IHOLND?true_thm?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedUniversalQuantificationND]/forallE?definition latin:/?Truth?true?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedUniversalQuantificationND]/forallE?definition latin:/?SimpleFunctions?simplambda?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedUniversalQuantificationND]/forallE?definition latin:/?InternalPropositions?bool?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedUniversalQuantificationND]/forallE?definition latin:/?Proofs?ded?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedUniversalQuantificationND]/forallE?definition latin:/?Propositions?prop?definition
+DependsOn latin:/?HOLAndrews?[latin:/?TypedUniversalQuantificationND]/forallE?definition latin:/?Types?tp?type
+Declares latin:/?HOLAndrews latin:/?HOLAndrews?[latin:/?Conjunction]/and
+constant latin:/?HOLAndrews?[latin:/?Conjunction]/and
+DependsOn latin:/?HOLAndrews?[latin:/?Conjunction]/and?definition latin:/?Truth?true?type
+DependsOn latin:/?HOLAndrews?[latin:/?Conjunction]/and?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?HOLAndrews?[latin:/?Conjunction]/and?definition latin:/?Propositions?prop?type
+DependsOn latin:/?HOLAndrews?[latin:/?Conjunction]/and?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/?HOLAndrews?[latin:/?Conjunction]/and?definition latin:/?InternalPropositions?bool?type
+DependsOn latin:/?HOLAndrews?[latin:/?Conjunction]/and?definition latin:/?TypedUniversalQuantification?forall?type
+DependsOn latin:/?HOLAndrews?[latin:/?Conjunction]/and?definition latin:/?SimpleFunctionTypes?simpfun?type
+DependsOn latin:/?HOLAndrews?[latin:/?Conjunction]/and?definition latin:/?SimpleFunctions?simpapply?type
+DependsOn latin:/?HOLAndrews?[latin:/?Conjunction]/and?definition latin:/?Types?tp?type
+Declares latin:/?HOLAndrews latin:/?HOLAndrews?[latin:/?ConjunctionNDI]/andI
+constant latin:/?HOLAndrews?[latin:/?ConjunctionNDI]/andI
+DependsOn latin:/?HOLAndrews?[latin:/?ConjunctionNDI]/andI?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?HOLAndrews?[latin:/?ConjunctionNDI]/andI?definition latin:/?Propositions?prop?type
+DependsOn latin:/?HOLAndrews?[latin:/?ConjunctionNDI]/andI?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/?HOLAndrews?[latin:/?ConjunctionNDI]/andI?definition latin:/?SimpleFunctionTypes?simpfun?type
+DependsOn latin:/?HOLAndrews?[latin:/?ConjunctionNDI]/andI?definition latin:/?SimpleFunctions?simpapply?type
+DependsOn latin:/?HOLAndrews?[latin:/?ConjunctionNDI]/andI?definition latin:/?IHOLND?thm_true?type
+DependsOn latin:/?HOLAndrews?[latin:/?ConjunctionNDI]/andI?definition latin:/?TypedEqualityND?congT2?type
+DependsOn latin:/?HOLAndrews?[latin:/?ConjunctionNDI]/andI?definition latin:/?TypedUniversalQuantificationND?forallI?type
+DependsOn latin:/?HOLAndrews?[latin:/?ConjunctionNDI]/andI?definition latin:/?Truth?true?type
+DependsOn latin:/?HOLAndrews?[latin:/?ConjunctionNDI]/andI?definition latin:/?SimpleFunctions?simplambda?type
+DependsOn latin:/?HOLAndrews?[latin:/?ConjunctionNDI]/andI?definition latin:/?InternalPropositions?bool?type
+DependsOn latin:/?HOLAndrews?[latin:/?ConjunctionNDI]/andI?definition latin:/?Proofs?ded?type
+DependsOn latin:/?HOLAndrews?[latin:/?ConjunctionNDI]/andI?definition latin:/?Propositions?prop?definition
+DependsOn latin:/?HOLAndrews?[latin:/?ConjunctionNDI]/andI?definition latin:/?Types?tp?type
+Declares latin:/?HOLAndrews latin:/?HOLAndrews?[latin:/?ConjunctionNDE]/andEl
+constant latin:/?HOLAndrews?[latin:/?ConjunctionNDE]/andEl
+DependsOn latin:/?HOLAndrews?[latin:/?ConjunctionNDE]/andEl?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?HOLAndrews?[latin:/?ConjunctionNDE]/andEl?definition latin:/?Propositions?prop?type
+DependsOn latin:/?HOLAndrews?[latin:/?ConjunctionNDE]/andEl?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/?HOLAndrews?[latin:/?ConjunctionNDE]/andEl?definition latin:/?TypedUniversalQuantification?forall?type
+DependsOn latin:/?HOLAndrews?[latin:/?ConjunctionNDE]/andEl?definition latin:/?SimpleFunctionTypes?simpfun?type
+DependsOn latin:/?HOLAndrews?[latin:/?ConjunctionNDE]/andEl?definition latin:/?IHOLND?true_thm?type
+DependsOn latin:/?HOLAndrews?[latin:/?ConjunctionNDE]/andEl?definition latin:/?SimpleFunctions?simpapply?type
+DependsOn latin:/?HOLAndrews?[latin:/?ConjunctionNDE]/andEl?definition latin:/?Truth?true?type
+DependsOn latin:/?HOLAndrews?[latin:/?ConjunctionNDE]/andEl?definition latin:/?SimpleFunctions?simplambda?type
+DependsOn latin:/?HOLAndrews?[latin:/?ConjunctionNDE]/andEl?definition latin:/?InternalPropositions?bool?type
+DependsOn latin:/?HOLAndrews?[latin:/?ConjunctionNDE]/andEl?definition latin:/?TypedUniversalQuantificationND?forallE?type
+DependsOn latin:/?HOLAndrews?[latin:/?ConjunctionNDE]/andEl?definition latin:/?Proofs?ded?type
+DependsOn latin:/?HOLAndrews?[latin:/?ConjunctionNDE]/andEl?definition latin:/?Propositions?prop?definition
+DependsOn latin:/?HOLAndrews?[latin:/?ConjunctionNDE]/andEl?definition latin:/?Types?tp?type
+Declares latin:/?HOLAndrews latin:/?HOLAndrews?[latin:/?ConjunctionNDE]/andEr
+constant latin:/?HOLAndrews?[latin:/?ConjunctionNDE]/andEr
+DependsOn latin:/?HOLAndrews?[latin:/?ConjunctionNDE]/andEr?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?HOLAndrews?[latin:/?ConjunctionNDE]/andEr?definition latin:/?Propositions?prop?type
+DependsOn latin:/?HOLAndrews?[latin:/?ConjunctionNDE]/andEr?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/?HOLAndrews?[latin:/?ConjunctionNDE]/andEr?definition latin:/?TypedUniversalQuantification?forall?type
+DependsOn latin:/?HOLAndrews?[latin:/?ConjunctionNDE]/andEr?definition latin:/?SimpleFunctionTypes?simpfun?type
+DependsOn latin:/?HOLAndrews?[latin:/?ConjunctionNDE]/andEr?definition latin:/?IHOLND?true_thm?type
+DependsOn latin:/?HOLAndrews?[latin:/?ConjunctionNDE]/andEr?definition latin:/?SimpleFunctions?simpapply?type
+DependsOn latin:/?HOLAndrews?[latin:/?ConjunctionNDE]/andEr?definition latin:/?Truth?true?type
+DependsOn latin:/?HOLAndrews?[latin:/?ConjunctionNDE]/andEr?definition latin:/?SimpleFunctions?simplambda?type
+DependsOn latin:/?HOLAndrews?[latin:/?ConjunctionNDE]/andEr?definition latin:/?InternalPropositions?bool?type
+DependsOn latin:/?HOLAndrews?[latin:/?ConjunctionNDE]/andEr?definition latin:/?TypedUniversalQuantificationND?forallE?type
+DependsOn latin:/?HOLAndrews?[latin:/?ConjunctionNDE]/andEr?definition latin:/?Proofs?ded?type
+DependsOn latin:/?HOLAndrews?[latin:/?ConjunctionNDE]/andEr?definition latin:/?Propositions?prop?definition
+DependsOn latin:/?HOLAndrews?[latin:/?ConjunctionNDE]/andEr?definition latin:/?Types?tp?type
+Declares latin:/?HOLAndrews latin:/?HOLAndrews?[latin:/?Implication]/impl
+constant latin:/?HOLAndrews?[latin:/?Implication]/impl
+DependsOn latin:/?HOLAndrews?[latin:/?Implication]/impl?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?HOLAndrews?[latin:/?Implication]/impl?definition latin:/?Propositions?prop?type
+DependsOn latin:/?HOLAndrews?[latin:/?Implication]/impl?definition latin:/?Conjunction?and?type
+DependsOn latin:/?HOLAndrews?[latin:/?Implication]/impl?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/?HOLAndrews?[latin:/?Implication]/impl?definition latin:/?InternalPropositions?bool?type
+DependsOn latin:/?HOLAndrews?[latin:/?Implication]/impl?definition latin:/?Types?tp?type
+Declares latin:/?HOLAndrews latin:/?HOLAndrews?[latin:/?ImplicationNDI]/implI
+constant latin:/?HOLAndrews?[latin:/?ImplicationNDI]/implI
+DependsOn latin:/?HOLAndrews?[latin:/?ImplicationNDI]/implI?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?HOLAndrews?[latin:/?ImplicationNDI]/implI?definition latin:/?Propositions?prop?type
+DependsOn latin:/?HOLAndrews?[latin:/?ImplicationNDI]/implI?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/?HOLAndrews?[latin:/?ImplicationNDI]/implI?definition latin:/?TypedUniversalQuantification?forall?type
+DependsOn latin:/?HOLAndrews?[latin:/?ImplicationNDI]/implI?definition latin:/?SimpleFunctionTypes?simpfun?type
+DependsOn latin:/?HOLAndrews?[latin:/?ImplicationNDI]/implI?definition latin:/?SimpleFunctions?simpapply?type
+DependsOn latin:/?HOLAndrews?[latin:/?ImplicationNDI]/implI?definition latin:/?Truth?true?type
+DependsOn latin:/?HOLAndrews?[latin:/?ImplicationNDI]/implI?definition latin:/?SimpleFunctions?simplambda?type
+DependsOn latin:/?HOLAndrews?[latin:/?ImplicationNDI]/implI?definition latin:/?InternalPropositions?bool?type
+DependsOn latin:/?HOLAndrews?[latin:/?ImplicationNDI]/implI?definition latin:/?Proofs?ded?type
+DependsOn latin:/?HOLAndrews?[latin:/?ImplicationNDI]/implI?definition latin:/?Propositions?prop?definition
+DependsOn latin:/?HOLAndrews?[latin:/?ImplicationNDI]/implI?definition latin:/?ConjunctionNDE?andEl?type
+DependsOn latin:/?HOLAndrews?[latin:/?ImplicationNDI]/implI?definition latin:/?ConjunctionNDI?andI?type
+DependsOn latin:/?HOLAndrews?[latin:/?ImplicationNDI]/implI?definition latin:/?Types?tp?type
+DependsOn latin:/?HOLAndrews?[latin:/?ImplicationNDI]/implI?definition latin:/?PropositionalExtensionality?propext?type
+Declares latin:/?HOLAndrews latin:/?HOLAndrews?[latin:/?ImplicationNDE]/implE
+constant latin:/?HOLAndrews?[latin:/?ImplicationNDE]/implE
+DependsOn latin:/?HOLAndrews?[latin:/?ImplicationNDE]/implE?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?HOLAndrews?[latin:/?ImplicationNDE]/implE?definition latin:/?Propositions?prop?type
+DependsOn latin:/?HOLAndrews?[latin:/?ImplicationNDE]/implE?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/?HOLAndrews?[latin:/?ImplicationNDE]/implE?definition latin:/?ConjunctionNDE?andEr?type
+DependsOn latin:/?HOLAndrews?[latin:/?ImplicationNDE]/implE?definition latin:/?SimpleFunctionTypes?simpfun?type
+DependsOn latin:/?HOLAndrews?[latin:/?ImplicationNDE]/implE?definition latin:/?SimpleFunctions?simpapply?type
+DependsOn latin:/?HOLAndrews?[latin:/?ImplicationNDE]/implE?definition latin:/?Truth?true?type
+DependsOn latin:/?HOLAndrews?[latin:/?ImplicationNDE]/implE?definition latin:/?SimpleFunctions?simplambda?type
+DependsOn latin:/?HOLAndrews?[latin:/?ImplicationNDE]/implE?definition latin:/?Conjunction?and?type
+DependsOn latin:/?HOLAndrews?[latin:/?ImplicationNDE]/implE?definition latin:/?InternalPropositions?bool?type
+DependsOn latin:/?HOLAndrews?[latin:/?ImplicationNDE]/implE?definition latin:/?Proofs?ded?type
+DependsOn latin:/?HOLAndrews?[latin:/?ImplicationNDE]/implE?definition latin:/?TypedEqualityND?sym?type
+DependsOn latin:/?HOLAndrews?[latin:/?ImplicationNDE]/implE?definition latin:/?IHOLND?eq_thm?type
+DependsOn latin:/?HOLAndrews?[latin:/?ImplicationNDE]/implE?definition latin:/?Propositions?prop?definition
+DependsOn latin:/?HOLAndrews?[latin:/?ImplicationNDE]/implE?definition latin:/?Types?tp?type
+Declares latin:/?HOLAndrews latin:/?HOLAndrews?[latin:/?Disjunction]/or
+constant latin:/?HOLAndrews?[latin:/?Disjunction]/or
+DependsOn latin:/?HOLAndrews?[latin:/?Disjunction]/or?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?HOLAndrews?[latin:/?Disjunction]/or?definition latin:/?InternalPropositions?bool?type
+DependsOn latin:/?HOLAndrews?[latin:/?Disjunction]/or?definition latin:/?TypedUniversalQuantification?forall?type
+DependsOn latin:/?HOLAndrews?[latin:/?Disjunction]/or?definition latin:/?Types?tp?type
+DependsOn latin:/?HOLAndrews?[latin:/?Disjunction]/or?definition latin:/?Implication?impl?type
+Declares latin:/?HOLAndrews latin:/?HOLAndrews?[latin:/?DisjunctionNDI]/orIl
+constant latin:/?HOLAndrews?[latin:/?DisjunctionNDI]/orIl
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDI]/orIl?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDI]/orIl?definition latin:/?Propositions?prop?type
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDI]/orIl?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDI]/orIl?definition latin:/?SimpleFunctionTypes?simpfun?type
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDI]/orIl?definition latin:/?SimpleFunctions?simpapply?type
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDI]/orIl?definition latin:/?Implication?impl?type
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDI]/orIl?definition latin:/?TypedUniversalQuantificationND?forallI?type
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDI]/orIl?definition latin:/?Truth?true?type
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDI]/orIl?definition latin:/?SimpleFunctions?simplambda?type
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDI]/orIl?definition latin:/?Conjunction?and?type
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDI]/orIl?definition latin:/?ImplicationNDI?implI?type
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDI]/orIl?definition latin:/?InternalPropositions?bool?type
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDI]/orIl?definition latin:/?ImplicationNDE?implE?type
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDI]/orIl?definition latin:/?Proofs?ded?type
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDI]/orIl?definition latin:/?Propositions?prop?definition
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDI]/orIl?definition latin:/?Types?tp?type
+Declares latin:/?HOLAndrews latin:/?HOLAndrews?[latin:/?DisjunctionNDI]/orIr
+constant latin:/?HOLAndrews?[latin:/?DisjunctionNDI]/orIr
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDI]/orIr?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDI]/orIr?definition latin:/?Propositions?prop?type
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDI]/orIr?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDI]/orIr?definition latin:/?SimpleFunctionTypes?simpfun?type
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDI]/orIr?definition latin:/?SimpleFunctions?simpapply?type
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDI]/orIr?definition latin:/?Implication?impl?type
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDI]/orIr?definition latin:/?TypedUniversalQuantificationND?forallI?type
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDI]/orIr?definition latin:/?Truth?true?type
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDI]/orIr?definition latin:/?SimpleFunctions?simplambda?type
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDI]/orIr?definition latin:/?Conjunction?and?type
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDI]/orIr?definition latin:/?ImplicationNDI?implI?type
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDI]/orIr?definition latin:/?InternalPropositions?bool?type
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDI]/orIr?definition latin:/?ImplicationNDE?implE?type
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDI]/orIr?definition latin:/?Proofs?ded?type
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDI]/orIr?definition latin:/?Propositions?prop?definition
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDI]/orIr?definition latin:/?Types?tp?type
+Declares latin:/?HOLAndrews latin:/?HOLAndrews?[latin:/?DisjunctionNDE]/orE
+constant latin:/?HOLAndrews?[latin:/?DisjunctionNDE]/orE
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDE]/orE?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDE]/orE?definition latin:/?Propositions?prop?type
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDE]/orE?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDE]/orE?definition latin:/?TypedUniversalQuantification?forall?type
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDE]/orE?definition latin:/?SimpleFunctionTypes?simpfun?type
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDE]/orE?definition latin:/?SimpleFunctions?simpapply?type
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDE]/orE?definition latin:/?Implication?impl?type
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDE]/orE?definition latin:/?Truth?true?type
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDE]/orE?definition latin:/?SimpleFunctions?simplambda?type
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDE]/orE?definition latin:/?Conjunction?and?type
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDE]/orE?definition latin:/?ImplicationNDI?implI?type
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDE]/orE?definition latin:/?InternalPropositions?bool?type
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDE]/orE?definition latin:/?TypedUniversalQuantificationND?forallE?type
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDE]/orE?definition latin:/?ImplicationNDE?implE?type
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDE]/orE?definition latin:/?Proofs?ded?type
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDE]/orE?definition latin:/?Propositions?prop?definition
+DependsOn latin:/?HOLAndrews?[latin:/?DisjunctionNDE]/orE?definition latin:/?Types?tp?type
+Declares latin:/?HOLAndrews latin:/?HOLAndrews?[latin:/?Equivalence]/equiv
+constant latin:/?HOLAndrews?[latin:/?Equivalence]/equiv
+DependsOn latin:/?HOLAndrews?[latin:/?Equivalence]/equiv?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?HOLAndrews?[latin:/?Equivalence]/equiv?definition latin:/?Conjunction?and?type
+DependsOn latin:/?HOLAndrews?[latin:/?Equivalence]/equiv?definition latin:/?Implication?impl?type
+Declares latin:/?HOLAndrews latin:/?HOLAndrews?[latin:/?EquivalenceNDI]/equivI
+constant latin:/?HOLAndrews?[latin:/?EquivalenceNDI]/equivI
+DependsOn latin:/?HOLAndrews?[latin:/?EquivalenceNDI]/equivI?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?HOLAndrews?[latin:/?EquivalenceNDI]/equivI?definition latin:/?Propositions?prop?type
+DependsOn latin:/?HOLAndrews?[latin:/?EquivalenceNDI]/equivI?definition latin:/?IHOLND?eq_equiv?type
+DependsOn latin:/?HOLAndrews?[latin:/?EquivalenceNDI]/equivI?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/?HOLAndrews?[latin:/?EquivalenceNDI]/equivI?definition latin:/?InternalPropositions?bool?type
+DependsOn latin:/?HOLAndrews?[latin:/?EquivalenceNDI]/equivI?definition latin:/?Equivalence?equiv?type
+DependsOn latin:/?HOLAndrews?[latin:/?EquivalenceNDI]/equivI?definition latin:/?Proofs?ded?type
+DependsOn latin:/?HOLAndrews?[latin:/?EquivalenceNDI]/equivI?definition latin:/?Propositions?prop?definition
+DependsOn latin:/?HOLAndrews?[latin:/?EquivalenceNDI]/equivI?definition latin:/?Types?tp?type
+DependsOn latin:/?HOLAndrews?[latin:/?EquivalenceNDI]/equivI?definition latin:/?PropositionalExtensionality?propext?type
+Declares latin:/?HOLAndrews latin:/?HOLAndrews?[latin:/?EquivalenceNDE]/equivEl
+constant latin:/?HOLAndrews?[latin:/?EquivalenceNDE]/equivEl
+DependsOn latin:/?HOLAndrews?[latin:/?EquivalenceNDE]/equivEl?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?HOLAndrews?[latin:/?EquivalenceNDE]/equivEl?definition latin:/?Propositions?prop?type
+DependsOn latin:/?HOLAndrews?[latin:/?EquivalenceNDE]/equivEl?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/?HOLAndrews?[latin:/?EquivalenceNDE]/equivEl?definition latin:/?SimpleFunctionTypes?simpfun?type
+DependsOn latin:/?HOLAndrews?[latin:/?EquivalenceNDE]/equivEl?definition latin:/?SimpleFunctions?simpapply?type
+DependsOn latin:/?HOLAndrews?[latin:/?EquivalenceNDE]/equivEl?definition latin:/?Implication?impl?type
+DependsOn latin:/?HOLAndrews?[latin:/?EquivalenceNDE]/equivEl?definition latin:/?Truth?true?type
+DependsOn latin:/?HOLAndrews?[latin:/?EquivalenceNDE]/equivEl?definition latin:/?SimpleFunctions?simplambda?type
+DependsOn latin:/?HOLAndrews?[latin:/?EquivalenceNDE]/equivEl?definition latin:/?Conjunction?and?type
+DependsOn latin:/?HOLAndrews?[latin:/?EquivalenceNDE]/equivEl?definition latin:/?InternalPropositions?bool?type
+DependsOn latin:/?HOLAndrews?[latin:/?EquivalenceNDE]/equivEl?definition latin:/?ImplicationNDE?implE?type
+DependsOn latin:/?HOLAndrews?[latin:/?EquivalenceNDE]/equivEl?definition latin:/?Proofs?ded?type
+DependsOn latin:/?HOLAndrews?[latin:/?EquivalenceNDE]/equivEl?definition latin:/?Propositions?prop?definition
+DependsOn latin:/?HOLAndrews?[latin:/?EquivalenceNDE]/equivEl?definition latin:/?ConjunctionNDE?andEl?type
+DependsOn latin:/?HOLAndrews?[latin:/?EquivalenceNDE]/equivEl?definition latin:/?Types?tp?type
+Declares latin:/?HOLAndrews latin:/?HOLAndrews?[latin:/?EquivalenceNDE]/equivEr
+constant latin:/?HOLAndrews?[latin:/?EquivalenceNDE]/equivEr
+DependsOn latin:/?HOLAndrews?[latin:/?EquivalenceNDE]/equivEr?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?HOLAndrews?[latin:/?EquivalenceNDE]/equivEr?definition latin:/?Propositions?prop?type
+DependsOn latin:/?HOLAndrews?[latin:/?EquivalenceNDE]/equivEr?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/?HOLAndrews?[latin:/?EquivalenceNDE]/equivEr?definition latin:/?ConjunctionNDE?andEr?type
+DependsOn latin:/?HOLAndrews?[latin:/?EquivalenceNDE]/equivEr?definition latin:/?SimpleFunctionTypes?simpfun?type
+DependsOn latin:/?HOLAndrews?[latin:/?EquivalenceNDE]/equivEr?definition latin:/?SimpleFunctions?simpapply?type
+DependsOn latin:/?HOLAndrews?[latin:/?EquivalenceNDE]/equivEr?definition latin:/?Implication?impl?type
+DependsOn latin:/?HOLAndrews?[latin:/?EquivalenceNDE]/equivEr?definition latin:/?Truth?true?type
+DependsOn latin:/?HOLAndrews?[latin:/?EquivalenceNDE]/equivEr?definition latin:/?SimpleFunctions?simplambda?type
+DependsOn latin:/?HOLAndrews?[latin:/?EquivalenceNDE]/equivEr?definition latin:/?Conjunction?and?type
+DependsOn latin:/?HOLAndrews?[latin:/?EquivalenceNDE]/equivEr?definition latin:/?InternalPropositions?bool?type
+DependsOn latin:/?HOLAndrews?[latin:/?EquivalenceNDE]/equivEr?definition latin:/?ImplicationNDE?implE?type
+DependsOn latin:/?HOLAndrews?[latin:/?EquivalenceNDE]/equivEr?definition latin:/?Proofs?ded?type
+DependsOn latin:/?HOLAndrews?[latin:/?EquivalenceNDE]/equivEr?definition latin:/?Propositions?prop?definition
+DependsOn latin:/?HOLAndrews?[latin:/?EquivalenceNDE]/equivEr?definition latin:/?Types?tp?type
+Declares latin:/?HOLAndrews latin:/?HOLAndrews?[latin:/?TypedExistentialQuantification]/exists
+constant latin:/?HOLAndrews?[latin:/?TypedExistentialQuantification]/exists
+DependsOn latin:/?HOLAndrews?[latin:/?TypedExistentialQuantification]/exists?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedExistentialQuantification]/exists?definition latin:/?InternalPropositions?bool?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedExistentialQuantification]/exists?definition latin:/?TypedUniversalQuantification?forall?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedExistentialQuantification]/exists?definition latin:/?Types?tp?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedExistentialQuantification]/exists?definition latin:/?Implication?impl?type
+Declares latin:/?HOLAndrews latin:/?HOLAndrews?[latin:/?TypedExistentialQuantificationND]/existsI
+constant latin:/?HOLAndrews?[latin:/?TypedExistentialQuantificationND]/existsI
+DependsOn latin:/?HOLAndrews?[latin:/?TypedExistentialQuantificationND]/existsI?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedExistentialQuantificationND]/existsI?definition latin:/?Propositions?prop?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedExistentialQuantificationND]/existsI?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedExistentialQuantificationND]/existsI?definition latin:/?SimpleFunctionTypes?simpfun?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedExistentialQuantificationND]/existsI?definition latin:/?SimpleFunctions?simpapply?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedExistentialQuantificationND]/existsI?definition latin:/?Implication?impl?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedExistentialQuantificationND]/existsI?definition latin:/?TypedUniversalQuantificationND?forallI?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedExistentialQuantificationND]/existsI?definition latin:/?Truth?true?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedExistentialQuantificationND]/existsI?definition latin:/?SimpleFunctions?simplambda?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedExistentialQuantificationND]/existsI?definition latin:/?Conjunction?and?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedExistentialQuantificationND]/existsI?definition latin:/?ImplicationNDI?implI?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedExistentialQuantificationND]/existsI?definition latin:/?InternalPropositions?bool?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedExistentialQuantificationND]/existsI?definition latin:/?TypedUniversalQuantificationND?forallE?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedExistentialQuantificationND]/existsI?definition latin:/?ImplicationNDE?implE?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedExistentialQuantificationND]/existsI?definition latin:/?Proofs?ded?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedExistentialQuantificationND]/existsI?definition latin:/?Propositions?prop?definition
+DependsOn latin:/?HOLAndrews?[latin:/?TypedExistentialQuantificationND]/existsI?definition latin:/?Types?tp?type
+Declares latin:/?HOLAndrews latin:/?HOLAndrews?[latin:/?TypedExistentialQuantificationND]/existsE
+constant latin:/?HOLAndrews?[latin:/?TypedExistentialQuantificationND]/existsE
+DependsOn latin:/?HOLAndrews?[latin:/?TypedExistentialQuantificationND]/existsE?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedExistentialQuantificationND]/existsE?definition latin:/?Propositions?prop?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedExistentialQuantificationND]/existsE?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedExistentialQuantificationND]/existsE?definition latin:/?TypedUniversalQuantification?forall?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedExistentialQuantificationND]/existsE?definition latin:/?SimpleFunctionTypes?simpfun?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedExistentialQuantificationND]/existsE?definition latin:/?SimpleFunctions?simpapply?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedExistentialQuantificationND]/existsE?definition latin:/?Implication?impl?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedExistentialQuantificationND]/existsE?definition latin:/?TypedUniversalQuantificationND?forallI?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedExistentialQuantificationND]/existsE?definition latin:/?Truth?true?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedExistentialQuantificationND]/existsE?definition latin:/?SimpleFunctions?simplambda?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedExistentialQuantificationND]/existsE?definition latin:/?Conjunction?and?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedExistentialQuantificationND]/existsE?definition latin:/?ImplicationNDI?implI?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedExistentialQuantificationND]/existsE?definition latin:/?InternalPropositions?bool?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedExistentialQuantificationND]/existsE?definition latin:/?TypedUniversalQuantificationND?forallE?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedExistentialQuantificationND]/existsE?definition latin:/?ImplicationNDE?implE?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedExistentialQuantificationND]/existsE?definition latin:/?Proofs?ded?type
+DependsOn latin:/?HOLAndrews?[latin:/?TypedExistentialQuantificationND]/existsE?definition latin:/?Propositions?prop?definition
+DependsOn latin:/?HOLAndrews?[latin:/?TypedExistentialQuantificationND]/existsE?definition latin:/?Types?tp?type

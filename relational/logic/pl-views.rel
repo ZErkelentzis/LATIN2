@@ -1,0 +1,23 @@
+document latin:/logic/pl-views.omdoc
+Declares latin:/logic/pl-views.omdoc latin:/?NegationTruth
+Declares latin:/logic/pl-views.omdoc latin:/?NegationFalsity
+Declares latin:/logic/pl-views.omdoc latin:/?NegationTruthND
+Declares latin:/logic/pl-views.omdoc latin:/?NegationFalsityND
+Declares latin:/logic/pl-views.omdoc latin:/?FalsityNegTruth
+Declares latin:/logic/pl-views.omdoc latin:/?FalsityNegTruthND
+Declares latin:/logic/pl-views.omdoc latin:/?TruthNegFalsity
+Declares latin:/logic/pl-views.omdoc latin:/?TruthNegFalsityND
+Declares latin:/logic/pl-views.omdoc latin:/?NegationConjunction
+Declares latin:/logic/pl-views.omdoc latin:/?DisjNegConj
+Declares latin:/logic/pl-views.omdoc latin:/?NegationDisjunction
+Declares latin:/logic/pl-views.omdoc latin:/?ConjNegDisj
+Declares latin:/logic/pl-views.omdoc latin:/?NegationImplication
+Declares latin:/logic/pl-views.omdoc latin:/?DisjNegConj
+Declares latin:/logic/pl-views.omdoc latin:/?NegationDisjunction
+Declares latin:/logic/pl-views.omdoc latin:/?ImplNegDisj
+Declares latin:/logic/pl-views.omdoc latin:/?NegationConjunction
+Declares latin:/logic/pl-views.omdoc latin:/?ImplNegConj
+Declares latin:/logic/pl-views.omdoc latin:/?ImplicationConjunction
+Declares latin:/logic/pl-views.omdoc latin:/?EquivImplConj
+Declares latin:/logic/pl-views.omdoc latin:/?ImplicationFalsity
+Declares latin:/logic/pl-views.omdoc latin:/?NegImplFalsity

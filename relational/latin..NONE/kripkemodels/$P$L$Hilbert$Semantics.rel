@@ -6,7 +6,7 @@ dataconstructor latin:/kripkemodels?PLHilbertSemantics?[latin:/?ConjunctionNDE]/
 dataconstructor latin:/kripkemodels?PLHilbertSemantics?[latin:/?DisjunctionNDI]/orIl
 dataconstructor latin:/kripkemodels?PLHilbertSemantics?[latin:/?DisjunctionNDI]/orIr
 dataconstructor latin:/kripkemodels?PLHilbertSemantics?[latin:/?DisjunctionHilbert]/orE_ax
-dataconstructor latin:/kripkemodels?PLHilbertSemantics?[latin:/?ImplicationNDE]/impE
+dataconstructor latin:/kripkemodels?PLHilbertSemantics?[latin:/?ImplicationNDE]/implE
 dataconstructor latin:/kripkemodels?PLHilbertSemantics?[latin:/?ImplicationHilbert]/K_ax
 dataconstructor latin:/kripkemodels?PLHilbertSemantics?[latin:/?ImplicationHilbert]/S_ax
 dataconstructor latin:/kripkemodels?PLHilbertSemantics?[latin:/?NegationHilbert]/notI_ax
@@ -29,11 +29,11 @@ DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?TruthND]/trueI?definit
 DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?TruthND]/trueI?definition latin:/?TruthND?trueI?type
 Declares latin:/kripkemodels?PLHilbertSemantics latin:/kripkemodels?PLHilbertSemantics?[latin:/?FalsityND]/falseE
 constant latin:/kripkemodels?PLHilbertSemantics?[latin:/?FalsityND]/falseE
-DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?FalsityND]/falseE?definition latin:/?Proofs?inconsistent?definition
+DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?FalsityND]/falseE?definition latin:/?Logic?inconsistentE?type
+DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?FalsityND]/falseE?definition latin:/?Logic?inconsistent?definition
 DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?FalsityND]/falseE?definition latin:/?TypedTerms?tm?type
 DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?FalsityND]/falseE?definition latin:/?Propositions?prop?type
 DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?FalsityND]/falseE?definition latin:/kripkemodels?Worlds?lift0?type
-DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?FalsityND]/falseE?definition latin:/?Proofs?inconsistentE?type
 DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?FalsityND]/falseE?definition latin:/?FalsityND?falseE?type
 DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?FalsityND]/falseE?definition latin:/kripkemodels?Worlds?world?type
 DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?FalsityND]/falseE?definition latin:/?Proofs?ded?type
@@ -88,16 +88,16 @@ DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?DisjunctionHilbert]/or
 DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?DisjunctionHilbert]/orE_ax?definition latin:/?Proofs?ded?type
 DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?DisjunctionHilbert]/orE_ax?definition latin:/?Disjunction?or?type
 DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?DisjunctionHilbert]/orE_ax?definition latin:/?Implication?impl?type
-Declares latin:/kripkemodels?PLHilbertSemantics latin:/kripkemodels?PLHilbertSemantics?[latin:/?ImplicationNDE]/impE
-constant latin:/kripkemodels?PLHilbertSemantics?[latin:/?ImplicationNDE]/impE
-DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?ImplicationNDE]/impE?definition latin:/kripkemodels?Worlds?lift2?type
-DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?ImplicationNDE]/impE?definition latin:/?TypedTerms?tm?type
-DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?ImplicationNDE]/impE?definition latin:/?Propositions?prop?type
-DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?ImplicationNDE]/impE?definition latin:/?ImplicationNDE?impE?type
-DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?ImplicationNDE]/impE?definition latin:/kripkemodels?Worlds?world?type
-DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?ImplicationNDE]/impE?definition latin:/?Proofs?ded?type
-DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?ImplicationNDE]/impE?definition latin:/?Types?tp?type
-DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?ImplicationNDE]/impE?definition latin:/?Implication?impl?type
+Declares latin:/kripkemodels?PLHilbertSemantics latin:/kripkemodels?PLHilbertSemantics?[latin:/?ImplicationNDE]/implE
+constant latin:/kripkemodels?PLHilbertSemantics?[latin:/?ImplicationNDE]/implE
+DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?ImplicationNDE]/implE?definition latin:/kripkemodels?Worlds?lift2?type
+DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?ImplicationNDE]/implE?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?ImplicationNDE]/implE?definition latin:/?Propositions?prop?type
+DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?ImplicationNDE]/implE?definition latin:/?ImplicationNDE?implE?type
+DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?ImplicationNDE]/implE?definition latin:/kripkemodels?Worlds?world?type
+DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?ImplicationNDE]/implE?definition latin:/?Proofs?ded?type
+DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?ImplicationNDE]/implE?definition latin:/?Types?tp?type
+DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?ImplicationNDE]/implE?definition latin:/?Implication?impl?type
 Declares latin:/kripkemodels?PLHilbertSemantics latin:/kripkemodels?PLHilbertSemantics?[latin:/?ImplicationHilbert]/K_ax
 constant latin:/kripkemodels?PLHilbertSemantics?[latin:/?ImplicationHilbert]/K_ax
 DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?ImplicationHilbert]/K_ax?definition latin:/?TypedTerms?tm?type
@@ -122,11 +122,11 @@ DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?NegationHilbert]/notI_
 DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?NegationHilbert]/notI_ax?definition latin:/?Implication?impl?type
 Declares latin:/kripkemodels?PLHilbertSemantics latin:/kripkemodels?PLHilbertSemantics?[latin:/?NegationNDE]/notE
 constant latin:/kripkemodels?PLHilbertSemantics?[latin:/?NegationNDE]/notE
-DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?NegationNDE]/notE?definition latin:/?Proofs?inconsistent?definition
+DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?NegationNDE]/notE?definition latin:/?Logic?inconsistentE?type
+DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?NegationNDE]/notE?definition latin:/?Logic?inconsistent?definition
 DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?NegationNDE]/notE?definition latin:/?TypedTerms?tm?type
 DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?NegationNDE]/notE?definition latin:/?Propositions?prop?type
 DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?NegationNDE]/notE?definition latin:/?NegationNDE?notE?type
-DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?NegationNDE]/notE?definition latin:/?Proofs?inconsistentE?type
 DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?NegationNDE]/notE?definition latin:/kripkemodels?Worlds?lift1?type
 DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?NegationNDE]/notE?definition latin:/kripkemodels?Worlds?world?type
 DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?NegationNDE]/notE?definition latin:/?Proofs?ded?type
@@ -162,7 +162,7 @@ DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?EquivalenceNDE]/equivE
 DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?EquivalenceNDE]/equivEr?definition latin:/?EquivalenceNDE?equivEr?type
 Declares latin:/kripkemodels?PLHilbertSemantics latin:/kripkemodels?PLHilbertSemantics?[latin:/?Classical]/classical
 constant latin:/kripkemodels?PLHilbertSemantics?[latin:/?Classical]/classical
-DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?Classical]/classical?definition latin:/?Proofs?inconsistent?definition
+DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?Classical]/classical?definition latin:/?Logic?inconsistent?definition
 DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?Classical]/classical?definition latin:/?TypedTerms?tm?type
 DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?Classical]/classical?definition latin:/?Propositions?prop?type
 DependsOn latin:/kripkemodels?PLHilbertSemantics?[latin:/?Classical]/classical?definition latin:/?Proofs?ded?type

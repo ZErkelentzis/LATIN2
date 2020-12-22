@@ -1,0 +1,7 @@
+dataconstructor latin:/?MetaLevelExistentialQuantification?exists
+theory latin:/?MetaLevelExistentialQuantification
+HasMeta latin:/?MetaLevelExistentialQuantification http://cds.omdoc.org/urtheories?PLF
+Includes latin:/?MetaLevelExistentialQuantification latin:/?Logic
+Declares latin:/?MetaLevelExistentialQuantification latin:/?MetaLevelExistentialQuantification?exists
+constant latin:/?MetaLevelExistentialQuantification?exists
+DependsOn latin:/?MetaLevelExistentialQuantification?exists?type latin:/?Propositions?prop?type

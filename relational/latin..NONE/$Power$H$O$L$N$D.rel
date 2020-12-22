@@ -29,14 +29,12 @@ Declares latin:/?PowerHOLND latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/co
 constant latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/compute
 DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/compute?definition latin:/?TypedTerms?tm?type
 DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/compute?definition latin:/?Propositions?prop?type
+DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/compute?definition latin:/?IHOLND?eq_equiv?type
 DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/compute?definition latin:/?TypedEquality?equal?type
-DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/compute?definition latin:/?SimpleFunctions?simpbeta?type
-DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/compute?definition latin:/?SimpleFunctions?simpapply?type
-DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/compute?definition latin:/?HOLND?eq_equiv?type
-DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/compute?definition latin:/?SimpleFunctions?simplambda?type
 DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/compute?definition latin:/?InternalPropositions?bool?type
 DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/compute?definition latin:/?Equivalence?equiv?type
 DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/compute?definition latin:/?Proofs?ded?type
+DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/compute?definition latin:/?TypedEqualityND?refl?type
 DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/compute?definition latin:/?Propositions?prop?definition
 DependsOn latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/compute?definition latin:/?Types?tp?type
 Declares latin:/?PowerHOLND latin:/?PowerHOLND?[latin:/powertypes?PowerTypes]/expand

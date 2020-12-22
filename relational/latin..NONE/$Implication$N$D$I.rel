@@ -1,10 +1,10 @@
-dataconstructor latin:/?ImplicationNDI?impI
+dataconstructor latin:/?ImplicationNDI?implI
 theory latin:/?ImplicationNDI
 HasMeta latin:/?ImplicationNDI http://cds.omdoc.org/urtheories?LF
 Includes latin:/?ImplicationNDI latin:/?Implication
 Includes latin:/?ImplicationNDI latin:/?Proofs
-Declares latin:/?ImplicationNDI latin:/?ImplicationNDI?impI
-constant latin:/?ImplicationNDI?impI
-DependsOn latin:/?ImplicationNDI?impI?type latin:/?Propositions?prop?type
-DependsOn latin:/?ImplicationNDI?impI?type latin:/?Proofs?ded?type
-DependsOn latin:/?ImplicationNDI?impI?type latin:/?Implication?impl?type
+Declares latin:/?ImplicationNDI latin:/?ImplicationNDI?implI
+constant latin:/?ImplicationNDI?implI
+DependsOn latin:/?ImplicationNDI?implI?type latin:/?Propositions?prop?type
+DependsOn latin:/?ImplicationNDI?implI?type latin:/?Proofs?ded?type
+DependsOn latin:/?ImplicationNDI?implI?type latin:/?Implication?impl?type

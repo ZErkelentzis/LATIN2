@@ -5,15 +5,15 @@ HasMeta latin:/?UniqueExistentialQuantificationND http://cds.omdoc.org/urtheorie
 Includes latin:/?UniqueExistentialQuantificationND latin:/?UniqueExistentialQuantification
 Declares latin:/?UniqueExistentialQuantificationND latin:/?UniqueExistentialQuantificationND?existsUniqueI
 constant latin:/?UniqueExistentialQuantificationND?existsUniqueI
-DependsOn latin:/?UniqueExistentialQuantificationND?existsUniqueI?type latin:/?Equality?equal?type
 DependsOn latin:/?UniqueExistentialQuantificationND?existsUniqueI?type latin:/?Propositions?prop?type
 DependsOn latin:/?UniqueExistentialQuantificationND?existsUniqueI?type latin:/?Proofs?ded?type
 DependsOn latin:/?UniqueExistentialQuantificationND?existsUniqueI?type latin:/?Terms?term?type
 DependsOn latin:/?UniqueExistentialQuantificationND?existsUniqueI?type latin:/?UniqueExistentialQuantification?existsUnique?type
+DependsOn latin:/?UniqueExistentialQuantificationND?existsUniqueI?type latin:/?UntypedEquality?equal?type
 Declares latin:/?UniqueExistentialQuantificationND latin:/?UniqueExistentialQuantificationND?existsUniqueE
 constant latin:/?UniqueExistentialQuantificationND?existsUniqueE
-DependsOn latin:/?UniqueExistentialQuantificationND?existsUniqueE?type latin:/?Equality?equal?type
 DependsOn latin:/?UniqueExistentialQuantificationND?existsUniqueE?type latin:/?Propositions?prop?type
 DependsOn latin:/?UniqueExistentialQuantificationND?existsUniqueE?type latin:/?Proofs?ded?type
 DependsOn latin:/?UniqueExistentialQuantificationND?existsUniqueE?type latin:/?Terms?term?type
 DependsOn latin:/?UniqueExistentialQuantificationND?existsUniqueE?type latin:/?UniqueExistentialQuantification?existsUnique?type
+DependsOn latin:/?UniqueExistentialQuantificationND?existsUniqueE?type latin:/?UntypedEquality?equal?type

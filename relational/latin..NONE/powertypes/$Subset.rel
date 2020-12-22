@@ -35,11 +35,11 @@ DependsOn latin:/powertypes?Subset?subsetI?definition latin:/?TypedUniversalQuan
 DependsOn latin:/powertypes?Subset?subsetI?definition latin:/?TypedTerms?tm?type
 DependsOn latin:/powertypes?Subset?subsetI?definition latin:/powertypes?PowerTypes?in?type
 DependsOn latin:/powertypes?Subset?subsetI?definition latin:/?Propositions?prop?type
+DependsOn latin:/powertypes?Subset?subsetI?definition latin:/?ImplicationNDI?implI?type
 DependsOn latin:/powertypes?Subset?subsetI?definition latin:/?Proofs?ded?type
 DependsOn latin:/powertypes?Subset?subsetI?definition latin:/?TypedUniversalQuantification?forall?type
 DependsOn latin:/powertypes?Subset?subsetI?definition latin:/?Types?tp?type
 DependsOn latin:/powertypes?Subset?subsetI?definition latin:/?Implication?impl?type
-DependsOn latin:/powertypes?Subset?subsetI?definition latin:/?ImplicationNDI?impI?type
 Declares latin:/powertypes?Subset latin:/powertypes?Subset?subsetE
 constant latin:/powertypes?Subset?subsetE
 DependsOn latin:/powertypes?Subset?subsetE?type latin:/?TypedTerms?tm?type
@@ -53,7 +53,7 @@ DependsOn latin:/powertypes?Subset?subsetE?definition latin:/?TypedTerms?tm?type
 DependsOn latin:/powertypes?Subset?subsetE?definition latin:/powertypes?PowerTypes?in?type
 DependsOn latin:/powertypes?Subset?subsetE?definition latin:/?Propositions?prop?type
 DependsOn latin:/powertypes?Subset?subsetE?definition latin:/?TypedUniversalQuantificationND?forallE?type
-DependsOn latin:/powertypes?Subset?subsetE?definition latin:/?ImplicationNDE?impE?type
+DependsOn latin:/powertypes?Subset?subsetE?definition latin:/?ImplicationNDE?implE?type
 DependsOn latin:/powertypes?Subset?subsetE?definition latin:/?Proofs?ded?type
 DependsOn latin:/powertypes?Subset?subsetE?definition latin:/?TypedUniversalQuantification?forall?type
 DependsOn latin:/powertypes?Subset?subsetE?definition latin:/?Types?tp?type

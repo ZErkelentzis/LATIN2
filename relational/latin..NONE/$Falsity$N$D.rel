@@ -2,10 +2,10 @@ dataconstructor latin:/?FalsityND?falseE
 theory latin:/?FalsityND
 HasMeta latin:/?FalsityND http://cds.omdoc.org/urtheories?LF
 Includes latin:/?FalsityND latin:/?Falsity
-Includes latin:/?FalsityND latin:/?Proofs
+Includes latin:/?FalsityND latin:/?Logic
 Declares latin:/?FalsityND latin:/?FalsityND?falseE
 constant latin:/?FalsityND?falseE
 DependsOn latin:/?FalsityND?falseE?type latin:/?Propositions?prop?type
-DependsOn latin:/?FalsityND?falseE?type latin:/?Proofs?inconsistent?type
+DependsOn latin:/?FalsityND?falseE?type latin:/?Logic?inconsistent?type
 DependsOn latin:/?FalsityND?falseE?type latin:/?Proofs?ded?type
 DependsOn latin:/?FalsityND?falseE?type latin:/?Falsity?false?type

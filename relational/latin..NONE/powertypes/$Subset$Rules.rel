@@ -45,7 +45,7 @@ DependsOn latin:/powertypes?SubsetRules?subset_empty?type latin:/?Proofs?ded?typ
 DependsOn latin:/powertypes?SubsetRules?subset_empty?type latin:/powertypes?PowerTypes?power?type
 DependsOn latin:/powertypes?SubsetRules?subset_empty?type latin:/?Types?tp?type
 DependsOn latin:/powertypes?SubsetRules?subset_empty?type latin:/powertypes?Subset?subset?type
-DependsOn latin:/powertypes?SubsetRules?subset_empty?definition latin:/?Proofs?inconsistent?definition
+DependsOn latin:/powertypes?SubsetRules?subset_empty?definition latin:/?Logic?inconsistent?definition
 DependsOn latin:/powertypes?SubsetRules?subset_empty?definition latin:/?TypedTerms?tm?type
 DependsOn latin:/powertypes?SubsetRules?subset_empty?definition latin:/?Propositions?prop?type
 DependsOn latin:/powertypes?SubsetRules?subset_empty?definition latin:/powertypes?Subset?subsetI?type
@@ -53,8 +53,8 @@ DependsOn latin:/powertypes?SubsetRules?subset_empty?definition latin:/?TypedUni
 DependsOn latin:/powertypes?SubsetRules?subset_empty?definition latin:/powertypes?Subset?subset?type
 DependsOn latin:/powertypes?SubsetRules?subset_empty?definition latin:/?Implication?impl?type
 DependsOn latin:/powertypes?SubsetRules?subset_empty?definition latin:/powertypes?EmptySet?emptyE?type
+DependsOn latin:/powertypes?SubsetRules?subset_empty?definition latin:/?Logic?inconsistentE?type
 DependsOn latin:/powertypes?SubsetRules?subset_empty?definition latin:/powertypes?PowerTypes?in?type
-DependsOn latin:/powertypes?SubsetRules?subset_empty?definition latin:/?Proofs?inconsistentE?type
 DependsOn latin:/powertypes?SubsetRules?subset_empty?definition latin:/?Proofs?ded?type
 DependsOn latin:/powertypes?SubsetRules?subset_empty?definition latin:/?Falsity?false?type
 DependsOn latin:/powertypes?SubsetRules?subset_empty?definition latin:/powertypes?PowerTypes?filter?type
@@ -295,7 +295,7 @@ DependsOn latin:/powertypes?SubsetRules?subset_compl?type latin:/powertypes?Powe
 DependsOn latin:/powertypes?SubsetRules?subset_compl?type latin:/powertypes?Complement?compl?type
 DependsOn latin:/powertypes?SubsetRules?subset_compl?type latin:/?Types?tp?type
 DependsOn latin:/powertypes?SubsetRules?subset_compl?type latin:/powertypes?Subset?subset?type
-DependsOn latin:/powertypes?SubsetRules?subset_compl?definition latin:/?Proofs?inconsistent?definition
+DependsOn latin:/powertypes?SubsetRules?subset_compl?definition latin:/?Logic?inconsistent?definition
 DependsOn latin:/powertypes?SubsetRules?subset_compl?definition latin:/?TypedTerms?tm?type
 DependsOn latin:/powertypes?SubsetRules?subset_compl?definition latin:/?Propositions?prop?type
 DependsOn latin:/powertypes?SubsetRules?subset_compl?definition latin:/powertypes?Subset?subsetI?type

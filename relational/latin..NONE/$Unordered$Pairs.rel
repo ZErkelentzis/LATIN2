@@ -1,35 +1,43 @@
 dataconstructor latin:/?UnorderedPairs?uopair
-dataconstructor latin:/?UnorderedPairs?uopairIL
-dataconstructor latin:/?UnorderedPairs?uopairIR
+dataconstructor latin:/?UnorderedPairs?uopairIl
+dataconstructor latin:/?UnorderedPairs?uopairIr
 dataconstructor latin:/?UnorderedPairs?uopairE
+dataconstructor latin:/?UnorderedPairs?uopair_comm
 theory latin:/?UnorderedPairs
 HasMeta latin:/?UnorderedPairs latin:/?SetFOL
 Declares latin:/?UnorderedPairs latin:/?UnorderedPairs?uopair
 constant latin:/?UnorderedPairs?uopair
 DependsOn latin:/?UnorderedPairs?uopair?type latin:/?SetFOL?set?type
-Declares latin:/?UnorderedPairs latin:/?UnorderedPairs?uopairIL
-constant latin:/?UnorderedPairs?uopairIL
-DependsOn latin:/?UnorderedPairs?uopairIL?type latin:/?Propositions?prop?type
-DependsOn latin:/?UnorderedPairs?uopairIL?type latin:/?InternalTypes?in?type
-DependsOn latin:/?UnorderedPairs?uopairIL?type latin:/?SetFOL?set?type
-DependsOn latin:/?UnorderedPairs?uopairIL?type latin:/?Proofs?ded?type
-DependsOn latin:/?UnorderedPairs?uopairIL?type latin:/?Terms?term?type
-DependsOn latin:/?UnorderedPairs?uopairIL?type latin:/?UnorderedPairs?uopair?type
-Declares latin:/?UnorderedPairs latin:/?UnorderedPairs?uopairIR
-constant latin:/?UnorderedPairs?uopairIR
-DependsOn latin:/?UnorderedPairs?uopairIR?type latin:/?Propositions?prop?type
-DependsOn latin:/?UnorderedPairs?uopairIR?type latin:/?InternalTypes?in?type
-DependsOn latin:/?UnorderedPairs?uopairIR?type latin:/?SetFOL?set?type
-DependsOn latin:/?UnorderedPairs?uopairIR?type latin:/?Proofs?ded?type
-DependsOn latin:/?UnorderedPairs?uopairIR?type latin:/?Terms?term?type
-DependsOn latin:/?UnorderedPairs?uopairIR?type latin:/?UnorderedPairs?uopair?type
+Declares latin:/?UnorderedPairs latin:/?UnorderedPairs?uopairIl
+constant latin:/?UnorderedPairs?uopairIl
+DependsOn latin:/?UnorderedPairs?uopairIl?type latin:/?Propositions?prop?type
+DependsOn latin:/?UnorderedPairs?uopairIl?type latin:/?InternalTypes?in?type
+DependsOn latin:/?UnorderedPairs?uopairIl?type latin:/?SetFOL?set?type
+DependsOn latin:/?UnorderedPairs?uopairIl?type latin:/?Proofs?ded?type
+DependsOn latin:/?UnorderedPairs?uopairIl?type latin:/?Terms?term?type
+DependsOn latin:/?UnorderedPairs?uopairIl?type latin:/?UnorderedPairs?uopair?type
+Declares latin:/?UnorderedPairs latin:/?UnorderedPairs?uopairIr
+constant latin:/?UnorderedPairs?uopairIr
+DependsOn latin:/?UnorderedPairs?uopairIr?type latin:/?Propositions?prop?type
+DependsOn latin:/?UnorderedPairs?uopairIr?type latin:/?InternalTypes?in?type
+DependsOn latin:/?UnorderedPairs?uopairIr?type latin:/?SetFOL?set?type
+DependsOn latin:/?UnorderedPairs?uopairIr?type latin:/?Proofs?ded?type
+DependsOn latin:/?UnorderedPairs?uopairIr?type latin:/?Terms?term?type
+DependsOn latin:/?UnorderedPairs?uopairIr?type latin:/?UnorderedPairs?uopair?type
 Declares latin:/?UnorderedPairs latin:/?UnorderedPairs?uopairE
 constant latin:/?UnorderedPairs?uopairE
-DependsOn latin:/?UnorderedPairs?uopairE?type latin:/?Equality?equal?type
 DependsOn latin:/?UnorderedPairs?uopairE?type latin:/?Propositions?prop?type
 DependsOn latin:/?UnorderedPairs?uopairE?type latin:/?InternalTypes?in?type
 DependsOn latin:/?UnorderedPairs?uopairE?type latin:/?SetFOL?set?type
 DependsOn latin:/?UnorderedPairs?uopairE?type latin:/?Proofs?ded?type
 DependsOn latin:/?UnorderedPairs?uopairE?type latin:/?Terms?term?type
-DependsOn latin:/?UnorderedPairs?uopairE?type latin:/?Disjunction?or?type
+DependsOn latin:/?UnorderedPairs?uopairE?type latin:/?UntypedEquality?equal?type
 DependsOn latin:/?UnorderedPairs?uopairE?type latin:/?UnorderedPairs?uopair?type
+Declares latin:/?UnorderedPairs latin:/?UnorderedPairs?uopair_comm
+constant latin:/?UnorderedPairs?uopair_comm
+DependsOn latin:/?UnorderedPairs?uopair_comm?type latin:/?Propositions?prop?type
+DependsOn latin:/?UnorderedPairs?uopair_comm?type latin:/?SetFOL?set?type
+DependsOn latin:/?UnorderedPairs?uopair_comm?type latin:/?Proofs?ded?type
+DependsOn latin:/?UnorderedPairs?uopair_comm?type latin:/?Terms?term?type
+DependsOn latin:/?UnorderedPairs?uopair_comm?type latin:/?UntypedEquality?equal?type
+DependsOn latin:/?UnorderedPairs?uopair_comm?type latin:/?UnorderedPairs?uopair?type

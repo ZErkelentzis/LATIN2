@@ -1,0 +1,5 @@
+HasDomain latin:/kripkemodels?DynamicLogicSemantics latin:/?DynamicLogic
+HasCodomain latin:/kripkemodels?DynamicLogicSemantics latin:/kripkemodels?State
+view latin:/kripkemodels?DynamicLogicSemantics
+HasViewFrom latin:/kripkemodels?State latin:/?DynamicLogic
+Includes latin:/kripkemodels?DynamicLogicSemantics latin:/?MML

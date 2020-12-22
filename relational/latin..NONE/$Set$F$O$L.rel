@@ -1,0 +1,42 @@
+datatypeconstructor latin:/?SetFOL?set
+dataconstructor latin:/?SetFOL?eq_in
+dataconstructor latin:/?SetFOL?in_eq
+theory latin:/?SetFOL
+HasMeta latin:/?SetFOL http://cds.omdoc.org/urtheories?LF
+Includes latin:/?SetFOL latin:/?FOLEQND
+Declares latin:/?SetFOL latin:/?SetFOL?set
+constant latin:/?SetFOL?set
+DependsOn latin:/?SetFOL?set?definition latin:/?Terms?term?type
+Includes latin:/?SetFOL latin:/?InternalTypes
+Declares latin:/?SetFOL latin:/?SetFOL?eq_in
+constant latin:/?SetFOL?eq_in
+DependsOn latin:/?SetFOL?eq_in?type latin:/?Propositions?prop?type
+DependsOn latin:/?SetFOL?eq_in?type latin:/?InternalTypes?in?type
+DependsOn latin:/?SetFOL?eq_in?type latin:/?Proofs?ded?type
+DependsOn latin:/?SetFOL?eq_in?type latin:/?Terms?term?type
+DependsOn latin:/?SetFOL?eq_in?type latin:/?UntypedEquality?equal?type
+DependsOn latin:/?SetFOL?eq_in?definition latin:/?Propositions?prop?type
+DependsOn latin:/?SetFOL?eq_in?definition latin:/?InternalTypes?in?type
+DependsOn latin:/?SetFOL?eq_in?definition latin:/?UntypedEqualityND?congP?type
+DependsOn latin:/?SetFOL?eq_in?definition latin:/?Proofs?ded?type
+DependsOn latin:/?SetFOL?eq_in?definition latin:/?Terms?term?type
+DependsOn latin:/?SetFOL?eq_in?definition latin:/?UntypedEquality?equal?type
+DependsOn latin:/?SetFOL?eq_in?definition latin:/?UntypedEqualityND?eq/[latin:/?Symmetry]/sym?type
+Declares latin:/?SetFOL latin:/?SetFOL?in_eq
+constant latin:/?SetFOL?in_eq
+DependsOn latin:/?SetFOL?in_eq?type latin:/?Propositions?prop?type
+DependsOn latin:/?SetFOL?in_eq?type latin:/?InternalTypes?in?type
+DependsOn latin:/?SetFOL?in_eq?type latin:/?Proofs?ded?type
+DependsOn latin:/?SetFOL?in_eq?type latin:/?Terms?term?type
+DependsOn latin:/?SetFOL?in_eq?type latin:/?UntypedEquality?equal?type
+DependsOn latin:/?SetFOL?in_eq?definition latin:/?Propositions?prop?type
+DependsOn latin:/?SetFOL?in_eq?definition latin:/?InternalTypes?in?type
+DependsOn latin:/?SetFOL?in_eq?definition latin:/?UntypedEqualityND?congP?type
+DependsOn latin:/?SetFOL?in_eq?definition latin:/?Proofs?ded?type
+DependsOn latin:/?SetFOL?in_eq?definition latin:/?Terms?term?type
+DependsOn latin:/?SetFOL?in_eq?definition latin:/?UntypedEquality?equal?type
+Includes latin:/?SetFOL latin:/?DescriptionND
+Includes latin:/?SetFOL latin:/?RelativizedUniversalQuantificationND
+Includes latin:/?SetFOL latin:/?RelativizedExistentialQuantificationND
+Includes latin:/?SetFOL latin:/?DependentConjunctionND
+Includes latin:/?SetFOL latin:/?DependentImplicationND

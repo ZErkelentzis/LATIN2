@@ -1,0 +1,6 @@
+HasDomain latin:/kripkemodels?SMMLSemantics latin:/?SMML
+HasCodomain latin:/kripkemodels?SMMLSemantics latin:/kripkemodels?Worlds
+view latin:/kripkemodels?SMMLSemantics
+HasViewFrom latin:/kripkemodels?Worlds latin:/?SMML
+Includes latin:/kripkemodels?SMMLSemantics latin:/?MML
+Includes latin:/kripkemodels?SMMLSemantics latin:/?SFOLEQ

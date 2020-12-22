@@ -1,0 +1,4 @@
+theory latin:/?EndoCommMonoid
+HasMeta latin:/?EndoCommMonoid latin:/?TypedEquality
+Includes latin:/?EndoCommMonoid latin:/?EndoMonoid
+Includes latin:/?EndoCommMonoid latin:/?EndoCommSemigroup

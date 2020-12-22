@@ -19,6 +19,7 @@ Declares latin:/algebraic?UnitElement latin:/algebraic?UnitElement?unitelem/[lat
 constant latin:/algebraic?UnitElement?unitelem/[latin:/algebraic?Set]/U
 Declares latin:/algebraic?UnitElement latin:/algebraic?UnitElement?unitelem/elem
 constant latin:/algebraic?UnitElement?unitelem/elem
+IsAliasFor latin:/algebraic?UnitElement?e latin:/algebraic?UnitElement?unitelem/elem
 Declares latin:/algebraic?UnitElement latin:/algebraic?UnitElement?involution
 constant latin:/algebraic?UnitElement?involution
 DependsOn latin:/algebraic?UnitElement?involution?type latin:/?Propositions?prop?type

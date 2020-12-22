@@ -1,0 +1,19 @@
+dataconstructor latin:/?InternalTypes?in
+datatypeconstructor latin:/?InternalTypes?[latin:/?Types]/tp
+dataconstructor latin:/?InternalTypes?[latin:/?SoftTypedTerms]/of
+theory latin:/?InternalTypes
+HasMeta latin:/?InternalTypes http://cds.omdoc.org/urtheories?LF
+Includes latin:/?InternalTypes latin:/?Terms
+Includes latin:/?InternalTypes latin:/?Propositions
+Declares latin:/?InternalTypes latin:/?InternalTypes?in
+constant latin:/?InternalTypes?in
+DependsOn latin:/?InternalTypes?in?type latin:/?Propositions?prop?type
+DependsOn latin:/?InternalTypes?in?type latin:/?Terms?term?type
+Includes latin:/?InternalTypes latin:/?SoftTypedTerms
+Declares latin:/?InternalTypes latin:/?InternalTypes?[latin:/?Types]/tp
+constant latin:/?InternalTypes?[latin:/?Types]/tp
+DependsOn latin:/?InternalTypes?[latin:/?Types]/tp?definition latin:/?Terms?term?type
+Declares latin:/?InternalTypes latin:/?InternalTypes?[latin:/?SoftTypedTerms]/of
+constant latin:/?InternalTypes?[latin:/?SoftTypedTerms]/of
+DependsOn latin:/?InternalTypes?[latin:/?SoftTypedTerms]/of?definition latin:/?Propositions?prop?type
+DependsOn latin:/?InternalTypes?[latin:/?SoftTypedTerms]/of?definition latin:/?InternalTypes?in?type

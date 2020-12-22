@@ -22,7 +22,7 @@ constant latin:/powertypes?Complement?complI
 DependsOn latin:/powertypes?Complement?complI?type latin:/?TypedTerms?tm?type
 DependsOn latin:/powertypes?Complement?complI?type latin:/powertypes?PowerTypes?in?type
 DependsOn latin:/powertypes?Complement?complI?type latin:/?Propositions?prop?type
-DependsOn latin:/powertypes?Complement?complI?type latin:/?Proofs?inconsistent?type
+DependsOn latin:/powertypes?Complement?complI?type latin:/?Logic?inconsistent?type
 DependsOn latin:/powertypes?Complement?complI?type latin:/?Proofs?ded?type
 DependsOn latin:/powertypes?Complement?complI?type latin:/powertypes?PowerTypes?power?type
 DependsOn latin:/powertypes?Complement?complI?type latin:/powertypes?Complement?compl?type
@@ -31,7 +31,7 @@ DependsOn latin:/powertypes?Complement?complI?definition latin:/powertypes?Power
 DependsOn latin:/powertypes?Complement?complI?definition latin:/?TypedTerms?tm?type
 DependsOn latin:/powertypes?Complement?complI?definition latin:/powertypes?PowerTypes?in?type
 DependsOn latin:/powertypes?Complement?complI?definition latin:/?Propositions?prop?type
-DependsOn latin:/powertypes?Complement?complI?definition latin:/?Proofs?inconsistent?type
+DependsOn latin:/powertypes?Complement?complI?definition latin:/?Logic?inconsistent?type
 DependsOn latin:/powertypes?Complement?complI?definition latin:/?Proofs?ded?type
 DependsOn latin:/powertypes?Complement?complI?definition latin:/?Negation?not?type
 DependsOn latin:/powertypes?Complement?complI?definition latin:/powertypes?PowerTypes?filter?type
@@ -42,12 +42,12 @@ constant latin:/powertypes?Complement?complE
 DependsOn latin:/powertypes?Complement?complE?type latin:/?TypedTerms?tm?type
 DependsOn latin:/powertypes?Complement?complE?type latin:/powertypes?PowerTypes?in?type
 DependsOn latin:/powertypes?Complement?complE?type latin:/?Propositions?prop?type
-DependsOn latin:/powertypes?Complement?complE?type latin:/?Proofs?inconsistent?type
+DependsOn latin:/powertypes?Complement?complE?type latin:/?Logic?inconsistent?type
 DependsOn latin:/powertypes?Complement?complE?type latin:/?Proofs?ded?type
 DependsOn latin:/powertypes?Complement?complE?type latin:/powertypes?PowerTypes?power?type
 DependsOn latin:/powertypes?Complement?complE?type latin:/powertypes?Complement?compl?type
 DependsOn latin:/powertypes?Complement?complE?type latin:/?Types?tp?type
-DependsOn latin:/powertypes?Complement?complE?definition latin:/?Proofs?inconsistent?definition
+DependsOn latin:/powertypes?Complement?complE?definition latin:/?Logic?inconsistent?definition
 DependsOn latin:/powertypes?Complement?complE?definition latin:/?TypedTerms?tm?type
 DependsOn latin:/powertypes?Complement?complE?definition latin:/?Propositions?prop?type
 DependsOn latin:/powertypes?Complement?complE?definition latin:/powertypes?PowerTypes?filterE?type

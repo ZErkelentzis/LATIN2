@@ -22,8 +22,8 @@ DependsOn latin:/powertypes?ComplementRules?compl_empty?type latin:/?Proofs?ded?
 DependsOn latin:/powertypes?ComplementRules?compl_empty?type latin:/powertypes?PowerTypes?power?type
 DependsOn latin:/powertypes?ComplementRules?compl_empty?type latin:/powertypes?Complement?compl?type
 DependsOn latin:/powertypes?ComplementRules?compl_empty?type latin:/?Types?tp?type
-DependsOn latin:/powertypes?ComplementRules?compl_empty?definition latin:/?Proofs?inconsistent?definition
 DependsOn latin:/powertypes?ComplementRules?compl_empty?definition latin:/powertypes?FullSet?fullI?type
+DependsOn latin:/powertypes?ComplementRules?compl_empty?definition latin:/?Logic?inconsistent?definition
 DependsOn latin:/powertypes?ComplementRules?compl_empty?definition latin:/?TypedTerms?tm?type
 DependsOn latin:/powertypes?ComplementRules?compl_empty?definition latin:/?Propositions?prop?type
 DependsOn latin:/powertypes?ComplementRules?compl_empty?definition latin:/?TypedEquality?equal?type
@@ -52,17 +52,17 @@ DependsOn latin:/powertypes?ComplementRules?compl_full?type latin:/?Proofs?ded?t
 DependsOn latin:/powertypes?ComplementRules?compl_full?type latin:/powertypes?PowerTypes?power?type
 DependsOn latin:/powertypes?ComplementRules?compl_full?type latin:/powertypes?Complement?compl?type
 DependsOn latin:/powertypes?ComplementRules?compl_full?type latin:/?Types?tp?type
-DependsOn latin:/powertypes?ComplementRules?compl_full?definition latin:/?Proofs?inconsistent?definition
 DependsOn latin:/powertypes?ComplementRules?compl_full?definition latin:/powertypes?FullSet?fullI?type
+DependsOn latin:/powertypes?ComplementRules?compl_full?definition latin:/?Logic?inconsistent?definition
 DependsOn latin:/powertypes?ComplementRules?compl_full?definition latin:/?TypedTerms?tm?type
 DependsOn latin:/powertypes?ComplementRules?compl_full?definition latin:/?Propositions?prop?type
 DependsOn latin:/powertypes?ComplementRules?compl_full?definition latin:/?TypedEquality?equal?type
 DependsOn latin:/powertypes?ComplementRules?compl_full?definition latin:/powertypes?FullSet?full?type
 DependsOn latin:/powertypes?ComplementRules?compl_full?definition latin:/?Negation?not?type
 DependsOn latin:/powertypes?ComplementRules?compl_full?definition latin:/powertypes?EmptySet?emptyE?type
+DependsOn latin:/powertypes?ComplementRules?compl_full?definition latin:/?Logic?inconsistentE?type
 DependsOn latin:/powertypes?ComplementRules?compl_full?definition latin:/?Truth?true?type
 DependsOn latin:/powertypes?ComplementRules?compl_full?definition latin:/powertypes?PowerTypes?in?type
-DependsOn latin:/powertypes?ComplementRules?compl_full?definition latin:/?Proofs?inconsistentE?type
 DependsOn latin:/powertypes?ComplementRules?compl_full?definition latin:/powertypes?Extensionality?extensionalityI?type
 DependsOn latin:/powertypes?ComplementRules?compl_full?definition latin:/?Proofs?ded?type
 DependsOn latin:/powertypes?ComplementRules?compl_full?definition latin:/?Falsity?false?type
@@ -90,7 +90,7 @@ DependsOn latin:/powertypes?ComplementRules?compl_union?definition latin:/powert
 DependsOn latin:/powertypes?ComplementRules?compl_union?definition latin:/?Types?tp?type
 DependsOn latin:/powertypes?ComplementRules?compl_union?definition latin:/powertypes?Complement?complE?type
 DependsOn latin:/powertypes?ComplementRules?compl_union?definition latin:/?Disjunction?or?type
-DependsOn latin:/powertypes?ComplementRules?compl_union?definition latin:/?Proofs?inconsistent?definition
+DependsOn latin:/powertypes?ComplementRules?compl_union?definition latin:/?Logic?inconsistent?definition
 DependsOn latin:/powertypes?ComplementRules?compl_union?definition latin:/?Propositions?prop?type
 DependsOn latin:/powertypes?ComplementRules?compl_union?definition latin:/?TypedEquality?equal?type
 DependsOn latin:/powertypes?ComplementRules?compl_union?definition latin:/powertypes?Union?unionIl?type
@@ -99,8 +99,8 @@ DependsOn latin:/powertypes?ComplementRules?compl_union?definition latin:/powert
 DependsOn latin:/powertypes?ComplementRules?compl_union?definition latin:/powertypes?Complement?compl?type
 DependsOn latin:/powertypes?ComplementRules?compl_union?definition latin:/powertypes?Complement?complI?type
 DependsOn latin:/powertypes?ComplementRules?compl_union?definition latin:/powertypes?Intersection?interEr?type
+DependsOn latin:/powertypes?ComplementRules?compl_union?definition latin:/?Logic?inconsistentE?type
 DependsOn latin:/powertypes?ComplementRules?compl_union?definition latin:/?Conjunction?and?type
-DependsOn latin:/powertypes?ComplementRules?compl_union?definition latin:/?Proofs?inconsistentE?type
 DependsOn latin:/powertypes?ComplementRules?compl_union?definition latin:/powertypes?Extensionality?extensionalityI?type
 DependsOn latin:/powertypes?ComplementRules?compl_union?definition latin:/powertypes?Union?unionIr?type
 DependsOn latin:/powertypes?ComplementRules?compl_union?definition latin:/powertypes?Intersection?inter?type
@@ -117,7 +117,7 @@ DependsOn latin:/powertypes?ComplementRules?inter_compl?type latin:/powertypes?I
 DependsOn latin:/powertypes?ComplementRules?inter_compl?type latin:/powertypes?PowerTypes?power?type
 DependsOn latin:/powertypes?ComplementRules?inter_compl?type latin:/powertypes?Complement?compl?type
 DependsOn latin:/powertypes?ComplementRules?inter_compl?type latin:/?Types?tp?type
-DependsOn latin:/powertypes?ComplementRules?inter_compl?definition latin:/?Proofs?inconsistent?definition
+DependsOn latin:/powertypes?ComplementRules?inter_compl?definition latin:/?Logic?inconsistent?definition
 DependsOn latin:/powertypes?ComplementRules?inter_compl?definition latin:/?TypedTerms?tm?type
 DependsOn latin:/powertypes?ComplementRules?inter_compl?definition latin:/?Propositions?prop?type
 DependsOn latin:/powertypes?ComplementRules?inter_compl?definition latin:/?TypedEquality?equal?type
@@ -125,10 +125,10 @@ DependsOn latin:/powertypes?ComplementRules?inter_compl?definition latin:/?Negat
 DependsOn latin:/powertypes?ComplementRules?inter_compl?definition latin:/powertypes?Complement?compl?type
 DependsOn latin:/powertypes?ComplementRules?inter_compl?definition latin:/powertypes?Intersection?interEr?type
 DependsOn latin:/powertypes?ComplementRules?inter_compl?definition latin:/powertypes?EmptySet?emptyE?type
+DependsOn latin:/powertypes?ComplementRules?inter_compl?definition latin:/?Logic?inconsistentE?type
 DependsOn latin:/powertypes?ComplementRules?inter_compl?definition latin:/powertypes?PowerTypes?in?type
 DependsOn latin:/powertypes?ComplementRules?inter_compl?definition latin:/?Conjunction?and?type
 DependsOn latin:/powertypes?ComplementRules?inter_compl?definition latin:/powertypes?Intersection?interEl?type
-DependsOn latin:/powertypes?ComplementRules?inter_compl?definition latin:/?Proofs?inconsistentE?type
 DependsOn latin:/powertypes?ComplementRules?inter_compl?definition latin:/powertypes?Extensionality?extensionalityI?type
 DependsOn latin:/powertypes?ComplementRules?inter_compl?definition latin:/?Proofs?ded?type
 DependsOn latin:/powertypes?ComplementRules?inter_compl?definition latin:/?Falsity?false?type
@@ -146,7 +146,7 @@ DependsOn latin:/powertypes?ComplementRules?compl_not?type latin:/?Negation?not?
 DependsOn latin:/powertypes?ComplementRules?compl_not?type latin:/powertypes?PowerTypes?power?type
 DependsOn latin:/powertypes?ComplementRules?compl_not?type latin:/powertypes?Complement?compl?type
 DependsOn latin:/powertypes?ComplementRules?compl_not?type latin:/?Types?tp?type
-DependsOn latin:/powertypes?ComplementRules?compl_not?definition latin:/?Proofs?inconsistent?definition
+DependsOn latin:/powertypes?ComplementRules?compl_not?definition latin:/?Logic?inconsistent?definition
 DependsOn latin:/powertypes?ComplementRules?compl_not?definition latin:/?TypedTerms?tm?type
 DependsOn latin:/powertypes?ComplementRules?compl_not?definition latin:/powertypes?PowerTypes?in?type
 DependsOn latin:/powertypes?ComplementRules?compl_not?definition latin:/?Propositions?prop?type
@@ -240,7 +240,7 @@ DependsOn latin:/powertypes?ComplementRules?compl_inter?definition latin:/powert
 DependsOn latin:/powertypes?ComplementRules?compl_inter?definition latin:/?Types?tp?type
 DependsOn latin:/powertypes?ComplementRules?compl_inter?definition latin:/powertypes?Complement?complE?type
 DependsOn latin:/powertypes?ComplementRules?compl_inter?definition latin:/?Disjunction?or?type
-DependsOn latin:/powertypes?ComplementRules?compl_inter?definition latin:/?Proofs?inconsistent?definition
+DependsOn latin:/powertypes?ComplementRules?compl_inter?definition latin:/?Logic?inconsistent?definition
 DependsOn latin:/powertypes?ComplementRules?compl_inter?definition latin:/?Propositions?prop?type
 DependsOn latin:/powertypes?ComplementRules?compl_inter?definition latin:/?TypedEquality?equal?type
 DependsOn latin:/powertypes?ComplementRules?compl_inter?definition latin:/powertypes?Union?unionIl?type
@@ -249,9 +249,9 @@ DependsOn latin:/powertypes?ComplementRules?compl_inter?definition latin:/?Typed
 DependsOn latin:/powertypes?ComplementRules?compl_inter?definition latin:/powertypes?ComplementRules?compl_tnd?type
 DependsOn latin:/powertypes?ComplementRules?compl_inter?definition latin:/powertypes?Union?union?type
 DependsOn latin:/powertypes?ComplementRules?compl_inter?definition latin:/powertypes?Complement?compl?type
+DependsOn latin:/powertypes?ComplementRules?compl_inter?definition latin:/?Logic?inconsistentE?type
 DependsOn latin:/powertypes?ComplementRules?compl_inter?definition latin:/?Conjunction?and?type
 DependsOn latin:/powertypes?ComplementRules?compl_inter?definition latin:/powertypes?SubsetRules?subset_compl?type
-DependsOn latin:/powertypes?ComplementRules?compl_inter?definition latin:/?Proofs?inconsistentE?type
 DependsOn latin:/powertypes?ComplementRules?compl_inter?definition latin:/powertypes?Extensionality?extensionalityI?type
 DependsOn latin:/powertypes?ComplementRules?compl_inter?definition latin:/powertypes?Union?unionIr?type
 DependsOn latin:/powertypes?ComplementRules?compl_inter?definition latin:/powertypes?Intersection?inter?type
@@ -266,7 +266,7 @@ DependsOn latin:/powertypes?ComplementRules?compl_compl?type latin:/?Proofs?ded?
 DependsOn latin:/powertypes?ComplementRules?compl_compl?type latin:/powertypes?PowerTypes?power?type
 DependsOn latin:/powertypes?ComplementRules?compl_compl?type latin:/powertypes?Complement?compl?type
 DependsOn latin:/powertypes?ComplementRules?compl_compl?type latin:/?Types?tp?type
-DependsOn latin:/powertypes?ComplementRules?compl_compl?definition latin:/?Proofs?inconsistent?definition
+DependsOn latin:/powertypes?ComplementRules?compl_compl?definition latin:/?Logic?inconsistent?definition
 DependsOn latin:/powertypes?ComplementRules?compl_compl?definition latin:/?TypedTerms?tm?type
 DependsOn latin:/powertypes?ComplementRules?compl_compl?definition latin:/?Propositions?prop?type
 DependsOn latin:/powertypes?ComplementRules?compl_compl?definition latin:/?TypedEquality?equal?type
@@ -275,8 +275,8 @@ DependsOn latin:/powertypes?ComplementRules?compl_compl?definition latin:/powert
 DependsOn latin:/powertypes?ComplementRules?compl_compl?definition latin:/?DisjunctionNDE?orE?type
 DependsOn latin:/powertypes?ComplementRules?compl_compl?definition latin:/powertypes?Complement?compl?type
 DependsOn latin:/powertypes?ComplementRules?compl_compl?definition latin:/powertypes?Complement?complI?type
+DependsOn latin:/powertypes?ComplementRules?compl_compl?definition latin:/?Logic?inconsistentE?type
 DependsOn latin:/powertypes?ComplementRules?compl_compl?definition latin:/powertypes?PowerTypes?in?type
-DependsOn latin:/powertypes?ComplementRules?compl_compl?definition latin:/?Proofs?inconsistentE?type
 DependsOn latin:/powertypes?ComplementRules?compl_compl?definition latin:/powertypes?Extensionality?extensionalityI?type
 DependsOn latin:/powertypes?ComplementRules?compl_compl?definition latin:/?Proofs?ded?type
 DependsOn latin:/powertypes?ComplementRules?compl_compl?definition latin:/powertypes?PowerTypes?filter?type

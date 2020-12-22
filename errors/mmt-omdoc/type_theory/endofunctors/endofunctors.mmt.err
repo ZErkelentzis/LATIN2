@@ -3,6 +3,7 @@
   latin:/?Category?neutLeft
 latin:/?Category?neutRight
 latin:/?Category?assoc
+latin:/?Category?iso_equiv/[latin:/?Transitivity]/trans
   <stacktrace>
     <element>info.kwarc.mmt.api.checking.MMTStructureChecker.checkTotalTop(MMTStructureChecker.scala:604)</element>
     <element>info.kwarc.mmt.api.checking.MMTStructureChecker.checkElementEnd(MMTStructureChecker.scala:556)</element>

@@ -1,0 +1,15 @@
+dataconstructor latin:/?DependentFunctionTypes?depfun
+dataconstructor latin:/?DependentFunctionTypes?[latin:/?SimpleFunctionTypes]/simpfun
+theory latin:/?DependentFunctionTypes
+HasMeta latin:/?DependentFunctionTypes http://cds.omdoc.org/urtheories?LF
+Includes latin:/?DependentFunctionTypes latin:/?TypedTerms
+Declares latin:/?DependentFunctionTypes latin:/?DependentFunctionTypes?depfun
+constant latin:/?DependentFunctionTypes?depfun
+DependsOn latin:/?DependentFunctionTypes?depfun?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?DependentFunctionTypes?depfun?type latin:/?Types?tp?type
+Includes latin:/?DependentFunctionTypes latin:/?SimpleFunctionTypes
+Declares latin:/?DependentFunctionTypes latin:/?DependentFunctionTypes?[latin:/?SimpleFunctionTypes]/simpfun
+constant latin:/?DependentFunctionTypes?[latin:/?SimpleFunctionTypes]/simpfun
+DependsOn latin:/?DependentFunctionTypes?[latin:/?SimpleFunctionTypes]/simpfun?definition latin:/?DependentFunctionTypes?depfun?type
+DependsOn latin:/?DependentFunctionTypes?[latin:/?SimpleFunctionTypes]/simpfun?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?DependentFunctionTypes?[latin:/?SimpleFunctionTypes]/simpfun?definition latin:/?Types?tp?type

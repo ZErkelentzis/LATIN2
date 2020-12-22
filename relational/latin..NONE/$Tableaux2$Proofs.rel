@@ -20,14 +20,14 @@ DependsOn latin:/?Tableaux2Proofs?[latin:/?Tableaux]/marktrue?definition latin:/
 Declares latin:/?Tableaux2Proofs latin:/?Tableaux2Proofs?[latin:/?Tableaux]/markfalse
 constant latin:/?Tableaux2Proofs?[latin:/?Tableaux]/markfalse
 DependsOn latin:/?Tableaux2Proofs?[latin:/?Tableaux]/markfalse?definition latin:/?Propositions?prop?type
-DependsOn latin:/?Tableaux2Proofs?[latin:/?Tableaux]/markfalse?definition latin:/?Proofs?inconsistent?type
+DependsOn latin:/?Tableaux2Proofs?[latin:/?Tableaux]/markfalse?definition latin:/?Logic?inconsistent?type
 DependsOn latin:/?Tableaux2Proofs?[latin:/?Tableaux]/markfalse?definition latin:/?Proofs?ded?type
 Declares latin:/?Tableaux2Proofs latin:/?Tableaux2Proofs?[latin:/?Tableaux]/closedbranch
 constant latin:/?Tableaux2Proofs?[latin:/?Tableaux]/closedbranch
-DependsOn latin:/?Tableaux2Proofs?[latin:/?Tableaux]/closedbranch?definition latin:/?Proofs?inconsistent?type
+DependsOn latin:/?Tableaux2Proofs?[latin:/?Tableaux]/closedbranch?definition latin:/?Logic?inconsistent?type
 Declares latin:/?Tableaux2Proofs latin:/?Tableaux2Proofs?[latin:/?Tableaux]/closebranch
 constant latin:/?Tableaux2Proofs?[latin:/?Tableaux]/closebranch
-DependsOn latin:/?Tableaux2Proofs?[latin:/?Tableaux]/closebranch?definition latin:/?Proofs?inconsistent?definition
+DependsOn latin:/?Tableaux2Proofs?[latin:/?Tableaux]/closebranch?definition latin:/?Logic?inconsistent?definition
 DependsOn latin:/?Tableaux2Proofs?[latin:/?Tableaux]/closebranch?definition latin:/?Propositions?prop?type
 DependsOn latin:/?Tableaux2Proofs?[latin:/?Tableaux]/closebranch?definition latin:/?Proofs?ded?type
 Declares latin:/?Tableaux2Proofs latin:/?Tableaux2Proofs?[latin:/?Tableaux]/proofstart
@@ -40,4 +40,4 @@ DependsOn latin:/?Tableaux2Proofs?[latin:/?Tableaux]/classicality?definition lat
 DependsOn latin:/?Tableaux2Proofs?[latin:/?Tableaux]/classicality?definition latin:/?Classical?classical?type
 Declares latin:/?Tableaux2Proofs latin:/?Tableaux2Proofs?[latin:/?Tableaux]/refutationstart
 constant latin:/?Tableaux2Proofs?[latin:/?Tableaux]/refutationstart
-DependsOn latin:/?Tableaux2Proofs?[latin:/?Tableaux]/refutationstart?definition latin:/?Proofs?inconsistent?type
+DependsOn latin:/?Tableaux2Proofs?[latin:/?Tableaux]/refutationstart?definition latin:/?Logic?inconsistent?type

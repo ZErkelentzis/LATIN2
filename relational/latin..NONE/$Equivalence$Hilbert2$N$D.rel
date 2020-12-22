@@ -8,10 +8,10 @@ Includes latin:/?EquivalenceHilbert2ND latin:/?ImplicationHilbert
 Declares latin:/?EquivalenceHilbert2ND latin:/?EquivalenceHilbert2ND?[latin:/?EquivalenceHilbert]/equivI_ax
 constant latin:/?EquivalenceHilbert2ND?[latin:/?EquivalenceHilbert]/equivI_ax
 DependsOn latin:/?EquivalenceHilbert2ND?[latin:/?EquivalenceHilbert]/equivI_ax?definition latin:/?Propositions?prop?type
-DependsOn latin:/?EquivalenceHilbert2ND?[latin:/?EquivalenceHilbert]/equivI_ax?definition latin:/?ImplicationNDE?impE?type
+DependsOn latin:/?EquivalenceHilbert2ND?[latin:/?EquivalenceHilbert]/equivI_ax?definition latin:/?ImplicationNDI?implI?type
 DependsOn latin:/?EquivalenceHilbert2ND?[latin:/?EquivalenceHilbert]/equivI_ax?definition latin:/?EquivalenceNDI?equivI?type
+DependsOn latin:/?EquivalenceHilbert2ND?[latin:/?EquivalenceHilbert]/equivI_ax?definition latin:/?ImplicationNDE?implE?type
 DependsOn latin:/?EquivalenceHilbert2ND?[latin:/?EquivalenceHilbert]/equivI_ax?definition latin:/?Equivalence?equiv?type
 DependsOn latin:/?EquivalenceHilbert2ND?[latin:/?EquivalenceHilbert]/equivI_ax?definition latin:/?Proofs?ded?type
 DependsOn latin:/?EquivalenceHilbert2ND?[latin:/?EquivalenceHilbert]/equivI_ax?definition latin:/?Implication?impl?type
-DependsOn latin:/?EquivalenceHilbert2ND?[latin:/?EquivalenceHilbert]/equivI_ax?definition latin:/?ImplicationNDI?impI?type
 IsImplicitly latin:/?PLND latin:/?EquivalenceHilbert

@@ -6,7 +6,7 @@ theory latin:/?DependentProducts
 HasMeta latin:/?DependentProducts http://cds.omdoc.org/urtheories?LF
 Includes latin:/?DependentProducts latin:/?DependentProductTypes
 Includes latin:/?DependentProducts latin:/?TypedEquality
-Includes latin:/?DependentProducts latin:/?Transport
+Includes latin:/?DependentProducts latin:/?DependentTypeEquality
 Declares latin:/?DependentProducts latin:/?DependentProducts?deppair
 constant latin:/?DependentProducts?deppair
 DependsOn latin:/?DependentProducts?deppair?type latin:/?TypedTerms?tm?type

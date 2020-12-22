@@ -7,6 +7,7 @@ Includes latin:/?TypeErasEquality latin:/?TypedTerms
 Includes latin:/?TypeErasEquality latin:/?Logic
 Declares latin:/?TypeErasEquality latin:/?TypeErasEquality?[latin:/?TypedEquality]/equal
 constant latin:/?TypeErasEquality?[latin:/?TypedEquality]/equal
-DependsOn latin:/?TypeErasEquality?[latin:/?TypedEquality]/equal?definition latin:/?Equality?equal?type
 DependsOn latin:/?TypeErasEquality?[latin:/?TypedEquality]/equal?definition latin:/?Propositions?prop?type
+DependsOn latin:/?TypeErasEquality?[latin:/?TypedEquality]/equal?definition latin:/?SoftTypedEquality?equal?type
 DependsOn latin:/?TypeErasEquality?[latin:/?TypedEquality]/equal?definition latin:/?Terms?term?type
+DependsOn latin:/?TypeErasEquality?[latin:/?TypedEquality]/equal?definition latin:/?Types?tp?type

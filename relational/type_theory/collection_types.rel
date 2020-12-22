@@ -1,0 +1,10 @@
+document latin:/type_theory/collection_types.omdoc
+Declares latin:/type_theory/collection_types.omdoc latin:/?Collection
+Declares latin:/type_theory/collection_types.omdoc latin:/?ListSpec
+Declares latin:/type_theory/collection_types.omdoc latin:/?MultisetSpec
+Declares latin:/type_theory/collection_types.omdoc latin:/?FiniteSetSpec
+Declares latin:/type_theory/collection_types.omdoc latin:/?OptionSpec
+Declares latin:/type_theory/collection_types.omdoc latin:/?Lists
+Declares latin:/type_theory/collection_types.omdoc latin:/?Multisets
+Declares latin:/type_theory/collection_types.omdoc latin:/?FiniteSets
+Declares latin:/type_theory/collection_types.omdoc latin:/?Options

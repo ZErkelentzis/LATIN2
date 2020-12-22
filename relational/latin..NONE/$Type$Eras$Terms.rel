@@ -1,0 +1,9 @@
+datatypeconstructor latin:/?TypeErasTerms?[latin:/?TypedTerms]/tm
+HasDomain latin:/?TypeErasTerms latin:/?TypedTerms
+HasCodomain latin:/?TypeErasTerms latin:/?SoftTypedTerms
+view latin:/?TypeErasTerms
+HasViewFrom latin:/?SoftTypedTerms latin:/?TypedTerms
+Includes latin:/?TypeErasTerms latin:/?Types
+Declares latin:/?TypeErasTerms latin:/?TypeErasTerms?[latin:/?TypedTerms]/tm
+constant latin:/?TypeErasTerms?[latin:/?TypedTerms]/tm
+DependsOn latin:/?TypeErasTerms?[latin:/?TypedTerms]/tm?definition latin:/?Terms?term?type

@@ -2,6 +2,8 @@ dataconstructor latin:/?Nat?nat
 datatypeconstructor latin:/?Nat?Nat
 dataconstructor latin:/?Nat?zero
 dataconstructor latin:/?Nat?succ
+dataconstructor latin:/?Nat?even
+dataconstructor latin:/?Nat?uneven
 theory latin:/?Nat
 HasMeta latin:/?Nat latin:/?SFOLEQND
 Declares latin:/?Nat latin:/?Nat?nat
@@ -19,6 +21,14 @@ DependsOn latin:/?Nat?zero?type latin:/?Nat?Nat?type
 Declares latin:/?Nat latin:/?Nat?succ
 constant latin:/?Nat?succ
 DependsOn latin:/?Nat?succ?type latin:/?Nat?Nat?type
+Declares latin:/?Nat latin:/?Nat?even
+constant latin:/?Nat?even
+DependsOn latin:/?Nat?even?type latin:/?Propositions?prop?type
+DependsOn latin:/?Nat?even?type latin:/?Nat?Nat?type
+Declares latin:/?Nat latin:/?Nat?uneven
+constant latin:/?Nat?uneven
+DependsOn latin:/?Nat?uneven?type latin:/?Propositions?prop?type
+DependsOn latin:/?Nat?uneven?type latin:/?Nat?Nat?type
 Declares latin:/?Nat latin:/?Nat?[scala://lf.mmt.kwarc.info?Realize]/1258274603
 constant latin:/?Nat?[scala://lf.mmt.kwarc.info?Realize]/1258274603
 Declares latin:/?Nat latin:/?Nat?[scala://lf.mmt.kwarc.info?Realize]/-179762866

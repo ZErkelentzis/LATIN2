@@ -32,7 +32,7 @@ DependsOn latin:/?IPLND?not_or_left?type latin:/?Propositions?prop?type
 DependsOn latin:/?IPLND?not_or_left?type latin:/?Proofs?ded?type
 DependsOn latin:/?IPLND?not_or_left?type latin:/?Negation?not?type
 DependsOn latin:/?IPLND?not_or_left?type latin:/?Disjunction?or?type
-DependsOn latin:/?IPLND?not_or_left?definition latin:/?Proofs?inconsistent?definition
+DependsOn latin:/?IPLND?not_or_left?definition latin:/?Logic?inconsistent?definition
 DependsOn latin:/?IPLND?not_or_left?definition latin:/?Propositions?prop?type
 DependsOn latin:/?IPLND?not_or_left?definition latin:/?NegationNDE?notE?type
 DependsOn latin:/?IPLND?not_or_left?definition latin:/?Proofs?ded?type
@@ -46,7 +46,7 @@ DependsOn latin:/?IPLND?not_or_right?type latin:/?Propositions?prop?type
 DependsOn latin:/?IPLND?not_or_right?type latin:/?Proofs?ded?type
 DependsOn latin:/?IPLND?not_or_right?type latin:/?Negation?not?type
 DependsOn latin:/?IPLND?not_or_right?type latin:/?Disjunction?or?type
-DependsOn latin:/?IPLND?not_or_right?definition latin:/?Proofs?inconsistent?definition
+DependsOn latin:/?IPLND?not_or_right?definition latin:/?Logic?inconsistent?definition
 DependsOn latin:/?IPLND?not_or_right?definition latin:/?Propositions?prop?type
 DependsOn latin:/?IPLND?not_or_right?definition latin:/?NegationNDE?notE?type
 DependsOn latin:/?IPLND?not_or_right?definition latin:/?Proofs?ded?type
@@ -60,7 +60,7 @@ DependsOn latin:/?IPLND?nntnd?type latin:/?Propositions?prop?type
 DependsOn latin:/?IPLND?nntnd?type latin:/?Proofs?ded?type
 DependsOn latin:/?IPLND?nntnd?type latin:/?Negation?not?type
 DependsOn latin:/?IPLND?nntnd?type latin:/?Disjunction?or?type
-DependsOn latin:/?IPLND?nntnd?definition latin:/?Proofs?inconsistent?definition
+DependsOn latin:/?IPLND?nntnd?definition latin:/?Logic?inconsistent?definition
 DependsOn latin:/?IPLND?nntnd?definition latin:/?IPLND?not_or_right?type
 DependsOn latin:/?IPLND?nntnd?definition latin:/?Propositions?prop?type
 DependsOn latin:/?IPLND?nntnd?definition latin:/?IPLND?not_or_left?type

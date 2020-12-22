@@ -1,0 +1,5 @@
+datatypeconstructor latin:/?Programs?prog
+theory latin:/?Programs
+HasMeta latin:/?Programs http://cds.omdoc.org/urtheories?LF
+Declares latin:/?Programs latin:/?Programs?prog
+constant latin:/?Programs?prog

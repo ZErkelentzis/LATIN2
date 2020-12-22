@@ -1,0 +1,6 @@
+theory latin:/?IFOLEQ
+HasMeta latin:/?IFOLEQ http://cds.omdoc.org/urtheories?LF
+Includes latin:/?IFOLEQ latin:/?IPL
+Includes latin:/?IFOLEQ latin:/?UntypedEquality
+Includes latin:/?IFOLEQ latin:/?UniversalQuantification
+Includes latin:/?IFOLEQ latin:/?ExistentialQuantification

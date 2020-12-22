@@ -3,8 +3,9 @@ dataconstructor latin:/?InternalEndoFunctor?fmapApply
 dataconstructor latin:/?InternalEndoFunctor?fmapId
 dataconstructor latin:/?InternalEndoFunctor?fmapComp
 theory latin:/?InternalEndoFunctor
-HasMeta latin:/?InternalEndoFunctor latin:/?HOLND
+HasMeta latin:/?InternalEndoFunctor latin:/?TypedEqualityND
 Includes latin:/?InternalEndoFunctor latin:/?TypeOperator
+Includes latin:/?InternalEndoFunctor latin:/?SimpleFunctions
 Declares latin:/?InternalEndoFunctor latin:/?InternalEndoFunctor?fmap
 constant latin:/?InternalEndoFunctor?fmap
 DependsOn latin:/?InternalEndoFunctor?fmap?type latin:/?TypedTerms?tm?type
@@ -30,10 +31,9 @@ DependsOn latin:/?InternalEndoFunctor?fmapId?type latin:/?Propositions?prop?type
 DependsOn latin:/?InternalEndoFunctor?fmapId?type latin:/?TypeOperator?applyType?type
 DependsOn latin:/?InternalEndoFunctor?fmapId?type latin:/?TypedEquality?equal?type
 DependsOn latin:/?InternalEndoFunctor?fmapId?type latin:/?InternalEndoFunctor?fmap?type
+DependsOn latin:/?InternalEndoFunctor?fmapId?type latin:/?Category?ident?type
 DependsOn latin:/?InternalEndoFunctor?fmapId?type latin:/?Proofs?ded?type
 DependsOn latin:/?InternalEndoFunctor?fmapId?type latin:/?SimpleFunctionTypes?simpfun?type
-DependsOn latin:/?InternalEndoFunctor?fmapId?type latin:/?Propositions?prop?definition
-DependsOn latin:/?InternalEndoFunctor?fmapId?type latin:/?Category?id?type
 DependsOn latin:/?InternalEndoFunctor?fmapId?type latin:/?Types?tp?type
 Declares latin:/?InternalEndoFunctor latin:/?InternalEndoFunctor?fmapComp
 constant latin:/?InternalEndoFunctor?fmapComp
@@ -45,5 +45,4 @@ DependsOn latin:/?InternalEndoFunctor?fmapComp?type latin:/?InternalEndoFunctor?
 DependsOn latin:/?InternalEndoFunctor?fmapComp?type latin:/?Proofs?ded?type
 DependsOn latin:/?InternalEndoFunctor?fmapComp?type latin:/?Category?comp?type
 DependsOn latin:/?InternalEndoFunctor?fmapComp?type latin:/?SimpleFunctionTypes?simpfun?type
-DependsOn latin:/?InternalEndoFunctor?fmapComp?type latin:/?Propositions?prop?definition
 DependsOn latin:/?InternalEndoFunctor?fmapComp?type latin:/?Types?tp?type

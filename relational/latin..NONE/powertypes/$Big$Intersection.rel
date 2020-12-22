@@ -35,11 +35,11 @@ DependsOn latin:/powertypes?BigIntersection?biginterI?definition latin:/?TypedUn
 DependsOn latin:/powertypes?BigIntersection?biginterI?definition latin:/?Implication?impl?type
 DependsOn latin:/powertypes?BigIntersection?biginterI?definition latin:/?TypedUniversalQuantificationND?forallI?type
 DependsOn latin:/powertypes?BigIntersection?biginterI?definition latin:/powertypes?PowerTypes?in?type
+DependsOn latin:/powertypes?BigIntersection?biginterI?definition latin:/?ImplicationNDI?implI?type
 DependsOn latin:/powertypes?BigIntersection?biginterI?definition latin:/?Proofs?ded?type
 DependsOn latin:/powertypes?BigIntersection?biginterI?definition latin:/powertypes?PowerTypes?filter?type
 DependsOn latin:/powertypes?BigIntersection?biginterI?definition latin:/powertypes?PowerTypes?power?type
 DependsOn latin:/powertypes?BigIntersection?biginterI?definition latin:/?Types?tp?type
-DependsOn latin:/powertypes?BigIntersection?biginterI?definition latin:/?ImplicationNDI?impI?type
 Declares latin:/powertypes?BigIntersection latin:/powertypes?BigIntersection?biginterE
 constant latin:/powertypes?BigIntersection?biginterE
 DependsOn latin:/powertypes?BigIntersection?biginterE?type latin:/?TypedTerms?tm?type
@@ -57,7 +57,7 @@ DependsOn latin:/powertypes?BigIntersection?biginterE?definition latin:/?Implica
 DependsOn latin:/powertypes?BigIntersection?biginterE?definition latin:/powertypes?PowerTypes?in?type
 DependsOn latin:/powertypes?BigIntersection?biginterE?definition latin:/powertypes?BigIntersection?biginter?type
 DependsOn latin:/powertypes?BigIntersection?biginterE?definition latin:/?TypedUniversalQuantificationND?forallE?type
-DependsOn latin:/powertypes?BigIntersection?biginterE?definition latin:/?ImplicationNDE?impE?type
+DependsOn latin:/powertypes?BigIntersection?biginterE?definition latin:/?ImplicationNDE?implE?type
 DependsOn latin:/powertypes?BigIntersection?biginterE?definition latin:/?Proofs?ded?type
 DependsOn latin:/powertypes?BigIntersection?biginterE?definition latin:/powertypes?PowerTypes?filter?type
 DependsOn latin:/powertypes?BigIntersection?biginterE?definition latin:/powertypes?PowerTypes?power?type

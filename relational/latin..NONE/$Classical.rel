@@ -1,0 +1,9 @@
+dataconstructor latin:/?Classical?classical
+theory latin:/?Classical
+HasMeta latin:/?Classical http://cds.omdoc.org/urtheories?LF
+Includes latin:/?Classical latin:/?Logic
+Declares latin:/?Classical latin:/?Classical?classical
+constant latin:/?Classical?classical
+DependsOn latin:/?Classical?classical?type latin:/?Propositions?prop?type
+DependsOn latin:/?Classical?classical?type latin:/?Logic?inconsistent?type
+DependsOn latin:/?Classical?classical?type latin:/?Proofs?ded?type

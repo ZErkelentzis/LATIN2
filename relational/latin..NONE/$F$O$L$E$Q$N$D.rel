@@ -1,0 +1,5 @@
+theory latin:/?FOLEQND
+HasMeta latin:/?FOLEQND http://cds.omdoc.org/urtheories?LF
+Includes latin:/?FOLEQND latin:/?FOLEQ
+Includes latin:/?FOLEQND latin:/?FOLND
+Includes latin:/?FOLEQND latin:/?UntypedEqualityND

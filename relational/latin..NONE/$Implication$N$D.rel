@@ -1,0 +1,42 @@
+dataconstructor latin:/?ImplicationND?impl_preorder/[latin:/?Reflexivity]/refl
+judgementconstructor latin:/?ImplicationND?impl_preorder/[latin:/?Relation]/rel
+datatypeconstructor latin:/?ImplicationND?impl_preorder/[latin:/?OneTyped]/carrier
+dataconstructor latin:/?ImplicationND?impl_preorder/[latin:/?Transitivity]/trans
+dataconstructor latin:/?ImplicationND?impl_preorder/[latin:/?Transitivity]/trans3
+dataconstructor latin:/?ImplicationND?impl_preorder/[latin:/?Transitivity]/trans4
+theory latin:/?ImplicationND
+HasMeta latin:/?ImplicationND http://cds.omdoc.org/urtheories?LF
+Includes latin:/?ImplicationND latin:/?ImplicationNDI
+Includes latin:/?ImplicationND latin:/?ImplicationNDE
+Declares latin:/?ImplicationND latin:/?ImplicationND?impl_preorder
+HasDomain latin:/?ImplicationND?impl_preorder latin:/?Preorder
+HasCodomain latin:/?ImplicationND?impl_preorder latin:/?ImplicationND
+structure latin:/?ImplicationND?impl_preorder
+Declares latin:/?ImplicationND latin:/?ImplicationND?impl_preorder/[latin:/?Reflexivity]
+HasDomain latin:/?ImplicationND?impl_preorder/[latin:/?Reflexivity] latin:/?Reflexivity
+HasCodomain latin:/?ImplicationND?impl_preorder/[latin:/?Reflexivity] latin:/?ImplicationND
+structure latin:/?ImplicationND?impl_preorder/[latin:/?Reflexivity]
+Declares latin:/?ImplicationND latin:/?ImplicationND?impl_preorder/[latin:/?Reflexivity]/refl
+constant latin:/?ImplicationND?impl_preorder/[latin:/?Reflexivity]/refl
+Declares latin:/?ImplicationND latin:/?ImplicationND?impl_preorder/[latin:/?Relation]
+HasDomain latin:/?ImplicationND?impl_preorder/[latin:/?Relation] latin:/?Relation
+HasCodomain latin:/?ImplicationND?impl_preorder/[latin:/?Relation] latin:/?ImplicationND
+structure latin:/?ImplicationND?impl_preorder/[latin:/?Relation]
+Declares latin:/?ImplicationND latin:/?ImplicationND?impl_preorder/[latin:/?Relation]/rel
+constant latin:/?ImplicationND?impl_preorder/[latin:/?Relation]/rel
+Declares latin:/?ImplicationND latin:/?ImplicationND?impl_preorder/[latin:/?OneTyped]
+HasDomain latin:/?ImplicationND?impl_preorder/[latin:/?OneTyped] latin:/?OneTyped
+HasCodomain latin:/?ImplicationND?impl_preorder/[latin:/?OneTyped] latin:/?ImplicationND
+structure latin:/?ImplicationND?impl_preorder/[latin:/?OneTyped]
+Declares latin:/?ImplicationND latin:/?ImplicationND?impl_preorder/[latin:/?OneTyped]/carrier
+constant latin:/?ImplicationND?impl_preorder/[latin:/?OneTyped]/carrier
+Declares latin:/?ImplicationND latin:/?ImplicationND?impl_preorder/[latin:/?Transitivity]
+HasDomain latin:/?ImplicationND?impl_preorder/[latin:/?Transitivity] latin:/?Transitivity
+HasCodomain latin:/?ImplicationND?impl_preorder/[latin:/?Transitivity] latin:/?ImplicationND
+structure latin:/?ImplicationND?impl_preorder/[latin:/?Transitivity]
+Declares latin:/?ImplicationND latin:/?ImplicationND?impl_preorder/[latin:/?Transitivity]/trans
+constant latin:/?ImplicationND?impl_preorder/[latin:/?Transitivity]/trans
+Declares latin:/?ImplicationND latin:/?ImplicationND?impl_preorder/[latin:/?Transitivity]/trans3
+constant latin:/?ImplicationND?impl_preorder/[latin:/?Transitivity]/trans3
+Declares latin:/?ImplicationND latin:/?ImplicationND?impl_preorder/[latin:/?Transitivity]/trans4
+constant latin:/?ImplicationND?impl_preorder/[latin:/?Transitivity]/trans4

@@ -1,0 +1,24 @@
+judgementconstructor latin:/algebraic?Symmetry?metarel/[latin:/?Relation]/rel
+datatypeconstructor latin:/algebraic?Symmetry?metarel/[latin:/?OneTyped]/carrier
+dataconstructor latin:/algebraic?Symmetry?metarel/sym
+theory latin:/algebraic?Symmetry
+HasMeta latin:/algebraic?Symmetry latin:/?SFOLEQND
+Includes latin:/algebraic?Symmetry latin:/algebraic?Relation
+Declares latin:/algebraic?Symmetry latin:/algebraic?Symmetry?metarel
+HasDomain latin:/algebraic?Symmetry?metarel latin:/?Symmetry
+HasCodomain latin:/algebraic?Symmetry?metarel latin:/algebraic?Symmetry
+structure latin:/algebraic?Symmetry?metarel
+Declares latin:/algebraic?Symmetry latin:/algebraic?Symmetry?metarel/[latin:/?Relation]
+HasDomain latin:/algebraic?Symmetry?metarel/[latin:/?Relation] latin:/?Relation
+HasCodomain latin:/algebraic?Symmetry?metarel/[latin:/?Relation] latin:/algebraic?Symmetry
+structure latin:/algebraic?Symmetry?metarel/[latin:/?Relation]
+Declares latin:/algebraic?Symmetry latin:/algebraic?Symmetry?metarel/[latin:/?Relation]/rel
+constant latin:/algebraic?Symmetry?metarel/[latin:/?Relation]/rel
+Declares latin:/algebraic?Symmetry latin:/algebraic?Symmetry?metarel/[latin:/?OneTyped]
+HasDomain latin:/algebraic?Symmetry?metarel/[latin:/?OneTyped] latin:/?OneTyped
+HasCodomain latin:/algebraic?Symmetry?metarel/[latin:/?OneTyped] latin:/algebraic?Symmetry
+structure latin:/algebraic?Symmetry?metarel/[latin:/?OneTyped]
+Declares latin:/algebraic?Symmetry latin:/algebraic?Symmetry?metarel/[latin:/?OneTyped]/carrier
+constant latin:/algebraic?Symmetry?metarel/[latin:/?OneTyped]/carrier
+Declares latin:/algebraic?Symmetry latin:/algebraic?Symmetry?metarel/sym
+constant latin:/algebraic?Symmetry?metarel/sym

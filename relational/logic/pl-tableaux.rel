@@ -1,0 +1,13 @@
+document latin:/logic/pl-tableaux.omdoc
+Declares latin:/logic/pl-tableaux.omdoc latin:/?Tableaux
+Declares latin:/logic/pl-tableaux.omdoc latin:/?Tableaux2Proofs
+Declares latin:/logic/pl-tableaux.omdoc latin:/?Proofs2Tableaux
+Declares latin:/logic/pl-tableaux.omdoc latin:/?NegationTab
+Declares latin:/logic/pl-tableaux.omdoc latin:/?NegationTab2ND
+Declares latin:/logic/pl-tableaux.omdoc latin:/?NegationND2Tab
+Declares latin:/logic/pl-tableaux.omdoc latin:/?ConjunctionTab
+Declares latin:/logic/pl-tableaux.omdoc latin:/?DisjunctionTab
+Declares latin:/logic/pl-tableaux.omdoc latin:/?ImplicationTab
+Declares latin:/logic/pl-tableaux.omdoc latin:/?EquivalenceTab
+Declares latin:/logic/pl-tableaux.omdoc latin:/?UniversalQuantificationTab
+Declares latin:/logic/pl-tableaux.omdoc latin:/?ExistentialQuantificationTab

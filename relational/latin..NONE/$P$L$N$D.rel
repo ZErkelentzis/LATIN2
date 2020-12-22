@@ -10,12 +10,12 @@ Includes latin:/?PLND latin:/?Classical
 Declares latin:/?PLND latin:/?PLND?indirect
 constant latin:/?PLND?indirect
 DependsOn latin:/?PLND?indirect?type latin:/?Propositions?prop?type
-DependsOn latin:/?PLND?indirect?type latin:/?Proofs?inconsistent?type
+DependsOn latin:/?PLND?indirect?type latin:/?Logic?inconsistent?type
 DependsOn latin:/?PLND?indirect?type latin:/?Proofs?ded?type
 DependsOn latin:/?PLND?indirect?type latin:/?Negation?not?type
-DependsOn latin:/?PLND?indirect?definition latin:/?Proofs?inconsistent?definition
+DependsOn latin:/?PLND?indirect?definition latin:/?Logic?inconsistent?definition
 DependsOn latin:/?PLND?indirect?definition latin:/?Propositions?prop?type
-DependsOn latin:/?PLND?indirect?definition latin:/?Proofs?inconsistent?type
+DependsOn latin:/?PLND?indirect?definition latin:/?Logic?inconsistent?type
 DependsOn latin:/?PLND?indirect?definition latin:/?Proofs?ded?type
 DependsOn latin:/?PLND?indirect?definition latin:/?Negation?not?type
 DependsOn latin:/?PLND?indirect?definition latin:/?NegationNDI?notI?type
@@ -25,7 +25,7 @@ constant latin:/?PLND?dne
 DependsOn latin:/?PLND?dne?type latin:/?Propositions?prop?type
 DependsOn latin:/?PLND?dne?type latin:/?Proofs?ded?type
 DependsOn latin:/?PLND?dne?type latin:/?Negation?not?type
-DependsOn latin:/?PLND?dne?definition latin:/?Proofs?inconsistent?definition
+DependsOn latin:/?PLND?dne?definition latin:/?Logic?inconsistent?definition
 DependsOn latin:/?PLND?dne?definition latin:/?Propositions?prop?type
 DependsOn latin:/?PLND?dne?definition latin:/?PLND?indirect?type
 DependsOn latin:/?PLND?dne?definition latin:/?NegationNDE?notE?type

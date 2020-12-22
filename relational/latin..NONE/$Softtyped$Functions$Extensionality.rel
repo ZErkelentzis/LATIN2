@@ -4,8 +4,8 @@ HasMeta latin:/?SofttypedFunctionsExtensionality http://cds.omdoc.org/urtheories
 Includes latin:/?SofttypedFunctionsExtensionality latin:/?SoftTypedFunctions
 Declares latin:/?SofttypedFunctionsExtensionality latin:/?SofttypedFunctionsExtensionality?eta
 constant latin:/?SofttypedFunctionsExtensionality?eta
-DependsOn latin:/?SofttypedFunctionsExtensionality?eta?type latin:/?Equality?equal?type
 DependsOn latin:/?SofttypedFunctionsExtensionality?eta?type latin:/?Propositions?prop?type
 DependsOn latin:/?SofttypedFunctionsExtensionality?eta?type latin:/?Proofs?ded?type
 DependsOn latin:/?SofttypedFunctionsExtensionality?eta?type latin:/?Terms?term?type
 DependsOn latin:/?SofttypedFunctionsExtensionality?eta?type latin:/?SoftTypedFunctions?apply?type
+DependsOn latin:/?SofttypedFunctionsExtensionality?eta?type latin:/?UntypedEquality?equal?type
