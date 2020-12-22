@@ -1,0 +1,39 @@
+dataconstructor latin:/?BigIntersection?biginter
+dataconstructor latin:/?BigIntersection?biginterI
+dataconstructor latin:/?BigIntersection?biginterE
+dataconstructor latin:/?BigIntersection?biginter_subset
+theory latin:/?BigIntersection
+HasMeta latin:/?BigIntersection latin:/?SetFOL
+Includes latin:/?BigIntersection latin:/?EmptySetDefinitions
+Declares latin:/?BigIntersection latin:/?BigIntersection?biginter
+constant latin:/?BigIntersection?biginter
+DependsOn latin:/?BigIntersection?biginter?type latin:/?SetFOL?set?type
+Declares latin:/?BigIntersection latin:/?BigIntersection?biginterI
+constant latin:/?BigIntersection?biginterI
+DependsOn latin:/?BigIntersection?biginterI?type latin:/?Propositions?prop?type
+DependsOn latin:/?BigIntersection?biginterI?type latin:/?InternalTypes?in?type
+DependsOn latin:/?BigIntersection?biginterI?type latin:/?SetFOL?set?type
+DependsOn latin:/?BigIntersection?biginterI?type latin:/?Proofs?ded?type
+DependsOn latin:/?BigIntersection?biginterI?type latin:/?BigIntersection?biginter?type
+DependsOn latin:/?BigIntersection?biginterI?type latin:/?Terms?term?type
+DependsOn latin:/?BigIntersection?biginterI?type latin:/?EmptySetDefinitions?nonempty?type
+Declares latin:/?BigIntersection latin:/?BigIntersection?biginterE
+constant latin:/?BigIntersection?biginterE
+DependsOn latin:/?BigIntersection?biginterE?type latin:/?Propositions?prop?type
+DependsOn latin:/?BigIntersection?biginterE?type latin:/?InternalTypes?in?type
+DependsOn latin:/?BigIntersection?biginterE?type latin:/?SetFOL?set?type
+DependsOn latin:/?BigIntersection?biginterE?type latin:/?Proofs?ded?type
+DependsOn latin:/?BigIntersection?biginterE?type latin:/?BigIntersection?biginter?type
+DependsOn latin:/?BigIntersection?biginterE?type latin:/?Terms?term?type
+Includes latin:/?BigIntersection latin:/?Subsets
+Declares latin:/?BigIntersection latin:/?BigIntersection?biginter_subset
+constant latin:/?BigIntersection?biginter_subset
+DependsOn latin:/?BigIntersection?biginter_subset?type latin:/?Propositions?prop?type
+DependsOn latin:/?BigIntersection?biginter_subset?type latin:/?InternalTypes?in?type
+DependsOn latin:/?BigIntersection?biginter_subset?type latin:/?Subtyping?subtype?type
+DependsOn latin:/?BigIntersection?biginter_subset?type latin:/?SetFOL?set?type
+DependsOn latin:/?BigIntersection?biginter_subset?type latin:/?Proofs?ded?type
+DependsOn latin:/?BigIntersection?biginter_subset?type latin:/?BigIntersection?biginter?type
+DependsOn latin:/?BigIntersection?biginter_subset?type latin:/?Terms?term?type
+DependsOn latin:/?BigIntersection?biginter_subset?type latin:/?Types?tp?definition
+DependsOn latin:/?BigIntersection?biginter_subset?type latin:/?Types?tp?type

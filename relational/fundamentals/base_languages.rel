@@ -1,0 +1,6 @@
+document latin:/fundamentals/base_languages.omdoc
+Declares latin:/fundamentals/base_languages.omdoc latin:/?UntypedLogic
+Declares latin:/fundamentals/base_languages.omdoc latin:/?TypedLogic
+Declares latin:/fundamentals/base_languages.omdoc latin:/?SoftTypedLogic
+Declares latin:/fundamentals/base_languages.omdoc latin:/?InternalLogic
+Declares latin:/fundamentals/base_languages.omdoc latin:/?InternallyTypedLogic

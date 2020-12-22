@@ -1,8 +1,0 @@
-datatypeconstructor latin:/?DynamicLogic?[latin:/?Programs]/prog
-theory latin:/?DynamicLogic
-HasMeta latin:/?DynamicLogic http://cds.omdoc.org/urtheories?LF
-Includes latin:/?DynamicLogic latin:/?MML
-Includes latin:/?DynamicLogic latin:/?Programs
-Declares latin:/?DynamicLogic latin:/?DynamicLogic?[latin:/?Programs]/prog
-constant latin:/?DynamicLogic?[latin:/?Programs]/prog
-DependsOn latin:/?DynamicLogic?[latin:/?Programs]/prog?definition latin:/?MultiModal?modality?type

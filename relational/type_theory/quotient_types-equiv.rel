@@ -1,0 +1,8 @@
+document latin:/type_theory/quotient_types-equiv.omdoc
+Declares latin:/type_theory/quotient_types-equiv.omdoc latin:/?DummyEqvRel
+Declares latin:/type_theory/quotient_types-equiv.omdoc latin:/?QuotientTypesBase
+Declares latin:/type_theory/quotient_types-equiv.omdoc latin:/?QuotientFunctionAccess
+Declares latin:/type_theory/quotient_types-equiv.omdoc latin:/?QuotientFunctionExamples
+Declares latin:/type_theory/quotient_types-equiv.omdoc latin:/?QuotientIndefiniteAccess
+Declares latin:/type_theory/quotient_types-equiv.omdoc latin:/?QuotientFunctionViaIndefiniteAccess
+Declares latin:/type_theory/quotient_types-equiv.omdoc latin:/?QuotientTypes

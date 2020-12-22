@@ -1,0 +1,59 @@
+dataconstructor latin:/?QuotientFunctionExamples?canonical_id
+dataconstructor latin:/?QuotientFunctionExamples?canonical_id_notation
+dataconstructor latin:/?QuotientFunctionExamples?induced_id
+dataconstructor latin:/?QuotientFunctionExamples?induced_id_notation
+dataconstructor latin:/?QuotientFunctionExamples?identities_extensionally_equal
+theory latin:/?QuotientFunctionExamples
+HasMeta latin:/?QuotientFunctionExamples http://cds.omdoc.org/urtheories?LF
+Includes latin:/?QuotientFunctionExamples latin:/?QuotientFunctionAccess
+Declares latin:/?QuotientFunctionExamples latin:/?QuotientFunctionExamples?canonical_id
+constant latin:/?QuotientFunctionExamples?canonical_id
+DependsOn latin:/?QuotientFunctionExamples?canonical_id?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?QuotientFunctionExamples?canonical_id?type latin:/?QuotientTypesBase?quot?type
+DependsOn latin:/?QuotientFunctionExamples?canonical_id?type latin:/?QuotientTypesBase?eqv?type
+DependsOn latin:/?QuotientFunctionExamples?canonical_id?type latin:/?Types?tp?type
+DependsOn latin:/?QuotientFunctionExamples?canonical_id?type latin:/?QuotientTypesBase?eqv?definition
+DependsOn latin:/?QuotientFunctionExamples?canonical_id?definition latin:/?TypedTerms?tm?type
+Declares latin:/?QuotientFunctionExamples latin:/?QuotientFunctionExamples?canonical_id_notation
+constant latin:/?QuotientFunctionExamples?canonical_id_notation
+DependsOn latin:/?QuotientFunctionExamples?canonical_id_notation?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?QuotientFunctionExamples?canonical_id_notation?definition latin:/?QuotientTypesBase?quot?type
+DependsOn latin:/?QuotientFunctionExamples?canonical_id_notation?definition latin:/?QuotientTypesBase?eqv?type
+DependsOn latin:/?QuotientFunctionExamples?canonical_id_notation?definition latin:/?QuotientFunctionExamples?canonical_id?type
+DependsOn latin:/?QuotientFunctionExamples?canonical_id_notation?definition latin:/?Types?tp?type
+DependsOn latin:/?QuotientFunctionExamples?canonical_id_notation?definition latin:/?QuotientTypesBase?eqv?definition
+Declares latin:/?QuotientFunctionExamples latin:/?QuotientFunctionExamples?induced_id
+constant latin:/?QuotientFunctionExamples?induced_id
+DependsOn latin:/?QuotientFunctionExamples?induced_id?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?QuotientFunctionExamples?induced_id?type latin:/?QuotientTypesBase?quot?type
+DependsOn latin:/?QuotientFunctionExamples?induced_id?type latin:/?QuotientTypesBase?eqv?type
+DependsOn latin:/?QuotientFunctionExamples?induced_id?type latin:/?Types?tp?type
+DependsOn latin:/?QuotientFunctionExamples?induced_id?type latin:/?QuotientTypesBase?eqv?definition
+DependsOn latin:/?QuotientFunctionExamples?induced_id?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?QuotientFunctionExamples?induced_id?definition latin:/?QuotientTypesBase?quot_project?type
+DependsOn latin:/?QuotientFunctionExamples?induced_id?definition latin:/?QuotientTypesBase?quot?type
+DependsOn latin:/?QuotientFunctionExamples?induced_id?definition latin:/?QuotientTypesBase?eqv?type
+DependsOn latin:/?QuotientFunctionExamples?induced_id?definition latin:/?QuotientTypesBase?fun_congruence?type
+DependsOn latin:/?QuotientFunctionExamples?induced_id?definition latin:/?Types?tp?type
+DependsOn latin:/?QuotientFunctionExamples?induced_id?definition latin:/?QuotientFunctionAccess?quot_fun?type
+DependsOn latin:/?QuotientFunctionExamples?induced_id?definition latin:/?QuotientTypesBase?projection_is_congruence?type
+Declares latin:/?QuotientFunctionExamples latin:/?QuotientFunctionExamples?induced_id_notation
+constant latin:/?QuotientFunctionExamples?induced_id_notation
+DependsOn latin:/?QuotientFunctionExamples?induced_id_notation?definition latin:/?QuotientFunctionExamples?induced_id?type
+DependsOn latin:/?QuotientFunctionExamples?induced_id_notation?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?QuotientFunctionExamples?induced_id_notation?definition latin:/?QuotientTypesBase?quot?type
+DependsOn latin:/?QuotientFunctionExamples?induced_id_notation?definition latin:/?QuotientTypesBase?eqv?type
+DependsOn latin:/?QuotientFunctionExamples?induced_id_notation?definition latin:/?Types?tp?type
+DependsOn latin:/?QuotientFunctionExamples?induced_id_notation?definition latin:/?QuotientTypesBase?eqv?definition
+Declares latin:/?QuotientFunctionExamples latin:/?QuotientFunctionExamples?identities_extensionally_equal
+constant latin:/?QuotientFunctionExamples?identities_extensionally_equal
+DependsOn latin:/?QuotientFunctionExamples?identities_extensionally_equal?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?QuotientFunctionExamples?identities_extensionally_equal?type latin:/?Propositions?prop?type
+DependsOn latin:/?QuotientFunctionExamples?identities_extensionally_equal?type latin:/?QuotientTypesBase?quot?type
+DependsOn latin:/?QuotientFunctionExamples?identities_extensionally_equal?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?QuotientFunctionExamples?identities_extensionally_equal?type latin:/?QuotientTypesBase?eqv?type
+DependsOn latin:/?QuotientFunctionExamples?identities_extensionally_equal?type latin:/?Proofs?ded?type
+DependsOn latin:/?QuotientFunctionExamples?identities_extensionally_equal?type latin:/?Types?tp?type
+DependsOn latin:/?QuotientFunctionExamples?identities_extensionally_equal?type latin:/?QuotientFunctionExamples?induced_id_notation?type
+DependsOn latin:/?QuotientFunctionExamples?identities_extensionally_equal?type latin:/?QuotientFunctionExamples?canonical_id_notation?type
+DependsOn latin:/?QuotientFunctionExamples?identities_extensionally_equal?type latin:/?QuotientTypesBase?eqv?definition

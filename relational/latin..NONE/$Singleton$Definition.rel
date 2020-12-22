@@ -1,0 +1,12 @@
+dataconstructor latin:/?SingletonDefinition?issingleton
+theory latin:/?SingletonDefinition
+HasMeta latin:/?SingletonDefinition latin:/?SetFOL
+Declares latin:/?SingletonDefinition latin:/?SingletonDefinition?issingleton
+constant latin:/?SingletonDefinition?issingleton
+DependsOn latin:/?SingletonDefinition?issingleton?type latin:/?Propositions?prop?type
+DependsOn latin:/?SingletonDefinition?issingleton?type latin:/?SetFOL?set?type
+DependsOn latin:/?SingletonDefinition?issingleton?definition latin:/?Propositions?prop?type
+DependsOn latin:/?SingletonDefinition?issingleton?definition latin:/?InternalTypes?in?type
+DependsOn latin:/?SingletonDefinition?issingleton?definition latin:/?SetFOL?set?type
+DependsOn latin:/?SingletonDefinition?issingleton?definition latin:/?Terms?term?type
+DependsOn latin:/?SingletonDefinition?issingleton?definition latin:/?UniqueExistentialQuantification?existsUnique?type

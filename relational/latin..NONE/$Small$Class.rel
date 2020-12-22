@@ -1,0 +1,13 @@
+dataconstructor latin:/?SmallClass?sobj
+datatypeconstructor latin:/?SmallClass?[latin:/?Class]/obj
+theory latin:/?SmallClass
+HasMeta latin:/?SmallClass latin:/?SFOLEQND
+Declares latin:/?SmallClass latin:/?SmallClass?sobj
+constant latin:/?SmallClass?sobj
+DependsOn latin:/?SmallClass?sobj?type latin:/?Types?tp?type
+Includes latin:/?SmallClass latin:/?Class
+Declares latin:/?SmallClass latin:/?SmallClass?[latin:/?Class]/obj
+constant latin:/?SmallClass?[latin:/?Class]/obj
+DependsOn latin:/?SmallClass?[latin:/?Class]/obj?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?SmallClass?[latin:/?Class]/obj?definition latin:/?SmallClass?sobj?type
+DependsOn latin:/?SmallClass?[latin:/?Class]/obj?definition latin:/?Types?tp?type

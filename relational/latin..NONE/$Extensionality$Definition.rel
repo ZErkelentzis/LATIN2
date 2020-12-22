@@ -1,0 +1,12 @@
+dataconstructor latin:/?ExtensionalityDefinition?isextensional
+theory latin:/?ExtensionalityDefinition
+HasMeta latin:/?ExtensionalityDefinition latin:/?SetFOL
+Declares latin:/?ExtensionalityDefinition latin:/?ExtensionalityDefinition?isextensional
+constant latin:/?ExtensionalityDefinition?isextensional
+DependsOn latin:/?ExtensionalityDefinition?isextensional?definition latin:/?Propositions?prop?type
+DependsOn latin:/?ExtensionalityDefinition?isextensional?definition latin:/?InternalTypes?in?type
+DependsOn latin:/?ExtensionalityDefinition?isextensional?definition latin:/?Equivalence?equiv?type
+DependsOn latin:/?ExtensionalityDefinition?isextensional?definition latin:/?Terms?term?type
+DependsOn latin:/?ExtensionalityDefinition?isextensional?definition latin:/?UniversalQuantification?forall?type
+DependsOn latin:/?ExtensionalityDefinition?isextensional?definition latin:/?UntypedEquality?equal?type
+DependsOn latin:/?ExtensionalityDefinition?isextensional?definition latin:/?Implication?impl?type

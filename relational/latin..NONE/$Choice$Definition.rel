@@ -1,0 +1,12 @@
+dataconstructor latin:/?ChoiceDefinition?ischoice
+theory latin:/?ChoiceDefinition
+HasMeta latin:/?ChoiceDefinition latin:/?SetFOL
+Declares latin:/?ChoiceDefinition latin:/?ChoiceDefinition?ischoice
+constant latin:/?ChoiceDefinition?ischoice
+DependsOn latin:/?ChoiceDefinition?ischoice?definition latin:/?Propositions?prop?type
+DependsOn latin:/?ChoiceDefinition?ischoice?definition latin:/?Conjunction?and?type
+DependsOn latin:/?ChoiceDefinition?ischoice?definition latin:/?InternalTypes?in?type
+DependsOn latin:/?ChoiceDefinition?ischoice?definition latin:/?Terms?term?type
+DependsOn latin:/?ChoiceDefinition?ischoice?definition latin:/?UniqueExistentialQuantification?existsUnique?type
+DependsOn latin:/?ChoiceDefinition?ischoice?definition latin:/?UniversalQuantification?forall?type
+DependsOn latin:/?ChoiceDefinition?ischoice?definition latin:/?Implication?impl?type

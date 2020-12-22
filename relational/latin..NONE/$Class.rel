@@ -1,0 +1,5 @@
+datatypeconstructor latin:/?Class?obj
+theory latin:/?Class
+HasMeta latin:/?Class latin:/?SFOLEQND
+Declares latin:/?Class latin:/?Class?obj
+constant latin:/?Class?obj

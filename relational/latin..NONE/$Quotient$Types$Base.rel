@@ -1,0 +1,96 @@
+highuniverse latin:/?QuotientTypesBase?eqv
+dataconstructor latin:/?QuotientTypesBase?quot
+dataconstructor latin:/?QuotientTypesBase?quot_project
+dataconstructor latin:/?QuotientTypesBase?related_elements_identified
+dataconstructor latin:/?QuotientTypesBase?identified_elements_related
+datatypeconstructor latin:/?QuotientTypesBase?fun_congruence
+dataconstructor latin:/?QuotientTypesBase?fun_congruenceI
+dataconstructor latin:/?QuotientTypesBase?fun_congruenceE
+dataconstructor latin:/?QuotientTypesBase?projection_is_congruence
+theory latin:/?QuotientTypesBase
+HasMeta latin:/?QuotientTypesBase http://cds.omdoc.org/urtheories?LF
+Includes latin:/?QuotientTypesBase latin:/?TypedTerms
+Includes latin:/?QuotientTypesBase latin:/?TypedEquality
+Includes latin:/?QuotientTypesBase latin:/?Proofs
+Includes latin:/?QuotientTypesBase http://gl.mathhub.info/MMT/LFX/Records?LFRecords
+Includes latin:/?QuotientTypesBase http://gl.mathhub.info/MMT/LFX/TypedHierarchy?LFHierarchy
+Declares latin:/?QuotientTypesBase latin:/?QuotientTypesBase?eqv
+constant latin:/?QuotientTypesBase?eqv
+DependsOn latin:/?QuotientTypesBase?eqv?type latin:/?Types?tp?type
+Declares latin:/?QuotientTypesBase latin:/?QuotientTypesBase?quot
+constant latin:/?QuotientTypesBase?quot
+DependsOn latin:/?QuotientTypesBase?quot?type latin:/?QuotientTypesBase?eqv?type
+DependsOn latin:/?QuotientTypesBase?quot?type latin:/?Types?tp?type
+DependsOn latin:/?QuotientTypesBase?quot?type latin:/?QuotientTypesBase?eqv?definition
+Declares latin:/?QuotientTypesBase latin:/?QuotientTypesBase?quot_project
+constant latin:/?QuotientTypesBase?quot_project
+DependsOn latin:/?QuotientTypesBase?quot_project?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?QuotientTypesBase?quot_project?type latin:/?QuotientTypesBase?quot?type
+DependsOn latin:/?QuotientTypesBase?quot_project?type latin:/?QuotientTypesBase?eqv?type
+DependsOn latin:/?QuotientTypesBase?quot_project?type latin:/?Types?tp?type
+Declares latin:/?QuotientTypesBase latin:/?QuotientTypesBase?related_elements_identified
+constant latin:/?QuotientTypesBase?related_elements_identified
+DependsOn latin:/?QuotientTypesBase?related_elements_identified?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?QuotientTypesBase?related_elements_identified?type latin:/?Propositions?prop?type
+DependsOn latin:/?QuotientTypesBase?related_elements_identified?type latin:/?QuotientTypesBase?quot_project?type
+DependsOn latin:/?QuotientTypesBase?related_elements_identified?type latin:/?QuotientTypesBase?quot?type
+DependsOn latin:/?QuotientTypesBase?related_elements_identified?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?QuotientTypesBase?related_elements_identified?type latin:/?QuotientTypesBase?eqv?type
+DependsOn latin:/?QuotientTypesBase?related_elements_identified?type latin:/?Proofs?ded?type
+DependsOn latin:/?QuotientTypesBase?related_elements_identified?type latin:/?Types?tp?type
+Declares latin:/?QuotientTypesBase latin:/?QuotientTypesBase?identified_elements_related
+constant latin:/?QuotientTypesBase?identified_elements_related
+DependsOn latin:/?QuotientTypesBase?identified_elements_related?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?QuotientTypesBase?identified_elements_related?type latin:/?Propositions?prop?type
+DependsOn latin:/?QuotientTypesBase?identified_elements_related?type latin:/?QuotientTypesBase?quot_project?type
+DependsOn latin:/?QuotientTypesBase?identified_elements_related?type latin:/?QuotientTypesBase?quot?type
+DependsOn latin:/?QuotientTypesBase?identified_elements_related?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?QuotientTypesBase?identified_elements_related?type latin:/?QuotientTypesBase?eqv?type
+DependsOn latin:/?QuotientTypesBase?identified_elements_related?type latin:/?Proofs?ded?type
+DependsOn latin:/?QuotientTypesBase?identified_elements_related?type latin:/?Types?tp?type
+DependsOn latin:/?QuotientTypesBase?identified_elements_related?type latin:/?QuotientTypesBase?eqv?definition
+Declares latin:/?QuotientTypesBase latin:/?QuotientTypesBase?fun_congruence
+constant latin:/?QuotientTypesBase?fun_congruence
+DependsOn latin:/?QuotientTypesBase?fun_congruence?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?QuotientTypesBase?fun_congruence?type latin:/?QuotientTypesBase?eqv?type
+DependsOn latin:/?QuotientTypesBase?fun_congruence?type latin:/?Types?tp?type
+DependsOn latin:/?QuotientTypesBase?fun_congruence?type latin:/?QuotientTypesBase?eqv?definition
+Declares latin:/?QuotientTypesBase latin:/?QuotientTypesBase?fun_congruenceI
+constant latin:/?QuotientTypesBase?fun_congruenceI
+DependsOn latin:/?QuotientTypesBase?fun_congruenceI?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?QuotientTypesBase?fun_congruenceI?type latin:/?Propositions?prop?type
+DependsOn latin:/?QuotientTypesBase?fun_congruenceI?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?QuotientTypesBase?fun_congruenceI?type latin:/?QuotientTypesBase?eqv?type
+DependsOn latin:/?QuotientTypesBase?fun_congruenceI?type latin:/?QuotientTypesBase?fun_congruence?type
+DependsOn latin:/?QuotientTypesBase?fun_congruenceI?type latin:/?Proofs?ded?type
+DependsOn latin:/?QuotientTypesBase?fun_congruenceI?type latin:/?Types?tp?type
+DependsOn latin:/?QuotientTypesBase?fun_congruenceI?type latin:/?QuotientTypesBase?eqv?definition
+Declares latin:/?QuotientTypesBase latin:/?QuotientTypesBase?fun_congruenceE
+constant latin:/?QuotientTypesBase?fun_congruenceE
+DependsOn latin:/?QuotientTypesBase?fun_congruenceE?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?QuotientTypesBase?fun_congruenceE?type latin:/?Propositions?prop?type
+DependsOn latin:/?QuotientTypesBase?fun_congruenceE?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?QuotientTypesBase?fun_congruenceE?type latin:/?QuotientTypesBase?eqv?type
+DependsOn latin:/?QuotientTypesBase?fun_congruenceE?type latin:/?QuotientTypesBase?fun_congruence?type
+DependsOn latin:/?QuotientTypesBase?fun_congruenceE?type latin:/?Proofs?ded?type
+DependsOn latin:/?QuotientTypesBase?fun_congruenceE?type latin:/?Types?tp?type
+DependsOn latin:/?QuotientTypesBase?fun_congruenceE?type latin:/?QuotientTypesBase?eqv?definition
+Declares latin:/?QuotientTypesBase latin:/?QuotientTypesBase?projection_is_congruence
+constant latin:/?QuotientTypesBase?projection_is_congruence
+DependsOn latin:/?QuotientTypesBase?projection_is_congruence?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?QuotientTypesBase?projection_is_congruence?type latin:/?QuotientTypesBase?quot_project?type
+DependsOn latin:/?QuotientTypesBase?projection_is_congruence?type latin:/?QuotientTypesBase?quot?type
+DependsOn latin:/?QuotientTypesBase?projection_is_congruence?type latin:/?QuotientTypesBase?eqv?type
+DependsOn latin:/?QuotientTypesBase?projection_is_congruence?type latin:/?QuotientTypesBase?fun_congruence?type
+DependsOn latin:/?QuotientTypesBase?projection_is_congruence?type latin:/?Types?tp?type
+DependsOn latin:/?QuotientTypesBase?projection_is_congruence?type latin:/?QuotientTypesBase?eqv?definition
+DependsOn latin:/?QuotientTypesBase?projection_is_congruence?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?QuotientTypesBase?projection_is_congruence?definition latin:/?QuotientTypesBase?quot_project?type
+DependsOn latin:/?QuotientTypesBase?projection_is_congruence?definition latin:/?QuotientTypesBase?quot?type
+DependsOn latin:/?QuotientTypesBase?projection_is_congruence?definition latin:/?QuotientTypesBase?eqv?type
+DependsOn latin:/?QuotientTypesBase?projection_is_congruence?definition latin:/?QuotientTypesBase?fun_congruence?type
+DependsOn latin:/?QuotientTypesBase?projection_is_congruence?definition latin:/?Proofs?ded?type
+DependsOn latin:/?QuotientTypesBase?projection_is_congruence?definition latin:/?QuotientTypesBase?related_elements_identified?type
+DependsOn latin:/?QuotientTypesBase?projection_is_congruence?definition latin:/?Types?tp?type
+DependsOn latin:/?QuotientTypesBase?projection_is_congruence?definition latin:/?QuotientTypesBase?fun_congruenceI?type
+DependsOn latin:/?QuotientTypesBase?projection_is_congruence?definition latin:/?QuotientTypesBase?eqv?definition

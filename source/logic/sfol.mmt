@@ -2,8 +2,6 @@ namespace latin:/❚
 
 fixmeta ur:?LF❚
 
-// diagram SFOL_via_operator : ?LogicDiagramOperators := TYPIFY FOL DIAG FROM FILE "./source/logic/fol.mmt" ❚
-
 theory TypedUniversalQuantification =
   include ?TypedLogic❙
   forall : {A} (tm A ⟶ prop) ⟶ prop❘# ∀ 2❙
@@ -79,12 +77,12 @@ theory TypedDescription =
   include ?TypedLogic❙
   include ?TypedUniqueExistentialQuantification❙
   the : {A} {P:tm A ⟶ prop} ⊦ ∃¹ P ⟶ tm A❘# the 2 3❙
-  the_ax : {A,P: tm A ⟶ prop,p} ⊦ P (the P p)❙
+  the_ax : {A,P: tm A ⟶ prop,p} ⊦ P (the P p)❘# the_ax 2 3❙
 ❚
 
 theory TypedChoice =
   include ?TypedLogic❙
   include ?TypedExistentialQuantification❙
   some : {A} {P:tm A ⟶ prop} ⊦ ∃ P ⟶ tm A❘# some 2 3❙
-  some_ax : {A,P: tm A ⟶ prop,p} ⊦ P (some P p)❙
+  some_ax : {A,P: tm A ⟶ prop,p} ⊦ P (some P p)❘# some_ax 2 3❙
 ❚

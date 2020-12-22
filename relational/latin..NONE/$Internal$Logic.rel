@@ -1,4 +1,0 @@
-theory latin:/?InternalLogic
-HasMeta latin:/?InternalLogic http://cds.omdoc.org/urtheories?LF
-Includes latin:/?InternalLogic latin:/?InternalPropositions
-Includes latin:/?InternalLogic latin:/?Proofs

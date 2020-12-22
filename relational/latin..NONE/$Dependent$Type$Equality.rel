@@ -1,0 +1,51 @@
+dataconstructor latin:/?DependentTypeEquality?congType
+dataconstructor latin:/?DependentTypeEquality?transport
+dataconstructor latin:/?DependentTypeEquality?transport_refl
+dataconstructor latin:/?DependentTypeEquality?transport_trans
+theory latin:/?DependentTypeEquality
+HasMeta latin:/?DependentTypeEquality http://cds.omdoc.org/urtheories?LF
+Includes latin:/?DependentTypeEquality latin:/?TypeEqualityND
+Includes latin:/?DependentTypeEquality latin:/?TypedEqualityND
+Declares latin:/?DependentTypeEquality latin:/?DependentTypeEquality?congType
+constant latin:/?DependentTypeEquality?congType
+DependsOn latin:/?DependentTypeEquality?congType?type latin:/?TypeEqualityND?tpeq/[latin:/?UntypedEquality]/equal?type
+DependsOn latin:/?DependentTypeEquality?congType?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?DependentTypeEquality?congType?type latin:/?Propositions?prop?type
+DependsOn latin:/?DependentTypeEquality?congType?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?DependentTypeEquality?congType?type latin:/?Proofs?ded?type
+DependsOn latin:/?DependentTypeEquality?congType?type latin:/?Types?tp?type
+DependsOn latin:/?DependentTypeEquality?congType?definition latin:/?TypeEqualityND?tpeq/[latin:/?UntypedEquality]/equal?type
+DependsOn latin:/?DependentTypeEquality?congType?definition latin:/?TypedEqualityND?congP?type
+DependsOn latin:/?DependentTypeEquality?congType?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?DependentTypeEquality?congType?definition latin:/?Propositions?prop?type
+DependsOn latin:/?DependentTypeEquality?congType?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/?DependentTypeEquality?congType?definition latin:/?Proofs?ded?type
+DependsOn latin:/?DependentTypeEquality?congType?definition latin:/?Types?tp?type
+DependsOn latin:/?DependentTypeEquality?congType?definition latin:/?TypeEqualityND?tpeq/refl?type
+Declares latin:/?DependentTypeEquality latin:/?DependentTypeEquality?transport
+constant latin:/?DependentTypeEquality?transport
+DependsOn latin:/?DependentTypeEquality?transport?type latin:/?TypeEqualityND?tpeq/[latin:/?UntypedEquality]/equal?type
+DependsOn latin:/?DependentTypeEquality?transport?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?DependentTypeEquality?transport?type latin:/?Propositions?prop?type
+DependsOn latin:/?DependentTypeEquality?transport?type latin:/?Proofs?ded?type
+DependsOn latin:/?DependentTypeEquality?transport?type latin:/?Types?tp?type
+Declares latin:/?DependentTypeEquality latin:/?DependentTypeEquality?transport_refl
+constant latin:/?DependentTypeEquality?transport_refl
+DependsOn latin:/?DependentTypeEquality?transport_refl?type latin:/?TypeEqualityND?tpeq/[latin:/?UntypedEquality]/equal?type
+DependsOn latin:/?DependentTypeEquality?transport_refl?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?DependentTypeEquality?transport_refl?type latin:/?Propositions?prop?type
+DependsOn latin:/?DependentTypeEquality?transport_refl?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?DependentTypeEquality?transport_refl?type latin:/?DependentTypeEquality?transport?type
+DependsOn latin:/?DependentTypeEquality?transport_refl?type latin:/?Proofs?ded?type
+DependsOn latin:/?DependentTypeEquality?transport_refl?type latin:/?Types?tp?type
+DependsOn latin:/?DependentTypeEquality?transport_refl?type latin:/?TypeEqualityND?tpeq/refl?type
+Declares latin:/?DependentTypeEquality latin:/?DependentTypeEquality?transport_trans
+constant latin:/?DependentTypeEquality?transport_trans
+DependsOn latin:/?DependentTypeEquality?transport_trans?type latin:/?TypeEqualityND?tpeq/[latin:/?UntypedEquality]/equal?type
+DependsOn latin:/?DependentTypeEquality?transport_trans?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?DependentTypeEquality?transport_trans?type latin:/?Propositions?prop?type
+DependsOn latin:/?DependentTypeEquality?transport_trans?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?DependentTypeEquality?transport_trans?type latin:/?DependentTypeEquality?transport?type
+DependsOn latin:/?DependentTypeEquality?transport_trans?type latin:/?Proofs?ded?type
+DependsOn latin:/?DependentTypeEquality?transport_trans?type latin:/?TypeEqualityND?tpeq/eq/[latin:/?Transitivity]/trans?type
+DependsOn latin:/?DependentTypeEquality?transport_trans?type latin:/?Types?tp?type

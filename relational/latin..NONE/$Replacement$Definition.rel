@@ -1,0 +1,13 @@
+dataconstructor latin:/?ReplacementDefinition?isreplacement
+theory latin:/?ReplacementDefinition
+HasMeta latin:/?ReplacementDefinition latin:/?SetFOL
+Declares latin:/?ReplacementDefinition latin:/?ReplacementDefinition?isreplacement
+constant latin:/?ReplacementDefinition?isreplacement
+DependsOn latin:/?ReplacementDefinition?isreplacement?definition latin:/?Propositions?prop?type
+DependsOn latin:/?ReplacementDefinition?isreplacement?definition latin:/?Conjunction?and?type
+DependsOn latin:/?ReplacementDefinition?isreplacement?definition latin:/?ExistentialQuantification?exists?type
+DependsOn latin:/?ReplacementDefinition?isreplacement?definition latin:/?InternalTypes?in?type
+DependsOn latin:/?ReplacementDefinition?isreplacement?definition latin:/?Equivalence?equiv?type
+DependsOn latin:/?ReplacementDefinition?isreplacement?definition latin:/?Terms?term?type
+DependsOn latin:/?ReplacementDefinition?isreplacement?definition latin:/?UniversalQuantification?forall?type
+DependsOn latin:/?ReplacementDefinition?isreplacement?definition latin:/?UntypedEquality?equal?type

@@ -1,0 +1,63 @@
+namespace latin:/❚
+
+rule scala://parser.api.mmt.kwarc.info?MMTURILexer ❚
+
+import lfx http://gl.mathhub.info/MMT/LFX/TypedHierarchy ❚
+
+theory ExMeta   =
+    include ?SFOLEQND ❙
+    include ?NewTactics ❙
+    include ?TacticsLF ❙
+    include ☞lfx:?LFHierarchy ❙
+❚
+
+theory Examples : ?ExMeta =
+    include ?AlternativeNegationAndFalsityND ❙
+
+
+   // bla = falseE ❙
+   // blu  = notElimination ❙
+
+ //  test : ⊦ A ❘ = iproof bwd h ; subproof subgoal hh (⊦ C ⇒ C) ; (subproof assume hc ; use hc   done)  done  ❙
+
+//   test : ⊦ A ❘ = iproof bwd h ; subgoal hc (⊦ C) ; assume hcc ; use hcc  ❙
+
+ //  test1 : ⊦ ∀ [x] D x ⇒ ∀ [y] D y ❙
+
+
+
+    // test0 : ⊦ A ⇒ A ❘ = proof assume hh ; bwd h ; pps ; papg  ; assume hc ; use hc ; assume hb ; use hb  ❙
+
+  //  test : ⊦  A ⇒ ?? ❙
+
+    A : prop ❙
+    C : prop ❙
+    B : prop ❙
+//    T : tp ❙
+//    D : tm T ⟶ prop ❙
+    testh : ⊦  (C ⇒ C) ⇒(B ⇒ B)  ⇒ A ❙
+
+  //  errortest : ⊦ A ⇒ B ⇒ A ❘= iproof assume ha ; use ha  ❙
+    test1 : ⊦  A ⇒ A  ❘ = iproof  assume hhh   ;  leth hh testh ; subgoal hc (⊦ C ⇒ C) ; subproof assume hc ; use hc done ; fwd hh with hc ; bwd hh; assume hb ; use hb  ❙
+ //   simpletest = theoremLF (⊦ A ⟶  ⊦ A) (proof assumelfx hh ; use hh)   ❙
+ //   simpletest2   = theoremLF (⊦ A ⟶  ⊦ A) (proof build ([h] h)) ❙
+    // simpletest7  = theoremLF (⊦ A ⟶ ⊦ A) (proof build ([h:⊦A] h) ) ❙
+    // simpletest7  = theoremLF (⊦ A ⟶ ⊦ A) (proof build ([h] h) ) ❙
+// simpletest4  : ⊦ A ⟶ ⊦ A ❘=  iproof build ( [ hh :⊦A]([hh:⊦A]hh) hh) ❙
+ //   simpletest4  = theoremLF (⊦ A ⟶ ⊦ A)  (proof assumelfx hh ; use hh)❙
+ //   testest = theoremLF (⊦ A ⟶ ⊦ A) (proof  build ([ hh ]([hh]hh) hh)) ❙
+ //       testest0 = theoremLF (⊦ A ⟶ ⊦ A) (proof  build ([ hh : ⊦ A ]([hh: ⊦ A]hh) hh)) ❙
+   // pierce : {p , q} ⊦  ((p ⇒ q) ⇒ p) ⇒ p ❘ = [p , q] iproof assume h ; addh hfe (notElimination)   ❙
+
+  //  TT : type ❙
+    test = theoremLF ({TT : type , BB  : type} TT ⟶ BB ⟶ {TT : type} TT ⟶ TT) (proof  fixlfx TT ; fixlfx BB ; assumelfx tt ; assumelfx bb ; fixlfx TT0; assumelfx tt0  ; use tt)❙
+
+  //  D : type ❙
+ //   E : type ❙
+
+ //   testhh : D ⟶ E ❙
+ //   test0 = theoremLF (E ⟶ D ⟶ E) (proof  assumelfx hb ; assumelfx ha ; leth th testhh ; use hb) ❙
+
+
+
+❚

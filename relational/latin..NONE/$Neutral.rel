@@ -1,0 +1,21 @@
+dataconstructor latin:/?Neutral?e
+dataconstructor latin:/?Neutral?neutLeft
+dataconstructor latin:/?Neutral?neutRight
+theory latin:/?Neutral
+HasMeta latin:/?Neutral http://cds.omdoc.org/urtheories/?LF
+Includes latin:/?Neutral latin:/?Magma
+Declares latin:/?Neutral latin:/?Neutral?e
+constant latin:/?Neutral?e
+DependsOn latin:/?Neutral?e?type latin:/?OneTyped?carrier?type
+Declares latin:/?Neutral latin:/?Neutral?neutLeft
+constant latin:/?Neutral?neutLeft
+DependsOn latin:/?Neutral?neutLeft?type latin:/?Neutral?e?type
+DependsOn latin:/?Neutral?neutLeft?type latin:/?Magma?op?type
+DependsOn latin:/?Neutral?neutLeft?type latin:/?EqualityType?equalityRel/[latin:/?Relation]/rel?type
+DependsOn latin:/?Neutral?neutLeft?type latin:/?OneTyped?carrier?type
+Declares latin:/?Neutral latin:/?Neutral?neutRight
+constant latin:/?Neutral?neutRight
+DependsOn latin:/?Neutral?neutRight?type latin:/?Neutral?e?type
+DependsOn latin:/?Neutral?neutRight?type latin:/?Magma?op?type
+DependsOn latin:/?Neutral?neutRight?type latin:/?EqualityType?equalityRel/[latin:/?Relation]/rel?type
+DependsOn latin:/?Neutral?neutRight?type latin:/?OneTyped?carrier?type

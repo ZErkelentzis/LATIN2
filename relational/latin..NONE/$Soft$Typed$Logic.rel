@@ -1,4 +1,0 @@
-theory latin:/?SoftTypedLogic
-HasMeta latin:/?SoftTypedLogic http://cds.omdoc.org/urtheories?LF
-Includes latin:/?SoftTypedLogic latin:/?SoftTypedTerms
-Includes latin:/?SoftTypedLogic latin:/?Logic

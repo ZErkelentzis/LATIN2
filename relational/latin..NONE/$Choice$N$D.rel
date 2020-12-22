@@ -1,0 +1,12 @@
+dataconstructor latin:/?ChoiceND?some_ax
+theory latin:/?ChoiceND
+HasMeta latin:/?ChoiceND http://cds.omdoc.org/urtheories?LF
+Includes latin:/?ChoiceND latin:/?Choice
+Includes latin:/?ChoiceND latin:/?ExistentialQuantificationND
+Declares latin:/?ChoiceND latin:/?ChoiceND?some_ax
+constant latin:/?ChoiceND?some_ax
+DependsOn latin:/?ChoiceND?some_ax?type latin:/?Propositions?prop?type
+DependsOn latin:/?ChoiceND?some_ax?type latin:/?Choice?some?type
+DependsOn latin:/?ChoiceND?some_ax?type latin:/?ExistentialQuantification?exists?type
+DependsOn latin:/?ChoiceND?some_ax?type latin:/?Proofs?ded?type
+DependsOn latin:/?ChoiceND?some_ax?type latin:/?Terms?term?type

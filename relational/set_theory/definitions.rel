@@ -1,0 +1,11 @@
+document latin:/set_theory/definitions.omdoc
+Declares latin:/set_theory/definitions.omdoc latin:/?EmptySetDefinitions
+Declares latin:/set_theory/definitions.omdoc latin:/?BigUnionDefinition
+Declares latin:/set_theory/definitions.omdoc latin:/?ChoiceDefinition
+Declares latin:/set_theory/definitions.omdoc latin:/?ComprehensionDefinition
+Declares latin:/set_theory/definitions.omdoc latin:/?ExtensionalityDefinition
+Declares latin:/set_theory/definitions.omdoc latin:/?PowerSetDefinition
+Declares latin:/set_theory/definitions.omdoc latin:/?ReplacementDefinition
+Declares latin:/set_theory/definitions.omdoc latin:/?SingletonDefinition
+Declares latin:/set_theory/definitions.omdoc latin:/?UnionDefinition
+Declares latin:/set_theory/definitions.omdoc latin:/?UnorderedPairDefinition

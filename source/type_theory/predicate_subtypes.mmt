@@ -2,13 +2,21 @@ namespace latin:/❚
 
 fixmeta ur:?LF❚
 
-theory PredicateSubtypes =
-  include ?Subtyping❙
-  include ?SubtypeInjections❙
+theory TypedPredicateSubtypes =
+  include ?TypedLogic❙
+  include ?TypedEquality❙
   
-  predsub : {A} (tm A ⟶ prop) ⟶ tp❘# ⦃ 2 ⦄  prec -10050❙
-  in      : {A,P, x:tm A}  ⊦ P x ⟶ tm ⦃P⦄❙
+  predsub : {A} (tm A ⟶ prop) ⟶ tp❘# 1 | 2  prec 40❙
+  predsubI  : {A,P, x:tm A} ⊦ P x ⟶ tm A|P ❘ # 3 ↓ 4 prec 40 ❙
+  predsubEl : {A,P, x:tm A|P} tm A❘# predsubEl 3❙
+  predsubEr : {A,P, x:tm A|P} ⊦ P (predsubEl x)❙
+❚
+
+theory SoftTypedPredicateSubtypes =
+  include ?SoftTypedLogic❙
   
-  predsub_sub: {A,P: tm A ⟶ prop} ⊦ ⦃P⦄ ⪽ A❙
-  predsub_prop: {A,P: tm A ⟶ prop, x: tm ⦃P⦄} ⊦ P (x↑predsub_sub)❙
+  predsub : tp ⟶ (term ⟶ prop) ⟶ tp❘# 1 | 2  prec 50❙
+  predsubI : {A,P,x} ⊦ x⦂A ⟶ ⊦P x ⟶ ⊦ x⦂A|P❙
+  predsubEl: {A,P,x}⊦ x⦂A|P ⟶ ⊦x⦂A❙
+  predsubEr: {A,P,x}⊦ x⦂A|P ⟶ ⊦ P x❙
 ❚

@@ -1,0 +1,73 @@
+dataconstructor latin:/?Applicative?pure
+dataconstructor latin:/?Applicative?splat
+dataconstructor latin:/?Applicative?identity
+dataconstructor latin:/?Applicative?homomorphism
+dataconstructor latin:/?Applicative?interchange
+dataconstructor latin:/?Applicative?composition
+theory latin:/?Applicative
+HasMeta latin:/?Applicative latin:/?HOLND
+Includes latin:/?Applicative latin:/?TypeOperator
+Declares latin:/?Applicative latin:/?Applicative?pure
+constant latin:/?Applicative?pure
+DependsOn latin:/?Applicative?pure?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?Applicative?pure?type latin:/?TypeOperator?applyType?type
+DependsOn latin:/?Applicative?pure?type latin:/?Types?tp?type
+Declares latin:/?Applicative latin:/?Applicative?splat
+constant latin:/?Applicative?splat
+DependsOn latin:/?Applicative?splat?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?Applicative?splat?type latin:/?TypeOperator?applyType?type
+DependsOn latin:/?Applicative?splat?type latin:/?SimpleFunctionTypes?simpfun?type
+DependsOn latin:/?Applicative?splat?type latin:/?Types?tp?type
+Declares latin:/?Applicative latin:/?Applicative?identity
+constant latin:/?Applicative?identity
+DependsOn latin:/?Applicative?identity?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?Applicative?identity?type latin:/?Propositions?prop?type
+DependsOn latin:/?Applicative?identity?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?Applicative?identity?type latin:/?Category?ident?type
+DependsOn latin:/?Applicative?identity?type latin:/?SimpleFunctionTypes?simpfun?type
+DependsOn latin:/?Applicative?identity?type latin:/?Applicative?pure?type
+DependsOn latin:/?Applicative?identity?type latin:/?Applicative?splat?type
+DependsOn latin:/?Applicative?identity?type latin:/?TypeOperator?applyType?type
+DependsOn latin:/?Applicative?identity?type latin:/?Proofs?ded?type
+DependsOn latin:/?Applicative?identity?type latin:/?Propositions?prop?definition
+DependsOn latin:/?Applicative?identity?type latin:/?Types?tp?type
+Declares latin:/?Applicative latin:/?Applicative?homomorphism
+constant latin:/?Applicative?homomorphism
+DependsOn latin:/?Applicative?homomorphism?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?Applicative?homomorphism?type latin:/?Propositions?prop?type
+DependsOn latin:/?Applicative?homomorphism?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?Applicative?homomorphism?type latin:/?SimpleFunctionTypes?simpfun?type
+DependsOn latin:/?Applicative?homomorphism?type latin:/?SimpleFunctions?simpapply?type
+DependsOn latin:/?Applicative?homomorphism?type latin:/?Applicative?pure?type
+DependsOn latin:/?Applicative?homomorphism?type latin:/?Applicative?splat?type
+DependsOn latin:/?Applicative?homomorphism?type latin:/?TypeOperator?applyType?type
+DependsOn latin:/?Applicative?homomorphism?type latin:/?Proofs?ded?type
+DependsOn latin:/?Applicative?homomorphism?type latin:/?Propositions?prop?definition
+DependsOn latin:/?Applicative?homomorphism?type latin:/?Types?tp?type
+Declares latin:/?Applicative latin:/?Applicative?interchange
+constant latin:/?Applicative?interchange
+DependsOn latin:/?Applicative?interchange?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?Applicative?interchange?type latin:/?Propositions?prop?type
+DependsOn latin:/?Applicative?interchange?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?Applicative?interchange?type latin:/?SimpleFunctionTypes?simpfun?type
+DependsOn latin:/?Applicative?interchange?type latin:/?Applicative?pure?type
+DependsOn latin:/?Applicative?interchange?type latin:/?Applicative?splat?type
+DependsOn latin:/?Applicative?interchange?type latin:/?TypeOperator?applyType?type
+DependsOn latin:/?Applicative?interchange?type latin:/?Proofs?ded?type
+DependsOn latin:/?Applicative?interchange?type latin:/?SimpleFunctions?applyTo?type
+DependsOn latin:/?Applicative?interchange?type latin:/?Propositions?prop?definition
+DependsOn latin:/?Applicative?interchange?type latin:/?Types?tp?type
+Declares latin:/?Applicative latin:/?Applicative?composition
+constant latin:/?Applicative?composition
+DependsOn latin:/?Applicative?composition?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?Applicative?composition?type latin:/?Propositions?prop?type
+DependsOn latin:/?Applicative?composition?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?Applicative?composition?type latin:/?SimpleFunctionTypes?simpfun?type
+DependsOn latin:/?Applicative?composition?type latin:/?Applicative?pure?type
+DependsOn latin:/?Applicative?composition?type latin:/?Applicative?splat?type
+DependsOn latin:/?Applicative?composition?type latin:/?SimpleFunctions?simplambda?type
+DependsOn latin:/?Applicative?composition?type latin:/?TypeOperator?applyType?type
+DependsOn latin:/?Applicative?composition?type latin:/?Proofs?ded?type
+DependsOn latin:/?Applicative?composition?type latin:/?Category?comp?type
+DependsOn latin:/?Applicative?composition?type latin:/?Propositions?prop?definition
+DependsOn latin:/?Applicative?composition?type latin:/?Types?tp?type

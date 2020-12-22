@@ -1,0 +1,40 @@
+dataconstructor latin:/?ConjunctionSL?[latin:/?Magma]/op
+dataconstructor latin:/?ConjunctionSL?[latin:/?Idempotent]/idempotent
+dataconstructor latin:/?ConjunctionSL?[latin:/?Commutative]/comm
+dataconstructor latin:/?ConjunctionSL?[latin:/?Semigroup]/assoc
+theory latin:/?ConjunctionSL
+HasMeta latin:/?ConjunctionSL http://cds.omdoc.org/urtheories?LF
+Includes latin:/?ConjunctionSL latin:/?Lindenbaum
+Includes latin:/?ConjunctionSL latin:/?ConjunctionND
+Includes latin:/?ConjunctionSL latin:/?Semilattice
+Declares latin:/?ConjunctionSL latin:/?ConjunctionSL?[latin:/?Magma]/op
+constant latin:/?ConjunctionSL?[latin:/?Magma]/op
+DependsOn latin:/?ConjunctionSL?[latin:/?Magma]/op?definition latin:/?Propositions?prop?type
+DependsOn latin:/?ConjunctionSL?[latin:/?Magma]/op?definition latin:/?Conjunction?and?type
+Declares latin:/?ConjunctionSL latin:/?ConjunctionSL?[latin:/?Idempotent]/idempotent
+constant latin:/?ConjunctionSL?[latin:/?Idempotent]/idempotent
+DependsOn latin:/?ConjunctionSL?[latin:/?Idempotent]/idempotent?definition latin:/?Propositions?prop?type
+DependsOn latin:/?ConjunctionSL?[latin:/?Idempotent]/idempotent?definition latin:/?Conjunction?and?type
+DependsOn latin:/?ConjunctionSL?[latin:/?Idempotent]/idempotent?definition latin:/?EquivalenceNDI?equivI?type
+DependsOn latin:/?ConjunctionSL?[latin:/?Idempotent]/idempotent?definition latin:/?Equivalence?equiv?type
+DependsOn latin:/?ConjunctionSL?[latin:/?Idempotent]/idempotent?definition latin:/?Proofs?ded?type
+DependsOn latin:/?ConjunctionSL?[latin:/?Idempotent]/idempotent?definition latin:/?ConjunctionNDE?andEl?type
+DependsOn latin:/?ConjunctionSL?[latin:/?Idempotent]/idempotent?definition latin:/?ConjunctionNDI?andI?type
+Declares latin:/?ConjunctionSL latin:/?ConjunctionSL?[latin:/?Commutative]/comm
+constant latin:/?ConjunctionSL?[latin:/?Commutative]/comm
+DependsOn latin:/?ConjunctionSL?[latin:/?Commutative]/comm?definition latin:/?Propositions?prop?type
+DependsOn latin:/?ConjunctionSL?[latin:/?Commutative]/comm?definition latin:/?Conjunction?and?type
+DependsOn latin:/?ConjunctionSL?[latin:/?Commutative]/comm?definition latin:/?ConjunctionND?and_swap?type
+DependsOn latin:/?ConjunctionSL?[latin:/?Commutative]/comm?definition latin:/?EquivalenceNDI?equivI?type
+DependsOn latin:/?ConjunctionSL?[latin:/?Commutative]/comm?definition latin:/?Equivalence?equiv?type
+DependsOn latin:/?ConjunctionSL?[latin:/?Commutative]/comm?definition latin:/?Proofs?ded?type
+Declares latin:/?ConjunctionSL latin:/?ConjunctionSL?[latin:/?Semigroup]/assoc
+constant latin:/?ConjunctionSL?[latin:/?Semigroup]/assoc
+DependsOn latin:/?ConjunctionSL?[latin:/?Semigroup]/assoc?definition latin:/?Propositions?prop?type
+DependsOn latin:/?ConjunctionSL?[latin:/?Semigroup]/assoc?definition latin:/?Conjunction?and?type
+DependsOn latin:/?ConjunctionSL?[latin:/?Semigroup]/assoc?definition latin:/?EquivalenceNDI?equivI?type
+DependsOn latin:/?ConjunctionSL?[latin:/?Semigroup]/assoc?definition latin:/?ConjunctionNDE?andEr?type
+DependsOn latin:/?ConjunctionSL?[latin:/?Semigroup]/assoc?definition latin:/?Equivalence?equiv?type
+DependsOn latin:/?ConjunctionSL?[latin:/?Semigroup]/assoc?definition latin:/?Proofs?ded?type
+DependsOn latin:/?ConjunctionSL?[latin:/?Semigroup]/assoc?definition latin:/?ConjunctionNDE?andEl?type
+DependsOn latin:/?ConjunctionSL?[latin:/?Semigroup]/assoc?definition latin:/?ConjunctionNDI?andI?type

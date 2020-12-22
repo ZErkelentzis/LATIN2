@@ -1,0 +1,4 @@
+theory latin:/?InternallyTypedLogic
+HasMeta latin:/?InternallyTypedLogic http://cds.omdoc.org/urtheories?LF
+Includes latin:/?InternallyTypedLogic latin:/?InternalTypes
+Includes latin:/?InternallyTypedLogic latin:/?Logic
