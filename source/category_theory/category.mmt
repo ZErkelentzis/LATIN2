@@ -1,0 +1,44 @@
+namespace latin:/❚
+
+fixmeta ?SFOLEQND❚
+
+theory Class =
+  obj: type❙
+❚
+
+theory Category =
+  include ?Class❙
+
+  hom: obj ⟶ obj ⟶ tp❙
+  Hom: obj ⟶ obj ⟶ type❘= [a,b] tm (hom a b)❙
+  ident : {a} Hom a a❘# id %I1❙
+  comp : {a,b,c} Hom a b ⟶ Hom b c ⟶ Hom a c❘# 4 ; 5 prec 50❙
+
+  neutLeft : {a,b,f:Hom a b} ⊦ id;f ≐ f❙
+  neutRight : {a,b,f:Hom a b} ⊦ f;id ≐ f❙
+  assoc: {a,b,c,d, f:Hom a b, g:Hom b c, h:Hom c d} ⊦ f;(g;h) ≐ (f;g);h❙
+  
+  isos  = [a,b,f:Hom a b,g] f;g≐id ∧ g;f≐id❘ # isos 3 4❙
+  iso = [a,b] ∃[f:Hom a b]∃[g] isos f g❙
+  
+  total structure iso_equiv : latin:/?EquivalenceRelation =
+    carrier = obj❙
+    rel = [a,b] ⊦ iso a b❙
+    refl = [a] existsI id existsI id andI neutLeft neutLeft❙
+//    trans = [a,b,c,p,q] p existsE [abf,pˈ] pˈ existsE [abg,abi]
+                        q existsE [bcf,qˈ] qˈ existsE [bcg,bci]
+                        existsI (abf;bcf) existsI (bcg;abg) andI _ _ ❙
+    sym = [a,b,p] p existsE [f,pˈ] pˈ existsE [g,i] existsI g existsI f and_swap i❙
+  ❚
+❚
+
+theory SmallClass =
+  sobj: tp❙
+  realize ?Class❙
+  obj = tm sobj❙ 
+❚
+
+theory SmallCategory =
+  include ?SmallClass❙
+  include ?Category❙
+❚

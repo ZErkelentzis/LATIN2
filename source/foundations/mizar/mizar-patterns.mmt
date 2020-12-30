@@ -1,11 +1,130 @@
 namespace latin:/ ❚
 
-theory MizarPatterns : ur:?LF =
-  include ?Mizar ❙
-	include ?HIDDEN ❙
-	
+import rules scala://mmtwrapper.newxml.mizar.mmt.kwarc.info ❚
+
+theory MizarPatterns : ?HIDDEN =
+	pattern directPartFuncDef(n:NAT, argTps:(term^n ⟶ tp)^n, ret:tp, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ term)^m, defRes: term^n ⟶ term) ❘ =
+    funct: term^n ⟶ term❙
+		rtype: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ funct x ⦂ ret ❙
+		means: {x:term^n} ⟨' ⊦ (x..i) ⦂ ((argTps..i) x) | i:n '⟩ ⟶ ⊦ 
+						(nary_and m ⟨' ((cases..j) x) ⇒ (funct x ≐ (caseRes..j) x) | j:m '⟩)
+						∧  ((nary_and m ⟨' ¬ ((cases..k) x) | k:m '⟩) ⇒ ((funct x) ≐ defRes x)) ❙
+  ❚
+	pattern indirectPartFuncDef(n:NAT, argTps:(term^n ⟶ tp)^n, ret:tp, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^(succ n) ⟶ prop)^m, defRes: term^(succ n) ⟶ prop) ❘ =
+    funct: term^n ⟶ term❙
+		rtype: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ (funct x) ⦂ ret ❙
+		means: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ 
+						(nary_and m ⟨' ((cases..j) x) ⇒ (caseRes..j) ⟨ x, (funct x) ⟩ | j:m '⟩)
+						∧  ((nary_and m ⟨' ¬ ((cases..k) x) | k:m '⟩) ⇒ (defRes ⟨ x, funct x ⟩)) ❙
+  ❚
+	pattern directComplFuncDef(n:NAT, argTps:(term^n ⟶ tp)^n, ret:tp, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ term)^m) ❘ =
+    funct: term^n ⟶ term❙
+		rtype: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ ((funct x) ⦂ ret) ❙
+		means: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ 
+						(nary_and m ⟨' ((cases..j) x) ⇒ (funct x ≐ (caseRes..j) x) | j:m '⟩) ❙
+		completeness: {x:term^n} ⟨' ⊦ (x..i) ⦂ ((argTps..i) x) | i:n '⟩ ⟶ ⊦
+						(nary_or m ⟨' ((cases..j) x) | j:m '⟩) ❙
+  ❚
+	pattern indirectComplFuncDef(n:NAT, argTps:(term^n ⟶ tp)^n, ret:tp, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^(succ n) ⟶ prop)^m) ❘ =
+    funct: term^n ⟶ term❙
+		rtype: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ ((funct x) ⦂ ret) ❙
+		means: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ 
+						(nary_and m ⟨' ((cases..j) x) ⇒ (caseRes..j) ⟨ x, (funct x) ⟩ | j:m '⟩) ❙
+		completeness: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦
+						(nary_or m ⟨' ((cases..j) x) | j:m '⟩) ❙
+  ❚
+	pattern directParPredDef(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ prop)^m, defRes: term^n ⟶ prop) ❘ =
+    pred: term^n ⟶ prop ❙
+		means: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ 
+						(nary_and m ⟨' (((cases..j) x) ⇒ (pred x)) ⇔ ((caseRes..j) x) | j:m '⟩)
+						∧  ((nary_and m ⟨' ¬ ((cases..k) x) | k:m '⟩) ⇒ (pred x ⇔ defRes x)) ❙
+  ❚
+	pattern directComplPredDef(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ prop)^m) ❘ =
+    pred: term^n ⟶ prop ❙
+		means: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ 
+						(nary_and m ⟨' (((cases..i) x) ⇒ (pred x)) ⇔ (caseRes..i) x | i:m '⟩) ❙
+		completeness: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦
+						(nary_or m ⟨' ((cases..i) x) | i:m '⟩) ❙
+  ❚
+	pattern indirectParAttrDef(n:NAT,
+	    argTps:(term^n ⟶ tp)^n,
+	    motherTp:term^n ⟶ tp,
+	    m:NAT,
+	    cases:(term^n ⟶ prop)^m,
+			caseRes:(term^(succ n) ⟶ prop)^m,
+			defRes: term^(succ n) ⟶ prop) ❘ =
+    attribute: {x: term^n} attr (motherTp x) ❙
+		mtype: {x:term^n, p: ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩} ⊦ 
+		   forall [y] y ⦂ adjective (motherTp x) (attribute x) ⇒ y ⦂ motherTp x ❙
+		means: {x:term^n, p: ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩} ⊦ 
+						(nary_and m ⟨' (((cases..j) x) ⇒ forall [y] y ⦂ (adjective (motherTp x) (attribute x)) ⇔ (caseRes..j) ⟨ x, y ⟩) | j:m '⟩)
+						∧  ((nary_and m ⟨' ¬ ((cases..k) x) | k:m '⟩) ⇒ forall ([y] y ⦂ (adjective (motherTp x) (attribute x)) ⇔ defRes ⟨ x, y ⟩)) ❙
+  ❚
+	pattern indirectComplAttrDef(n:NAT, argTps:(term^n ⟶ tp)^n, motherTp:(term^n ⟶ tp), m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^(succ n) ⟶ prop)^m) ❘ =
+    attribute: {x:term^n} term ⟶ prop ❙
+		mtype: {x:term^n} {p: ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩} ⊦ forall [y] y ⦂ (adjective (motherTp x) (attribute x)) ⇒ y ⦂ (motherTp x) ❙
+		means: {x:term^n} {p: ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩} ⊦ 
+						(nary_and m ⟨' (cases..j) x ⇒ forall ([y] y ⦂ (adjective (motherTp x) (attribute x)) ⇔ (caseRes..j) ⟨ x, y ⟩) | j:m '⟩) ❙
+		completeness: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦
+						(nary_or m ⟨' ((cases..j) x) | j:m '⟩) ❙
+  ❚
+	pattern directParModeDef(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ term ⟶ prop)^m, defRes: term^n ⟶ term ⟶ prop) ❘ =
+    mode: term^n ⟶ term ⟶ prop ❙
+		madeMode: term^n ⟶ tp ❘ = [x] makeMode (mode x) ❙
+		means: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ 
+						(nary_and m ⟨' (((cases..j) x) ⇒ forall [y] mode x y ⇔ (caseRes..j) x y) | j:m '⟩)
+						∧  ((nary_and m ⟨' ¬ ((cases..k) x) | k:m '⟩) ⇒ forall [y] mode x y ⇔  defRes x y) ❙
+  ❚
+
+	pattern indirectParModeDef(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ (term ⟶ prop) ⟶ prop)^m, defRes: term^n ⟶ (term ⟶ prop) ⟶ prop) ❘ =
+    mode: term^n ⟶ term ⟶ prop ❙
+		madeMode: term^n ⟶ tp ❘ = [x] makeMode (mode x) ❙
+		means: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ 
+						(nary_and m ⟨' (((cases .. j) x) ⇒ ((caseRes..j) x (mode x))) | j:m '⟩)
+						∧  ((nary_and m ⟨' ¬ ((cases..k) x) | k:m '⟩) ⇒ (defRes x (mode x))) ❙
+  ❚
+	pattern directComplModeDef(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ term ⟶ prop)^m) ❘ =
+    mode: term^n ⟶ term ⟶ prop ❙
+		madeMode: term^n ⟶ tp ❘ = [x] makeMode (mode x) ❙
+		means: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ 
+						(nary_and m ⟨' (((cases..j) x) ⇒ forall [y] (mode x y ⇔ (caseRes..j) x y)) | j:m '⟩) ❙
+		completeness: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦
+						(nary_or m ⟨' ((cases..j) x) | j:m '⟩) ❙
+  ❚
+	pattern indirectComplModeDef(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ (term ⟶ prop) ⟶ prop)^m) ❘ =
+    mode: term^n ⟶ term ⟶ prop ❙
+		madeMode: term^n ⟶ tp ❘ = [x] makeMode (mode x) ❙
+		means: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ 
+						(nary_and m ⟨' (cases..j) x ⇒ (caseRes..j) x (mode x) | j:m '⟩) ❙
+		completeness: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦
+						(nary_or m ⟨' ((cases..j) x) | j:m '⟩) ❙
+  ❚
+	pattern schemeDef(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, assumptions:(term^n ⟶ prop)^m, p: term^n ⟶ prop) ❘ =
+  	scheme: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ nary_and m ⟨' ((assumptions..j) x) | j:m '⟩ ⟶ ⊦ (p x) ❙
+  ❚
+	pattern synonymicNotation(n:NAT, argTps:(term^n ⟶ tp)^n, v: term^n ⟶ prop) ❘ =
+  	notation: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ prop ❘ = [x] [p] v x ❙
+  ❚
+	pattern antonymicNotation(n:NAT, argTps:(term^n ⟶ tp)^n, v: term^n ⟶ prop) ❘ =
+  	notation: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ prop ❘ = [x] [p] ¬ (v x) ❙
+  ❚
+	pattern attrRegistration(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, t:term^n ⟶ tp, a: (dep_typed_attr n t)^m) ❘ =
+  	registration: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ ∃ [y] (y ⦂ (a @ t)) ❙
+  ❚
+	rule rules?MizarStructure ❙
 ❚
 
 theory patternTests : ☞latin:/?MizarPatterns =
-		
+	/T This structure is from struct_0 ❙
+	mizarStructure oneSorted(:) ❘ =
+		carrier: tp ❙
+	❚
+
+	/T The following example is from algstr_0 ❙
+	binOp: {t: tp} tp ❙
+	/T Unfortunatley still doesn't typecheck yet ❙
+	/T mizarStructure addMagma(:oneSorted) ❘ = 
+	/T	carrier: tp ❙
+	/T	addF: binOp carrier ❙
+	/T ❚
 ❚

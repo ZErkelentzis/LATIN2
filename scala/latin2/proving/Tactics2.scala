@@ -3,7 +3,7 @@ package latin2.proving
 import info.kwarc.mmt.api.LocalName
 import info.kwarc.mmt.api.objects.{Context, Equality, OMID, OML, OMS, OMV, PlainSubstitutionApplier, Sub, Substitution, Term, Typing}
 import info.kwarc.mmt.lf.{Apply, Lambda, Typed}
-import lf.{Implication, ImplicationNDI, Proofs, Tactics, Tactics2, TypedTerms, TypedUniversalQuantification, Types}
+// import lf.{Implication, ImplicationNDI, Proofs, Tactics, Tactics2, TypedTerms, TypedUniversalQuantification, Types}
 
 */
 /*

@@ -13,5 +13,5 @@ theory TypesNonEmpty =
   include ?TypedLogic❙
   
   // all types are non-empty, i.e., we can pick fresh elements at any point in a proof❙
-  nonempty : {A:tp}{C} (tm A ⟶ ⊦ C) ⟶ ⊦ C❙ 
+  nonempty : {A,C} (tm A ⟶ ⊦ C) ⟶ ⊦ C❙ 
 ❚

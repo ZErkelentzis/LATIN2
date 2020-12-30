@@ -1,7 +1,7 @@
 package latin2.proving
 /*
 import latin2.proving._
-import lf.{Implication, Negation, Proofs, PropositionsITP, Tactics, TypedEquality, TypedUniversalQuantification, Types}
+// import lf.{Implication, Negation, Proofs, PropositionsITP, Tactics, TypedEquality, TypedUniversalQuantification, Types}
 import info.kwarc.mmt.api._
 import info.kwarc.mmt.api.checking.{History, InferenceAndTypingRule, InferenceRule, Solver, TypingRule}
 import info.kwarc.mmt.api.symbols.FinalConstant
@@ -9,7 +9,7 @@ import info.kwarc.mmt.api.uom.ConstantScala
 import info.kwarc.mmt.lf.{Apply, Arrow, OfType, Pi, Typed}
 
 // import latin2.proving.helperFunctions.{NamedHypothesis, NamedOrUnnamedTerm, UnnamedHypothesis}
-import lf.Tactics.{cntra, theoremLF}
+// import lf.Tactics.{cntra, theoremLF}
 import objects._
 import prettyprint._
 import objects.OMV

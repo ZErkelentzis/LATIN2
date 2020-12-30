@@ -17,10 +17,9 @@ theory Magma =
   op: tm U ⟶ tm U ⟶ tm U ❘ # 1 ∘ 2 prec 50 ❙
 ❚
 
-theory TertiaryStructure =
+view MagmaFlip : ?Magma -> ?Magma =
   include ?Set ❙
-  op: tm U ⟶ tm U ⟶ tm U ⟶ tm U ❙
-  pred: tm U ⟶ tm U ⟶ prop ❙
+  op = [x, y] y ∘ x ❙
 ❚
 
 theory Pointed =
@@ -33,6 +32,8 @@ theory PointedSet =
   structure my_point : ?Pointed =
     include ?Set ❙
   ❚
+
+  // axioms on my_point ❙
 ❚
 
 theory PointedMagma =
@@ -42,6 +43,13 @@ theory PointedMagma =
   structure my_point : ?Pointed =
     include ?Set ❙
   ❚
+❚
+
+theory TertiaryStructure =
+  include ?Set ❙
+  op: tm U ⟶ tm U ⟶ tm U ⟶ tm U ❙
+
+  ternary_pred: tm U ⟶ tm U ⟶ tm U ⟶ prop ❙
 ❚
 
 theory Graph =

@@ -4,6 +4,12 @@ theory SetFOL : ur:?LF =
   include ?FOLEQND❙
   set = term❙
   include ?InternalTypes❙
+
+  eq_in : {x,y,z} ⊦x≐y ⟶ ⊦y∈z ⟶ ⊦x∈z❘
+        = [x,y,z,p,q] (eq/sym p) congP ([u]u∈z) q❙
+  in_eq : {x,y,z} ⊦x∈y ⟶ ⊦y≐z ⟶ ⊦x∈z❘
+        = [x,y,z,p,q] q congP ([u]x∈u) p❙
+
   
   include ?DescriptionND❙
   include ?RelativizedUniversalQuantificationND❙

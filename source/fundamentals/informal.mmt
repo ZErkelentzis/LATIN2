@@ -1,0 +1,15 @@
+namespace latin:/❚
+
+fixmeta ur:?PLF❚
+
+// copied and adapted from MitM/Core: ❚
+theory InformalProofs =
+  include ?Proofs ❙
+  include ur?Strings ❙
+
+  proofsketch: {A} string ⟶ ⊦ A ❘ # sketch 2 ❙
+  byproof: {A,B} ⊦ A ⟶ ⊦ B ❘ # by 3 ❙
+  addproofstep: {A,B,C: prop} ⊦ A ⟶ ⊦ B ⟶ ⊦ B ❘ # 4 and 5 ❙
+  trivial: {A} ⊦ A ❘ = [A] sketch "trivial" ❘ # trivial %I1 ❙
+❚
+

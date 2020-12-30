@@ -24,7 +24,13 @@ theory IHOLND =
   include ?TypedEqualityND❙
   include ?ISFOLND❙
   include ?PropositionalExtensionality❙  
- ❚
+  eq_equiv: {F,G} ⊦F≐G ⟶ ⊦F⇔G❘= [F,G,p] equivI ([q] p congP ([u]u) q) ([q] (p sym) congP ([u]u) q)❙
+  equiv_eq: {F,G} ⊦F⇔G ⟶ ⊦F≐G❘= [F,G,p] propext ([q] p equivEl q) ([q] p equivEr q)❙
+
+  eq_thm : {F,G} ⊦F≐G ⟶ ⊦F ⟶ ⊦G❘ = [F,G,p,q] (eq_equiv p) equivEl q❙
+  thm_true : {F} ⊦F ⟶ ⊦F≐true❘ = [F,p] propext ([q] trueI) ([q] p)❙
+  true_thm: {F} ⊦F≐true ⟶ ⊦F❘ = [F,p] eq_thm (p sym) trueI❙
+❚
 
 theory HOL =
   include ?IHOL❙
@@ -35,9 +41,6 @@ theory HOLND =
   include ?IHOLND❙
   include ?SFOLND❙
   include ?SimpleFunctionsEta❙
-  
-  eq_equiv: {F,G} ⊦F≐G ⟶ ⊦F⇔G❘= [F,G,p] equivI ([q] p congP ([u]u) q) ([q] (p sym) congP ([u]u) q)❙
-  equiv_eq: {F,G} ⊦F⇔G ⟶ ⊦F≐G❘= [F,G,p] propext ([q] p equivEl q) ([q] p equivEr q)❙
 ❚
 
 theory PowerHOLND =
@@ -47,6 +50,6 @@ theory PowerHOLND =
   power = [a] a → bool❙
   filter = [A,P] λ P❙
   in = [A,x,S] S @ x❙
-  compute = [A,P,x] eq_equiv simpbeta❙
+  compute = [A,P,x] eq_equiv refl❙
   expand = [A,S] eta sym❙
 ❚

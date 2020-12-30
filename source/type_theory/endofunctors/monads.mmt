@@ -2,12 +2,14 @@ namespace latin:/❚
 
 fixmeta ?HOLND❚
 
+ref ?CategoryOfTypes❚
+
 theory Applicative =
   include ?TypeOperator❙
   pure : {a} tm a ⟶ tm &a❘# pure 2 prec 60❙
   splat: {a,b} tm &(a→b) ⟶ tm &a ⟶ tm &b❘# 3 <*> 4 prec 50❙
   
-  identity: {a,X:tm &a} ⊦ pure (id a) <*> X ≐ X❙
+  identity: {a,X:tm &a} ⊦ pure (ident a) <*> X ≐ X❙
   homomorphism: {a,b,f:tm a→b,x} ⊦ pure f <*> pure x ≐ pure (f@x)❙
   interchange: {a,b,F:tm &(a→b), x} ⊦ F <*> pure x ≐ pure (applyTo x) <*> F❙
   composition: {a,b,c,F:tm &(a→b),G:tm &(b→c),X} ⊦ G <*> (F <*> X) ≐ pure (λ[f]λ[g]f;g) <*> F <*> G <*> X❙
@@ -16,8 +18,6 @@ theory Applicative =
   // realize ?InternalEndoFunctor❙
   // fmap = [a,b,f] λ[X] pure f <*> X❙
 ❚
-
-ref ?CategoryOfTypes❚
 
 theory Monad =
   include ?TypeOperator❙

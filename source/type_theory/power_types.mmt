@@ -71,9 +71,9 @@ theory Subset =
          # 2 ⊆ 3 prec 30❙
   
   subsetI: {A,S,T} ({x: tm A} ⊦x∈S ⟶ ⊦ x∈T) ⟶ ⊦ S⊆T❘
-         = [A,S,T,f] forallI [x] impI [p] f x p❙
+         = [A,S,T,f] forallI [x] implI [p] f x p❙
   subsetE: {A,S,T,x:tm A} ⊦ S⊆T ⟶ ⊦ x∈S ⟶ ⊦ x∈T❘
-         = [A,S,T,x,p,q] p forallE x impE q❙
+         = [A,S,T,x,p,q] p forallE x implE q❙
   subset_refl : {A,S:tm ℘A} ⊦ S⊆S❘
               = [A,S] subsetI [x,p]p❙
   subset_trans : {A,R,S,T:tm ℘A} ⊦ R⊆S ⟶ ⊦ S⊆T ⟶ ⊦ R⊆T❘
@@ -158,9 +158,9 @@ theory BigIntersection =
     			 = [A,K] filter [x] ∀[S] S∈K ⇒ x∈S ❘
     			 # ⋂ 2 prec 45❙
   biginterI : {A,K,x:tm A} ({S}⊦S∈K⟶⊦x∈S) ⟶ ⊦ x∈⋂K ❘ 
-  				  = [A,K,x,f] filterI (forallI [S] impI [p] f S p)❙
+  				  = [A,K,x,f] filterI (forallI [S] implI [p] f S p)❙
   biginterE : {A,K,x:tm A,S} ⊦ x∈⋂K ⟶ ⊦S∈K ⟶ ⊦x∈S❘ 
-  				  = [A,K,x,S,p,q] p filterE forallE S impE q❙
+  				  = [A,K,x,S,p,q] p filterE forallE S implE q❙
 ❚
 
 theory BigUnion =
