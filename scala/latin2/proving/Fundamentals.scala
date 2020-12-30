@@ -25,6 +25,10 @@ object CheckProof extends InferenceAndTypingRule(PropositionsITP.proof.path, OfT
     val rules = solver.rules.getOrdered(classOf[ProofStepRule])
     val prover : ImperativeProver = new ImperativeProver(goal , rules,  solver)
 
+    prover.executeProof(steps)
+  //  val tmp0 = solver.presentObj(prover.lambdaProofTerm)
+ //   val tmp1 = solver.inferType(stack.context(LocalName("h")).toOML)
+  //  val tmp = solver.check(Typing(stack , prover.lambdaProofTerm , tp))
  //   Solver.breakAfter(350)
     if (prover.isSolved)
     {
@@ -46,7 +50,7 @@ object CheckProof extends InferenceAndTypingRule(PropositionsITP.proof.path, OfT
   */
 case class ProofGoal(stack: Stack, tp: Term, history: History)
 
-
+case class LambdaProofGoal( name : LocalName , freeVars : Context)
 /*
 
 class ProofMachine(concreteProver: ConcreteProver) {
@@ -55,11 +59,7 @@ class ProofMachine(concreteProver: ConcreteProver) {
 }
 */
 
-abstract class ConcreteProver( initGoal: ProofGoal , val rules: List[ProofStepRule] , val solver: Solver){
-  var makeStep :  Term =>  Boolean
-  var redoStep : () => Boolean
-  var undoStep : () => Boolean
-}
+
 
 
 // case class LambdaGoal(Goal : OMV  , Hyps : List[OMV])
@@ -80,10 +80,13 @@ class ImperativeProver( initGoal: ProofGoal,  val rules: List[ProofStepRule],val
 
   def setGoals(gls : List[ProofGoal]) = {goals = gls  }
 
+  var goalCounter = 0
 
-  var lambdaProofTerm : Term = OMV(Context.pickFresh(solver.checkingUnit.context ++ initGoal.stack.context,  LocalName("!!"))._1)
+  var goalName : LocalName = Context.pickFresh(solver.checkingUnit.context ++ initGoal.stack.context,  LocalName("!!"))._1
+  var lambdaProofTerm : Term = solver.Unknown( goalName , initContext.toList.map(x => x.toOML))
+//
 
-  var lambdaGoals : List[OMV]  = List(lambdaProofTerm.asInstanceOf[OMV])
+  var lambdaGoals : List[OMV]  = List(OMV(goalName))
 
 //  var lambdaGoals : List[LambdaGoal]  = List(LambdaGoal(lambdaProofTerm.asInstanceOf[OMV] , List())   )
 
@@ -100,6 +103,10 @@ class ImperativeProver( initGoal: ProofGoal,  val rules: List[ProofStepRule],val
   var lambdaTermHistory : List[Term] = List(lambdaProofTerm)
 
   var errorstate : Boolean = false
+
+  solver.solveTyping(Typing(initGoal.stack , lambdaProofTerm , initGoal.tp ))
+  solver.addUnknowns(Context(VarDecl(goalName)) , None)
+//  solver.check(Typing(initGoal.stack ++ Context(VarDecl( goalName , initGoal.tp))  , lambdaProofTerm , initGoal.tp))
 
 //  var makeStep : Term => Boolean = makeStepConcrete
 //  var redoStep : () =>  Boolean = redoStepConcrete
@@ -170,23 +177,29 @@ class ImperativeProver( initGoal: ProofGoal,  val rules: List[ProofStepRule],val
     }
   }
 */
-  def makeStep(step : Term): Unit = {
+def makeStep(step : Term): Unit = {
     if (errorstate) return
     val stepRule = rules.find(_.applicable(step)).getOrElse({solver.error("no applicable rule"); makeErrorStep(step) ; return})
     stepRule  match {
       case sStepRule : SimpleProofStepRule  => {
-        val (gls , lt , lgls) =  sStepRule(step , goals.head , this).getOrElse({makeErrorStep(step) ; return})
-
+        val (gls , lt , lgls) =  sStepRule(step , goals.head , lambdaGoals.head , lambdaProofTerm , this).getOrElse({makeErrorStep(step) ; return})
 
         stepHistory = step ::  stepHistory
         goalsHistory = goals :: goalsHistory
+
+       // val lg = lambdaGoals.head
+
+  //      val sb = Sub(lg.name , Free(goals.head.stack.context,lt))
+ //       val tmp = new solver.SubstituteUnknowns(sb)
+
         goals =  gls ++ goals.tail
-        val lg = lambdaGoals.head
-        val sb = Substitution(Sub( lg.name , lt ))
         lambdaTermHistory = lambdaProofTerm :: lambdaTermHistory
-        lambdaProofTerm = SmartSubstitutionApplier(lambdaProofTerm , sb)
+ //       lambdaProofTerm = tmp.traverse(lambdaProofTerm)(goals.head.stack.context, ())
+        lambdaProofTerm = lt
         lambdaGoalsHistory = lambdaGoals :: lambdaGoalsHistory
         lambdaGoals =  lgls ++ lambdaGoals.tail
+
+
 
       }
 
@@ -376,7 +389,7 @@ abstract class ProofStepRule(val head: GlobalName) extends SingleTermBasedChecki
 */
 
 abstract class SimpleProofStepRule(val head : GlobalName) extends ProofStepRule {
-  def apply (t : Term , g : ProofGoal , ip : ImperativeProver): Option[(List[ProofGoal] /*new goal in lambda */, Term /* new part of lambdaterm */ , List[OMV])]
+  def apply (t : Term , g : ProofGoal, lgoal : OMV  ,  lterm : Term , ip : ImperativeProver): Option[(List[ProofGoal] /*new goal in lambda */, Term /* new part of lambdaterm */ , List[OMV])]
 
 }
 /*

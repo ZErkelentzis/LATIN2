@@ -1,7 +1,7 @@
 package latin2.proving
 
 import info.kwarc.mmt.api.objects.{OML, OMV, Term, Typing}
-import lf.{Implication, Proofs, Tactics, TacticsLF, TypedTerms, TypedUniversalQuantification, Types}
+import lf.{Implication, Proofs,  TacticsLF, TypedTerms, TypedUniversalQuantification, Types}
 import info.kwarc.mmt.api._
 import objects._
 import checking._

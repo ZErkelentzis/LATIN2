@@ -1,5 +1,5 @@
 package latin2.proving
-
+/*
 import latin2.proving._
 import lf.{Implication, Negation, Proofs, PropositionsITP, Tactics, TypedEquality, TypedUniversalQuantification, Types}
 import info.kwarc.mmt.api._
@@ -24,7 +24,7 @@ object VoidTactic extends ProofStepRule(Tactics.void.path){
     }
   }
 }
-
+*/
 /*
 object PrintProofStateTactic extends  ProofStepRule(Tactics.pps.path){
   def apply(prover: ImperativeProver, goal: ProofGoal, step: Term): Option[List[ProofGoal]] = {

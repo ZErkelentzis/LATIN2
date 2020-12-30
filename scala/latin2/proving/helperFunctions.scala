@@ -282,8 +282,21 @@ object helperFunctions {
     freeln
   }
 
-  def genHoleName(ctx : Context) : LocalName = {
-    val tmp = genFresh(LocalName("!!") , ctx)
+
+  def genFreshHole( ln : LocalName , ctx : Context , prover : ImperativeProver) : LocalName = {
+
+    var cnt = prover.goalCounter
+    var freeln = LocalName(ln.toString)/ LocalName(cnt.toString)
+    while(ctx.index(freeln).isDefined){
+      freeln = LocalName(ln.toString)/ LocalName(cnt.toString)
+      cnt += 1
+    }
+    prover.goalCounter = cnt
+    freeln
+  }
+
+  def genHoleName(ctx : Context, prover : ImperativeProver) : LocalName = {
+    val tmp = genFreshHole(LocalName("!!") , ctx , prover)
     tmp
   }
 

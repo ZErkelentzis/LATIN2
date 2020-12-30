@@ -10,16 +10,15 @@ import info.kwarc.mmt.api.documents.InterpretationInstructionContext
 import info.kwarc.mmt.api.objects.{Context, Stack, Term}
 import info.kwarc.mmt.api.parser.{NotationBasedParser, ParseResult, ParsingUnit, SourceRef}
 import info.kwarc.mmt.lf.OfType
-import lf.{NewTactics, PropositionsITP, Tactics}
+import lf.{PropositionsITP, TacticsLF}
 import javax.swing._
-import LambdaProofTerm._
 import javax.swing.text.DefaultHighlighter.DefaultHighlightPainter
 
 import scala.collection.mutable.ListBuffer
 
-object InteractiveProof extends InferenceAndTypingRule(NewTactics.iproof.path ,OfType.path) {
+object InteractiveProof extends InferenceAndTypingRule(TacticsLF.iproof.path ,OfType.path) {
   def apply(solver: Solver, tm: Term, tpO: Option[Term], covered : Boolean)(implicit stack: Stack, history: History): (Option[Term], Option[Boolean]) = {
-    val NewTactics.iproof(stps) = tm
+    val TacticsLF.iproof(stps) = tm
     val tp = tpO.get //.getOrElse(return (None, None)) // for now we only use this as a checking rule, but inference is also possible
     val goal = ProofGoal(stack, tp, history + "starting prover")
     val rules = solver.rules.getOrdered(classOf[ProofStepRule])
