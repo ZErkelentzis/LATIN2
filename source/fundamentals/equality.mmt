@@ -8,7 +8,7 @@ theory UntypedEquality =
 ❚
 
 theory UntypedEqualityND =
-  include ?Equality❙
+  include ?UntypedEquality❙
   refl  : {x} ⊦ x ≐ x❘# refl %I1❙
   congP : {x,y} ⊦ x ≐ y ⟶ {P: term ⟶ prop} ⊦ P x ⟶ ⊦ P y❘# 3 congP 4 5❙
   
@@ -54,16 +54,23 @@ theory TypedEquality =
 theory TypedEqualityND =
   include ?TypedEquality❙
   refl   : {A,x: tm A} ⊦ x ≐ x❙
-  congP  : {A,  x,y} ⊦ x ≐ y ⟶ {P: tm A ⟶ prop} ⊦ P x ⟶ ⊦ P y❘# 4 congP 5 6❙
+
+  congB : {A,B, X,Y: tm A ⟶ tm B} ({a}⊦X a ≐ Y a) ⟶ {P: (tm A ⟶ tm B) ⟶ prop} ⊦ P X ⟶ ⊦ P Y❙
+  
+  congP  : {A,  x,y} ⊦ x ≐ y ⟶ {P: tm A ⟶ prop} ⊦ P x ⟶ ⊦ P y❘# 4 congP 5 6❘
+         = [A,x,y,p,P,q] congB ([a]p) ([U] P (U x)) q❙
+  
+  
   congT  : {A,B,x,y} ⊦ x ≐ y ⟶ {T: tm A ⟶ tm B} ⊦ T x  ≐  T y ❘# 5 congT 6❘
          = [A,B,x,y,p,T] p congP ([u] T x ≐ T u) refl❙
-  
   sym    : {A, x,y: tm A} ⊦ x ≐ y ⟶ ⊦ y ≐ x❘# 4 sym❘
          = [A,x,y,p] p congP ([u]u≐x) refl❙
-  trans  : {A, x,y,z: tm A} ⊦ x ≐ y ⟶ ⊦ y ≐ z ⟶ ⊦ x ≐ z❘# 5 trans 6❘
+  trans  : {A,x,y,z: tm A} ⊦ x ≐ y ⟶ ⊦ y ≐ z ⟶ ⊦ x ≐ z❘# 5 trans 6❘
          = [A,x,y,z,p,q] q congP ([u]x≐u) p❙
   trans3 : {A, w,x,y,z: tm A} ⊦ w ≐ x ⟶ ⊦ x ≐ y ⟶ ⊦ y ≐ z ⟶ ⊦ w ≐ z❘
          = [A, w,x,y,z,p,q,r] p trans q trans r❙
   trans4 : {A, v,w,x,y,z: tm A} ⊦ v ≐ w ⟶ ⊦ w ≐ x ⟶ ⊦ x ≐ y ⟶ ⊦ y ≐ z ⟶ ⊦ v ≐ z❘
          = [A, v,w,x,y,z,p,q,r,s] p trans q trans r trans s❙
+  congT2 : {A,B,C,x,y,xˈ,yˈ} ⊦ x≐y ⟶ ⊦xˈ≐yˈ⟶ {T: tm A ⟶ tm B ⟶ tm C} ⊦ T x xˈ ≐ T y yˈ❘# 8 9 congT2 10❘
+         = [A,B,C,x,y,xˈ,yˈ,p,q,T] (p congT [u] T u xˈ) trans (q congT [u] T y u)❙
 ❚

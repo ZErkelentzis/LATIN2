@@ -5,39 +5,37 @@ namespace latin:/algebraic/diagop-test ❚
 
 rule scala://parser.api.mmt.kwarc.info?MMTURILexer ❚
 
-import operators scala://diagop.odk.mmt.kwarc.info ❚
+import operators scala://diagops.odk.mmt.kwarc.info ❚
 import alg latin:/algebraic ❚
 
 theory AlgebraicDiagOps : ur:?DiagramOperators =
   hom_operator       # HOM_OP 1       ❙ rule ☞operators:?HomOperator          ❙
-  hom_dom_connector  # HOM_DOM 1      ❙ rule ☞operators:?HomDomConnector      ❙
-  hom_cod_connector  # HOM_COD 1      ❙ rule ☞operators:?HomCodConnector      ❙
-  hom_img_connector  # HOM_IMG 1      ❙ rule ☞operators:?HomImgConnector      ❙ // depends on HOM and SUB ❙
-  hom_id_connector   # HOM_ID 1       ❙ rule ☞operators:?HomIdConnector       ❙
+  hom_dom_connector  # HOM_DOM 1      ❙ rule ☞operators:?HomDomConnector      ❙ // dom: X -> HOM(X)       ❙
+  hom_cod_connector  # HOM_COD 1      ❙ rule ☞operators:?HomCodConnector      ❙ // cod: X -> HOM(t)       ❙
+  hom_img_connector  # HOM_IMG 1      ❙ rule ☞operators:?HomImgConnector      ❙ // img: SUB(X) -> HOM(X)  ❙
+  hom_ker_connector  # HOM_KER 1      ❙ rule ☞operators:?HomKernelConnector   ❙ // ker: CONG(X) -> HOM(X) ❙
+  hom_id_connector   # HOM_ID 1       ❙ rule ☞operators:?HomIdConnector       ❙ // id: HOM(X) -> X        ❙
 
   hom = hom_operator ~> hom_id_connector ~> hom_dom_connector ~> hom_cod_connector ❘ # HOM 1 ❙
 
   sub_operator        # SUB_OP 1       ❙ rule ☞operators:?SubOperator          ❙
-  sub_full_connector  # SUB_FULL 1     ❙ rule ☞operators:?SubFullConnector     ❙
-  sub_par_connector   # SUB_PAR 1      ❙ rule ☞operators:?SubParentConnector   ❙
-  sub_sub_connector   # SUB_SUBMODEL 1 ❙ rule ☞operators:?SubSubmodelConnector ❙
+  sub_full_connector  # SUB_FULL 1     ❙ rule ☞operators:?SubFullConnector     ❙ // full: SUB(X) -> X     ❙
+  sub_par_connector   # SUB_PAR 1      ❙ rule ☞operators:?SubParentConnector   ❙ // par: X -> SUB(X)      ❙
+  sub_mod_connector   # SUB_MOD 1      ❙ rule ☞operators:?SubModelConnector    ❙ // mod: X -> SUB(X)      ❙
 
-  sub = sub_operator ~> sub_full_connector ~> sub_par_connector ~> sub_sub_connector ❘ # SUB 1 ❙
+  sub = sub_operator ~> sub_full_connector ~> sub_par_connector ~> sub_mod_connector ❘ # SUB 1 ❙
 
   hom_sub = hom ~> sub ~> hom_img_connector ❘ # HOMSUB 1 ❙
 
-  quot_operator      # QUOT_OP 1    ❙ rule ☞operators:?QuotOperator         ❙
-  quot_par_connector # QUOT_PAR 1   ❙ rule ☞operators:?QuotParentConnector  ❙
-  quot_mod_connector # QUOT_MOD 1   ❙ rule ☞operators:?QuotModConnector     ❙
-  quot_hom_connector # QUOT_HOM 1   ❙ rule ☞operators:?QuotHomConnector     ❙ // depends on QUOT and HOM ❙
-  quot = quot_operator ~> quot_par_connector ~> quot_mod_connector ❘ # QUOT 1 ❙
+  cong_operator       # CONG_OP 1      ❙ rule ☞operators:?CongOperator         ❙
+  cong_par_connector  # CONG_PAR 1     ❙ rule ☞operators:?CongParentConnector  ❙ // par: T -> CONG(T)     ❙
+  cong_quot_connector # CONG_QUOT 1    ❙ rule ☞operators:?CongQuotientConnector❙ // quot: T -> CONG(T)    ❙
+  cong = cong_operator ~> cong_par_connector ~> cong_quot_connector ❘ # CONG 1 ❙
 
   // careful ordering of operators with dependencies ❙
-  universal_algebra = hom_sub ~> quot_operator ~> quot_hom_connector ~> quot ❘ # UNIVALG 1 ❙
+  universal_algebra = hom_sub ~> cong ~> hom_ker_connector ❘ # UNIVALG 1 ❙
 
   modrel_operator    # MODREL 1 2 3 ❙  rule ☞operators:?ModRelOperator      ❙
-
-  // copy_operator     # COPY 1     ❙ // rule ☞oprscala://modules.api.mmt.kwarc.info?CopyOperator copy_operator ☞latin:/?SFOLEQND ☞latin:/?SFOLEQND ❙
 
   /T Some diagram operators (e.g. MODREL) take natural numbers as parameters.
          Only do inclusion here such that the notations above generate OMAs, not ApplySpines❙
@@ -56,7 +54,7 @@ theory Diagram : ?AlgebraicDiagOps =
 
   // subOutput = SUB diagForSub ❙
 
-  playDiag = BDIAG ☞latin:/?SFOLEQND ! ?Set ! ?Magma ! ?Pointed ! ?PointedSet ! ?TertiaryStructure ❙
+  playDiag = BDIAG ☞latin:/?SFOLEQND ! ?Set ! ?Magma ! ?MagmaFlip ! ?Pointed ! ?PointedSet ! ?TertiaryStructure ❙
 
   // realDiag =
     BDIAG
@@ -73,7 +71,7 @@ theory Diagram : ?AlgebraicDiagOps =
   ❙
 ❚
 
-// diagram HomTest : ?AlgebraicDiagOps := QUOT_OP ?Diagram?playDiag ❚
+
 diagram PlayTest : ?AlgebraicDiagOps := UNIVALG ?Diagram?playDiag ❚
 
 // theory Set_hom : latin:/?SFOLEQND  =

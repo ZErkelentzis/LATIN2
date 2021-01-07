@@ -1,8 +1,0 @@
-package proving
-
-object NewProver {
-
-}
-
-
-

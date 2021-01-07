@@ -15,6 +15,47 @@ namespace latin:/❚
 import rules scala://lf.mmt.kwarc.info❚
 fixmeta ur:?LF❚
 
+theory Equivalence =
+  include ?Propositions❙
+  equiv : prop ⟶ prop ⟶ prop❘# 1 ⇔ 2 prec 10❙
+❚
+
+theory EquivalenceNDI =
+  include ?Equivalence❙
+  include ?Proofs❙
+  equivI : {F,G} (⊦ F ⟶ ⊦ G) ⟶ (⊦ G ⟶ ⊦ F) ⟶ ⊦ F ⇔ G❙
+❚
+
+theory EquivalenceNDE =
+  include ?Equivalence❙
+  include ?Proofs❙
+  equivEl : {F,G} ⊦ F ⇔ G ⟶ ⊦ F ⟶ ⊦ G❘# 3 equivEl 4❘role ForwardRule❙
+  equivEr : {F,G} ⊦ F ⇔ G ⟶ ⊦ G ⟶ ⊦ F❘# 3 equivEr 4❘role ForwardRule❙
+❚
+
+theory EquivalenceND =
+  include ?EquivalenceNDI❙
+  include ?EquivalenceNDE❙
+
+  total structure equiv_equivalence : ?EquivalenceRelation =
+    carrier = prop❙
+    rel = [x,y] ⊦ x ⇔ y❙
+    refl = [F] equivI ([p]p) ([p]p)❙
+    sym  = [F,G,p] equivI ([q] p equivEr q) ([q] p equivEl q)❙
+    trans = [F,G,H,fg,gh] equivI ([f] gh equivEl (fg equivEl f))
+                                 ([h] fg equivEr (gh equivEr h))❙
+  ❚
+  total structure lindenbaum : ?EqualityType =
+     carrier = prop❙
+     structure equalityRel = ?EquivalenceND?equiv_equivalence❙
+  ❚
+❚
+
+theory Lindenbaum =
+  include ?EquivalenceND❙
+  include ?EqualityType❘ = ?EquivalenceND?lindenbaum❙
+❚   
+
 theory Truth =
   include ?Propositions❙
   true  : prop❙
@@ -33,7 +74,7 @@ theory Falsity =
 
 theory FalsityND =
   include ?Falsity❙
-  include ?Proofs❙
+  include ?Logic❙
   falseE : ⊦ false ⟶ ↯❘# 1 falseE❙
 ❚
 
@@ -44,53 +85,19 @@ theory Negation =
 
 theory NegationNDI =
   include ?Negation❙
-  include ?Proofs❙
+  include ?Logic❙
   notI  : {F} (⊦ F ⟶ ↯) ⟶ ⊦ ¬ F❘# notI 2❙
 ❚
 
 theory NegationNDE =
   include ?Negation❙
-  include ?Proofs❙
+  include ?Logic❙
   notE  : {F} ⊦ ¬ F ⟶ ⊦ F ⟶ ↯❘# 2 notE 3❙
 ❚
 
 theory NegationND =
   include ?NegationNDI❙
   include ?NegationNDE❙
-❚
-
-theory AlternativeNegationAndFalsityND =
-  include ?Proofs ❙
-  include ?Falsity ❙
-  include ?Negation ❙
-  include ?Disjunction ❙
-  notIntroduction : {A} (⊦ A ⟶ ⊦ false) ⟶ (⊦ ¬ A) ❘ # altNotI 2 ❙
-  notElimination : {A} ⊦ ¬ ¬ A ⟶ ⊦ A ❘ # altNotE 2 ❙
-  falseIntroduction : {A} ⊦ ¬ A ⟶ ⊦ A ⟶ ⊦ false ❘ # altFI 2 3 ❘ role EliminationRule ❙
-  falseElimination : {A} ⊦ false ⟶ ⊦ A ❘ # altFE 1 2 ❙
-❚
-
-theory Conjunction =
-  include ?Propositions❙
-  and   : prop ⟶ prop ⟶ prop❘# 1 ∧ 2 prec 15❙
-❚
-
-theory ConjunctionNDI =
-  include ?Conjunction❙
-  include ?Proofs❙
-  andI  : {F,G} ⊦ F ⟶ ⊦ G ⟶ ⊦ F ∧ G❙
-❚
-
-theory ConjunctionNDE =
-  include ?Conjunction❙
-  include ?Proofs❙
-  andEl : {F,G} ⊦ F ∧ G ⟶ ⊦ F❘# 3 andEl❘role ForwardRule❙
-  andEr : {F,G} ⊦ F ∧ G ⟶ ⊦ G❘# 3 andEr❘role ForwardRule❙
-❚
-
-theory ConjunctionND =
-  include ?ConjunctionNDI❙
-  include ?ConjunctionNDE❙
 ❚
 
 theory Disjunction =
@@ -114,7 +121,55 @@ theory DisjunctionNDE =
 theory DisjunctionND =
   include ?DisjunctionNDI❙
   include ?DisjunctionNDE❙
+  or_swap : {F,G} ⊦ F∨G ⟶ ⊦ G∨F❘= [F,G,p] p orE ([q] q orIr) ([q] q orIl)❙
 ❚
+
+theory DisjunctionSL =
+  include ?Lindenbaum❙
+  include ?DisjunctionND❙
+  realize ?Semilattice❙
+  op = or❙
+  idempotent = [F] equivI ([p] p orE ([q]q) ([q]q)) ([p] p orIl)❙
+  comm = [F,G] equivI ([p] or_swap p) ([p] or_swap p)❙
+  assoc = [F,G,H] equivI ([p] p orE ([q] q orE ([r] r orIl) ([r] r orIl orIr)) ([q] q orIr orIr))
+                         ([p] p orE ([q] q orIl orIl) ([q] q orE ([r] r orIr orIl) ([r] r orIr)))❙ 
+❚
+
+theory Conjunction =
+  include ?Propositions❙
+  and   : prop ⟶ prop ⟶ prop❘# 1 ∧ 2 prec 15❙
+❚
+
+theory ConjunctionNDI =
+  include ?Conjunction❙
+  include ?Proofs❙
+  andI  : {F,G} ⊦ F ⟶ ⊦ G ⟶ ⊦ F ∧ G❙
+❚
+
+theory ConjunctionNDE =
+  include ?Conjunction❙
+  include ?Proofs❙
+  andEl : {F,G} ⊦ F∧G ⟶ ⊦ F❘# 3 andEl❘role ForwardRule❙
+  andEr : {F,G} ⊦ F∧G ⟶ ⊦ G❘# 3 andEr❘role ForwardRule❙
+❚
+
+theory ConjunctionND =
+  include ?ConjunctionNDI❙
+  include ?ConjunctionNDE❙
+  and_swap: {F,G} ⊦ F∧G ⟶ ⊦ G∧F❘ = [F,G,p] andI (p andEr) (p andEl)❙
+❚
+
+theory ConjunctionSL =
+  include ?Lindenbaum❙
+  include ?ConjunctionND❙
+  realize ?Semilattice❙
+  op = and❙
+  idempotent = [F] equivI ([p] p andEl) ([p] andI p p)❙
+  comm = [F,G] equivI ([p] and_swap p) ([p] and_swap p)❙
+  assoc = [F,G,H] equivI ([p] andI (p andEl andEl) (andI (p andEl andEr) (p andEr)))
+                         ([p] andI (andI (p andEl) (p andEr andEl)) (p andEr andEr))❙ 
+❚
+
 
 theory Implication =
   include ?Propositions❙
@@ -124,13 +179,13 @@ theory Implication =
 theory ImplicationNDI =
   include ?Implication❙
   include ?Proofs❙
-  impI  : {F,G} (⊦ F ⟶ ⊦ G) ⟶ ⊦ F ⇒ G❙
+  implI  : {F,G} (⊦ F ⟶ ⊦ G) ⟶ ⊦ F ⇒ G❙
 ❚
 
 theory ImplicationNDE =
   include ?Implication❙
   include ?Proofs❙
-  impE  : {F,G} ⊦ F ⇒ G ⟶ ⊦ F ⟶ ⊦ G❘# 3 impE 4❘role ForwardRule❙
+  implE  : {F,G} ⊦ F ⇒ G ⟶ ⊦ F ⟶ ⊦ G❘# 3 implE 4❘role ForwardRule❙
 ❚
 
 theory ImplicationND =
@@ -140,40 +195,8 @@ theory ImplicationND =
   total structure impl_preorder : ?Preorder =
     carrier = prop❙
     rel = [x,y] ⊦ x ⇒ y❙
-    refl = [F] impI [f] f❙
-    trans = [F,G,H,fg,gh] impI [f] gh impE (fg impE f)❙ 
-  ❚
-❚
-
-theory Equivalence =
-  include ?Propositions❙
-  equiv : prop ⟶ prop ⟶ prop❘# 1 ⇔ 2 prec 10❙
-❚
-
-theory EquivalenceNDI =
-  include ?Equivalence❙
-  include ?Proofs❙
-  equivI : {F,G} (⊦ F ⟶ ⊦ G) ⟶ (⊦ G ⟶ ⊦ F) ⟶ ⊦ F ⇔ G❙
-❚
-
-theory EquivalenceNDE =
-  include ?Equivalence❙
-  include ?Proofs❙
-  equivEl : {F,G} ⊦ F ⇔ G ⟶ ⊦ F ⟶ ⊦ G❘# 3 equivEl 4❘role ForwardRule❙
-  equivEr : {F,G} ⊦ F ⇔ G ⟶ ⊦ G ⟶ ⊦ F❘# 3 equivEr 4❘role ForwardRule❙
-❚
-
-theory EquivalenceND =
-  include ?EquivalenceNDI❙
-  include ?EquivalenceNDE❙
-  
-  total structure equiv_equivalence : ?EquivalenceRelation =
-    carrier = prop❙
-    rel = [x,y] ⊦ x ⇔ y❙
-    refl = [F] equivI ([p]p) ([p]p)❙
-    sym  = [F,G,p] equivI ([q] p equivEr q) ([q] p equivEl q)❙
-    trans = [F,G,H,fg,gh] equivI ([f] gh equivEl (fg equivEl f))
-                                 ([h] fg equivEr (gh equivEr h))❙
+    refl = [F] implI [f] f❙
+    trans = [F,G,H,fg,gh] implI [f] gh implE (fg implE f)❙ 
   ❚
 ❚
 
@@ -206,7 +229,7 @@ theory IPLND =
   total structure impl_order : ?Order =
     include ?ImplicationND/impl_preorder❙ 
     structure equalityRel = ?EquivalenceND/equiv_equivalence❙
-    antisym = [F,G,fg,gf] equivI ([f] fg impE f) ([g] gf impE g)❙
+    antisym = [F,G,fg,gf] equivI ([f] fg implE f) ([g] gf implE g)❙
   ❚
 ❚
 
@@ -234,6 +257,18 @@ theory PLND =
   dne : {F} ⊦¬¬F ⟶ ⊦F❘= [F,p] indirect [q] p notE q❙
   tnd : {F} ⊦F∨¬F❘= [F] dne nntnd❙
 ❚
+
+theory AlternativeNegationAndFalsityND =
+  include ?Proofs ❙
+  include ?Falsity ❙
+  include ?Negation ❙
+  include ?Disjunction ❙
+  notIntroduction : {A} (⊦ A ⟶ ⊦ false) ⟶ (⊦ ¬ A) ❘ # altNotI 2 ❙
+  notElimination : {A} ⊦ ¬ ¬ A ⟶ ⊦ A ❘ # altNotE 2 ❙
+  falseIntroduction : {A} ⊦ ¬ A ⟶ ⊦ A ⟶ ⊦ false ❘ # altFI 2 3 ❘ role EliminationRule ❙
+  falseElimination : {A} ⊦ false ⟶ ⊦ A ❘ # altFE 1 2 ❙
+❚
+
 
 /T Conjunction where the second conjunct's well-formedness may depend on the truth of the first conjunct
    Curry-Howard analogue of Sigma types ❚

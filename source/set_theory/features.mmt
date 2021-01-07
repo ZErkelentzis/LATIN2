@@ -2,15 +2,6 @@ namespace latin:/❚
 
 fixmeta ?SetFOL❚
 
-theory EmptySetDefinitions =
-  isempty : set ⟶ prop❘ = [X] ¬∃[x]x∈X❙
-  nonempty: set ⟶ prop❘ = [X] ∃[x]x∈X❙
-  isemptyE : {X,x} ⊦ isempty X ⟶ ⊦ x∈X ⟶ ↯❘ # isemptyE 3 4❘
-           = [X,x,p,q] p notE (existsI x q)❙
-  nonemptyE: {X,C} ⊦ nonempty X ⟶ ({x} ⊦x∈X ⟶ ⊦C) ⟶ ⊦C❘
-           = [X,C,ne,P] ne existsE [x,p] P x p❙
-❚
-
 theory Subsets =
   include ?SoftSubtyping❙
 ❚
@@ -27,31 +18,29 @@ theory EmptySet =
 
 theory UnorderedPairs =
   uopair : set ⟶ set ⟶ set❘ # uopair 1 2 prec 40❙
-  uopairIL : {X,Y} ⊦ X ∈ uopair X Y❙
-  uopairIR : {X,Y} ⊦ Y ∈ uopair X Y❙
-  uopairE  : {U,X,Y} ⊦ U ∈ uopair X Y ⟶ ⊦ U≐X ∨ U≐Y❘ # uopairE 4❙
+  uopairIl : {X,Y} ⊦ X ∈ uopair X Y❙
+  uopairIr : {X,Y} ⊦ Y ∈ uopair X Y❙
+  uopairE  : {U,X,Y,C} ⊦ U ∈ uopair X Y ⟶ (⊦ U≐X ⟶ ⊦C) ⟶ (⊦ U≐Y ⟶ ⊦C) ⟶ ⊦C❙
   
   uopair_comm : {X,Y} ⊦ uopair X Y ≐ uopair Y X❙
 ❚
 
 theory Singletons =
+	include ?SingletonDefinition❙
   singleton : set ⟶ set❘ # singleton 1 prec 100❙
-  is_singleton : set ⟶ prop❘ = [X] ∃¹[x] x∈X❙
-  singleton_the : {X} ⊦ is_singleton X ⟶ set❘ = [X,p] the ([x] x ∈ X) p❙
+  singleton_the : {X} ⊦ issingleton X ⟶ set❘ = [X,p] the ([x] x ∈ X) p❙
 
   singletonI : {X} ⊦ X ∈ singleton X❙
   singletonE : {X,x} ⊦ x ∈ singleton X ⟶ ⊦ x≐X❘ # singletonE 3❙
 ❚
 
-view SelfPair : ?Singletons → ?UnorderedPairs =
-  singleton = [X] uopair X X❙
-  singletonI = [X] uopairIL❙
-  singletonE = [X,x,p] uopairE p orE ([q] q) ([q] q)❙
-❚
-
 theory Extensionality =
-	is_extensional = [X,Y]∀[z] (z∈X ⇔ z∈Y) ⇒ X≐Y❙
-	extensionality_axiom : {X,Y} ⊦ is_extensional X Y❙
+	include ?ExtensionalityDefinition❙
+	extensionality_axiom : {X,Y} ⊦ isextensional X Y❙
+	
+	extensionalityI : {X,Y} ({z} ⊦ z∈X ⇔ z∈Y) ⟶ ⊦ X≐Y❙
+	// AS: is this right?❙
+	extensionalityE : {X,Y} ⊦ X≐Y ⟶ {z} ⊦ z∈X ⇔ z∈Y❙ 
 ❚
 
 theory Regularity =	
@@ -61,71 +50,43 @@ theory Regularity =
 
 theory Comprehension =
   comprehend  : set ⟶ (set ⟶ prop) ⟶ set❘ # 1 | 2 prec 40❙
-  comprehendI : {X,P,x} ⊦ x∈X ⟶ ⊦ P x ⟶ ⊦ x ∈ X|P❘ # comprehendI 4 5❙
-  comprehend_sub : {X,P,x} ⊦ x ∈ X|P ⟶ ⊦ x∈X❘ # comprehend_sub 4❙
+  comprehendI : {X,P,x} ⊦ x∈X ⟶ ⊦ P x ⟶ ⊦ x ∈ X|P❙
+  comprehend_sub : {X,P,x} ⊦ x ∈ X|P ⟶ ⊦ x∈X❙
   comprehendE : {X,P,x} ⊦ x ∈ X|P ⟶ ⊦ P x❘ # comprehendE 4❙
 ❚
 
 theory Replacement =
   replace  : set ⟶ (set ⟶ set) ⟶ set❘ # 1 map 2 prec 40❙
-  replaceI : {M,F,X} ⊦ X∈M ⟶ ⊦ (F X) ∈ M map F❘ # replaceI 4❙
-  replaceE : {M,F,X,C} ⊦ X ∈ M map F ⟶ ({Y} ⊦Y∈M ⟶ ⊦(F Y) ≐ X ⟶ ⊦C) ⟶ ⊦C❘ # replaceE 5 6❙
+  replaceI : {M,F,X} ⊦ X∈M ⟶ ⊦ (F X) ∈ M map F❙
+  replaceE : {M,F,X,C} ⊦ X ∈ M map F ⟶ ({Y} ⊦Y∈M ⟶ ⊦(F Y) ≐ X ⟶ ⊦C) ⟶ ⊦C❘ # 5 replaceE 6❙
 ❚
 
 theory BigUnion =
   bigunion : set ⟶ set❘ # ⋃ 1 prec 45❙
-  bigunionI : {M,X,x} ⊦ X∈M ⟶ ⊦ x∈X ⟶ ⊦ x ∈ ⋃M❘ # bigunionI 4 5❙
-  bigunionE : {M,X,x,C} ⊦ x ∈ ⋃M ⟶ (⊦ X∈M ⟶ ⊦ x∈X ⟶ ⊦ C) ⟶ ⊦ C❘ # bigunionE 5 6❙
+  bigunionI : {M,X,x} ⊦ X∈M ⟶ ⊦ x∈X ⟶ ⊦ x∈ ⋃M❙
+  bigunionE : {M,x,C} ⊦ x∈⋃M ⟶ ({X}⊦X∈M ⟶ ⊦ x∈X ⟶ ⊦C) ⟶ ⊦C❘ # 4 bigunionE 5❙
   
-  // AS: subset not included yet
-  bigunion_subset : {M,X} ⊦ X∈M ⟶ ⊦ X ⊂ ⋃M❙ 
+  include ?Subsets❙
+  bigunion_subset : {M,X} ⊦ X∈M ⟶ ⊦ X ⪽ ⋃M❙ 
 ❚
 
 theory Union =
 	union : set ⟶ set ⟶ set❘ # 1 ∪ 2 prec 40❙
-	unionIL : {X,Y,x} ⊦ x∈X ⟶ ⊦ x∈X∪Y❘ # unionIL 2 4❙
-	unionIR : {X,Y,y} ⊦ y∈Y ⟶ ⊦ y∈X∪Y❘ # unionIR 4❙
-	unionE : {X,Y,x,C} ⊦ x∈X∪Y ⟶ (⊦x∈X ⟶ ⊦ C) ⟶ (⊦x∈Y ⟶ ⊦ C) ⟶ ⊦ C❘ # unionE 5 6 7❙ 
+	unionIl : {X,Y,x} ⊦ x∈X ⟶ ⊦ x∈X∪Y❘ # unionIl 2 4❙
+	unionIr : {X,Y,y} ⊦ y∈Y ⟶ ⊦ y∈X∪Y❘ # unionIr 2 4❙
+	unionE : {X,Y,x,C} ⊦ x∈X∪Y ⟶ (⊦x∈X ⟶ ⊦ C) ⟶ (⊦x∈Y ⟶ ⊦ C) ⟶ ⊦ C❘ # 5 unionE 6 7❙ 
 	
-	// AS: subset not included yet
-	union_subsetL : {X,Y} ⊦ X ⊂ X∪Y❙
-	// AS: subset not included yet
-	union_subsetR : {X,Y} ⊦ Y ⊂ X∪Y❙
-	// AS: subset not included yet
-	union_sup : {X,Y,M} ⊦ X⊂M ⟶ ⊦ Y⊂M ⟶ ⊦ X∪Y ⊂ M❙
+	include ?Subsets❙
+	union_subsetl : {X,Y} ⊦ X ⪽ X∪Y❙
+	union_subsetr : {X,Y} ⊦ Y ⪽ X∪Y❙
+	union_sup : {X,Y,M} ⊦ X⪽M ⟶ ⊦ Y⪽M ⟶ ⊦ X∪Y ⪽ M❙
 	
-	union_comm : ⊦ X∪Y ≐ Y∪X❙
+	union_comm : {X,Y} ⊦ X∪Y ≐ Y∪X❙
 	union_ass : {X,Y,Z} ⊦ (X∪Y)∪Z ≐ X∪(Y∪Z)❙
 	union_idem : {X} ⊦ X∪X ≐ X❙
 	
-	// AS: empty needs to be included just for this❙
 	include ?EmptySet❙
 	union_neutral : {X} ⊦ ∅∪X ≐ X❙
-❚
-
-// FR additional features: Union, BigIntersection, Intersection❚
-// no changes in zfc.mmt needed to realize those - 
-instead we can state here already that, e.g., BigUnion and UnorderedPair are enough to realize SmallUnion;
-we can do that with either a realize statement or a view
-view is often better; realize A within B in those cases where anybody who includes B can be expected to want A as well
-view also helpful when multiple features are needed, e.g., BigUnion and UnorderedPair
-❚
-
-// FR: not sure if any syntax like this already works
-view SmallUnionAsBigUnion: ?SmallUnion → ?BigUnion, ?UnorderedPair =
-
-❚
-// if it doesn't we can use this as a fallback❚
-theory UnionAsBigUnion =
-  include ?UnorderedPairs❙
-  include ?BigUnion❙
-  realize ?Union❙
-  
-  union = [X,Y] ⋃ (uopair X Y)❙
-  unionIL = [X,Y,x,p] bigunionI p uopairIL❙
-  unionIR = [X,Y,y,p] bigunionI p uopairIR❙
-  // As: yields no error, but is wrong anyway, cause I would need ⊦x∈X ∨ x∈Y❙
-  unionE = [X,Y,x,C,p,f,g] bigunionE p ([a] f)❙
 ❚
 
 theory BigIntersection =
@@ -133,25 +94,21 @@ theory BigIntersection =
 	biginter : set ⟶ set❘ # ⋂ 1 prec 45❙
 	// M must be nonempty because otherwise intrsection would produce the set of all sets❙
 	biginterI : {M,x} ⊦ nonempty M ⟶ ({X} ⊦ X∈M ⟶ ⊦ x∈X) ⟶ ⊦ x ∈ ⋂M❙
-	biginterE : {M,X,x} ⊦ x ∈ ⋂M ⟶ ⊦ X∈M ⟶ ⊦ x∈X❙
-❚
-
-theory BigIntersectionAsComprehension =
-	include ?BigUnion❙
-	include ?Comprehension❙
-	realize ?BigIntersection❙
+	biginterE : {M,X,x} ⊦ x ∈ ⋂M ⟶ ⊦ X∈M ⟶ ⊦ x∈X❘ # 4 biginterE 5❙
 	
-	biginter = [M] ⋃M|[x]∀[X] X∈M ⇒ x∈X❙
-	// AS: I need ⊦ X∈M for this proof, but don't know how to get it right now❙
-	biginterI = [M,x,ne,P] comprehendI (nonemptyE ne [u,p] bigunionI p (P u p)) (forallI [X] impI [p] P X p)❙
-	biginterE = [M,X,x,p,q] (comprehendE p) forallE X andEr❙
+	include ?Subsets❙
+	biginter_subset : {M,X} ⊦ X∈M ⟶ ⊦ ⋂M ⪽ X❙
 ❚
 
 theory Intersection =
 	inter : set ⟶ set ⟶ set❘ # 1 ∩ 2 prec 40❙
-	interI : {X,Y,x} ⊦ x∈X ⟶ ⊦ x∈Y ⟶ ⊦ x∈X∩Y❘ # interI 4 5❙
-	interEL : {X,Y,x} ⊦ x∈X∩Y ⟶ ⊦ x∈X❘ # interEL 4❙
-	interER : {X,Y,y} ⊦ y∈X∩Y ⟶ ⊦ y∈Y❘ # interER 4❙
+	interI : {X,Y,x} ⊦ x∈X ⟶ ⊦ x∈Y ⟶ ⊦ x∈X∩Y❙
+	interEl : {X,Y,x} ⊦ x∈X∩Y ⟶ ⊦ x∈X❘ # interEl 4❙
+	interEr : {X,Y,y} ⊦ y∈X∩Y ⟶ ⊦ y∈Y❘ # interEr 4❙
+	
+	include ?Subsets❙
+	inter_subsetl : {X,Y} ⊦ X∩Y ⪽ X❙
+	inter_subsetr : {X,Y} ⊦ X∩Y ⪽ Y❙
 	
 	// this does not work because all algebra theories are written relative to SFOL and we're in FOL❙ 
 	// total structure algebra : algebraic?BoundedSemilattice =
@@ -161,35 +118,21 @@ theory Intersection =
   // ❚
 ❚
 
-theory IntersectionAsBigIntersection = 
-	include ?UnorderedPairs❙
-	include ?BigIntersection❙
-	realize ?Intersection❙
-	
-	inter = [X,Y] ⋂ (uopair X Y)❙
-	// AS: yields no error, but is wrong anyway❙
-	interI = [X,Y,x,p,q] biginterI ([a] p)❙
-	interEL = [X,Y,x,p] biginterE p uopairIL❙
-	interER = [X,Y,y,p] biginterE p uopairIR❙
-❚
-
-theory IntersectionAsComprehension =
-	include ?Union❙
-	include ?Comprehension❙
-	realize ?Intersection❙
-	
-	inter = [X,Y] X∪Y | ([x] x∈X ∧ x∈Y)❙
-	// AS: I had to introduce the short notation for andI. Maybe check if it is consistent with the other
-			short notations in pl❙
-	interI = [X,Y,x,p,q] comprehendI (unionIL Y p) (andI p q)❙
-	interEL = [X,Y,x,p] comprehendE p andEl❙
-	interER = [X,Y,y,p] comprehendE p andEr❙
-❚
-
 theory PowerSets =
   powerset : set ⟶ set❘# ℘ 1 prec 60❙
-  powersetI : {X,A} ({u} ⊦u∈X ⟶ ⊦u∈A) ⟶ ⊦X∈℘ A❘ # powersetI 3❙
-  powersetE : {X,A} ⊦X∈℘A ⟶ {u} ⊦u∈X ⟶ ⊦u∈A❘ # powersetE 3 4❙
+  powersetI : {X,Y} ({x} ⊦x∈X ⟶ ⊦x∈Y) ⟶ ⊦X∈ ℘Y❙
+  powersetE : {X,Y} ⊦X∈ ℘Y ⟶ {x} ⊦x∈X ⟶ ⊦x∈Y❘ # 3 powersetE 4❙
+❚
+
+// AS: maybe rename it to complement or something else❚
+theory Difference =
+	dif : set ⟶ set ⟶ set❘ # 1 ∖ 2 prec 40❙
+	difI : {X,Y,x} ⊦ x∈X ⟶ ⊦ ¬ x∈Y ⟶ ⊦ x ∈ X∖Y❙
+	difEl : {X,Y,x} ⊦ x ∈ X∖Y ⟶ ⊦ x∈X❙
+	difEr : {X,Y,x} ⊦ x ∈ X∖Y ⟶ ⊦ ¬ x∈Y❙
+	
+	include ?Subsets❙
+	dif_subset : {X,Y} ⊦ X∖Y ⪽ X❙
 ❚
 
 // FR: these two need some abbreviation just to state them; those can be here and then reused in the ZF theory that realizes them❚
@@ -199,7 +142,7 @@ somewhere we should then realize the theory of Peano axioms❚
 theory Infinity =
 	include ?EmptySet❙
 	include ?Singletons❙
-	include ?SmallUnion❙
+	include ?Union❙
 	
 	// like in the lecture❙
 	infinity_axiom : ⊦ ∃[M] ∅∈M ∧ ∀[X] X∈M ⇒ (X ∪ (singleton X))∈M❙
@@ -213,8 +156,8 @@ theory Choice =
 
 	// AS: define choice like in the lecture or shall Choice from FOL be used? ❙
 	// like in KRMT❙
-	is_choice = [M,C] ∀[X] X∈M ⇒ ∃¹[c]c∈C∧c∈X❙
+	include ?ChoiceDefinition❙
   all_nonempty: set ⟶ prop❘ // = ❙
   pairwise_disjoint: set ⟶ prop❘ // = ❙
-  choice_axiom : ⊦ ∀[M] (all_nonempty M ∧ pairwise_disjoint M) ⇒ ∃[C] is_choice M C❙
+  choice_axiom : ⊦ ∀[M] (all_nonempty M ∧ pairwise_disjoint M) ⇒ ∃[C] ischoice M C❙
 ❚

@@ -9,7 +9,7 @@ theory SoftTypedDefinedFOL =
 	include ?Negation ❙
 	include ?Truth ❙
 	include ?Falsity ❙
-	include ?Equality ❙
+	include ?UntypedEquality ❙
 	include ?UniversalQuantification ❙
 
 	or: prop ⟶ prop ⟶ prop❘= [a,b] ¬ (¬ a ∧ ¬ b) ❘# 1 ∨ 2 prec 15 ❙
@@ -35,7 +35,7 @@ view MizarView : ?SoftTypedFOL → ?SoftTypedDefinedFOL =
 	include ?Negation ❙
 	include ?Truth ❙
 	include ?Falsity ❙
-	include ?Equality ❙
+	include ?UntypedEquality ❙
 	include ?UniversalQuantification ❙
 
 	or = or ❙

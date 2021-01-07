@@ -1,0 +1,6 @@
+moeglicherweise neue rule classe (rewrite rule)
+
+spezielle tactic die rewrite rules nimmt und anwendet fuer eq reasoning
+
+
+tactic das von bands die regeln raussuchen soll und auf goal anwendet

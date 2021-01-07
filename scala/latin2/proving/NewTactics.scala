@@ -1,10 +1,12 @@
 package latin2.proving
 
+/*
+
 import info.kwarc.mmt.api.LocalName
 import info.kwarc.mmt.api.checking.{History, InferenceAndTypingRule, Solver}
-import info.kwarc.mmt.api.objects.{Context, Equality, OMBINDC, OMID, OML, OMS, OMV, PlainSubstitutionApplier, Stack, Sub, Substitution, Term, Typing, VarDecl}
+import info.kwarc.mmt.api.objects.{Context, Equality, Free, OMBINDC, OMID, OML, OMS, OMV, PlainSubstitutionApplier, Stack, Sub, Substitution, Term, Typing, VarDecl}
 import info.kwarc.mmt.lf.{Apply, ApplySpine, Arrow, Lambda, OfType, Typed}
-import lf.{Implication, ImplicationNDI, NewTactics, Proofs, PropositionsITP, TypedTerms, TypedUniversalQuantification, TypedUniversalQuantificationND, Types}
+import lf.{Implication, ImplicationNDI, NewTactics, Proofs, PropositionsITP, TacticsLF, TypedTerms, TypedUniversalQuantification, TypedUniversalQuantificationND, Types}
 
 import scala.collection.mutable.ListBuffer
 
@@ -17,9 +19,9 @@ object AssumeTactic extends SimpleProofStepRule(NewTactics.assume.path) {
         goal.tp match {
           case Proofs.ded(Implication.impl(f,g)) =>{
             val df = Proofs.ded(f)
-            val freenm = helperFunctions.genFresh(nm , goal.stack.context ++ prover.solver.checkingUnit.context ++ prover.lambdaGoalsToContext )
+            val freenm = helperFunctions.genFresh(nm , goal.stack.context ++ prover.solver.checkingUnit.context ++ prover.lambdaGoalsToContext  )
             val pg = ProofGoal(goal.stack ++ OMV(freenm) % df, Proofs.ded(g), goal.history + "assume")
-            val newFVar = helperFunctions.genHoleName(prover.solver.checkingUnit.context ++ goal.stack.context ++ prover.lambdaGoalsToContext)
+            val newFVar = helperFunctions.genHoleName(prover.solver.checkingUnit.context ++ goal.stack.context ++ prover.lambdaGoalsToContext , prover)
             val newLam =  ImplicationNDI.impI(df, g , Lambda(freenm , df , OMV(newFVar)))
             Some(List(pg) , newLam , List(OMV(newFVar)))
           }
@@ -31,49 +33,8 @@ object AssumeTactic extends SimpleProofStepRule(NewTactics.assume.path) {
 }
 
 
-object UseTactic extends SimpleProofStepRule(NewTactics.use.path) {
-  def apply(step: Term , goal : ProofGoal , prover: ImperativeProver) = {
-    val NewTactics.use(p) = step
-    val pC = prover.clean(goal.stack, p)
-    val lam = Lambda(goal.stack.context , pC)
-    prover.solver.check(Typing(goal.stack, pC, goal.tp))(goal.history + "check proof term") match {
-      case true =>  Some((List() ,  lam , List()))
-      case false => prover.solver.error("use needs a term that has exactly the type of the goal")(goal.history); None
-    }
-
-  }
-}
 
 
-object SubproofTactic extends ComplexProofStepRule(NewTactics.subproof.path) {
-  def apply(step: Term , prover: ImperativeProver ) : Unit =  {
-    val NewTactics.subproof(stps) = step
-    prover.toDoSteps =  stps ++ prover.toDoSteps
-    prover.stepHistory = step :: prover.stepHistory
-  }
-
-  //maybe introduce metainf
-  def undoStep(t: Term, ip:  ImperativeProver): Unit = {
-    val NewTactics.subproof(stps) = t
-    ip.toDoSteps  = t :: ip.toDoSteps.drop(stps.length)
-    ip.stepHistory = ip.stepHistory.tail
-
-  }
-}
-
-
-
-object SubgoalTactic extends SimpleProofStepRule(NewTactics.subgoal.path) {
-  def apply(step : Term , goal : ProofGoal , prover : ImperativeProver ) : Option[(List[ProofGoal], Term , List[OMV])] = {
-    val NewTactics.subgoal(OML(h, None , None , _ , _) , trm) = step
-    val newg = ProofGoal(goal.stack ++  OMV(h) % trm , goal.tp , goal.history + ("added hypothesis " + h.toString + ": " + prover.solver.presentObj(trm)))
-    val subg = ProofGoal(goal.stack , trm , goal.history + ("added new subgoal " + prover.solver.presentObj(trm)))
-    val newFVar = helperFunctions.genHoleName(prover.solver.checkingUnit.context ++ goal.stack.context  ++ prover.lambdaGoalsToContext )
-    val newFVar2 = helperFunctions.genHoleName(prover.solver.checkingUnit.context ++ goal.stack.context  ++ prover.lambdaGoalsToContext ++ VarDecl(newFVar) )
-    val lt : Term = Apply (Lambda( h, trm , OMV(newFVar) )   , OMV(newFVar2) )
-    Some(List(subg , newg) , lt , List(OMV(newFVar), OMV(newFVar2)))
-  }
-}
 
 
 
@@ -118,7 +79,7 @@ object BwdTactic extends SimpleProofStepRule(NewTactics.bwd.path){
             val holes : ListBuffer[LocalName] = ListBuffer()
             val ctx = prover.solver.checkingUnit.context ++ goal.stack.context  ++ prover.lambdaGoalsToContext
             for (i <- 0 until numHoles){
-              val hname = helperFunctions.genHoleName(ctx ++ Context(holes.map(ln => VarDecl(ln)) : _*))
+              val hname = helperFunctions.genHoleName(ctx ++ Context(holes.map(ln => VarDecl(ln)) : _*) , prover)
               holes.insert(0 , hname)
             }
 //applygeneral maybe
@@ -188,7 +149,7 @@ object FwdTactic extends  SimpleProofStepRule(NewTactics.fwd.path) {
 
         //lambdaterm
         val ctx = prover.solver.checkingUnit.context ++ goal.stack.context  ++ prover.lambdaGoalsToContext
-        val newG = OMV(helperFunctions.genHoleName(ctx))
+        val newG = OMV(helperFunctions.genHoleName(ctx , prover))
         val lam = Apply (Lambda(h ,  a , newG ) , ApplySpine(OMV(h) , hs : _ *) )
 
         //lambdaterm
@@ -217,7 +178,7 @@ object FixTactic extends SimpleProofStepRule(NewTactics.fix.path) {
 
 
           val ctx = prover.solver.checkingUnit.context ++ goal.stack.context  ++ prover.lambdaGoalsToContext
-          val newG = helperFunctions.genHoleName(ctx)
+          val newG = helperFunctions.genHoleName(ctx  , prover)
           val lam = TypedUniversalQuantificationND.forallI( tp , bodyN , Lambda(n , ntp ,  OMV(newG)) )
 
           //lambda
@@ -231,3 +192,4 @@ object FixTactic extends SimpleProofStepRule(NewTactics.fix.path) {
 }
 
 
+*/
