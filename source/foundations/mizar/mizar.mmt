@@ -131,7 +131,7 @@ theory Mizar : ur:?LFS =
     
   // types formed by imposing a possibly negated attribute on a type❙
   adjective : {t: tp} attr t ⟶ tp ❙
-  dep_typed_adjective : {n:NAT, t: term^n ⟶ tp} dep_typed_attr n t ⟶ tp ❙
+  dep_typed_adjective : {n:NAT, t: term^n ⟶ tp} dep_typed_attr n t ⟶ tp ❘ # adj_appl 3 2 ❙
   adjective_non : {t: tp} attr t ⟶ tp ❙
 	attr_appl: {n:NAT, m:NAT, t: term^n ⟶ tp, attrs: (dep_typed_attr n t)^m} tp ❘= [n,m,t,attrs] intersectionMode m (⟨' (dep_typed_adjective n t (attrs .. i)) | i:m '⟩) ❘ # 4 @ 3 ❙
 
@@ -164,6 +164,7 @@ theory HIDDEN : ?SoftTypedDefinedFOL =
 	 // sets (submode of object)❙
    set : tp ❙
    set_ax : {X:term} ⊦ X ⦂ set ❙
+	 sethoot_property: {t:tp} type ❘ = [t] ⊦ for t [tm] (tm ⦂ t ⇒ tm ⦂ set) ❙
    // set: type ❙
 
    // eq is already declared in Mizar

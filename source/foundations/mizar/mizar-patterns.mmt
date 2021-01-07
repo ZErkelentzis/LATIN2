@@ -108,9 +108,19 @@ theory MizarPatterns : ?HIDDEN =
 	pattern antonymicNotation(n:NAT, argTps:(term^n ⟶ tp)^n, v: term^n ⟶ prop) ❘ =
   	notation: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ prop ❘ = [x] [p] ¬ (v x) ❙
   ❚
-	pattern attrRegistration(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, t:term^n ⟶ tp, a: (dep_typed_attr n t)^m) ❘ =
+	pattern existRegistration(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, t:term^n ⟶ tp, a: (dep_typed_attr n t)^m) ❘ =
   	registration: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ ∃ [y] (y ⦂ (a @ t)) ❙
   ❚
+	pattern condRegistration(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, t:term^n ⟶ tp, a: (dep_typed_attr n t)^m, b: dep_typed_attr n t) ❘ =
+  	registration: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ ∀ [y] (y ⦂ (a @ t)) ⇒ (y ⦂ (adj_appl b t)) ❙
+  ❚
+	pattern unqualFunctRegistration(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, t: term^n ⟶ tp, tm:term^n ⟶ term, a: (dep_typed_attr n tp)^m) ❘ =
+  	registration: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ tm x ⦂ (a @ t) ❙
+  ❚
+	pattern qualFunctRegistration(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, t:term^n ⟶ tp, tm:term^n ⟶ term, a: (dep_typed_attr n t)^m) ❘ =
+  	registration: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ tm x ⦂ t x ⟶ ⊦ tm x ⦂ (a @ t) ❙
+  ❚
+
 	rule rules?MizarStructure ❙
 ❚
 
