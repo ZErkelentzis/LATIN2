@@ -1,0 +1,105 @@
+namespace latin:/❚
+
+fixmeta http://gl.mathhub.info/MMT/LFX/Datatypes?LFLists ❚
+
+theory Contexts =
+  include ?Propositions❙
+  context = List prop ❙
+  empty_ctx : context ❘ = nil ❘ # ∅ ❙
+  context_extension : context ⟶ prop ⟶ context ❘ = [Γ,A] cons Γ A ❘ # 1 , 2 prec 5 ❙
+  context_concat : context ⟶ context ⟶ context ❘ = [Γ, Δ]  Γ ++ Δ ❘ # 1 ; 2 prec 4 ❙
+
+  context_subset : context ⟶ context ⟶ type ❘ # 1 ⊏ 2 ❙
+  ctxrefl : {Γ} Γ ⊏ Γ ❙
+  subcontext_trans : {Γ1, Γ2, Γ3} Γ1 ⊏ Γ2 ⟶ Γ2 ⊏ Γ3 ⟶ Γ1 ⊏ Γ3 ❘ # ctxtrans 4 5 ❙
+
+  // in_context : prop ⟶ context ⟶ type ❘ # 1 ∈ 2 prec 1 ❙
+  // in_context_cons : {Γ : context,a : prop} a ∈ Γ,a ❙
+  // in_context_conc1 : {Γ,Δ,a} a ∈ Γ ⟶ a ∈ (Γ ++ Δ) ❙
+  // in_context_conc2 : {Γ,Δ,a} a ∈ Δ ⟶ a ∈ (Γ ++ Δ) ❙
+❚
+
+theory Weakening =
+    include ?Contexts ❙
+    weakening : {Γ,A} Γ ⊏ Γ,A ❙
+❚
+
+theory Contraction =
+    include ?Contexts ❙
+    contraction : {Γ1,Γ2,Δ,A} Γ1,A ; Γ2,A ; Δ ⊏ Γ1,A ; Γ2 ; Δ ❙
+❚
+
+theory Exchange =
+    include ?Contexts ❙
+    exchange : {Γ,Δ,A} Γ,A ; Δ ⊏ Γ ; Δ,A ❙
+❚
+
+
+theory SequentProofs =
+  include ?Contexts ❙
+  /T Judgement as types (enter notation by "jvdash", not "jder") ❙
+  ded   : context ⟶ context ⟶ type❘# 1 ⊢ 2  prec -5❘role Judgment ❙
+  ded_equiv_left : {Γ1, Γ2, Δ} Γ1 ⊏ Γ2 ⟶ Γ1 ⊢ Δ ⟶ Γ2 ⊢ Δ ❘ # eqL 4 5 ❙
+  ded_equiv_right : {Γ, Δ1, Δ2} Δ1 ⊏ Δ2 ⟶ Γ ⊢ Δ1 ⟶ Γ ⊢ Δ2 ❘ # eqR 4 5 ❙
+
+  structure Ded : ?Proofs =
+    include ?Propositions ❙
+    ded = [A] ∅ ⊢ ∅, A ❘ # ⊦ 1 ❙
+  ❚
+❚
+
+theory InContext =
+    include ?SequentProofs ❙
+
+   inContext : {Γ, Δ, A} Γ,A ⊢ Δ,A ❘ # ctx 1 2 3 ❙
+❚
+
+theory SequentNegation =
+    include ?SequentProofs ❙
+    include ?Negation ❙
+
+    negation_left : {Γ, Δ, A} Γ ⊢ Δ,A ⟶ Γ, ¬A ⊢ Δ ❘ # notL 4 ❙
+    negation_right : {Γ, Δ, A} Γ, A ⊢ Δ ⟶ Γ ⊢ Δ, ¬A ❘ # notR 4 ❙
+❚
+
+theory SequentConjunction =
+    include ?SequentProofs ❙
+    include ?Conjunction ❙
+
+    conjunction_left : {Γ, Δ, A, B} Γ,A,B ⊢ Δ ⟶ Γ, A ∧ B ⊢ Δ ❘ # andL 5 ❙
+    conjunction_right : {Γ, Δ, A,B} Γ ⊢ Δ,A ⟶ Γ ⊢ Δ,B ⟶ Γ ⊢ Δ,A ∧ B ❘ # andR 5 6 ❙
+❚
+
+theory SequentDisjunction =
+    include ?SequentProofs ❙
+    include ?Disjunction ❙
+
+    disjunction_left : {Γ, Δ, A, B} Γ,A ⊢ Δ ⟶ Γ,B ⊢ Δ ⟶ Γ,A ∨ B ⊢ Δ ❘ # orL 5 6 ❙
+    disjunction_right : {Γ, Δ, A,B} Γ ⊢ Δ,A,B ⟶ Γ ⊢ Δ,A ∨ B ❘ # orR 5 ❙
+❚
+
+theory SequentImplication =
+    include ?SequentProofs ❙
+    include ?Implication ❙
+
+    implication_left : {Γ, Δ, A, B} Γ ⊢ Δ,A ⟶ Γ,B ⊢ Δ ⟶ Γ,A ⇒ B ⊢ Δ ❘ # implL 5 6 ❙
+    implication_right : {Γ, Δ, A,B} Γ,A ⊢ Δ,B ⟶ Γ ⊢ Δ,A ⇒ B ❘ # implR 5 ❙
+❚
+
+theory Test =
+    include ?SequentConjunction ❙
+    include ?SequentImplication ❙
+    include ?Weakening ❙
+    include ?InContext ❙
+
+    test : {A,B} ⊦ A ∧ B ⇒ B ∧ A ❘
+        = [A,B] implR (
+                    andR
+                        (andL (ctx (∅,A) ∅ B))
+                        (andL ( eqL
+                                    (weakening (∅,A) B)
+                                    (ctx ∅ ∅ A)
+                               )
+                        )
+                ) ❙
+❚
