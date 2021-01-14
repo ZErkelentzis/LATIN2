@@ -103,3 +103,19 @@ theory Test =
                         )
                 ) ❙
 ❚
+
+theory SequentUniversalQuantification =
+    include ?SequentProofs ❙
+    include ?UniversalQuantification ❙
+
+    forall_left : {t,A,Γ, Δ} Γ,(A t) ⊢ Δ ⟶ Γ,(∀ A) ⊢ Δ ❙
+    forall_right : {Γ, Δ, A} ({x} Γ ⊢ Δ, (A x)) ⟶ Γ ⊢ Δ, (∀ A) ❙
+❚
+
+theory SequentExistentialQuantification =
+    include ?SequentProofs ❙
+    include ?ExistentialQuantification ❙
+
+    existential_left : {Γ, Δ, A} ({x} Γ,(A x) ⊢ Δ) ⟶ Γ,(∃ A) ⊢ Δ ❙
+    existential_right : {t, Γ, Δ, A} Γ ⊢ Δ, (A t) ⟶ Γ ⊢ Δ, (∃ A) ❙
+❚
