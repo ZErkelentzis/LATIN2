@@ -33,7 +33,7 @@ theory MizarPatterns : ?HIDDEN =
 		completeness: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦
 						nary_or m ⟨' (cases..j) x | j:m '⟩ ❙
   ❚
-	pattern directParPredDef(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ prop)^m, defRes: term^n ⟶ prop) ❘ =
+	pattern directPartPredDef(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ prop)^m, defRes: term^n ⟶ prop) ❘ =
     pred: term^n ⟶ prop ❙
 		means: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ 
 						nary_and m ⟨' (cases..j) x ⇒ (pred x) ⇔ (caseRes..j) x | j:m '⟩
@@ -46,14 +46,14 @@ theory MizarPatterns : ?HIDDEN =
 		completeness: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦
 						nary_or m ⟨' (cases..i) x | i:m '⟩ ❙
   ❚
-	pattern directParModeDef(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ term ⟶ prop)^m, defRes: term^n ⟶ term ⟶ prop) ❘ =
+	pattern directPartModeDef(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ term ⟶ prop)^m, defRes: term^n ⟶ term ⟶ prop) ❘ =
     mode: term^n ⟶ term ⟶ prop ❙
 		madeMode: term^n ⟶ tp ❘ = [x] makeMode (mode x) ❙
 		means: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ 
 						nary_and m ⟨' (cases..j) x ⇒ forall [y] mode x y ⇔ (caseRes..j) x y | j:m '⟩
 						∧  nary_and m ⟨' ¬ (cases..k) x | k:m '⟩ ⇒ forall [y] mode x y ⇔  defRes x y ❙
   ❚
-	pattern directParAttrDef(n:NAT,
+	pattern directPartAttrDef(n:NAT,
 	    argTps:(term^n ⟶ tp)^n,
 	    motherTp:term^n ⟶ tp,
 	    m:NAT,
@@ -75,7 +75,7 @@ theory MizarPatterns : ?HIDDEN =
 		completeness: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦
 						nary_or m ⟨' (cases..j) x | j:m '⟩ ❙
   ❚
-	pattern indirectParAttrDef(n:NAT,
+	pattern indirectPartAttrDef(n:NAT,
 	    argTps:(term^n ⟶ tp)^n,
 	    motherTp:term^n ⟶ tp,
 	    m:NAT,
@@ -97,7 +97,7 @@ theory MizarPatterns : ?HIDDEN =
 		completeness: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦
 						(nary_or m ⟨' (cases..j) x | j:m '⟩) ❙
   ❚
-	pattern directParModeDef(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ term ⟶ prop)^m, defRes: term^n ⟶ term ⟶ prop) ❘ =
+	pattern directPartModeDef(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ term ⟶ prop)^m, defRes: term^n ⟶ term ⟶ prop) ❘ =
     mode: term^n ⟶ term ⟶ prop ❙
 		madeMode: term^n ⟶ tp ❘ = [x] makeMode (mode x) ❙
 		means: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ 
@@ -105,7 +105,7 @@ theory MizarPatterns : ?HIDDEN =
 						∧  nary_and m ⟨' ¬ (cases..k) x | k:m '⟩ ⇒ forall [y] mode x y ⇔  defRes x y ❙
   ❚
 
-	pattern indirectParModeDef(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ (term ⟶ prop) ⟶ prop)^m, defRes: term^n ⟶ (term ⟶ prop) ⟶ prop) ❘ =
+	pattern indirectPartModeDef(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ (term ⟶ prop) ⟶ prop)^m, defRes: term^n ⟶ (term ⟶ prop) ⟶ prop) ❘ =
     mode: term^n ⟶ term ⟶ prop ❙
 		madeMode: term^n ⟶ tp ❘ = [x] makeMode (mode x) ❙
 		means: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ 
@@ -143,10 +143,10 @@ theory MizarPatterns : ?HIDDEN =
 	pattern condRegistration(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, t:term^n ⟶ tp, a: (dep_typed_attr n t)^m, b: dep_typed_attr n t) ❘ =
   	registration: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ ∀ [y] y ⦂ (a @ t) ⇒ y ⦂ adj_appl b t ❙
   ❚
-	pattern unqualFunctRegistration(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, t: term^n ⟶ tp, tm:term^n ⟶ term, a: (dep_typed_attr n tp)^m) ❘ =
+	pattern unqualFuncRegistration(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, t: term^n ⟶ tp, tm:term^n ⟶ term, a: (dep_typed_attr n tp)^m) ❘ =
   	registration: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ tm x ⦂ (a @ t) ❙
   ❚
-	pattern qualFunctRegistration(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, t:term^n ⟶ tp, tm:term^n ⟶ term, a: (dep_typed_attr n t)^m) ❘ =
+	pattern qualFuncRegistration(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, t:term^n ⟶ tp, tm:term^n ⟶ term, a: (dep_typed_attr n t)^m) ❘ =
   	registration: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ tm x ⦂ t x ⟶ ⊦ tm x ⦂ (a @ t) ❙
   ❚
 
