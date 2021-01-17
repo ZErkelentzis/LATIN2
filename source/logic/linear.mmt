@@ -1,0 +1,23 @@
+namespace latin:/❚
+
+fixmeta ur:?LF ❚
+
+theory LinearLogic =
+    include ?Cut ❙
+    include ?Exchange ❙
+    include ?SequentBase ❙
+    include ?SequentNegation ❙
+
+    structure MultiplicativeTruth : ?SequentTruth =
+        include ?SequentProofs ❙
+        true # I ❙
+    ❚
+    structure MultiplicativeFalsity : ?SequentFalsity =
+        include ?SequentProofs ❙
+        false # ⊥ ❙
+    ❚
+    structure MultiplicativeConjunction : ?SequentConjunctionCompositional =
+        include ?SequentProofs ❙
+        and # 1 ⊗ 2 ❙
+    ❚
+❚

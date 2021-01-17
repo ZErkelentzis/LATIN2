@@ -1,46 +1,21 @@
 namespace latin:/❚
 
-fixmeta http://gl.mathhub.info/MMT/LFX/Datatypes?LFLists ❚
+fixmeta ur:?LF ❚
+
+import rules scala://sequents.latin2 ❚
 
 theory Contexts =
   include ?Propositions❙
-  context = List prop ❙
-  empty_ctx : context ❘ = nil ❘ # ∅ ❙
-  context_extension : context ⟶ prop ⟶ context ❘ = [Γ,A] cons Γ A ❘ # 1 , 2 prec 5 ❙
-  context_concat : context ⟶ context ⟶ context ❘ = [Γ, Δ]  Γ ++ Δ ❘ # 1 ; 2 prec 4 ❙
-
-  context_subset : context ⟶ context ⟶ type ❘ # 1 ⊏ 2 ❙
-  ctxrefl : {Γ} Γ ⊏ Γ ❙
-  subcontext_trans : {Γ1, Γ2, Γ3} Γ1 ⊏ Γ2 ⟶ Γ2 ⊏ Γ3 ⟶ Γ1 ⊏ Γ3 ❘ # ctxtrans 4 5 ❙
-
-  // in_context : prop ⟶ context ⟶ type ❘ # 1 ∈ 2 prec 1 ❙
-  // in_context_cons : {Γ : context,a : prop} a ∈ Γ,a ❙
-  // in_context_conc1 : {Γ,Δ,a} a ∈ Γ ⟶ a ∈ (Γ ++ Δ) ❙
-  // in_context_conc2 : {Γ,Δ,a} a ∈ Δ ⟶ a ∈ (Γ ++ Δ) ❙
+  context : type ❘ // = List prop ❙
+  empty_ctx : context ❘ // = nil ❘ # ∅ ❙
+  context_extension : context ⟶ prop ⟶ context ❘ // = [Γ,A] cons Γ A ❘ # 1 , 2 prec 5 ❙
+  context_concat : context ⟶ context ⟶ context ❘ // = [Γ, Δ]  Γ ++ Δ ❘ # 1 ; 2 prec 4 ❙
 ❚
-
-theory Weakening =
-    include ?Contexts ❙
-    weakening : {Γ,A} Γ ⊏ Γ,A ❙
-❚
-
-theory Contraction =
-    include ?Contexts ❙
-    contraction : {Γ1,Γ2,Δ,A} Γ1,A ; Γ2,A ; Δ ⊏ Γ1,A ; Γ2 ; Δ ❙
-❚
-
-theory Exchange =
-    include ?Contexts ❙
-    exchange : {Γ,Δ,A} Γ,A ; Δ ⊏ Γ ; Δ,A ❙
-❚
-
 
 theory SequentProofs =
   include ?Contexts ❙
   /T Judgement as types (enter notation by "jvdash", not "jder") ❙
   ded   : context ⟶ context ⟶ type❘# 1 ⊢ 2  prec -5❘role Judgment ❙
-  ded_equiv_left : {Γ1, Γ2, Δ} Γ1 ⊏ Γ2 ⟶ Γ1 ⊢ Δ ⟶ Γ2 ⊢ Δ ❘ # eqL 4 5 ❙
-  ded_equiv_right : {Γ, Δ1, Δ2} Δ1 ⊏ Δ2 ⟶ Γ ⊢ Δ1 ⟶ Γ ⊢ Δ2 ❘ # eqR 4 5 ❙
 
   structure Ded : ?Proofs =
     include ?Propositions ❙
@@ -48,27 +23,145 @@ theory SequentProofs =
   ❚
 ❚
 
-theory InContext =
-    include ?SequentProofs ❙
+theory SequentBase =
+   include ?SequentProofs ❙
 
-   inContext : {Γ, Δ, A} Γ,A ⊢ Δ,A ❘ # ctx 1 2 3 ❙
+    base_proof : {A} ∅, A ⊢ ∅, A ❙
 ❚
 
-theory SequentNegation =
+theory InContext =
+   include ?SequentBase ❙
+   in_context : prop ⟶ context ⟶ type ❘ # 1 ∈ 2 prec 1 ❙
+
+   inContext : {Γ, Δ, A} A ∈ Γ ⟶ Γ ⊢ Δ,A ❘ # from_context 1 2 3 %I4 ❙
+   in_context_proof ❙
+   rule rules?InContextRule ❙
+   rule rules?InContextProofType ❙
+❚
+
+// Structural Rules ------------------------------------------------------------------- ❚
+
+theory Cut =
+    include ?SequentProofs ❙
+
+    cut : { Γ1, Γ2, Δ1, Δ2, A} Γ1 ⊢ Δ1, A ⟶ Γ2, A ⊢ Δ2 ⟶ Γ1 ; Γ2 ⊢ Δ1 ; Δ2 ❙
+❚
+
+theory Weakening =
+    rule rules?Weakening ❙
+❚
+
+theory Contraction =
+    rule rules?Contraction ❙
+❚
+
+theory Exchange =
+    rule rules?Exchange ❙
+❚
+
+// Truth ------------------------------------------------------------------- ❚
+
+theory SequentTruthLeft =
+    include ?SequentProofs ❙
+    include ?Truth ❙
+
+    true_left : {Γ, Δ} Γ ⊢ Δ ⟶ Γ, true ⊢ Δ ❙
+❚
+
+theory SequentTruthRight =
+    include ?SequentProofs ❙
+    include ?Truth ❙
+
+    true_right : ∅ ⊢ ∅, true ❙
+❚
+
+theory SequentTruth =
+    include ?SequentTruthLeft ❙
+    include ?SequentTruthRight ❙
+❚
+
+// Falsity ------------------------------------------------------------------- ❚
+
+theory SequentFalsityLeft =
+    include ?SequentProofs ❙
+    include ?Falsity ❙
+
+    false_left : ∅, false ⊢ ∅ ❙
+❚
+
+theory SequentFalsityRight =
+    include ?SequentProofs ❙
+    include ?Falsity ❙
+
+    false_right : {Γ, Δ} Γ ⊢ Δ ⟶ Γ ⊢ Δ, false ❙
+❚
+
+theory SequentFalsity =
+    include ?SequentFalsityLeft ❙
+    include ?SequentFalsityRight ❙
+❚
+
+// Negation ------------------------------------------------------------------- ❚
+
+theory SequentNegationLeft =
     include ?SequentProofs ❙
     include ?Negation ❙
 
     negation_left : {Γ, Δ, A} Γ ⊢ Δ,A ⟶ Γ, ¬A ⊢ Δ ❘ # notL 4 ❙
+❚
+
+theory SequentNegationRight =
+    include ?SequentProofs ❙
+    include ?Negation ❙
+
     negation_right : {Γ, Δ, A} Γ, A ⊢ Δ ⟶ Γ ⊢ Δ, ¬A ❘ # notR 4 ❙
 ❚
 
-theory SequentConjunction =
+theory SequentNegation =
+    include ?SequentNegationLeft ❙
+    include ?SequentNegationRight ❙
+❚
+
+// Conjunction ------------------------------------------------------------------- ❚
+
+theory SequentConjunctionLeft =
     include ?SequentProofs ❙
     include ?Conjunction ❙
 
     conjunction_left : {Γ, Δ, A, B} Γ,A,B ⊢ Δ ⟶ Γ, A ∧ B ⊢ Δ ❘ # andL 5 ❙
-    conjunction_right : {Γ, Δ, A,B} Γ ⊢ Δ,A ⟶ Γ ⊢ Δ,B ⟶ Γ ⊢ Δ,A ∧ B ❘ # andR 5 6 ❙
 ❚
+
+theory SequentConjunctionRightSimple =
+    include ?SequentProofs ❙
+    include ?Conjunction ❙
+
+    conjunction_right : {Γ, Δ, A,B} Γ ⊢ Δ,A ⟶ Γ ⊢ Δ,B ⟶ Γ ⊢ Δ,A ∧ B ❘ # andRs 5 6 ❙
+❚
+
+theory SequentConjunctionRightCompositional =
+    include ?SequentProofs ❙
+    include ?Conjunction ❙
+
+    conjunction_right : {Γ1, Γ2, Δ1, Δ2, A,B} Γ1 ⊢ Δ1,A ⟶ Γ2 ⊢ Δ2,B ⟶ Γ1; Γ2 ⊢ Δ1; Δ2 ,A ∧ B ❘ # andRc 7 8 ❙
+❚
+
+theory SequentConjunctionSimple =
+    include ?SequentConjunctionLeft ❙
+    include ?SequentConjunctionRightSimple ❙
+❚
+
+theory SequentConjunctionCompositional =
+    include ?SequentConjunctionLeft ❙
+    include ?SequentConjunctionRightCompositional ❙
+❚
+
+theory SequentConjunction =
+    include ?SequentConjunctionLeft ❙
+    include ?SequentConjunctionRightSimple ❙
+    include ?SequentConjunctionRightCompositional ❙
+❚
+
+
 
 theory SequentDisjunction =
     include ?SequentProofs ❙
@@ -90,17 +183,15 @@ theory Test =
     include ?SequentConjunction ❙
     include ?SequentImplication ❙
     include ?Weakening ❙
+    include ?Exchange ❙
+    include ?Weakening ❙
     include ?InContext ❙
 
     test : {A,B} ⊦ A ∧ B ⇒ B ∧ A ❘
         = [A,B] implR (
-                    andR
-                        (andL (ctx (∅,A) ∅ B))
-                        (andL ( eqL
-                                    (weakening (∅,A) B)
-                                    (ctx ∅ ∅ A)
-                               )
-                        )
+                    andRs
+                        (andL (from_context (∅,A,B) ∅ B))
+                        (andL (from_context (∅,A,B) ∅ A))
                 ) ❙
 ❚
 
@@ -119,3 +210,22 @@ theory SequentExistentialQuantification =
     existential_left : {Γ, Δ, A} ({x} Γ,(A x) ⊢ Δ) ⟶ Γ,(∃ A) ⊢ Δ ❙
     existential_right : {t, Γ, Δ, A} Γ ⊢ Δ, (A t) ⟶ Γ ⊢ Δ, (∃ A) ❙
 ❚
+
+theory ABA =
+  include ?InContext ❙
+  include ?Weakening ❙
+  include ?Exchange ❙
+  include ☞http://gl.mathhub.info/MMT/LFX/Sigma?LFSigma ❙
+
+  subcontext : context ⟶ context ⟶ type ❘ = [Γ,Δ] {A} A ∈ Γ ⟶ A ∈ Δ ❘ # 1 ⊆ 2 ❙
+
+  theory Framework > T : context, Ab : context, neg : prop ⟶ prop ❘ =
+    attack_prop : {Γ} Γ ⊆ Ab ⟶ prop ⟶ type ❘ = [Γ,p,A] T;Γ ⊢ ∅, neg A ❘ # attackp 1 3 ❙
+    attack_ctx : {Γ} Γ ⊆ Ab ⟶ context ⟶ type ❘ = [Γ,p, Δ] Σ A : prop . A ∈ Δ × attack_prop Γ p A ❘ # attackctx 1 3 ❙
+  ❚
+❚
+
+theory A = a : type ❙ ❚
+theory B = include ?A ❙ b : a ❙ ❚
+theory C = include ?B ❙ c : a ❙ ❚
+theory D = include ?A ❙ structure S : ?C = include ?A ❚ ❚
