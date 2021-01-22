@@ -1,0 +1,35 @@
+namespace latin:/fol-diagop-test ❚
+
+rule scala://parser.api.mmt.kwarc.info?MMTURILexer ❚
+fixmeta ur:?LF❚
+
+import operators scala://diagops.odk.mmt.kwarc.info ❚
+import fol latin:/ ❚
+
+theory FOLDiagOps : ur:?DiagramOperators =
+  typify_fol_operator       # TYPIFY_FOL 1       ❙ rule ☞operators:?TypifyFOLOperator ❙
+❚
+
+theory QuantifierReorder =
+  include ☞fol:?IFOLND ❙
+  quantifier_reorder : {P: term ⟶ term ⟶ prop} ⊦ (∃[x] ∀[y] P x y) ⇒ (∀[y] ∃[x] P x y)
+
+      ❘= [P] implI ([pf: ⊦ ∃[x] ∀[y] P x y]
+           pf existsE ([x] [pf_pxy] forallI ([y]
+             existsI x (pf_pxy forallE y)
+           ))
+         )
+  ❙
+❚
+
+diagram RelationDiag : ?FOLDiagOps :=
+  RAWDIAG ☞latin:/?OneTyped ! ☞latin:/?Relation ! ☞latin:/?Reflexivity ! ☞latin:/?Symmetry ! ☞latin:/?Transitivity ! ☞latin:/?Preorder ! ☞latin:/?EquivalenceRelation ! ☞latin:/?Congruence ! ☞latin:/?EquivalenceCongruence ❚
+
+diagram FOLMetaDiag : ?FOLDiagOps :=
+  DIAG_UNION (RAWDIAG ☞latin:/?PLND) ! ?RelationDiag ! (RAWDIAG ☞latin:/?Terms ! ☞latin:/?UntypedLogic) ❚
+
+diagram FOLDiag : ?FOLDiagOps :=
+  DIAG_CLOSURE ?FOLMetaDiag (RAWDIAG ☞latin:/?FOLEQDescND ! ☞latin:/?UniqueExistentialQuantificationND) ❚
+
+diagram SFOL : ?FOLDiagOps :=
+  TYPIFY_FOL ?FOLDiag ❚
