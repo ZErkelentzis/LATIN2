@@ -22,6 +22,14 @@ theory QuantifierReorder =
   ❙
 ❚
 
+// - Create simplified example file with FOL (less includes), Church, Curry
+   - Copy over base languages, too.
+   - Suppress presentation markers in MMTSyntaxPresenter
+
+❚
+
+// try later: fixmeta ?FOLDiagOps ❚
+
 diagram RelationDiag : ?FOLDiagOps :=
   RAWDIAG ☞latin:/?OneTyped ! ☞latin:/?Relation ! ☞latin:/?Reflexivity ! ☞latin:/?Symmetry ! ☞latin:/?Transitivity ! ☞latin:/?Preorder ! ☞latin:/?EquivalenceRelation ! ☞latin:/?Congruence ! ☞latin:/?EquivalenceCongruence ❚
 
@@ -31,6 +39,10 @@ diagram FOLMetaDiag : ?FOLDiagOps :=
 diagram FOLDiag : ?FOLDiagOps :=
   DIAG_CLOSURE ?FOLMetaDiag (RAWDIAG ?QuantifierReorder) ❚
   // DIAG_CLOSURE ?FOLMetaDiag (RAWDIAG ☞latin:/?FOLEQDescND ! ☞latin:/?UniqueExistentialQuantificationND) ❚
+
+  // BDIAG (RAWDIAG ?T) ! ?QuantifierReorder ! ?...  ❚
+
+  // DIAG (meta theory) elements ❚
 
 diagram SFOL : ?FOLDiagOps :=
   TYPIFY_FOL ?FOLDiag ❚

@@ -12,6 +12,13 @@ diagram TypedTermsLogrels : ur:?DiagramOperators :=
   logrel_operator ?TypedTerms ?SoftTypedTerms ?TypeErasure
   (DIAG_CLOSURE (RAWDIAG ☞ur:?LF) (RAWDIAG ?TypedTerms)) ❚
 
+// LOGREL ?TypeErasure ❚
+// ideally, LOGREL ?TypeErasure (DIAG ur:?LF ?TypedTerms) ❚
+// products, simple, dependent functions (output in Curry)
+   forall, choice, equality; aggregating theories FOL, FOLEQ  (output in Church & Curry) ❚
+
+// creates theories ?Types_logrel, ?TypedTerms_logrel ❚
+
 /T The logical relation over ?TypeErasure expressing that terms
    emerging from type erasing hard-typed terms can be soft-typed
    against the previous, type-erased type.

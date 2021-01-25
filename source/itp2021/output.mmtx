@@ -1,0 +1,260 @@
+view Products_lopu_pushout0 : latin:/itp2021?Products  -> latin:/itp2021?Products_lopu_result  =
+	include ☞latin:/itp2021?HardTyped  ❘ ?TypeErasure❙
+	include ☞latin:/itp2021?Logic  ❘ IDENTITY ?Logic❙
+	prod
+		= prod_0
+	❙
+	pair
+		= pair_0
+	❙
+
+❚
+
+view SimplyTypedFunctions_lopu_pushout0 : latin:/itp2021?SimplyTypedFunctions  -> latin:/itp2021?SimplyTypedFunctions_lopu_result  =
+	include ☞latin:/itp2021?HardTyped  ❘ ?TypeErasure❙
+	include ☞latin:/itp2021?Logic  ❘ IDENTITY ?Logic❙
+	fun
+		= fun_0
+	❙
+	lam
+		= lam_0
+	❙
+	app
+		= app_0
+	❙
+
+❚
+
+view DependentyTypedFunctions_lopu_pushout0 : latin:/itp2021?DependentyTypedFunctions  -> latin:/itp2021?DependentyTypedFunctions_lopu_result  =
+	include ☞latin:/itp2021?HardTyped  ❘ ?TypeErasure❙
+	include ☞latin:/itp2021?Logic  ❘ IDENTITY ?Logic❙
+	dep_fun
+		= dep_fun_0
+	❙
+	dep_lam
+		= dep_lam_0
+	❙
+	dep_app
+		= dep_app_0
+	❙
+
+❚
+
+theory Products_lopu_result : ur:?LF  =
+	include ☞latin:/itp2021?SoftTyped ❙
+	include ☞latin:/itp2021?Logic ❙
+	prod
+		: tp⟶tp⟶tp
+		❘ @ prod_0
+		❘ # 1 × 2
+		❘ ## 1 × 2
+	❙
+	prod_T
+		: {x⁰:tp,x⁰ᕁ:1,x¹:tp,x¹ᕁ:1}1
+	❙
+	pair
+		: {A,B}term⟶term⟶term
+		❘ @ pair_0
+		❘ # ⟪ 3 , 4 ⟫
+		❘ ## ⟪ 3 , 4 ⟫
+	❙
+	pair_T
+		: {A:tp,Aᕁ:1,B:tp,Bᕁ:1}{x⁰:term,x⁰ᕁ:x⁰⦂A,x¹:term,x¹ᕁ:x¹⦂B}⟪x⁰,x¹⟫⦂(A×B)
+	❙
+
+❚
+
+theory SimplyTypedFunctions_lopu_result : ur:?LF  =
+	include ☞latin:/itp2021?SoftTyped ❙
+	include ☞latin:/itp2021?Logic ❙
+	fun
+		: tp⟶tp⟶tp
+		❘ @ fun_0
+		❘ # 1 → 2
+		❘ ## 1 → 2
+	❙
+	fun_T
+		: {x⁰:tp,x⁰ᕁ:1,x¹:tp,x¹ᕁ:1}1
+	❙
+	lam
+		: {A,B}(term⟶term)⟶term
+		❘ @ lam_0
+		❘ # λ 3
+		❘ ## λ 3
+	❙
+	lam_T
+		: {A:tp,Aᕁ:1,B:tp,Bᕁ:1}{x⁰:term⟶term,x⁰ᕁ:{x⁰/r:term,x⁰ᕁ:x⁰/r⦂A}(x⁰ x⁰/r)⦂B}(λ x⁰)⦂(A→B)
+	❙
+	app
+		: {A,B}term⟶term⟶term
+		❘ @ app_0
+		❘ # 3 @ 4
+		❘ ## 3 @ 4
+	❙
+	app_T
+		: {A:tp,Aᕁ:1,B:tp,Bᕁ:1}{x⁰:term,x⁰ᕁ:x⁰⦂(A→B),x¹:term,x¹ᕁ:x¹⦂A}(x⁰@x¹)⦂B
+	❙
+
+❚
+
+theory DependentyTypedFunctions_lopu_result : ur:?LF  =
+	include ☞latin:/itp2021?SoftTyped ❙
+	include ☞latin:/itp2021?Logic ❙
+	dep_fun
+		: {A}(term⟶tp)⟶tp
+		❘ @ dep_fun_0
+		❘ # Π 2
+		❘ ## Π 2
+	❙
+	dep_fun_T
+		: {A:tp,Aᕁ:1}{x⁰:term⟶tp,x⁰ᕁ:{x⁰/r:term,x⁰ᕁ:x⁰/r⦂A}1}1
+	❙
+	dep_lam
+		: {A,f}({a:term}term)⟶term
+		❘ @ dep_lam_0
+		❘ # dλ 3
+		❘ ## dλ 3
+	❙
+	dep_lam_T
+		: {A:tp,Aᕁ:1,f:{/f/1/v:term}tp,fᕁ:{/f/1/v:term,/f/1/vᕁ:/f/1/v⦂A}1}{x⁰:{a:term}term,x⁰ᕁ:{a:term,aᕁ:a⦂A}(x⁰ a)⦂(x⁰ a)}((f A f) x⁰)⦂Π (f A f)
+	❙
+	dep_app
+		: {A,f,a:term}term⟶term
+		❘ @ dep_app_0
+		❘ # 4 d@ 3
+		❘ ## 4 d@ 3
+	❙
+	dep_app_T
+		: {A:tp,Aᕁ:1,f:{/f/1/v:term}tp,fᕁ:{/f/1/v:term,/f/1/vᕁ:/f/1/v⦂A}1,a:term,aᕁ:a⦂A}{x⁰:term,x⁰ᕁ:x⁰⦂Π (f A f a)}((f A f a) x⁰)⦂((f A f a) a)
+	❙
+
+❚
+
+view SimpleAsDependentFunctions_lopu_result : latin:/itp2021?SimplyTypedFunctions_lopu_result  -> latin:/itp2021?DependentyTypedFunctions_lopu_result  =
+	include ☞latin:/itp2021?SoftTyped  ❘ IDENTITY ?SoftTyped❙
+	include ☞ur:?LF  ❘ IDENTITY ?LF❙
+	include ☞latin:/itp2021?Logic  ❘ IDENTITY ?Logic❙
+	fun
+		= [A,B]Π [x:term]B
+	❙
+	fun_T
+		= [A:tp,Aᕁ:1,B:tp,Bᕁ:1]dep_fun_T A Aᕁ ([x:term]B) [x:term,xᕁ:x⦂A]Bᕁ
+	❙
+	lam
+		= [A,B,f]dλ f
+	❙
+	lam_T
+		= [A:tp,Aᕁ:1,B:tp,Bᕁ:1,f:term⟶term,fᕁ:{x⁰:term,x⁰ᕁ:x⁰⦂A}(f x⁰)⦂B]dep_lam_T A Aᕁ ([_:term]B) ([_:term,_ᕁ:_⦂A]Bᕁ) f fᕁ
+	❙
+	app
+		= [A,B,fun,arg]fun d@ arg
+	❙
+	app_T
+		= [A:tp,Aᕁ:1,B:tp,Bᕁ:1,fun:term,funᕁ:fun⦂Π [x:term]B,arg:term,argᕁ:arg⦂A]dep_app_T A Aᕁ ([x:term]B) ([x:term,xᕁ:x⦂A]Bᕁ) arg argᕁ fun funᕁ
+	❙
+
+❚
+
+theory Products_logrel : ur:?LF  =
+	include ☞latin:/itp2021?Products_lopu_result ❙
+	include ☞latin:/itp2021?SoftTyped ❙
+	include ☞latin:/itp2021?Logic ❙
+	prod_r
+		: {x⁰:tp,x⁰ᕁ:1,x¹:tp,x¹ᕁ:1}1
+	❙
+	pair_r
+		: {A:tp,Aᕁ:1,B:tp,Bᕁ:1}{x⁰:term,x⁰ᕁ:x⁰⦂A,x¹:term,x¹ᕁ:x¹⦂B}⟪x⁰,x¹⟫⦂(A×B)
+	❙
+
+❚
+
+theory SimplyTypedFunctions_logrel : ur:?LF  =
+	include ☞latin:/itp2021?SimplyTypedFunctions_lopu_result ❙
+	include ☞latin:/itp2021?SoftTyped ❙
+	include ☞latin:/itp2021?Logic ❙
+	fun_r
+		: {x⁰:tp,x⁰ᕁ:1,x¹:tp,x¹ᕁ:1}1
+	❙
+	lam_r
+		: {A:tp,Aᕁ:1,B:tp,Bᕁ:1}{x⁰:term⟶term,x⁰ᕁ:{x⁰/r:term,x⁰ᕁ:x⁰/r⦂A}(x⁰ x⁰/r)⦂B}(λ x⁰)⦂(A→B)
+	❙
+	app_r
+		: {A:tp,Aᕁ:1,B:tp,Bᕁ:1}{x⁰:term,x⁰ᕁ:x⁰⦂(A→B),x¹:term,x¹ᕁ:x¹⦂A}(x⁰@x¹)⦂B
+	❙
+
+❚
+
+theory DependentyTypedFunctions_logrel : ur:?LF  =
+	include ☞latin:/itp2021?DependentyTypedFunctions_lopu_result ❙
+	include ☞latin:/itp2021?SoftTyped ❙
+	include ☞latin:/itp2021?Logic ❙
+	dep_fun_r
+		: {A:tp,Aᕁ:1}{x⁰:term⟶tp,x⁰ᕁ:{x⁰/r:term,x⁰ᕁ:x⁰/r⦂A}1}1
+	❙
+	dep_lam_r
+		: {A:tp,Aᕁ:1,f:{/f/1/v:term}tp,fᕁ:{/f/1/v:term,/f/1/vᕁ:/f/1/v⦂A}1}{x⁰:{a:term}term,x⁰ᕁ:{a:term,aᕁ:a⦂A}(x⁰ a)⦂(x⁰ a)}((f A f) x⁰)⦂Π (f A f)
+	❙
+	dep_app_r
+		: {A:tp,Aᕁ:1,f:{/f/1/v:term}tp,fᕁ:{/f/1/v:term,/f/1/vᕁ:/f/1/v⦂A}1,a:term,aᕁ:a⦂A}{x⁰:term,x⁰ᕁ:x⁰⦂Π (f A f a)}((f A f a) x⁰)⦂((f A f a) a)
+	❙
+
+❚
+
+view SimpleAsDependentFunctions_logrel : latin:/itp2021?SimplyTypedFunctions_logrel  -> latin:/itp2021?DependentyTypedFunctions_logrel  =
+	include ☞latin:/itp2021?DependentyTypedFunctions_lopu_result  ❘ IDENTITY ?DependentyTypedFunctions_lopu_result❙
+	include ☞latin:/itp2021?SoftTyped  ❘ IDENTITY ?HardTyped❙
+	include ☞ur:?LF  ❘ IDENTITY ?LF❙
+	include ☞latin:/itp2021?Logic  ❘ IDENTITY ?Logic❙
+	fun_r
+		= [A:tp,Aᕁ:1,B:tp,Bᕁ:1]dep_fun_r A Aᕁ ([x:term]B) [x:term,xᕁ:x⦂A]Bᕁ
+	❙
+	lam_r
+		= [A:tp,Aᕁ:1,B:tp,Bᕁ:1,f:term⟶term,fᕁ:{x⁰:term,x⁰ᕁ:x⁰⦂A}(f x⁰)⦂B]dep_lam_r A Aᕁ ([_:term]B) ([_:term,_ᕁ:_⦂A]Bᕁ) f fᕁ
+	❙
+	app_r
+		= [A:tp,Aᕁ:1,B:tp,Bᕁ:1,fun:term,funᕁ:fun⦂Π [x:term]B,arg:term,argᕁ:arg⦂A]dep_app_r A Aᕁ ([x:term]B) ([x:term,xᕁ:x⦂A]Bᕁ) arg argᕁ fun funᕁ
+	❙
+
+❚
+
+view Products_lopu_logrel : latin:/itp2021?Products_logrel  -> latin:/itp2021?Products_lopu_result  =
+	include ☞latin:/itp2021?HardTyped_logrel  ❘ ?TypePreservation❙
+	include ☞latin:/itp2021?Logic  ❘ IDENTITY ?Logic❙
+	prod_r
+		= prod_T
+	❙
+	pair_r
+		= pair_T
+	❙
+
+❚
+
+view SimplyTypedFunctions_lopu_logrel : latin:/itp2021?SimplyTypedFunctions_logrel  -> latin:/itp2021?SimplyTypedFunctions_lopu_result  =
+	include ☞latin:/itp2021?HardTyped_logrel  ❘ ?TypePreservation❙
+	include ☞latin:/itp2021?Logic  ❘ IDENTITY ?Logic❙
+	fun_r
+		= fun_T
+	❙
+	lam_r
+		= lam_T
+	❙
+	app_r
+		= app_T
+	❙
+
+❚
+
+view DependentyTypedFunctions_lopu_logrel : latin:/itp2021?DependentyTypedFunctions_logrel  -> latin:/itp2021?DependentyTypedFunctions_lopu_result  =
+	include ☞latin:/itp2021?HardTyped_logrel  ❘ ?TypePreservation❙
+	include ☞latin:/itp2021?Logic  ❘ IDENTITY ?Logic❙
+	dep_fun_r
+		= dep_fun_T
+	❙
+	dep_lam_r
+		= dep_lam_T
+	❙
+	dep_app_r
+		= dep_app_T
+	❙
+
+❚
