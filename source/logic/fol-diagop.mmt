@@ -29,7 +29,8 @@ diagram FOLMetaDiag : ?FOLDiagOps :=
   DIAG_UNION (RAWDIAG ☞latin:/?PLND) ! ?RelationDiag ! (RAWDIAG ☞latin:/?Terms ! ☞latin:/?UntypedLogic) ❚
 
 diagram FOLDiag : ?FOLDiagOps :=
-  DIAG_CLOSURE ?FOLMetaDiag (RAWDIAG ☞latin:/?FOLEQDescND ! ☞latin:/?UniqueExistentialQuantificationND) ❚
+  DIAG_CLOSURE ?FOLMetaDiag (RAWDIAG ?QuantifierReorder) ❚
+  // DIAG_CLOSURE ?FOLMetaDiag (RAWDIAG ☞latin:/?FOLEQDescND ! ☞latin:/?UniqueExistentialQuantificationND) ❚
 
 diagram SFOL : ?FOLDiagOps :=
   TYPIFY_FOL ?FOLDiag ❚
