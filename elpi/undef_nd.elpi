@@ -1,0 +1,11 @@
+accumulate "generated/plnd".
+
+id_prove_run N Res F :- ded (prodcert (idcert N) (ptcert Res)) F.
+
+accumulate "generic/idprove".
+
+mytest P :- P (undefined (foo zero)).
+
+main :- mytest id_prove.
+main.
+

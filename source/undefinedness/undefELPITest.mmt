@@ -3,12 +3,11 @@ namespace latin:/❚
 fixmeta ur:?LF❚
 
 theory UndefELPITest =
-    include ?Undefined❙
-    include ?IPLND❙
-    include ?Equality❙
+    include ?UndefinedND❙
 
     zero : term ❘# ⓪❙
     succ : term ⟶ term ❘# S 1❙
+    succ_neq : { t : term } ⊦ (¬ (t ≐ (S t)))❙
 
     foo : term ⟶ term❙
 

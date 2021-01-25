@@ -20,7 +20,9 @@ log+ debug
 // build the mmt files (no need to repeat if unchanged)
 build MMT/LATIN2 mmt-omdoc fundamentals
 build MMT/LATIN2 mmt-omdoc logic
+build MMT/LATIN2 mmt-omdoc undefinedness
 
 // generate the ELPI file (stored in the folder export/lf-elpi/content, one file per theory)
 build MMT/LATIN2 lf-elpi fundamentals
 build MMT/LATIN2 lf-elpi logic
+build MMT/LATIN2 lf-elpi undefinedness

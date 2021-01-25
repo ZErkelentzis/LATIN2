@@ -3,45 +3,47 @@
 
 ded X2 X1 :- ded/hyp X3 X1 , help/ded X1 X3 X2.
 
-help/ded X1 X3 (idcert X2).
-
-help/ded X1 X3 (ptcert (i X1)).
-
 help/ded X1 X3 (prodcert X2/1 X2/2) :- help/ded X1 X3 X2/1 , help/ded X1 X3 X2/2.
 
-help/ded X1 X3 (bccert X2).
+help/ded X1 X2 (idcert X3).
+
+help/ded X1 X2 (ptcert (i X1)).
+
+help/ded X1 X2 (bccert X3).
 
 /* generated from inconsistent : type */
 
 inconsistent X1 :- inconsistent/hyp X2 , help/inconsistent X2 X1.
 
-help/inconsistent X2 (idcert X1).
-
-help/inconsistent X2 (ptcert i).
-
 help/inconsistent X2 (prodcert X1/1 X1/2) :- help/inconsistent X2 X1/1 , help/inconsistent X2 X1/2.
 
-help/inconsistent X2 (bccert X1).
+help/inconsistent X1 (idcert X2).
 
-/* generated from inconsistentE : ↯⟶{A}ded A */
+help/inconsistent X1 (ptcert i).
 
-ded X2 A :- help/inconsistentE X2 X1 A , inconsistent X1.
+help/inconsistent X1 (bccert X2).
 
-help/inconsistentE (prodcert X3/1 X3/2) A (prodcert X2/1 X2/2) :- help/inconsistentE X3/1 A X2/1 , help/inconsistentE X3/2 A X2/2.
+/* generated from inconsistentE : ↯⟶{a}⊦a */
 
-help/inconsistentE (idcert X3) A (idcert X2) :- X3 > 0 , X2 is X3 - 1.
+ded X2 a :- help/inconsistentE X2 X1 a , inconsistent X1.
 
-help/inconsistentE (ptcert (inconsistentE A X2)) A (ptcert X2).
+help/inconsistentE (prodcert X3/1 X3/2) a (prodcert X2/1 X2/2) :- help/inconsistentE X3/1 a X2/1 , help/inconsistentE X3/2 a X2/2.
 
-help/inconsistentE (ucert X2) A (ucert (prep (inconsistent X3) X2)) :- inconsistent X3 , occatmost (inconsistent X3) 1 X2.
+help/inconsistentE (idcert X3) a (idcert X2) :- X3 > 0 , X2 is X3 - 1.
 
-help/inconsistentE (hdcert X2) A (hdcert X2).
+help/inconsistentE (ptcert (inconsistentE a X2)) a (ptcert X2).
 
-help/inconsistentE (bccert X3) A (bccert X2) :- bc/pos X3 , X2 is X3 - 1.
+help/inconsistentE (ucert X2) a (ucert (prep (inconsistent X3) X2)) :- inconsistent X3 , occatmost (inconsistent X3) 1 X2.
+
+help/inconsistentE (hdcert X2) a (hdcert X2).
+
+help/inconsistentE (hd2cert X2) a (hd2cert X2).
+
+help/inconsistentE (bccert X3) a (bccert X2) :- bc/pos X3 , X2 is X3 - 1.
 
 
 
-/* generated from trueI : ded true */
+/* generated from trueI : ⊦true */
 
 ded X1 true :- help/trueI X1.
 
@@ -51,9 +53,11 @@ help/trueI (idcert X3) :- X3 > 0 , X2 is X3 - 1.
 
 help/trueI (ptcert trueI).
 
-/* Can't create helper for ucert: no hypotheses found */
+/* latin:/?TruthND?trueI: u: skipping due to error: can't create helper: no hypotheses found */
 
 help/trueI (hdcert X2).
+
+help/trueI (hd2cert X2).
 
 help/trueI (bccert X3) :- bc/pos X3 , X2 is X3 - 1.
 
@@ -61,7 +65,7 @@ help/trueI (bccert X3) :- bc/pos X3 , X2 is X3 - 1.
 
 
 
-/* generated from notIntroduction : {A}(ded A⟶ded false)⟶ded (not A) */
+/* generated from notIntroduction : {A}(⊦A⟶⊦false)⟶⊦¬A */
 
 ded X3 (not A) :- help/notIntroduction X3 A X2 , (pi (x1 \ ded/hyp x1 A => ded (X2 x1) false)).
 
@@ -75,9 +79,11 @@ help/notIntroduction (ucert X2) A (x3 \ ucert (prep (pi (x4 \ ded/hyp x4 A => de
 
 help/notIntroduction (hdcert X2) A (x3 \ hdcert X2).
 
+help/notIntroduction (hd2cert X2) A (x3 \ hd2cert X2).
+
 help/notIntroduction (bccert X4) A (x3 \ bccert X2) :- bc/pos X4 , X2 is X4 - 1.
 
-/* generated from notElimination : {A}ded (not (not A))⟶ded A */
+/* generated from notElimination : {A}⊦¬¬A⟶⊦A */
 
 ded X2 A :- help/notElimination X2 A X1 , ded X1 (not (not A)).
 
@@ -91,9 +97,11 @@ help/notElimination (ucert X2) A (ucert (prep (ded X3 (not (not A))) X2)) :- ded
 
 help/notElimination (hdcert X2) A (hdcert X2).
 
+help/notElimination (hd2cert X2) A (hd2cert X2).
+
 help/notElimination (bccert X3) A (bccert X2) :- bc/pos X3 , X2 is X3 - 1.
 
-/* generated from falseIntroduction : {A}ded (not A)⟶ded A⟶ded false */
+/* generated from falseIntroduction : {A}⊦¬A⟶⊦A⟶⊦false */
 
 ded X3 false :- help/falseIntroduction X3 A X1 X2 , ded X1 (not A) , ded X2 A.
 
@@ -107,9 +115,11 @@ help/falseIntroduction (ucert X2) A (ucert (prep (ded X3 (not A)) X2)) (ucert (p
 
 help/falseIntroduction (hdcert X2) A (hdcert X2) (hdcert X2).
 
+help/falseIntroduction (hd2cert X2) A (hd2cert X2) (hd2cert X2).
+
 help/falseIntroduction (bccert X3) A (bccert (bc/fwdLocked X2)) (bccert X2) :- bc/val X3 X4 , X4 > 0 , X2 is X4 - 1 , bc/fwdable (not A).
 
-/* generated from falseElimination : {A}ded false⟶ded A */
+/* generated from falseElimination : {A}⊦false⟶⊦A */
 
 ded X2 A :- help/falseElimination X2 A X1 , ded X1 false.
 
@@ -123,11 +133,13 @@ help/falseElimination (ucert X2) A (ucert (prep (ded X3 false) X2)) :- ded X3 fa
 
 help/falseElimination (hdcert X2) A (hdcert X2).
 
+help/falseElimination (hd2cert X2) A (hd2cert X2).
+
 help/falseElimination (bccert X3) A (bccert X2) :- bc/pos X3 , X2 is X3 - 1.
 
 
 
-/* generated from andI : {F,G}ded F⟶ded G⟶ded (and F G) */
+/* generated from andI : {F,G}⊦F⟶⊦G⟶⊦F∧G */
 
 ded X3 (and F G) :- help/andI X3 F G X1 X2 , ded X1 F , ded X2 G.
 
@@ -141,11 +153,13 @@ help/andI (ucert X2) F G (ucert (prep (ded X3 F) X2)) (ucert (prep (ded X3 F) X2
 
 help/andI (hdcert X2) F G (hdcert X2) (hdcert X2).
 
+help/andI (hd2cert X2) F G (hd2cert X2) (hd2cert X2).
+
 help/andI (bccert X3) F G (bccert X2) (bccert X2) :- bc/pos X3 , X2 is X3 - 1.
 
 
 
-/* generated from andEl : {F,G}ded (and F G)⟶ded F */
+/* generated from andEl : {F,G}⊦F∧G⟶⊦F */
 
 ded X2 F :- help/andEl X2 F G X1 , ded X1 (and F G).
 
@@ -159,11 +173,13 @@ help/andEl (ucert X2) F G (ucert (prep (ded X3 (and F G)) X2)) :- ded X3 (and F 
 
 help/andEl (hdcert X2) F G (hdcert X2).
 
+help/andEl (hd2cert X2) F G (hd2cert X2).
+
 help/andEl (bccert X3) F G (bccert (bc/fwdLocked X2)) :- bc/val X3 X4 , X4 > 0 , X2 is X4 - 1 , bc/fwdable (and F G).
 
 bc/aux (and F G) X5 :- bc/aux F X5.
 
-/* generated from andEr : {F,G}ded (and F G)⟶ded G */
+/* generated from andEr : {F,G}⊦F∧G⟶⊦G */
 
 ded X2 G :- help/andEr X2 F G X1 , ded X1 (and F G).
 
@@ -177,13 +193,15 @@ help/andEr (ucert X2) F G (ucert (prep (ded X3 (and F G)) X2)) :- ded X3 (and F 
 
 help/andEr (hdcert X2) F G (hdcert X2).
 
+help/andEr (hd2cert X2) F G (hd2cert X2).
+
 help/andEr (bccert X3) F G (bccert (bc/fwdLocked X2)) :- bc/val X3 X4 , X4 > 0 , X2 is X4 - 1 , bc/fwdable (and F G).
 
 bc/aux (and F G) X5 :- bc/aux G X5.
 
 
 
-/* generated from orIl : {F,G}ded F⟶ded (or F G) */
+/* generated from orIl : {F,G}⊦F⟶⊦F∨G */
 
 ded X2 (or F G) :- help/orIl X2 F G X1 , ded X1 F.
 
@@ -197,9 +215,11 @@ help/orIl (ucert X2) F G (ucert (prep (ded X3 F) X2)) :- ded X3 F , occatmost (d
 
 help/orIl (hdcert X2) F G (hdcert X2).
 
+help/orIl (hd2cert X2) F G (hd2cert X2).
+
 help/orIl (bccert X3) F G (bccert X2) :- bc/pos X3 , X2 is X3 - 1.
 
-/* generated from orIr : {F,G}ded G⟶ded (or F G) */
+/* generated from orIr : {F,G}⊦G⟶⊦F∨G */
 
 ded X2 (or F G) :- help/orIr X2 F G X1 , ded X1 G.
 
@@ -213,11 +233,13 @@ help/orIr (ucert X2) F G (ucert (prep (ded X3 G) X2)) :- ded X3 G , occatmost (d
 
 help/orIr (hdcert X2) F G (hdcert X2).
 
+help/orIr (hd2cert X2) F G (hd2cert X2).
+
 help/orIr (bccert X3) F G (bccert X2) :- bc/pos X3 , X2 is X3 - 1.
 
 
 
-/* generated from orE : {F,G,C}ded (or F G)⟶(ded F⟶ded C)⟶(ded G⟶ded C)⟶ded C */
+/* generated from orE : {F,G,C}⊦F∨G⟶(⊦F⟶⊦C)⟶(⊦G⟶⊦C)⟶⊦C */
 
 ded X6 C :- help/orE X6 F G C X1 X3 X5 , ded X1 (or F G) , (pi (x2 \ ded/hyp x2 F => ded (X3 x2) C)) , (pi (x4 \ ded/hyp x4 G => ded (X5 x4) C)).
 
@@ -231,11 +253,13 @@ help/orE (ucert X2) F G C (ucert (prep (ded X3 (or F G)) X2)) (x4 \ ucert (prep 
 
 help/orE (hdcert X2) F G C (hdcert X2) (x3 \ hdcert X2) (x4 \ hdcert X2).
 
+help/orE (hd2cert X2) F G C (hd2cert X2) (x3 \ hd2cert X2) (x4 \ hd2cert X2).
+
 help/orE (bccert X5) F G C (bccert (bc/fwdLocked X2)) (x3 \ bccert X2) (x4 \ bccert X2) :- bc/val X5 X6 , X6 > 0 , X2 is X6 - 1 , bc/fwdable (or F G).
 
 
 
-/* generated from impI : {F,G}(ded F⟶ded G)⟶ded (impl F G) */
+/* generated from impI : {F,G}(⊦F⟶⊦G)⟶⊦F⇒G */
 
 ded X3 (impl F G) :- help/impI X3 F G X2 , (pi (x1 \ ded/hyp x1 F => ded (X2 x1) G)).
 
@@ -249,11 +273,13 @@ help/impI (ucert X2) F G (x3 \ ucert (prep (pi (x4 \ ded/hyp x4 F => ded (X5 x4)
 
 help/impI (hdcert X2) F G (x3 \ hdcert X2).
 
+help/impI (hd2cert X2) F G (x3 \ hd2cert X2).
+
 help/impI (bccert X4) F G (x3 \ bccert X2) :- bc/pos X4 , X2 is X4 - 1.
 
 
 
-/* generated from impE : {F,G}ded (impl F G)⟶ded F⟶ded G */
+/* generated from impE : {F,G}⊦F⇒G⟶⊦F⟶⊦G */
 
 ded X3 G :- help/impE X3 F G X1 X2 , ded X1 (impl F G) , ded X2 F.
 
@@ -266,6 +292,8 @@ help/impE (ptcert (impE F G X2 X3)) F G (ptcert X2) (ptcert X3).
 help/impE (ucert X2) F G (ucert (prep (ded X3 (impl F G)) X2)) (ucert (prep (ded X3 (impl F G)) X2)) :- ded X3 (impl F G) , occatmost (ded X3 (impl F G)) 1 X2.
 
 help/impE (hdcert X2) F G (hdcert X2) (hdcert X2).
+
+help/impE (hd2cert X2) F G (hd2cert X2) (hd2cert X2).
 
 help/impE (bccert X3) F G (bccert (bc/fwdLocked X2)) (bccert X2) :- bc/val X3 X4 , X4 > 0 , X2 is X4 - 1 , bc/fwdable (impl F G).
 
