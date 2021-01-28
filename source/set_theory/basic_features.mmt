@@ -1,0 +1,96 @@
+namespace latin:/❚
+
+fixmeta ?SetFOL❚
+
+theory EmptySet =
+  include ?EmptySetDefinitions❙  
+  empty : set❘ # ∅❙
+  empty_prop : ⊦ isempty ∅❙
+  emptyE : {x} ⊦ x∈∅ ⟶ ↯❘# 2 emptyE❘
+  		= [x,p] isemptyE empty_prop p❙
+  
+  empty_sub : {X} ⊦ ∅ ⪽ X❘ // = ???❙
+❚
+
+theory UnorderedPairs =
+  uopair : set ⟶ set ⟶ set❘# uopair 1 2 prec 40❙
+  uopairIl : {X,Y} ⊦ X ∈ uopair X Y❙
+  uopairIr : {X,Y} ⊦ Y ∈ uopair X Y❙
+  uopairE  : {U,X,Y,C} ⊦ U ∈ uopair X Y ⟶ (⊦ U≐X ⟶ ⊦C) ⟶ (⊦ U≐Y ⟶ ⊦C) ⟶ ⊦C❘# 5 uopairE 6 7❙
+  
+  uopair_comm : {X,Y} ⊦ uopair X Y ≐ uopair Y X❙
+❚
+
+theory PowerSets =
+  powerset : set ⟶ set❘# ℘ 1 prec 60❙
+  powersetI : {X,Y} ({x} ⊦x∈X ⟶ ⊦x∈Y) ⟶ ⊦X∈ ℘Y❙
+  powersetE : {X,Y} ⊦X∈ ℘Y ⟶ {x} ⊦x∈X ⟶ ⊦x∈Y❘# 3 powersetE 4❙
+❚
+
+theory Image =
+	// AS: think of a shorter notation❙
+	image : (set ⟶ set) ⟶ set ⟶ set❙
+	imageI : {f,X,x} ⊦ x∈X ⟶ ⊦ (f x)∈ image f X❙
+	imageE : {f,X,y} ⊦ y ∈ image f X ⟶ ⊦ ∃[x] x∈X ∧ (f x)≐y❘# 4 imageE❙
+❚
+
+// AS: probably unnecessary because it is the same as comprehension❚
+theory Filter =
+	// AS: think of a shorter notation❙
+	filter : set ⟶ (set ⟶ prop) ⟶ set❙
+	filterI : {X,P,x} ⊦ x∈X ⟶ ⊦ P x ⟶ ⊦ x∈ filter X P❙
+	filterEl : {X,P,x} ⊦ x ∈ filter X P ⟶ ⊦ x∈X❘# 4 filterEl❙
+	filterEr : {X,P,x} ⊦ x ∈ filter X P ⟶ ⊦ P x❘# 4 filterEr❙
+❚
+
+theory Extensionality =
+	include ?ExtensionalityDefinition❙
+	extensionality_axiom : {X,Y} ⊦ isextensional X Y❙	
+	extensionalityI : {X,Y} ({z} ⊦ z∈X ⇔ z∈Y) ⟶ ⊦ X≐Y❙
+	extensionalityE : {X,Y} ⊦ X≐Y ⟶ {z} ⊦ z∈X ⇔ z∈Y❘# 3 extensionalityE❙ 
+❚
+
+theory Regularity =	
+	// FR: only axiom here, no constant; can be a feature a that ZFC includes❙
+	// AS: add introduction and elimination rule?❙
+	regularity_axiom : ⊦ ∀[M](∃[t] t∈M) ⇒ ∃[Y] Y∈M ∧ ¬(∃[z] z∈M ∧ z∈Y)❙
+❚
+
+theory Comprehension =
+  comprehend  : set ⟶ (set ⟶ prop) ⟶ set❘# 1 | 2 prec 40❙
+  comprehendI : {X,P,x} ⊦ x∈X ⟶ ⊦ P x ⟶ ⊦ x ∈ X|P❙
+  comprehendEl : {X,P,x} ⊦ x ∈ X|P ⟶ ⊦ x∈X❘# 4 comprehendEl❙
+  comprehendEr : {X,P,x} ⊦ x ∈ X|P ⟶ ⊦ P x❘# 4 comprehendEr❙
+  
+  comprehend_sub : {X,P,x} ⊦ x ∈ X|P ⟶ ⊦ x∈X❙
+❚
+
+theory Replacement =
+  replace  : set ⟶ (set ⟶ set) ⟶ set❘# 1 map 2 prec 40❙
+  replaceI : {M,F,X} ⊦ X∈M ⟶ ⊦ (F X) ∈ M map F❙
+  replaceE : {M,F,X,C} ⊦ X ∈ M map F ⟶ ({Y} ⊦Y∈M ⟶ ⊦(F Y) ≐ X ⟶ ⊦C) ⟶ ⊦C❘ # 5 replaceE 6❙
+❚
+
+// FR: these two need some abbreviation just to state them; those can be here and then reused in the ZF theory that realizes them❚
+
+// FR: maybe use inifity to define ℕ, either here or in ZFInfinity
+somewhere we should then realize the theory of Peano axioms❚
+theory Infinity =
+	include ?EmptySet❙
+	include ?Singletons❙
+	include ?Union❙
+	
+	// AS: add introduction and elimination rule?❙
+	infinity_axiom : ⊦ ∃[M] ∅∈M ∧ ∀[X] X∈M ⇒ (X ∪ (singleton X))∈M❙
+❚
+
+theory Choice =
+	// AS: define choice like in the lecture or shall Choice from FOL be used? ❙
+	// like in KRMT❙
+	include ?ChoiceDefinition❙
+  all_nonempty: set ⟶ prop❘ // = ❙
+  // AS: maybe define this in Intersection or BigIntersection❙
+  pairwise_disjoint: set ⟶ prop❘ // = ❙
+  // AS: add introduction and elimination rule?❙
+  choice_axiom : ⊦ ∀[M] (all_nonempty M ∧ pairwise_disjoint M) ⇒ ∃[C] ischoice M C❙
+❚
