@@ -20,9 +20,13 @@ theory OrderedPairs =
 	// AS: think of a notation❙
 	pair : set ⟶ set ⟶ set❘
 		= [X,Y] uopair (singleton X) (uopair (singleton Y) ∅)❙
-
 	pi1 : set ⟶ set❙
 	pi2 : set ⟶ set❙
+	
+	pair_pi : {u} ⊦ pair (pi1 u) (pi2 u) ≐ u❙
+	pi1_pair : {x,y} ⊦ pi1 (pair x y) ≐ x❙
+	pi2_pair : {x,y} ⊦ pi2 (pair x y) ≐ y❙
+	exten: {u,v} ⊦ pi1 u ≐ pi1 v ⟶ ⊦ pi2 u ≐ pi2 v ⟶ ⊦ u ≐ v ❘ = _ ❙
 ❚
 
 theory CartesianProduct =
@@ -38,8 +42,16 @@ theory CartesianProduct =
 ❚
 
 theory Relations =
+  include ?OrderedPairs❙
 	// AS: TODO❙
-	rel : set ⟶ set ⟶ set❙
+	Rel : set ⟶ set ⟶ set❙
+	
+	RelI : {A,B} (set ⟶ set ⟶ prop) ⟶ set❙  
+	
+// 	injective = [A,B,r] ...
+	surjective = 
+	constant total = 
+	functional = ❙
 ❚
 
 theory PartialFunctions =
