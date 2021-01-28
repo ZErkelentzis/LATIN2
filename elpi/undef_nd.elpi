@@ -1,10 +1,17 @@
-accumulate "generated/plnd".
+%accumulate "generic/bc".
 
-id_prove_run N Res F :- ded (prodcert (idcert N) (ptcert Res)) F.
+accumulate "generated/plnd".
+%accumulate "generated/fol".
+
+% TODO: There seems to be a bug in ptcert
+id_prove_run N Res F :- ded (prodcert (idcert N) (ptcert X)) F, print X, Res is "Success".
 
 accumulate "generic/idprove".
+accumulate "/home/totoro/Development/KWARC/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Undef$E$L$P$I$Test".
 
 mytest P :- P (undefined (foo zero)).
+mytest P :- P (defined (foo (succ zero))).
+mytest P :- P (defined (foo (succ (succ (succ (succ (succ (succ (succ (succ (succ (succ zero)))))))))))).
 
 main :- mytest id_prove.
 main.

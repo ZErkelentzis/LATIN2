@@ -2,16 +2,24 @@ namespace latin:/❚
 
 fixmeta ur:?LF❚
 
+/T I don't think I'm using ⇒ correctly here, ELPI doesn't use it as it should. Maybe also ⊦ on the RHS.
+   Same goes for undefinedness.mmt ❚
+
 theory UndefELPITest =
     include ?UndefinedND❙
 
     zero : term ❘# ⓪❙
     succ : term ⟶ term ❘# S 1❙
-    succ_neq : { t : term } ⊦ (¬ (t ≐ (S t)))❙
+    succ_neq : { T : term } ⊦ (¬ (T ≐ (S T)))❙
+
+    one : term ❘ = S ⓪❙
+    two : term ❘ = S S ⓪❙
+    six : term ❘ = S S S S S S ⓪❙
+    ten : term ❘ = S S S S S S S S S S ⓪❙
 
     foo : term ⟶ term❙
 
     no_foo_of_zero   : ⊦ (foo ⓪)↑❙
-    foo_of_all_else  : {t : term} ⊦ ((¬(t ≐ ⓪)) ⇒ ((foo t)↓))❙
-    foo_of_successor : {t : term} ⊦ (foo (S t))↓❙
+    foo_of_all_else  : {T : term} ⊦ ((¬(T ≐ ⓪)) ⇒ ((foo T)↓))❙
+    foo_of_successor : {T : term} ⊦ (foo (S T))↓❙
 ❚
