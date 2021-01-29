@@ -39,6 +39,7 @@ theory ZFBigUnion =
 	bigunion_unique : {M} ⊦ ∃¹[Z] isbigunion M Z❘ // = _ ❙
 	
 	include ?Subsets❙
+	include ?EmptySet❙
 	realize ?BigUnion❙
 	
 	bigunion : set ⟶ set❘# ⋃ 1❘
@@ -100,7 +101,6 @@ theory ZFReplacement =
   // replaceI, replaceE❙ 
 ❚
 
-// AS: Do I need ZFInfinity?❚
 theory ZFInfinity =
   include ?ZFBase❙
   include ?Infinity❙

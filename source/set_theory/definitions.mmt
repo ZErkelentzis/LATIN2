@@ -5,6 +5,7 @@ fixmeta ?SetFOL❚
 theory EmptySetDefinitions =
   isempty : set ⟶ prop❘ = [X] ¬∃[x]x∈X❙
   nonempty: set ⟶ prop❘ = [X] ∃[x]x∈X❙
+  
   isemptyE : {X,x} ⊦ isempty X ⟶ ⊦ x∈X ⟶ ↯❘ # isemptyE 3 4❘
            = [X,x,p,q] p notE (existsI x q)❙
   nonemptyE: {X,C} ⊦ nonempty X ⟶ ({x} ⊦x∈X ⟶ ⊦C) ⟶ ⊦C❘

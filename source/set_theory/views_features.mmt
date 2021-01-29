@@ -2,10 +2,12 @@ namespace latin:/❚
 
 fixmeta ?SetFOL❚
 
+// AS: this file needs to be fixed as soon as I have reorganized modules❚
+
 view SelfPair : ?Singletons → ?UnorderedPairs =
   singleton = [X] uopair X X❙
   singletonI = [X] uopairIl❙
-  singletonE = [X,x,p] uopairE p orE ([q] q) ([q] q)❙
+  singletonE = [X,x,p] p uopairE ([q] q) ([q] q)❙
 ❚
 
 // FR additional features: Union, BigIntersection, Intersection❚
@@ -29,11 +31,10 @@ theory UnionAsBigUnion =
   union = [X,Y] ⋃ uopair X Y❙
   unionIl = [X,Y,x,p] bigunionI uopairIl p❙
   unionIr = [X,Y,y,p] bigunionI uopairIr p❙
-  // AS: how to handle U?❙
-  unionE = [X,Y,x,C,p,f,g] p bigunionE ([U,q: ⊦ U∈ uopair X Y, r] uopairE q 
-    ([s] f (in_eq r (eq/sym s))) 
-    ([s] g (in_eq r (eq/sym s)))
-  )❙
+
+  unionE = [X,Y,x,C,p,f,g] p bigunionE ([U,q,r] q uopairE
+    ([s] f (in_eq r s)) 
+    ([s] g (in_eq r s)))❙
 ❚
 
 theory BigIntersectionAsComprehension =
@@ -45,8 +46,8 @@ theory BigIntersectionAsComprehension =
 	include ?EmptySetDefinitions❙
 	
 	biginter = [M] ⋃M|[x]∀[X] X∈M ⇒ x∈X❙
-	biginterI = [M,x,ne,P] comprehendI (nonemptyE ne ([X,p] bigunionI p (P X p))) (forallI [X] impI P X)❙
-	biginterE = [M,X,x,p,q] comprehendE p forallE X impE q❙
+	biginterI = [M,x,ne,P] comprehendI (nonemptyE ne ([X,p] bigunionI p (P X p))) (forallI [X] implI P X)❙
+	biginterE = [M,X,x,p,q] p comprehendEr forallE X implE q❙
 ❚
 
 theory IntersectionAsBigIntersection = 
@@ -59,10 +60,10 @@ theory IntersectionAsBigIntersection =
 	
 	inter = [X,Y] ⋂ uopair X Y❙
 	// AS: this is wrong❙
-	interI = [X,Y,x,p,q] biginterI (existsI X uopairIl) [U,r: ⊦ U ∈ uopair X Y] (uopairE r
-	  ([s] (eq/sym s) congP ([V] x∈V) p)
-	  ([s] (eq/sym s) congP ([V] x∈V) q)
-	)❙
+	interI = [X,Y,x,p,q] biginterI (existsI X uopairIl) ([U,r] r uopairE 
+	  ([s] in_eq p (eq/sym s))
+	  ([s] in_eq q (eq/sym s)))❙
+	
 	interEl = [X,Y,x,p] p biginterE uopairIl❙
 	interEr = [X,Y,y,p] p biginterE uopairIr❙
 ❚
@@ -74,6 +75,6 @@ theory IntersectionAsComprehension =
 	
 	inter = [X,Y] X∪Y | ([x] x∈X ∧ x∈Y)❙
 	interI = [X,Y,x,p,q] comprehendI (unionIl Y p) (andI p q)❙
-	interEl = [X,Y,x,p] comprehendE p andEl❙
-	interEr = [X,Y,y,p] comprehendE p andEr❙
+	interEl = [X,Y,x,p] p comprehendEr andEl❙
+	interEr = [X,Y,y,p] p comprehendEr andEr❙
 ❚
