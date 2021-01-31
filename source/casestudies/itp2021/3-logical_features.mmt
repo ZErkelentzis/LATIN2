@@ -1,0 +1,64 @@
+// FEATURE DEFINITIONS OVER BASE LANGUAGES
+   ========================================== ❚
+
+// (1) exemplary features of untyped: PL, FOL quantification and choice operator ❚
+theory PropLogic =
+  prop: type ❙
+  ded: prop ⟶ type ❘# ⊦ 1 prec -5❙
+
+  and: prop ⟶ prop ⟶ prop ❘# 1 ∧ 2 prec 15❙
+  andI: {F,G} ⊦ F ⟶ ⊦ G ⟶ ⊦ F ∧ G❙
+  andEl: {F,G} ⊦ F∧G ⟶ ⊦ F ❘# 3 andEl❙
+  andEr: {F,G} ⊦ F∧G ⟶ ⊦ G ❘# 3 andEr❙
+
+  impl: prop ⟶ prop ⟶ prop ❘# 1 ⇒ 2 prec 10 ❙
+  // implI, implE omitted ❙
+❚
+
+theory Quantification =
+  include ?PropLogic❙
+  include ?Untyped❙
+
+  // do we really need forall or would exists suffice for paper? ❙
+  forall: (term ⟶ prop) ⟶ prop ❘# ∀ 1❙
+  forallI: {P} ({x} ⊦ (P x)) ⟶ ⊦ ∀ P❙
+  forallE: {P, X} ⊦ ∀ P ⟶ ⊦ (P X) ❘# 3 forallE 2❙
+
+  exists: (term ⟶ prop) ⟶ prop ❘# ∃ 1❙
+  existsI: {P, X} ⊦ P X ⟶ ⊦ ∃ P ❘# existsI 2 3❙
+  existsE: {P, C} ⊦ ∃ P ⟶ ({x} ⊦ (P x) ⟶ ⊦ C) ⟶ ⊦ C ❘# 3 existsE 4❙
+❚
+theory Choice =
+  include ?Quantification❙
+  some : {P} ⊦ ∃ P ⟶ term ❘# some 1 2❙
+  some_ax : {P,p} ⊦ P (some P p) ❘# some_ax 1 2❙
+❚
+
+theory Equality =
+  include ?PropLogic ❙
+  include ?Untyped❙
+  equal : term ⟶ term ⟶ prop ❘# 1 ≐ 2 prec 30❙
+❚
+theory Description =
+  include ?Quantification❙
+  include ?Equality❙
+  existsUnique: (term ⟶ prop) ⟶ prop ❘= [P] ∃[x] (P x) ∧ ∀[y] P y ⇒ x ≐ y ❘# ∃¹ 1❙
+  the: {P} ⊦ ∃¹ P ⟶ term ❘# the 1 2❙
+❚
+
+theory FOL =
+  include ?PropLogic❙
+  include ?Quantification❙
+  include ?Choice❙
+  include ?Description❙
+❚
+// Description operator: left out, needs formalization of ∃!, which is long-ish ❚
+
+// Translating Untyped to HardTyped
+   ------------------------------------------ ❚
+// diagram UntypedFeatures : ?DiagOps :=
+        BDIAG (RAWDIAG ?Untyped) ! ?Quantification ! ?Choice ! ?Equality ! ?Description ! ?FOL ❚
+
+// diagram UntypedAsHardTyped : ?DiagOps :=
+        TYPIFY ?UntypedFeatures ❚
+

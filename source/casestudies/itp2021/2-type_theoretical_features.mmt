@@ -1,0 +1,62 @@
+// Formalizations primarily corresponding to Sections 4 of the paper ❚
+namespace latin:/casestudies/itp2021 ❚
+fixmeta ur:?LF❚
+
+/T Hard-typed produt types ❚
+theory HProd =
+  include ?HTyped ❙
+  prod: tp ⟶ tp ⟶ tp  ❘# 1 × 2 ❙
+  pair: {A, B} tm A ⟶ tm B ⟶ tm A×B ❘# ⟪ 3 , 4 ⟫ ❙
+  projL: {A, B} tm A×B ⟶ tm A ❘# πl 3 ❙
+  projR: {A, B} tm A×B ⟶ tm B ❘# πr 3 ❙
+❚
+
+theory HSimpFun =
+  include ?HTyped ❙
+  fun: tp ⟶ tp ⟶ tp ❘# 1 → 2 ❙
+  lam: {A, B} (tm A ⟶ tm B) ⟶ tm A→B ❘# λ 3 ❙
+  app: {A, B} tm A→B ⟶ tm A ⟶ tm B ❘# 3 @ 4 ❙
+❚
+
+theory HDepFun =
+  include ?HTyped ❙
+  dep_fun: {A} (tm A ⟶ tp) ⟶ tp ❘# Π 2 ❙
+  dep_lam: {A, B: tm A ⟶ tp} ({x: tm A} tm (B x)) ⟶ tm (Π B) ❘# dλ 3 ❙
+  dep_app: {A, B: tm A ⟶ tp} tm Π B ⟶ {x: tm A} tm (B x) ❘# 3 d@ 4 ❙
+❚
+view HSFtoDF : ?HSimpFun -> ?HDepFun =
+  include ?HTyped ❙
+  fun = [A, B] Π ([x: tm A] B) ❙
+  lam = [A, B, f: tm A ⟶ tm B] dλ f ❙
+  app = [A, B, f, x] f d@ x ❙
+❚
+
+// SOFTENING: TRANSLATION FROM HARD- TO SOFT-TYPED
+   ================================================ ❚
+
+
+/T Step 1: generate the interface of all partial logical relations over
+           the type erasure morphism ?TE ❚
+diagram HardTypedLogrel : ?DiagOps :=
+    partial_unary_logrel_operator ?TE ?Types?tp (BDIAG (RAWDIAG ☞ur:?LF) ! ?Types ! ?HTyped) ❚
+// Here, we specify ?Types?tp to be partial on that type.
+
+   The diagram operator partial_unary_logrel_operator will generate, among others, the theory ?HTyped_logrel
+   acting as an interface for partial logical relations over ?TE.
+❚
+
+/T Step 2: state type preservation as one such partial logical relation ❚
+view TypePres : ?HTyped_logrel -> ?STyped =
+  include ?STyped ❙
+  tm_r = [A: tp, t: term] ⊦ t ⦂ A❙ // cruical assignment making this logrel represent type preservation ❙
+❚
+
+/T Step 3: aggregate all type-theoretical features in diagrams on that we want to apply softening ❚
+diagram HTypedFeatures : ?DiagOps :=
+    BDIAG (RAWDIAG ?HTyped) ! ?HProd ! ?HSimpFun ! ?HDepFun ! ?HSFtoDF ❚
+
+diagram STypedFeatures_cluttered : ur:?DiagramOperators :=
+  unary_logrel_pushout_operator ?TE ?Types?tp ?TypePres ?HTypedFeatures ❚
+
+diagram STypedFeatures : ur:?DiagramOperators :=
+  CLEAN_UNUSED_ARG_POSITIONS ?STypedFeatures_cluttered ❚

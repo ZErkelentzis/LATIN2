@@ -1,0 +1,43 @@
+// Formalizations primarily corresponding to Sections 2 and 3 of the paper ❚
+
+namespace latin:/casestudies/itp2021 ❚
+fixmeta ur:?LF❚
+
+theory DiagOps : ur:?DiagramOperators =
+  // todo: declare typify operator here ❙
+❚
+
+// BASE LANGUAGE DEFINITIONS
+   ========================================== ❚
+
+theory Terms =
+  term: type ❙
+❚
+
+theory Types =
+  tp: type ❙
+❚
+theory Props =
+  prop: type ❙
+  ded: prop ⟶ type ❘# ⊦ 1 prec -5 ❙
+❚
+
+/T Hard-typed (aka intrinsic/Church-flavored): terms carry their type ❚
+theory HTyped =
+  include ?Types ❙
+  tm: tp ⟶ type ❘# tm 1 prec -5 ❙
+❚
+
+/T Soft-typed (aka extrinsic/Curry-flavored): types coexist with terms, a typing judgement exists ❚
+theory STyped =
+  include ?Terms ❙
+  include ?Types ❙
+  include ?Props ❙
+  of: term ⟶ tp ⟶ prop ❘# 1 ⦂ 2 ❙ // TODO: prop or type return type? ❙
+❚
+
+/T Type Erasure ❚
+view TE : ?HTyped -> ?STyped =
+  tp = tp ❙
+  tm = [a] term ❙
+❚
