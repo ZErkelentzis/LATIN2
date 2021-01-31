@@ -24,6 +24,7 @@ theory HDepFun =
   dep_lam: {A, B: tm A ⟶ tp} ({x: tm A} tm (B x)) ⟶ tm (Π B) ❘# dλ 3 ❙
   dep_app: {A, B: tm A ⟶ tp} tm Π B ⟶ {x: tm A} tm (B x) ❘# 3 d@ 4 ❙
 ❚
+
 view HSFtoDF : ?HSimpFun -> ?HDepFun =
   include ?HTyped ❙
   fun = [A, B] Π ([x: tm A] B) ❙
