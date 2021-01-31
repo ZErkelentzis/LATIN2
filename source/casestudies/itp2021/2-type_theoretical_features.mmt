@@ -1,6 +1,7 @@
 // Formalizations primarily corresponding to Sections 4 of the paper ❚
 namespace latin:/casestudies/itp2021 ❚
-fixmeta ur:?LF❚
+rule scala://parser.api.mmt.kwarc.info?MMTURILexer ❚
+fixmeta ?Meta ❚
 
 /T Hard-typed produt types ❚
 theory HProd =
@@ -20,9 +21,21 @@ theory HSimpFun =
 
 theory HDepFun =
   include ?HTyped ❙
-  dep_fun: {A} (tm A ⟶ tp) ⟶ tp ❘# Π 2 ❙
-  dep_lam: {A, B: tm A ⟶ tp} ({x: tm A} tm (B x)) ⟶ tm (Π B) ❘# dλ 3 ❙
-  dep_app: {A, B: tm A ⟶ tp} tm Π B ⟶ {x: tm A} tm (B x) ❘# 3 d@ 4 ❙
+  dep_fun
+    : {A} (tm A ⟶ tp) ⟶ tp
+    ❘# Π 2
+    ❘ meta ur:?DiagramOperators?unused_arg_pos_cleanup_operator_meta_keep_info ☞http://cds.omdoc.org/urtheories?DiagramOperators?unused_arg_pos_cleanup_operator_meta_keep_specific "1"
+  ❙
+  dep_lam
+    : {A, B: tm A ⟶ tp} ({x: tm A} tm (B x)) ⟶ tm (Π B)
+    ❘# dλ 3
+    ❘ meta ur:?DiagramOperators?unused_arg_pos_cleanup_operator_meta_keep_info ☞http://cds.omdoc.org/urtheories?DiagramOperators?unused_arg_pos_cleanup_operator_meta_keep_specific "1"
+  ❙
+  dep_app
+    : {A, B: tm A ⟶ tp} tm Π B ⟶ {x: tm A} tm (B x)
+    ❘# 3 d@ 4
+    ❘meta ur:?DiagramOperators?unused_arg_pos_cleanup_operator_meta_keep_info ☞http://cds.omdoc.org/urtheories?DiagramOperators?unused_arg_pos_cleanup_operator_meta_keep_specific "1"
+  ❙
 ❚
 
 view HSFtoDF : ?HSimpFun -> ?HDepFun =
@@ -38,7 +51,7 @@ view HSFtoDF : ?HSimpFun -> ?HDepFun =
 
 /T Step 1: generate the interface of all partial logical relations over
            the type erasure morphism ?TE ❚
-diagram HardTypedLogrel : ?DiagOps :=
+diagram HardTypedLogrel : ?DiagOpsMeta :=
     partial_unary_logrel_operator ?TE ?Types?tp (BDIAG (RAWDIAG ☞ur:?LF) ! ?Types ! ?HTyped) ❚
 // Here, we specify ?Types?tp to be partial on that type.
 
@@ -53,11 +66,11 @@ view TypePres : ?HTyped_logrel -> ?STyped =
 ❚
 
 /T Step 3: aggregate all type-theoretical features in diagrams on that we want to apply softening ❚
-diagram HTypedFeatures : ?DiagOps :=
+diagram HTypedFeatures : ?DiagOpsMeta :=
     BDIAG (RAWDIAG ?HTyped) ! ?HProd ! ?HSimpFun ! ?HDepFun ! ?HSFtoDF ❚
 
-diagram STypedFeatures_cluttered : ur:?DiagramOperators :=
+diagram STypedFeatures_cluttered : ?DiagOpsMeta :=
   unary_logrel_pushout_operator ?TE ?Types?tp ?TypePres ?HTypedFeatures ❚
 
-diagram STypedFeatures : ur:?DiagramOperators :=
+diagram STypedFeatures : ?DiagOpsMeta :=
   CLEAN_UNUSED_ARG_POSITIONS ?STypedFeatures_cluttered ❚

@@ -1,4 +1,4 @@
-theory HProd_lopu_result_cleaned : ur:?LF  =
+theory HProd_lopu_result_cleaned : latin:/casestudies/itp2021?Meta  =
 	include ☞latin:/casestudies/itp2021?STyped ❙
 	include ☞latin:/casestudies/itp2021?Terms ❙
 	include ☞latin:/casestudies/itp2021?Props ❙
@@ -39,7 +39,7 @@ theory HProd_lopu_result_cleaned : ur:?LF  =
 
 ❚
 
-theory HSimpFun_lopu_result_cleaned : ur:?LF  =
+theory HSimpFun_lopu_result_cleaned : latin:/casestudies/itp2021?Meta  =
 	include ☞latin:/casestudies/itp2021?STyped ❙
 	include ☞latin:/casestudies/itp2021?Terms ❙
 	include ☞latin:/casestudies/itp2021?Props ❙
@@ -71,32 +71,32 @@ theory HSimpFun_lopu_result_cleaned : ur:?LF  =
 
 ❚
 
-theory HDepFun_lopu_result_cleaned : ur:?LF  =
+theory HDepFun_lopu_result_cleaned : latin:/casestudies/itp2021?Meta  =
 	include ☞latin:/casestudies/itp2021?STyped ❙
 	include ☞latin:/casestudies/itp2021?Terms ❙
 	include ☞latin:/casestudies/itp2021?Props ❙
 	include ☞latin:/casestudies/itp2021?Types ❙
 	dep_fun_0
-		: (term⟶tp)⟶tp
+		: {A:tp}(term⟶tp)⟶tp
 		❘ @ dep_fun
-		❘ # Π 1
-		❘ ## Π 1
+		❘ # Π 2
+		❘ ## Π 2
 	❙
 	dep_lam_0
-		: ({x:term}term)⟶term
+		: {A:tp}({x:term}term)⟶term
 		❘ @ dep_lam
-		❘ # dλ 1
-		❘ ## dλ 1
+		❘ # dλ 2
+		❘ ## dλ 2
 	❙
 	dep_lam_T
 		: {A:tp,B:term⟶tp}{x⁰:{x:term}term,x⁰ᕁ:{x:term,xᕁ:⊦x⦂A}⊦(x⁰ x)⦂(B x)}⊦(dλ x⁰)⦂Π B
 	❙
 	dep_app_0
-		: term⟶term
+		: {A:tp}term⟶term
 		❘ @ dep_app
 	❙
 	dep_app_T
-		: {A:tp,B:term⟶tp}{x⁰:term,x⁰ᕁ:⊦x⁰⦂Π B,x:term,xᕁ:⊦x⦂A}⊦(dep_app_0 x⁰)⦂(B x)
+		: {A:tp,B:term⟶tp}{x⁰:term,x⁰ᕁ:⊦x⁰⦂Π B,x:term,xᕁ:⊦x⦂A}⊦(dep_app_0 A x⁰)⦂(B x)
 	❙
 
 ❚
@@ -105,17 +105,9 @@ view HSFtoDF_lopu_result_cleaned : latin:/casestudies/itp2021?HSimpFun_lopu_resu
 	include ☞latin:/casestudies/itp2021?STyped  ❘ IDENTITY ?STyped❙
 	include ☞latin:/casestudies/itp2021?Terms  ❘ IDENTITY ?Terms❙
 	include ☞latin:/casestudies/itp2021?Props  ❘ IDENTITY ?Props❙
+	include ☞latin:/casestudies/itp2021?Meta  ❘ IDENTITY ?Meta❙
 	include ☞ur:?LF  ❘ IDENTITY ?LF❙
-	include ☞ur:?TermsTypesKinds  ❘ IDENTITY ?TermsTypesKinds❙
-	include ☞http://cds.omdoc.org/mmt?Errors  ❘ IDENTITY ?Errors❙
-	include ☞ur:?ModExp  ❘ IDENTITY ?ModExp❙
-	include ☞http://cds.omdoc.org/mmt?mmt  ❘ IDENTITY ?mmt❙
-	include ☞ur:?Typed  ❘ IDENTITY ?Typed❙
-	include ☞ur:?Kinded  ❘ IDENTITY ?Kinded❙
-	include ☞ur:?TypedConstants  ❘ IDENTITY ?TypedConstants❙
-	include ☞ur:?KindedConstants  ❘ IDENTITY ?KindedConstants❙
-	include ☞ur:?LambdaPi  ❘ IDENTITY ?LambdaPi❙
-	include ☞ur:?LFRules  ❘ IDENTITY ?LFRules❙
+	include ☞ur:?Strings  ❘ IDENTITY ?Strings❙
 	include ☞latin:/casestudies/itp2021?Types  ❘ IDENTITY ?Types❙
 	fun_0
 		= [A,B]Π [x:term]B
@@ -126,14 +118,14 @@ view HSFtoDF_lopu_result_cleaned : latin:/casestudies/itp2021?HSimpFun_lopu_resu
 	lam_T
 	❙
 	app_0
-		= [A,B,f,x]dep_app_0 f
+		= [A,B,f,x]dep_app_0 A f
 	❙
 	app_T
 	❙
 
 ❚
 
-theory HProd_logrel_cleaned : ur:?LF  =
+theory HProd_logrel_cleaned : latin:/casestudies/itp2021?Meta  =
 	include ☞latin:/casestudies/itp2021?HProd_lopu_result_cleaned ❙
 	include ☞latin:/casestudies/itp2021?Terms ❙
 	include ☞latin:/casestudies/itp2021?Props ❙
@@ -151,7 +143,7 @@ theory HProd_logrel_cleaned : ur:?LF  =
 
 ❚
 
-theory HSimpFun_logrel_cleaned : ur:?LF  =
+theory HSimpFun_logrel_cleaned : latin:/casestudies/itp2021?Meta  =
 	include ☞latin:/casestudies/itp2021?HSimpFun_lopu_result_cleaned ❙
 	include ☞latin:/casestudies/itp2021?Terms ❙
 	include ☞latin:/casestudies/itp2021?Props ❙
@@ -166,17 +158,17 @@ theory HSimpFun_logrel_cleaned : ur:?LF  =
 
 ❚
 
-theory HDepFun_logrel_cleaned : ur:?LF  =
+theory HDepFun_logrel_cleaned : latin:/casestudies/itp2021?Meta  =
 	include ☞latin:/casestudies/itp2021?HDepFun_lopu_result_cleaned ❙
 	include ☞latin:/casestudies/itp2021?Terms ❙
 	include ☞latin:/casestudies/itp2021?Props ❙
 	include ☞latin:/casestudies/itp2021?STyped ❙
 	include ☞latin:/casestudies/itp2021?Types ❙
 	dep_lam_r
-		: {B:term⟶tp}{x⁰:{x:term}term}⊦(dλ x⁰)⦂Π B
+		: {A:tp}{B:term⟶tp}{x⁰:{x:term}term}⊦(dλ x⁰)⦂Π B
 	❙
 	dep_app_r
-		: {B:term⟶tp}{x⁰:term}{x:term}⊦(dep_app_0 x⁰)⦂(B x)
+		: {A:tp}{B:term⟶tp}{x⁰:term}{x:term}⊦(dep_app_0 A x⁰)⦂(B x)
 	❙
 
 ❚
@@ -186,30 +178,22 @@ view HSFtoDF_logrel_cleaned : latin:/casestudies/itp2021?HSimpFun_logrel_cleaned
 	include ☞latin:/casestudies/itp2021?Terms  ❘ IDENTITY ?Terms❙
 	include ☞latin:/casestudies/itp2021?Props  ❘ IDENTITY ?Props❙
 	include ☞latin:/casestudies/itp2021?STyped  ❘ IDENTITY ?HTyped❙
+	include ☞latin:/casestudies/itp2021?Meta  ❘ IDENTITY ?Meta❙
 	include ☞ur:?LF  ❘ IDENTITY ?LF❙
-	include ☞ur:?TermsTypesKinds  ❘ IDENTITY ?TermsTypesKinds❙
-	include ☞http://cds.omdoc.org/mmt?Errors  ❘ IDENTITY ?Errors❙
-	include ☞ur:?ModExp  ❘ IDENTITY ?ModExp❙
-	include ☞http://cds.omdoc.org/mmt?mmt  ❘ IDENTITY ?mmt❙
-	include ☞ur:?Typed  ❘ IDENTITY ?Typed❙
-	include ☞ur:?Kinded  ❘ IDENTITY ?Kinded❙
-	include ☞ur:?TypedConstants  ❘ IDENTITY ?TypedConstants❙
-	include ☞ur:?KindedConstants  ❘ IDENTITY ?KindedConstants❙
-	include ☞ur:?LambdaPi  ❘ IDENTITY ?LambdaPi❙
-	include ☞ur:?LFRules  ❘ IDENTITY ?LFRules❙
+	include ☞ur:?Strings  ❘ IDENTITY ?Strings❙
 	include ☞latin:/casestudies/itp2021?Types  ❘ IDENTITY ?Types❙
 	lam_r
-		= [A:tp,B:tp,f:term⟶term,fᕁ:{x⁰:term,x⁰ᕁ:⊦x⁰⦂A}⊦(f x⁰)⦂B]dep_lam_r ([_:term]B) f
+		= [A:tp,B:tp,f:term⟶term,fᕁ:{x⁰:term,x⁰ᕁ:⊦x⁰⦂A}⊦(f x⁰)⦂B]dep_lam_r A ([_:term]B) f
 	❙
 	app_r
-		= [A:tp,B:tp,f:term,fᕁ:⊦f⦂Π [x:term]B,x:term,xᕁ:⊦x⦂A]dep_app_r ([x/r:term]B) f x
+		= [A:tp,B:tp,f:term,fᕁ:⊦f⦂Π [x:term]B,x:term,xᕁ:⊦x⦂A]dep_app_r A ([x/r:term]B) f x
 	❙
 
 ❚
 
 view HProd_lopu_logrel_cleaned : latin:/casestudies/itp2021?HProd_logrel_cleaned  -> latin:/casestudies/itp2021?HProd_lopu_result_cleaned  =
 	include ☞latin:/casestudies/itp2021?HTyped_logrel  ❘ ?TypePres❙
-	include ☞ur:?LF  ❘ IDENTITY ?LF❙
+	include ☞latin:/casestudies/itp2021?Meta  ❘ IDENTITY ?Meta❙
 	include ☞latin:/casestudies/itp2021?STyped  ❘ IDENTITY ?STyped❙
 	include ☞latin:/casestudies/itp2021?Terms  ❘ IDENTITY ?Terms❙
 	include ☞latin:/casestudies/itp2021?Props  ❘ IDENTITY ?Props❙
@@ -229,7 +213,7 @@ view HProd_lopu_logrel_cleaned : latin:/casestudies/itp2021?HProd_logrel_cleaned
 
 view HSimpFun_lopu_logrel_cleaned : latin:/casestudies/itp2021?HSimpFun_logrel_cleaned  -> latin:/casestudies/itp2021?HSimpFun_lopu_result_cleaned  =
 	include ☞latin:/casestudies/itp2021?HTyped_logrel  ❘ ?TypePres❙
-	include ☞ur:?LF  ❘ IDENTITY ?LF❙
+	include ☞latin:/casestudies/itp2021?Meta  ❘ IDENTITY ?Meta❙
 	include ☞latin:/casestudies/itp2021?STyped  ❘ IDENTITY ?STyped❙
 	include ☞latin:/casestudies/itp2021?Terms  ❘ IDENTITY ?Terms❙
 	include ☞latin:/casestudies/itp2021?Props  ❘ IDENTITY ?Props❙
@@ -246,7 +230,7 @@ view HSimpFun_lopu_logrel_cleaned : latin:/casestudies/itp2021?HSimpFun_logrel_c
 
 view HDepFun_lopu_logrel_cleaned : latin:/casestudies/itp2021?HDepFun_logrel_cleaned  -> latin:/casestudies/itp2021?HDepFun_lopu_result_cleaned  =
 	include ☞latin:/casestudies/itp2021?HTyped_logrel  ❘ ?TypePres❙
-	include ☞ur:?LF  ❘ IDENTITY ?LF❙
+	include ☞latin:/casestudies/itp2021?Meta  ❘ IDENTITY ?Meta❙
 	include ☞latin:/casestudies/itp2021?STyped  ❘ IDENTITY ?STyped❙
 	include ☞latin:/casestudies/itp2021?Terms  ❘ IDENTITY ?Terms❙
 	include ☞latin:/casestudies/itp2021?Props  ❘ IDENTITY ?Props❙

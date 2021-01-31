@@ -1,11 +1,16 @@
 // Formalizations primarily corresponding to Sections 2 and 3 of the paper ❚
-
 namespace latin:/casestudies/itp2021 ❚
-fixmeta ur:?LF❚
+rule scala://parser.api.mmt.kwarc.info?MMTURILexer ❚
 
-theory DiagOps : ur:?DiagramOperators =
-  // todo: declare typify operator here ❙
+/T Meta theory for diagram operator applications in `diagram` statements ❚
+theory DiagOpsMeta =
+  include ☞ur:?DiagramOperators ❙
 ❚
+/T Meta theory of all MMT theories and views ❚
+theory Meta : ur:?LF =
+  include ☞ur:?Strings ❙
+❚
+fixmeta ?Meta ❚
 
 // BASE LANGUAGE DEFINITIONS
    ========================================== ❚
