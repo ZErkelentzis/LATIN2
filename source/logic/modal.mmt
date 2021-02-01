@@ -3,17 +3,18 @@ namespace latin:/❚
 fixmeta ur:?LF❚
 
 theory Box =
-  include ?Logic❙
+  include ?Propositions❙
   box: prop ⟶ prop❘# □ 1 prec 20❙
 ❚
 
 theory Diamond =
-  include ?Logic❙
+  include ?Propositions❙
   diamond: prop ⟶ prop❘# ◇ 1 prec 20❙
 ❚
 
 theory ML =
   include ?PL❙
+  include ?Logic ❙
   include ?Box❙
   include ?Diamond❙
 ❚
