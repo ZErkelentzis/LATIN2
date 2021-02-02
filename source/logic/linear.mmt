@@ -52,11 +52,11 @@ theory LinearLogic =
     additive_disjunction_right1 : {Γ,Δ,A,B} Γ ⊢ Δ,A ⟶ Γ ⊢ Δ, A ⊕ B ❘ # aD/orR1 3 4 5 ❙
     additive_disjunction_right2 : {Γ,Δ,A,B} Γ ⊢ Δ,B ⟶ Γ ⊢ Δ, A ⊕ B ❘ # aD/orR2 3 4 5 ❙
 
-    structure Bang : ?Box =
+    implicit structure Bang : ?Box =
         include ?Propositions ❙
         box # ! 1 prec 20 ❘ @ bang ❙
     ❚
-    structure WhyNot : ?Diamond =
+    implicit structure WhyNot : ?Diamond =
         include ?Propositions ❙
         diamond # ﹖ 1 prec 20 ❘ @ whynot ❙
     ❚
@@ -74,12 +74,12 @@ theory LinearLogic =
     bang_right : {A}{[Γ] bang @ Γ}{[Δ] (whynot @ Δ),A } bang @ Γ ⊢ (whynot @ Δ),A ⟶ bang @ Γ ⊢ (whynot @ Δ),!A ❘ # bangR 1 4 ❙
     whynot_left : {A}{[Γ] (bang @ Γ),A}{[Δ] whynot @ Δ } (bang @ Γ),A ⊢ whynot @ Δ ⟶ (bang @ Γ),﹖A ⊢ whynot @ Δ ❘ # whynotL 1 4 ❙
 
-    structure Lollipop : ?Implication =
+    total structure Lollipop : ?Implication =
         include ?Propositions ❙
         impl = [A,B] ¬ A ⅋ B ❘ # 1 %R⊸ 2 prec 20 ❙
     ❚
 
-    structure Equivalence : ?Equivalence =
+    total structure Equivalence : ?Equivalence =
         include ?Propositions ❙
         equiv = [A,B] (A ⊸ B) & (B ⊸ A)  ❘# 1 ⇔ 2 prec 10❙
     ❚
