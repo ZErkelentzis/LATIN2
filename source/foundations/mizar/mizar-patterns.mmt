@@ -4,7 +4,7 @@ import rules scala://mmtwrapper.newxml.mizar.mmt.kwarc.info ❚
 
 theory MizarPatterns : ?HIDDEN =
 	pattern directPartFuncDef(n:NAT, argTps:(term^n ⟶ tp)^n, ret:tp, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ term)^m, defRes: term^n ⟶ term) ❘ =
-    funct: term^n ⟶ term❙
+    funct: term^n ⟶ term ❙
 		rtype: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ funct x ⦂ ret ❙
 		means: {x:term^n} ⟨' ⊦ (x..i) ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ 
 						nary_and m ⟨' (cases..j) x ⇒ funct x ≐ (caseRes..j) x | j:m '⟩
@@ -140,10 +140,13 @@ theory MizarPatterns : ?HIDDEN =
 	pattern existRegistration(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, t:term^n ⟶ tp, a: (dep_typed_attr n t)^m) ❘ =
   	registration: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ ∃ [y] y ⦂ (a @ t) ❙
   ❚
-	pattern condRegistration(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, t:term^n ⟶ tp, a: (dep_typed_attr n t)^m, b: dep_typed_attr n t) ❘ =
-  	registration: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ ∀ [y] y ⦂ (a @ t) ⇒ y ⦂ adj_appl b t ❙
+	pattern condRegistration(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, t:term^n ⟶ tp, a: (dep_typed_attr n t)^m, p: NAT, b: (dep_typed_attr n t)^p) ❘ =
+  	registration: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ ∀ [y] y ⦂ (a @ t) ⇒ y ⦂ (b @ t) ❙
   ❚
-	pattern unqualFuncRegistration(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, t: term^n ⟶ tp, tm:term^n ⟶ term, a: (dep_typed_attr n tp)^m) ❘ =
+	pattern identify(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, a:(term^n ⟶ term)^m, b: (term^n ⟶ term)^m) ❘ =
+  	registration: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ nary_and m ⟨' (a..j) ≐ (b..j) | j:m '⟩ ❙
+  ❚
+	pattern unqualFuncRegistration(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, t: term^n ⟶ tp, tm:term^n ⟶ term, a: (dep_typed_attr n t)^m) ❘ =
   	registration: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ tm x ⦂ (a @ t) ❙
   ❚
 	pattern qualFuncRegistration(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, t:term^n ⟶ tp, tm:term^n ⟶ term, a: (dep_typed_attr n t)^m) ❘ =
