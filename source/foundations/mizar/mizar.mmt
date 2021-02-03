@@ -27,7 +27,7 @@ theory Mizar : ur:?LFS =
 	// equiv_def_conv: {a,b} ⊦ a ⇔ b ⟶ ⊦ (a ⇒ b) ∧ (b ⇒ a) ❙
 
 	// equal: term ⟶ term ⟶ prop ❘# 1 ≐ 2 prec 25 ❘ ## 1 = 2 prec 25 ❙
-	inequal: term ⟶ term ⟶ prop ❘ = ¬ (1 ≐ 2) ❙
+	inequal: term ⟶ term ⟶ prop ❘ = [a, b] ¬ (a ≐ b) ❙
 	// forall: (term ⟶ prop) ⟶ prop ❘ # ∀ 1 ❙
 	// exists: (term ⟶ prop) ⟶ prop ❘ = [pred] ¬ (∀ ([x:term] (¬ (pred x)))) ❘# ∃ 1 ❙
 	// existsUnique: (term ⟶ prop) ⟶ prop ❘ = [pred] (∃ pred) ∧ (∀ [x:term] ∀ [y:term] (pred x ⇒ pred y ⇒ (x ≐ y))) ❙
