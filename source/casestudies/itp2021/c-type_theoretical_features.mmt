@@ -4,6 +4,13 @@ namespace latin:/casestudies/itp2021 ❚
 rule scala://parser.api.mmt.kwarc.info?MMTURILexer ❚
 fixmeta ?Meta ❚
 
+// General remark:
+
+   Our formalization differs slightly from the one given in the paper.
+   For example, since our softening operator doesn't work as intended on proof rules yet, all proof rules are
+   outsourced into separate theories that we later exclude from softening.
+   We elaborate on that problem in the paper after Theorem 13. ❚
+
 theory HEqual =
   include ?HTyped ❙
   include ?Proofs ❙
@@ -38,9 +45,6 @@ theory HProd =
   pair: {A, B} tm A ⟶ tm B ⟶ tm A×B ❘# ⟪ 3 , 4 ⟫ ❙
   projL: {A, B} tm A×B ⟶ tm A ❘# πl 3 ❙
   projR: {A, B} tm A×B ⟶ tm B ❘# πr 3 ❙
-
-  // We don't give beta, eta, or extensionality rules here as the softening operator doesn't work as intended on proof
-     rules yet. In the paper, we elaborate on this problem after Theorem 13. ❙
 ❚
 
 /T Theory of simple hard-typed functions (called HSimpFun in the paper) ❚
@@ -116,72 +120,3 @@ view HBetaSFtoBetaDF : ?HBeta -> ?HDepBeta =
   include ?HSFtoDF ❙
   beta = [A, B, F, x] beta F x ❙
 ❚
-
-// SOFTENING: TRANSLATION FROM HARD- TO SOFT-TYPED
-   ================================================ ❚
-
-theory SEqual =
-  include ?STyped ❙
-  include ?Proofs ❙
-  /T Equality at a type ❙
-  eq: tp ⟶ term ⟶ term ⟶ prop ❙
-  refl: {A, x: term} ⊦ x ⦂ A ⟶ ⊦ eq A x x ❘# refl 3 ❙
-  trans: {A, x, y, z} ⊦ x ⦂ A ⟶ ⊦ y ⦂ A ⟶ ⊦ z ⦂ A ⟶ ⊦ eq A x y ⟶ ⊦ eq A y z ⟶ ⊦ eq A x z ❙
-❚
-
-// TODO(NR@FR): make this view total ❚
-view TEEqual : ?HEqual -> ?SEqual =
-  include ?TE ❙
-  include ?Props ❙
-  include ?Proofs ❙
-  eq = eq ❙
-  // todo NR@FR: assignments for refl, trans, binder_congruence are missing
-                 (note that MMT doesn't throw partiality warnings for some reason) ❙
-❚
-
-/T Step 1: generate the interface of all partial logical relations over
-           the type erasure morphism ?TE ❚
-diagram HardTypedLogrel : ?DiagOpsMeta :=
-    partial_unary_logrel_operator
-      ?TEEqual
-      ?Types?tp ?Props?prop ?Proofs?ded
-      (DIAG_CLOSURE (RAWDIAG ?Meta) (RAWDIAG ?HTypedLogic)) ❚
-    // ! ?HTyped ! ?Props ! ?Proofs ! ?HEqual ! ?HTypedLogic ❚
-
-// Concretely, this generates the interface of partial logical relations that
-   (1) are along ?TEEqual,
-   (2) are (at least) partial on ?Types?tp, ?Props?prop, and ?Proofs?ded,
-   (3) and over ?HTypedLogic (and all transitively included theories up to, but excluding, ?Meta).
-
-   As output, among others, we get the theory ?HTypedLogic_logrel whose constants are all undefined.
-   Realizers of that theory are precisely partial logical relations in the sense of (1) - (3) above.
-❚
-
-/T Step 2: state type preservation as one such partial logical relation ❚
-view TypePres : ?HEqual_logrel -> ?SEqual =
-  include ?SEqual ❙
-  tm_r = [A: tp, t: term] ⊦ t ⦂ A ❙
-❚
-
-/T Step 3: aggregate all type-theoretical features in diagrams on that we want to apply softening ❚
-// diagram HTypedFeatures : ?DiagOpsMeta :=
-    BDIAG (RAWDIAG ?HTyped) ! ?HProd ! ?HSimpFun ! ?HDepFun ! ?HSFtoDF ❚
-
-// diagram STypedFeatures_cluttered : ?DiagOpsMeta :=
-    unary_logrel_pushout_operator
-      ?TEEqual
-      ?Types?tp
-      ?TypePres
-      ?HTypedFeatures
-❚
-
-// diagram STypedFeatures2_cluttered : ?DiagOpsMeta :=
-    unary_logrel_pushout_operator
-      ?TELogic
-      ?Types?tp ?Props?prop ?Proofs?ded
-      ?TypePresLogic
-      (BDIAG (RAWDIAG ?HTypedLogic) ! ?HRule ! ?HBeta ! ?HEta ! ?HExten)
-❚
-
-// diagram STypedFeatures : ?DiagOpsMeta :=
-  DROP_UNUSED_ARGS ?STypedFeatures_cluttered ❚
