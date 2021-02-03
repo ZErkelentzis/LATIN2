@@ -1,0 +1,143 @@
+namespace latin:/❚
+
+fixmeta ur:?LF ❚
+
+theory LinearLogic =
+    include ?Cut ❙
+    include ?Exchange ❙
+    include ?SequentProofs ❙
+    include ?SequentBase ❙
+    include ?SequentNegation ❙
+
+    structure mT : ?SequentTruth =
+        include ?SequentProofs ❙
+        true # I ❙
+    ❚
+    structure mF : ?SequentFalsity =
+        include ?SequentProofs ❙
+        false # ⊥ ❙
+    ❚
+    structure mC : ?SequentConjunctionCompositional =
+        include ?SequentProofs ❙
+        and # 1 ⊗ 2 prec 15 ❙
+    ❚
+    structure mD : ?SequentDisjunctionCompositional =
+        include ?SequentProofs ❙
+        or # 1 ⅋ 2 prec 15 ❙
+    ❚
+
+    structure aF : ?Falsity =
+        include ?Propositions ❙
+        false # O ❙
+    ❚
+    additive_falsity : {Γ, Δ} Γ, O ⊢ Δ ❘ # aF/falseL 1 2 ❙
+
+    structure aT : ?Truth =
+        include ?Propositions ❙
+        true # ⊤ ❙
+    ❚
+    additive_truth : {Γ, Δ} Γ ⊢ Δ, ⊤ ❘ # aT/trueR 1 2 ❙
+
+    structure aC : ?SequentConjunctionRightSimple =
+        include ?SequentProofs ❙
+        and # 1 & 2 prec 15 ❙
+    ❚
+    additive_conjunction_left1 : {Γ,Δ,A,B} Γ,A ⊢ Δ ⟶ Γ, A&B ⊢ Δ ❘ # aC/andL1 3 4 5 ❙
+    additive_conjunction_left2 : {Γ,Δ,A,B} Γ,B ⊢ Δ ⟶ Γ, A&B ⊢ Δ ❘ # aC/andL2 3 4 5 ❙
+
+    structure aD : ?SequentDisjunctionLeftSimple =
+        include ?SequentProofs ❙
+        or # 1 ⊕ 2 prec 15 ❙
+    ❚
+    additive_disjunction_right1 : {Γ,Δ,A,B} Γ ⊢ Δ,A ⟶ Γ ⊢ Δ, A ⊕ B ❘ # aD/orR1 3 4 5 ❙
+    additive_disjunction_right2 : {Γ,Δ,A,B} Γ ⊢ Δ,B ⟶ Γ ⊢ Δ, A ⊕ B ❘ # aD/orR2 3 4 5 ❙
+
+    implicit structure Bang : ?Box =
+        include ?Propositions ❙
+        box # ! 1 prec 20 ❘ @ bang ❙
+    ❚
+    implicit structure WhyNot : ?Diamond =
+        include ?Propositions ❙
+        diamond # ﹖ 1 prec 20 ❘ @ whynot ❙
+    ❚
+
+    bang_left1 : {Γ, Δ, A} Γ ⊢ Δ ⟶ Γ,!A ⊢ Δ ❘ # bangL1 3 4 ❙
+    bang_left2 : {Δ, A}{[Γ] Γ,A} Γ,A ⊢ Δ ⟶ Γ,!A ⊢ Δ ❘ # bangL2 2 4 ❙
+    bang_contraction : {Γ, Δ, A} Γ,!A,!A ⊢ Δ ⟶ Γ,!A ⊢ Δ ❙
+
+    whynot_right1 : {Γ, Δ, A} Γ ⊢ Δ ⟶ Γ ⊢ Δ, ﹖A ❘ # whynotR1 3 4 ❙
+    whynot_right2 : {Γ, A}{[Δ] Δ,A} Γ ⊢ Δ, A ⟶ Γ ⊢ Δ, ﹖A ❘ # whynotR2 2 4 ❙
+    whynot_contraction : {Γ, Δ, A} Γ,﹖A,﹖A ⊢ Δ ⟶ Γ,﹖A ⊢ Δ ❙
+
+    include ?ContextMap ❙
+
+    bang_right : {A}{[Γ] bang @ Γ}{[Δ] (whynot @ Δ),A } bang @ Γ ⊢ (whynot @ Δ),A ⟶ bang @ Γ ⊢ (whynot @ Δ),!A ❘ # bangR 1 4 ❙
+    whynot_left : {A}{[Γ] (bang @ Γ),A}{[Δ] whynot @ Δ } (bang @ Γ),A ⊢ whynot @ Δ ⟶ (bang @ Γ),﹖A ⊢ whynot @ Δ ❘ # whynotL 1 4 ❙
+
+    total structure Lollipop : ?Implication =
+        include ?Propositions ❙
+        impl = [A,B] ¬ A ⅋ B ❘ # 1 %R⊸ 2 prec 20 ❙
+    ❚
+
+    total structure Equivalence : ?Equivalence =
+        include ?Propositions ❙
+        equiv = [A,B] (A ⊸ B) & (B ⊸ A)  ❘# 1 ⇔ 2 prec 10❙
+    ❚
+
+    logical_equiv : prop ⟶ prop ⟶ type ❘ = [A,B] ⊦ A ⇔ B ❘ # 1 ≡ 2 ❙
+    equivalenceI : {A,B} ∅,A ⊢ ∅,B ⟶ ∅,B ⊢ ∅,A ⟶ A ≡ B ❘ # equivI 3 4 ❘
+        = [A,B][p1,p2] aC/andRs (mD/orRP (¬A) B (notR p1)) (mD/orRP (¬B) A (notR p2)) ❙
+❚
+
+theory LinearDuals : ?LinearLogic =
+    dne : {A} ¬¬A ≡ A ❘
+        = [A] equivI (notL (notR (baseP A))) (notR (notL (baseP A))) ❙
+
+    mTF1 : ¬I ≡ ⊥ ❘
+        = equivI (mF/falseR (notL mT/trueR)) (notR (mT/trueL mF/falseL)) ❙
+
+    mTF2 : ¬⊥ ≡ I ❘
+        = equivI (notL (mF/falseR mT/trueR)) (mT/trueL (notR mF/falseL)) ❙
+
+    aTF1 : ¬O ≡ ⊤ ❘
+        = equivI (aT/trueR (∅,¬O) ∅) (notR (aF/falseL (∅,⊤) ∅)) ❙
+
+    aTF2 : ¬⊤ ≡ O ❘
+        = equivI (notL (aT/trueR ∅ (∅,O))) (aF/falseL ∅ (∅,¬⊤)) ❙
+
+    dual1a : {A,B} ¬ (A ⊗ B) ≡ ¬ A ⅋ ¬ B ❘
+        = [A,B] equivI
+            (mD/orRP (¬A) (¬B) (notRP B (notRP A (notLP (A ⊗ B) (mC/andRc (baseP A) (baseP B))))))
+            (notRP (A ⊗ B) (mC/andLP A B (mD/orLcP (¬A) (¬B) (notL (baseP A)) (notL (baseP B)))))
+        ❙
+
+    dual1b : {A,B} ¬ (A ⅋ B) ≡ ¬ A ⊗ ¬ B ❘
+        = [A,B] equivI
+            (notL (mD/orRP A B (mC/andRcP (¬A) (¬B) (notR (baseP A)) (notR (baseP B)))))
+            (mC/andLP (¬A) (¬B) (notRP (A ⅋ B) (mD/orLcP A B (notL (baseP A)) (notL (baseP B)))))
+        ❙
+
+    dual2a : {A,B} ¬ (A ⊕ B) ≡ ¬A & ¬B ❘
+        = [A,B] equivI
+            (aC/andRs (notRP A (notLP (A ⊕ B) (aD/orR1 A B (baseP A)))) (notRP B (notLP (A ⊕ B) (aD/orR2 A B (baseP B)))))
+            (notR (aD/orLsP A B (aC/andL1 (¬A) (¬B) (notL (baseP A))) (aC/andL2 (¬A) (¬B) (notL (baseP B)))))
+        ❙
+
+    dual2b : {A,B} ¬ (A & B) ≡ ¬A ⊕ ¬B ❘
+        = [A,B] equivI
+            (notL (aC/andRsP A B (aD/orR1 (¬A) (¬B) (notR (baseP A))) (aD/orR2 (¬A) (¬B) (notR (baseP B)))))
+            (notRP (A & B) (aD/orLsP (¬A) (¬B) (aC/andL1 A B (notL (baseP A))) (aC/andL2 A B (notL (baseP B)))))
+        ❙
+
+    whynotbang1 : {A} ¬!A ≡ ﹖(¬A) ❘
+         = [A] equivI
+            (notL (bangR A (whynotR2 (¬A) (notR (baseP A)))))
+            (notRP (!A) (whynotL (¬A) (bangL2 A (notL (baseP A)))))
+         ❙
+
+    whynotbang2 : {A} ¬﹖A ≡ !(¬A) ❘
+       = [A] equivI
+          (notLP (﹖A) (bangR (¬A) (whynotR2 A (notR (baseP A)))))
+          (notRP (﹖A) (whynotL A (bangL2 (¬A) (notL (baseP A)))))
+       ❙
+❚

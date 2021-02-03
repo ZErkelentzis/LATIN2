@@ -2,33 +2,34 @@ namespace latin:/❚
 
 fixmeta ?SetFOL❚
 
+// AS: rework (letters etc.)❚
+
 theory ZFTyped =
   include ?ZFBase❙
-  // TODO: are these already induced by including InternalTypes?❙
   
   // Class P is the class of all sets satisfying P❙
   Class : (set ⟶ prop) ⟶ type❙
-  celem : {P:(set ⟶ prop)}{a:set} ⊦ P a ⟶ Class P❙
-  cwhich : {P} Class P ⟶ set❘ # cwhich 2❙
-  cwhy : {P}{a:Class P} ⊦ (P (cwhich a))❘ # cwhy 2❙ 
+  celem : {P,X} ⊦ P X ⟶ Class P❙
+  cwhich : {P} Class P ⟶ set❘# cwhich 2❙
+  cwhy : {P,X:Class P} ⊦ (P (cwhich X))❘ # cwhy 2❙ 
 
   // rules for Classes❙
   // A term with a proof is equal to the original term❙
-  ceq_which : {P:(set ⟶ prop),a:set,p:⊦ P a} ⊦(cwhich (celem P a p)) ≐ a❙
+  ceq_which : {P,X,p} ⊦(cwhich (celem P X p)) ≐ X❙
   // Elements of classes are equal if their first components are (proof irrelevance)❙
-  EqcongEl : {A}{X: Class A}{Y: Class A}{F: Class A ⟶ prop} ⊦ ((cwhich X) ≐ (cwhich Y)) ⟶ ⊦ F X ⟶ ⊦ F Y❙
+  EqcongEl : {P,X,Y,f: Class P ⟶ prop} ⊦ ((cwhich X) ≐ (cwhich Y)) ⟶ ⊦ f X ⟶ ⊦ f Y❙
   
-  // Set or Elem❙
-  Elem : set ⟶ type❘ = [a] Class [x] x ∈ a❙
-  elem : {A}{a} ⊦ a∈A ⟶ Elem A❘
-  	= [A,a,p] celem ([x] x∈A) a p❙
-  which : {A} Elem A ⟶ set❘ # which 2❘
-  	= [A,a] cwhich a❙
-  why : {A}{a:Elem A} ⊦ (which a)∈A❘ # why 2❘
-  	= [A,a] cwhy a❙
+  // Elem❙
+  Elem : set ⟶ type❘ = [X] Class [x] x∈X❙
+  elem : {X}{x} ⊦ x∈X ⟶ Elem X❘
+  	= [X,x,p] celem ([y] y∈X) x p❙
+  which : {X} Elem X ⟶ set❘# which 2❘
+  	= [X,x] cwhich x❙
+  why : {X,x:Elem X} ⊦ (which x)∈X❘# why 2❘
+  	= [X,x] cwhy x❙
   eqwhich : {A}{X}{P} ⊦ (which (elem A X P)) ≐ X❙
   
   // Typed equality → already exists in LATIN2! Import?❙
-  Eq : {A} Elem A ⟶ Elem A ⟶ prop❘
-  		= [A,a,b] ((which a) ≐ (which b))❙ 
+  Eq : {X} Elem X ⟶ Elem X ⟶ prop❘
+  		= [X,Y,Z] ((which Y) ≐ (which Z))❙ 
 ❚

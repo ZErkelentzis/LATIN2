@@ -2,162 +2,64 @@ namespace latin:/❚
 
 fixmeta ?SetFOL❚
 
-theory Subsets =
-  include ?SoftSubtyping❙
-❚
-
-theory EmptySet =
-  include ?EmptySetDefinitions❙
-  empty : set❘ # ∅❙
-  empty_prop : ⊦ isempty ∅❙
-  emptyE : {x} ⊦ x∈∅ ⟶ ↯❘ = [x,p] isemptyE empty_prop p❙
-  
-  include ?Subsets❙
-  empty_sub : {X} ⊦ ∅ ⪽ X❘ // = ???❙
-❚
-
-theory UnorderedPairs =
-  uopair : set ⟶ set ⟶ set❘ # uopair 1 2 prec 40❙
-  uopairIl : {X,Y} ⊦ X ∈ uopair X Y❙
-  uopairIr : {X,Y} ⊦ Y ∈ uopair X Y❙
-  uopairE  : {U,X,Y,C} ⊦ U ∈ uopair X Y ⟶ (⊦ U≐X ⟶ ⊦C) ⟶ (⊦ U≐Y ⟶ ⊦C) ⟶ ⊦C❙
-  
-  uopair_comm : {X,Y} ⊦ uopair X Y ≐ uopair Y X❙
-❚
-
+// AS: maybe this should be a basic feature?❚
 theory Singletons =
 	include ?SingletonDefinition❙
-  singleton : set ⟶ set❘ # singleton 1 prec 100❙
+  singleton : set ⟶ set❘# singleton 1 prec 100❙
   singleton_the : {X} ⊦ issingleton X ⟶ set❘ = [X,p] the ([x] x ∈ X) p❙
-
   singletonI : {X} ⊦ X ∈ singleton X❙
-  singletonE : {X,x} ⊦ x ∈ singleton X ⟶ ⊦ x≐X❘ # singletonE 3❙
+  singletonE : {X,x} ⊦ x ∈ singleton X ⟶ ⊦ x≐X❘# 3 singletonE❙
 ❚
 
-theory Extensionality =
-	include ?ExtensionalityDefinition❙
-	extensionality_axiom : {X,Y} ⊦ isextensional X Y❙
-	
-	extensionalityI : {X,Y} ({z} ⊦ z∈X ⇔ z∈Y) ⟶ ⊦ X≐Y❙
-	// AS: is this right?❙
-	extensionalityE : {X,Y} ⊦ X≐Y ⟶ {z} ⊦ z∈X ⇔ z∈Y❙ 
-❚
-
-theory Regularity =	
-	// FR: only axiom here, no constant; can be a feature a that ZFC includes❙ 
-	regularity_axiom : ⊦ ∀[M](∃[t] t∈M) ⇒ ∃[Y] Y∈M ∧ ¬(∃[z] z∈M ∧ z∈Y)❙
-❚
-
-theory Comprehension =
-  comprehend  : set ⟶ (set ⟶ prop) ⟶ set❘ # 1 | 2 prec 40❙
-  comprehendI : {X,P,x} ⊦ x∈X ⟶ ⊦ P x ⟶ ⊦ x ∈ X|P❙
-  comprehend_sub : {X,P,x} ⊦ x ∈ X|P ⟶ ⊦ x∈X❙
-  comprehendE : {X,P,x} ⊦ x ∈ X|P ⟶ ⊦ P x❘ # comprehendE 4❙
-❚
-
-theory Replacement =
-  replace  : set ⟶ (set ⟶ set) ⟶ set❘ # 1 map 2 prec 40❙
-  replaceI : {M,F,X} ⊦ X∈M ⟶ ⊦ (F X) ∈ M map F❙
-  replaceE : {M,F,X,C} ⊦ X ∈ M map F ⟶ ({Y} ⊦Y∈M ⟶ ⊦(F Y) ≐ X ⟶ ⊦C) ⟶ ⊦C❘ # 5 replaceE 6❙
-❚
-
-theory BigUnion =
-  bigunion : set ⟶ set❘ # ⋃ 1 prec 45❙
-  bigunionI : {M,X,x} ⊦ X∈M ⟶ ⊦ x∈X ⟶ ⊦ x∈ ⋃M❙
-  bigunionE : {M,x,C} ⊦ x∈⋃M ⟶ ({X}⊦X∈M ⟶ ⊦ x∈X ⟶ ⊦C) ⟶ ⊦C❘ # 4 bigunionE 5❙
-  
-  include ?Subsets❙
-  bigunion_subset : {M,X} ⊦ X∈M ⟶ ⊦ X ⪽ ⋃M❙ 
-❚
-
-theory Union =
-	union : set ⟶ set ⟶ set❘ # 1 ∪ 2 prec 40❙
-	unionIl : {X,Y,x} ⊦ x∈X ⟶ ⊦ x∈X∪Y❘ # unionIl 2 4❙
-	unionIr : {X,Y,y} ⊦ y∈Y ⟶ ⊦ y∈X∪Y❘ # unionIr 2 4❙
-	unionE : {X,Y,x,C} ⊦ x∈X∪Y ⟶ (⊦x∈X ⟶ ⊦ C) ⟶ (⊦x∈Y ⟶ ⊦ C) ⟶ ⊦ C❘ # 5 unionE 6 7❙ 
-	
-	include ?Subsets❙
-	union_subsetl : {X,Y} ⊦ X ⪽ X∪Y❙
-	union_subsetr : {X,Y} ⊦ Y ⪽ X∪Y❙
-	union_sup : {X,Y,M} ⊦ X⪽M ⟶ ⊦ Y⪽M ⟶ ⊦ X∪Y ⪽ M❙
-	
-	union_comm : {X,Y} ⊦ X∪Y ≐ Y∪X❙
-	union_ass : {X,Y,Z} ⊦ (X∪Y)∪Z ≐ X∪(Y∪Z)❙
-	union_idem : {X} ⊦ X∪X ≐ X❙
-	
+theory OrderedPairs =
 	include ?EmptySet❙
-	union_neutral : {X} ⊦ ∅∪X ≐ X❙
-❚
-
-theory BigIntersection =
-  include ?EmptySetDefinitions❙
-	biginter : set ⟶ set❘ # ⋂ 1 prec 45❙
-	// M must be nonempty because otherwise intrsection would produce the set of all sets❙
-	biginterI : {M,x} ⊦ nonempty M ⟶ ({X} ⊦ X∈M ⟶ ⊦ x∈X) ⟶ ⊦ x ∈ ⋂M❙
-	biginterE : {M,X,x} ⊦ x ∈ ⋂M ⟶ ⊦ X∈M ⟶ ⊦ x∈X❘ # 4 biginterE 5❙
-	
-	include ?Subsets❙
-	biginter_subset : {M,X} ⊦ X∈M ⟶ ⊦ ⋂M ⪽ X❙
-❚
-
-theory Intersection =
-	inter : set ⟶ set ⟶ set❘ # 1 ∩ 2 prec 40❙
-	interI : {X,Y,x} ⊦ x∈X ⟶ ⊦ x∈Y ⟶ ⊦ x∈X∩Y❙
-	interEl : {X,Y,x} ⊦ x∈X∩Y ⟶ ⊦ x∈X❘ # interEl 4❙
-	interEr : {X,Y,y} ⊦ y∈X∩Y ⟶ ⊦ y∈Y❘ # interEr 4❙
-	
-	include ?Subsets❙
-	inter_subsetl : {X,Y} ⊦ X∩Y ⪽ X❙
-	inter_subsetr : {X,Y} ⊦ X∩Y ⪽ Y❙
-	
-	// this does not work because all algebra theories are written relative to SFOL and we're in FOL❙ 
-	// total structure algebra : algebraic?BoundedSemilattice =
-	//   universe = set❙
-	//   op = inter❙
-  //   comm_ax = forallI [X] forallI [Y] extensionalityI ([p] interI (interER p) (interEL p)) (([p] interI (interER p) (interEL p)))❙
-  // ❚
-❚
-
-theory PowerSets =
-  powerset : set ⟶ set❘# ℘ 1 prec 60❙
-  powersetI : {X,Y} ({x} ⊦x∈X ⟶ ⊦x∈Y) ⟶ ⊦X∈ ℘Y❙
-  powersetE : {X,Y} ⊦X∈ ℘Y ⟶ {x} ⊦x∈X ⟶ ⊦x∈Y❘ # 3 powersetE 4❙
-❚
-
-// AS: maybe rename it to complement or something else❚
-theory Difference =
-	dif : set ⟶ set ⟶ set❘ # 1 ∖ 2 prec 40❙
-	difI : {X,Y,x} ⊦ x∈X ⟶ ⊦ ¬ x∈Y ⟶ ⊦ x ∈ X∖Y❙
-	difEl : {X,Y,x} ⊦ x ∈ X∖Y ⟶ ⊦ x∈X❙
-	difEr : {X,Y,x} ⊦ x ∈ X∖Y ⟶ ⊦ ¬ x∈Y❙
-	
-	include ?Subsets❙
-	dif_subset : {X,Y} ⊦ X∖Y ⪽ X❙
-❚
-
-// FR: these two need some abbreviation just to state them; those can be here and then reused in the ZF theory that realizes them❚
-
-// FR: maybe use inifity to define ℕ, either here or in ZFInfinity
-somewhere we should then realize the theory of Peano axioms❚
-theory Infinity =
-	include ?EmptySet❙
+	include ?UnorderedPairs❙
 	include ?Singletons❙
-	include ?Union❙
+	// AS: similar to Wiener's (X,Y) = {{X}, {{Y},∅}};
+			would it be better to have no definition here?❙
+	// AS: think of a notation❙
+	pair : set ⟶ set ⟶ set❘
+		= [X,Y] uopair (singleton X) (uopair (singleton Y) ∅)❙
+	pi1 : set ⟶ set❙
+	pi2 : set ⟶ set❙
 	
-	// like in the lecture❙
-	infinity_axiom : ⊦ ∃[M] ∅∈M ∧ ∀[X] X∈M ⇒ (X ∪ (singleton X))∈M❙
+	pair_pi : {u} ⊦ pair (pi1 u) (pi2 u) ≐ u❙
+	pi1_pair : {x,y} ⊦ pi1 (pair x y) ≐ x❙
+	pi2_pair : {x,y} ⊦ pi2 (pair x y) ≐ y❙
+	exten: {u,v} ⊦ pi1 u ≐ pi1 v ⟶ ⊦ pi2 u ≐ pi2 v ⟶ ⊦ u ≐ v ❘ = _ ❙
 ❚
 
-// AS: check and change❚
-theory Choice =
-	include ?EmptySet❙
-	include ?Intersection❙
-	include ?Singletons❙
+theory CartesianProduct =
+	include ?OrderedPairs❙
+	// AS: maybe change prec❙
+	prod : set ⟶ set ⟶ set❘# 1 × 2 prec 40❙
+	prodI : {A,B,X,Y} ⊦ X∈A ⟶ ⊦ Y∈B ⟶ ⊦ pair X Y ∈ A×B❙
+	prodEl : {A,B,Z} ⊦ Z ∈ A×B ⟶ ⊦ pi1 Z ∈ A❙
+	prodEr : {A,B,Z} ⊦ Z ∈ A×B ⟶ ⊦ pi2 Z ∈ B❙
+		
+	prodEl2 : {A,B,X,Y} ⊦ pair X Y ∈ A×B ⟶ ⊦ X∈A❙
+	prodEr2 : {A,B,X,Y} ⊦ pair X Y ∈ A×B ⟶ ⊦ Y∈B❙
+❚
 
-	// AS: define choice like in the lecture or shall Choice from FOL be used? ❙
-	// like in KRMT❙
-	include ?ChoiceDefinition❙
-  all_nonempty: set ⟶ prop❘ // = ❙
-  pairwise_disjoint: set ⟶ prop❘ // = ❙
-  choice_axiom : ⊦ ∀[M] (all_nonempty M ∧ pairwise_disjoint M) ⇒ ∃[C] ischoice M C❙
+theory Relations =
+  include ?OrderedPairs❙
+	// AS: TODO❙
+	Rel : set ⟶ set ⟶ set❙
+	
+	RelI : {A,B} (set ⟶ set ⟶ prop) ⟶ set❙  
+	
+// 	injective = [A,B,r] ...
+	surjective = 
+	constant total = 
+	functional = ❙
+❚
+
+theory PartialFunctions =
+	// AS: TODO❙
+	pfunc : set ⟶ set ⟶ set❙
+❚
+
+theory Functions =
+	// AS: TODO❙
+	func : set ⟶ set ⟶ set❙
 ❚

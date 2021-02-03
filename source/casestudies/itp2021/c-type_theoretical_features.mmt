@@ -1,0 +1,206 @@
+// TYPE-THEORETICAL FEATURES (Section 4)
+   ========================================== ❚
+namespace latin:/casestudies/itp2021 ❚
+rule scala://parser.api.mmt.kwarc.info?MMTURILexer ❚
+fixmeta ?Meta ❚
+
+// A formalization of hard-typed features follows. All theories/views include ?HTyped ❚
+
+theory HProd =
+  include ?HTyped ❙
+  prod: tp ⟶ tp ⟶ tp  ❘# 1 × 2 ❙
+  pair: {A, B} tm A ⟶ tm B ⟶ tm A×B ❘# ⟪ 3 , 4 ⟫ ❙
+  projL: {A, B} tm A×B ⟶ tm A ❘# πl 3 ❙
+  projR: {A, B} tm A×B ⟶ tm B ❘# πr 3 ❙
+❚
+
+theory HSimpFun =
+  include ?HTyped ❙
+  fun: tp ⟶ tp ⟶ tp ❘# 1 → 2 ❙
+  lam: {A, B} (tm A ⟶ tm B) ⟶ tm A→B ❘# λ 3 prec 10 ❙
+  app: {A, B} tm A→B ⟶ tm A ⟶ tm B ❘# 3 @ 4 prec 20 ❙
+❚
+
+theory HEqual =
+  include ?HTyped ❙
+  include ?Props ❙
+  include ?Proofs ❙
+  eq: {a} tm a ⟶ tm a ⟶ prop ❘# 2 ≐ 3 prec 5 ❙
+  refl: {a,x: tm a} ⊦ x ≐ x ❘# refl 2 ❙
+
+  binder_congruence
+    : {A, B, C, binder: (tm A ⟶ tm B) ⟶ tm C, F: tm A ⟶ tm B, G: tm A ⟶ tm B}
+        ({x: tm A} ⊦ F x ≐ G x) ⟶ ⊦ binder F ≐ binder G
+  ❙
+
+  trans
+    : {a, x: tm a, y: tm a, z: tm a} ⊦ x ≐ y ⟶ ⊦ y ≐ z ⟶ ⊦ x ≐ z
+    ❘# trans 5 6
+    ❘// = proof in terms of binder_congruence omitted
+  ❙
+
+  trans3
+    : {a, u: tm a, x, y, z} ⊦ u ≐ x ⟶ ⊦ x ≐ y ⟶ ⊦ y ≐ z ⟶ ⊦ x ≐ z
+    ❘# trans3 6 7 8
+    ❘// = proof in terms of trans omitted
+  ❙
+❚
+
+/T TODO NR@FR: better name for this theory? ❚
+theory HRule =
+  include ?HSimpFun ❙
+  include ?HEqual ❙
+❚
+
+theory HBeta =
+  include ?HRule ❙
+  beta: {a, b, F: tm a ⟶ tm b, x: tm a} ⊦ (λ F) @ x ≐ F x ❘# beta 3 4 ❙
+  xi
+    : {A, B, F: tm A ⟶ tm B, G: tm A ⟶ tm B} ({x: tm A} ⊦ F x ≐ G x) ⟶ ⊦ λ F ≐ λ G
+   ❘ = [A, B] binder_congruence A B (A→B) (lam A B)
+   ❘# xi 3 4 5
+ ❙
+❚
+
+theory HEta =
+  include ?HRule ❙
+  eta: {A, B, f: tm A→B} ⊦ (λ [x: tm A] f @ x) ≐ f ❙
+❚
+
+theory HExten =
+  include ?HRule ❙
+  exten: {A, B, f: tm A→B, g: tm A→B} ({x} ⊦ f @ x ≐ g @ x) ⟶ ⊦ f ≐ g ❘# exten 3 4 5 ❙
+❚
+
+theory HBetaEta   = include ?HBeta ❙ include ?HEta   ❙ ❚
+theory HBetaExten = include ?HBeta ❙ include ?HExten ❙ ❚
+
+// In Latin1: https://gl.mathhub.info/MMT/LATIN/-/blob/053b1bbb0b3e45053838e8ef22eef899ef5fe2fc/source/logics/higher-order/modules.elf#L146-151 ❚
+view HExtenGivesEta : ?HBetaEta -> ?HBetaExten =
+  include ?HBeta ❙
+
+  // goal: `⊦ λ [x: tm A] f @ x ≐ f`
+     proof: By extensionality it suffices to show for all `x: tm A` that `⊦ (λ [x: tm A] f @ x) @ x ≐ f @ x`.
+            The latter we show by transivity of ≐:
+              (λ [x: tm A] f @ x) @ x ≐ f @ x ≐ f @ x   (by beta and refl)
+            qed.
+  ❙
+  eta = [A, B, f] exten (λ [x: tm A] f @ x) f ([x: tm A] trans (beta ([y: tm A] f @ y) x) (refl (f @ x))) ❙
+❚
+
+// view EtaGivesExten : ?BetaExten -> ?BetaEta =
+  include ?Beta ❙
+  /T doesn't work yet ❙
+  exten = [A, B, f, g, ext] trans3 (refl f) (xi (λ [x] f @ x) (λ [x] g @ x) ext) (refl g) ❙
+❚
+
+theory HDepFun =
+  include ?HTyped ❙
+  fun
+    : {A} (tm A ⟶ tp) ⟶ tp
+    ❘# Π 2
+    ❘ meta ur:?DiagramOperators?drop_args_keep "1"
+  ❙
+  lam
+    : {A, B: tm A ⟶ tp} ({x: tm A} tm (B x)) ⟶ tm (Π B)
+    ❘# λ 3
+  ❙
+  app
+    : {A, B: tm A ⟶ tp} tm Π B ⟶ {x: tm A} tm (B x)
+    ❘# 3 @ 4
+  ❙
+
+  realize ?HSimpFun ❙
+  fun = [A, B] Π ([x: tm A] B) ❙
+  lam = [A, B, f: tm A ⟶ tm B] λ f ❙
+  app = [A, B, f, x] f @ x ❙
+❚
+
+view HSFtoDF : ?HSimpFun -> ?HDepFun =
+  include ?HTyped ❙
+  fun = [A, B] Π ([x: tm A] B) ❙
+  lam = [A, B, f: tm A ⟶ tm B] λ f ❙
+  app = [A, B, f, x] f @ x ❙
+❚
+
+// SOFTENING: TRANSLATION FROM HARD- TO SOFT-TYPED
+   ================================================ ❚
+
+theory HTypedLogic =
+  include ?HTyped ❙
+  include ?HEqual ❙
+❚
+theory SEqual =
+  include ?STyped ❙
+  include ?Props ❙
+  include ?Proofs ❙
+  /T Equality at a type ❙
+  eq: tp ⟶ term ⟶ term ⟶ prop ❙
+  refl: {A, x: term} ⊦ x ⦂ A ⟶ ⊦ eq A x x ❘# refl 3 ❙
+  trans: {A, x, y, z} ⊦ x ⦂ A ⟶ ⊦ y ⦂ A ⟶ ⊦ z ⦂ A ⟶ ⊦ eq A x y ⟶ ⊦ eq A y z ⟶ ⊦ eq A x z ❙
+❚
+
+theory STypedLogic =
+  include ?STyped ❙
+  include ?SEqual ❙
+❚
+view TELogic : ?HTypedLogic -> ?STypedLogic =
+  include ?TE ❙
+  include ?Props ❙
+  include ?Proofs ❙
+  eq = eq ❙
+  // todo NR@FR: assignments for refl, trans, binder_congruence are missing
+                 (note that MMT doesn't throw partiality warnings for some reason) ❙
+❚
+
+/T Step 1: generate the interface of all partial logical relations over
+           the type erasure morphism ?TE ❚
+diagram HardTypedLogrel : ?DiagOpsMeta :=
+    partial_unary_logrel_operator
+      ?TELogic
+      ?Types?tp ?Props?prop ?Proofs?ded
+      (DIAG_CLOSURE (RAWDIAG ?Meta) (RAWDIAG ?HTypedLogic)) ❚
+    // ! ?HTyped ! ?Props ! ?Proofs ! ?HEqual ! ?HTypedLogic ❚
+
+// Concretely, this generates the interface of partial logical relations that
+   (1) are along ?TELogic,
+   (2) are (at least) partial on ?Types?tp, ?Props?prop, and ?Proofs?ded,
+   (3) and over ?HTypedLogic (and all transitively included theories up to, but excluding, ?Meta).
+
+   As output, among others, we get the theory ?HTypedLogic_logrel whose constants are all undefined.
+   Realizers of that theory are precisely partial logical relations in the sense of (1) - (3) above.
+❚
+
+/T Step 2: state type preservation as one such partial logical relation ❚
+view TypePres : ?HTyped_logrel -> ?STyped =
+  include ?STyped ❙
+  tm_r = [A: tp, t: term] ⊦ t ⦂ A❙
+❚
+
+view TypePresLogic : ?HTypedLogic_logrel -> ?STypedLogic =
+  include ?TypePres ❙
+  include ?SEqual ❙
+❚
+
+/T Step 3: aggregate all type-theoretical features in diagrams on that we want to apply softening ❚
+diagram HTypedFeatures : ?DiagOpsMeta :=
+    BDIAG (RAWDIAG ?HTyped) ! ?HProd ! ?HSimpFun ! ?HDepFun ! ?HSFtoDF ❚
+
+diagram STypedFeatures_cluttered : ?DiagOpsMeta :=
+    unary_logrel_pushout_operator
+      ?TE
+      ?Types?tp
+      ?TypePres
+      ?HTypedFeatures
+❚
+
+diagram STypedFeatures2_cluttered : ?DiagOpsMeta :=
+    unary_logrel_pushout_operator
+      ?TELogic
+      ?Types?tp ?Props?prop ?Proofs?ded
+      ?TypePresLogic
+      (BDIAG (RAWDIAG ?HTypedLogic) ! ?HRule ! ?HBeta ! ?HEta ! ?HExten)
+❚
+
+// diagram STypedFeatures : ?DiagOpsMeta :=
+  DROP_UNUSED_ARGS ?STypedFeatures_cluttered ❚

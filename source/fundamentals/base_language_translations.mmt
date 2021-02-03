@@ -1,0 +1,39 @@
+namespace latin:/❚
+fixmeta ur:?LF❚
+
+// This file defines language translations between base languages defined in base_languages.mmt. ❚
+
+view TypeErasure : ?TypedTerms -> ?SoftTypedTerms =
+  include ?Types ❙
+  tm = [x] term ❙
+❚
+
+diagram TypedTermsLogrels : ur:?DiagramOperators :=
+  logrel_operator ?TypedTerms ?SoftTypedTerms ?TypeErasure
+  (DIAG_CLOSURE (RAWDIAG ☞ur:?LF) (RAWDIAG ?TypedTerms)) ❚
+
+// LOGREL ?TypeErasure ❚
+// ideally, LOGREL ?TypeErasure (DIAG ur:?LF ?TypedTerms) ❚
+// products, simple, dependent functions (output in Curry)
+   forall, choice, equality; aggregating theories FOL, FOLEQ  (output in Church & Curry) ❚
+
+// creates theories ?Types_logrel, ?TypedTerms_logrel ❚
+
+/T The logical relation over ?TypeErasure expressing that terms
+   emerging from type erasing hard-typed terms can be soft-typed
+   against the previous, type-erased type.
+
+   Concretely, the Basic Lemma for this logrel says:
+     for all MMT terms t of MMT type `?TypedTerms?tm A` there is an MMT term wit
+     "in the soft-typed world" witnessing the MMT type `⊦ TypeErasure(t) ⦂ A`.
+❚
+theory TypePreservation =
+  include ?SoftTypedTerms ❙
+  include ?Proofs ❙
+  Unit: type ❙
+  unit: Unit ❙
+
+  realize ?TypedTerms_logrel ❙
+  tp_r = [x] Unit ❙ // TODO @FR: if you write garbage in this definiens, MMT won't complain. ❙
+  tm_r = [A, x, t] ⊦ t ⦂ A ❙
+❚
