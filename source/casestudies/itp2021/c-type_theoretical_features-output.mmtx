@@ -1,3 +1,7 @@
+// TYPE-THEORETICAL FEATURES (Section 4):
+     GENERATED OUTPUT BY DIAG OPS
+   ========================================== ❚
+
 theory HProd_lopu_result_cleaned : latin:/casestudies/itp2021?Meta  =
 	include ☞latin:/casestudies/itp2021?STyped ❙
 	include ☞latin:/casestudies/itp2021?Terms ❙

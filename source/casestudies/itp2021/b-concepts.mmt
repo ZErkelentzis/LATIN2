@@ -1,63 +1,20 @@
-// Formalizations primarily corresponding to the paper's Sections 2 and 3 ❚
+// FUNDAMENTAL CONCEPTS (Section 3)
+   ========================================== ❚
 namespace latin:/casestudies/itp2021 ❚
 rule scala://parser.api.mmt.kwarc.info?MMTURILexer ❚
-
-/T Meta theory for diagram operator applications in `diagram` statements ❚
-theory DiagOpsMeta =
-  include ☞ur:?DiagramOperators ❙
-❚
-/T Meta theory of all MMT theories and views ❚
-theory Meta : ur:?LF =
-  include ☞ur:?Strings ❙
-❚
 fixmeta ?Meta ❚
 
-// BASE LANGUAGE DEFINITIONS
-   ========================================== ❚
-
-theory Terms =
-  term: type ❙
-❚
-
-theory Types =
-  tp: type ❙
-❚
-theory Props =
-  prop: type ❙
-❚
-
-theory Proofs =
-  include ?Props ❙
-  ded: prop ⟶ type ❘# ⊦ 1 prec -5 ❙
-  incon: type ❘ = {p: prop} ⊦ p ❙
-❚
-
+// PROVING ❚
 theory Classical =
   include ?Proofs ❙
   classical: {a} ((⊦ a ⟶ incon) ⟶ incon) ⟶ ⊦ a ❙
 ❚
-
-/T Hard-typed (aka intrinsic/Church-flavored): terms carry their type ❚
-theory HTyped =
-  include ?Types ❙
-  tm: tp ⟶ type ❘# tm 1 prec -5 ❙
+theory ProofIrrel =
+  include ?Proofs ❙
+  // TODO(NR@FR): rule mmt rule ❙
 ❚
 
-/T Soft-typed (aka extrinsic/Curry-flavored): types coexist with terms, a typing judgement exists ❚
-theory STyped =
-  include ?Terms ❙
-  include ?Types ❙
-  include ?Props ❙
-  of: term ⟶ tp ⟶ prop ❘# 1 ⦂ 2 ❙ // TODO: prop or type return type? ❙
-❚
-
-/T Type Erasure ❚
-view TE : ?HTyped -> ?STyped =
-  tp = tp ❙
-  tm = [a] term ❙
-❚
-
-// CONCEPT MERGERS (corresponding to the paper's Section 3.2) ❚
+// CONCEPT MERGERS (Section 3.2) ❚
 
 /T Propositions as types: every proposition `p: prop` is identified with an object type `t_p: tp` (one for every `p`).
    Below, PrAsTy_HTypedProofs extends this by identifying proofs of `p` with object terms of object type `t_p` ❚

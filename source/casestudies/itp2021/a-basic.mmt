@@ -1,0 +1,54 @@
+// BASIC FORMALIZATIONS (Section 2)
+   ========================================== ❚
+namespace latin:/casestudies/itp2021 ❚
+rule scala://parser.api.mmt.kwarc.info?MMTURILexer ❚
+
+/T Meta theory for diagram operator applications in `diagram` statements ❚
+theory DiagOpsMeta = include ☞ur:?DiagramOperators ❙❚
+
+/T Meta theory of all MMT theories and views ❚
+theory Meta : ur:?LF = include ☞ur:?Strings ❙❚
+fixmeta ?Meta ❚
+
+// Begin here: ❚
+
+theory Terms =
+  term: type ❙
+❚
+theory Types =
+  tp: type ❙
+❚
+theory Props =
+  prop: type ❙
+❚
+theory Proofs =
+  include ?Props ❙
+  ded: prop ⟶ type ❘# ⊦ 1 prec -5 ❙
+  incon: type ❘ = {p: prop} ⊦ p ❙
+❚
+
+/T Untyped: no types, just terms ❚
+theory UTyped =
+  include ?Terms ❙
+  include ?Proofs ❙
+❚
+/T Hard-typed (aka intrinsic/Church-flavored): terms carry their type ❚
+theory HTyped =
+  include ?Types ❙
+  tm: tp ⟶ type ❘# tm 1 prec -5 ❙
+  include ?Proofs ❙
+❚
+/T Soft-typed (aka extrinsic/Curry-flavored): types coexist with terms, a typing judgement exists ❚
+theory STyped =
+  include ?Terms ❙
+  include ?Types ❙
+  include ?Props ❙
+  of: term ⟶ tp ⟶ prop ❘# 1 ⦂ 2 ❙ // TODO: prop or type return type? ❙
+❚
+
+/T Type Erasure ❚
+view TE : ?HTyped -> ?STyped =
+  tp = tp ❙
+  tm = [a] term ❙
+❚
+
