@@ -8,13 +8,12 @@ theory HEqual =
   include ?Proofs ❙
   eq: {A} tm A ⟶ tm A ⟶ prop ❘# 2 ≐ 3 prec 5 ❙
   refl: {A,x: tm A} ⊦ x ≐ x ❘# refl 2 ❙
-  eqsub: {A, x: tm A, y: tm A} ⊦ x ≐ y ⟶ {F: tm A ⟶ prop} ⊦ F x ⟶ ⊦ F y❘# eqsub 4 5 6❙
+  eqsub: {A, x: tm A, y: tm A} ⊦ x ≐ y ⟶ {F: tm A ⟶ prop} ⊦ F x ⟶ ⊦ F y ❘# eqsub 4 5 6 ❙
   
-  sym    : {A,x,y: tm A} ⊦ x ≐ y ⟶ ⊦ y ≐ x❘# sym 4❘
-         = [A,x,y,p] eqsub p ([u]u≐x) refl x❙
-  trans  : {A,x,y,z: tm A} ⊦ x ≐ y ⟶ ⊦ y ≐ z ⟶ ⊦ x ≐ z❘# 5 trans 6❘
-         = [A,x,y,z,p,q] eqsub q ([u]x≐u) p❙
-  
+  sym    : {A,x,y: tm A} ⊦ x ≐ y ⟶ ⊦ y ≐ x ❘# sym 4 ❘
+         = [A,x,y,p] eqsub p ([u] u ≐ x) refl x ❙
+  trans  : {A,x,y,z: tm A} ⊦ x ≐ y ⟶ ⊦ y ≐ z ⟶ ⊦ x ≐ z ❘# 5 trans 6 ❘
+         = [A,x,y,z,p,q] eqsub q ([u] x ≐ u) p ❙
 ❚
 
 theory HProd =
@@ -31,34 +30,34 @@ theory HSimpFun =
   lam: {A, B} (tm A ⟶ tm B) ⟶ tm A→B ❘# λ 3 prec 10 ❙
   app: {A, B} tm A→B ⟶ tm A ⟶ tm B ❘# 3 @ 4 prec 20 ❙
   beta: {A, B, F: tm A ⟶ tm B, x: tm A} ⊦ (λ F) @ x ≐ F x ❘# beta %I4 ❙
-  xi : {A, B, F: tm A ⟶ tm B, G: tm A ⟶ tm B} ({x: tm A} ⊦ F x ≐ G x) ⟶ ⊦ λ F ≐ λ G❘ # xi 5❙
+  xi : {A, B, F: tm A ⟶ tm B, G: tm A ⟶ tm B} ({x: tm A} ⊦ F x ≐ G x) ⟶ ⊦ λ F ≐ λ G ❘# xi 5 ❙
 ❚
 
 theory HEta =
-  include ?HSimpFun❙
-  eta: {A, B, f: tm A→B} ⊦ (λ [x: tm A] f @ x) ≐ f❘ # eta %I3 ❙
+  include ?HSimpFun ❙
+  eta: {A, B, f: tm A→B} ⊦ (λ [x: tm A] f @ x) ≐ f ❘# eta %I3 ❙
 ❚
 
 theory HExten =
-  include ?HSimpFun❙
+  include ?HSimpFun ❙
   exten: {A, B, f: tm A→B, g: tm A→B} ({x} ⊦ f @ x ≐ g @ x) ⟶ ⊦ f ≐ g ❘# exten 5 ❙
   realize ?HEta ❙
-  eta = [A,B,f] exten [x] beta❙
+  eta = [A,B,f] exten [x] beta ❙
 ❚
 
 view EtaGivesExten : ?HExten -> ?HEta =
-  include ?HSimpFun❙
-  exten = [A,B,F,G] [f] (sym eta) trans (xi f) trans eta❙
+  include ?HSimpFun ❙
+  exten = [A,B,F,G] [f] (sym eta) trans (xi f) trans eta ❙
 ❚
 
 theory HDepFun =
   include ?HEqual ❙
   fun: {A} (tm A ⟶ tp) ⟶ tp❘ # Π 2❘
      meta ur:?DiagramOperators?drop_args_keep "1"❙
-  lam: {A, B: tm A ⟶ tp} ({x: tm A} tm (B x)) ⟶ tm (Π B)❘# λ 3 prec 10❙
-  app: {A, B: tm A ⟶ tp} tm Π B ⟶ {x: tm A} tm (B x)❘# 3 @ 4 prec 20❙
+  lam: {A, B: tm A ⟶ tp} ({x: tm A} tm (B x)) ⟶ tm (Π B) ❘# λ 3 prec 10 ❙
+  app: {A, B: tm A ⟶ tp} tm Π B ⟶ {x: tm A} tm (B x) ❘# 3 @ 4 prec 20 ❙
   beta: {A, B, F: {x:tm A} tm B x, x: tm A} ⊦ (λ F) @ x ≐ F x ❘# beta %I4 ❙
-  xi : {A, B, F: {x:tm A}tm B, G: tm A ⟶ tm B} ({x: tm A} ⊦ F x ≐ G x) ⟶ ⊦ λ F ≐ λ G❘ # xi 5❙
+  xi : {A, B, F: {x:tm A}tm B, G: tm A ⟶ tm B} ({x: tm A} ⊦ F x ≐ G x) ⟶ ⊦ λ F ≐ λ G ❘# xi 5 ❙
 ❚
 
 view HSFtoDF : ?HSimpFun -> ?HDepFun =

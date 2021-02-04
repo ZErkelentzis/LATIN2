@@ -11,6 +11,7 @@ theory SEqual =
   /T Equality at a type ❙
   eq: tp ⟶ term ⟶ term ⟶ prop ❙
   refl: {A, x: term} ⊦ x ⦂ A ⟶ ⊦ eq A x x ❘# refl 3 ❙
+  eqsub: {A, x: term, y: term} ⊦ x ⦂ A ⟶ ⊦ y ⦂ A ⟶ ⊦ eq A x y ⟶ {F: term ⟶ prop} ⊦ F x ⟶ ⊦ F y ❙
   trans: {A, x, y, z} ⊦ x ⦂ A ⟶ ⊦ y ⦂ A ⟶ ⊦ z ⦂ A ⟶ ⊦ eq A x y ⟶ ⊦ eq A y z ⟶ ⊦ eq A x z ❙
 ❚
 

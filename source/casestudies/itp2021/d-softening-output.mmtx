@@ -96,22 +96,17 @@ theory HDepFun_lopu_result_cleaned : latin:/casestudies/itp2021?Meta  =
 	app_T
 		: {A:tp,B:term⟶tp}{x⁰:term,x⁰ᕁ:⊦x⁰⦂Π B,x:term,xᕁ:⊦x⦂A}⊦(app_0 x⁰)⦂(B x)
 	❙
-
-❚
-
-view HSFtoDF_lopu_result_cleaned : latin:/casestudies/itp2021?HFun_lopu_result_cleaned  -> latin:/casestudies/itp2021?HDepFun_lopu_result_cleaned  =
-	fun_0
-		= [A,B]Π [x:term]B
+	beta_0
+		: {A:tp}{B:{/B/1/v:term}tp}{F:{x:term}term}{x:term}⊦(eq (B x) (app_0 (lam_0 A ([x/r:term]B x/r) F)) (F x))
+		❘ @ beta
+		❘ # beta %I4
+		❘ ## beta %I4
 	❙
-	lam_0
-		= [A,B,f:term⟶term]λ f
-	❙
-	lam_T
-	❙
-	app_0
-		= [A,B,f,x]app_0 f
-	❙
-	app_T
+	xi_0
+		: {A:tp}{B:tp}{F:{x:term}term}{G:term⟶term}({x:term}⊦(eq B (F x) (G x)))⟶⊦(eq Π [x:term]B λ F λ G)
+		❘ @ xi
+		❘ # xi 5
+		❘ ## xi 5
 	❙
 
 ❚
@@ -151,17 +146,6 @@ theory HDepFun_logrel_cleaned : latin:/casestudies/itp2021?Meta  =
 	❙
 	app_r
 		: {B:term⟶tp}{x⁰:term}{x:term}⊦(app_0 x⁰)⦂(B x)
-	❙
-
-❚
-
-view HSFtoDF_logrel_cleaned : latin:/casestudies/itp2021?HFun_logrel_cleaned  -> latin:/casestudies/itp2021?HDepFun_logrel_cleaned  =
-	include ☞latin:/casestudies/itp2021?HDepFun_lopu_result_cleaned  ❘ IDENTITY ?HDepFun_lopu_result_cleaned❙
-	lam_r
-		= [A:tp,B:tp,f:term⟶term,fᕁ:{x⁰:term,x⁰ᕁ:⊦x⁰⦂A}⊦(f x⁰)⦂B]lam_r A ([_:term]B) f
-	❙
-	app_r
-		= [A:tp,B:tp,f:term,fᕁ:⊦f⦂Π [x:term]B,x:term,xᕁ:⊦x⦂A]app_r ([x/r:term]B) f x
 	❙
 
 ❚
