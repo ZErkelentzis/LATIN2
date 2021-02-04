@@ -1,6 +1,7 @@
 // TYPE-THEORETICAL FEATURES (Section 4)
       SOFTENING
    ========================================== ❚
+
 namespace latin:/casestudies/itp2021 ❚
 rule scala://parser.api.mmt.kwarc.info?MMTURILexer ❚
 fixmeta ?Meta ❚
@@ -15,12 +16,11 @@ theory SEqual =
   trans: {A, x, y, z} ⊦ x ⦂ A ⟶ ⊦ y ⦂ A ⟶ ⊦ z ⦂ A ⟶ ⊦ eq A x y ⟶ ⊦ eq A y z ⟶ ⊦ eq A x z ❙
 ❚
 
+/T Partial type erasure from hard-typed to soft-typed equality. ❚
 view TEEqual : ?HEqual -> ?SEqual =
   include ?TE ❙
   include ?Proofs ❙
   eq = eq ❙
-  refl = refl❙
-  eqsub = eqsub❙
 ❚
 
 /T Step 1: generate the interface of all partial logical relations over
