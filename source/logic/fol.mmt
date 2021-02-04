@@ -163,3 +163,12 @@ theory FOLEQDescND =
   include ?FOLEQDesc❙
   include ?FOLEQND❙
 ❚
+
+view TC : Nonempty -> Description =
+  nonempty = [A] ∃I (the [x] ⊤) ⊤I❙ 
+❚
+
+view DC : Description -> Choice =
+   the' = [A] some'❙
+   ax_the = [A][T] rul_some ([u] u == T) T eqrefl❙
+❚
