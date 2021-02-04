@@ -43,7 +43,7 @@ theory SimpleFunctions =
 
 theory DependentFunctions =
   include ?DependentFunctionTypes❙
-  include ?TypedEquality❙
+  include ?TypedEqualityND❙
   deplambda: {A,B} ({x: tm A} tm B x) ⟶ tm Π B❘# λ 3 prec 40❙
   depapply: {A,B} tm Π B ⟶ {x: tm A} tm B x ❘# 3 @ 4 prec 50❙
   depbeta : {A,B,F:{x:tm A} tm B x, X} ⊦ (λ F) @ X ≐ F X❙
@@ -78,17 +78,17 @@ theory SoftTypedDependentFunctions =
 
 theory SimpleFunctionsEta =
   include ?SimpleFunctions❙
-  eta: {A,B,F:tm A → B} ⊦ (λ[x] F @ x) ≐ F❙
+  eta: {A,B,F:tm A → B} ⊦ F ≐ λ[x]F@x❙
 ❚
 
 theory DependentFunctionsEta =
   include ?DependentFunctions❙
-  eta: {A,B, F:tm Π[x:tm A] B x} ⊦ (λ[x] F @ x) ≐ F❙
+  eta: {A,B, F:tm Π[x:tm A] B x} ⊦ F ≐ λ[x]F@x❙
 ❚
 
 theory SoftTypedFunctionsEta =
   include ?SoftTypedFunctions❙
-  eta: {F} ⊦ (λ[x] F @ x) ≐ F❙
+  eta: {F} ⊦ F ≐ λ[x]F@x❙
 ❚
 
 theory SimpleFunctionsExtensionality =
@@ -103,5 +103,15 @@ theory DependentFunctionsExtensionality =
 
 theory SofttypedFunctionsExtensionality =
   include ?SoftTypedFunctions❙
-  eta: {F,G} ({x} ⊦ F@x ≐ G@x) ⟶ ⊦ F≐G❙
+  exten: {F,G} ({x} ⊦ F@x ≐ G@x) ⟶ ⊦ F≐G❙
+❚
+
+view FE : ?SimpleFunctionsExtensionality -> ?SimpleFunctionsEta =
+  include ?SimpleFunctions❙
+   exten = [A,B,F,G] [f] trans3 eta (simpxi [x] f x) (eta sym)❙
+❚
+
+view EF : ?SimpleFunctionsEta -> ?SimpleFunctionsExtensionality =
+   include ?SimpleFunctions❙
+   eta = [A,B,F] exten [x] refl ❙
 ❚
