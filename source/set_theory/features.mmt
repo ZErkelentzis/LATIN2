@@ -17,20 +17,20 @@ theory OrderedPairs =
 			would it be better to have no definition here?❙
 	// AS: think of a notation❙
 	pair : set ⟶ set ⟶ set❘# pair 1 2 prec 40❙
-	pairIl : {X,Y} ⊦ X ∈ pair X Y❙
-	pairIr : {X,Y} ⊦ Y ∈ pair X Y❙
-	pairE : {U,X,Y,C} ⊦ U ∈ pair X Y ⟶ (⊦ U ≐ X ⟶ ⊦ C) ⟶ (⊦ U ≐ Y ⟶ ⊦ C) ⟶ ⊦ C❙
+	pi1 : set ⟶ set❘# 1 ₁ prec 35❙
+	pi2 : set ⟶ set❘# 1 ₂ prec 35❙
 	
-	pi1 : set ⟶ set❘# 1 ₁ prec 45❙
-	pi2 : set ⟶ set❘# 1 ₂ prec 45❙
+	ispair : set ⟶ prop❙
 	
-	// extensionality rules❙
+	// computation rules❙
 	compLeft : {X,Y} ⊦ (pair X Y)₁ ≐ X❙
 	compRight : {X,Y} ⊦ (pair X Y)₂ ≐ Y❙
 	
-	repr : {X,Y,p: pair X Y} ⊦ p ≐ pair (p₁) (p₂)❙
+	// representation rule❙
+	repr : {p} ⊦ ispair p ⟶ ⊦ p ≐ pair (p₁) (p₂)❙
 	
-	ext : {X,Y,p: pair X Y,q: pair X Y} ⊦ p₁ ≐ q₁ ⟶ ⊦ p₂ ≐ q₂ ⟶ ⊦ p ≐ q❙
+	// extensionality rule❙
+	ext : {p,q} ⊦ ispair p ⟶ ⊦ ispair q ⟶ ⊦ p₁ ≐ q₁ ⟶ ⊦ p₂ ≐ q₂ ⟶ ⊦ p ≐ q❙
 ❚
 
 theory CartesianProduct =
@@ -40,18 +40,20 @@ theory CartesianProduct =
 	prodI : {X,Y,x,y} ⊦ x∈X ⟶ ⊦ y∈Y ⟶ ⊦ pair x y ∈ X×Y❙
 	prodEl : {X,Y,Z} ⊦ Z ∈ X×Y ⟶ ⊦ Z₁ ∈ X❙
 	prodEr : {X,Y,Z} ⊦ Z ∈ X×Y ⟶ ⊦ Z₂ ∈ Y❙
-	
-	prodEl2 : {X,Y,x,y} ⊦ pair x y ∈ X×Y ⟶ ⊦ x∈X❙
-	prodEr2 : {X,Y,x,y} ⊦ pair x y ∈ X×Y ⟶ ⊦ y∈Y❙
 ❚
 
 theory Relations =
-	include ?CartesianProduct❙
-	include ?PowerSets❙
-	// AS: TODO,
-		normally this would be a subset of ℘(a × b)❙
-	rel : set ⟶ set ⟶ set❘
-		= [X,Y] ℘ (X×Y)❙
+  theRel: {a:set,b:set} (set ⟶ set ⟶ prop) ⟶ set❙
+  inRel : set ⟶ set ⟶ set ⟶ prop❙
+  
+  isRel : set ⟶ prop❙
+  
+  relcomp : {a,b,P,x,y} ⊦ inRel (theRel a b P) x y ⇔ x∈a ∧ y∈b ∧ P x y❙
+  relrepr : {a,b,r} ⊦ isRel r ⟶ ⊦ r ≐ theRel a b ([x,y] inRel r x y)❙ 
+  exten : {r,s} ⊦ isRel r ⟶ ⊦ isRel s ⟶ ({x,y} ⊦ inRel r x y ⇔ inRel s x y) ⟶ ⊦ r≐s❙
+  
+  rel : set ⟶ set ⟶ set❙
+  relI: {a,b,P} ⊦ theRel a b P ∈ rel a b❙
 ❚
 
 theory PartialFunctions =
