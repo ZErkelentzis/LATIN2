@@ -39,7 +39,7 @@ theory DependentProducts =
   deppi2 : {A,B, u: tm Σ [x: tm A] B x} tm B (u₁)❘# 3 ₂ prec 60❙
 
   compute1 : {A, B, a: tm A, b} ⊦ ((a,b):tm Σ B)₁ ≐ a❘role Simplify❙
-  // compute2 : {A, B: tm A ⟶ tp, a, b} ⊦ (a,b: tm Σ B)₂↑(compute1 congType B) ≐ b❘role Simplify❙
+  compute2 : {A, B: tm A ⟶ tp, a, b} ⊦ (a,b: tm Σ B)₂↑(compute1 congType B) ≐ b❘role Simplify❙
 ❚
 
 theory SoftTypedProducts =

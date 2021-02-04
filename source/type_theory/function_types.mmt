@@ -27,7 +27,7 @@ theory SimpleFunctions =
   simpbeta : {A,B,F: tm A ⟶ tm B, X} ⊦ (λ F) @ X ≐ F X❘ role Simplify❙
   
   simpxi : {A,B,F,G:tm A ⟶ tm B} ({x} ⊦F x≐G x) ⟶ ⊦λ F≐λ G❘
-         // = [A,B,F,G,p] congB p ([U] λ F ≐ λ U) refl❙
+         = [A,B,F,G,p] congB p ([U] λ F ≐ λ U) refl❙
   apply_eq : {A,B,F,G:tm A→B,x,y:tm A} ⊦ F≐G ⟶ ⊦x≐y ⟶ ⊦ F@x ≐ G@y❘
            = [A,B,F,G,x,y,p,q] p q congT2 [u,v]u@v❙  
   apply_eq_l : {A,B,F,G:tm A→B} ⊦ F≐G ⟶ {x:tm A} ⊦ F@x ≐ G@x❘
