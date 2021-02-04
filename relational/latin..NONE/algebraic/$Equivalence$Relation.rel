@@ -1,4 +1,0 @@
-theory latin:/algebraic?EquivalenceRelation
-HasMeta latin:/algebraic?EquivalenceRelation latin:/?SFOLEQND
-Includes latin:/algebraic?EquivalenceRelation latin:/algebraic?Preorder
-Includes latin:/algebraic?EquivalenceRelation latin:/algebraic?Symmetry

@@ -1,4 +1,0 @@
-theory latin:/?LogicDiagramOperators
-Includes latin:/?LogicDiagramOperators latin:/?LogicDiagramOperatorsSyntax
-Includes latin:/?LogicDiagramOperators latin:/?LogicDiagramOperatorsSemantics
-Includes latin:/?LogicDiagramOperators http://cds.omdoc.org/urtheories?Combinators

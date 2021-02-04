@@ -1,7 +1,0 @@
-dataconstructor latin:/?Truth?true
-theory latin:/?Truth
-HasMeta latin:/?Truth http://cds.omdoc.org/urtheories?LF
-Includes latin:/?Truth latin:/?Propositions
-Declares latin:/?Truth latin:/?Truth?true
-constant latin:/?Truth?true
-DependsOn latin:/?Truth?true?type latin:/?Propositions?prop?type

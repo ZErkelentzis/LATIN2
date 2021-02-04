@@ -1,8 +1,0 @@
-dataconstructor latin:/?Reflexivity?refl
-theory latin:/?Reflexivity
-HasMeta latin:/?Reflexivity http://cds.omdoc.org/urtheories?PLF
-Includes latin:/?Reflexivity latin:/?Relation
-Declares latin:/?Reflexivity latin:/?Reflexivity?refl
-constant latin:/?Reflexivity?refl
-DependsOn latin:/?Reflexivity?refl?type latin:/?Relation?rel?type
-DependsOn latin:/?Reflexivity?refl?type latin:/?OneTyped?carrier?type

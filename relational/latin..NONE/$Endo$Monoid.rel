@@ -1,4 +1,0 @@
-theory latin:/?EndoMonoid
-HasMeta latin:/?EndoMonoid latin:/?TypedEquality
-Includes latin:/?EndoMonoid latin:/?EndoSemigroup
-Includes latin:/?EndoMonoid latin:/?EndoNeutral

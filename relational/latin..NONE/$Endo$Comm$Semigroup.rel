@@ -1,4 +1,0 @@
-theory latin:/?EndoCommSemigroup
-HasMeta latin:/?EndoCommSemigroup latin:/?TypedEquality
-Includes latin:/?EndoCommSemigroup latin:/?EndoSemigroup
-Includes latin:/?EndoCommSemigroup latin:/?EndoCommutative

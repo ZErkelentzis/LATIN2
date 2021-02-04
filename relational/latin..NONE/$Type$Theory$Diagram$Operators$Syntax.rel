@@ -1,7 +1,0 @@
-untypedconstant latin:/?TypeTheoryDiagramOperatorsSyntax?single_typeindexifier
-untypedconstant latin:/?TypeTheoryDiagramOperatorsSyntax?multi_typeindexifier
-theory latin:/?TypeTheoryDiagramOperatorsSyntax
-Declares latin:/?TypeTheoryDiagramOperatorsSyntax latin:/?TypeTheoryDiagramOperatorsSyntax?single_typeindexifier
-constant latin:/?TypeTheoryDiagramOperatorsSyntax?single_typeindexifier
-Declares latin:/?TypeTheoryDiagramOperatorsSyntax latin:/?TypeTheoryDiagramOperatorsSyntax?multi_typeindexifier
-constant latin:/?TypeTheoryDiagramOperatorsSyntax?multi_typeindexifier

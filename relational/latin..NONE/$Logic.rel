@@ -1,4 +1,0 @@
-theory latin:/?Logic
-HasMeta latin:/?Logic http://cds.omdoc.org/urtheories?LF
-Includes latin:/?Logic latin:/?Propositions
-Includes latin:/?Logic latin:/?Proofs

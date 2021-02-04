@@ -1,8 +1,0 @@
-dataconstructor latin:/?DependentConjunction?dand
-theory latin:/?DependentConjunction
-HasMeta latin:/?DependentConjunction http://cds.omdoc.org/urtheories?LF
-Includes latin:/?DependentConjunction latin:/?Logic
-Declares latin:/?DependentConjunction latin:/?DependentConjunction?dand
-constant latin:/?DependentConjunction?dand
-DependsOn latin:/?DependentConjunction?dand?type latin:/?Propositions?prop?type
-DependsOn latin:/?DependentConjunction?dand?type latin:/?Proofs?ded?type

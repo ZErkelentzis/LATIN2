@@ -1,8 +1,8 @@
 # jedit temp. files.
 *~
-content
-narration
-errors
-relational
+content/
+narration/
+errors/
+relational/
 logaux
 build.html

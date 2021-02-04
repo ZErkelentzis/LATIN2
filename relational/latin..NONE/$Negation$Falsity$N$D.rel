@@ -1,5 +1,0 @@
-theory latin:/?NegationFalsityND
-HasMeta latin:/?NegationFalsityND http://cds.omdoc.org/urtheories?LF
-Includes latin:/?NegationFalsityND latin:/?NegationFalsity
-Includes latin:/?NegationFalsityND latin:/?NegationND
-Includes latin:/?NegationFalsityND latin:/?FalsityND

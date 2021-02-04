@@ -1,5 +1,0 @@
-theory latin:/?SFOLEQND
-HasMeta latin:/?SFOLEQND http://cds.omdoc.org/urtheories?LF
-Includes latin:/?SFOLEQND latin:/?SFOLEQ
-Includes latin:/?SFOLEQND latin:/?SFOLND
-Includes latin:/?SFOLEQND latin:/?TypedEqualityND

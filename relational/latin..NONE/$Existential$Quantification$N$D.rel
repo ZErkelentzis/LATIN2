@@ -1,4 +1,0 @@
-theory latin:/?ExistentialQuantificationND
-HasMeta latin:/?ExistentialQuantificationND http://cds.omdoc.org/urtheories?LF
-Includes latin:/?ExistentialQuantificationND latin:/?ExistentialQuantificationNDI
-Includes latin:/?ExistentialQuantificationND latin:/?ExistentialQuantificationNDE
