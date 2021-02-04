@@ -1,22 +1,20 @@
 // TYPE-THEORETICAL FEATURES (Section 4)
    ========================================== ❚
 namespace latin:/casestudies/itp2021 ❚
-rule scala://parser.api.mmt.kwarc.info?MMTURILexer ❚
 fixmeta ?Meta ❚
-
-// General remark:
-
-   Our formalization differs slightly from the one given in the paper.
-   For example, since our softening operator doesn't work as intended on proof rules yet, all proof rules are
-   outsourced into separate theories that we later exclude from softening.
-   We elaborate on that problem in the paper after Theorem 13. ❚
 
 theory HEqual =
   include ?HTyped ❙
   include ?Proofs ❙
   eq: {A} tm A ⟶ tm A ⟶ prop ❘# 2 ≐ 3 prec 5 ❙
   refl: {A,x: tm A} ⊦ x ≐ x ❘# refl 2 ❙
-  eqsub: {A, x: tm A, y: tm A} ⊦ x ≐ y ⟶ {F: tm A ⟶ prop} ⊦ F x ⟶ ⊦ F y ❙
+  eqsub: {A, x: tm A, y: tm A} ⊦ x ≐ y ⟶ {F: tm A ⟶ prop} ⊦ F x ⟶ ⊦ F y❘# eqsub 4 5 6❙
+  
+  sym    : {A,x,y: tm A} ⊦ x ≐ y ⟶ ⊦ y ≐ x❘# sym 4❘
+         = [A,x,y,p] eqsub p ([u]u≐x) refl x❙
+  trans  : {A,x,y,z: tm A} ⊦ x ≐ y ⟶ ⊦ y ≐ z ⟶ ⊦ x ≐ z❘# 5 trans 6❘
+         = [A,x,y,z,p,q] eqsub q ([u]x≐u) p❙
+  
 ❚
 
 theory HProd =
@@ -27,76 +25,47 @@ theory HProd =
   projR: {A, B} tm A×B ⟶ tm B ❘# πr 3 ❙
 ❚
 
-/T Theory of simple hard-typed functions (called HSimpFun in the paper) ❚
-theory HFun =
+theory HSimpFun =
   include ?HEqual ❙
   fun: tp ⟶ tp ⟶ tp ❘# 1 → 2 ❙
   lam: {A, B} (tm A ⟶ tm B) ⟶ tm A→B ❘# λ 3 prec 10 ❙
   app: {A, B} tm A→B ⟶ tm A ⟶ tm B ❘# 3 @ 4 prec 20 ❙
+  beta: {A, B, F: tm A ⟶ tm B, x: tm A} ⊦ (λ F) @ x ≐ F x ❘# beta %I4 ❙
+  xi : {A, B, F: tm A ⟶ tm B, G: tm A ⟶ tm B} ({x: tm A} ⊦ F x ≐ G x) ⟶ ⊦ λ F ≐ λ G❘ # xi 5❙
 ❚
-theory HBeta =
-  include ?HFun ❙
-  beta: {A, B, F: tm A ⟶ tm B, x: tm A} ⊦ (λ F) @ x ≐ F x ❘# beta 3 4 ❙
-  xi
-    : {A, B, F: tm A ⟶ tm B, G: tm A ⟶ tm B} ({x: tm A} ⊦ F x ≐ G x) ⟶ ⊦ λ F ≐ λ G
-   ❘ = [A, B] binder_congruence A B (A→B) (lam A B)
-   ❘# xi 3 4 5
- ❙
-❚
+
 theory HEta =
-  include ?HBeta ❙
-  eta: {A, B, f: tm A→B} ⊦ (λ [x: tm A] f @ x) ≐ f ❙
+  include ?HSimpFun❙
+  eta: {A, B, f: tm A→B} ⊦ (λ [x: tm A] f @ x) ≐ f❘ # eta %I3 ❙
 ❚
-// In Latin1: https://gl.mathhub.info/MMT/LATIN/-/blob/053b1bbb0b3e45053838e8ef22eef899ef5fe2fc/source/logics/higher-order/modules.elf#L146-151 ❚
+
 theory HExten =
-  include ?HBeta ❙
-  exten: {A, B, f: tm A→B, g: tm A→B} ({x} ⊦ f @ x ≐ g @ x) ⟶ ⊦ f ≐ g ❘# exten 3 4 5 ❙
-
+  include ?HSimpFun❙
+  exten: {A, B, f: tm A→B, g: tm A→B} ({x} ⊦ f @ x ≐ g @ x) ⟶ ⊦ f ≐ g ❘# exten 5 ❙
   realize ?HEta ❙
-  // Giving an assignment for eta ultimately amounts to giving an inhabitant of `⊦ λ [x: tm A] f @ x ≐ f`.
-
-    Natural language sketch: By extensionality it suffices to show for all `x: tm A` that
-                                 `⊦ (λ [x: tm A] f @ x) @ x ≐ f @ x`.
-                             The latter we show by transivity of ≐:
-                                 `(λ [x: tm A] f @ x) @ x ≐ f @ x ≐ f @ x`   (by beta and refl)
-                             qed.
-  ❙
-  eta = [A, B, f] exten (λ [x: tm A] f @ x) f ([x: tm A] trans (beta ([y: tm A] f @ y) x) (refl (f @ x))) ❙
+  eta = [A,B,f] exten [x] beta❙
 ❚
-// TODO(NR@FR): make this view typecheck (it should almost be correct): ❙
-// view EtaGivesExten : ?BetaExten -> ?BetaEta =
-  include ?Beta ❙
-  /T doesn't work yet ❙
-  exten = [A, B, f, g, ext] trans3 (refl f) (xi (λ [x] f @ x) (λ [x] g @ x) ext) (refl g) ❙
+
+view EtaGivesExten : ?HExten -> ?HEta =
+  include ?HSimpFun❙
+  exten = [A,B,F,G] [f] (sym eta) trans (xi f) trans eta❙
 ❚
 
 theory HDepFun =
   include ?HEqual ❙
-  fun
-    : {A} (tm A ⟶ tp) ⟶ tp
-    ❘# Π 2
-    ❘ meta ur:?DiagramOperators?drop_args_keep "1"
-  ❙
-  lam
-    : {A, B: tm A ⟶ tp} ({x: tm A} tm (B x)) ⟶ tm (Π B)
-    ❘# λ 3 prec 10
-  ❙
-  app
-    : {A, B: tm A ⟶ tp} tm Π B ⟶ {x: tm A} tm (B x)
-    ❘# 3 @ 4 prec 20
-  ❙
+  fun: {A} (tm A ⟶ tp) ⟶ tp❘ # Π 2❘
+     meta ur:?DiagramOperators?drop_args_keep "1"❙
+  lam: {A, B: tm A ⟶ tp} ({x: tm A} tm (B x)) ⟶ tm (Π B)❘# λ 3 prec 10❙
+  app: {A, B: tm A ⟶ tp} tm Π B ⟶ {x: tm A} tm (B x)❘# 3 @ 4 prec 20❙
+  beta: {A, B, F: {x:tm A} tm B x, x: tm A} ⊦ (λ F) @ x ≐ F x ❘# beta %I4 ❙
+  xi : {A, B, F: {x:tm A}tm B, G: tm A ⟶ tm B} ({x: tm A} ⊦ F x ≐ G x) ⟶ ⊦ λ F ≐ λ G❘ # xi 5❙
 ❚
-theory HDepBeta =
-  include ?HDepFun ❙
-  beta: {A, B: tm A ⟶ tp, F: {x: tm A} tm (B x), x: tm A} ⊦ (λ F) @ x ≐ F x ❘# beta 3 4 ❙
-❚
-view HSFtoDF : ?HFun -> ?HDepFun =
+
+view HSFtoDF : ?HSimpFun -> ?HDepFun =
   include ?HEqual ❙
   fun = [A, B] Π ([x: tm A] B) ❙
   lam = [A, B, f: tm A ⟶ tm B] λ f ❙
   app = [A, B, f, x] f @ x ❙
-❚
-view HBetaSFtoBetaDF : ?HBeta -> ?HDepBeta =
-  include ?HSFtoDF ❙
-  beta = [A, B, F, x] beta F x ❙
+  beta = [A, B, F, x] beta❙
+  xi = xi❙
 ❚
