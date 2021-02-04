@@ -16,27 +16,7 @@ theory HEqual =
   include ?Proofs ❙
   eq: {A} tm A ⟶ tm A ⟶ prop ❘# 2 ≐ 3 prec 5 ❙
   refl: {A,x: tm A} ⊦ x ≐ x ❘# refl 2 ❙
-
   eqsub: {A, x: tm A, y: tm A} ⊦ x ≐ y ⟶ {F: tm A ⟶ prop} ⊦ F x ⟶ ⊦ F y ❙
-
-  // TODO(NR@FR): should we keep the decls below? need them for ext <-> exten views ❙
-
-  binder_congruence
-    : {A, B, C, binder: (tm A ⟶ tm B) ⟶ tm C, F: tm A ⟶ tm B, G: tm A ⟶ tm B}
-        ({x: tm A} ⊦ F x ≐ G x) ⟶ ⊦ binder F ≐ binder G
-  ❙
-
-  trans
-    : {a, x: tm a, y: tm a, z: tm a} ⊦ x ≐ y ⟶ ⊦ y ≐ z ⟶ ⊦ x ≐ z
-    ❘# trans 5 6
-    ❘// = proof in terms of binder_congruence omitted
-  ❙
-
-  trans3
-    : {a, u: tm a, x, y, z} ⊦ u ≐ x ⟶ ⊦ x ≐ y ⟶ ⊦ y ≐ z ⟶ ⊦ x ≐ z
-    ❘# trans3 6 7 8
-    ❘// = proof in terms of trans omitted
-  ❙
 ❚
 
 theory HProd =

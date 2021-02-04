@@ -14,13 +14,12 @@ theory SEqual =
   trans: {A, x, y, z} ⊦ x ⦂ A ⟶ ⊦ y ⦂ A ⟶ ⊦ z ⦂ A ⟶ ⊦ eq A x y ⟶ ⊦ eq A y z ⟶ ⊦ eq A x z ❙
 ❚
 
-// TODO(NR@FR): make this view total ❚
 view TEEqual : ?HEqual -> ?SEqual =
   include ?TE ❙
   include ?Proofs ❙
   eq = eq ❙
-  // todo NR@FR: assignments for refl, trans, binder_congruence are missing
-                 (note that MMT doesn't throw partiality warnings for some reason) ❙
+  refl = refl❙
+  eqsub = eqsub❙
 ❚
 
 /T Step 1: generate the interface of all partial logical relations over
