@@ -58,42 +58,29 @@ theory UniformRelativizationIsEquivalent =
 
   // Equivalence of forall relativization ❙
   include ?ConventionalRelUnivQuantification ❙
-  forall_eqv_part1
-    : {A, P, Q} ⊦ conv_rel_forall A P Q ⇒ rel_forall A P Q
-
-    ❘ = [A, P, Q] implI [pf: ⊦ ∀ [x: tm A] P x ⇒ Q x] forallI [y: tm (A | P)]
-          (pf forallE (predsubEl y)) implE (predsubEr y)
+  forall_eqv: {A, P, Q} ⊦ conv_rel_forall A P Q ⇔ rel_forall A P Q
+    ❘ = [A, P, Q] equivI
+           ([pf] forallI [y] (pf forallE (predsubEl y)) implE (predsubEr y))
+           ([pf] forallI [x] implI [p] pf forallE (x ↓ p))
  ❙
-  forall_eqv_part2
-    : {A, P, Q} ⊦ rel_forall A P Q ⇒ conv_rel_forall A P Q
-    ❘ = [A, P, Q] implI [pf: ⊦ ∀ [y: tm (A | P)] Q (predsubEl y)]
-            forallI [x: tm A] implI [p: ⊦ P x] pf forallE (x ↓ p)
-  ❙
 
   // Equivalence of exists relativization ❙
   include ?ConventionalRelExistsQuantification ❙
-  exists_eqv_part1
-    : {A, P, Q} ⊦ conv_rel_exists A P Q ⇒ rel_exists A P Q
-    ❘ = [A, P, Q] implI [pf: ⊦ ∃ [x: tm A] P x ∧ Q x]
-          pf existsE [x: tm A, pq: ⊦ P x ∧ Q x]
-            existsI (x ↓ (pq andEl)) (pq andEr)
-  ❙
-  exists_eqv_part2
-    : {A, P, Q} ⊦ rel_exists A P Q ⇒ conv_rel_exists A P Q
-    ❘ = [A, P, Q] implI [pf: ⊦ ∃ [y: tm (A|P)] Q (predsubEl y)]
-           pf existsE [y: tm (A|P), q: ⊦ Q (predsubEl y)]
-             existsI (predsubEl y) (andI (predsubEr y) q)
+  exists_eqv : {A, P, Q} ⊦ conv_rel_exists A P Q ⇔ rel_exists A P Q
+    ❘ = [A, P, Q] equivI
+           ([pf] pf existsE [x, pq] existsI (x ↓ (pq andEl)) (pq andEr))
+           ([pf] pf existsE [y, q] existsI (predsubEl y) (andI (predsubEr y) q))
   ❙
 
   include ?ConventionalRelExistsUniqueQuantification ❙
   include ☞latin:/?InformalProofs ❙
-  exists_unique_eqv_part1
+  // exists_unique_eqv_part1
       : {A, P, Q} ⊦ conv_rel_exists_unique A P Q ⇒ rel_exists_unique A P Q
       ❘ = [A, P, Q] implI [pf: ⊦ ∃¹ [x: tm A] P x ∧ Q x]
             pf existsUniqueE [x: tm A, pq: ⊦ P x ∧ Q x, unique]
               existsUniqueI (x ↓ (pq andEl)) (pq andEr) [y: tm A, py: ⊦ P y] sketch "x = y here"
   ❙
-  exists_unique_eqv_part2
+  // exists_unique_eqv_part2
         : {A, P, Q} ⊦ rel_exists_unique A P Q ⇒ conv_rel_exists_unique A P Q
         ❘ = [A, P, Q] implI [pf: ⊦ ∃¹ [y: tm (A|P)] Q (predsubEl y)]
               pf existsUniqueE [y: tm (A|P), q: ⊦ Q (predsubEl y), unique]

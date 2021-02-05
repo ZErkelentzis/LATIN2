@@ -8,16 +8,15 @@ theory TypedPredicateSubtypes =
   
   predsub : {A} (tm A ⟶ prop) ⟶ tp ❘# 1 | 2  prec 40 ❙
   predsubI  : {A, P, x:tm A} ⊦ P x ⟶ tm A|P ❘ # 3 ↓ 4 prec 40 ❙
-  predsubEl : {A, P, x:tm A|P} tm A ❘# predsubEl 3 ❙
-  predsubEr : {A, P, x:tm A|P} ⊦ P (predsubEl x) ❘# predsubEr 3 ❙
+  predsubEl : {A, P, x:tm A|P} tm A ❘# predsubEl 3 ❘@ predsubEl_long ❙
+  predsubEr : {A, P, x:tm A|P} ⊦ P (predsubEl x) ❘# predsubEr 3 ❘@ predsubEr_long ❙
 
-  blah: {A, P, a: tm A, p: ⊦ P a} tm A|P ❘= [A,P,a,p] a ↓ p ❙
-  // predsubEl_beta: {A, P, a: tm A, p: ⊦ P a} ⊦ (predsubEl (blah A P a p)) ≐ a ❘role Simplify ❙
-  predsubEl_fail: {A, P, a: tm A, p: ⊦ P a} ⊦ (predsubEl (a ↓ p)) ≐ a ❘role Simplify ❙
-
-
-
-  // predsubEr_beta: {A, P, a: tm A, p: ⊦ P a} ⊦ ((predsubEr (blah A P a p)) ≐ p) ❘role Simplify ❙
+  predsubElBeta
+    : {A, P, a, p: ⊦ P a}  ⊦ predsubEl_long A P (a ↓ p) ≐ a
+    ❘// we need predsubEl_long here due to an incompleteness/bug of MMT's inference algorithm
+    ❘role Simplify
+  ❙
+  // cannot express predsubErBeta here, what should equality on ded be? ❙
 ❚
 
 theory SoftTypedPredicateSubtypes =
