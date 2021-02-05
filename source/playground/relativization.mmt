@@ -1,0 +1,71 @@
+namespace latin:/playground/relativization ❚
+rule scala://parser.api.mmt.kwarc.info?MMTURILexer ❚
+
+fixmeta ur:?LF ❚
+
+theory ConventionalRelUnivQuantification =
+  include ☞latin:/?PL ❙
+  include ☞latin:/?TypedUniversalQuantification ❙
+  conv_rel_forall
+    : {A} (tm A ⟶ prop) ⟶ (tm A ⟶ prop) ⟶ prop
+    ❘ = [A, P, Q] ∀ [x] P x ⇒ Q x
+  ❙
+❚
+
+theory ConventionalRelExistQuantification =
+  include ☞latin:/?PL ❙
+  include ☞latin:/?TypedExistentialQuantification ❙
+  conv_rel_exists
+    : {A} (tm A ⟶ prop) ⟶ (tm A ⟶ prop) ⟶ prop
+    ❘ = [A, P, Q] ∃ [x] P x ∧ Q x
+  ❙
+❚
+
+theory UniformRelativization =
+  include ☞latin:/?ISFOLND ❙
+  include ☞latin:/?TypedUniversalQuantification ❙
+  include ☞latin:/?TypedPredicateSubtypes ❙
+
+  /T Idea by Paolo G. Giarrusso <https://www.informatik.uni-marburg.de/~pgiarrusso/> ❙
+  relativize
+    : {A} ({B} (tm B ⟶ prop) ⟶ prop) ⟶ (tm A ⟶ prop) ⟶ (tm A ⟶ prop) ⟶ prop
+    ❘ = [A, binder, P, Q] binder (A | P) ([x] Q (predsubEl x))
+  ❙
+
+
+  rel_forall = [A: tp] relativize A forall ❙
+  rel_exists = [A: tp] relativize A exists ❙
+❚
+
+theory UniformRelativizationIsEquivalent =
+  include ?UniformRelativization ❙
+
+  // Equivalence of forall relativization ❙
+  include ?ConventionalRelUnivQuantification ❙
+  forall_eqv_part1
+    : {A, P, Q} ⊦ conv_rel_forall A P Q ⇒ rel_forall A P Q
+
+    ❘ = [A, P, Q] implI [pf: ⊦ ∀ [x: tm A] P x ⇒ Q x] forallI [y: tm (A | P)]
+          (pf forallE (predsubEl y)) implE (predsubEr y)
+ ❙
+  forall_eqv_part2
+    : {A, P, Q} ⊦ rel_forall A P Q ⇒ conv_rel_forall A P Q
+    ❘ = [A, P, Q] implI [pf: ⊦ ∀ [y: tm (A | P)] Q (predsubEl y)]
+            forallI [x: tm A] implI [p: ⊦ P x] pf forallE (x ↓ p)
+  ❙
+
+  // Equivalence of exists relativization ❙
+  include ?ConventionalRelExistQuantification ❙
+  exists_eqv_part1
+    : {A, P, Q} ⊦ conv_rel_exists A P Q ⇒ rel_exists A P Q
+    ❘ = [A, P, Q] implI [pf: ⊦ ∃ [x: tm A] P x ∧ Q x]
+          pf existsE [x: tm A, pq: ⊦ P x ∧ Q x]
+            existsI (x ↓ (pq andEl)) (pq andEr)
+  ❙
+  exists_eqv_part2
+    : {A, P, Q} ⊦ rel_exists A P Q ⇒ conv_rel_exists A P Q
+    ❘ = [A, P, Q] implI [pf: ⊦ ∃ [y: tm (A|P)] Q (predsubEl y)]
+           pf existsE [y: tm (A|P), q: ⊦ Q (predsubEl y)]
+             existsI (predsubEl y) (andI (predsubEr y) q)
+  ❙
+❚

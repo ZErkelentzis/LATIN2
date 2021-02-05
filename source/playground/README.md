@@ -1,0 +1,1 @@
+A playground for people to prototype new ideas without worrying about cluttering the LATIN2 code base.
