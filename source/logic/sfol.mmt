@@ -1,6 +1,7 @@
 namespace latin:/❚
-
 fixmeta ur:?LF❚
+
+// See README.md for naming conventions ❚
 
 theory TypedUniversalQuantification =
   include ?TypedLogic❙
@@ -58,6 +59,12 @@ theory SFOLEQ =
 theory SFOLEQND =
   include ?SFOLEQ❙
   include ?SFOLND❙
+  include ?TypedEqualityND❙
+❚
+
+theory ISFOLEQND =
+  include ?SFOLEQ ❙
+  include ?ISFOLND ❙
   include ?TypedEqualityND❙
 ❚
 

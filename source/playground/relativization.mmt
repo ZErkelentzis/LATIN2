@@ -3,6 +3,29 @@ rule scala://parser.api.mmt.kwarc.info?MMTURILexer ❚
 
 fixmeta ur:?LF ❚
 
+theory UniformRelativization =
+  include ☞latin:/?ISFOLEQND ❙
+  include ☞latin:/?TypedUniqueExistentialQuantificationND ❙
+  include ☞latin:/?TypedPredicateSubtypes ❙
+
+  /T Idea of how to relativize forall and existential quantifiers in sorted first-order logic in a uniform way by Paolo G. Giarrusso <https://www.informatik.uni-marburg.de/~pgiarrusso/> ❙
+  relativize_binder
+    : {A} ({B} (tm B ⟶ prop) ⟶ prop) ⟶ (tm A ⟶ prop) ⟶ ((tm A ⟶ prop) ⟶ prop)
+    ❘ = [A, binder, P, Q] binder (A | P) ([x] Q (predsubEl x))
+  ❙
+
+  relativize_binary_fun
+    : {A} ({B} (tm B ⟶ tm B ⟶ prop)) ⟶ (tm A ⟶ prop) ⟶ (tm A ⟶ tm A ⟶ prop)
+    ❘ = [A, f, P, s, t] ∃ [wit1: tm (A|P)] ∃ [wit2: tm (A|P)]
+            (predsubEl wit1) ≐ s ∧ (predsubEl wit2) ≐ t ∧ wit1 ≐ wit2
+  ❙
+
+  rel_forall        = [A: tp] relativize_binder A forall ❙
+  rel_exists        = [A: tp] relativize_binder A exists ❙
+  rel_exists_unique = [A: tp] relativize_binder A existsUnique ❙
+  rel_eq            = [A: tp] relativize_binary_fun A equal ❙
+❚
+
 theory ConventionalRelUnivQuantification =
   include ☞latin:/?PL ❙
   include ☞latin:/?TypedUniversalQuantification ❙
@@ -12,7 +35,7 @@ theory ConventionalRelUnivQuantification =
   ❙
 ❚
 
-theory ConventionalRelExistQuantification =
+theory ConventionalRelExistsQuantification =
   include ☞latin:/?PL ❙
   include ☞latin:/?TypedExistentialQuantification ❙
   conv_rel_exists
@@ -21,20 +44,13 @@ theory ConventionalRelExistQuantification =
   ❙
 ❚
 
-theory UniformRelativization =
-  include ☞latin:/?ISFOLND ❙
-  include ☞latin:/?TypedUniversalQuantification ❙
-  include ☞latin:/?TypedPredicateSubtypes ❙
-
-  /T Idea by Paolo G. Giarrusso <https://www.informatik.uni-marburg.de/~pgiarrusso/> ❙
-  relativize
-    : {A} ({B} (tm B ⟶ prop) ⟶ prop) ⟶ (tm A ⟶ prop) ⟶ (tm A ⟶ prop) ⟶ prop
-    ❘ = [A, binder, P, Q] binder (A | P) ([x] Q (predsubEl x))
+theory ConventionalRelExistsUniqueQuantification =
+  include ☞latin:/?PL ❙
+  include ☞latin:/?TypedUniqueExistentialQuantification ❙
+  conv_rel_exists_unique
+    : {A} (tm A ⟶ prop) ⟶ (tm A ⟶ prop) ⟶ prop
+    ❘ = [A, P, Q] ∃¹ [x] P x ∧ Q x
   ❙
-
-
-  rel_forall = [A: tp] relativize A forall ❙
-  rel_exists = [A: tp] relativize A exists ❙
 ❚
 
 theory UniformRelativizationIsEquivalent =
@@ -55,7 +71,7 @@ theory UniformRelativizationIsEquivalent =
   ❙
 
   // Equivalence of exists relativization ❙
-  include ?ConventionalRelExistQuantification ❙
+  include ?ConventionalRelExistsQuantification ❙
   exists_eqv_part1
     : {A, P, Q} ⊦ conv_rel_exists A P Q ⇒ rel_exists A P Q
     ❘ = [A, P, Q] implI [pf: ⊦ ∃ [x: tm A] P x ∧ Q x]
@@ -68,4 +84,20 @@ theory UniformRelativizationIsEquivalent =
            pf existsE [y: tm (A|P), q: ⊦ Q (predsubEl y)]
              existsI (predsubEl y) (andI (predsubEr y) q)
   ❙
+
+  include ?ConventionalRelExistsUniqueQuantification ❙
+  include ☞latin:/?InformalProofs ❙
+  exists_unique_eqv_part1
+      : {A, P, Q} ⊦ conv_rel_exists_unique A P Q ⇒ rel_exists_unique A P Q
+      ❘ = [A, P, Q] implI [pf: ⊦ ∃¹ [x: tm A] P x ∧ Q x]
+            pf existsUniqueE [x: tm A, pq: ⊦ P x ∧ Q x, unique]
+              existsUniqueI (x ↓ (pq andEl)) (pq andEr) [y: tm A, py: ⊦ P y] sketch "x = y here"
+  ❙
+  exists_unique_eqv_part2
+        : {A, P, Q} ⊦ rel_exists_unique A P Q ⇒ conv_rel_exists_unique A P Q
+        ❘ = [A, P, Q] implI [pf: ⊦ ∃¹ [y: tm (A|P)] Q (predsubEl y)]
+              pf existsUniqueE [y: tm (A|P), q: ⊦ Q (predsubEl y), unique]
+                existsUniqueI (predsubEl y) (andI (predsubEr y) q)
+                sketch "uniqueness"
+ ❙
 ❚
