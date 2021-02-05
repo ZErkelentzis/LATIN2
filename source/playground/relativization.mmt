@@ -1,3 +1,19 @@
+/T Author: Navid Roux
+
+   Expressing relativized variants of SFOL quantifiers (forall, exists, exists unique) in a way that
+   is the same for all mentioned quantifiers.
+
+   Usually, given an SFOL type `A: tp` and a predicate `Q: tm A -> prop`, we take the relativization
+   of ... to be ... (read as a table):
+
+   - `∀[x] Q x`:  `∀[x] P x ⇒ Q x`
+   - `∃[x] Q x`:  `∃[x] P x ∧ Q x`
+   - `∃¹[x] Q x`: `∃¹[x] P x ∧ Q x`
+
+   We can use predicate subtypes (or, sigma types, in general) to overcome this apparent non-uniformity.
+   Paolo G. Giarrusso <https://www.informatik.uni-marburg.de/~pgiarrusso/> told me this idea, thanks to them!
+❚
+
 namespace latin:/playground/relativization ❚
 rule scala://parser.api.mmt.kwarc.info?MMTURILexer ❚
 
