@@ -2,6 +2,7 @@ namespace latin:/ ❚
 
 theory Mizar : ur:?LFS =
   include ?SoftTypedDefinedFOL ❙
+	
 	// terms (a meta-type for all objects)❙
   // term : type 
 	// set in Mizar ❙
@@ -13,6 +14,9 @@ theory Mizar : ur:?LFS =
 	// and: prop ⟶ prop ⟶ prop ❘# 1 and 2 ❙
 	nary_and : {n} prop^n ⟶ prop❘
        # 2and… prec 10❘## 2&… prec 10❙
+  0ary_and_prop: ⊦ nary_and 0 ⟨⟩ ❙
+  1ary_and_prop: {p: prop} ⊦ nary_and 1 ⟨p⟩ ⇔ p ❙
+  and_induct_prop: {n: NAT, ps: prop^n, p: prop} ⊦ nary_and (succ n) ⟨p, ps⟩ ⇔ p ∧ nary_and n ps ❙
    &   : {n} prop^n ⟶ prop ❘= [n,x] nary_and n x❘
        # 2&… prec 10❙
 	// or: prop ⟶ prop ⟶ prop ❘= [a,b] not (not a and not b) ❘# 1 or 2 ❙
@@ -47,6 +51,8 @@ theory Mizar : ur:?LFS =
 
 	// proofs ❙
 	// proof: prop ⟶ type ❘ # ⊦ 1 prec -5❘ ## proof 1 prec -5 ❙
+	/T Fold the ps over TacticsLF?use to give a definien for this ? ❙
+	using: {n, ps: prop^n, claim: prop} ⊦ claim ❙
 	be: term ⟶ tp ⟶ type ❘= [x,a] ⊦ x ⦂ a ❘# 1 be 2 prec 50❙
 
   // propositional logic❙
