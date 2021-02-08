@@ -12,54 +12,66 @@ theory Singletons =
 ❚
 
 theory OrderedPairs =
-	include ?EmptySet❙
-	include ?UnorderedPairs❙
-	include ?Singletons❙
 	// AS: similar to Wiener's (X,Y) = {{X}, {{Y},∅}};
+			= [X,Y] uopair (singleton X) (uopair (singleton Y) ∅)
 			would it be better to have no definition here?❙
 	// AS: think of a notation❙
-	pair : set ⟶ set ⟶ set❘
-		= [X,Y] uopair (singleton X) (uopair (singleton Y) ∅)❙
-	pi1 : set ⟶ set❙
-	pi2 : set ⟶ set❙
+	pair : set ⟶ set ⟶ set❘# pair 1 2 prec 40❙
+	pi1 : set ⟶ set❘# 1 ₁ prec 35❙
+	pi2 : set ⟶ set❘# 1 ₂ prec 35❙
 	
-	pair_pi : {u} ⊦ pair (pi1 u) (pi2 u) ≐ u❙
-	pi1_pair : {x,y} ⊦ pi1 (pair x y) ≐ x❙
-	pi2_pair : {x,y} ⊦ pi2 (pair x y) ≐ y❙
-	exten: {u,v} ⊦ pi1 u ≐ pi1 v ⟶ ⊦ pi2 u ≐ pi2 v ⟶ ⊦ u ≐ v ❘ = _ ❙
+	ispair : set ⟶ prop❙
+	
+	// computation rules❙
+	compLeft : {X,Y} ⊦ (pair X Y)₁ ≐ X❙
+	compRight : {X,Y} ⊦ (pair X Y)₂ ≐ Y❙
+	
+	// representation rule❙
+	repr : {p} ⊦ ispair p ⟶ ⊦ p ≐ pair (p₁) (p₂)❙
+	
+	// extensionality rule❙
+	ext : {p,q} ⊦ ispair p ⟶ ⊦ ispair q ⟶ ⊦ p₁ ≐ q₁ ⟶ ⊦ p₂ ≐ q₂ ⟶ ⊦ p ≐ q❙
 ❚
 
 theory CartesianProduct =
 	include ?OrderedPairs❙
 	// AS: maybe change prec❙
 	prod : set ⟶ set ⟶ set❘# 1 × 2 prec 40❙
-	prodI : {A,B,X,Y} ⊦ X∈A ⟶ ⊦ Y∈B ⟶ ⊦ pair X Y ∈ A×B❙
-	prodEl : {A,B,Z} ⊦ Z ∈ A×B ⟶ ⊦ pi1 Z ∈ A❙
-	prodEr : {A,B,Z} ⊦ Z ∈ A×B ⟶ ⊦ pi2 Z ∈ B❙
-		
-	prodEl2 : {A,B,X,Y} ⊦ pair X Y ∈ A×B ⟶ ⊦ X∈A❙
-	prodEr2 : {A,B,X,Y} ⊦ pair X Y ∈ A×B ⟶ ⊦ Y∈B❙
+	prodI : {X,Y,x,y} ⊦ x∈X ⟶ ⊦ y∈Y ⟶ ⊦ pair x y ∈ X×Y❙
+	prodEl : {X,Y,Z} ⊦ Z ∈ X×Y ⟶ ⊦ Z₁ ∈ X❙
+	prodEr : {X,Y,Z} ⊦ Z ∈ X×Y ⟶ ⊦ Z₂ ∈ Y❙
 ❚
 
 theory Relations =
-  include ?OrderedPairs❙
-	// AS: TODO❙
-	Rel : set ⟶ set ⟶ set❙
-	
-	RelI : {A,B} (set ⟶ set ⟶ prop) ⟶ set❙  
-	
-// 	injective = [A,B,r] ...
-	surjective = 
-	constant total = 
-	functional = ❙
+  theRel: {a:set,b:set} (set ⟶ set ⟶ prop) ⟶ set❙
+  inRel : set ⟶ set ⟶ set ⟶ prop❙
+  
+  isRel : set ⟶ prop❙
+  
+  relcomp : {a,b,P,x,y} ⊦ inRel (theRel a b P) x y ⇔ x∈a ∧ y∈b ∧ P x y❙
+  relrepr : {a,b,r} ⊦ isRel r ⟶ ⊦ r ≐ theRel a b ([x,y] inRel r x y)❙ 
+  exten : {r,s} ⊦ isRel r ⟶ ⊦ isRel s ⟶ ({x,y} ⊦ inRel r x y ⇔ inRel s x y) ⟶ ⊦ r≐s❙
+  
+  rel : set ⟶ set ⟶ set❙
+  relI: {a,b,P} ⊦ theRel a b P ∈ rel a b❙
 ❚
 
 theory PartialFunctions =
-	// AS: TODO❙
+	include ?Relations❙
+	// AS: TODO,
+		normally this would be a subset of relations❙
 	pfunc : set ⟶ set ⟶ set❙
+	pfuncI : {X,Y,F} ⊦ F ∈ rel X Y ⟶ ({x} ⊦ x ∈ X ⟶ ⊦ (∃¹[y] pair x y ∈ F) ∨ ¬∃[y] pair x y ∈ F) ⟶ ⊦ F ∈ pfunc X Y❙
+	pfuncEl : {X,Y,F} ⊦ F ∈ pfunc X Y ⟶ ⊦ F ∈ rel X Y❙
+	pfuncEr : {X,Y,F,x} ⊦ F ∈ pfunc X Y ⟶ ⊦ x∈X ⟶ ⊦ (∃¹[y] pair x y ∈ F) ∨ ¬∃[y] pair x y ∈ F❙
 ❚
 
 theory Functions =
-	// AS: TODO❙
+	include ?Relations❙
+	// AS: TODO,
+		normally this would be a subset of partial functions❙
 	func : set ⟶ set ⟶ set❙
+	funcI : {X,Y,F} ⊦ F ∈ rel X Y ⟶ ({x} ⊦ x ∈ X ⟶ ⊦ ∃¹[y] pair x y ∈ F) ⟶ ⊦ F ∈ func X Y❙
+	funcEl : {X,Y,F} ⊦ F ∈ func X Y ⟶ ⊦ F ∈ rel X Y❙
+	funcEr : {X,Y,F,x} ⊦ F ∈ func X Y ⟶ ⊦ x∈X ⟶ ⊦ ∃¹[y] pair x y ∈ F❙
 ❚

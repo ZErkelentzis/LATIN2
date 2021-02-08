@@ -53,3 +53,54 @@ theory PowerHOLND =
   compute = [A,P,x] eq_equiv refl❙
   expand = [A,S] eta sym❙
 ❚
+
+// Diaconescu's theorem, following the Wikipedia article❚
+theory ClassicalViaChoice =
+  include ?HOL❙
+  include ?Choice❙
+  Forbot = [F][x] F ∨ (x == ⊥).
+  Fortop = [F][x] F ∨ (x == ⊤).
+  tnd : {F} ⊦ F ∨ (¬ F)❘
+      = [F] ∨E (rul_some (Forbot F) ⊥ (∨Ir eqrefl))
+        ([p: ⊦ F] ∨Il p)
+        ([p: ⊦ (some (Forbot F)) == ⊥] ∨E (rul_some (Fortop F) ⊤ (∨Ir eqrefl))
+                                   ([q: ⊦ F] ∨Il q)
+                                   ([q: ⊦ (some (Fortop F)) == ⊤] ∨Ir (¬I [r: ⊦ F]
+                                     eq⊦ (eqtrans3
+                                       (eqsym q)
+                                       (eqapp eqrefl (eqλ [x] top_unique (∨Il r) (∨Il r)))
+                                       p
+                                     ) ⊤I  
+                                   ))
+        )❙
+❚
+
+theory IfThenElseViaChoice =
+  include ?HOL❙
+  include ?TypedChoice❙
+  //
+     ifte_prop : tm o -> tm A -> tm A -> (tm A -> tm o) = [b][x][y] [u] (b ∧ (u == x)) ∨ (¬ b ∧ (u == y)).
+   ifte : tm o -> tm A -> tm A -> tm A = [b][x][y] the [u] ifte_prop b x y u.
+   ifte_exists : ⊦ ∃ [u] ifte_prop B X Y u
+     = ∨E tnd ([p: ⊦   B] ∃I X (∨Il (∧I p eqrefl)))
+              ([p: ⊦ ¬ B] ∃I Y (∨Ir (∧I p eqrefl))).
+   ifte_unique : {u} ⊦ ifte_prop B X Y u -> {v} ⊦ ifte_prop B X Y v -> ⊦ u == v
+     = [u][p][v][q] ∨E p ([r: ⊦   B ∧ (u == X)]
+                            ∨E q ([s: ⊦   B ∧ (v == X)] eqtrans (∧Er r) (eqsym (∧Er s)))
+                                 ([s: ⊦ ¬ B ∧ (v == Y)] ¬E' (∧El s) (∧El r))
+                        )([r: ⊦ ¬ B ∧ (u == Y)]
+                            ∨E q ([s: ⊦   B ∧ (v == X)] ¬E' (∧El r) (∧El s))
+                                 ([s: ⊦ ¬ B ∧ (v == Y)] eqtrans (∧Er r) (eqsym (∧Er s)))
+                        ).
+   ifte_then : ⊦   B -> ⊦ ifte B X Y == X
+     = [p] ∃E ifte_exists [x][q: ⊦ ifte_prop B X Y x]
+         ∨E (rul_the ([u] ifte_prop B X Y u) x q ([u][r] ifte_unique u r x q))
+            ([r: ⊦   B ∧ (ifte B X Y == X)] ∧Er r)
+            ([r: ⊦ ¬ B ∧ (ifte B X Y == Y)] ¬E' (∧El r) p).
+   ifte_else : ⊦ ¬ B -> ⊦ ifte B X Y == Y
+     = [p] ∃E ifte_exists [y][q: ⊦ ifte_prop B X Y y]
+         ∨E (rul_the ([u] ifte_prop B X Y u) y q ([u][r] ifte_unique u r y q))
+            ([r: ⊦   B ∧ (ifte B X Y == X)] ¬E' p (∧El r))
+            ([r: ⊦ ¬ B ∧ (ifte B X Y == Y)] ∧Er r).
+   ❙
+❚

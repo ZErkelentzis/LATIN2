@@ -1,10 +1,17 @@
 // BASIC FORMALIZATIONS (Section 2)
    ========================================== ❚
+
 namespace latin:/casestudies/itp2021 ❚
 rule scala://parser.api.mmt.kwarc.info?MMTURILexer ❚
 
 /T Meta theory for diagram operator applications in `diagram` statements ❚
-theory DiagOpsMeta = include ☞ur:?DiagramOperators ❙❚
+theory DiagOpsMeta =
+  include ☞ur:?DiagramOperators ❙
+
+  polymorphify_operator # POLYMORPHIFY 1 ❙
+  /T load operator (from MMT's Scala code base) ❙
+  rule ☞scala://diagops.odk.mmt.kwarc.info?PolymorphifyOperator_ITP2021 ❙
+❚
 
 /T Meta theory of all MMT theories and views ❚
 theory Meta : ur:?LF = include ☞ur:?Strings ❙❚
@@ -50,4 +57,3 @@ view TE : ?HTyped -> ?STyped =
   tp = tp ❙
   tm = [a] term ❙
 ❚
-

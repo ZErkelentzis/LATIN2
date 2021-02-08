@@ -6,7 +6,7 @@ theory SetFOL : ur:?LF =
   include ?FOLEQND❙
   // InternalTypes: Terms, Propositions, in, realization of SoftTypedTerms❙
   include ?InternalTypes❙
-  include ?Subsets❙
+  include ?SoftSubtyping❙
 
   include ?DescriptionND❙
   include ?RelativizedUniversalQuantificationND❙
@@ -23,8 +23,9 @@ theory SetFOL : ur:?LF =
         = [x,y,z,p,q] q congP ([u]x∈u) p❙
 ❚
 
-theory Subsets =
-  include ?SoftSubtyping❙
-❚
+// AS: this might be unnecessary
+	theory Subsets =
+  	include ?SoftSubtyping❙
+// ❚
 
 // AS: maybe add Cardinality as well❚ 

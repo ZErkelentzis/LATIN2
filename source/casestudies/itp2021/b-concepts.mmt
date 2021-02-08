@@ -1,5 +1,6 @@
 // FUNDAMENTAL CONCEPTS (Section 3)
    ========================================== ❚
+
 namespace latin:/casestudies/itp2021 ❚
 rule scala://parser.api.mmt.kwarc.info?MMTURILexer ❚
 fixmeta ?Meta ❚
@@ -9,9 +10,10 @@ theory Classical =
   include ?Proofs ❙
   classical: {a} ((⊦ a ⟶ incon) ⟶ incon) ⟶ ⊦ a ❙
 ❚
+
 theory ProofIrrel =
   include ?Proofs ❙
-  // TODO(NR@FR): rule mmt rule ❙
+  rule ☞scala://lf.mmt.kwarc.info?TermIrrelevanceRule ded ❙
 ❚
 
 // CONCEPT MERGERS (Section 3.2) ❚
@@ -27,11 +29,7 @@ theory PrAsTy =
 
 /T Propositions as types (extended): every proof `pf: ⊦ p` of `p: prop` is identified with an object term of the object
    type `t_p: tp`.
-
-  Observation (NR@FR)
-       this makes sense to formalize over STyped too. There, we would
-       map ded to `ded = λp: prop. Σ (t: term) . t ⦂ p`
-       where Σ are sigma types implemented on LF level. ❚
+❚
 theory PrAsTy_HTypedProofs =
   include ?PrAsTy ❙
   include ?HTyped ❙
