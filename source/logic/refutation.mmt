@@ -21,9 +21,7 @@ theory RefutationNegationRight =
     include ?Antisequent ❙
     include ?Negation ❙
 
-    r_negation_right : {A}{[Γ] Γ,A}{Δ} Γ, A ⊬ Δ ⟶ Γ ⊬ Δ, ¬A ❘ # RnotR 4 ❙
-    r_negation_rightP : {A}{[Γ] Γ,A}{Δ} Γ, A ⊬ Δ ⟶ Γ ⊬ Δ, ¬A ❘ # RnotRP 1 4 ❘
-        = [A] case [Γ] Γ,A ↦ [D,p] RnotR p ❙
+    r_negation_right : {A}{Γ}{Δ} Γ, A ⊬ Δ ⟶ Γ ⊬ Δ, ¬A ❘ # RnotR 1 4 ❙
 ❚
 
 theory RefutationConjunctionLeft =
@@ -64,8 +62,8 @@ theory RefutationImplication =
     include ?Antisequent ❙
     include ?Implication ❙
 
-    r_implication_left1 : {A,B}{Γ}{[Δ] Δ,A } Γ ⊬ Δ,A ⟶ Γ, A ⇒ B ⊬ Δ ❘ # RimplL1 1 2 5 ❙
-    r_implication_left2 : {A,B}{[Γ] Γ,B}{Δ} Γ,B ⊬ Δ ⟶ Γ, A ⇒ B ⊬ Δ ❘ # RimplL2 1 2 5 ❙
+    r_implication_left1 : {A,B}{Γ}{Δ} Γ ⊬ Δ,A ⟶ Γ, A ⇒ B ⊬ Δ ❘ # RimplL1 1 2 5 ❙
+    r_implication_left2 : {A,B}{Γ}{Δ} Γ,B ⊬ Δ ⟶ Γ, A ⇒ B ⊬ Δ ❘ # RimplL2 1 2 5 ❙
 
     r_implication_right : {A,B}{[Γ] Γ,A}{[Δ] Δ,B } Γ,A ⊬ Δ,B ⟶ Γ ⊬ Δ,A ⇒ B ❘ # RimplR 5 ❙
     r_implication_rightP : {A,B}{[Γ] Γ,A}{[Δ] Δ,B } Γ,A ⊬ Δ,B ⟶ Γ ⊬ Δ,A ⇒ B ❘ # RimplRP 1 2 5 ❘

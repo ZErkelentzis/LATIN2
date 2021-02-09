@@ -29,10 +29,28 @@ theory Credulous : ur:?LFS =
 
     credproof : context ⟶ context ⟶ context ⟶ type ❘ # 1 + 2 ⊩ 3 prec -5 ❙
 
-    cD1 : {Γ, Δ} Γ ⊢ Δ ⟶ ∅ + Γ ⊩ Δ ❙
+    cD1 : {Γ, Δ} Γ ⊢ Δ ⟶ ∅ + Γ ⊩ Δ ❘ # cD1 3 ❙
     cD2 : {Γ, Δ, Σ, A} Γ ⊢ ∅,A ⟶ Σ + Γ ⊩ Δ ⟶ Σ, 𝗟 A + Γ ⊩ Δ ❙
-    cD3 : {Γ, Δ, Σ, A} Γ ⊬ ∅,A ⟶ Σ + Γ ⊩ Δ ⟶ Σ, ¬ 𝗟 A + Γ ⊩ Δ ❙
+    cD3 : {Γ, Δ, Σ, A} Γ ⊬ ∅,A ⟶ Σ + Γ ⊩ Δ ⟶ Σ, ¬ 𝗟 A + Γ ⊩ Δ ❘ # cD3 4 5 6 ❙
     cD4 : {n}{Σ, Γ, Δ, A, C}{B : prop ^ n} ⟨' Σ, 𝗟 ¬ B..i + Γ ⊩ Δ |i:n '⟩ ⟶ Σ + Γ, ( A - B / C) ⊩ Δ ❙
-    cD5 : {n}{Σ, Γ, Δ, A, C}{B : prop ^ n} (foldL context_extension Σ n ⟨' ¬𝗟¬B..i | i:n '⟩) + Γ, A / B ⊩ Δ
-        ⟶ Σ + Γ, ( A - B / C) ⊩ Δ ❙
+    cD5 : {n}{Σ, Γ, Δ}{A,C,B : prop ^ n} (foldL context_extension Σ n ⟨' ¬𝗟¬(B..i) | i:n '⟩) + Γ, A / C ⊩ Δ
+        ⟶ Σ + Γ, ( A - B / C) ⊩ Δ ❘ # cD5 5 7 6 8 ❙
+❚
+
+theory CredulousExample : ?Credulous =
+    include ?PLRefutation ❙
+    include ?InContext ❙
+
+    Tweety_is_a_bird : prop ❘ # B ❙
+    Tweety_can_fly : prop ❘ # F ❙
+    Ostrichs_are_birds : prop ❘ # O ❙
+
+    Fs : prop ^ 1 ❘ = ⟨ F ⟩ ❙
+    if_Tweety_is_a_bird_then_assume_they_can_fly = B - Fs / F ❘ # def ❙
+
+    knowledge_base = ∅, O ⇒ B, O ⇒ ¬ F, B ❘ # base ❙
+
+    tweety_can_probably_fly : ∅ + base, def ⊩ ∅, F ❘
+        = cD5 B Fs F (cD3 (¬F) (re4 B F (RimplL1 O B (RimplL1 O (¬F) (RnotR F (Raxiom (∅, B, F, F) (∅, O, O)))))) (cD1 (re2 (from_context B) (from_context F))))
+    ❙
 ❚

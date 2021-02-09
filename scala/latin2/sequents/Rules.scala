@@ -260,8 +260,8 @@ object ExchangeEquality extends TermBasedEqualityRule {
   override def apply(check: CheckingCallback)(tm1: Term, tm2: Term, tp: Option[Term])(implicit stack: Stack, history: History): Option[Continue[Boolean]] = {
     val ctxA = Ctx(tm1) //.sortBy(_.hashCode())
     val ctxB = Ctx(tm2) //.sortBy((_.hashCode()))
-    val restA = Ctx(ctxA.filterNot(ctxB.contains))
-    val restB = Ctx(ctxB.filterNot(ctxA.contains))
+    val restA = Ctx(ctxB.foldLeft(ctxA)((ct,e) => ct.dropE(e).getOrElse(ct)))
+    val restB = Ctx(ctxA.foldLeft(ctxB)((ct,e) => ct.dropE(e).getOrElse(ct)))
     if (restA == ctxA && restB == ctxB) None
     else if (restA.nonEmpty || restB.nonEmpty) Some(Continue(check.check(Equality(stack, Ctx(restA).toTerm, Ctx(restB).toTerm, Some(OMS(Sequent.path))))))
     else Some(Continue(true))
