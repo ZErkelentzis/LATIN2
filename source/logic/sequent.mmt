@@ -23,6 +23,14 @@ theory ContextMap =
    rule rules?MapPattern ❙
 ❚
 
+theory ContextFold =
+    include ?Contexts ❙
+
+    fold : context ⟶ prop ⟶ (prop ⟶ prop ⟶ prop) ⟶ prop ❙
+   rule rules?FoldCompute ❙
+   rule rules?FoldPattern ❙
+❚
+
 theory SequentProofs =
   include ?Contexts ❙
   /T Judgement as types (enter notation by "jvdash", not "jder") ❙
@@ -296,4 +304,33 @@ theory SequentExistentialQuantification =
 
     existential_left : {Γ, Δ, A} ({x} Γ,(A x) ⊢ Δ) ⟶ Γ,(∃ A) ⊢ Δ ❙
     existential_right : {t, Γ, Δ, A} Γ ⊢ Δ, (A t) ⟶ Γ ⊢ Δ, (∃ A) ❙
+❚
+
+theory SequentBigConjunction =
+    include ?ContextFold ❙
+    include ?Conjunction ❙
+    include ?Truth ❙
+
+    bigconj : context ⟶ prop ❘ = [Γ] fold Γ true and ❘ # ⋀ 1 prec 25 ❙
+❚
+
+theory SequentBigDisjunction =
+    include ?ContextFold ❙
+    include ?Disjunction ❙
+    include ?Falsity ❙
+
+    bigdisj : context ⟶ prop ❘ = [Γ] fold Γ false or ❘ # ⋁ 1 prec 25 ❙
+❚
+
+
+theory SequentAsND =
+    include ?SequentBigConjunction ❙
+    include ?SequentBigDisjunction ❙
+    include ?Implication ❙
+    include ?Proofs ❙
+    implicit structure sequentProofs : ?SequentProofs =
+        include ?Contexts ❙
+       // structure Ded = ?Proofs ❙
+        ded = [Γ, Δ] ⊦ (⋀ Γ) ⇒ (⋁ Δ) ❘# 1 ⊢ 2  prec -5❘role Judgment ❙
+    ❚
 ❚

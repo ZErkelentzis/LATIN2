@@ -1,0 +1,38 @@
+namespace latin:/❚
+fixmeta ur:?LF❚
+
+theory Default : ur:?LFS =
+    include ?Propositions ❙
+    default : {n} prop ⟶ prop ^ n ⟶ prop ⟶ prop ❘ # 2 - 3 / 4 prec 9 ❙
+    residue : prop ⟶ prop ⟶ prop ❘ # 1 / 2 prec 10 ❙
+❚
+
+theory ResidueCalc =
+    include ?Default ❙
+    include ?SequentProofs ❙
+    include ?Antisequent ❙
+
+    re1 : {A,B,Γ, Δ} Γ ⊢ Δ ⟶ Γ, A / B ⊢ Δ ❘ # re1 1 2 5 ❙
+    re2 : {A,B,Γ, Δ} Γ ⊢ ∅,A ⟶ Γ, B ⊢ Δ ⟶ Γ, A / B ⊢ Δ ❘ # re2 5 6 ❙
+    re3 : {A,B, Γ, Δ} Γ ⊬ Δ ⟶ Γ ⊬ ∅, A ⟶ Γ, A / B ⊬ Δ ❘ # re3 2 5 6 ❙
+    re4 : {A,B, Γ, Δ} Γ,B ⊬ Δ ⟶ Γ, A / B ⊬ Δ ❘ # re4 1 2 5 ❙
+❚
+
+theory Credulous : ur:?LFS =
+    include ?ResidueCalc ❙
+    include ?Negation ❙
+
+    implicit structure Provable : ?Box =
+        include ?Propositions ❙
+        box # 𝗟 1 prec 20 ❙
+    ❚
+
+    credproof : context ⟶ context ⟶ context ⟶ type ❘ # 1 + 2 ⊩ 3 prec -5 ❙
+
+    cD1 : {Γ, Δ} Γ ⊢ Δ ⟶ ∅ + Γ ⊩ Δ ❙
+    cD2 : {Γ, Δ, Σ, A} Γ ⊢ ∅,A ⟶ Σ + Γ ⊩ Δ ⟶ Σ, 𝗟 A + Γ ⊩ Δ ❙
+    cD3 : {Γ, Δ, Σ, A} Γ ⊬ ∅,A ⟶ Σ + Γ ⊩ Δ ⟶ Σ, ¬ 𝗟 A + Γ ⊩ Δ ❙
+    cD4 : {n}{Σ, Γ, Δ, A, C}{B : prop ^ n} ⟨' Σ, 𝗟 ¬ B..i + Γ ⊩ Δ |i:n '⟩ ⟶ Σ + Γ, ( A - B / C) ⊩ Δ ❙
+    cD5 : {n}{Σ, Γ, Δ, A, C}{B : prop ^ n} (foldL context_extension Σ n ⟨' ¬𝗟¬B..i | i:n '⟩) + Γ, A / B ⊩ Δ
+        ⟶ Σ + Γ, ( A - B / C) ⊩ Δ ❙
+❚

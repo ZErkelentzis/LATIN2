@@ -54,6 +54,16 @@ object ContextMap {
   }
 }
 
+object ContextFold {
+  val path = Sequent.baseURI ? "ContextFold" ? "fold"
+  val term = OMS(path)
+  def apply(ctx : Term, base : Term, f : Term) = ApplySpine(this.term,ctx,base,f)
+  def unapply(tm : Term) = tm match {
+    case ApplySpine(this.term,List(ctx,base,f)) => Some((ctx,base,f))
+    case _ => None
+  }
+}
+
 case class Ctx(ls : List[ContextElem]) {
   def toTerm = toTermI(ls,None)
   private def toTermI(ls : List[ContextElem], head : Option[Term] = None) : Term = {
@@ -75,7 +85,9 @@ case class Ctx(ls : List[ContextElem]) {
   }
   def dropE(tm : Term) : Option[Ctx] = dropE(Elem(tm))
 
+  lazy val isComplete = ls.forall(_.isInstanceOf[Elem])
 }
+
 object Ctx {
   implicit def ls2ctx(ls : List[ContextElem]) : Ctx = Ctx(ls)
   implicit def ctx2ls(ctx : Ctx) : List[ContextElem] = ctx.ls
@@ -159,6 +171,43 @@ object MapPattern extends PatternRule {
       case Opaque(o) => return None
     }
    cont(Ctx(ntm).toTerm,pctx)
+  }
+}
+
+object FoldCompute extends ComputationRule(ContextFold.path) {
+  override def applicable(t: Term): Boolean = t match {
+    case ContextFold(_,_,_) => true
+    case _ => false
+  }
+
+  override def apply(check: CheckingCallback)(tm: Term, covered: Boolean)(implicit stack: Stack, history: History): Simplifiability = {
+    val ContextFold(ctxtm,base,f) = tm
+    val ctx = Ctx(ctxtm)
+    if (ctx.isComplete) ctx2ls(ctx) match {
+      case Nil => Simplify(base)
+      case List(Elem(a)) => Simplify(a)
+      case Elem(h) :: tail =>
+        Simplify(tail.foldLeft(h){case (tm,Elem(e)) => ApplySpine(f,tm,e)})
+    } else Simplifiability.NoRecurse
+  }
+}
+
+object FoldPattern extends PatternRule {
+  override def applicable(tm: Term): Boolean = tm match {
+    case ContextFold(_,_,_) => true
+    case _ => false
+  }
+
+  override def apply(tm: Term, ctx: Context, pattern: Term, cont: (Term, Term) => Option[List[(LocalName, Term)]])(implicit solver: CheckingCallback): Option[List[(LocalName, Term)]] = {
+    val ContextFold(pctx,base,f) = pattern
+    def deconstruct(itm : Term) : List[Term] = itm match {
+      case ApplySpine(`f`,List(a,b)) =>
+        deconstruct(a) ::: deconstruct(b)
+      case `base` => Nil
+      case o => o :: Nil
+    }
+    val ntm = deconstruct(tm).map(Elem)
+    cont(Ctx(ntm).toTerm,pctx)
   }
 }
 
