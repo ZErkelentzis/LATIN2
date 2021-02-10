@@ -117,6 +117,13 @@ theory SequentTruthRight =
     true_right : ∅ ⊢ ∅, true ❘ # trueR ❙
 ❚
 
+theory SequentTruthRightWeakened =
+    include ?SequentProofs ❙
+    include ?Truth ❙
+
+    true_right_w : {Γ} Γ ⊢ ∅, true ❘ # trueRW 1 ❙
+❚
+
 theory SequentTruth =
     include ?SequentTruthLeft ❙
     include ?SequentTruthRight ❙

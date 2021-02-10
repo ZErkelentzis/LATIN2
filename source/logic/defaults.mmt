@@ -1,10 +1,16 @@
 namespace latin:/❚
 fixmeta ur:?LF❚
 
+// Source : P.A. Bonatti, N. Olivetti : Sequent Calculi for Propositional Nonmonotonic Logics,
+    AMC Transactions on Computational Logic, Vol. 3, No.2, April 2002 ❚
+
 theory Default : ur:?LFS =
     include ?Propositions ❙
+    include ?Contexts ❙
     default : {n} prop ⟶ prop ^ n ⟶ prop ⟶ prop ❘ # 2 - 3 / 4 prec 9 ❙
     residue : prop ⟶ prop ⟶ prop ❘ # 1 / 2 prec 10 ❙
+
+    credproof : context ⟶ context ⟶ context ⟶ type ❘ # 1 + 2 ⊩ 3 prec -5 ❙
 ❚
 
 theory ResidueCalc =
@@ -18,16 +24,18 @@ theory ResidueCalc =
     re4 : {A,B, Γ, Δ} Γ,B ⊬ Δ ⟶ Γ, A / B ⊬ Δ ❘ # re4 1 2 5 ❙
 ❚
 
-theory Credulous : ur:?LFS =
-    include ?ResidueCalc ❙
-    include ?Negation ❙
-
+theory DefaultProvable =
+    include ?Propositions ❙
     implicit structure Provable : ?Box =
         include ?Propositions ❙
         box # 𝗟 1 prec 20 ❙
     ❚
+❚
 
-    credproof : context ⟶ context ⟶ context ⟶ type ❘ # 1 + 2 ⊩ 3 prec -5 ❙
+theory Credulous : ur:?LFS =
+    include ?ResidueCalc ❙
+    include ?Negation ❙
+    include ?DefaultProvable ❙
 
     cD1 : {Γ, Δ} Γ ⊢ Δ ⟶ ∅ + Γ ⊩ Δ ❘ # cD1 3 ❙
     cD2 : {Γ, Δ, Σ, A} Γ ⊢ ∅,A ⟶ Σ + Γ ⊩ Δ ⟶ Σ, 𝗟 A + Γ ⊩ Δ ❙
@@ -37,6 +45,7 @@ theory Credulous : ur:?LFS =
         ⟶ Σ + Γ, ( A - B / C) ⊩ Δ ❘ # cD5 5 7 6 8 ❙
 ❚
 
+// Example 4.12 ❚
 theory CredulousExample : ?Credulous =
     include ?PLRefutation ❙
     include ?InContext ❙
@@ -53,4 +62,60 @@ theory CredulousExample : ?Credulous =
     tweety_can_probably_fly : ∅ + base, def ⊩ ∅, F ❘
         = cD5 B Fs F (cD3 (¬F) (re4 B F (RimplL1 O B (RimplL1 O (¬F) (RnotR F (Raxiom (∅, B, F, F) (∅, O, O)))))) (cD1 (re2 (from_context B) (from_context F))))
     ❙
+❚
+
+theory Skeptical : ur:?LFS =
+    include ?ResidueCalc ❙
+    include ?Negation ❙
+    include ?DefaultProvable ❙
+
+    sD1 : {Γ, Δ, Σ} Γ ⊢ Δ ⟶ Σ + Γ ⊩ Δ ❘ # sD1 3 4 ❙
+    sD2 : {Γ, Δ, Σ, A} Γ ⊢ ∅,A ⟶ Σ, ¬ 𝗟 A + Γ ⊩ Δ ❘ # sD2 3 2 5 ❙
+    sD3 : {Γ, Δ, Σ, A} Γ ⊬ ∅,A ⟶ Σ, 𝗟 A + Γ ⊩ Δ ❘ # sD3 2 3 5 ❙
+    sD4 : {n}{Σ, Γ, Δ, A, C}{B : prop ^ n}
+      (foldL context_extension Σ n ⟨' ¬𝗟¬(B..i) | i:n '⟩) + Γ, A / C ⊩ Δ ⟶
+       ⟨' Σ, 𝗟 ¬ B..i + Γ ⊩ Δ |i:n '⟩ ⟶
+       Σ + Γ, (A - B / C) ⊩ Δ ❘ # sD4 5 7 6 8 9 ❙
+❚
+
+// Example 4.17 ❚
+
+theory SkepticalExampleClassical =
+    // Patterns and Sequences are currently not compatible, so the classical proof is done *before* LFS is included ❙
+    include ?SequentNegation ❙
+    include ?SequentImplication ❙
+    include ?SequentDisjunctionRight ❙
+    include ?InContext ❙
+    include ?Exchange ❙
+
+    A : prop ❙
+    B : prop ❙
+    C : prop ❙
+
+    prf1 : ∅, ¬ A ∨ ¬ B ⇒ C, ¬A ⊢ ∅, C ❘
+     = notLP A (implLP (¬ A ∨ ¬ B) C (orRP (¬A) (¬B) (notRP B (notRP A (inContext A (∅,B,A) (∅,C,A))))) (inContext C (∅,C) (∅,C,A))) ❙
+
+    prf2 : ∅, ¬ A ∨ ¬ B ⇒ C, ¬B ⊢ ∅, C ❘
+     = notLP B (implLP (¬ A ∨ ¬ B) C (orRP (¬A) (¬B) (notRP B (notRP A (inContext B (∅,B,A) (∅,C,B))))) (inContext C (∅,C) (∅,C,B))) ❙
+
+❚
+
+theory SkepticalExample : ?Skeptical =
+    include ?SkepticalExampleClassical ❙
+    include ?PLRefutation ❙
+    include ?InContext ❙
+    include ?SequentTruthRightWeakened ❙
+
+    Bs : prop ^ 1 ❘ = ⟨ B ⟩ ❙
+    As : prop ^ 1 ❘ = ⟨ A ⟩ ❙
+
+    proof : ∅ + ∅, ( true - Bs / ¬ A), ( true - As / ¬ B), ¬ A ∨ ¬ B ⇒ C ⊩ ∅, C ❘
+        = sD4 true Bs (¬A)
+            (sD4 true As (¬B)
+                (sD2 (∅, ¬𝗟¬B) (∅, C) (re2 (trueRW (∅, (true / ¬B), ¬ A ∨ ¬ B ⇒ C)) (inContext (¬A) (∅, (true / ¬B), ¬ A ∨ ¬ B ⇒ C, ¬A) (∅, ¬A))))
+                ⟨(sD1 (∅, 𝗟¬A, ¬𝗟¬B) (re2 (trueRW (∅, ¬ A ∨ ¬ B ⇒ C)) prf1))⟩)
+            ⟨sD4 true As (¬B)
+                (sD1 (∅, ¬𝗟¬A, 𝗟¬B) (re2 (trueRW (∅, ¬ A ∨ ¬ B ⇒ C)) prf2))
+                ⟨(sD3 (∅, C) (∅, 𝗟¬B) (RimplL2 (¬ A ∨ ¬ B) C (RnotR A (axiom (∅,C,A) ∅))))⟩
+            ⟩ ❙
 ❚
