@@ -1,0 +1,31 @@
+namespace latin:/❚
+fixmeta ur:?LF❚
+
+theory Prolog =
+    include ?CredProof ❙
+    include ?SequentProofs ❙
+    include ?Exchange ❙
+
+    clause : context ⟶ prop ⟶ type ❘ = [Γ,A] ∅ + Γ ⊩ ∅,A ❘ # 2 ⟸ 1 ❙
+
+    proof_state : context ⟶ context ⟶ type ❘ # 1 ⊛ 2 ❙
+    initial : {A} (∅,A) ⊛ ∅ ❘ # initial 1 prec 1 ❙
+    finally : {Γ,A} ∅ ⊛ Γ,A ⟶ A ⟸ ∅ ❘ # 2 prove 3 prec -10 ❙
+    apply_clause : {A,Σ} A ⟸ Σ ⟶ {Γ, Δ} Γ,A ⊛ Δ ⟶ Γ;Σ ⊛ Δ,A ❘ # 6 @ 3 prec -1 ❙
+❚
+
+theory Example : ?Prolog =
+    tm : type ❙
+    A : tm ❙
+    B : tm ❙
+
+    P : tm ⟶ prop ❙
+    Q : tm ⟶ prop ❙
+    R : tm ⟶ tm ⟶ prop ❙
+
+    clause1 : {x,y} P x ⟸ ∅, Q y, R x y ❙
+    clause2 : Q A ⟸ ∅ ❙
+    clause3 : R B A ⟸ ∅ ❙
+
+    proof : P B ⟸ ∅ ❘ = (P B) prove initial (P B) @ (clause1 B A) @ clause2 @ clause3 ❙
+❚

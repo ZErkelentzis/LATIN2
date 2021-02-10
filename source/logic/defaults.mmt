@@ -4,19 +4,24 @@ fixmeta ur:?LF❚
 // Source : P.A. Bonatti, N. Olivetti : Sequent Calculi for Propositional Nonmonotonic Logics,
     AMC Transactions on Computational Logic, Vol. 3, No.2, April 2002 ❚
 
-theory Default : ur:?LFS =
+theory CredProof =
     include ?Propositions ❙
     include ?Contexts ❙
-    default : {n} prop ⟶ prop ^ n ⟶ prop ⟶ prop ❘ # 2 - 3 / 4 prec 9 ❙
-    residue : prop ⟶ prop ⟶ prop ❘ # 1 / 2 prec 10 ❙
-
     credproof : context ⟶ context ⟶ context ⟶ type ❘ # 1 + 2 ⊩ 3 prec -5 ❙
+
+❚
+
+theory Default : ur:?LFS =
+    include ?Propositions ❙
+    default : {n} prop ⟶ prop ^ n ⟶ prop ⟶ prop ❘ # 2 - 3 / 4 prec 9 ❙
 ❚
 
 theory ResidueCalc =
-    include ?Default ❙
+    include ?CredProof ❙
     include ?SequentProofs ❙
     include ?Antisequent ❙
+
+    residue : prop ⟶ prop ⟶ prop ❘ # 1 / 2 prec 10 ❙
 
     re1 : {A,B,Γ, Δ} Γ ⊢ Δ ⟶ Γ, A / B ⊢ Δ ❘ # re1 1 2 5 ❙
     re2 : {A,B,Γ, Δ} Γ ⊢ ∅,A ⟶ Γ, B ⊢ Δ ⟶ Γ, A / B ⊢ Δ ❘ # re2 5 6 ❙
@@ -36,6 +41,7 @@ theory Credulous : ur:?LFS =
     include ?ResidueCalc ❙
     include ?Negation ❙
     include ?DefaultProvable ❙
+    include ?Default ❙
 
     cD1 : {Γ, Δ} Γ ⊢ Δ ⟶ ∅ + Γ ⊩ Δ ❘ # cD1 3 ❙
     cD2 : {Γ, Δ, Σ, A} Γ ⊢ ∅,A ⟶ Σ + Γ ⊩ Δ ⟶ Σ, 𝗟 A + Γ ⊩ Δ ❙
@@ -68,6 +74,7 @@ theory Skeptical : ur:?LFS =
     include ?ResidueCalc ❙
     include ?Negation ❙
     include ?DefaultProvable ❙
+    include ?Default ❙
 
     sD1 : {Γ, Δ, Σ} Γ ⊢ Δ ⟶ Σ + Γ ⊩ Δ ❘ # sD1 3 4 ❙
     sD2 : {Γ, Δ, Σ, A} Γ ⊢ ∅,A ⟶ Σ, ¬ 𝗟 A + Γ ⊩ Δ ❘ # sD2 3 2 5 ❙

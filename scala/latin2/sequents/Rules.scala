@@ -303,4 +303,19 @@ object ExchangePattern extends PatternRule {
   }
 }
 object Contraction extends ContextRule
-object Weakening extends ContextRule
+object Weakening extends SubtypingRule {
+  override val head: GlobalName = Sequent.baseURI ? "SequentProofs" ? "ded"
+  override def applicable(tp1: Term, tp2: Term): Boolean = (tp1,tp2) match {
+    case (ApplySpine(`head`,List(_,_)),ApplySpine(`head`,List(_,_))) => true
+    case _ => false
+  }
+
+  override def apply(solver: Solver)(tp1: Term, tp2: Term)(implicit stack: Stack, history: History): Option[Boolean] = {
+    val ApplySpine(`head`,List(ctxAt,pA)) = tp1
+    val ApplySpine(`head`,List(ctxBt,pB)) = tp2
+    solver.check(Equality(stack,pA,pB,None))
+    val ctxA = Ctx(ctxAt)
+    val ctxB = Ctx(ctxBt)
+    if (ctxB.forall(ctxA.contains)) Some(true) else None
+  }
+}
