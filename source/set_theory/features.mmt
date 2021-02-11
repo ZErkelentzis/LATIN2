@@ -18,13 +18,16 @@ theory Singletons =
 
 theory OrderedPairs =
 	// AS: think of a notation❙
+	// (x,y)❙
 	pair : set ⟶ set ⟶ set❘# pair 1 2 prec 40❙
+	// first projection of a pair❙
 	pi1 : set ⟶ set❘# 1 ₁ prec 35❙
 	pi2 : set ⟶ set❘# 1 ₂ prec 35❙
 	
 	ispair : set ⟶ prop❙
 	
 	// computation rules❙
+	// (x,y)_1 = x❙
 	compL : {x,y} ⊦ (pair x y)₁ ≐ x❙
 	compR : {x,y} ⊦ (pair x y)₂ ≐ y❙
 	
@@ -37,7 +40,10 @@ theory OrderedPairs =
 
 theory CartesianProduct =
 	// AS: maybe change prec❙
+	// X × Y❙
 	prod : set ⟶ set ⟶ set❘# 1 × 2 prec 40❙
+	
+	prodI : set ⟶ set ⟶ set❙
  	prodEl : set ⟶ set❙
 	prodEr : set ⟶ set❙
 	
