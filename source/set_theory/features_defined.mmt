@@ -1,0 +1,25 @@
+namespace latin:/❚
+
+fixmeta ?SetFOL❚
+
+
+
+theory KuratowskiPairs =
+	// (x,y) = {{x}, {x, y}}❙
+	include ?SingletonDefinition❙
+	include ?Singletons❙
+	include ?UnorderedPairDefinition❙
+	include ?UnorderedPairs❙
+	include ?BigIntersection❙
+	include ?BigUnion❙
+	include ?Difference❙
+	
+	realize ?OrderedPairs❙
+	pair = [x,y] uopair (singleton x) (uopair x y)❙
+	pi1 = [p] singleton_inv (⋂p)❙
+	pi2 = [p] singleton_inv ((⋃p)∖p₁)❙
+	
+	// AS: not complete right now, but this gets really ugly❙
+	ispair = [p] ∃¹[x] x∈p ∧ issingleton x ∧ ∃¹[y] y∈p ∧ ∀[z] z∈p ∧ (z ≐ x ∨ z ≐ y)❙
+	
+❚
