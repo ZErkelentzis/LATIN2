@@ -4,10 +4,16 @@ fixmeta ?SetFOL❚
 
 // AS: this file needs to be fixed as soon as I have reorganized modules❚
 
-view SelfPair : ?Singletons → ?UnorderedPairs =
+theory SelfPair =
+	include ?UnorderedPairs❙
+	include ?BigUnion❙
+	
+	realize ?Singletons❙
   singleton = [X] uopair X X❙
   singletonI = [X] uopairIl❙
   singletonE = [X,x,p] p uopairE ([q] q) ([q] q)❙
+  
+  singleton_inv = [p] ⋃p❙ 
 ❚
 
 // FR additional features: Union, BigIntersection, Intersection❚
