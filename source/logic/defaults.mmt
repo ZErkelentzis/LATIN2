@@ -87,31 +87,18 @@ theory Skeptical : ur:?LFS =
 
 // Example 4.17 ❚
 
-theory SkepticalExampleClassical =
-    // Patterns and Sequences are currently not compatible, so the classical proof is done *before* LFS is included ❙
+theory SkepticalExample : ?Skeptical =
     include ?SequentNegation ❙
     include ?SequentImplication ❙
     include ?SequentDisjunctionRight ❙
     include ?InContext ❙
     include ?Exchange ❙
+    include ?PLRefutation ❙
+    include ?SequentTruthRightWeakened ❙
 
     A : prop ❙
     B : prop ❙
     C : prop ❙
-
-    prf1 : ∅, ¬ A ∨ ¬ B ⇒ C, ¬A ⊢ ∅, C ❘
-     = notLP A (implLP (¬ A ∨ ¬ B) C (orRP (¬A) (¬B) (notRP B (notRP A (inContext A (∅,B,A) (∅,C,A))))) (inContext C (∅,C) (∅,C,A))) ❙
-
-    prf2 : ∅, ¬ A ∨ ¬ B ⇒ C, ¬B ⊢ ∅, C ❘
-     = notLP B (implLP (¬ A ∨ ¬ B) C (orRP (¬A) (¬B) (notRP B (notRP A (inContext B (∅,B,A) (∅,C,B))))) (inContext C (∅,C) (∅,C,B))) ❙
-
-❚
-
-theory SkepticalExample : ?Skeptical =
-    include ?SkepticalExampleClassical ❙
-    include ?PLRefutation ❙
-    include ?InContext ❙
-    include ?SequentTruthRightWeakened ❙
 
     Bs : prop ^ 1 ❘ = ⟨ B ⟩ ❙
     As : prop ^ 1 ❘ = ⟨ A ⟩ ❙
@@ -119,10 +106,14 @@ theory SkepticalExample : ?Skeptical =
     proof : ∅ + ∅, ( true - Bs / ¬ A), ( true - As / ¬ B), ¬ A ∨ ¬ B ⇒ C ⊩ ∅, C ❘
         = sD4 true Bs (¬A)
             (sD4 true As (¬B)
-                (sD2 (∅, ¬𝗟¬B) (∅, C) (re2 (trueRW (∅, (true / ¬B), ¬ A ∨ ¬ B ⇒ C)) (inContext (¬A) (∅, (true / ¬B), ¬ A ∨ ¬ B ⇒ C, ¬A) (∅, ¬A))))
-                ⟨(sD1 (∅, 𝗟¬A, ¬𝗟¬B) (re2 (trueRW (∅, ¬ A ∨ ¬ B ⇒ C)) prf1))⟩)
+                (sD2 (∅, ¬𝗟¬B) (∅, C) (re2 (trueRW (∅, (true / ¬B), ¬ A ∨ ¬ B ⇒ C)) (inContext (¬A) (∅, (true / ¬B), ¬ A ∨ ¬ B ⇒ C) ∅)))
+                ⟨(sD1 (∅, 𝗟¬A, ¬𝗟¬B) (re2 (trueRW (∅, ¬ A ∨ ¬ B ⇒ C))
+                    (notLP A (implLP (¬ A ∨ ¬ B) C (orRP (¬A) (¬B) (notRP B (notRP A (inContext A (∅,B) (∅,C))))) (inContext C ∅ (∅,A))))
+                ))⟩)
             ⟨sD4 true As (¬B)
-                (sD1 (∅, ¬𝗟¬A, 𝗟¬B) (re2 (trueRW (∅, ¬ A ∨ ¬ B ⇒ C)) prf2))
+                (sD1 (∅, ¬𝗟¬A, 𝗟¬B) (re2 (trueRW (∅, ¬ A ∨ ¬ B ⇒ C))
+                    (notLP B (implLP (¬ A ∨ ¬ B) C (orRP (¬A) (¬B) (notRP B (notRP A (inContext B (∅,A) (∅,C))))) (inContext C ∅ (∅,B))))
+                ))
                 ⟨(sD3 (∅, C) (∅, 𝗟¬B) (RimplL2 (¬ A ∨ ¬ B) C (RnotR A (axiom (∅,C,A) ∅))))⟩
             ⟩ ❙
 ❚

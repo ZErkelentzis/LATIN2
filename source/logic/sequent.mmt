@@ -1,6 +1,6 @@
 namespace latin:/❚
 
-fixmeta http://gl.mathhub.info/MMT/LFX/Patterns?PatternLF ❚
+fixmeta ur:?LF ❚
 
 import rules scala://sequents.latin2 ❚
 
@@ -50,7 +50,7 @@ theory SequentBase =
 
 theory InContext =
    include ?SequentBase ❙
-   inContext : {A}{[Γ] Γ,A}{[Δ] Δ,A} Γ,A ⊢ Δ,A ❘ # from_context 1 %I2 %I3 ❙
+   inContext : {A,Γ, Δ} Γ,A ⊢ Δ,A ❘ # from_context 1 %I2 %I3 ❙
    in_context_proof ❙
    rule rules?InContextRule ❙
    rule rules?InContextProofType ❙
@@ -71,7 +71,7 @@ theory InContextTest =
 theory Cut =
     include ?SequentProofs ❙
 
-    cut : {A, Γ1, Δ2}{ [Δ1] Δ1,A} {[Γ2] Γ2,A} Γ1 ⊢ Δ1,A ⟶ Γ2,A ⊢ Δ2 ⟶ Γ1 ; Γ2 ⊢ Δ1 ; Δ2 ❘ # cut 6 7 ❙
+    cut : {A, Γ1, Γ2, Δ1, Δ2} Γ1 ⊢ Δ1,A ⟶ Γ2,A ⊢ Δ2 ⟶ Γ1 ; Γ2 ⊢ Δ1 ; Δ2 ❘ # cut 6 7 ❙
 ❚
 
 theory CutTest =
@@ -98,7 +98,6 @@ theory Contraction =
 
 theory Exchange =
     rule rules?ExchangeEquality ❙
-    rule rules?ExchangePattern ❙
 ❚
 
 // Truth ------------------------------------------------------------------- ❚
@@ -156,9 +155,9 @@ theory SequentNegationLeft =
     include ?SequentProofs ❙
     include ?Negation ❙
 
-    negation_left : {Γ,A}{[Δ] Δ, A} Γ ⊢ Δ,A ⟶ Γ, ¬A ⊢ Δ ❘ # notL 4 ❙
-    negation_leftP : {Γ,A}{[Δ] Δ, A} Γ ⊢ Δ,A ⟶ Γ, ¬A ⊢ Δ ❘ # notLP 2 4 ❘
-        = [Γ,A] case [Δ] Δ,A ↦ [p] notL p ❙
+    negation_left : {Γ,Δ,A} Γ ⊢ Δ,A ⟶ Γ, ¬A ⊢ Δ ❘ # notL 4 ❙
+    negation_leftP : {Γ,Δ,A} Γ ⊢ Δ,A ⟶ Γ, ¬A ⊢ Δ ❘ # notLP 3 4 ❘
+        = [Γ,Δ,A] [p] notL p ❙
 ❚
 
 theory NLTest =
@@ -173,9 +172,9 @@ theory SequentNegationRight =
     include ?SequentProofs ❙
     include ?Negation ❙
 
-    negation_right : {A}{[Γ] Γ,A}{Δ} Γ, A ⊢ Δ ⟶ Γ ⊢ Δ, ¬A ❘ # notR 4 ❙
-    negation_rightP : {A}{[Γ] Γ,A}{Δ} Γ, A ⊢ Δ ⟶ Γ ⊢ Δ, ¬A ❘ # notRP 1 4 ❘
-        = [A] case [Γ] Γ,A ↦ [D,p] notR p ❙
+    negation_right : {A, Γ, Δ} Γ, A ⊢ Δ ⟶ Γ ⊢ Δ, ¬A ❘ # notR 4 ❙
+    negation_rightP : {A, Γ, Δ} Γ, A ⊢ Δ ⟶ Γ ⊢ Δ, ¬A ❘ # notRP 1 4 ❘
+        = [A,Γ,Δ] [p] notR p ❙
 ❚
 
 
@@ -190,9 +189,9 @@ theory SequentConjunctionLeft =
     include ?SequentProofs ❙
     include ?Conjunction ❙
 
-    conjunction_left : {A,B}{[Γ] Γ,A,B}{Δ} Γ,A,B ⊢ Δ ⟶ Γ, A ∧ B ⊢ Δ ❘ # andL 5 ❙
-    conjunction_leftP : {A,B}{[Γ] Γ,A,B}{Δ} Γ,A,B ⊢ Δ ⟶ Γ, A ∧ B ⊢ Δ ❘ # andLP 1 2 5 ❘
-        = [A,B] case [Γ] Γ,A,B ↦ [Δ,p] andL p ❙
+    conjunction_left : {A,B}{Γ,Δ} Γ,A,B ⊢ Δ ⟶ Γ, A ∧ B ⊢ Δ ❘ # andL 5 ❙
+    conjunction_leftP : {A,B}{Γ,Δ} Γ,A,B ⊢ Δ ⟶ Γ, A ∧ B ⊢ Δ ❘ # andLP 1 2 5 ❘
+        = [A,B][Γ,Δ][p] andL p ❙
 ❚
 
 theory SequentConjunctionRightSimple =
@@ -208,9 +207,9 @@ theory SequentConjunctionRightCompositional =
     include ?SequentProofs ❙
     include ?Conjunction ❙
 
-    conjunction_right_comp : {A,B,Γ1, Γ2}{[Δ1] Δ1,A}{[Δ2] Δ2,B} Γ1 ⊢ Δ1,A ⟶ Γ2 ⊢ Δ2,B ⟶ Γ1; Γ2 ⊢ Δ1; Δ2 ,A ∧ B ❘ # andRc 7 8 ❙
-    conjunction_right_compP : {A,B,Γ1, Γ2}{[Δ1] Δ1,A}{[Δ2] Δ2,B} Γ1 ⊢ Δ1,A ⟶ Γ2 ⊢ Δ2,B ⟶ Γ1; Γ2 ⊢ Δ1; Δ2 ,A ∧ B ❘ # andRcP 1 2 7 8 ❘
-        = [A,B, Γ1, Γ2] case [Δ1] Δ1,A ↦ case [Δ2] Δ2,B ↦ [p1,p2] andRc p1 p2 ❙
+    conjunction_right_comp : {A,B}{Γ1, Γ2, Δ1,Δ2} Γ1 ⊢ Δ1,A ⟶ Γ2 ⊢ Δ2,B ⟶ Γ1; Γ2 ⊢ Δ1; Δ2 ,A ∧ B ❘ # andRc 7 8 ❙
+    conjunction_right_compP : {A,B}{Γ1, Γ2, Δ1,Δ2} Γ1 ⊢ Δ1,A ⟶ Γ2 ⊢ Δ2,B ⟶ Γ1; Γ2 ⊢ Δ1; Δ2 ,A ∧ B ❘ # andRcP 1 2 7 8 ❘
+        = [A,B, Γ1, Γ2,Δ1,Δ2] [p1,p2] andRc p1 p2 ❙
 ❚
 
 theory SequentConjunctionSimple =
@@ -235,27 +234,27 @@ theory SequentDisjunctionLeftSimple =
     include ?SequentProofs ❙
     include ?Disjunction ❙
 
-    disjunction_left : {A,B,Δ}{[Γ] Γ,A} Γ,A ⊢ Δ ⟶ Γ,B ⊢ Δ ⟶ Γ,A ∨ B ⊢ Δ ❘ # orLs 5 6 ❙
-    disjunction_leftP : {A,B,Δ}{[Γ] Γ,A} Γ,A ⊢ Δ ⟶ Γ,B ⊢ Δ ⟶ Γ,A ∨ B ⊢ Δ ❘ # orLsP 1 2 5 6 ❘
-        = [A,B,Δ] case [Γ] Γ,A ↦ [p1,p2] orLs p1 p2 ❙
+    disjunction_left : {A,B,Γ,Δ} Γ,A ⊢ Δ ⟶ Γ,B ⊢ Δ ⟶ Γ,A ∨ B ⊢ Δ ❘ # orLs 5 6 ❙
+    disjunction_leftP : {A,B,Γ,Δ} Γ,A ⊢ Δ ⟶ Γ,B ⊢ Δ ⟶ Γ,A ∨ B ⊢ Δ ❘ # orLsP 1 2 5 6 ❘
+        = [A,B,Γ,Δ] [p1,p2] orLs p1 p2 ❙
 ❚
 
 theory SequentDisjunctionLeftCompositional =
     include ?SequentProofs ❙
     include ?Disjunction ❙
 
-    disjunction_left : {A,B,Δ1,Δ2}{[Γ1] Γ1,A}{[Γ2] Γ2,B} Γ1,A ⊢ Δ1 ⟶ Γ2,B ⊢ Δ2 ⟶ Γ1; Γ2,A ∨ B ⊢ Δ1;Δ2 ❘ # orLc 7 8 ❙
-    disjunction_leftP : {A,B,Δ1,Δ2}{[Γ1] Γ1,A}{[Γ2] Γ2,B} Γ1,A ⊢ Δ1 ⟶ Γ2,B ⊢ Δ2 ⟶ Γ1; Γ2,A ∨ B ⊢ Δ1;Δ2 ❘ # orLcP 1 2 7 8 ❘
-        = [A,B,Δ1,Δ2] case [Γ1] Γ1,A ↦ case [Γ2] Γ2,B ↦ [p1,p2] orLc p1 p2 ❙
+    disjunction_left : {A,B,Γ1,Γ2,Δ1,Δ2} Γ1,A ⊢ Δ1 ⟶ Γ2,B ⊢ Δ2 ⟶ Γ1; Γ2,A ∨ B ⊢ Δ1;Δ2 ❘ # orLc 7 8 ❙
+    disjunction_leftP : {A,B,Γ1,Γ2,Δ1,Δ2} Γ1,A ⊢ Δ1 ⟶ Γ2,B ⊢ Δ2 ⟶ Γ1; Γ2,A ∨ B ⊢ Δ1;Δ2 ❘ # orLcP 1 2 7 8 ❘
+        = [A,B,Γ1,Γ2,Δ1,Δ2][p1,p2] orLc p1 p2 ❙
 ❚
 
 theory SequentDisjunctionRight =
     include ?SequentProofs ❙
     include ?Disjunction ❙
 
-    disjunction_right : {Γ,A,B}{[Δ] Δ,A,B} Γ ⊢ Δ,A,B ⟶ Γ ⊢ Δ,A ∨ B ❘ # orR 5 ❙
-    disjunction_rightP : {Γ,A,B}{[Δ] Δ,A,B} Γ ⊢ Δ,A,B ⟶ Γ ⊢ Δ,A ∨ B ❘ # orRP 2 3 5 ❘
-     = [Γ,A,B] case [Δ] Δ,A,B ↦ [p] orR p ❙
+    disjunction_right : {A,B,Γ,Δ} Γ ⊢ Δ,A,B ⟶ Γ ⊢ Δ,A ∨ B ❘ # orR 5 ❙
+    disjunction_rightP : {A,B,Γ,Δ} Γ ⊢ Δ,A,B ⟶ Γ ⊢ Δ,A ∨ B ❘ # orRP 1 2 5 ❘
+     = [A,B,Γ,Δ] [p] orR p ❙
 ❚
 
 theory SequentDisjunctionSimple =
@@ -272,13 +271,13 @@ theory SequentImplication =
     include ?SequentProofs ❙
     include ?Implication ❙
 
-    implication_left : {A,B}{[Γ] Γ,B}{[Δ] Δ,A } Γ ⊢ Δ,A ⟶ Γ,B ⊢ Δ ⟶ Γ,A ⇒ B ⊢ Δ ❘ # implL 5 6 ❙
-    implication_leftP : {A,B}{[Γ] Γ,B}{[Δ] Δ,A } Γ ⊢ Δ,A ⟶ Γ,B ⊢ Δ ⟶ Γ,A ⇒ B ⊢ Δ ❘ # implLP 1 2 5 6 ❘
-        = [A,B] case [Γ] Γ,B ↦ case [Δ] Δ,A ↦ [p1,p2] implL p1 p2 ❙
+    implication_left : {A,B}{Γ,Δ} Γ ⊢ Δ,A ⟶ Γ,B ⊢ Δ ⟶ Γ,A ⇒ B ⊢ Δ ❘ # implL 5 6 ❙
+    implication_leftP : {A,B}{Γ,Δ} Γ ⊢ Δ,A ⟶ Γ,B ⊢ Δ ⟶ Γ,A ⇒ B ⊢ Δ ❘ # implLP 1 2 5 6 ❘
+        = [A,B][Γ,Δ][p1,p2] implL p1 p2 ❙
 
-    implication_right : {A,B}{[Γ] Γ,A}{[Δ] Δ,B } Γ,A ⊢ Δ,B ⟶ Γ ⊢ Δ,A ⇒ B ❘ # implR 5 ❙
-    implication_rightP : {A,B}{[Γ] Γ,A}{[Δ] Δ,B } Γ,A ⊢ Δ,B ⟶ Γ ⊢ Δ,A ⇒ B ❘ # implRP 1 2 5 ❘
-        = [A,B] case [Γ] Γ,A ↦ case [Δ] Δ,B ↦ [p] implR p ❙
+    implication_right : {A,B}{Γ,Δ} Γ,A ⊢ Δ,B ⟶ Γ ⊢ Δ,A ⇒ B ❘ # implR 5 ❙
+    implication_rightP : {A,B}{Γ,Δ} Γ,A ⊢ Δ,B ⟶ Γ ⊢ Δ,A ⇒ B ❘ # implRP 1 2 5 ❘
+        = [A,B][Γ,Δ] [p] implR p ❙
 ❚
 
 theory Test =
@@ -292,8 +291,8 @@ theory Test =
     test : {A,B} ⊦ A ∧ B ⇒ B ∧ A ❘
         = [A,B] implR (
                     andRs
-                        (andL (inContext B (∅,A,B) (∅,B)))
-                        (andLP A B (inContext A (∅,A,B) (∅,A)))
+                        (andL (inContext B (∅,A) ∅))
+                        (andLP A B (inContext A (∅,B) ∅))
                 ) ❙
 ❚
 
