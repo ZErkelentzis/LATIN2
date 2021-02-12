@@ -4,9 +4,7 @@ import info.kwarc.mmt.api._
 import checking._
 import objects._
 import uom._
-import utils._
 import Conversions._
-import info.kwarc.mmt.LFX.patterns.PatternRule
 import info.kwarc.mmt.lf._
 import latin2.sequents.Ctx.ctx2ls
 
@@ -109,37 +107,11 @@ object Ctx {
   }
 }
 
-sealed trait ContextElem
+sealed trait ContextElem {
+  val tm : Term
+}
 case class Elem(tm : Term) extends ContextElem
 case class Opaque(tm : Term) extends ContextElem
-
-
-object InContextProofType extends TypingRule(InContext.path) {
-  override def applicable(t: Term): Boolean = t match {
-    case ApplySpine(InContext.term,_) =>
-      true
-    case _ => false
-  }
-
-  override def apply(solver: Solver)(tm: Term, tp: Term)(implicit stack: Stack, history: History): Option[Boolean] = tm match {
-    case OMA(OMS(InContext.proof),List(itp)) =>
-      Some(solver.check(Subtyping(stack,itp,tp)))
-    case _ =>
-      Some(false)
-  }
-}
-
-object InContextRule extends TypeBasedSolutionRule(List(Apply.path),InContext.path) {
-  override def solve(solver: Solver)(tp: Term)(implicit stack: Stack, history: History): Option[Term] = tp match {
-    case ApplySpine(InContext.term,List(prop,ctxtm)) =>
-      val ctx = Ctx(ctxtm)
-      val allRules = solver.rules.filter(_.isInstanceOf[ContextRule]).getAll.toList
-      if (allRules.contains(ExchangeEquality) && ctx.contains(prop)) Some(InContext.proof(tp))
-      else if (ctx.lastOption.contains(Elem(prop))) Some(InContext.proof(tp))
-      else None
-    case _ => None
-  }
-}
 
 object MapCompute extends ComputationRule(ContextMap.path) {
   override def applicable(t: Term): Boolean = t match {
@@ -154,23 +126,6 @@ object MapCompute extends ComputationRule(ContextMap.path) {
       case ls =>
         Simplify(Ctx(ls).toTerm)
     }
-  }
-}
-
-object MapPattern extends PatternRule {
-  override def applicable(tm: Term): Boolean = tm match {
-    case ContextMap(_,_) => true
-    case _ => false
-  }
-
-  override def apply(tm: Term, ctx: Context, pattern: Term, cont: (Term, Term) => Option[List[(LocalName, Term)]])(implicit solver: CheckingCallback): Option[List[(LocalName, Term)]] = {
-    val ContextMap(pctx,f) = pattern
-    val ntm = Ctx(tm) map {
-      case Elem(Apply(`f`,a)) => Elem(a)
-      case Elem(_) => return None
-      case Opaque(o) => return None
-    }
-   cont(Ctx(ntm).toTerm,pctx)
   }
 }
 
@@ -189,25 +144,6 @@ object FoldCompute extends ComputationRule(ContextFold.path) {
       case Elem(h) :: tail =>
         Simplify(tail.foldLeft(h){case (tm,Elem(e)) => ApplySpine(f,tm,e)})
     } else Simplifiability.NoRecurse
-  }
-}
-
-object FoldPattern extends PatternRule {
-  override def applicable(tm: Term): Boolean = tm match {
-    case ContextFold(_,_,_) => true
-    case _ => false
-  }
-
-  override def apply(tm: Term, ctx: Context, pattern: Term, cont: (Term, Term) => Option[List[(LocalName, Term)]])(implicit solver: CheckingCallback): Option[List[(LocalName, Term)]] = {
-    val ContextFold(pctx,base,f) = pattern
-    def deconstruct(itm : Term) : List[Term] = itm match {
-      case ApplySpine(`f`,List(a,b)) =>
-        deconstruct(a) ::: deconstruct(b)
-      case `base` => Nil
-      case o => o :: Nil
-    }
-    val ntm = deconstruct(tm).map(Elem)
-    cont(Ctx(ntm).toTerm,pctx)
   }
 }
 
@@ -356,7 +292,44 @@ object ExchangeEquality extends TypeBasedEqualityRule(Nil,Sequent.path) {
   }
 }
 
-object ExchangeSolution extends ValueSolutionRule(ContextExt.path) {
+object Contraction extends ContextRule
+object Weakening extends SubtypingRule {
+  override val head: GlobalName = Sequent.baseURI ? "SequentProofs" ? "ded"
+  override def applicable(tp1: Term, tp2: Term): Boolean = (tp1,tp2) match {
+    case (ApplySpine(OMS(`head`),List(_,_)),ApplySpine(OMS(`head`),List(_,_))) => true
+    case _ => false
+  }
+
+  override def apply(solver: Solver)(tp1: Term, tp2: Term)(implicit stack: Stack, history: History): Option[Boolean] = {
+    val ApplySpine(OMS(`head`),List(ctxAt,pA)) = tp1
+    val ApplySpine(OMS(`head`),List(ctxBt,pB)) = tp2
+    val gammaA = Ctx(ctxAt)
+    val gammaB = Ctx(ctxBt)
+    val deltaA = Ctx(pA)
+    val deltaB = Ctx(pB)
+    val exchange = solver.rules.getAll.toList.contains(ExchangeEquality)
+    if (exchange) applyExchange(gammaA,deltaA,gammaB,deltaB)(solver) else apply(gammaA,deltaA,gammaB,deltaB)(solver)
+  }
+
+  def applyExchange(gammaA : Ctx, deltaA : Ctx, gammaB : Ctx, deltaB : Ctx)(solver : Solver)(implicit stack: Stack, history: History): Option[Boolean] = {
+    val frees = gammaA.toTerm.freeVars ::: gammaB.toTerm.freeVars ::: deltaA.toTerm.freeVars ::: deltaB.toTerm.freeVars
+    val unknowns = frees.filter(n => solver.getUnsolvedVariables.isDeclared(n))
+    if (unknowns.nonEmpty)
+      return None
+    val gamma = gammaA.forall(e1 => gammaB.count(e2 => ExchangeEquality.termmatch(solver, e1.tm, e2.tm)) == 1)
+    val delta = deltaA.forall(e1 => deltaB.count(e2 => ExchangeEquality.termmatch(solver, e1.tm, e2.tm)) == 1)
+    if (gamma && delta)
+      return Some(true)
+    None
+  }
+
+  def apply(gammaA : Ctx, deltaA : Ctx, gammaB : Ctx, deltaB : Ctx)(solver : Solver)(implicit stack: Stack, history: History): Option[Boolean] = {
+    None // TODO
+  }
+}
+
+
+/* object ExchangeSolution extends ValueSolutionRule(ContextExt.path) {
   override def applicable(t: Term): Option[Int] = None /* t match {
     case ContextExt(_,_) => Some(2)
     case _ => None
@@ -420,20 +393,68 @@ object ExchangePattern extends PatternRule {
     }
   }
 }
-object Contraction extends ContextRule
-object Weakening extends SubtypingRule {
-  override val head: GlobalName = Sequent.baseURI ? "SequentProofs" ? "ded"
-  override def applicable(tp1: Term, tp2: Term): Boolean = (tp1,tp2) match {
-    case (ApplySpine(`head`,List(_,_)),ApplySpine(`head`,List(_,_))) => true
+
+object InContextRule extends TypeBasedSolutionRule(List(Apply.path),InContext.path) {
+  override def solve(solver: Solver)(tp: Term)(implicit stack: Stack, history: History): Option[Term] = tp match {
+    case ApplySpine(InContext.term,List(prop,ctxtm)) =>
+      val ctx = Ctx(ctxtm)
+      val allRules = solver.rules.filter(_.isInstanceOf[ContextRule]).getAll.toList
+      if (allRules.contains(ExchangeEquality) && ctx.contains(prop)) Some(InContext.proof(tp))
+      else if (ctx.lastOption.contains(Elem(prop))) Some(InContext.proof(tp))
+      else None
+    case _ => None
+  }
+}
+
+object FoldPattern extends PatternRule {
+  override def applicable(tm: Term): Boolean = tm match {
+    case ContextFold(_,_,_) => true
     case _ => false
   }
 
-  override def apply(solver: Solver)(tp1: Term, tp2: Term)(implicit stack: Stack, history: History): Option[Boolean] = {
-    val ApplySpine(`head`,List(ctxAt,pA)) = tp1
-    val ApplySpine(`head`,List(ctxBt,pB)) = tp2
-    solver.check(Equality(stack,pA,pB,None))
-    val ctxA = Ctx(ctxAt)
-    val ctxB = Ctx(ctxBt)
-    if (ctxB.forall(ctxA.contains)) Some(true) else None
+  override def apply(tm: Term, ctx: Context, pattern: Term, cont: (Term, Term) => Option[List[(LocalName, Term)]])(implicit solver: CheckingCallback): Option[List[(LocalName, Term)]] = {
+    val ContextFold(pctx,base,f) = pattern
+    def deconstruct(itm : Term) : List[Term] = itm match {
+      case ApplySpine(`f`,List(a,b)) =>
+        deconstruct(a) ::: deconstruct(b)
+      case `base` => Nil
+      case o => o :: Nil
+    }
+    val ntm = deconstruct(tm).map(Elem)
+    cont(Ctx(ntm).toTerm,pctx)
   }
 }
+
+object MapPattern extends PatternRule {
+  override def applicable(tm: Term): Boolean = tm match {
+    case ContextMap(_,_) => true
+    case _ => false
+  }
+
+  override def apply(tm: Term, ctx: Context, pattern: Term, cont: (Term, Term) => Option[List[(LocalName, Term)]])(implicit solver: CheckingCallback): Option[List[(LocalName, Term)]] = {
+    val ContextMap(pctx,f) = pattern
+    val ntm = Ctx(tm) map {
+      case Elem(Apply(`f`,a)) => Elem(a)
+      case Elem(_) => return None
+      case Opaque(o) => return None
+    }
+   cont(Ctx(ntm).toTerm,pctx)
+  }
+}
+
+object InContextProofType extends TypingRule(InContext.path) {
+  override def applicable(t: Term): Boolean = t match {
+    case ApplySpine(InContext.term,_) =>
+      true
+    case _ => false
+  }
+
+  override def apply(solver: Solver)(tm: Term, tp: Term)(implicit stack: Stack, history: History): Option[Boolean] = tm match {
+    case OMA(OMS(InContext.proof),List(itp)) =>
+      Some(solver.check(Subtyping(stack,itp,tp)))
+    case _ =>
+      Some(false)
+  }
+}
+
+ */

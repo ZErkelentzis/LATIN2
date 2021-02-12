@@ -14,7 +14,7 @@ theory Prolog =
     apply_clause : {A,Σ} A ⟸ Σ ⟶ {Γ, Δ} Γ,A ⊛ Δ ⟶ Γ;Σ ⊛ Δ,A ❘ # 6 @ 3 prec -2 ❙
 ❚
 
-theory Example : ?Prolog =
+theory PrologExample : ?Prolog =
     tm : type ❙
     A : tm ❙
     B : tm ❙
@@ -28,4 +28,44 @@ theory Example : ?Prolog =
     clause3 : R B A ⟸ ∅ ❙
 
     proof : P B ⟸ ∅ ❘ = prove P B by start @ clause1 B A @ clause2 @ clause3 ❙
+❚
+
+theory Prolog2 =
+    include ?CredProof ❙
+    include ?SequentProofs ❙
+    include ?Exchange ❙
+
+    clause_prop  : context ⟶ prop ⟶ prop❘# 2 ⟸ 1 prec 1 ❙
+    // clause : context ⟶ prop ⟶ type ❘ = [Γ,A] ∅ + Γ ⊩ ∅,A ❘ # 2 ⟸ 1 ❙
+
+    proof_state : context ⟶ context ⟶ context ⟶ type ❙
+    initial : {Γ, A} proof_state Γ (∅,A) Γ ❘ # start %I1 %I2 prec -1 ❙
+    finally : {Γ, S,A} proof_state Γ ∅ (S,A) ⟶ ∅ + Γ ⊩ ∅,A ❘ # prove 3 from 1 ⟹ 4 prec -10 ❙
+
+    clause_as_type : prop ⟶ type ❙
+    clause : {A} clause_as_type A ❘ # clause 1 prec 2 ❙
+
+    apply_clause : {A,G2} clause_as_type (A ⟸ G2) ⟶ {S}{Γ,G} proof_state Γ (G,A) (S, (A ⟸ G2)) ⟶ proof_state Γ (G;G2) (S, (A ⟸ G2),A) ❘ # 7 then 3 prec -2 ❙
+
+    tm : type ❙
+    bind : (tm ⟶ prop) ⟶ prop ❘ # δ 1 ❙
+    instantiate : {f,t} clause_as_type (δ f) ⟶ clause_as_type (f t) ❘ # 3 @ 2 ❙
+    apply_inst : {f,t}{S,G,Γ} clause_as_type (δ f) ⟶ proof_state Γ G (S, (δ f)) ⟶ proof_state Γ G (S, (δ f), (f t)) ❘ # 7 inst 6 @ 2 prec -2 ❙
+❚
+
+theory Prolog2Example : ?Prolog2 =
+    A : tm ❙
+    B : tm ❙
+
+    P : tm ⟶ prop ❙
+    Q : tm ⟶ prop ❙
+    R : tm ⟶ tm ⟶ prop ❙
+
+    cl1 = δ [x] δ [y] P x ⟸ ∅, Q y, R x y ❙
+    cl2 = Q A ⟸ ∅ ❙
+    cl3 = R B A ⟸ ∅ ❙
+
+    rules = ∅, cl1, cl2, cl3 ❙
+
+    proof : ∅ + rules ⊩ ∅, P B ❘ = prove P B from rules ⟹ start inst (clause cl1) @ B inst ((clause cl1) @ B) @ A then ((clause cl1) @ B @ A) then (clause cl2) then (clause cl3) ❙
 ❚

@@ -20,7 +20,6 @@ theory ContextMap =
     map : context ⟶ (prop ⟶ prop) ⟶ context ❘ # 2 @ 1 ❙
 
    rule rules?MapCompute ❙
-   rule rules?MapPattern ❙
 ❚
 
 theory ContextFold =
@@ -28,7 +27,6 @@ theory ContextFold =
 
     fold : context ⟶ prop ⟶ (prop ⟶ prop ⟶ prop) ⟶ prop ❙
    rule rules?FoldCompute ❙
-   rule rules?FoldPattern ❙
 ❚
 
 theory SequentProofs =
@@ -51,9 +49,6 @@ theory SequentBase =
 theory InContext =
    include ?SequentBase ❙
    inContext : {A,Γ, Δ} Γ,A ⊢ Δ,A ❘ # from_context 1 %I2 %I3 ❙
-   in_context_proof ❙
-   rule rules?InContextRule ❙
-   rule rules?InContextProofType ❙
 ❚
 
 theory InContextTest =
@@ -283,9 +278,8 @@ theory SequentImplication =
 theory Test =
     include ?SequentConjunction ❙
     include ?SequentImplication ❙
-    include ?Weakening ❙
+    // include ?Weakening ❙
     include ?Exchange ❙
-    include ?Weakening ❙
     include ?InContext ❙
 
     test : {A,B} ⊦ A ∧ B ⇒ B ∧ A ❘
