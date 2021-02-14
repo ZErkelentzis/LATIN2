@@ -112,10 +112,6 @@ theory NegationAsFailure =
     refute2 : {A,B}{Bs,Γ,Δ} clause_as_type (A ⟸ (Bs,B)) ⟶ Γ ⊬ Δ,B ⟶ Γ, A ⟸ (Bs,B) ⊬ Δ ❘
       = [A,B,Bs, Γ, Δ][q,p] RimplL1 (⋀(Bs,B)) A (RandR2 (⋀Bs) B p) ❘ # premise 2 of 6 %Rand 7 prec -2  ❙
 
-
-    // prolog_rule : {A,B} clause_as_type (A ⟸ B) ⟶ {Γ, Δ} Γ, A ⟸ B ⊫ ⋀ (Δ ; B) ⟶ Γ, A ⟸ B ⊫ ⋀ (Δ,A) ❘ # 3 %Rthen 6 prec -2 ❙
-        // admissible, but only provable on a meta level ❙
-
     naf_rule : {A : atom} {Γ, Δ} NAF; Γ ⊫ ⋀ Δ ⟶ Γ ⊬ ∅, A ⟶ NAF; Γ ⊫ ⋀ (Δ,¬ A) ❘ # negate 1 by 5 %Rthen 4 prec -2 ❙
         // admissible, but only provable on a meta level ❙
 ❚
