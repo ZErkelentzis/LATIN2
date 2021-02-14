@@ -138,7 +138,7 @@ theory NAFExample : ?NegationAsFailure =
     proof : rules ⊫ P B ❘
         = (clause cl1) then
             negate Q A by (
-                conclusion of (clause cl3) and premise (R A B) of (clause cl2) and conclusion of (clause cl1) and (Raxiom (∅, R B A, P B) (∅, Q A, R A B))
+                conclusion of (clause cl3) and premise (R A B) of (clause cl2) and conclusion of (clause cl1) and axiomatically
             ) then
             (clause cl3) then finish
     ❙

@@ -66,7 +66,7 @@ theory CredulousExample : ?Credulous =
     knowledge_base = ∅, O ⇒ B, O ⇒ ¬ F, B ❘ # base ❙
 
     tweety_can_probably_fly : ∅ + base, def ⊩ ∅, F ❘
-        = cD5 B Fs F (cD3 (¬F) (re4 B F (RimplL1 O B (RimplL1 O (¬F) (RnotR (Raxiom (∅, B, F, F) (∅, O, O)))))) (cD1 (re2 (from_context B) (from_context F))))
+        = cD5 B Fs F (cD3 (¬F) (re4 B F (RimplL1 O B (RimplL1 O (¬F) (RnotR axiomatically)))) (cD1 (re2 (from_context B) (from_context F))))
     ❙
 ❚
 
@@ -118,6 +118,6 @@ theory SkepticalExample : ?Skeptical =
                 (sD1 (∅, ¬𝗟¬A, 𝗟¬B) (re2 (trueRW (∅, ¬ A ∨ ¬ B ⇒ C))
                     (notLP B (implLP (¬ A ∨ ¬ B) C (orRP (¬A) (¬B) (notRP B (notRP A (inContext B (∅,A) (∅,C))))) (inContext C ∅ (∅,B))))
                 ))
-                ⟨(sD3 (∅, C) (∅, 𝗟¬B) (RimplL2 (¬ A ∨ ¬ B) C (RnotR refute)))⟩
+                ⟨(sD3 (∅, C) (∅, 𝗟¬B) (RimplL2 (¬ A ∨ ¬ B) C (RnotR axiomatically)))⟩
             ⟩ ❙
 ❚
