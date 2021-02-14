@@ -11,6 +11,13 @@ import latin2.sequents.Ctx.ctx2ls
 object Sequent {
   val baseURI = DPath(utils.URI(Some("latin"), None, abs=true))
   val path = Sequent.baseURI ? "Contexts" ? "context"
+  val prop = Sequent.baseURI ? "Propositions" ? "prop"
+
+  val atom = Sequent.baseURI ? "Antisequent" ? "atom"
+  val axiom = Sequent.baseURI ? "AntiseqAxiom" ? "antiseq_axiom"
+  val refute = Sequent.baseURI ? "AntiseqAxiom" ? "refute"
+
+  val antiseq = Sequent.baseURI ? "Antisequent" ? "refutes"
 }
 
 object InContext {
@@ -187,6 +194,73 @@ object ContextEquality extends TypeBasedEqualityRule(Nil,Sequent.path) {
   }
 }
 
+
+object FoldEquality extends TypeBasedEqualityRule(Nil,Sequent.prop) {
+  // override def shadowedRules: List[Rule] = List(ContextEquality)
+  //val head = ContextExt.path
+  //override def applicableToTerm(tm: Term): Boolean = ContextEquality.applicable(tm)
+  override def applicable(tm: Term): Boolean = tm match {
+    case OMS(Sequent.prop) | OMS(Sequent.atom) => true
+    case _ => false
+  }
+  override def applicableToTerm(solver: Solver, tm: Term): Boolean = tm match {
+    case ContextFold(_,_,_) => true
+    case _ => false
+  }
+
+  override def apply(solver: Solver)(tm1: Term, tm2: Term, tp: Term)(implicit stack: Stack, history: History): Option[Boolean] = {
+    val (ctxA,ctxB) = (tm1,tm2) match {
+      case (ContextFold(ca,ba,fa),ContextFold(cb,bb,fb)) =>
+        solver.check(Equality(stack,fa,fb,None))
+        solver.check(Equality(stack,ba,bb,None))
+        (Ctx(ca),Ctx(cb))
+      case (ContextFold(ca,ba,fa),_) =>
+        deconstruct(solver,tm2)(fa,ba) match {
+          case Some(ls) =>
+            (Ctx(ca),Ctx(ls.reverse))
+          case _ =>
+            return None
+        }
+      case (_,ContextFold(cb,bb,fb)) =>
+        deconstruct(solver,tm1)(fb,bb) match {
+          case Some(ls) =>
+            (Ctx(ls.reverse),Ctx(cb))
+          case _ =>
+            return None
+        }
+    }
+    Some(solver.check(Equality(stack,ctxA.toTerm,ctxB.toTerm,Some(OMS(Sequent.path)))))
+  }
+
+  def deconstruct(solver:Solver, tm : Term)(f : Term, base : Term)(implicit stack: Stack, history: History): Option[List[ContextElem]] =
+    solver.tryToCheckWithoutDelay(Equality(stack,tm,base,Some(OMS(Sequent.prop)))) match {
+      case Some(true) =>
+        Some(Nil)
+      case _ =>
+        object fn {
+          def unapply(t : Term) = t match {
+            case ApplySpine(`f`,List(a,b)) => Some((a,b))
+            case _ => None
+          }
+        }
+        solver.safeSimplifyUntil(tm)(fn.unapply)._1 match {
+          case fn(a,b) =>
+            deconstruct(solver,a)(f,base).map(Elem(b) :: _)
+          case o =>
+            solver.safeSimplifyUntil(o)(ContextFold.unapply)._1 match {
+              case ContextFold(ct,b,fi) =>
+                val checksOut = solver.tryToCheckWithoutDelay(
+                  Equality(stack,b,base,None),
+                  Equality(stack,fi,f,None)
+                )
+                Some(if (checksOut contains true) ctx2ls(Ctx(ct)) else List(Elem(o)))
+              case _ =>
+                Some(List(Elem(o)))
+            }
+        }
+    }
+}
+
 object ExchangeEquality extends TypeBasedEqualityRule(Nil,Sequent.path) {
   override def shadowedRules: List[Rule] = List(ContextEquality)
   //val head = ContextExt.path
@@ -205,35 +279,27 @@ object ExchangeEquality extends TypeBasedEqualityRule(Nil,Sequent.path) {
   def applyI(solver: Solver)(tm1: Term, tm2: Term, tp: Term)(implicit stack: Stack, history: History): Option[Boolean] = {
     val ctxA = Ctx(tm1) //.sortBy(_.hashCode())
     val ctxB = Ctx(tm2) //.sortBy((_.hashCode()))
-    val restA = Ctx(ctxB.foldLeft(ctxA)((ct,e) => ct.dropE(e).getOrElse(ct)))
-    val restB = Ctx(ctxA.foldLeft(ctxB)((ct,e) => ct.dropE(e).getOrElse(ct)))
-    if (restA.isEmpty && restB.isEmpty) return Some(true)
-    if (restA != ctxA || restB != ctxB) return Some(solver.check(Equality(stack, Ctx(restA).toTerm, Ctx(restB).toTerm, Some(tp))))
-    if (!ctxB.isComplete)
-      throw DelayJudgment("Solution not yet possible")
-    if (ctxA.isComplete)
-      return None
-    // ctxB is a completely known context, and hence all Elems in ctxA are unknowns (or the contexts are *not* equal)
-    val opaques = ctxA.collect {case Opaque(tm) => tm}
-    val elems = ctxA.collect {case Elem(tm) => Elem(tm)}
-    if (elems.isEmpty) {
-      opaques match {
-        case List(ContextMap(c,f)) => // unapply the map
-          unapplyMap(solver,f,ctx2ls(ctxB).map(_.asInstanceOf[Elem].tm)) match {
-            case Some(ls) =>
-              return Some(solver.check(Equality(stack,c,Ctx(ls.map(Elem)).toTerm,Some(tp))))
-            case _ =>
-          }
-        case _ =>
+    val opaquesA = ctxA.collect {case Opaque(tm) => Opaque(tm)}
+    val elemsA = ctxA.collect {case Elem(tm) => Elem(tm)}
+    val opaquesB = ctxB.collect {case Opaque(tm) => Opaque(tm)}
+    val elemsB = ctxB.collect {case Elem(tm) => Elem(tm)}
+
+    val (restAE,restBE) = elemsB.foldLeft((Ctx(elemsA),Ctx(elemsB))){ case ((cA,cB),Elem(t)) =>
+      cA.find(b => solver.tryToCheckWithoutEffect(Equality(stack,t,b.tm,None)) contains true) match {
+        case Some(e) => (cA.dropE(e).get,cB.dropE(t).get)
+        case _ => (cA,cB)
       }
     }
-    if (elems.isEmpty)
-      return None
-    if (elems.length == ctxB.length && opaques.length == 1) { // opaques is empty context
-      solver.check(Equality(stack,opaques.head,OMS(InContext.empty),Some(tp)))
-      return Some(solver.check(Equality(stack,Ctx(elems).toTerm,ctxB.toTerm,Some(tp))))
-    }
-    if (ctxB.distinct.length == 1) { // all elements in ctxA are the same
+    val restA = Ctx(opaquesB.foldLeft(Ctx(opaquesA))((ct,e) => ct.dropE(e).getOrElse(ct)) ::: restAE)
+    val restB = Ctx(opaquesA.foldLeft(Ctx(opaquesB))((ct,e) => ct.dropE(e).getOrElse(ct)) ::: restBE)
+
+    // val restA = Ctx(ctxB.foldLeft(ctxA)((ct,e) => ct.dropE(e).getOrElse(ct)))
+    // val restB = Ctx(ctxA.foldLeft(ctxB)((ct,e) => ct.dropE(e).getOrElse(ct)))
+    if (restA.isEmpty && restB.isEmpty) return Some(true)
+    if (restA.toTerm != tm1 || restB.toTerm != tm2) return Some(solver.check(Equality(stack, Ctx(restA).toTerm, Ctx(restB).toTerm, Some(tp))))
+    if (!ctxB.isComplete)
+      throw DelayJudgment("Solution not yet possible")
+    if (ctxB.distinct.length == 1 && elemsA.nonEmpty) { // all elements in ctxA are the same
       val (nctxA,nctxB) = ctxB.foldLeft((ctxA,ctxB)){ case ((iA,iB),Elem(t)) =>
         iA.collectFirst{case e@Elem(_) => e} match {
           case Some(Elem(e)) =>
@@ -244,7 +310,25 @@ object ExchangeEquality extends TypeBasedEqualityRule(Nil,Sequent.path) {
       }
       return Some(solver.check(Equality(stack,nctxA.toTerm,nctxB.toTerm,Some(tp))))
     }
-    elems.collectFirst {
+    if (ctxA.isComplete)
+      return None
+    // ctxB is a completely known context, and hence all Elems in ctxA are unknowns (or the contexts are *not* equal)
+    if (elemsA.isEmpty) {
+      opaquesA match {
+        case List(Opaque(ContextMap(c,f))) => // unapply the map
+          unapplyMap(solver,f,ctx2ls(ctxB).map(_.asInstanceOf[Elem].tm)) match {
+            case Some(ls) =>
+              return Some(solver.check(Equality(stack,c,Ctx(ls.map(Elem)).toTerm,Some(tp))))
+            case _ =>
+          }
+        case _ =>
+      }
+    }
+    if (elemsA.length == ctxB.length && opaquesA.length == 1 && elemsA.nonEmpty) { // opaques is empty context
+      solver.check(Equality(stack,opaquesA.head.tm,OMS(InContext.empty),Some(tp)))
+      return Some(solver.check(Equality(stack,Ctx(elemsA).toTerm,ctxB.toTerm,Some(tp))))
+    }
+    elemsA.collectFirst {
       case Elem(t) if ctxB.count(e => termmatch(solver,t,e.asInstanceOf[Elem].tm)) == 1 =>
         (t,ctxB.find(e => termmatch(solver,t,e.asInstanceOf[Elem].tm)).get)
     } match {
@@ -328,6 +412,68 @@ object Weakening extends SubtypingRule {
   }
 }
 
+object AtomSubtype extends SubtypingRule {
+  val head = Sequent.atom
+  override def applicable(tp1: Term, tp2: Term): Boolean = (tp1,tp2) match {
+    case (OMS(Sequent.atom),OMS(Sequent.prop)) => true
+    case _ => false
+  }
+
+  override def apply(solver: Solver)(tp1: Term, tp2: Term)(implicit stack: Stack, history: History): Option[Boolean] = Some(true)
+}
+
+object RefuteCompute extends ComputationRule(Sequent.refute) {
+  override def apply(check: CheckingCallback)(tm: Term, covered: Boolean)(implicit stack: Stack, history: History): Simplifiability = {
+    val OMA(OMS(Sequent.refute),List(a,b)) = tm
+    Simplify(OMA(OMS(Sequent.axiom),List(a,b)))
+  }
+}
+
+object RefuteTyping extends InferenceAndTypingRule(Sequent.axiom,OfType.path) {
+  override def applicable(t: Term): Boolean = t match {
+    case OMA(OMS(Sequent.axiom),List(_,_)) =>
+      true
+    case _ =>
+      false
+  }
+
+  override def apply(solver: Solver, tm: Term, tp: Option[Term], covered: Boolean)(implicit stack: Stack, history: History): (Option[Term], Option[Boolean]) = {
+    val OMA(OMS(Sequent.axiom),List(tmA,tmB)) = tm
+    tp match {
+      case Some(ApplySpine(OMS(Sequent.antiseq),List(tpA,tpB))) =>
+        val ctA = Ctx(tpA)
+        val ctB = Ctx(tpB)
+        if (!ctA.isComplete || !ctB.isComplete) {
+          apply(solver,tm,None,covered) match {
+            case (Some(ntp),Some(true)) =>
+              solver.check(Equality(stack,ntp,tp.get,None))
+              return (Some(ntp),Some(true))
+            case _ =>
+              return (None,None)
+          }
+        }
+        val cmpA = ctA.distinct
+        val cmpB = ctB.distinct
+        val union = cmpA ::: cmpB
+        union.foreach{ case Elem(t) => solver.check(Typing(stack,t,OMS(Sequent.atom),Some(OfType.path)))}
+        (tp,Some(union.distinct == union && solver.check(Equality(stack,tmA,ctA.toTerm,Some(OMS(Sequent.path)))) &&
+          solver.check(Equality(stack,tmB,ctB.toTerm,Some(OMS(Sequent.path))))
+        ))
+      case _ =>
+        val ctA = Ctx(tmA)
+        val ctB = Ctx(tmB)
+        if (!ctA.isComplete || !ctB.isComplete) return (None,None)
+        val cmpA = ctA.distinct
+        val cmpB = ctB.distinct
+        val union = cmpA ::: cmpB
+        union.foreach{ case Elem(t) => solver.check(Typing(stack,t,OMS(Sequent.atom),Some(OfType.path)))}
+        if (union.distinct == union && solver.tryToCheckWithoutEffect(Equality(stack,tmA,ctA.toTerm,Some(OMS(Sequent.path)))).contains(true) &&
+          solver.tryToCheckWithoutEffect(Equality(stack,tmB,ctB.toTerm,Some(OMS(Sequent.path)))).contains(true))
+          (Some(ApplySpine(OMS(Sequent.antiseq),ctA.toTerm,ctB.toTerm)),Some(true))
+        else (None,None)
+    }
+  }
+}
 
 /* object ExchangeSolution extends ValueSolutionRule(ContextExt.path) {
   override def applicable(t: Term): Option[Int] = None /* t match {

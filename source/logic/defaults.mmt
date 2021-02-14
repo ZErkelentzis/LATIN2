@@ -13,7 +13,7 @@ theory CredProof =
 
 theory Default : ur:?LFS =
     include ?Propositions ❙
-    default : {n} prop ⟶ prop ^ n ⟶ prop ⟶ prop ❘ # 2 - 3 / 4 prec 9 ❙
+    default : {n} prop ⟶ prop ⟶ prop ^ n ⟶ prop ❘ # 2 - 4,… / 3 prec 9 ❙
 ❚
 
 theory ResidueCalc =
@@ -56,9 +56,9 @@ theory CredulousExample : ?Credulous =
     include ?PLRefutation ❙
     include ?InContext ❙
 
-    Tweety_is_a_bird : prop ❘ # B ❙
-    Tweety_can_fly : prop ❘ # F ❙
-    Ostrichs_are_birds : prop ❘ # O ❙
+    Tweety_is_a_bird : atom ❘ # B ❙
+    Tweety_can_fly : atom ❘ # F ❙
+    Ostrichs_are_birds : atom ❘ # O ❙
 
     Fs : prop ^ 1 ❘ = ⟨ F ⟩ ❙
     if_Tweety_is_a_bird_then_assume_they_can_fly = B - Fs / F ❘ # def ❙
@@ -66,7 +66,7 @@ theory CredulousExample : ?Credulous =
     knowledge_base = ∅, O ⇒ B, O ⇒ ¬ F, B ❘ # base ❙
 
     tweety_can_probably_fly : ∅ + base, def ⊩ ∅, F ❘
-        = cD5 B Fs F (cD3 (¬F) (re4 B F (RimplL1 O B (RimplL1 O (¬F) (RnotR F (Raxiom (∅, B, F, F) (∅, O, O)))))) (cD1 (re2 (from_context B) (from_context F))))
+        = cD5 B Fs F (cD3 (¬F) (re4 B F (RimplL1 O B (RimplL1 O (¬F) (RnotR (Raxiom (∅, B, F, F) (∅, O, O)))))) (cD1 (re2 (from_context B) (from_context F))))
     ❙
 ❚
 
@@ -83,6 +83,9 @@ theory Skeptical : ur:?LFS =
       (foldL context_extension Σ n ⟨' ¬𝗟¬(B..i) | i:n '⟩) + Γ, A / C ⊩ Δ ⟶
        ⟨' Σ, 𝗟 ¬ B..i + Γ ⊩ Δ |i:n '⟩ ⟶
        Σ + Γ, (A - B / C) ⊩ Δ ❘ # sD4 5 7 6 8 9 ❙
+    sD4s : {Σ, Γ, Δ, A,B : prop, C}
+                 Σ, ¬𝗟¬B + Γ, A / C ⊩ Δ ⟶ Σ, 𝗟 ¬ B + Γ ⊩ Δ ⟶
+                  Σ + Γ, (A - ⟨B⟩ / C) ⊩ Δ ❘ # sD4s 4 5 6 7 8 ❙
 ❚
 
 // Example 4.17 ❚
@@ -97,9 +100,9 @@ theory SkepticalExample : ?Skeptical =
     include ?PLRefutation ❙
     include ?SequentTruthRightWeakened ❙
 
-    A : prop ❙
-    B : prop ❙
-    C : prop ❙
+    A : atom ❙
+    B : atom ❙
+    C : atom ❙
 
     Bs : prop ^ 1 ❘ = ⟨ B ⟩ ❙
     As : prop ^ 1 ❘ = ⟨ A ⟩ ❙
@@ -115,6 +118,6 @@ theory SkepticalExample : ?Skeptical =
                 (sD1 (∅, ¬𝗟¬A, 𝗟¬B) (re2 (trueRW (∅, ¬ A ∨ ¬ B ⇒ C))
                     (notLP B (implLP (¬ A ∨ ¬ B) C (orRP (¬A) (¬B) (notRP B (notRP A (inContext B (∅,A) (∅,C))))) (inContext C ∅ (∅,B))))
                 ))
-                ⟨(sD3 (∅, C) (∅, 𝗟¬B) (RimplL2 (¬ A ∨ ¬ B) C (RnotR A (axiom (∅,C,A) ∅))))⟩
+                ⟨(sD3 (∅, C) (∅, 𝗟¬B) (RimplL2 (¬ A ∨ ¬ B) C (RnotR refute)))⟩
             ⟩ ❙
 ❚

@@ -8,7 +8,7 @@ theory Prolog =
 
     clause : context ⟶ prop ⟶ type ❘ = [Γ,A] ∅ + Γ ⊩ ∅,A ❘ # 2 ⟸ 1 ❙
 
-    proof_state : context ⟶ context ⟶ type ❘ # 1 ⊛ 2 ❙
+    proof_state : context ⟶ context ⟶ type ❘ # 1 ⊛ 2 prec -20 ❙
     initial : {A} (∅,A) ⊛ ∅ ❘ # start %I1 prec -1 ❙
     finally : {Γ,A} ∅ ⊛ Γ,A ⟶ A ⟸ ∅ ❘ # prove 2 by 3 prec -10 ❙
     apply_clause : {A,Σ} A ⟸ Σ ⟶ {Γ, Δ} Γ,A ⊛ Δ ⟶ Γ;Σ ⊛ Δ,A ❘ # 6 @ 3 prec -2 ❙
@@ -23,7 +23,7 @@ theory PrologExample : ?Prolog =
     Q : tm ⟶ prop ❙
     R : tm ⟶ tm ⟶ prop ❙
 
-    clause1 : {x,y} P x ⟸ ∅, Q y, R x y ❙
+    clause1 : {x,y} (P x) ⟸ (∅, Q y, R x y) ❙
     clause2 : Q A ⟸ ∅ ❙
     clause3 : R B A ⟸ ∅ ❙
 
@@ -31,41 +31,115 @@ theory PrologExample : ?Prolog =
 ❚
 
 theory Prolog2 =
-    include ?CredProof ❙
+    include ?Skeptical ❙
     include ?SequentProofs ❙
     include ?Exchange ❙
+    include ?Weakening ❙
+    include ?SequentBigConjunction ❙
+    include ?SequentImplication ❙
+    include ?UniversalQuantification ❙
+    include ?Contraction ❙
+    include ?SequentTruthRight ❙
 
-    clause_prop  : context ⟶ prop ⟶ prop❘# 2 ⟸ 1 prec 1 ❙
-    // clause : context ⟶ prop ⟶ type ❘ = [Γ,A] ∅ + Γ ⊩ ∅,A ❘ # 2 ⟸ 1 ❙
+    prolog_proof : context ⟶ prop ⟶ type ❘ # 1 ⊫ 2 prec -5 ❘ = [Γ,A] ∅ + Γ ⊩ ∅, A ❙
 
-    proof_state : context ⟶ context ⟶ context ⟶ type ❙
-    initial : {Γ, A} proof_state Γ (∅,A) Γ ❘ # start %I1 %I2 prec -1 ❙
-    finally : {Γ, S,A} proof_state Γ ∅ (S,A) ⟶ ∅ + Γ ⊩ ∅,A ❘ # prove 3 from 1 ⟹ 4 prec -10 ❙
+    clause_prop  : context ⟶ atom ⟶ prop ❘ = [B,A] ⋀ B ⇒ A ❘# 2 ⟸ 1 prec 20 ❙
 
     clause_as_type : prop ⟶ type ❙
     clause : {A} clause_as_type A ❘ # clause 1 prec 2 ❙
 
-    apply_clause : {A,G2} clause_as_type (A ⟸ G2) ⟶ {S}{Γ,G} proof_state Γ (G,A) (S, (A ⟸ G2)) ⟶ proof_state Γ (G;G2) (S, (A ⟸ G2),A) ❘ # 7 then 3 prec -2 ❙
+    prolog_rule : {A,B} clause_as_type (A ⟸ B) ⟶ {Γ, Δ} Γ, A ⟸ B ⊫ ⋀ (Δ ; B) ⟶ Γ, A ⟸ B ⊫ ⋀ (Δ,A) ❘ # 3 %Rthen 6 prec -2 ❙
+        // admissible, but only provable on a meta level ❙
 
-    tm : type ❙
-    bind : (tm ⟶ prop) ⟶ prop ❘ # δ 1 ❙
-    instantiate : {f,t} clause_as_type (δ f) ⟶ clause_as_type (f t) ❘ # 3 @ 2 ❙
-    apply_inst : {f,t}{S,G,Γ} clause_as_type (δ f) ⟶ proof_state Γ G (S, (δ f)) ⟶ proof_state Γ G (S, (δ f), (f t)) ❘ # 7 inst 6 @ 2 prec -2 ❙
+    inst_rule : {f} clause_as_type (∀ f) ⟶ {t}{Γ,Δ} ∅ + Γ,(∀ f),(f t) ⊩ Δ ⟶ ∅ + Γ,(∀ f) ⊩ Δ ❘ # inst 2 @ 3 %Rthen 6 prec -2 ❙
+        // admissible, but only provable on a meta level ❙
+
+    instantiate : {f,t} clause_as_type (∀ f) ⟶ clause_as_type (f t) ❘ = [f,t,p] clause (f t) ❘ # 3 @ 2 ❙
+
+    initial : {Γ} Γ ⊫ ⋀ ∅ ❘ = [Γ] sD1 ∅ (weaken trueR Γ ∅) ❘ # finish %I1 ❙
+
+
 ❚
 
 theory Prolog2Example : ?Prolog2 =
-    A : tm ❙
-    B : tm ❙
+    A : term ❙
+    B : term ❙
 
-    P : tm ⟶ prop ❙
-    Q : tm ⟶ prop ❙
-    R : tm ⟶ tm ⟶ prop ❙
+    P : term ⟶ atom ❙
+    Q : term ⟶ atom ❙
+    R : term ⟶ term ⟶ atom ❙
 
-    cl1 = δ [x] δ [y] P x ⟸ ∅, Q y, R x y ❙
+    cl1 = ∀ [x] ∀ [y] (P x) ⟸ (∅, Q y, R x y) ❙
     cl2 = Q A ⟸ ∅ ❙
     cl3 = R B A ⟸ ∅ ❙
 
     rules = ∅, cl1, cl2, cl3 ❙
 
-    proof : ∅ + rules ⊩ ∅, P B ❘ = prove P B from rules ⟹ start inst (clause cl1) @ B inst ((clause cl1) @ B) @ A then ((clause cl1) @ B @ A) then (clause cl2) then (clause cl3) ❙
+    proof : rules ⊫ P B ❘
+        = inst (clause cl1) @ B then inst ((clause cl1) @ B) @ A then
+            ((clause cl1) @ B @ A) then
+            (clause cl2) then
+            (clause cl3) then finish
+    ❙
+❚
+
+theory NegationAsFailure =
+    include ?Prolog2 ❙
+    include ?SequentTruthRightWeakened ❙
+    include ?SequentNegationRight ❙
+    include ?SequentNegationLeft ❙
+    include ?InContext ❙
+    include ?RefutationNegationLeft ❙
+    include ?RefutationNegationRight ❙
+    include ?RefutationImplication ❙
+    include ?RefutationConjunctionRight ❙
+
+    NAF : context ❙
+    /T $NAF$ contains all default rules of the form $[A:atom] true - ¬A / A$ ❙
+    naf1 : {A : atom}{Γ,Δ} ∅ + NAF; Γ, true - ¬A / A ⊩ Δ ⟶ ∅ + NAF; Γ ⊩ Δ ❘ # naf1 ❙
+    /T $NAF$ is irrelevant for refutations: ❙
+    naf2 : {A : atom}{Γ} Γ ⊬ ∅, A ⟶ NAF;Γ ⊬ ∅, A ❘ # naf2 ❙
+
+    // This allows deriving ¬A whenever A is not provable: ❙
+    naf_proof1 : {A : atom, Γ} NAF; Γ ⊬ ∅, A ⟶ ∅ + NAF; Γ ⊩ ∅, ¬A ❘
+        = [A, Γ][p] naf1 A Γ (∅,¬A)
+            (sD4s true (¬A) A (sD2 ∅ (∅,¬A) (re2 (trueRW (NAF;Γ)) (notR (notL (inContext A (NAF; Γ) ∅))))) (sD3 (∅,¬A) ∅ (RnotR (RnotL p))))
+    ❙
+
+    /T Refutation rules for Prolog: ❙
+    refute1 : {A}{B,Γ,Δ} clause_as_type (A ⟸ B) ⟶  Γ,A ⊬ Δ ⟶ Γ, A ⟸ B ⊬ Δ ❘
+      = [A,B, Γ, Δ][q,p] RimplL2 (⋀B) A p ❘ # conclusion of 5 %Rand 6 prec -2 ❙
+    refute2 : {A,B}{Bs,Γ,Δ} clause_as_type (A ⟸ (Bs,B)) ⟶ Γ ⊬ Δ,B ⟶ Γ, A ⟸ (Bs,B) ⊬ Δ ❘
+      = [A,B,Bs, Γ, Δ][q,p] RimplL1 (⋀(Bs,B)) A (RandR2 (⋀Bs) B p) ❘ # premise 2 of 6 %Rand 7 prec -2  ❙
+
+
+    // prolog_rule : {A,B} clause_as_type (A ⟸ B) ⟶ {Γ, Δ} Γ, A ⟸ B ⊫ ⋀ (Δ ; B) ⟶ Γ, A ⟸ B ⊫ ⋀ (Δ,A) ❘ # 3 %Rthen 6 prec -2 ❙
+        // admissible, but only provable on a meta level ❙
+
+    naf_rule : {A : atom} {Γ, Δ} NAF; Γ ⊫ ⋀ Δ ⟶ Γ ⊬ ∅, A ⟶ NAF; Γ ⊫ ⋀ (Δ,¬ A) ❘ # negate 1 by 5 %Rthen 4 prec -2 ❙
+        // admissible, but only provable on a meta level ❙
+❚
+
+theory NAFExample : ?NegationAsFailure =
+    A : term ❙
+    B : term ❙
+
+    P : term ⟶ atom ❙
+    Q : term ⟶ atom ❙
+    R : term ⟶ term ⟶ atom ❙
+
+    cl1 = (P B) ⟸ (∅, ¬ Q A, R B A) ❙
+    cl2 = Q A ⟸ (∅, R A B) ❙
+    cl3 = R B A ⟸ ∅ ❙
+
+    rules = NAF, cl1, cl2, cl3 ❙
+
+
+    proof : rules ⊫ P B ❘
+        = (clause cl1) then
+            negate Q A by (
+                conclusion of (clause cl3) and premise (R A B) of (clause cl2) and conclusion of (clause cl1) and (Raxiom (∅, R B A, P B) (∅, Q A, R A B))
+            ) then
+            (clause cl3) then finish
+    ❙
 ❚

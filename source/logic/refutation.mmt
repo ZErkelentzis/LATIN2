@@ -1,61 +1,76 @@
 namespace latin:/❚
+
+import rules scala://sequents.latin2 ❚
+
+theory AntiseqAxiom =
+    antiseq_axiom # Raxiom 1 2 ❙
+    refute # refute %I1 %I2 ❙
+
+    rule rules?RefuteCompute ❙
+    rule rules?RefuteTyping ❙
+❚
+
 fixmeta ur:?LF❚
 
 theory Antisequent =
     include ?Contexts ❙
-    refute   : context ⟶ context ⟶ type❘# 1 ⊬ 2  prec -5❘role Judgment ❙
+    include ?AntiseqAxiom ❙
+    refutes   : context ⟶ context ⟶ type❘# 1 ⊬ 2  prec -5❘role Judgment ❙
 
-    axiom : {Γ, Δ} Γ ⊬ Δ ❘ # Raxiom 1 2 ❙ // In general unsound! ❙
+    atom : type ❙
+
+    rule rules?AtomSubtype ❙
+
 ❚
 
 theory RefutationNegationLeft =
     include ?Antisequent ❙
     include ?Negation ❙
 
-    r_negation_left : {Γ,A}{[Δ] Δ, A} Γ ⊬ Δ,A ⟶ Γ, ¬A ⊬ Δ ❘ # RnotL 4 ❙
-    r_negation_leftP : {Γ,A}{[Δ] Δ, A} Γ ⊬ Δ,A ⟶ Γ, ¬A ⊬ Δ ❘ # RnotLP 2 4 ❘
-        = [Γ,A] case [Δ] Δ,A ↦ [p] RnotL p ❙
+    r_negation_left : {A}{Γ,Δ} Γ ⊬ Δ,A ⟶ Γ, ¬A ⊬ Δ ❘ # RnotL 4 ❙
+    r_negation_leftP : {A}{Γ,Δ} Γ ⊬ Δ,A ⟶ Γ, ¬A ⊬ Δ ❘ # RnotLP 2 4 ❘
+        = [A,Γ,Δ][p] RnotL p ❙
 ❚
 
 theory RefutationNegationRight =
     include ?Antisequent ❙
     include ?Negation ❙
 
-    r_negation_right : {A}{Γ}{Δ} Γ, A ⊬ Δ ⟶ Γ ⊬ Δ, ¬A ❘ # RnotR 1 4 ❙
+    r_negation_right : {A}{Γ}{Δ} Γ, A ⊬ Δ ⟶ Γ ⊬ Δ, ¬A ❘ # RnotR 4 ❙
 ❚
 
 theory RefutationConjunctionLeft =
     include ?Antisequent ❙
     include ?Conjunction ❙
 
-    r_conjunction_left : {A,B}{[Γ] Γ,A,B}{Δ} Γ,A,B ⊬ Δ ⟶ Γ, A ∧ B ⊬ Δ ❘ # RandL 5 ❙
-    r_conjunction_leftP : {A,B}{[Γ] Γ,A,B}{Δ} Γ,A,B ⊬ Δ ⟶ Γ, A ∧ B ⊬ Δ ❘ # RandLP 1 2 5 ❘
-        = [A,B] case [Γ] Γ,A,B ↦ [Δ,p] RandL p ❙
+    r_conjunction_left : {A,B}{Γ,Δ} Γ,A,B ⊬ Δ ⟶ Γ, A ∧ B ⊬ Δ ❘ # RandL 5 ❙
+    r_conjunction_leftP : {A,B}{Γ,Δ} Γ,A,B ⊬ Δ ⟶ Γ, A ∧ B ⊬ Δ ❘ # RandLP 1 2 5 ❘
+        = [A,B][Γ,Δ][p] RandL p ❙
 ❚
 
 theory RefutationConjunctionRight =
     include ?Antisequent ❙
     include ?Conjunction ❙
 
-    r_conjunction_right1 : {A,B}{Γ}{[Δ] Δ,A} Γ ⊬ Δ,A ⟶ Γ ⊬ Δ,A,B ❘ # RandR1 1 2 5 ❙
-    r_conjunction_right2 : {A,B}{Γ}{[Δ] Δ,A} Γ ⊬ Δ,B ⟶ Γ ⊬ Δ,A,B ❘ # RandR2 1 2 5 ❙
+    r_conjunction_right1 : {A,B}{Γ,Δ} Γ ⊬ Δ,A ⟶ Γ ⊬ Δ,A ∧ B ❘ # RandR1 1 2 5 ❙
+    r_conjunction_right2 : {A,B}{Γ,Δ} Γ ⊬ Δ,B ⟶ Γ ⊬ Δ,A ∧ B ❘ # RandR2 1 2 5 ❙
 ❚
 
 theory RefutationDisjunctionLeft =
     include ?Antisequent ❙
     include ?Disjunction ❙
 
-    r_disjunction_left1 : {A,B}{[Γ] Γ,A}{Δ} Γ,A ⊬ Δ ⟶ Γ,A ∨ B ⊬ Δ ❘ # RorL1 1 2 5 ❙
-    r_disjunction_left2 : {A,B}{[Γ] Γ,A}{Δ} Γ,B ⊬ Δ ⟶ Γ,A ∨ B ⊬ Δ ❘ # RorL2 1 2 5 ❙
+    r_disjunction_left1 : {A,B}{Γ,Δ} Γ,A ⊬ Δ ⟶ Γ,A ∨ B ⊬ Δ ❘ # RorL1 1 2 5 ❙
+    r_disjunction_left2 : {A,B}{Γ,Δ} Γ,B ⊬ Δ ⟶ Γ,A ∨ B ⊬ Δ ❘ # RorL2 1 2 5 ❙
 ❚
 
 theory RefutationDisjunctionRight =
     include ?Antisequent ❙
     include ?Disjunction ❙
 
-    r_disjunction_right : {Γ,A,B}{[Δ] Δ,A,B} Γ ⊬ Δ,A,B ⟶ Γ ⊬ Δ,A ∨ B ❘ # RorR 5 ❙
-    r_disjunction_rightP : {Γ,A,B}{[Δ] Δ,A,B} Γ ⊬ Δ,A,B ⟶ Γ ⊬ Δ,A ∨ B ❘ # RorRP 2 3 5 ❘
-     = [Γ,A,B] case [Δ] Δ,A,B ↦ [p] RorR p ❙
+    r_disjunction_right : {A,B}{Γ,Δ} Γ ⊬ Δ,A,B ⟶ Γ ⊬ Δ,A ∨ B ❘ # RorR 5 ❙
+    r_disjunction_rightP : {A,B}{Γ,Δ} Γ ⊬ Δ,A,B ⟶ Γ ⊬ Δ,A ∨ B ❘ # RorRP 2 3 5 ❘
+     = [A,B][Γ,Δ][p] RorR p ❙
 ❚
 
 theory RefutationImplication =
@@ -65,9 +80,9 @@ theory RefutationImplication =
     r_implication_left1 : {A,B}{Γ}{Δ} Γ ⊬ Δ,A ⟶ Γ, A ⇒ B ⊬ Δ ❘ # RimplL1 1 2 5 ❙
     r_implication_left2 : {A,B}{Γ}{Δ} Γ,B ⊬ Δ ⟶ Γ, A ⇒ B ⊬ Δ ❘ # RimplL2 1 2 5 ❙
 
-    r_implication_right : {A,B}{[Γ] Γ,A}{[Δ] Δ,B } Γ,A ⊬ Δ,B ⟶ Γ ⊬ Δ,A ⇒ B ❘ # RimplR 5 ❙
-    r_implication_rightP : {A,B}{[Γ] Γ,A}{[Δ] Δ,B } Γ,A ⊬ Δ,B ⟶ Γ ⊬ Δ,A ⇒ B ❘ # RimplRP 1 2 5 ❘
-        = [A,B] case [Γ] Γ,A ↦ case [Δ] Δ,B ↦ [p] RimplR p ❙
+    r_implication_right : {A,B}{Γ,Δ} Γ,A ⊬ Δ,B ⟶ Γ ⊬ Δ,A ⇒ B ❘ # RimplR 5 ❙
+    r_implication_rightP : {A,B}{Γ,Δ} Γ,A ⊬ Δ,B ⟶ Γ ⊬ Δ,A ⇒ B ❘ # RimplRP 1 2 5 ❘
+        = [A,B][Γ,Δ][p] RimplR p ❙
 ❚
 
 theory PLRefutation =

@@ -8,8 +8,8 @@ theory Contexts =
   include ?Propositions❙
   context : type ❘ // = List prop ❙
   empty_ctx : context ❘ // = nil ❘ # ∅ ❙
-  context_extension : context ⟶ prop ⟶ context ❘ // = [Γ,A] cons Γ A ❘ # 1 , 2 prec 5 ❙
-  context_concat : context ⟶ context ⟶ context ❘ // = [Γ, Δ]  Γ ++ Δ ❘ # 1 ; 2 prec 4 ❙
+  context_extension : context ⟶ prop ⟶ context ❘ // = [Γ,A] cons Γ A ❘ # 1 , 2 prec -4 ❙
+  context_concat : context ⟶ context ⟶ context ❘ // = [Γ, Δ]  Γ ++ Δ ❘ # 1 ; 2 prec -5 ❙
 
    rule rules?ContextEquality ❙
 ❚
@@ -27,12 +27,13 @@ theory ContextFold =
 
     fold : context ⟶ prop ⟶ (prop ⟶ prop ⟶ prop) ⟶ prop ❙
    rule rules?FoldCompute ❙
+   rule rules?FoldEquality ❙
 ❚
 
 theory SequentProofs =
   include ?Contexts ❙
   /T Judgement as types (enter notation by "jvdash", not "jder") ❙
-  ded   : context ⟶ context ⟶ type❘# 1 ⊢ 2  prec -5❘role Judgment ❙
+  ded   : context ⟶ context ⟶ type❘# 1 ⊢ 2  prec -10❘role Judgment ❙
 
   structure Ded : ?Proofs =
     include ?Propositions ❙
@@ -51,16 +52,6 @@ theory InContext =
    inContext : {A,Γ, Δ} Γ,A ⊢ Δ,A ❘ # from_context 1 %I2 %I3 ❙
 ❚
 
-theory InContextTest =
-    include ?InContext ❙
-
-    A : prop ❙
-    B : prop ❙
-    contA = ∅, B, A ❙
-    contB = ∅,A ❙
-    test : contA ⊢ contB ❘ = from_context A ❙
-❚
-
 // Structural Rules ------------------------------------------------------------------- ❚
 
 theory Cut =
@@ -69,26 +60,19 @@ theory Cut =
     cut : {A, Γ1, Γ2, Δ1, Δ2} Γ1 ⊢ Δ1,A ⟶ Γ2,A ⊢ Δ2 ⟶ Γ1 ; Γ2 ⊢ Δ1 ; Δ2 ❘ # cut 6 7 ❙
 ❚
 
-theory CutTest =
-    include ?Cut ❙
-
-    A : prop ❙
-    Δ1 : context ❙
-    Δ2 : context ❙
-    Γ1 : context ❙
-    D2 : context ❙
-    Γ2 : context ❙
-    p1 : Γ1 ⊢ Δ1,A ❙
-    p2 : Γ2,A ⊢ Δ2 ❙
-    proof : Γ1; Γ2 ⊢ Δ1; Δ2 ❘ = cut p1 p2 ❙
-❚
-
 theory Weakening =
+    include ?SequentProofs ❙
+
     rule rules?Weakening ❙
+    weaken : {Γ1, Γ2, Δ1, Δ2} Γ1 ⊢ Δ1 ⟶ Γ1; Γ2 ⊢ Δ1; Δ2 ❘ # weaken 5 2 4 ❙
 ❚
 
 theory Contraction =
+    include ?SequentProofs ❙
+
     rule rules?Contraction ❙
+    contractL : {A,Γ,Δ} Γ,A,A ⊢ Δ ⟶ Γ,A ⊢ Δ ❘ # contL 1 4 ❙
+    contractR : {A,Γ,Δ} Γ ⊢ Δ,A,A ⟶ Γ ⊢ Δ,A ❘ # contR 1 4 ❙
 ❚
 
 theory Exchange =
@@ -155,14 +139,6 @@ theory SequentNegationLeft =
         = [Γ,Δ,A] [p] notL p ❙
 ❚
 
-theory NLTest =
-    include ?SequentNegationLeft ❙
-    A : prop ❙
-    B : prop ❙
-    p : ∅,A,B,A ⊢ ∅,A,B,A ❙
-    test : ∅,A,B,A,¬A ⊢ ∅,A,B ❘ = notL p ❙
-❚
-
 theory SequentNegationRight =
     include ?SequentProofs ❙
     include ?Negation ❙
@@ -171,7 +147,6 @@ theory SequentNegationRight =
     negation_rightP : {A, Γ, Δ} Γ, A ⊢ Δ ⟶ Γ ⊢ Δ, ¬A ❘ # notRP 1 4 ❘
         = [A,Γ,Δ] [p] notR p ❙
 ❚
-
 
 theory SequentNegation =
     include ?SequentNegationLeft ❙
@@ -275,7 +250,7 @@ theory SequentImplication =
         = [A,B][Γ,Δ] [p] implR p ❙
 ❚
 
-theory Test =
+theory SequentExample =
     include ?SequentConjunction ❙
     include ?SequentImplication ❙
     // include ?Weakening ❙
@@ -321,7 +296,6 @@ theory SequentBigDisjunction =
 
     bigdisj : context ⟶ prop ❘ = [Γ] fold Γ false or ❘ # ⋁ 1 prec 25 ❙
 ❚
-
 
 theory SequentAsND =
     include ?SequentBigConjunction ❙
