@@ -95,15 +95,15 @@ theory NegationAsFailure =
     include ?RefutationConjunctionRight ❙
 
     NAF : context ❙
-    /T $NAF$ contains all default rules of the form $[A:atom] true - ¬A / A$ ❙
-    naf1 : {A : atom}{Γ,Δ} ∅ + NAF; Γ, true - ¬A / A ⊩ Δ ⟶ ∅ + NAF; Γ ⊩ Δ ❘ # naf1 ❙
+    /T $NAF$ contains all default rules of the form $[A:atom] true - ¬A / ¬A$ ❙
+    naf1 : {A : atom}{Γ,Δ} ∅ + NAF; Γ, true - ¬A / ¬A ⊩ Δ ⟶ ∅ + NAF; Γ ⊩ Δ ❘ # naf1 ❙
     /T $NAF$ is irrelevant for refutations: ❙
     naf2 : {A : atom}{Γ} Γ ⊬ ∅, A ⟶ NAF;Γ ⊬ ∅, A ❘ # naf2 ❙
 
     // This allows deriving ¬A whenever A is not provable: ❙
-    naf_proof1 : {A : atom, Γ} NAF; Γ ⊬ ∅, A ⟶ ∅ + NAF; Γ ⊩ ∅, ¬A ❘
+    naf_proof1 : {A : atom, Γ} Γ ⊬ ∅, A ⟶ ∅ + NAF; Γ ⊩ ∅, ¬A ❘
         = [A, Γ][p] naf1 A Γ (∅,¬A)
-            (sD4s true (¬A) A (sD2 ∅ (∅,¬A) (re2 (trueRW (NAF;Γ)) (notR (notL (inContext A (NAF; Γ) ∅))))) (sD3 (∅,¬A) ∅ (RnotR (RnotL p))))
+            (sD4s true (¬A) (¬A) (sD1 (∅,¬𝗟¬¬A) (re2 (trueRW (NAF;Γ)) (inContext (¬A) (NAF; Γ) ∅))) (sD3 (∅,¬A) ∅ (RnotR (RnotL (naf2 A Γ p)))))
     ❙
 
     /T Refutation rules for Prolog: ❙
