@@ -14,6 +14,6 @@ theory UndefinedND =
     include ?IPLND❙
     include ?Equality❙
 
-    def_not_undef : { a } ⊦ ((a ↓) ⇒ (¬ (a ↑)))❙
-    undef_not_def : { a } ⊦ ((a ↑) ⇒ (¬ (a ↓)))❙
+    def_not_undef : { a } ⊦ ((a ↓) ⟶ ⊦ (¬ (a ↑)))❙
+    undef_not_def : { a } ⊦ ((a ↑) ⟶ ⊦ (¬ (a ↓)))❙
 ❚
