@@ -3,6 +3,7 @@ namespace latin:/❚
 fixmeta ?SetFOL❚
 
 theory Intersection =
+	// symbol: jcap❙
 	inter : set ⟶ set ⟶ set❘# 1 ∩ 2 prec 40❙
 	interI : {X,Y,x} ⊦ x∈X ⟶ ⊦ x∈Y ⟶ ⊦ x∈X∩Y❙
 	interEl : {X,Y,x} ⊦ x∈X∩Y ⟶ ⊦ x∈X❘# 4 interEl❙
@@ -32,6 +33,7 @@ theory Intersection =
 
 theory BigIntersection =
   include ?EmptySetDefinitions❙
+  // symbol: jbigcap❙
 	biginter : set ⟶ set❘# ⋂ 1 prec 45❙
 	// M must be nonempty because otherwise intrsection would produce the set of all sets❙
 	biginterI : {M,x} ⊦ nonempty M ⟶ ({X} ⊦ X∈M ⟶ ⊦ x∈X) ⟶ ⊦ x ∈ ⋂M❙
@@ -44,6 +46,7 @@ theory BigIntersection =
 ❚
 
 theory Union =
+	// symbol: jcup❙
 	union : set ⟶ set ⟶ set❘# 1 ∪ 2 prec 40❙
 	unionIl : {X,Y,x} ⊦ x∈X ⟶ ⊦ x∈X∪Y❘ # unionIl 2 4❙
 	unionIr : {X,Y,y} ⊦ y∈Y ⟶ ⊦ y∈X∪Y❘ # unionIr 2 4❙
@@ -63,6 +66,7 @@ theory Union =
 ❚
 
 theory BigUnion =
+	// symbol: jbigcup❙
   bigunion : set ⟶ set❘# ⋃ 1 prec 45❙
   bigunionI : {M,X,x} ⊦ X∈M ⟶ ⊦ x∈X ⟶ ⊦ x∈ ⋃M❙
   bigunionE : {M,x,C} ⊦ x∈⋃M ⟶ ({X}⊦X∈M ⟶ ⊦ x∈X ⟶ ⊦C) ⟶ ⊦C❘# 4 bigunionE 5❙
@@ -74,7 +78,7 @@ theory BigUnion =
 ❚
 
 theory Difference =
-	// AS: symbol is jsetminus❙
+	// symbol: jsetminus❙
 	dif : set ⟶ set ⟶ set❘# 1 ∖ 2 prec 40❙
 	difI : {X,Y,x} ⊦ x∈X ⟶ ⊦ ¬ x∈Y ⟶ ⊦ x ∈ X∖Y❙
 	difEl : {X,Y,x} ⊦ x ∈ X∖Y ⟶ ⊦ x∈X❘# 4 difEl❙
