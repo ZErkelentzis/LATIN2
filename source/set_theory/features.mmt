@@ -2,20 +2,6 @@ namespace latin:/❚
 
 fixmeta ?SetFOL❚
 
-// AS: maybe this should be a basic feature?❚
-theory Singletons =
-	include ?SingletonDefinition❙
-  singleton : set ⟶ set❘# singleton 1 prec 100❙
-
-  singleton_the : {X} ⊦ issingleton X ⟶ set❘ = [X,p] the ([x] x ∈ X) p❙
-  singletonI : {X} ⊦ X ∈ singleton X❙
-  singletonE : {X,x} ⊦ x ∈ singleton X ⟶ ⊦ x≐X❘# 3 singletonE❙
-  
-  // AS: this was used in KRMT;
-  		however its definition was with Big_Union, which would ruin the modularity here❙
-  singleton_inv : set ⟶ set❙
-❚
-
 theory OrderedPairs =
 	// AS: think of a notation❙
 	// (x,y)❙
@@ -41,6 +27,7 @@ theory OrderedPairs =
 theory CartesianProduct =
 	// AS: maybe change prec❙
 	// X × Y❙
+	// symbol: jtimes❙
 	prod : set ⟶ set ⟶ set❘# 1 × 2 prec 40❙
 	
 	prodI : set ⟶ set ⟶ set❙
@@ -61,6 +48,7 @@ theory CartesianProduct =
 	ext : {p,q} ⊦ isprod p ⟶ ⊦ isprod q ⟶ ⊦ prodEl p ≐ prodEl q ⟶ ⊦ prodEr p ≐ prodEr q ⟶ ⊦ p ≐ q❙
 ❚
 
+// AS: This still needs to be fixed❚
 theory Relations =
   theRel: {X:set,Y:set} (set ⟶ set ⟶ prop) ⟶ set❙
   inRel : set ⟶ set ⟶ set ⟶ prop❙
@@ -80,6 +68,7 @@ theory Relations =
   relI : {X,Y,P} ⊦ theRel X Y P ∈ rel X Y❙
 ❚
 
+// AS: This still needs to be fixed❚
 theory PartialFunctions =
 	// AS: a partial function is a relation "right uniqueness" ("Rechtseindeutigkeit")❙
 	thePFunc : {X:set,Y:set} (set ⟶ set ⟶ prop) ⟶ set❙
@@ -102,6 +91,32 @@ theory PartialFunctions =
 	pfuncI : {X,Y,P} ⊦ thePFunc X Y P ∈ pfunc X Y❙
 ❚
 
+// AS: this is just a practise for me to get a better feeling for this❚
+theory CFunctions =
+	// f ⪽ X×Y❙
+	function : set ⟶ set ⟶ set❘# func 1 2❙
+	
+	// get X and get Y❙
+	domain : set ⟶ set❘# dom 1❙
+	codomain : set ⟶ set❘# cod 1❙
+	
+	// check whether a set is a function❙
+	isfunc : set ⟶ prop❙
+	
+	// AS: this is wrong by now, because it ignores the property and the relation❙
+	
+	// computation rules❙
+	compL : {X,Y} ⊦ (dom (func X Y)) ≐ X❙
+	compR : {X,Y} ⊦ (cod (func X Y)) ≐ Y❙
+	
+	// representation rule❙
+	repr : {f} ⊦ isfunc f ⟶ ⊦ f ≐ func (dom f) (cod f)❙
+	
+	// extensionality rule❙
+	ext : {f,g} ⊦ isfunc f ⟶ ⊦ isfunc g ⟶ ⊦ (dom f) ≐ (dom g) ⟶ ⊦ (cod f) ≐ (cod g) ⟶ ⊦ f ≐ g❙
+❚
+
+// AS: This still needs to be fixed❚
 theory Functions =
 	// AS: a function is a partial function that is "left total" ("Linkstotal")❙
 	theFunc : {X:set,Y:set} (set ⟶ set ⟶ prop) ⟶ set❙
