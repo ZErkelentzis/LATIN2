@@ -44,12 +44,12 @@ theory SequentProofs =
 theory SequentBase =
    include ?SequentProofs ❙
 
-    base_proof : {A} ∅, A ⊢ ∅, A ❘ # baseP 1 ❙
+    base_proof : {A} ∅, A ⊢ ∅, A ❘ # baseP 1 ❘ ## {⋅ / { 1 ⊢ 1 }} axiom ❙
 ❚
 
 theory InContext =
    include ?SequentBase ❙
-   inContext : {A,Γ, Δ} Γ,A ⊢ Δ,A ❘ # from_context 1 %I2 %I3 ❙
+   inContext : {A,Γ, Δ} Γ,A ⊢ Δ,A ❘ # from_context 1 %I2 %I3 ❘  ## {⋅ / { 2 , 1 ⊢ 3 , 1 }} axiom ❙
 ❚
 
 // Structural Rules ------------------------------------------------------------------- ❚
@@ -92,14 +92,14 @@ theory SequentTruthRight =
     include ?SequentProofs ❙
     include ?Truth ❙
 
-    true_right : ∅ ⊢ ∅, true ❘ # trueR ❙
+    true_right : ∅ ⊢ ∅, true ❘ # trueR ❘ ## {⋅ / { ∅ ⊢ true }} true_right ❙
 ❚
 
 theory SequentTruthRightWeakened =
     include ?SequentProofs ❙
     include ?Truth ❙
 
-    true_right_w : {Γ} Γ ⊢ ∅, true ❘ # trueRW 1 ❙
+    true_right_w : {Γ} Γ ⊢ ∅, true ❘ # trueRW 1 ❘  ## {⋅ / { 1 ⊢ true }} true_right_w ❙
 ❚
 
 theory SequentTruth =
@@ -113,7 +113,7 @@ theory SequentFalsityLeft =
     include ?SequentProofs ❙
     include ?Falsity ❙
 
-    false_left : ∅, false ⊢ ∅ ❘ # falseL ❙
+    false_left : ∅, false ⊢ ∅ ❘ # falseL ❘ ## {⋅ / { false ⊢ ∅ }} false_left ❙
 ❚
 
 theory SequentFalsityRight =

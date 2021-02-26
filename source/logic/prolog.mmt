@@ -1,36 +1,7 @@
 namespace latin:/❚
-fixmeta ur:?LF❚
+fixmeta ur:?LF ❚
 
 theory Prolog =
-    include ?CredProof ❙
-    include ?SequentProofs ❙
-    include ?Exchange ❙
-
-    clause : context ⟶ prop ⟶ type ❘ = [Γ,A] ∅ + Γ ⊩ ∅,A ❘ # 2 ⟸ 1 ❙
-
-    proof_state : context ⟶ context ⟶ type ❘ # 1 ⊛ 2 prec -20 ❙
-    initial : {A} (∅,A) ⊛ ∅ ❘ # start %I1 prec -1 ❙
-    finally : {Γ,A} ∅ ⊛ Γ,A ⟶ A ⟸ ∅ ❘ # prove 2 by 3 prec -10 ❙
-    apply_clause : {A,Σ} A ⟸ Σ ⟶ {Γ, Δ} Γ,A ⊛ Δ ⟶ Γ;Σ ⊛ Δ,A ❘ # 6 @ 3 prec -2 ❙
-❚
-
-theory PrologExample : ?Prolog =
-    tm : type ❙
-    A : tm ❙
-    B : tm ❙
-
-    P : tm ⟶ prop ❙
-    Q : tm ⟶ prop ❙
-    R : tm ⟶ tm ⟶ prop ❙
-
-    clause1 : {x,y} (P x) ⟸ (∅, Q y, R x y) ❙
-    clause2 : Q A ⟸ ∅ ❙
-    clause3 : R B A ⟸ ∅ ❙
-
-    proof : P B ⟸ ∅ ❘ = prove P B by start @ clause1 B A @ clause2 @ clause3 ❙
-❚
-
-theory Prolog2 =
     include ?Skeptical ❙
     include ?SequentProofs ❙
     include ?Exchange ❙
@@ -41,7 +12,7 @@ theory Prolog2 =
     include ?Contraction ❙
     include ?SequentTruthRight ❙
 
-    prolog_proof : context ⟶ prop ⟶ type ❘ # 1 ⊫ 2 prec -5 ❘ = [Γ,A] ∅ + Γ ⊩ ∅, A ❙
+    prolog_proof : context ⟶ prop ⟶ type ❘ # 1 ⊫ 2 prec -5 ❘ = [Γ,A] ∅ + Γ ⊩ ∅, A ❘ role Judgment ❙
 
     clause_prop  : context ⟶ atom ⟶ prop ❘ = [B,A] ⋀ B ⇒ A ❘# 2 ⟸ 1 prec 20 ❙
 
@@ -57,11 +28,9 @@ theory Prolog2 =
     instantiate : {f,t} clause_as_type (∀ f) ⟶ clause_as_type (f t) ❘ = [f,t,p] clause (f t) ❘ # 3 @ 2 ❙
 
     initial : {Γ} Γ ⊫ ⋀ ∅ ❘ = [Γ] sD1 ∅ (weaken trueR Γ ∅) ❘ # finish %I1 ❙
-
-
 ❚
 
-theory Prolog2Example : ?Prolog2 =
+theory PrologExample : ?Prolog =
     A : term ❙
     B : term ❙
 
@@ -84,7 +53,7 @@ theory Prolog2Example : ?Prolog2 =
 ❚
 
 theory NegationAsFailure =
-    include ?Prolog2 ❙
+    include ?Prolog ❙
     include ?SequentTruthRightWeakened ❙
     include ?SequentNegationRight ❙
     include ?SequentNegationLeft ❙
@@ -103,7 +72,7 @@ theory NegationAsFailure =
     // This allows deriving ¬A whenever A is not provable: ❙
     naf_proof1 : {A : atom, Γ} Γ ⊬ ∅, A ⟶ ∅ + NAF; Γ ⊩ ∅, ¬A ❘
         = [A, Γ][p] naf1 A Γ (∅,¬A)
-            (sD4s true (¬A) (¬A) (sD1 (∅,¬𝗟¬¬A) (re2 (trueRW (NAF;Γ)) (inContext (¬A) (NAF; Γ) ∅))) (sD3 (∅,¬A) ∅ (RnotR (RnotL (naf2 A Γ p)))))
+            (sD4 true << ¬A >>  (¬A) (sD1 (∅,¬𝗟¬¬A) (re2 (trueRW (NAF;Γ)) (inContext (¬A) (NAF; Γ) ∅))) <<(sD3 (∅,¬A) ∅ (RnotR (RnotL (naf2 A Γ p))))>>)
     ❙
 
     /T Refutation rules for Prolog: ❙
@@ -129,7 +98,6 @@ theory NAFExample : ?NegationAsFailure =
     cl3 = R B A ⟸ ∅ ❙
 
     rules = NAF, cl1, cl2, cl3 ❙
-
 
     proof : rules ⊫ P B ❘
         = (clause cl1) then
