@@ -2,26 +2,8 @@ namespace latin:/❚
 
 fixmeta ?SetFOL❚
 
-theory EmptySet =
-  include ?EmptySetDefinitions❙  
-  empty : set❘ # ∅❙
-  empty_prop : ⊦ isempty ∅❙
-  emptyE : {x} ⊦ x∈∅ ⟶ ↯❘# 2 emptyE❘
-  		= [x,p] isemptyE empty_prop p❙
-  
-  empty_sub : {X} ⊦ ∅ ⪽ X❘ // = ???❙
-❚
-
-theory UnorderedPairs =
-  uopair : set ⟶ set ⟶ set❘# uopair 1 2 prec 40❙
-  uopairIl : {X,Y} ⊦ X ∈ uopair X Y❙
-  uopairIr : {X,Y} ⊦ Y ∈ uopair X Y❙
-  uopairE  : {U,X,Y,C} ⊦ U ∈ uopair X Y ⟶ (⊦ U≐X ⟶ ⊦C) ⟶ (⊦ U≐Y ⟶ ⊦C) ⟶ ⊦C❘# 5 uopairE 6 7❙
-  
-  uopair_comm : {X,Y} ⊦ uopair X Y ≐ uopair Y X❙
-❚
-
 theory PowerSets =
+	// symbol: jpow❙
   powerset : set ⟶ set❘# ℘ 1 prec 60❙
   powersetI : {X,Y} ({x} ⊦x∈X ⟶ ⊦x∈Y) ⟶ ⊦X∈ ℘Y❙
   powersetE : {X,Y} ⊦X∈ ℘Y ⟶ {x} ⊦x∈X ⟶ ⊦x∈Y❘# 3 powersetE 4❙
@@ -41,13 +23,6 @@ theory Filter =
 	filterI : {X,P,x} ⊦ x∈X ⟶ ⊦ P x ⟶ ⊦ x∈ filter X P❙
 	filterEl : {X,P,x} ⊦ x ∈ filter X P ⟶ ⊦ x∈X❘# 4 filterEl❙
 	filterEr : {X,P,x} ⊦ x ∈ filter X P ⟶ ⊦ P x❘# 4 filterEr❙
-❚
-
-theory Extensionality =
-	include ?ExtensionalityDefinition❙
-	extensionality_axiom : {X,Y} ⊦ isextensional X Y❙	
-	extensionalityI : {X,Y} ({z} ⊦ z∈X ⇔ z∈Y) ⟶ ⊦ X≐Y❙
-	extensionalityE : {X,Y} ⊦ X≐Y ⟶ {z} ⊦ z∈X ⇔ z∈Y❘# 3 extensionalityE❙ 
 ❚
 
 theory Regularity =	

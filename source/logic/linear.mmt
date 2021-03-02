@@ -62,17 +62,17 @@ theory LinearLogic =
     ❚
 
     bang_left1 : {Γ, Δ, A} Γ ⊢ Δ ⟶ Γ,!A ⊢ Δ ❘ # bangL1 3 4 ❙
-    bang_left2 : {Δ, A}{[Γ] Γ,A} Γ,A ⊢ Δ ⟶ Γ,!A ⊢ Δ ❘ # bangL2 2 4 ❙
+    bang_left2 : {Γ, Δ, A} Γ,A ⊢ Δ ⟶ Γ,!A ⊢ Δ ❘ # bangL2 3 4 ❙
     bang_contraction : {Γ, Δ, A} Γ,!A,!A ⊢ Δ ⟶ Γ,!A ⊢ Δ ❙
 
     whynot_right1 : {Γ, Δ, A} Γ ⊢ Δ ⟶ Γ ⊢ Δ, ﹖A ❘ # whynotR1 3 4 ❙
-    whynot_right2 : {Γ, A}{[Δ] Δ,A} Γ ⊢ Δ, A ⟶ Γ ⊢ Δ, ﹖A ❘ # whynotR2 2 4 ❙
+    whynot_right2 : {Γ, Δ, A} Γ ⊢ Δ, A ⟶ Γ ⊢ Δ, ﹖A ❘ # whynotR2 3 4 ❙
     whynot_contraction : {Γ, Δ, A} Γ,﹖A,﹖A ⊢ Δ ⟶ Γ,﹖A ⊢ Δ ❙
 
     include ?ContextMap ❙
 
-    bang_right : {A}{[Γ] bang @ Γ}{[Δ] (whynot @ Δ),A } bang @ Γ ⊢ (whynot @ Δ),A ⟶ bang @ Γ ⊢ (whynot @ Δ),!A ❘ # bangR 1 4 ❙
-    whynot_left : {A}{[Γ] (bang @ Γ),A}{[Δ] whynot @ Δ } (bang @ Γ),A ⊢ whynot @ Δ ⟶ (bang @ Γ),﹖A ⊢ whynot @ Δ ❘ # whynotL 1 4 ❙
+    bang_right : {A}{Γ,Δ} bang @ Γ ⊢ (whynot @ Δ),A ⟶ bang @ Γ ⊢ (whynot @ Δ),!A ❘ # bangR 1 4 ❙
+    whynot_left : {A}{Γ,Δ} (bang @ Γ),A ⊢ whynot @ Δ ⟶ (bang @ Γ),﹖A ⊢ whynot @ Δ ❘ # whynotL 1 4 ❙
 
     total structure Lollipop : ?Implication =
         include ?Propositions ❙
@@ -86,7 +86,7 @@ theory LinearLogic =
 
     logical_equiv : prop ⟶ prop ⟶ type ❘ = [A,B] ⊦ A ⇔ B ❘ # 1 ≡ 2 ❙
     equivalenceI : {A,B} ∅,A ⊢ ∅,B ⟶ ∅,B ⊢ ∅,A ⟶ A ≡ B ❘ # equivI 3 4 ❘
-        = [A,B][p1,p2] aC/andRs (mD/orRP (¬A) B (notR p1)) (mD/orRP (¬B) A (notR p2)) ❙
+        = [A,B][p1,p2] aC/andRsP (A ⊸ B) (B ⊸ A) (mD/orRP (¬A) B (notRP A p1)) (mD/orRP (¬B) A (notRP B p2)) ❙
 ❚
 
 theory LinearDuals : ?LinearLogic =

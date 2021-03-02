@@ -1,0 +1,19 @@
+namespace latin:/❚
+
+fixmeta ?SetFOL❚
+
+theory Extensionality =
+	// Two sets X and Y are equal iff they have the same elements❙
+	include ?ExtensionalityDefinition❙
+	
+	extensionality_axiom : {X,Y} ⊦ isextensional X Y❙	
+	extensionalityI : {X,Y} ({z} ⊦ z∈X ⇔ z∈Y) ⟶ ⊦ X≐Y❙
+	extensionalityE : {X,Y} ⊦ X≐Y ⟶ {z} ⊦ z∈X ⇔ z∈Y❘# 3 extensionalityE❙ 
+❚
+
+theory Pairing =
+	// The unordered pair {x,y} consists of exactly the two elements x and y❙
+	include ?UnorderedPairDefinition❙
+	
+	// uopair_axiom : {x,y} ⊦ ∃[M] isuopair X Y M❙
+❚

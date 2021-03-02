@@ -1,6 +1,6 @@
 namespace latin:/❚
 
-fixmeta http://gl.mathhub.info/MMT/LFX/Patterns?PatternLF ❚
+fixmeta ur:?LF ❚
 
 import rules scala://sequents.latin2 ❚
 
@@ -8,8 +8,8 @@ theory Contexts =
   include ?Propositions❙
   context : type ❘ // = List prop ❙
   empty_ctx : context ❘ // = nil ❘ # ∅ ❙
-  context_extension : context ⟶ prop ⟶ context ❘ // = [Γ,A] cons Γ A ❘ # 1 , 2 prec 5 ❙
-  context_concat : context ⟶ context ⟶ context ❘ // = [Γ, Δ]  Γ ++ Δ ❘ # 1 ; 2 prec 4 ❙
+  context_extension : context ⟶ prop ⟶ context ❘ // = [Γ,A] cons Γ A ❘ # 1 , 2 prec -4 ❙
+  context_concat : context ⟶ context ⟶ context ❘ // = [Γ, Δ]  Γ ++ Δ ❘ # 1 ; 2 prec -5 ❙
 
    rule rules?ContextEquality ❙
 ❚
@@ -20,13 +20,20 @@ theory ContextMap =
     map : context ⟶ (prop ⟶ prop) ⟶ context ❘ # 2 @ 1 ❙
 
    rule rules?MapCompute ❙
-   rule rules?MapPattern ❙
+❚
+
+theory ContextFold =
+    include ?Contexts ❙
+
+    fold : context ⟶ prop ⟶ (prop ⟶ prop ⟶ prop) ⟶ prop ❙
+   rule rules?FoldCompute ❙
+   rule rules?FoldEquality ❙
 ❚
 
 theory SequentProofs =
   include ?Contexts ❙
   /T Judgement as types (enter notation by "jvdash", not "jder") ❙
-  ded   : context ⟶ context ⟶ type❘# 1 ⊢ 2  prec -5❘role Judgment ❙
+  ded   : context ⟶ context ⟶ type❘# 1 ⊢ 2  prec -10❘role Judgment ❙
 
   structure Ded : ?Proofs =
     include ?Propositions ❙
@@ -37,25 +44,12 @@ theory SequentProofs =
 theory SequentBase =
    include ?SequentProofs ❙
 
-    base_proof : {A} ∅, A ⊢ ∅, A ❘ # baseP 1 ❙
+    base_proof : {A} ∅, A ⊢ ∅, A ❘ # baseP 1 ❘ ## {⋅ / { 1 ⊢ 1 }} axiom ❙
 ❚
 
 theory InContext =
    include ?SequentBase ❙
-   inContext : {A}{[Γ] Γ,A}{[Δ] Δ,A} Γ,A ⊢ Δ,A ❘ # from_context 1 %I2 %I3 ❙
-   in_context_proof ❙
-   rule rules?InContextRule ❙
-   rule rules?InContextProofType ❙
-❚
-
-theory InContextTest =
-    include ?InContext ❙
-
-    A : prop ❙
-    B : prop ❙
-    contA = ∅, B, A ❙
-    contB = ∅,A ❙
-    test : contA ⊢ contB ❘ = from_context A ❙
+   inContext : {A,Γ, Δ} Γ,A ⊢ Δ,A ❘ # from_context 1 %I2 %I3 ❘  ## {⋅ / { 2 , 1 ⊢ 3 , 1 }} axiom ❙
 ❚
 
 // Structural Rules ------------------------------------------------------------------- ❚
@@ -63,34 +57,26 @@ theory InContextTest =
 theory Cut =
     include ?SequentProofs ❙
 
-    cut : {A, Γ1, Δ2}{ [Δ1] Δ1,A} {[Γ2] Γ2,A} Γ1 ⊢ Δ1,A ⟶ Γ2,A ⊢ Δ2 ⟶ Γ1 ; Γ2 ⊢ Δ1 ; Δ2 ❘ # cut 6 7 ❙
-❚
-
-theory CutTest =
-    include ?Cut ❙
-
-    A : prop ❙
-    Δ1 : context ❙
-    Δ2 : context ❙
-    Γ1 : context ❙
-    D2 : context ❙
-    Γ2 : context ❙
-    p1 : Γ1 ⊢ Δ1,A ❙
-    p2 : Γ2,A ⊢ Δ2 ❙
-    proof : Γ1; Γ2 ⊢ Δ1; Δ2 ❘ = cut p1 p2 ❙
+    cut : {A, Γ1, Γ2, Δ1, Δ2} Γ1 ⊢ Δ1,A ⟶ Γ2,A ⊢ Δ2 ⟶ Γ1 ; Γ2 ⊢ Δ1 ; Δ2 ❘ # cut 6 7 ❙
 ❚
 
 theory Weakening =
+    include ?SequentProofs ❙
+
     rule rules?Weakening ❙
+    weaken : {Γ1, Γ2, Δ1, Δ2} Γ1 ⊢ Δ1 ⟶ Γ1; Γ2 ⊢ Δ1; Δ2 ❘ # weaken 5 2 4 ❙
 ❚
 
 theory Contraction =
+    include ?SequentProofs ❙
+
     rule rules?Contraction ❙
+    contractL : {A,Γ,Δ} Γ,A,A ⊢ Δ ⟶ Γ,A ⊢ Δ ❘ # contL 1 4 ❙
+    contractR : {A,Γ,Δ} Γ ⊢ Δ,A,A ⟶ Γ ⊢ Δ,A ❘ # contR 1 4 ❙
 ❚
 
 theory Exchange =
     rule rules?ExchangeEquality ❙
-    rule rules?ExchangePattern ❙
 ❚
 
 // Truth ------------------------------------------------------------------- ❚
@@ -106,7 +92,14 @@ theory SequentTruthRight =
     include ?SequentProofs ❙
     include ?Truth ❙
 
-    true_right : ∅ ⊢ ∅, true ❘ # trueR ❙
+    true_right : ∅ ⊢ ∅, true ❘ # trueR ❘ ## {⋅ / { ∅ ⊢ true }} true_right ❙
+❚
+
+theory SequentTruthRightWeakened =
+    include ?SequentProofs ❙
+    include ?Truth ❙
+
+    true_right_w : {Γ} Γ ⊢ ∅, true ❘ # trueRW 1 ❘  ## {⋅ / { 1 ⊢ true }} true_right_w ❙
 ❚
 
 theory SequentTruth =
@@ -120,7 +113,7 @@ theory SequentFalsityLeft =
     include ?SequentProofs ❙
     include ?Falsity ❙
 
-    false_left : ∅, false ⊢ ∅ ❘ # falseL ❙
+    false_left : ∅, false ⊢ ∅ ❘ # falseL ❘ ## {⋅ / { false ⊢ ∅ }} false_left ❙
 ❚
 
 theory SequentFalsityRight =
@@ -141,28 +134,19 @@ theory SequentNegationLeft =
     include ?SequentProofs ❙
     include ?Negation ❙
 
-    negation_left : {Γ,A}{[Δ] Δ, A} Γ ⊢ Δ,A ⟶ Γ, ¬A ⊢ Δ ❘ # notL 4 ❙
-    negation_leftP : {Γ,A}{[Δ] Δ, A} Γ ⊢ Δ,A ⟶ Γ, ¬A ⊢ Δ ❘ # notLP 2 4 ❘
-        = [Γ,A] case [Δ] Δ,A ↦ [p] notL p ❙
-❚
-
-theory NLTest =
-    include ?SequentNegationLeft ❙
-    A : prop ❙
-    B : prop ❙
-    p : ∅,A,B,A ⊢ ∅,A,B,A ❙
-    test : ∅,A,B,A,¬A ⊢ ∅,A,B ❘ = notL p ❙
+    negation_left : {Γ,Δ,A} Γ ⊢ Δ,A ⟶ Γ, ¬A ⊢ Δ ❘ # notL 4 ❙
+    negation_leftP : {Γ,Δ,A} Γ ⊢ Δ,A ⟶ Γ, ¬A ⊢ Δ ❘ # notLP 3 4 ❘
+        = [Γ,Δ,A] [p] notL p ❙
 ❚
 
 theory SequentNegationRight =
     include ?SequentProofs ❙
     include ?Negation ❙
 
-    negation_right : {A}{[Γ] Γ,A}{Δ} Γ, A ⊢ Δ ⟶ Γ ⊢ Δ, ¬A ❘ # notR 4 ❙
-    negation_rightP : {A}{[Γ] Γ,A}{Δ} Γ, A ⊢ Δ ⟶ Γ ⊢ Δ, ¬A ❘ # notRP 1 4 ❘
-        = [A] case [Γ] Γ,A ↦ [D,p] notR p ❙
+    negation_right : {A, Γ, Δ} Γ, A ⊢ Δ ⟶ Γ ⊢ Δ, ¬A ❘ # notR 4 ❙
+    negation_rightP : {A, Γ, Δ} Γ, A ⊢ Δ ⟶ Γ ⊢ Δ, ¬A ❘ # notRP 1 4 ❘
+        = [A,Γ,Δ] [p] notR p ❙
 ❚
-
 
 theory SequentNegation =
     include ?SequentNegationLeft ❙
@@ -175,9 +159,9 @@ theory SequentConjunctionLeft =
     include ?SequentProofs ❙
     include ?Conjunction ❙
 
-    conjunction_left : {A,B}{[Γ] Γ,A,B}{Δ} Γ,A,B ⊢ Δ ⟶ Γ, A ∧ B ⊢ Δ ❘ # andL 5 ❙
-    conjunction_leftP : {A,B}{[Γ] Γ,A,B}{Δ} Γ,A,B ⊢ Δ ⟶ Γ, A ∧ B ⊢ Δ ❘ # andLP 1 2 5 ❘
-        = [A,B] case [Γ] Γ,A,B ↦ [Δ,p] andL p ❙
+    conjunction_left : {A,B}{Γ,Δ} Γ,A,B ⊢ Δ ⟶ Γ, A ∧ B ⊢ Δ ❘ # andL 5 ❙
+    conjunction_leftP : {A,B}{Γ,Δ} Γ,A,B ⊢ Δ ⟶ Γ, A ∧ B ⊢ Δ ❘ # andLP 1 2 5 ❘
+        = [A,B][Γ,Δ][p] andL p ❙
 ❚
 
 theory SequentConjunctionRightSimple =
@@ -193,9 +177,9 @@ theory SequentConjunctionRightCompositional =
     include ?SequentProofs ❙
     include ?Conjunction ❙
 
-    conjunction_right_comp : {A,B,Γ1, Γ2}{[Δ1] Δ1,A}{[Δ2] Δ2,B} Γ1 ⊢ Δ1,A ⟶ Γ2 ⊢ Δ2,B ⟶ Γ1; Γ2 ⊢ Δ1; Δ2 ,A ∧ B ❘ # andRc 7 8 ❙
-    conjunction_right_compP : {A,B,Γ1, Γ2}{[Δ1] Δ1,A}{[Δ2] Δ2,B} Γ1 ⊢ Δ1,A ⟶ Γ2 ⊢ Δ2,B ⟶ Γ1; Γ2 ⊢ Δ1; Δ2 ,A ∧ B ❘ # andRcP 1 2 7 8 ❘
-        = [A,B, Γ1, Γ2] case [Δ1] Δ1,A ↦ case [Δ2] Δ2,B ↦ [p1,p2] andRc p1 p2 ❙
+    conjunction_right_comp : {A,B}{Γ1, Γ2, Δ1,Δ2} Γ1 ⊢ Δ1,A ⟶ Γ2 ⊢ Δ2,B ⟶ Γ1; Γ2 ⊢ Δ1; Δ2 ,A ∧ B ❘ # andRc 7 8 ❙
+    conjunction_right_compP : {A,B}{Γ1, Γ2, Δ1,Δ2} Γ1 ⊢ Δ1,A ⟶ Γ2 ⊢ Δ2,B ⟶ Γ1; Γ2 ⊢ Δ1; Δ2 ,A ∧ B ❘ # andRcP 1 2 7 8 ❘
+        = [A,B, Γ1, Γ2,Δ1,Δ2] [p1,p2] andRc p1 p2 ❙
 ❚
 
 theory SequentConjunctionSimple =
@@ -220,27 +204,27 @@ theory SequentDisjunctionLeftSimple =
     include ?SequentProofs ❙
     include ?Disjunction ❙
 
-    disjunction_left : {A,B,Δ}{[Γ] Γ,A} Γ,A ⊢ Δ ⟶ Γ,B ⊢ Δ ⟶ Γ,A ∨ B ⊢ Δ ❘ # orLs 5 6 ❙
-    disjunction_leftP : {A,B,Δ}{[Γ] Γ,A} Γ,A ⊢ Δ ⟶ Γ,B ⊢ Δ ⟶ Γ,A ∨ B ⊢ Δ ❘ # orLsP 1 2 5 6 ❘
-        = [A,B,Δ] case [Γ] Γ,A ↦ [p1,p2] orLs p1 p2 ❙
+    disjunction_left : {A,B,Γ,Δ} Γ,A ⊢ Δ ⟶ Γ,B ⊢ Δ ⟶ Γ,A ∨ B ⊢ Δ ❘ # orLs 5 6 ❙
+    disjunction_leftP : {A,B,Γ,Δ} Γ,A ⊢ Δ ⟶ Γ,B ⊢ Δ ⟶ Γ,A ∨ B ⊢ Δ ❘ # orLsP 1 2 5 6 ❘
+        = [A,B,Γ,Δ] [p1,p2] orLs p1 p2 ❙
 ❚
 
 theory SequentDisjunctionLeftCompositional =
     include ?SequentProofs ❙
     include ?Disjunction ❙
 
-    disjunction_left : {A,B,Δ1,Δ2}{[Γ1] Γ1,A}{[Γ2] Γ2,B} Γ1,A ⊢ Δ1 ⟶ Γ2,B ⊢ Δ2 ⟶ Γ1; Γ2,A ∨ B ⊢ Δ1;Δ2 ❘ # orLc 7 8 ❙
-    disjunction_leftP : {A,B,Δ1,Δ2}{[Γ1] Γ1,A}{[Γ2] Γ2,B} Γ1,A ⊢ Δ1 ⟶ Γ2,B ⊢ Δ2 ⟶ Γ1; Γ2,A ∨ B ⊢ Δ1;Δ2 ❘ # orLcP 1 2 7 8 ❘
-        = [A,B,Δ1,Δ2] case [Γ1] Γ1,A ↦ case [Γ2] Γ2,B ↦ [p1,p2] orLc p1 p2 ❙
+    disjunction_left : {A,B,Γ1,Γ2,Δ1,Δ2} Γ1,A ⊢ Δ1 ⟶ Γ2,B ⊢ Δ2 ⟶ Γ1; Γ2,A ∨ B ⊢ Δ1;Δ2 ❘ # orLc 7 8 ❙
+    disjunction_leftP : {A,B,Γ1,Γ2,Δ1,Δ2} Γ1,A ⊢ Δ1 ⟶ Γ2,B ⊢ Δ2 ⟶ Γ1; Γ2,A ∨ B ⊢ Δ1;Δ2 ❘ # orLcP 1 2 7 8 ❘
+        = [A,B,Γ1,Γ2,Δ1,Δ2][p1,p2] orLc p1 p2 ❙
 ❚
 
 theory SequentDisjunctionRight =
     include ?SequentProofs ❙
     include ?Disjunction ❙
 
-    disjunction_right : {Γ,A,B}{[Δ] Δ,A,B} Γ ⊢ Δ,A,B ⟶ Γ ⊢ Δ,A ∨ B ❘ # orR 5 ❙
-    disjunction_rightP : {Γ,A,B}{[Δ] Δ,A,B} Γ ⊢ Δ,A,B ⟶ Γ ⊢ Δ,A ∨ B ❘ # orRP 2 3 5 ❘
-     = [Γ,A,B] case [Δ] Δ,A,B ↦ [p] orR p ❙
+    disjunction_right : {A,B,Γ,Δ} Γ ⊢ Δ,A,B ⟶ Γ ⊢ Δ,A ∨ B ❘ # orR 5 ❙
+    disjunction_rightP : {A,B,Γ,Δ} Γ ⊢ Δ,A,B ⟶ Γ ⊢ Δ,A ∨ B ❘ # orRP 1 2 5 ❘
+     = [A,B,Γ,Δ] [p] orR p ❙
 ❚
 
 theory SequentDisjunctionSimple =
@@ -257,28 +241,27 @@ theory SequentImplication =
     include ?SequentProofs ❙
     include ?Implication ❙
 
-    implication_left : {A,B}{[Γ] Γ,B}{[Δ] Δ,A } Γ ⊢ Δ,A ⟶ Γ,B ⊢ Δ ⟶ Γ,A ⇒ B ⊢ Δ ❘ # implL 5 6 ❙
-    implication_leftP : {A,B}{[Γ] Γ,B}{[Δ] Δ,A } Γ ⊢ Δ,A ⟶ Γ,B ⊢ Δ ⟶ Γ,A ⇒ B ⊢ Δ ❘ # implLP 1 2 5 6 ❘
-        = [A,B] case [Γ] Γ,B ↦ case [Δ] Δ,A ↦ [p1,p2] implL p1 p2 ❙
+    implication_left : {A,B}{Γ,Δ} Γ ⊢ Δ,A ⟶ Γ,B ⊢ Δ ⟶ Γ,A ⇒ B ⊢ Δ ❘ # implL 5 6 ❙
+    implication_leftP : {A,B}{Γ,Δ} Γ ⊢ Δ,A ⟶ Γ,B ⊢ Δ ⟶ Γ,A ⇒ B ⊢ Δ ❘ # implLP 1 2 5 6 ❘
+        = [A,B][Γ,Δ][p1,p2] implL p1 p2 ❙
 
-    implication_right : {A,B}{[Γ] Γ,A}{[Δ] Δ,B } Γ,A ⊢ Δ,B ⟶ Γ ⊢ Δ,A ⇒ B ❘ # implR 5 ❙
-    implication_rightP : {A,B}{[Γ] Γ,A}{[Δ] Δ,B } Γ,A ⊢ Δ,B ⟶ Γ ⊢ Δ,A ⇒ B ❘ # implRP 1 2 5 ❘
-        = [A,B] case [Γ] Γ,A ↦ case [Δ] Δ,B ↦ [p] implR p ❙
+    implication_right : {A,B}{Γ,Δ} Γ,A ⊢ Δ,B ⟶ Γ ⊢ Δ,A ⇒ B ❘ # implR 5 ❙
+    implication_rightP : {A,B}{Γ,Δ} Γ,A ⊢ Δ,B ⟶ Γ ⊢ Δ,A ⇒ B ❘ # implRP 1 2 5 ❘
+        = [A,B][Γ,Δ] [p] implR p ❙
 ❚
 
-theory Test =
+theory SequentExample =
     include ?SequentConjunction ❙
     include ?SequentImplication ❙
-    include ?Weakening ❙
+    // include ?Weakening ❙
     include ?Exchange ❙
-    include ?Weakening ❙
     include ?InContext ❙
 
     test : {A,B} ⊦ A ∧ B ⇒ B ∧ A ❘
         = [A,B] implR (
                     andRs
-                        (andL (inContext B (∅,A,B) (∅,B)))
-                        (andLP A B (inContext A (∅,A,B) (∅,A)))
+                        (andL (inContext B (∅,A) ∅))
+                        (andLP A B (inContext A (∅,B) ∅))
                 ) ❙
 ❚
 
@@ -296,4 +279,32 @@ theory SequentExistentialQuantification =
 
     existential_left : {Γ, Δ, A} ({x} Γ,(A x) ⊢ Δ) ⟶ Γ,(∃ A) ⊢ Δ ❙
     existential_right : {t, Γ, Δ, A} Γ ⊢ Δ, (A t) ⟶ Γ ⊢ Δ, (∃ A) ❙
+❚
+
+theory SequentBigConjunction =
+    include ?ContextFold ❙
+    include ?Conjunction ❙
+    include ?Truth ❙
+
+    bigconj : context ⟶ prop ❘ = [Γ] fold Γ true and ❘ # ⋀ 1 prec 25 ❙
+❚
+
+theory SequentBigDisjunction =
+    include ?ContextFold ❙
+    include ?Disjunction ❙
+    include ?Falsity ❙
+
+    bigdisj : context ⟶ prop ❘ = [Γ] fold Γ false or ❘ # ⋁ 1 prec 25 ❙
+❚
+
+theory SequentAsND =
+    include ?SequentBigConjunction ❙
+    include ?SequentBigDisjunction ❙
+    include ?Implication ❙
+    include ?Proofs ❙
+    implicit structure sequentProofs : ?SequentProofs =
+        include ?Contexts ❙
+       // structure Ded = ?Proofs ❙
+        ded = [Γ, Δ] ⊦ (⋀ Γ) ⇒ (⋁ Δ) ❘# 1 ⊢ 2  prec -5❘role Judgment ❙
+    ❚
 ❚

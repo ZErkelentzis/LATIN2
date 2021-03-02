@@ -2,29 +2,20 @@ namespace latin:/❚
 
 fixmeta ?SetFOL❚
 
-// AS: maybe this should be a basic feature?❚
-theory Singletons =
-	include ?SingletonDefinition❙
-  singleton : set ⟶ set❘# singleton 1 prec 100❙
-  singleton_the : {X} ⊦ issingleton X ⟶ set❘ = [X,p] the ([x] x ∈ X) p❙
-  singletonI : {X} ⊦ X ∈ singleton X❙
-  singletonE : {X,x} ⊦ x ∈ singleton X ⟶ ⊦ x≐X❘# 3 singletonE❙
-❚
-
 theory OrderedPairs =
-	// AS: similar to Wiener's (X,Y) = {{X}, {{Y},∅}};
-			= [X,Y] uopair (singleton X) (uopair (singleton Y) ∅)
-			would it be better to have no definition here?❙
 	// AS: think of a notation❙
+	// (x,y)❙
 	pair : set ⟶ set ⟶ set❘# pair 1 2 prec 40❙
+	// first projection of a pair❙
 	pi1 : set ⟶ set❘# 1 ₁ prec 35❙
 	pi2 : set ⟶ set❘# 1 ₂ prec 35❙
 	
 	ispair : set ⟶ prop❙
 	
 	// computation rules❙
-	compLeft : {X,Y} ⊦ (pair X Y)₁ ≐ X❙
-	compRight : {X,Y} ⊦ (pair X Y)₂ ≐ Y❙
+	// (x,y)_1 = x❙
+	compL : {x,y} ⊦ (pair x y)₁ ≐ x❙
+	compR : {x,y} ⊦ (pair x y)₂ ≐ y❙
 	
 	// representation rule❙
 	repr : {p} ⊦ ispair p ⟶ ⊦ p ≐ pair (p₁) (p₂)❙
@@ -34,44 +25,116 @@ theory OrderedPairs =
 ❚
 
 theory CartesianProduct =
-	include ?OrderedPairs❙
 	// AS: maybe change prec❙
+	// X × Y❙
+	// symbol: jtimes❙
 	prod : set ⟶ set ⟶ set❘# 1 × 2 prec 40❙
-	prodI : {X,Y,x,y} ⊦ x∈X ⟶ ⊦ y∈Y ⟶ ⊦ pair x y ∈ X×Y❙
-	prodEl : {X,Y,Z} ⊦ Z ∈ X×Y ⟶ ⊦ Z₁ ∈ X❙
-	prodEr : {X,Y,Z} ⊦ Z ∈ X×Y ⟶ ⊦ Z₂ ∈ Y❙
+	
+	prodI : set ⟶ set ⟶ set❙
+ 	prodEl : set ⟶ set❙
+	prodEr : set ⟶ set❙
+	
+	// AS: the definition needs to take care of having ordered pairs❙
+	isprod : set ⟶ prop❙
+	
+	// computation rules❙
+	compL : {X,Y} ⊦ prodEl (X × Y) ≐ X❙
+	compR : {X,Y} ⊦ prodEr (X × Y) ≐ Y❙
+	
+	// representation rule❙
+	repr : {p} ⊦ isprod p ⟶ ⊦ p ≐ (prodEl p) × (prodEr p)❙
+	
+	// extensionality rule❙
+	ext : {p,q} ⊦ isprod p ⟶ ⊦ isprod q ⟶ ⊦ prodEl p ≐ prodEl q ⟶ ⊦ prodEr p ≐ prodEr q ⟶ ⊦ p ≐ q❙
 ❚
 
+// AS: This still needs to be fixed❚
 theory Relations =
-  theRel: {a:set,b:set} (set ⟶ set ⟶ prop) ⟶ set❙
+  theRel: {X:set,Y:set} (set ⟶ set ⟶ prop) ⟶ set❙
   inRel : set ⟶ set ⟶ set ⟶ prop❙
   
-  isRel : set ⟶ prop❙
+  isrel : set ⟶ prop❙
   
-  relcomp : {a,b,P,x,y} ⊦ inRel (theRel a b P) x y ⇔ x∈a ∧ y∈b ∧ P x y❙
-  relrepr : {a,b,r} ⊦ isRel r ⟶ ⊦ r ≐ theRel a b ([x,y] inRel r x y)❙ 
-  exten : {r,s} ⊦ isRel r ⟶ ⊦ isRel s ⟶ ({x,y} ⊦ inRel r x y ⇔ inRel s x y) ⟶ ⊦ r≐s❙
+  // computation rule❙
+  comp : {X,Y,P,x,y} ⊦ inRel (theRel X Y P) x y ⇔ x∈X ∧ y∈Y ∧ P x y❙
+  
+	// representation rule❙
+  repr : {X,Y,R} ⊦ isrel R ⟶ ⊦ R ≐ theRel X Y ([x,y] inRel R x y)❙ 
+  
+  // extensionality rule❙
+  ext : {R,S} ⊦ isrel R ⟶ ⊦ isrel S ⟶ ({x,y} ⊦ inRel R x y ⇔ inRel S x y) ⟶ ⊦ R≐S❙
   
   rel : set ⟶ set ⟶ set❙
-  relI: {a,b,P} ⊦ theRel a b P ∈ rel a b❙
+  relI : {X,Y,P} ⊦ theRel X Y P ∈ rel X Y❙
 ❚
 
+// AS: This still needs to be fixed❚
 theory PartialFunctions =
-	include ?Relations❙
-	// AS: TODO,
-		normally this would be a subset of relations❙
+	// AS: a partial function is a relation "right uniqueness" ("Rechtseindeutigkeit")❙
+	thePFunc : {X:set,Y:set} (set ⟶ set ⟶ prop) ⟶ set❙
+	inPFunc : set ⟶ set ⟶ set ⟶ prop❙
+	
+	// AS: the definition needs to take care of the property❙
+	ispfunc : set ⟶ prop❙
+	
+	// computation rule❙
+	// AS: maybe the property should be checked here❙
+	comp : {X,Y,P,x,y} ⊦ inPFunc (thePFunc X Y P) x y ⇔ x∈X ∧ y∈Y ∧ P x y❙ 
+	
+	// representation rule❙
+	repr : {X,Y,R} ⊦ ispfunc R ⟶ ⊦ R ≐ thePFunc X Y ([x,y] inPFunc R x y)❙
+	
+	// extensionality rule❙
+	ext : {R,S} ⊦ ispfunc R ⟶ ⊦ ispfunc S ⟶ ({x,y} ⊦ inPFunc R x y ⇔ inPFunc S x y) ⟶ ⊦ R≐S❙
+	
 	pfunc : set ⟶ set ⟶ set❙
-	pfuncI : {X,Y,F} ⊦ F ∈ rel X Y ⟶ ({x} ⊦ x ∈ X ⟶ ⊦ (∃¹[y] pair x y ∈ F) ∨ ¬∃[y] pair x y ∈ F) ⟶ ⊦ F ∈ pfunc X Y❙
-	pfuncEl : {X,Y,F} ⊦ F ∈ pfunc X Y ⟶ ⊦ F ∈ rel X Y❙
-	pfuncEr : {X,Y,F,x} ⊦ F ∈ pfunc X Y ⟶ ⊦ x∈X ⟶ ⊦ (∃¹[y] pair x y ∈ F) ∨ ¬∃[y] pair x y ∈ F❙
+	pfuncI : {X,Y,P} ⊦ thePFunc X Y P ∈ pfunc X Y❙
 ❚
 
+// AS: this is just a practise for me to get a better feeling for this❚
+theory CFunctions =
+	// f ⪽ X×Y❙
+	function : set ⟶ set ⟶ set❘# func 1 2❙
+	
+	// get X and get Y❙
+	domain : set ⟶ set❘# dom 1❙
+	codomain : set ⟶ set❘# cod 1❙
+	
+	// check whether a set is a function❙
+	isfunc : set ⟶ prop❙
+	
+	// AS: this is wrong by now, because it ignores the property and the relation❙
+	
+	// computation rules❙
+	compL : {X,Y} ⊦ (dom (func X Y)) ≐ X❙
+	compR : {X,Y} ⊦ (cod (func X Y)) ≐ Y❙
+	
+	// representation rule❙
+	repr : {f} ⊦ isfunc f ⟶ ⊦ f ≐ func (dom f) (cod f)❙
+	
+	// extensionality rule❙
+	ext : {f,g} ⊦ isfunc f ⟶ ⊦ isfunc g ⟶ ⊦ (dom f) ≐ (dom g) ⟶ ⊦ (cod f) ≐ (cod g) ⟶ ⊦ f ≐ g❙
+❚
+
+// AS: This still needs to be fixed❚
 theory Functions =
-	include ?Relations❙
-	// AS: TODO,
-		normally this would be a subset of partial functions❙
+	// AS: a function is a partial function that is "left total" ("Linkstotal")❙
+	theFunc : {X:set,Y:set} (set ⟶ set ⟶ prop) ⟶ set❙
+	inFunc : set ⟶ set ⟶ set ⟶ prop❙
+	
+	// AS: the definition needs to take care of the property❙
+	isFunc : set ⟶ prop❙
+	
+	// computation rule❙
+	// AS: maybe the property should be checked here❙
+	comp : {X,Y,P,x,y} ⊦ inFunc (theFunc X Y P) x y ⇔ x∈X ∧ y∈Y ∧ P x y❙ 
+	
+	// representation rule❙
+	repr : {X,Y,R} ⊦ isFunc R ⟶ ⊦ R ≐ theFunc X Y ([x,y] inFunc R x y)❙
+	
+	// extensionality rule❙
+	ext : {R,S} ⊦ isFunc R ⟶ ⊦ isFunc S ⟶ ({x,y} ⊦ inFunc R x y ⇔ inFunc S x y) ⟶ ⊦ R≐S❙
+	
 	func : set ⟶ set ⟶ set❙
-	funcI : {X,Y,F} ⊦ F ∈ rel X Y ⟶ ({x} ⊦ x ∈ X ⟶ ⊦ ∃¹[y] pair x y ∈ F) ⟶ ⊦ F ∈ func X Y❙
-	funcEl : {X,Y,F} ⊦ F ∈ func X Y ⟶ ⊦ F ∈ rel X Y❙
-	funcEr : {X,Y,F,x} ⊦ F ∈ func X Y ⟶ ⊦ x∈X ⟶ ⊦ ∃¹[y] pair x y ∈ F❙
+	funcI : {X,Y,P} ⊦ theFunc X Y P ∈ func X Y❙
 ❚

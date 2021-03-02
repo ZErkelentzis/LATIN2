@@ -12,6 +12,11 @@ theory EmptySetDefinitions =
            = [X,C,ne,P] ne existsE [x,p] P x p❙
 ❚
 
+theory UniversalSetDefinition =
+	// AS: not correct yet I think. 𝒰 consists of all elements❙
+	isuniversal: set ⟶ prop❘ = [X] ∀[x]x∈X❙
+❚
+
 theory BigUnionDefinition =
 	isbigunion = [M,Z] ∀[x]∀[X](X∈M ⇒ x∈X ⇒ x∈Z)❙
 ❚
@@ -25,7 +30,7 @@ theory ComprehensionDefinition =
 ❚
 
 theory ExtensionalityDefinition =
-	isextensional = [X,Y]∀[z] (z∈X ⇔ z∈Y) ⇒ X≐Y❙
+	isextensional = [X,Y] ∀[z] (z∈X ⇔ z∈Y) ⇒ X≐Y❙
 ❚
 
 theory PowerSetDefinition =
