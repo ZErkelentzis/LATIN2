@@ -153,6 +153,7 @@ theory Mizar : ur:?LFS =
   fraenkel : tp ⟶ (term ⟶ prop) ⟶ (term ⟶ term) ⟶ term❙
   fraenkelTerm : {univ:tp, n, expr: term^n ⟶ term, cond: term^n ⟶ prop} term ❙
   simpleFraenkelTerm : {univ:tp, n, expr: term^n ⟶ term} term ❘= [u,n,expr] fraenkelTerm u n expr ([tms:term^n] not_contradition) ❙
+  proof_by_example : {A: tp, pred: term  ⟶ prop, tm: term} ⊦ (tm ⦂ binaryintersectionMode (makeMode pred) A) ⟶ ⊦ (ex A [x] pred x) ❙
    
   // rule mmt/lf?Realize term mmt/api/uom?StandardInt❙
 
@@ -186,4 +187,17 @@ theory HIDDEN : ?SoftTypedDefinedFOL =
      ⊦ for set [x] x in (fraenkel a p f) ⇒ ex a [y] p y ∧ f y ≐ x ❙
    fraenkelI : {a : tp} {p : term ⟶ prop}{f : term ⟶ term}
      ⊦ for a [x] p x ⇒ (f x) in (fraenkel a p f)❙
+     //Scheme-Block-Item1 : [x:term^4] ex Function [f_22:term] nary_and 2 ⟨((dom f_22) ≐ (x..0)),(for Ordinal [x_20: term] (x_20 ∈ (x..0)) ⇒ (nary_and 2 ⟨(x..1) ⇒ ((funcAppl f_22 x_20) ≐ (x..2)), (implies (¬(x..1)) ((funcAppl f_22 x_20) ≐ (x..3)))⟩))⟩ ❙
+     // scheme: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ nary_and m ⟨' (assumptions..j) x | j:m '⟩ ⟶ ⊦ (p x) ❙
+   function: tp❙
+   ordinal: tp❙
+   dom: term ⟶ term❙
+   funcAppl: term ⟶ term ⟶ term❙
+   id: term ⟶ prop❙
+   /T the example is from finset_1: The application of id is necessary, since the typechecker would otherwise complain (even more) 
+   originally x had idnr 20 and f idnr 22 ❙
+     scheme1: {x:term^4} ⟨' ⊦ (x..i) ⦂ (⟨([x:term^4] set),([x:term^4] term⟶prop),([x:term^4] term⟶term),([x:term^4] term⟶term)⟩..i) x | i:4 '⟩ ⟶ 
+     ⊦ nary_and 0 ⟨⟩ ⟶ ⊦ (([x:term^4] (ex function [f:term] nary_and 2 ⟨((dom f) ≐ (x..0)),(for ordinal [y: term] (y in (x..0)) 
+     ⇒ (nary_and 2 ⟨id (x..1) ⇒ ((funcAppl f y) ≐ (x..2)), (implies (¬(id (x..1))) ((funcAppl f y) ≐ (x..3)))⟩))⟩)) x) ❙
+	// exam: {A: tp, B: tp, p: attr A, q: attr B, r: term ⟶ term ⟶ prop, s: term ⟶ term ⟶ prop} prop ❘= [A, B, p, q, r, s] for A [x] (x ⦂ A) ∧ (ex A [z] ( (r x z) ∧ (for B [y] (((s x y) ∧ (r x y)) ⇒ ( (r x y) ∧ (r x z) ))))) ❙
 ❚
