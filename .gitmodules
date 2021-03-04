@@ -1,0 +1,3 @@
+[submodule "lib/tptp-parser"]
+	path = lib/tptp-parser
+	url = https://github.com/leoprover/scala-tptp-parser
