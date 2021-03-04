@@ -8,7 +8,6 @@
       <sourceFolder url="file://$MODULE_DIR$/export/lf-scala" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/scala" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/lib/tptp-parser/src/main" isTestSource="false" />
-      <excludeFolder url="file://$MODULE_DIR$/scala/latin2/proving" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
