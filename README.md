@@ -5,6 +5,8 @@ This is the second generation of the LATIN atlas, an effort to "develop[...] met
 
 ## Building
 
+First issue `git submodule init` and `git submodule update` in order for the submodule `lib/tptp-parser` to be cloned.
+
 ### Building individual files for endusers
 
 The master branch is supposed to already contain all build artifacts, hence there should be no need to build everything from scratch for end users.
