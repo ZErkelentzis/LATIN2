@@ -1,0 +1,56 @@
+/T Examples of SFOL formalizations that should be TPTP-exportable.
+   Written/compiled from LATIN2 by Navid for XBagon. ❚
+namespace latin:/playground/tptp-exporter ❚
+rule scala://parser.api.mmt.kwarc.info?MMTURILexer ❚
+
+fixmeta latin:/?SFOLEQND❚
+// import latin latin:/ ❚
+
+
+theory Set =
+  U : tp❙
+❚
+
+theory UnitElement =
+  include ?Magma❙
+  e: tm U ❙
+❚
+
+theory RightUnital =
+  include ?UnitElement❙
+  neutralR : ⊦ ∀[x] x∘e ≐ x❙
+  neutR: {x} ⊦ x∘e≐x❘= [x] neutralR forallE x❘role Simplify❙
+❚
+
+theory LeftUnital =
+  include ?UnitElement❙
+  neutralL : ⊦ ∀[x] e∘x ≐ x❙
+  neutL: {x} ⊦ e∘x≐x❘= [x] neutralL forallE x❘ role Simplify❙
+❚
+
+theory Unital =
+  include ?LeftUnital ❙
+  include ?RightUnital ❙
+❚
+
+theory Semigroup =
+  include ?Magma ❙
+  assoc_ax : ⊦ ∀[x]∀[y]∀[z] (x∘y)∘z ≐ x∘(y∘z)❙
+
+  assoc: {x,y,z} ⊦ (x∘y)∘z ≐ x∘(y∘z)❘
+       = [x,y,z] assoc_ax forallE x forallE y forallE z❙
+  assocR: {x,y,z} ⊦ x∘(y∘z) ≐ (x∘y)∘z❘
+        = [x,y,z] assoc sym❙
+  assoc4:  {w,x,y,z} ⊦ ((w∘x)∘y)∘z ≐ w∘(x∘(y∘z))❘
+        =  [w,x,y,z] trans3 (assoc congT [u]u∘z) assoc (assoc congT [u]w∘u)❙
+  assoc4R: {w,x,y,z} ⊦ w∘(x∘(y∘z)) ≐ ((w∘x)∘y)∘z❘
+          = [w,x,y,z] assoc4 sym❙
+  assoc5: {v,w,x,y,z} ⊦ (((v∘w)∘x)∘y)∘z ≐ v∘(w∘(x∘(y∘z)))❘
+        = [v,w,x,y,z] trans4 (assoc4 congT [u]u∘z) assoc
+                             (assoc congT [u]v∘u) (assoc congT [u]v∘(w∘u))❙
+❚
+
+theory Monoid =
+  include ?Semigroup❙
+  include ?Unital❙
+❚
