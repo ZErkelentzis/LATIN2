@@ -11,6 +11,11 @@ theory Set =
   U : tp❙
 ❚
 
+theory Magma =
+  include ?Set ❙
+  op : U ⟶ U ⟶ U ❘# 1 ∘ 2 prec 50❙
+❚
+
 theory UnitElement =
   include ?Magma❙
   e: tm U ❙
