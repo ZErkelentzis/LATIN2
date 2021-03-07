@@ -16,21 +16,10 @@ theory UnitElement =
   e: tm U ❙
 ❚
 
-theory RightUnital =
+theory Unital =
   include ?UnitElement❙
   neutralR : ⊦ ∀[x] x∘e ≐ x❙
-  neutR: {x} ⊦ x∘e≐x❘= [x] neutralR forallE x❘role Simplify❙
-❚
-
-theory LeftUnital =
-  include ?UnitElement❙
   neutralL : ⊦ ∀[x] e∘x ≐ x❙
-  neutL: {x} ⊦ e∘x≐x❘= [x] neutralL forallE x❘ role Simplify❙
-❚
-
-theory Unital =
-  include ?LeftUnital ❙
-  include ?RightUnital ❙
 ❚
 
 theory Semigroup =
