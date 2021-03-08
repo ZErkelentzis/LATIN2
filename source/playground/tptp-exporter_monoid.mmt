@@ -3,8 +3,10 @@
 namespace latin:/playground/tptp-exporter ❚
 rule scala://parser.api.mmt.kwarc.info?MMTURILexer ❚
 
-fixmeta latin:/?SFOLEQND ❚
-import lt latin:/ ❚
+theory Meta =
+  include ☞latin:/?SFOLEQND ❙
+❚
+fixmeta ?Meta ❚
 
 theory Set =
   U : tp❙
@@ -12,7 +14,7 @@ theory Set =
 
 theory Magma =
   include ?Set ❙
-  op : U ⟶ U ⟶ U ❘# 1 ∘ 2 prec 50❙
+  op : tm U ⟶ tm U ⟶ tm U ❘# 1 ∘ 2 prec 50❙
 ❚
 
 theory UnitElement =
