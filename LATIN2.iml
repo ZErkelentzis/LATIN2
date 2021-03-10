@@ -7,7 +7,7 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/export/lf-scala" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/scala" isTestSource="false" />
-      <excludeFolder url="file://$MODULE_DIR$/scala/latin2/proving" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/tptp-parser/src/main" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -15,5 +15,6 @@
     <orderEntry type="module" module-name="mmt-lf" />
     <orderEntry type="module" module-name="mmt-odk" />
     <orderEntry type="library" name="scala-sdk-2.13.1" level="application" />
+    <orderEntry type="library" name="sbt: org.scala-lang:scala-library:2.13.4:jar" level="project" />
   </component>
 </module>
