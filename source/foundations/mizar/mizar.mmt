@@ -50,7 +50,7 @@ theory Mizar : ur:?LFS =
 	// ex: {A:tp, p: term ⟶ prop} prop ❘ = [A, p] ∃ [x] (x ⦂ A) ∧ (p x) ❙
 
 	// proofs ❙
-	// proof: prop ⟶ type ❘ # ⊦ 1 prec -5❘ ## proof 1 prec -5 ❙
+	// ded: prop ⟶ type ❘ # ⊦ 1 prec -5❘ ## ded 1 prec -5 ❙
 	/T Fold the ps over TacticsLF?use to give a definien for this ? ❙
 	using: {n, ps: prop^n, claim: prop} ⊦ claim ❘ # 3 using 2 ❙
 	be: term ⟶ tp ⟶ type ❘= [x,a] ⊦ x ⦂ a ❘# 1 be 2 prec 50❙
@@ -79,7 +79,7 @@ theory Mizar : ur:?LFS =
    
   //assume❙
   impliesI : {A,B} (⊦ A ⟶ ⊦ B) ⟶ ⊦ (A ⇒ B) ❘ # impliesI 1 2 3
-      ❘// = [A,B,p] per_cases ([q: proof A] proof_by_contradiction ([s] notE (andEr (not_idem s)) (p q) ) ) 
+      ❘// = [A,B,p] per_cases ([q: ⊦ A] proof_by_contradiction ([s] notE (andEr (not_idem s)) (p q) ) ) 
                        ([r] proof_by_contradiction ([s] notE r (andEl (not_idem s)) ) )
                             tnd❙ 
   impliesE : {A,B} ⊦ A ⇒ B ⟶ ⊦ A ⟶ ⊦ B ❘
@@ -142,7 +142,7 @@ theory Mizar : ur:?LFS =
   adjective_non : {t: tp} attr t ⟶ tp ❙
 	attr_appl: {n:NAT, m:NAT, t: term^n ⟶ tp, attrs: (dep_typed_attr n t)^m} tp ❘= [n,m,t,attrs] intersectionMode m (⟨' (dep_typed_adjective n t (attrs .. i)) | i:m '⟩) ❘ # 4 @ 3 ❙
 
-  // adjective_prop : proof X of (adjective T A) ⇔ X of T ∧ A X❙
+  // adjective_prop : ⊦ X of (adjective T A) ⇔ X of T ∧ A X❙
   adjI : {X,A}{x : term} x be X ⟶ (⊦ A x) ⟶ x be (adjective X A)❙
   adjE : {X,A}{x : term} x be (adjective X A) ⟶  x be X❙
   adjE_' : {X,A}{x : term} x be (adjective X A) ⟶ ⊦ A x❙
@@ -196,8 +196,8 @@ theory HIDDEN : ?SoftTypedDefinedFOL =
    id: term ⟶ prop❙
    /T the example is from finset_1: The application of id is necessary, since the typechecker would otherwise complain (even more) 
    originally x had idnr 20 and f idnr 22 ❙
-     scheme1: {x:term^4} ⟨' ⊦ (x..i) ⦂ (⟨([x:term^4] set),([x:term^4] term⟶prop),([x:term^4] term⟶term),([x:term^4] term⟶term)⟩..i) x | i:4 '⟩ ⟶ 
+   /T scheme1: {x:term^4} ⟨' ⊦ (x..i) ⦂ (⟨([x:term^4] set),([x:term^4] term⟶prop),([x:term^4] term⟶term),([x:term^4] term⟶term)⟩..i) x | i:4 '⟩ ⟶ 
      ⊦ nary_and 0 ⟨⟩ ⟶ ⊦ (([x:term^4] (ex function [f:term] nary_and 2 ⟨((dom f) ≐ (x..0)),(for ordinal [y: term] (y in (x..0)) 
      ⇒ (nary_and 2 ⟨id (x..1) ⇒ ((funcAppl f y) ≐ (x..2)), (implies (¬(id (x..1))) ((funcAppl f y) ≐ (x..3)))⟩))⟩)) x) ❙
-	// exam: {A: tp, B: tp, p: attr A, q: attr B, r: term ⟶ term ⟶ prop, s: term ⟶ term ⟶ prop} prop ❘= [A, B, p, q, r, s] for A [x] (x ⦂ A) ∧ (ex A [z] ( (r x z) ∧ (for B [y] (((s x y) ∧ (r x y)) ⇒ ( (r x y) ∧ (r x z) ))))) ❙
+	// exam: {A: tp, B: tp, p: attr A, q: attr B, r: term ⟶ term ⟶ prop, s: term ⟶ term ⟶ prop} prop ❘// = [A, B, p, q, r, s] for A [x] (x ⦂ A) ∧ (ex A [z] ( (r x z) ∧ (for B [y] (((s x y) ∧ (r x y)) ⇒ ( (r x y) ∧ (r x z) ))))) ❙
 ❚

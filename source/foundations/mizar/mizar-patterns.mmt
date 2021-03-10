@@ -171,8 +171,8 @@ theory MizarPatterns : ?HIDDEN =
 	pattern qualFuncRegistration(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, t:term^n ⟶ tp, tm:term^n ⟶ term, a: (dep_typed_attr n t)^m) ❘ =
   	registration: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ ⊦ tm argumentSequence ⦂ t argumentSequence ⟶ ⊦ tm argumentSequence ⦂ (a @ t) ❙
   ❚
-	pattern identify(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, a:(term^n ⟶ term)^m, b: (term^n ⟶ term)^m) ❘ =
-  	registration: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ ⊦ nary_and m ⟨' (a..j) argumentSequence ≐ (b..j) argumentSequence | j:m '⟩ ❙
+	pattern identify(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, a:(term^n ⟶ term)^m, b: (term^n ⟶ term)^m, c:term^n ⟶ term, d: term^n ⟶ term) ❘ =
+  	registration: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ ⊦ nary_and m ⟨' ((a..j) argumentSequence ≐ (b..j) argumentSequence) | j:m '⟩ ⟶ ⊦ c argumentSequence ≐ d argumentSequence  ❘ role Simplify ❙
   ❚
 
 	rule rules?MizarStructure ❙
