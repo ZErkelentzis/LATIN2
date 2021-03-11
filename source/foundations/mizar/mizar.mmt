@@ -175,6 +175,17 @@ theory HIDDEN : ?SoftTypedDefinedFOL =
    set : tp ❙
    set_ax : {X:term} ⊦ X ⦂ set ❙
 	 sethoot_property: {t:tp} type ❘ = [t] ⊦ for t [tm] (tm ⦂ t ⇒ tm ⦂ set) ❙
+	 commutativity_property: {f: term ⟶ term ⟶ term} type ❘ = [f] ⊦ for term [x] for term [y] (f x y ≐ f y x) ❙
+	 idempotence_property: {f: term ⟶ term ⟶ term} type ❘ = [f] ⊦ for term [x] (f x x ≐ x) ❙
+	 projectivity_property: {f: term ⟶ term} type ❘ = [f] ⊦ for term [x] (f ( f x) ≐ f x) ❙
+	 involutiveness_property: {f: term ⟶ term} type ❘ = [f] ⊦ for term [x] (f ( f x) ≐ x ❙
+	 
+	 symmetry_property: {R: term ⟶ term ⟶ prop} type ❘ = [f] ⊦ for term [x] for term [y] (R x y ⇒ R y x) ❙
+	 assymmetry_property: {R: term ⟶ term ⟶ prop} type ❘ = [f] ⊦ for term [x] for term [y] (R x y ⇒ ¬ R y x) ❙
+	 connectedness_property: {R: term ⟶ term ⟶ prop} type ❘ = [f] ⊦ for term [x] for term [y] (R x y ∨ R y x) ❙
+	 reflexivity_property: {R: term ⟶ term ⟶ prop} type ❘ = [f] ⊦ for term [x] R x x ❙
+	 irreflexivity_property: {R: term ⟶ term ⟶ prop} type ❘ = [f] ⊦ for term [x] ¬ R x x ❙
+
    // set: type ❙
 
    // eq is already declared in Mizar
