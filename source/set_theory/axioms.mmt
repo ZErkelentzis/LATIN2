@@ -2,7 +2,13 @@ namespace latin:/❚
 
 fixmeta ?SetFOL❚
 
-theory Extensionality =
+// TODO:
+	- TODOs in theories
+	- check whether everything is right
+	- should I add notations and proofs with unique here?
+❚
+
+theory ExtensionalityAx =
 	// Two sets X and Y are equal iff they have the same elements❙
 	include ?ExtensionalityDefinition❙
 	
@@ -11,9 +17,102 @@ theory Extensionality =
 	extensionalityE : {X,Y} ⊦ X≐Y ⟶ {z} ⊦ z∈X ⇔ z∈Y❘# 3 extensionalityE❙ 
 ❚
 
-theory Pairing =
+// AS: Set existence was defined as UniverseNonEmpty; 
+		Do I need to declare it again?
+		I did a theory, just to be safe❚
+theory ExistenceAx =
+	// There exists at least one set❙
+	existence_axiom : ⊦ ∃[X] true❙
+	
+	// AS : I can't think of meaningful introduction and elimination rules❙
+❚
+
+theory PairingAx =
 	// The unordered pair {x,y} consists of exactly the two elements x and y❙
 	include ?UnorderedPairDefinition❙
 	
-	// uopair_axiom : {x,y} ⊦ ∃[M] isuopair X Y M❙
+	pairing_axiom : {X,Y} ⊦ ∃[M] isuopair X Y M❙
+	pairing_unique : {X,Y} ⊦ ∃¹[M] isuopair X Y M❘ // = _ ❙
+	pairingI : {X,Y,M,Z} ⊦ Z≐X ∨ Z≐Y ⟶ ⊦ Z∈M❙
+	pairingE : {X,Y,M,Z} ⊦ Z∈M ⟶ ⊦ Z≐X ∨ Z≐Y❙
+❚
+
+theory UnionAx =
+	// The big union of a family of sets M consists of all the elements x of its sets X.❙
+	include ?BigUnionDefinition❙
+	
+	union_axiom : {M} ⊦ ∃[Z] isbigunion M Z❙
+	union_unique : {M} ⊦ ∃¹[Z] isbigunion M Z❘ // = _ ❙
+	unionI : {M,Z,X,x} ⊦ X∈M ⟶ ⊦ x∈X ⟶ ⊦ x∈Z❙
+	unionE : {M,Z,x} ⊦ x∈Z ⟶ ⊦ ∃[X] X∈M ∧ x∈X❙
+❚
+
+theory PowersetAx =
+	// Each subset of the set X is an element of the powerset M❙
+	include ?PowerSetDefinition❙
+	
+	powerset_axiom : {X} ⊦ ∃[M] ispowerset X M❙
+	powerset_unique : {X} ⊦ ∃¹[M] ispowerset X M❘ // = _ ❙
+	// AS: This definition is dependent on ⪽. So maybe use the alternative definition.❙
+	powersetI : {X,M,Z} ⊦ Z⪽X ⟶ ⊦ Z∈M❙
+	powersetE : {X,M,Z} ⊦ Z∈M ⟶ ⊦ Z⪽X❙
+	
+	// Alternative definition❙
+	altpowersetI : {X,M,Z} ({t} ⊦ t∈Z ⇒ t∈X) ⟶ ⊦ Z∈M❙
+	altpowersetE : {X,M,Z} ⊦ Z∈M ⟶ {t} ⊦ t∈Z ⇒ t∈X❙
+❚
+
+theory ComprehensionAx =
+	// The resulting set consists of all elements x of X that satisfy predicate P❙
+	include ?ComprehensionDefinition❙
+	
+	comprehension_axiom : {X,P} ⊦ ∃[Z] iscomprehension X P Z❙
+	comprehension_unique : {X,P} ⊦ ∃¹[Z] iscomprehension X P Z❘ // = _ ❙
+	comprehensionI : {X,P,Z,x} ⊦ x∈X ⟶ ⊦ P x ⟶ ⊦ x∈Z❙
+	comprehensionEl : {P,Z,x} ⊦ x∈Z ⟶ ⊦ P x❙
+	comprehensionEr : {X,Z,x} ⊦ x∈Z ⟶ ⊦ x∈X❙
+❚
+
+theory ReplacementAx =
+	// The resulting set is a replacement for X regarding function F❙
+	include ?ReplacementDefinition❙
+	
+	replacement_axiom : {X,F} ⊦ ∃[Z] isreplacement X F Z❙
+	replacement_unique : {X,F} ⊦ ∃¹[Z] isreplacement X F Z❘ // = _ ❙
+	replacementI : {X,F,Z,a} ⊦ (∃[x] x∈X ∧ a ≐(F x)) ⟶ ⊦ a∈Z❙
+	replacementE : {X,F,Z,a} ⊦ a∈Z ⟶ ⊦ ∃[x] x∈X ∧ a ≐(F x)❙ 
+❚
+
+theory RegularityAx =
+	// Every set has a "smallest" element❙
+	include ?RegularityDefinition❙
+	
+	regularity_axiom : ⊦ isregular❙
+	regularityI : {M} ⊦ (∃[t] t∈M) ⟶ ⊦ ∃[Y] Y∈M ∧ ¬(∃[z] z∈M ∧ z∈Y)❙
+	// AS: this is probably unnecessary❙
+	regularityE : {M} ⊦ (∃[Y] Y∈M ∧ ¬(∃[z] z∈M ∧ z∈Y)) ⟶ ⊦ ∃[t] t∈M❙
+❚
+
+theory InfinityAx =
+	// There exists an infinite set containing ∅ and all successors of elements of its set.❙
+	include ?InfinityDefinition❙
+	
+	infinity_axiom : ⊦ ∃[M] isinfinite M❙
+	// AS: is it possible to define introduction and elimination rules here that make sense?
+		Maybe, if I do it similar to choice❙
+❚
+
+theory ChoiceAx =
+	// There exists a set C with an unique element c that each set X of M has in common❙
+	include ?ChoiceDefinition❙
+	
+	// abstract functions❙
+	all_nonempty: set ⟶ prop❘ // = ❙
+  // AS: maybe define this in BigIntersection❙
+  pairwise_disjoint: set ⟶ prop❘ // = ❙
+  
+  choice_axiom : ⊦ ∀[M] (all_nonempty M ∧ pairwise_disjoint M) ⇒ ∃[C] ischoice M C❙
+  choiceI : {M} ⊦ all_nonempty M ⟶ ⊦ pairwise_disjoint M ⟶ ⊦ ∃[C] ischoice M C❙
+  choiceEl : {M} ⊦ (∃[C] ischoice M C) ⟶ ⊦ all_nonempty M❙
+  choiceEr : {M} ⊦ (∃[C] ischoice M C) ⟶ ⊦ pairwise_disjoint M❙
 ❚
