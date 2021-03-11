@@ -59,7 +59,9 @@ theory Mizar : ur:?LFS =
   contradiction : type ❘= ⊦ false ❙
 	not_contradition : prop ❘= true ❙
 	// inconsistent (from ☞base:?Proofs) is formalized as {a} ⊦ a, so we can't use it. ❙
- 
+  /T what is currently still left to show in a proof ❙
+	thesis: type ❙
+  
   proof_by_contradiction : {A:prop} (⊦ (¬ A) ⟶ contradiction) ⟶ ⊦ A❘# %%prefix 1 1❙
   contradictionE : contradiction ⟶ {B} ⊦ B❙
   notE : {A:prop} ⊦ (¬ A) ⟶ ⊦ A ⟶ contradiction❘# %%prefix 1 2❙ 
