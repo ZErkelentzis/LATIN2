@@ -2,9 +2,16 @@ namespace latin:/❚
 
 fixmeta ?SetFOL❚
 
+// TODO:
+	- TODOs in theories
+	- check whether everything is right
+	- maybe some theories need to be rewritten after changes in axioms
+❚
+
 theory ZFBase =
+	// AS: should I use UniverseNonEmpty or ExistenceAx here?❙
   include ?UniverseNonEmpty❙
-  include ?Extensionality❙
+  include ?ExtensionalityAx❙
 ❚
 
 theory ZFEmptySet =
@@ -12,58 +19,41 @@ theory ZFEmptySet =
   include ?EmptySetDefinitions❙
   realize ?EmptySet❙
   
-  emptyUnique : ⊦ ∃¹ isempty❘ // = ❙
-  empty = the isempty emptyUnique❙
-  empty_prop = the_ax isempty emptyUnique❙
+  empty_unique : ⊦ ∃¹ isempty❘ // = ❙
+  empty = the isempty empty_unique❙
+  empty_prop = the_ax isempty empty_unique❙
+  
+  // realize empty_sub❙
 ❚
 
 theory ZFPairing =
   include ?ZFBase❙
-  include ?UnorderedPairDefinition❙
-  uopair_axiom : {X,Y} ⊦ ∃[M] isuopair X Y M❙
-  uopair_unique : {X,Y} ⊦ ∃¹[M] isuopair X Y M❘ // = _ ❙
+  include ?PairingAx❙
   
   realize ?UnorderedPairs❙
   
   uopair : set ⟶ set ⟶ set❘ # uopair 1 2❘
-          = [X,Y] the ([M] isuopair X Y M) uopair_unique❙
+          = [X,Y] the ([M] isuopair X Y M) pairing_unique❙
   // AS: the introduction and elimination rules should be defined❙
   // uopairIL, uopairIR, uopairE❙ 
 ❚
 
-theory ZFBigUnion =
+theory ZFUnion =
   include ?ZFBase❙
-  include ?BigUnionDefinition❙
-	// definition of big union from KRMT script❙
-	bigunion_axiom : {M} ⊦ ∃[Z] isbigunion M Z❙
-	bigunion_unique : {M} ⊦ ∃¹[Z] isbigunion M Z❘ // = _ ❙
+  include ?UnionAx❙
 	
-	include ?Subsets❙
-	include ?EmptySet❙
 	realize ?BigUnion❙
 	
 	bigunion : set ⟶ set❘# ⋃ 1❘
-					= [M] the ([Z] isbigunion M Z) bigunion_unique❙
+					= [M] the ([Z] isbigunion M Z) union_unique❙
 	// AS: the introduction and elimination rules should be defined❙
   // bigunionI, bigunionE❙ 
 ❚
 
-// AS: (Small) Union is not really necessary here. This theory can be seen as practice❚
-theory ZFUnion = 
-  include ?ZFBase❙
-  include ?UnionDefinition❙
-	union_axiom : {X,Y} ⊦ ∃[Z] isunion X Y Z❙
-	union_unique : {X,Y} ⊦ ∃¹[Z] isunion X Y Z❘ // = _ ❙
-	union : set ⟶ set ⟶ set❘ # 1 ∪ 2❘
-					= [X,Y] the ([Z] isunion X Y Z) union_unique❙
-❚
-
 theory ZFPowerSet =
   include ?ZFBase❙
-  include ?PowerSetDefinition❙
-	powerset_axiom : {X} ⊦ ∃[M] ispowerset X M❙
-	powerset_unique : {X} ⊦ ∃¹[M] ispowerset X M❘ // = _ ❙
-	
+  include ?PowersetAx❙
+  
 	realize ?PowerSets❙
 	
 	powerset : set ⟶ set❘# ℘ 1 prec 60❘
@@ -74,9 +64,7 @@ theory ZFPowerSet =
 
 theory ZFComprehension =
   include ?ZFBase❙
-  include ?ComprehensionDefinition❙
-	comprehension_axiom : {X,P} ⊦ ∃[Z] iscomprehension X P Z❙
-	comprehension_unique : {X,P} ⊦ ∃¹[Z] iscomprehension X P Z❘ // = _ ❙
+  include ?ComprehensionAx❙
 	
 	realize ?Comprehension❙
 	
@@ -88,10 +76,7 @@ theory ZFComprehension =
 
 theory ZFReplacement =
   include ?ZFBase❙
-  include ?ReplacementDefinition❙
-	// like in the lecture❙
-	replacement_axiom : {X,F} ⊦ ∃[Z] isreplacement X F Z❙
-	replacement_unique : {X,F} ⊦ ∃¹[Z] isreplacement X F Z❘ // = _ ❙
+  include ?ReplacementAx❙
 	
 	realize ?Replacement❙
 	
@@ -121,6 +106,7 @@ theory ZF =
 // FR: maybe this is not needed - can just be included from ZF-independent feature Choice❚
 theory ZFChoice =
   include ?ZFBase❙
+  include ?ChoiceAx❙
   // realize ?SetChoice❙
 ❚
 
