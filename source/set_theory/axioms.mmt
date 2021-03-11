@@ -6,6 +6,7 @@ fixmeta ?SetFOL❚
 	- TODOs in theories
 	- check whether everything is right
 	- should I add notations and proofs with unique here?
+	- maybe add more axioms for TG, NBG and more?
 ❚
 
 theory ExtensionalityAx =
@@ -34,7 +35,7 @@ theory PairingAx =
 	pairing_axiom : {X,Y} ⊦ ∃[M] isuopair X Y M❙
 	pairing_unique : {X,Y} ⊦ ∃¹[M] isuopair X Y M❘ // = _ ❙
 	pairingI : {X,Y,M,Z} ⊦ Z≐X ∨ Z≐Y ⟶ ⊦ Z∈M❙
-	pairingE : {X,Y,M,Z} ⊦ Z∈M ⟶ ⊦ Z≐X ∨ Z≐Y❙
+	pairingE : {X,Y,M,Z} ⊦ Z∈M ⟶ ⊦ Z≐X ∨ Z≐Y❘# 5 pairingE❙
 ❚
 
 theory UnionAx =
@@ -44,7 +45,7 @@ theory UnionAx =
 	union_axiom : {M} ⊦ ∃[Z] isbigunion M Z❙
 	union_unique : {M} ⊦ ∃¹[Z] isbigunion M Z❘ // = _ ❙
 	unionI : {M,Z,X,x} ⊦ X∈M ⟶ ⊦ x∈X ⟶ ⊦ x∈Z❙
-	unionE : {M,Z,x} ⊦ x∈Z ⟶ ⊦ ∃[X] X∈M ∧ x∈X❙
+	unionE : {M,Z,x} ⊦ x∈Z ⟶ ⊦ ∃[X] X∈M ∧ x∈X❘# 4 unionE❙
 ❚
 
 theory PowersetAx =
@@ -55,11 +56,11 @@ theory PowersetAx =
 	powerset_unique : {X} ⊦ ∃¹[M] ispowerset X M❘ // = _ ❙
 	// AS: This definition is dependent on ⪽. So maybe use the alternative definition.❙
 	powersetI : {X,M,Z} ⊦ Z⪽X ⟶ ⊦ Z∈M❙
-	powersetE : {X,M,Z} ⊦ Z∈M ⟶ ⊦ Z⪽X❙
+	powersetE : {X,M,Z} ⊦ Z∈M ⟶ ⊦ Z⪽X❘# 4 powersetE❙
 	
 	// Alternative definition❙
 	altpowersetI : {X,M,Z} ({t} ⊦ t∈Z ⇒ t∈X) ⟶ ⊦ Z∈M❙
-	altpowersetE : {X,M,Z} ⊦ Z∈M ⟶ {t} ⊦ t∈Z ⇒ t∈X❙
+	altpowersetE : {X,M,Z} ⊦ Z∈M ⟶ {t} ⊦ t∈Z ⇒ t∈X❘# 4 altpowersetE❙
 ❚
 
 theory ComprehensionAx =
@@ -69,8 +70,8 @@ theory ComprehensionAx =
 	comprehension_axiom : {X,P} ⊦ ∃[Z] iscomprehension X P Z❙
 	comprehension_unique : {X,P} ⊦ ∃¹[Z] iscomprehension X P Z❘ // = _ ❙
 	comprehensionI : {X,P,Z,x} ⊦ x∈X ⟶ ⊦ P x ⟶ ⊦ x∈Z❙
-	comprehensionEl : {P,Z,x} ⊦ x∈Z ⟶ ⊦ P x❙
-	comprehensionEr : {X,Z,x} ⊦ x∈Z ⟶ ⊦ x∈X❙
+	comprehensionEl : {P,Z,x} ⊦ x∈Z ⟶ ⊦ P x❘# 4 comprehensionEl❙
+	comprehensionEr : {X,Z,x} ⊦ x∈Z ⟶ ⊦ x∈X❘# 4 comprehensionEr❙
 ❚
 
 theory ReplacementAx =
@@ -80,7 +81,7 @@ theory ReplacementAx =
 	replacement_axiom : {X,F} ⊦ ∃[Z] isreplacement X F Z❙
 	replacement_unique : {X,F} ⊦ ∃¹[Z] isreplacement X F Z❘ // = _ ❙
 	replacementI : {X,F,Z,a} ⊦ (∃[x] x∈X ∧ a ≐(F x)) ⟶ ⊦ a∈Z❙
-	replacementE : {X,F,Z,a} ⊦ a∈Z ⟶ ⊦ ∃[x] x∈X ∧ a ≐(F x)❙ 
+	replacementE : {X,F,Z,a} ⊦ a∈Z ⟶ ⊦ ∃[x] x∈X ∧ a ≐(F x)❘# 5 replacementE❙ 
 ❚
 
 theory RegularityAx =
@@ -90,7 +91,7 @@ theory RegularityAx =
 	regularity_axiom : ⊦ isregular❙
 	regularityI : {M} ⊦ (∃[t] t∈M) ⟶ ⊦ ∃[Y] Y∈M ∧ ¬(∃[z] z∈M ∧ z∈Y)❙
 	// AS: this is probably unnecessary❙
-	regularityE : {M} ⊦ (∃[Y] Y∈M ∧ ¬(∃[z] z∈M ∧ z∈Y)) ⟶ ⊦ ∃[t] t∈M❙
+	regularityE : {M} ⊦ (∃[Y] Y∈M ∧ ¬(∃[z] z∈M ∧ z∈Y)) ⟶ ⊦ ∃[t] t∈M❘# 2 regularityE❙
 ❚
 
 theory InfinityAx =
@@ -113,6 +114,6 @@ theory ChoiceAx =
   
   choice_axiom : ⊦ ∀[M] (all_nonempty M ∧ pairwise_disjoint M) ⇒ ∃[C] ischoice M C❙
   choiceI : {M} ⊦ all_nonempty M ⟶ ⊦ pairwise_disjoint M ⟶ ⊦ ∃[C] ischoice M C❙
-  choiceEl : {M} ⊦ (∃[C] ischoice M C) ⟶ ⊦ all_nonempty M❙
-  choiceEr : {M} ⊦ (∃[C] ischoice M C) ⟶ ⊦ pairwise_disjoint M❙
+  choiceEl : {M} ⊦ (∃[C] ischoice M C) ⟶ ⊦ all_nonempty M❘# 2 choiceEl❙
+  choiceEr : {M} ⊦ (∃[C] ischoice M C) ⟶ ⊦ pairwise_disjoint M❘# 2 choiceEr❙
 ❚
