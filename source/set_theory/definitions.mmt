@@ -13,7 +13,7 @@ theory EmptySetDefinitions =
 ❚
 
 theory UniversalSetDefinition =
-	// AS: not correct yet I think. 𝒰 consists of all elements❙
+	// AS: is this correct? 𝒰 consists of all elements, but what about sets?❙
 	isuniversal: set ⟶ prop❘ = [X] ∀[x]x∈X❙
 ❚
 
@@ -33,12 +33,38 @@ theory ExtensionalityDefinition =
 	isextensional = [X,Y] ∀[z] (z∈X ⇔ z∈Y) ⇒ X≐Y❙
 ❚
 
+theory InfinityDefinition =
+	include ?EmptySet❙
+	
+	// abstract successor function❙
+	successor : set ⟶ set❙
+	
+	// AS: is there a way to define it more independently?❙
+	isinfinite = [M] ∅∈M ∧ ∀[X] X∈M ⇒ (successor X)∈M❙
+❚
+
+// AS: just an idea. Probably I'll have to change this❚
+theory LeftTotal =
+	islefttotal = [X,Y,P] ∀[x] x∈X ∧ ∃[y] y∈Y ∧ P x y❙
+❚
+
 theory PowerSetDefinition =
 	ispowerset = [X,M] ∀[Z]((∀[t](t ∈ Z ⇒ t ∈ X)) ⇒ Z ∈ M)❙
 ❚
 
+theory RegularityDefinition =
+	isregular = ∀[M](∃[t] t∈M) ⇒ ∃[Y] Y∈M ∧ ¬(∃[z] z∈M ∧ z∈Y)❙
+❚
+
 theory ReplacementDefinition =
 	isreplacement = [X,F,Z] ∀[a] a∈Z ⇔ (∃[x] x∈X ∧ a≐(F x))❙
+❚
+
+// AS: just an idea. Probably I'll have to change this❚
+theory RightUnique =
+	// AS: in general there could be the option that y is either unique or non-existent.
+			Right now I can neglect this❙
+	isrightunique = [x,Y,P: set ⟶ set ⟶ prop] ∃¹[y] y∈Y ∧ P x y❙
 ❚
 
 theory SingletonDefinition =
