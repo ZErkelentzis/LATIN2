@@ -2,7 +2,14 @@ namespace latin:/❚
 
 fixmeta ?SetFOL❚
 
-// AS: rework (letters etc.)❚
+// TODO:
+	- rework this file (letters, precs, ...)
+	- think about whether this has to be dependent on ZF
+	- check whether everything is right
+	- check if I need to formalize some more
+	- check if I formalized unnecessary stuff
+	- add proofs
+❚
 
 theory ZFTyped =
   include ?ZFBase❙
@@ -10,26 +17,30 @@ theory ZFTyped =
   // Class P is the class of all sets satisfying P❙
   Class : (set ⟶ prop) ⟶ type❙
   celem : {P,X} ⊦ P X ⟶ Class P❙
-  cwhich : {P} Class P ⟶ set❘# cwhich 2❙
-  cwhy : {P,X:Class P} ⊦ (P (cwhich X))❘ # cwhy 2❙ 
+  cwhich : {P} Class P ⟶ set❘# cwhich 2 prec 40❙
+  cwhy : {P,X:Class P} ⊦ (P (cwhich X))❘# cwhy 2❙ 
 
   // rules for Classes❙
   // A term with a proof is equal to the original term❙
-  ceq_which : {P,X,p} ⊦(cwhich (celem P X p)) ≐ X❙
+  ceq_which : {P,X,p} ⊦ (cwhich (celem P X p)) ≐ X❙
   // Elements of classes are equal if their first components are (proof irrelevance)❙
-  EqcongEl : {P,X,Y,f: Class P ⟶ prop} ⊦ ((cwhich X) ≐ (cwhich Y)) ⟶ ⊦ f X ⟶ ⊦ f Y❙
+  EqcongEl : {P,X,Y,f: Class P ⟶ prop} ⊦ (cwhich X ≐ cwhich Y) ⟶ ⊦ f X ⟶ ⊦ f Y❙
   
   // Elem❙
   Elem : set ⟶ type❘ = [X] Class [x] x∈X❙
-  elem : {X}{x} ⊦ x∈X ⟶ Elem X❘
+  elem : {X,x} ⊦ x∈X ⟶ Elem X❘
   	= [X,x,p] celem ([y] y∈X) x p❙
-  which : {X} Elem X ⟶ set❘# which 2❘
+  which : {X} Elem X ⟶ set❘# which 2 prec 40❘
   	= [X,x] cwhich x❙
   why : {X,x:Elem X} ⊦ (which x)∈X❘# why 2❘
   	= [X,x] cwhy x❙
-  eqwhich : {A}{X}{P} ⊦ (which (elem A X P)) ≐ X❙
+  eq_which : {A,X,P} ⊦ (which (elem A X P)) ≐ X❙
   
-  // Typed equality → already exists in LATIN2! Import?❙
+  // AS: Typed equality → already exists in LATIN2! Import?❙
   Eq : {X} Elem X ⟶ Elem X ⟶ prop❘
-  		= [X,Y,Z] ((which Y) ≐ (which Z))❙ 
+  		= [X,Y,Z] ((which Y) ≐ (which Z))❙
+  EqcongEr : {P,X,Y,f: Class P ⟶ prop} ⊦ (cwhich X ≐ cwhich Y) ⟶ ⊦ f Y ⟶ ⊦ f X❘
+  		= [P,X,Y,f,p,q] EqcongEl P Y X f (eq/sym p) q❙
+  EqcongF : {P,X,Y,f: Class P ⟶ set} ⊦ (cwhich X ≐ cwhich Y) ⟶ ⊦ (f X) ≐ (f Y)❙
+  EqCongF : {P,Q,X,Y,f: Class P ⟶ Class Q} ⊦ (cwhich X ≐ cwhich Y) ⟶ ⊦ (cwhich (f X) ≐ cwhich (f Y))❙
 ❚
