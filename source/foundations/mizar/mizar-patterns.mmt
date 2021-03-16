@@ -3,74 +3,103 @@ namespace latin:/ ❚
 import rules scala://mmtwrapper.newxml.mizar.mmt.kwarc.info ❚
 
 theory MizarPatterns : ?HIDDEN =
-	consistencyTpDirTmres: {n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ term)^m} type ❘ = [n, argTps, m, cases, caseRes] {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ ⊦ 
+	consistencyDirectPartFuncDef: {n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ term)^m} type ❘ = [n, argTps, m, cases, caseRes] {argumentSequence:term^n, p: ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩} ⊦ 
 						nary_and m ⟨' (cases..j) argumentSequence ⇒ nary_and m ⟨' (cases..k) argumentSequence ⇒ (caseRes..j) argumentSequence ≐ (caseRes..k) argumentSequence | k:m '⟩ | j:m '⟩ ❙
-	consistencyTpIndirTmres: {n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^(succ n) ⟶ prop)^m} type ❘ = [n, argTps, m, cases, caseRes] {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ ⊦ 
+	consistencyIndirectPartFuncDef: {n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^(succ n) ⟶ prop)^m} type ❘ = [n, argTps, m, cases, caseRes] {argumentSequence:term^n, p: ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩} ⊦ 
 						nary_and m ⟨' (cases..j) argumentSequence ⇒ nary_and m ⟨' (cases..k) argumentSequence ⇒ forall [y] (caseRes..j) ⟨ argumentSequence, y ⟩ ⇔ (caseRes..k) ⟨ argumentSequence, y ⟩ | k:m '⟩ | j:m '⟩ ❙
-	consistencyTpDirPropres: {n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ prop)^m} type ❘ = [n, argTps, m, cases, caseRes] {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ ⊦ 
+	consistencyDirectPartPredAttrDef: {n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ prop)^m} type ❘ = [n, argTps, m, cases, caseRes] {argumentSequence:term^n, p: ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩} ⊦ 
 						nary_and m ⟨' (cases..j) argumentSequence ⇒ nary_and m ⟨' (cases..k) argumentSequence ⇒ (caseRes..j) argumentSequence ⇔ (caseRes..k) argumentSequence | k:m '⟩ | j:m '⟩ ❙
-	consistencyTpIndirPropres: {n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^(succ n) ⟶ prop)^m} type ❘ = [n, argTps, m, cases, caseRes] {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ ⊦ 
+	consistencyIndirectPartPredAttrDef: {n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^(succ n) ⟶ prop)^m} type ❘ = [n, argTps, m, cases, caseRes] {argumentSequence:term^n, p: ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩} ⊦ 
 						nary_and m ⟨' (cases..j) argumentSequence ⇒ nary_and m ⟨' (cases..k) argumentSequence ⇒ forall [y] (caseRes..j) ⟨ argumentSequence, y ⟩ ⇔ (caseRes..k) ⟨ argumentSequence, y ⟩ | k:m '⟩ | j:m '⟩ ❙
-	consistencyTpDirModeres: {n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ term ⟶ prop)^m} type ❘ = [n, argTps, m, cases, caseRes] {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ ⊦ 
+	consistencyDirectPartModeDef: {n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ term ⟶ prop)^m} type ❘ = [n, argTps, m, cases, caseRes] {argumentSequence:term^n, p: ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩} ⊦ 
 						nary_and m ⟨' (cases..j) argumentSequence ⇒ nary_and m ⟨' (cases..k) argumentSequence ⇒ forall [s] (caseRes..j) argumentSequence s ⇔ (caseRes..k) argumentSequence s | k:m '⟩ | j:m '⟩ ❙
-	pattern directPartFuncDef(n:NAT, argTps:(term^n ⟶ tp)^n, ret:tp, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ term)^m, consistencyProof: consistencyTpDirTmres n argTps m cases caseRes, defRes: term^n ⟶ term) ❘ =
-    funct: term^n ⟶ term ❙
-		rtype: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ ⊦ funct argumentSequence ⦂ ret ❙
+	consistencyIndirectPartModeDef: {n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ (term ⟶ prop) ⟶ prop)^m} type ❘ = [n, argTps, m, cases, caseRes] {argumentSequence:term^n, p: ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩} ⊦ 
+						nary_and m ⟨' (cases..j) argumentSequence ⇒ nary_and m ⟨' (cases..k) argumentSequence ⇒ for set [modeElems] (caseRes..j) argumentSequence ([x:term] x in modeElems) ⇔ (caseRes..k) argumentSequence ([x:term] x in modeElems) | k:m '⟩ | j:m '⟩ ❙
+	existenceDirectComplModeDef: {n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ term ⟶ prop)^m} type ❘ = [n, argTps, m, cases, caseRes] {argumentSequence:term^n, p: ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩} ⊦ 
+						nary_and m ⟨' (cases..j) argumentSequence ⇒ ∃ [y] (caseRes..j) argumentSequence y | j:m '⟩ ❙
+	existenceDirectPartModeDef: {n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ term ⟶ prop)^m, defRes: term^n ⟶ term ⟶ prop} type ❘ = [n, argTps, m, cases, caseRes, defRes] {argumentSequence:term^n, p: ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩} ⊦ 
+						nary_and m ⟨' (cases..j) argumentSequence ⇒ ∃ [y] (caseRes..j) argumentSequence y | j:m '⟩ ∧ (nary_and m ⟨' ¬ (cases..k) argumentSequence | k:m '⟩ ⇒ ∃ [y] defRes argumentSequence y) ❙
+	existenceIndirectComplModeDef: {n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ (term ⟶ prop) ⟶ prop)^m} type ❘ = [n, argTps, m, cases, caseRes] {argumentSequence:term^n, p: ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩} ⊦ 
+						nary_and m ⟨' (cases..j) argumentSequence ⇒ ∃ [y] for set [modeElems] (caseRes..j) argumentSequence ([x:term] x in modeElems) ⇒ y in modeElems | j:m '⟩ ❙
+	existenceIndirectPartModeDef: {n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ (term ⟶ prop) ⟶ prop)^m, defRes: term^n ⟶ (term ⟶ prop) ⟶ prop} type ❘ = [n, argTps, m, cases, caseRes, defRes] {argumentSequence:term^n, p: ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩} ⊦ 
+						nary_and m ⟨' (cases..j) argumentSequence ⇒ ∃ [y] for set [modeElems] (caseRes..j) argumentSequence ([x:term] x in modeElems) ⇒ y in modeElems | j:m '⟩ ∧ (nary_and m ⟨' ¬ (cases..k) argumentSequence | k:m '⟩ ⇒ ∃ [y] for set [modeElems] defRes argumentSequence ([x:term] x in modeElems) ⇒ y in modeElems) ❙
+	coherenceDirectComplFuncDef: {n:NAT, argTps:(term^n ⟶ tp)^n, ret: tp, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ term)^m} type ❘ = [n, argTps, ret, m, cases, caseRes] {argumentSequence:term^n, p: ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩} ⊦ 
+						nary_and m ⟨' (cases..j) argumentSequence ⇒ (caseRes..j) argumentSequence ⦂ ret | j:m '⟩ ❙
+	coherenceDirectPartFuncDef: {n:NAT, argTps:(term^n ⟶ tp)^n, ret: tp, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ term)^m, defRes: term^n ⟶ term} type ❘ = [n, argTps, ret, m, cases, caseRes, defRes] {argumentSequence:term^n, p: ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩} ⊦ 
+						nary_and m ⟨' (cases..j) argumentSequence ⇒ (caseRes..j) argumentSequence ⦂ ret | j:m '⟩ ∧ (nary_and m ⟨' ¬ (cases..k) argumentSequence | k:m '⟩ ⇒ defRes argumentSequence ⦂ ret) ❙
+  existenceIndirectComplFuncDef: {n:NAT, argTps:(term^n ⟶ tp)^n, ret: tp, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^(succ n) ⟶ prop)^m} type ❘ = [n, argTps, ret, m, cases, caseRes] {argumentSequence:term^n, p: ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩} ⊦ 
+						ex ret [res] (nary_and m ⟨' (cases..j) argumentSequence ⇒ (caseRes..j) ⟨argumentSequence, res⟩ | j:m '⟩) ❙
+	existenceIndirectPartFuncDef: {n:NAT, argTps:(term^n ⟶ tp)^n, ret: tp, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^(succ n) ⟶ prop)^m, defRes: term^(succ n) ⟶ prop} type ❘ = [n, argTps, ret, m, cases, caseRes, defRes] {argumentSequence:term^n, p: ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩} ⊦ 
+						ex ret [res] (nary_and m ⟨' (cases..j) argumentSequence ⇒ (caseRes..j) ⟨argumentSequence, res⟩ | j:m '⟩ ∧ (nary_and m ⟨' ¬ (cases..k) argumentSequence | k:m '⟩ ⇒ defRes ⟨argumentSequence, res⟩)) ❙
+	uniquenessIndirectComplFuncDef: {n:NAT, argTps:(term^n ⟶ tp)^n, ret: tp, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^(succ n) ⟶ prop)^m} type ❘ = [n, argTps, ret, m, cases, caseRes] {argumentSequence:term^n, p: ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩} ⊦ 
+						for ret [a] (nary_and m ⟨' (cases..j) argumentSequence ⇒ (caseRes..j) ⟨argumentSequence, a⟩ | j:m '⟩) ⇒ for ret [b] (nary_and m ⟨' (cases..j) argumentSequence ⇒ (caseRes..j) ⟨argumentSequence, b⟩ | j:m '⟩) ⇒ a ≐ b ❙
+	uniquenessIndirectPartFuncDef: {n:NAT, argTps:(term^n ⟶ tp)^n, ret: tp, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^(succ n) ⟶ prop)^m, defRes: term^(succ n) ⟶ prop} type ❘ = [n, argTps, ret, m, cases, caseRes, defRes] {argumentSequence:term^n, p: ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩} ⊦ 
+						for ret [a] (nary_and m ⟨' (cases..j) argumentSequence ⇒ (caseRes..j) ⟨argumentSequence, a⟩ | j:m '⟩ ∧ (nary_and m ⟨' ¬ (cases..k) argumentSequence | k:m '⟩ ⇒ defRes ⟨argumentSequence, a⟩)) ⇒ for ret [b] (nary_and m ⟨' (cases..j) argumentSequence ⇒ (caseRes..j) ⟨argumentSequence, b⟩ | j:m '⟩ ∧ (nary_and m ⟨' ¬ (cases..k) argumentSequence | k:m '⟩ ⇒ defRes ⟨argumentSequence, b⟩)) ⇒ a ≐ b ❙
+	existenceExistRegistration: {n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, t:term^n ⟶ tp, a: (dep_typed_attr n t)^m} type ❘ = [n, argTps, m, t, a] {argumentSequence:term^n, p: ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩} ⊦ ∃ [y] y ⦂ (a @ t) ❙
+	coherenceCondRegistration: {n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, t:term^n ⟶ tp, a: (dep_typed_attr n t)^m, q: NAT, b: (dep_typed_attr n t)^q} type ❘ = [n, argTps, m, t, a, q, b] {argumentSequence:term^n, p: ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩} ⊦ ∀ [y] y ⦂ (a @ t) ⇒ y ⦂ (b @ t) ❙
+	coherenceQualFuncRegistration: {n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, t:term^n ⟶ tp, tm:term^n ⟶ term, a: (dep_typed_attr n t)^m} type ❘ = [n, argTps, m, t, tm, a] {argumentSequence:term^n, p: ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩} ⊦ (tm argumentSequence) ⦂ (t argumentSequence) ⟶ ⊦ tm argumentSequence ⦂ (a @ t) ❙
+	coherenceUnqualFuncRegistration: {n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, t:term^n ⟶ tp, tm:term^n ⟶ term, a: (dep_typed_attr n t)^m} type ❘ = [n, argTps, m, t, tm, a] {argumentSequence:term^n, p: ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩} ⊦ tm argumentSequence ⦂ (a @ t) ❙
+	compatibilityIdentify: {n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, a:(term^n ⟶ term)^m, b: (term^n ⟶ term)^m, c:term^n ⟶ term, d: term^n ⟶ term}type ❘ = [n, argTps, m, a, b, c, d] {argumentSequence:term^n, p: ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩} ⊦ nary_and m ⟨' ((a..j) argumentSequence ≐ (b..j) argumentSequence) | j:m '⟩ ⟶ ⊦ c argumentSequence ≐ d argumentSequence ❙
+
+	/T axiomatise a direct partial functor definition
+    n and argTps correspond to the number and types of the arguments,
+    ret to the return type of the functor, m and cases to the number of cases and cases in the definition,
+    caseRes to the definitions in those cases, consistencyProof is a proof of consistency of the caseRes, 
+    defRes the default case definition and coherenceProof a proof that the definition coheres to the return type ret ❙
+	pattern directPartFuncDef(n:NAT, argTps:(term^n ⟶ tp)^n, ret:tp, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ term)^m, consistencyProof: consistencyDirectPartFuncDef n argTps m cases caseRes, defRes: term^n ⟶ term, coherenceProof: coherenceDirectPartFuncDef n argTps ret m cases caseRes defRes) ❘ =
+    funct: term^n ⟶ term ❘ role mainDecl ❙
 		consistency = consistencyProof ❙
-		means: {argumentSequence:term^n} ⟨' ⊦ (argumentSequence..i) ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ ⊦ 
+		coherence = coherenceProof ❙
+		means: {argumentSequence:term^n, p: ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩} ⊦ 
 						nary_and m ⟨' (cases..j) argumentSequence ⇒ funct argumentSequence ≐ (caseRes..j) argumentSequence | j:m '⟩
 						∧  (nary_and m ⟨' ¬ (cases..k) argumentSequence | k:m '⟩ ⇒ (funct argumentSequence) ≐ defRes argumentSequence) ❙
+		rtype: {argumentSequence:term^n, p:⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩} ⊦ funct argumentSequence ⦂ ret ❙
   ❚
-	pattern indirectPartFuncDef(n:NAT, argTps:(term^n ⟶ tp)^n, ret:tp, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^(succ n) ⟶ prop)^m, consistencyProof: consistencyTpIndirTmres n argTps m cases caseRes, defRes: term^(succ n) ⟶ prop) ❘ =
-    funct: term^n ⟶ term❙
+	pattern indirectPartFuncDef(n:NAT, argTps:(term^n ⟶ tp)^n, ret:tp, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^(succ n) ⟶ prop)^m, consistencyProof: consistencyIndirectPartFuncDef n argTps m cases caseRes, defRes: term^(succ n) ⟶ prop, existenceProof: existenceIndirectPartFuncDef n argTps ret m cases caseRes defRes, uniquenessProof: uniquenessIndirectPartFuncDef n argTps ret m cases caseRes defRes) ❘ =
+    funct: term^n ⟶ term ❘ role mainDecl ❙
 		rtype: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ ⊦ (funct argumentSequence) ⦂ ret ❙
 		consistency = consistencyProof ❙
+		existence = existenceProof ❙
+		uniqueness = uniquenessProof ❙
 		means: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ ⊦ 
 						nary_and m ⟨' (cases..j) argumentSequence ⇒ (caseRes..j) ⟨ argumentSequence, (funct argumentSequence) ⟩ | j:m '⟩
 						∧  nary_and m ⟨' ¬ (cases..k) argumentSequence | k:m '⟩ ⇒ defRes ⟨ argumentSequence, funct argumentSequence ⟩ ❙
   ❚
-	pattern directComplFuncDef(n:NAT, argTps:(term^n ⟶ tp)^n, ret:tp, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ term)^m, consistencyProof: consistencyTpDirTmres n argTps m cases caseRes) ❘ =
-    funct: term^n ⟶ term❙
+	pattern directComplFuncDef(n:NAT, argTps:(term^n ⟶ tp)^n, ret:tp, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ term)^m, coherenceProof: coherenceDirectComplFuncDef n argTps ret m cases caseRes) ❘ =
+    funct: term^n ⟶ term ❘ role mainDecl ❙
 		rtype: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ ⊦ (funct argumentSequence) ⦂ ret ❙
-		consistency = consistencyProof ❙
+		coherence = coherenceProof ❙
 		means: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ ⊦ 
 						nary_and m ⟨' (cases..j) argumentSequence ⇒ funct argumentSequence ≐ (caseRes..j) argumentSequence | j:m '⟩ ❙
 		completeness: {argumentSequence:term^n} ⟨' ⊦ (argumentSequence..i) ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ ⊦
 						nary_or m ⟨' (cases..j) argumentSequence | j:m '⟩ ❙
   ❚
-	pattern indirectComplFuncDef(n:NAT, argTps:(term^n ⟶ tp)^n, ret:tp, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^(succ n) ⟶ prop)^m, consistencyProof: consistencyTpIndirTmres n argTps m cases caseRes) ❘ =
-    funct: term^n ⟶ term❙
+	pattern indirectComplFuncDef(n:NAT, argTps:(term^n ⟶ tp)^n, ret:tp, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^(succ n) ⟶ prop)^m, existenceProof: existenceIndirectComplFuncDef n argTps ret m cases caseRes, uniquenessProof: uniquenessIndirectComplFuncDef n argTps ret m cases caseRes) ❘ =
+    funct: term^n ⟶ term ❘ role mainDecl ❙
 		rtype: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ ⊦ (funct argumentSequence) ⦂ ret ❙
-		consistency = consistencyProof ❙
+		existence = existenceProof ❙
+		uniqueness = uniquenessProof ❙
 		means: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ ⊦ 
 						nary_and m ⟨' (cases..j) argumentSequence ⇒ (caseRes..j) ⟨ argumentSequence, (funct argumentSequence) ⟩ | j:m '⟩ ❙
 		completeness: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ ⊦
 						nary_or m ⟨' (cases..j) argumentSequence | j:m '⟩ ❙
   ❚
-	pattern directPartPredDef(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ prop)^m, consistencyProof: consistencyTpDirPropres n argTps m cases caseRes, defRes: term^n ⟶ prop) ❘ =
-    pred: term^n ⟶ prop ❙
+	pattern directPartPredDef(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ prop)^m, consistencyProof: consistencyDirectPartPredAttrDef n argTps m cases caseRes, defRes: term^n ⟶ prop) ❘ =
+    pred: term^n ⟶ prop ❘ role mainDecl ❙
 		consistency = consistencyProof ❙
 		means: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ ⊦ 
 						nary_and m ⟨' (cases..j) argumentSequence ⇒ (pred argumentSequence) ⇔ (caseRes..j) argumentSequence | j:m '⟩
 						∧  nary_and m ⟨' ¬ (cases..k) argumentSequence | k:m '⟩ ⇒ pred argumentSequence ⇔ defRes argumentSequence ❙
   ❚
-	pattern directComplPredDef(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ prop)^m, consistencyProof: consistencyTpDirPropres n argTps m cases caseRes) ❘ =
-    pred: term^n ⟶ prop ❙
-		consistency = consistencyProof ❙
+	pattern directComplPredDef(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ prop)^m) ❘ =
+    pred: term^n ⟶ prop ❘ role mainDecl ❙
 		means: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ ⊦ 
 						nary_and m ⟨' (cases..i) argumentSequence ⇒ (pred argumentSequence) ⇔ (caseRes..i) argumentSequence | i:m '⟩ ❙
 		completeness: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ ⊦
 						nary_or m ⟨' (cases..i) argumentSequence | i:m '⟩ ❙
   ❚
-	pattern directPartAttrDef(n:NAT,
-	    argTps:(term^n ⟶ tp)^n,
-	    motherTp:term^n ⟶ tp,
-	    m:NAT,
-	    cases:(term^n ⟶ prop)^m,
-			caseRes:(term^n ⟶ prop)^m,
-			consistencyProof: consistencyTpDirPropres n argTps m cases caseRes,
-			defRes: term^n ⟶ prop) ❘ =
-    attribute: {argumentSequence: term^n} attr (motherTp argumentSequence) ❙
+	pattern directPartAttrDef(n:NAT, argTps:(term^n ⟶ tp)^n, motherTp:term^n ⟶ tp, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ prop)^m, consistencyProof: consistencyDirectPartPredAttrDef n argTps m cases caseRes, defRes: term^n ⟶ prop) ❘ =
+    attribute: {argumentSequence: term^n} attr (motherTp argumentSequence) ❘ role mainDecl ❙
 		mtype: {argumentSequence:term^n, p: ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩} ⊦ 
 		   forall [y] y ⦂ adjective (motherTp argumentSequence) (attribute argumentSequence) ⇒ y ⦂ motherTp argumentSequence ❙
 		consistency = consistencyProof ❙
@@ -78,24 +107,16 @@ theory MizarPatterns : ?HIDDEN =
 						nary_and m ⟨' (cases..j) argumentSequence ⇒ forall [y] attribute argumentSequence y ⇔ (caseRes..j) ⟨ argumentSequence, y ⟩ | j:m '⟩
 						∧  nary_and m ⟨' ¬ (cases..k) argumentSequence | k:m '⟩ ⇒ forall [y] attribute argumentSequence y ⇔ defRes ⟨ argumentSequence, y ⟩ ❙
   ❚
-	pattern directComplAttrDef(n:NAT, argTps:(term^n ⟶ tp)^n, motherTp:(term^n ⟶ tp), m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ prop)^m, consistencyProof: consistencyTpDirPropres n argTps m cases caseRes) ❘ =
-    attribute: {argumentSequence:term^n} term ⟶ prop ❙
+	pattern directComplAttrDef(n:NAT, argTps:(term^n ⟶ tp)^n, motherTp:(term^n ⟶ tp), m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ prop)^m) ❘ =
+    attribute: {argumentSequence:term^n} term ⟶ prop ❘ role mainDecl ❙
 		mtype: {argumentSequence:term^n} {p: ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩} ⊦ forall [y] y ⦂ adjective (motherTp argumentSequence) (attribute argumentSequence) ⇒ y ⦂ (motherTp argumentSequence) ❙
-		consistency = consistencyProof ❙
 		means: {argumentSequence:term^n} {p: ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩} ⊦ 
 						nary_and m ⟨' (cases..j) argumentSequence ⇒ forall [y] attribute argumentSequence y ⇔ (caseRes..j) ⟨ argumentSequence, y ⟩ | j:m '⟩ ❙
 		completeness: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ ⊦
 						nary_or m ⟨' (cases..j) argumentSequence | j:m '⟩ ❙
   ❚
-	pattern indirectPartAttrDef(n:NAT,
-	    argTps:(term^n ⟶ tp)^n,
-	    motherTp:term^n ⟶ tp,
-	    m:NAT,
-	    cases:(term^n ⟶ prop)^m,
-			caseRes:(term^(succ n) ⟶ prop)^m, 
-			consistencyProof: consistencyTpIndirPropres n argTps m cases caseRes,
-			defRes: term^(succ n) ⟶ prop) ❘ =
-    attribute: {argumentSequence: term^n} attr (motherTp argumentSequence) ❙
+	pattern indirectPartAttrDef(n:NAT, argTps:(term^n ⟶ tp)^n, motherTp:term^n ⟶ tp, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^(succ n) ⟶ prop)^m, consistencyProof: consistencyIndirectPartPredAttrDef n argTps m cases caseRes, defRes: term^(succ n) ⟶ prop) ❘ =
+    attribute: {argumentSequence: term^n} attr (motherTp argumentSequence) ❘ role mainDecl ❙
 		mtype: {argumentSequence:term^n, p: ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩} ⊦ 
 		   forall [y] y ⦂ adjective (motherTp argumentSequence) (attribute argumentSequence) ⇒ y ⦂ motherTp argumentSequence ❙
 		consistency = consistencyProof ❙
@@ -103,48 +124,45 @@ theory MizarPatterns : ?HIDDEN =
 						(nary_and m ⟨' (cases..j) argumentSequence ⇒ forall [y] y ⦂ adjective (motherTp argumentSequence) (attribute argumentSequence) ⇔ (caseRes..j) ⟨ argumentSequence, y ⟩ | j:m '⟩)
 						∧  nary_and m ⟨' ¬ (cases..k) argumentSequence | k:m '⟩ ⇒ forall [y] y ⦂ adjective (motherTp argumentSequence) (attribute argumentSequence) ⇔ defRes ⟨ argumentSequence, y ⟩ ❙
   ❚
-	pattern indirectComplAttrDef(n:NAT, argTps:(term^n ⟶ tp)^n, motherTp:(term^n ⟶ tp), m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^(succ n) ⟶ prop)^m, consistencyProof: consistencyTpIndirPropres n argTps m cases caseRes) ❘ =
-    attribute: {argumentSequence:term^n} term ⟶ prop ❙
+	pattern indirectComplAttrDef(n:NAT, argTps:(term^n ⟶ tp)^n, motherTp:(term^n ⟶ tp), m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^(succ n) ⟶ prop)^m) ❘ =
+    attribute: {argumentSequence:term^n} term ⟶ prop ❘ role mainDecl ❙
 		mtype: {argumentSequence:term^n} {p: ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩} ⊦ forall [y] y ⦂ (adjective (motherTp argumentSequence) (attribute argumentSequence)) ⇒ y ⦂ (motherTp argumentSequence) ❙
-		consistency = consistencyProof ❙
 		means: {argumentSequence:term^n} {p: ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩} ⊦ 
 						nary_and m ⟨' (cases..j) argumentSequence ⇒ forall [y] y ⦂ adjective (motherTp argumentSequence) (attribute argumentSequence) ⇔ (caseRes..j) ⟨ argumentSequence, y ⟩ | j:m '⟩ ❙
 		completeness: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ ⊦
 						(nary_or m ⟨' (cases..j) argumentSequence | j:m '⟩) ❙
   ❚
-	pattern directPartModeDef(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ term ⟶ prop)^m, consistencyProof: consistencyTpDirModeres n argTps m cases caseRes, defRes: term^n ⟶ term ⟶ prop) ❘ =
-    mode: term^n ⟶ term ⟶ prop ❙
+	pattern directPartModeDef(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ term ⟶ prop)^m, consistencyProof: consistencyDirectPartModeDef n argTps m cases caseRes, defRes: term^n ⟶ term ⟶ prop, existenceProof: existenceDirectPartModeDef n argTps m cases caseRes defRes) ❘ =
+    mode: term^n ⟶ term ⟶ prop ❘ role mainDecl ❙
 		madeMode: term^n ⟶ tp ❘ = [argumentSequence] makeMode (mode argumentSequence) ❙
 		consistency = consistencyProof ❙
+		existence = existenceProof ❙
 		means: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ ⊦ 
 						nary_and m ⟨' (cases..j) argumentSequence ⇒ forall [y] mode argumentSequence y ⇔ (caseRes..j) argumentSequence y | j:m '⟩
 						∧  nary_and m ⟨' ¬ (cases..k) argumentSequence | k:m '⟩ ⇒ forall [y] mode argumentSequence y ⇔  defRes argumentSequence y ❙
   ❚
-  /T Here we can't give consistencyProof the correct type 
-  {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ ⊦ 
-						nary_and m ⟨' (cases..j) argumentSequence ⇒ nary_and m ⟨' (cases..k) argumentSequence ⇒ (caseRes..j) argumentSequence (mode argumentSequence) ⇔ (caseRes..k) argumentSequence (mode argumentSequence) | k:m '⟩ | j:m '⟩
-		since that would require a forward reference to the external declaration mode. ❙
-	pattern indirectPartModeDef(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ (term ⟶ prop) ⟶ prop)^m, consistencyProof: type, defRes: term^n ⟶ (term ⟶ prop) ⟶ prop) ❘ =
-    mode: term^n ⟶ term ⟶ prop ❙
+	pattern indirectPartModeDef(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ (term ⟶ prop) ⟶ prop)^m, consistencyProof: consistencyIndirectPartModeDef n argTps m cases caseRes, defRes: term^n ⟶ (term ⟶ prop) ⟶ prop, existenceProof: existenceIndirectPartModeDef n argTps m cases caseRes defRes) ❘ =
+    mode: term^n ⟶ term ⟶ prop ❘ role mainDecl ❙
 		madeMode: term^n ⟶ tp ❘ = [argumentSequence] makeMode (mode argumentSequence) ❙
 		consistency	= consistencyProof ❙
+		existence = existenceProof ❙
 		means: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ ⊦ 
 						nary_and m ⟨' (cases .. j) argumentSequence ⇒ (caseRes..j) argumentSequence (mode argumentSequence) | j:m '⟩
 						∧  nary_and m ⟨' ¬ (cases..k) argumentSequence | k:m '⟩ ⇒ defRes argumentSequence (mode argumentSequence) ❙
   ❚
-	pattern directComplModeDef(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ term ⟶ prop)^m, consistencyProof: consistencyTpDirModeres n argTps m cases caseRes) ❘ =
-    mode: term^n ⟶ term ⟶ prop ❙
+	pattern directComplModeDef(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ term ⟶ prop)^m, consistencyProof: consistencyDirectPartModeDef n argTps m cases caseRes, existenceProof: existenceDirectComplModeDef n argTps m cases caseRes) ❘ =
+    mode: term^n ⟶ term ⟶ prop ❘ role mainDecl ❙
 		madeMode: term^n ⟶ tp ❘ = [argumentSequence] makeMode (mode argumentSequence) ❙
-		consistency = consistencyProof ❙
+		existence = existenceProof ❙
 		means: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ ⊦ 
 						nary_and m ⟨' (cases..j) argumentSequence ⇒ forall [y] mode argumentSequence y ⇔ (caseRes..j) argumentSequence y | j:m '⟩ ❙
 		completeness: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ ⊦
 						nary_or m ⟨' (cases..j) argumentSequence | j:m '⟩ ❙
   ❚
-	pattern indirectComplModeDef(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ (term ⟶ prop) ⟶ prop)^m, consistencyProof: type) ❘ =
-    mode: term^n ⟶ term ⟶ prop ❙
+	pattern indirectComplModeDef(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ (term ⟶ prop) ⟶ prop)^m, existenceProof: existenceIndirectComplModeDef n argTps m cases caseRes) ❘ =
+    mode: term^n ⟶ term ⟶ prop ❘ role mainDecl ❙
 		madeMode: term^n ⟶ tp ❘ = [argumentSequence] makeMode (mode argumentSequence) ❙
-		consistency =  consistencyProof ❙
+		existence = existenceProof ❙
 		means: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ ⊦ 
 						nary_and m ⟨' (cases..j) argumentSequence ⇒ (caseRes..j) argumentSequence (mode argumentSequence) | j:m '⟩ ❙
 		completeness: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ ⊦
@@ -159,20 +177,20 @@ theory MizarPatterns : ?HIDDEN =
 	pattern antonymicNotation(n:NAT, argTps:(term^n ⟶ tp)^n, v: term^n ⟶ prop) ❘ =
   	notation: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ prop ❘ = [argumentSequence] [p] ¬ (v argumentSequence) ❙
   ❚
-	pattern existRegistration(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, t:term^n ⟶ tp, a: (dep_typed_attr n t)^m) ❘ =
-  	registration: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ ⊦ ∃ [y] y ⦂ (a @ t) ❙
+	pattern existRegistration(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, t:term^n ⟶ tp, a: (dep_typed_attr n t)^m, existenceProof: existenceExistRegistration n argTps m t a) ❘ =
+  	registration: {argumentSequence:term^n, p: ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩} ⊦ ∃ [y] y ⦂ (a @ t) ❘ = existenceProof ❙
   ❚
-	pattern condRegistration(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, t:term^n ⟶ tp, a: (dep_typed_attr n t)^m, p: NAT, b: (dep_typed_attr n t)^p) ❘ =
-  	registration: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ ⊦ ∀ [y] y ⦂ (a @ t) ⇒ y ⦂ (b @ t) ❙
+	pattern condRegistration(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, t:term^n ⟶ tp, a: (dep_typed_attr n t)^m, p: NAT, b: (dep_typed_attr n t)^p, coherenceProof: coherenceCondRegistration n argTps m t a p b) ❘ =
+  	registration: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ ⊦ ∀ [y] y ⦂ (a @ t) ⇒ y ⦂ (b @ t) ❘ = coherenceProof ❙
 	❚
-	pattern unqualFuncRegistration(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, t: term^n ⟶ tp, tm:term^n ⟶ term, a: (dep_typed_attr n t)^m) ❘ =
-  	registration: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ ⊦ tm argumentSequence ⦂ (a @ t) ❙
+	pattern unqualFuncRegistration(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, t: term^n ⟶ tp, tm:term^n ⟶ term, a: (dep_typed_attr n t)^m, coherenceProof: coherenceUnqualFuncRegistration n argTps m t tm a) ❘ =
+  	registration: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ ⊦ tm argumentSequence ⦂ (a @ t) ❘ = coherenceProof ❙
   ❚
-	pattern qualFuncRegistration(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, t:term^n ⟶ tp, tm:term^n ⟶ term, a: (dep_typed_attr n t)^m) ❘ =
-  	registration: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ ⊦ tm argumentSequence ⦂ t argumentSequence ⟶ ⊦ tm argumentSequence ⦂ (a @ t) ❙
+	pattern qualFuncRegistration(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, t:term^n ⟶ tp, tm:term^n ⟶ term, a: (dep_typed_attr n t)^m, coherenceProof: coherenceQualFuncRegistration n argTps m t tm a) ❘ =
+  	registration: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ ⊦ tm argumentSequence ⦂ t argumentSequence ⟶ ⊦ tm argumentSequence ⦂ (a @ t) ❘ = coherenceProof ❙
   ❚
-	pattern identify(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, a:(term^n ⟶ term)^m, b: (term^n ⟶ term)^m, c:term^n ⟶ term, d: term^n ⟶ term) ❘ =
-  	registration: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ ⊦ nary_and m ⟨' ((a..j) argumentSequence ≐ (b..j) argumentSequence) | j:m '⟩ ⟶ ⊦ c argumentSequence ≐ d argumentSequence  ❘ role Simplify ❙
+	pattern identify(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, a:(term^n ⟶ term)^m, b: (term^n ⟶ term)^m, c:term^n ⟶ term, d: term^n ⟶ term, compatibilityProof: compatibilityIdentify n argTps m a b c d) ❘ =
+  	registration: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ ⊦ nary_and m ⟨' ((a..j) argumentSequence ≐ (b..j) argumentSequence) | j:m '⟩ ⟶ ⊦ c argumentSequence ≐ d argumentSequence  ❘ = compatibilityProof ❘ role Simplify ❙
   ❚
 
 	rule rules?MizarStructure ❙

@@ -1,4 +1,5 @@
 namespace latin:/ ❚
+import lfx http://gl.mathhub.info/MMT/LFX/TypedHierarchy ❚
 
 theory Mizar : ur:?LFS =
   include ?SoftTypedDefinedFOL ❙
@@ -52,7 +53,7 @@ theory Mizar : ur:?LFS =
 	// proofs ❙
 	// ded: prop ⟶ type ❘ # ⊦ 1 prec -5❘ ## ded 1 prec -5 ❙
 	/T Fold the ps over TacticsLF?use to give a definien for this ? ❙
-	using: {n, ps: prop^n, claim: prop} ⊦ claim ❘ # 3 using 2 ❙
+	using: {n, ps: type^n, claim: prop} ⊦ claim ❘ # 3 using 2 ❙
 	be: term ⟶ tp ⟶ type ❘= [x,a] ⊦ x ⦂ a ❘# 1 be 2 prec 50❙
 
   // propositional logic❙
@@ -175,16 +176,16 @@ theory HIDDEN : ?SoftTypedDefinedFOL =
    set : tp ❙
    set_ax : {X:term} ⊦ X ⦂ set ❙
 	 sethoot_property: {t:tp} type ❘ = [t] ⊦ for t [tm] (tm ⦂ t ⇒ tm ⦂ set) ❙
-	 commutativity_property: {f: term ⟶ term ⟶ term} type ❘ = [f] ⊦ for term [x] for term [y] (f x y ≐ f y x) ❙
-	 idempotence_property: {f: term ⟶ term ⟶ term} type ❘ = [f] ⊦ for term [x] (f x x ≐ x) ❙
-	 projectivity_property: {f: term ⟶ term} type ❘ = [f] ⊦ for term [x] (f ( f x) ≐ f x) ❙
-	 involutiveness_property: {f: term ⟶ term} type ❘ = [f] ⊦ for term [x] (f ( f x) ≐ x ❙
+	 commutativity_property: {f: term ⟶ term ⟶ term} type ❘ = [f] ⊦ ∀ [x] ∀ [y] (f x y ≐ f y x) ❙
+	 idempotence_property: {f: term ⟶ term ⟶ term} type ❘ = [f] ⊦ ∀ [x] (f x x ≐ x) ❙
+	 projectivity_property: {f: term ⟶ term} type ❘ = [f] ⊦ ∀ [x] (f ( f x) ≐ f x) ❙
+	 involutiveness_property: {f: term ⟶ term} type ❘ = [f] ⊦ ∀ [x] f ( f x) ≐ x ❙
 	 
-	 symmetry_property: {R: term ⟶ term ⟶ prop} type ❘ = [f] ⊦ for term [x] for term [y] (R x y ⇒ R y x) ❙
-	 assymmetry_property: {R: term ⟶ term ⟶ prop} type ❘ = [f] ⊦ for term [x] for term [y] (R x y ⇒ ¬ R y x) ❙
-	 connectedness_property: {R: term ⟶ term ⟶ prop} type ❘ = [f] ⊦ for term [x] for term [y] (R x y ∨ R y x) ❙
-	 reflexivity_property: {R: term ⟶ term ⟶ prop} type ❘ = [f] ⊦ for term [x] R x x ❙
-	 irreflexivity_property: {R: term ⟶ term ⟶ prop} type ❘ = [f] ⊦ for term [x] ¬ R x x ❙
+	 symmetry_property: {R: term ⟶ term ⟶ prop} type ❘ = [R] ⊦ ∀ [x] ∀ [y] (R x y ⇒ R y x) ❙
+	 assymmetry_property: {R: term ⟶ term ⟶ prop} type ❘ = [R] ⊦ ∀ [x] ∀ [y] (R x y ⇒ ¬ R y x) ❙
+	 connectedness_property: {R: term ⟶ term ⟶ prop} type ❘ = [R] ⊦ ∀ [x] ∀ [y] (R x y ∨ R y x) ❙
+	 reflexivity_property: {R: term ⟶ term ⟶ prop} type ❘ = [R] ⊦ ∀ [x] R x x ❙
+	 irreflexivity_property: {R: term ⟶ term ⟶ prop} type ❘ = [R] ⊦ ∀ [x] ¬ R x x ❙
 
    // set: type ❙
 
@@ -194,7 +195,7 @@ theory HIDDEN : ?SoftTypedDefinedFOL =
    // include ?InternalTypes ❙
    // be object -> be term -> prop❙
 		
-   in : term ⟶ term ⟶ prop❘# 1 in 2 prec 35❘## 1 ‍∈ 2 prec 35❙
+   in : term ⟶ term ⟶ prop ❘ # 1 in 2 prec 35❘ ## 1 ‍∈ 2 prec 35❙
 
    fraenkelE : {a : tp} {p : term ⟶ prop}{f : term ⟶ term}
      ⊦ for set [x] x in (fraenkel a p f) ⇒ ex a [y] p y ∧ f y ≐ x ❙
