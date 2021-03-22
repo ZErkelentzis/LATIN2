@@ -1,0 +1,116 @@
+namespace latin:/casestudies/comptrans/aritypoly ❚
+fixmeta ur:?LF ❚
+rule scala://parser.api.mmt.kwarc.info?MMTURILexer ❚
+
+/T Nat on meta-level instead of object-level makes it easier to use in Types theory below ❚
+theory Nat =
+  nat: type ❘ # ℕ ❙
+  z: ℕ ❙
+  s: ℕ ⟶ ℕ ❙
+  plus: ℕ ⟶ ℕ ⟶ ℕ ❘ # 1 + 2 ❙
+❚
+
+theory Types =
+  include ?Nat ❙
+  univ: ℕ ⟶ type ❙
+  tm: {n: ℕ} univ n ⟶ type ❘ # tm 2 ❙
+
+  /T _cast_ ty_p_es .❙
+  castp: {n} univ n ⟶ univ (s n) ❘ # 2↑ ❙
+  /T _cast_ ter_m_s . ❙
+  castm: {n,U: univ n} tm U ⟶ tm (castp U) ❘ # 3⇑ ❙
+
+  base: univ z ❙
+❚
+
+// id_{Types}: identity morphism, comptrans on nothing
+   built-in in MMT, hence not given
+
+   Basic Lemma yields:
+      true       ===> |- base : univ z
+❚
+
+/T comptrans on inclusion morphism Nat -> Types
+
+   Basic Lemma yields:
+      |- n : nat ===> |- base↑...↑ : univ n   (n uparrows)
+❚
+theory CumulativeTypeCasts =
+  include ?Types ❙
+
+  _N: ℕ ⟶ type ❘ = [n: ℕ] univ n ❙
+  _z: univ z ❘ = base ❙
+  _s: {n: ℕ, U: univ n} univ (s n) ❘ = [n,U] U↑ ❙
+❚
+
+/T comptrans on CumulativeTypeCasts
+
+   Basic Lemma yields:
+          |- n : nat  /\ |- _z : tm base
+     ===> |- _z⇑ : tm base↑...↑      (n uparrows)
+❚
+theory CumulativeTermCasts =
+  include ?Types ❙
+  _N: {n: ℕ} univ n ⟶ type ❘ = [n, U] tm U ❙
+  _z: tm base ❙
+  _s: {n: ℕ, U: univ n} tm U ⟶ tm (castp U) ❘ = [n,U,t] t⇑ ❙
+❚
+
+// idea: generalize from `base: univ z` to `base: Σn: univ n`. ❚
+
+theory CumulativeInternalTypes =
+  include ?Nat ❙
+  include ☞latin:/?IPLND ❙
+  include ☞latin:/?Proofs ❙
+  include ☞latin:/?InformalProofs ❙
+  include ☞latin:/?SoftTypedTerms ❙
+  include ☞latin:/?SoftTypedPredicateSubtypes ❙
+
+  univ: nat ⟶ type ❙
+  inj: {n: nat} univ n ⟶ tp ❘ # τ 2 ❙
+  has_type : {n: nat} univ n ⟶ term ⟶ prop ❘ = [n,U,t] t ⦂ τ U ❘# 3 ∈ 2 ❙
+
+  castp: {n,U: univ n} univ (s n) ❘ # 2 ↑ prec 20 ❙
+  castm: {n,U: univ n,t: term} ⊦ (t ∈ U) ⇒ (t ∈ U↑) ❘# 3 ⇑ 2 ❙
+
+  base: univ z ❙
+  // can_cast_to_all: {n,m,U: univ n,t: term} ⊦ (t ⦂ τ U) ⇒ (t ⦂ τ (n + m))
+               ❘ = [n,m,t] sketch "provable via induction on m (ignoring the issue that Nat is an LF-level formalization)" ❙
+❚
+
+/T abbreviated as TUE below
+
+   erase hard-typed types from terms, but keep universes ❚
+view TypeUniverseErasure : ?Types -> ?CumulativeInternalTypes =
+  include ?Nat ❙
+  univ = [n] univ n ❙
+  tm = [n,U] term ❙
+  castp = [n,U] U↑ ❙
+  castm = [n,U,t] t ❙
+  base = base ❙
+❚
+
+/T comptrans on TypeUniverseErasure
+
+   Basic Lemma yields:
+          |- U : univ n  /\  |- t : tm U
+     ===> |- TUE(t) : ⊦ t ⦂ (τ U)
+❚
+theory TypePres =
+  include ?CumulativeInternalTypes ❙
+  include ?Nat ❙
+  // partial on univ and Nat ❙
+  _tm: {n,U: univ n} term ⟶ type ❘ = [n,U,t] ⊦ t ∈ U ❙
+  // partial on castp ❙
+
+  // does partiality on castp (unfortunately) enforce partiality on castm, too? ❙
+  _castm: {n,U: univ n,t: term, tt: ⊦ t ∈ U} ⊦ t ∈ U↑
+        ❘ = [n,U,t,tt] (t ⇑ U) implE tt ❙
+❚
+
+/T comptrans TypeUniverseErasure ∘ CumulativeTypeCasts
+
+   Basic Lemma yields:
+          |- n : nat  /\ |- _z : tm base
+     ===> ⊦ _z ∈ base↑...↑  provable         (n uparrows)
+❚
