@@ -27,6 +27,17 @@ To overcome the unsatisfactory nature of the first and third views, we can *comp
 These represent the meta theorems below (obtained by the respective Basic Lemmas):
 
 - `|-_{HardTyped}  t: tm A  ==> |-_{SoftTyped}  P(t): |~ of v1(t) v1(A)`
-- `|-_{HardTyped}  t: tm A ==> |-_{SetTheory}  v2(P(t)): |~ v2(v1(t)) ∈ v2(T)`
+- `|-_{HardTyped}  t: tm A ==> |-_{SetTheory}  v2(P(t)): |~ v2(v1(t)) ∈ v2(A)`
 
 We can interpret these theorems, respectively, as **type preservation (from hard- to soft-typed)** and **"membership" preservation (when translating types to sets)**.
+
+
+Unrelated idea: can we state a view `v4: SetTheory -> SoftTyped`?
+
+If so, how about proving a soft-typing judgement `of t A` over `SoftTyped` by
+
+1. translating to `SetTheory` to get `v2(t) ∈ v2(A)`,
+2. proving the judgement there, i.e. providing a witness `wit: |~ v2(t) ∈ v2(A)`,
+3. and transporting back to `SoftTyped` via `v4` to get`v4(wit): |~ v4(v2(t)) ∈ v4(v2(A))`.
+
+And hopefully, by simplification `v4(v2(X)) = X` for any MMT term `X`.
