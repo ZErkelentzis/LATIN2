@@ -6,7 +6,7 @@ Recall the theories `HardTyped = {tp: type, tm: tp -> type}`, `SoftTyped = {tp: 
 
 We could have these translations:
 
-1. a view `v1: HardTyped -> SoftTyped`: mapping`tp := term`, `tm := [x] term`
+1. a view `v1: HardTyped -> SoftTyped`: mapping `tp := term`, `tm := [x] term`
 2. a view `v2: SoftTyped -> SetTheory`: mapping `tp := set`, `term := set`, `of := [x: set, T: set] x ∈ T`
 3. a view `v3: HardTyped -> SetTheory = v1; v2` (defined as the composition of `v1`, `v2`), thus mapping `tp := set`, `tm := [x] set`
 
