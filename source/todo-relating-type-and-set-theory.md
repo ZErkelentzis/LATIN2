@@ -2,7 +2,7 @@
 
 **Logical Relations on Translations from Type Theory to Set Theory** (some ideas for LATIN)
 
-Recall the theories`HardTyped = {tp: type, tm: tp -> type}`, `SoftTyped = {tp: type, term: type, of: term -> tp -> prop}`, and `SetTheory = {include FOL, ∈: set -> set -> prop}` (where `set` is an alias for `iota` from FOL).
+Recall the theories `HardTyped = {tp: type, tm: tp -> type}`, `SoftTyped = {tp: type, term: type, of: term -> tp -> prop}`, and `SetTheory = {include FOL, ∈: set -> set -> prop}` (where `set` is an alias for the type of individuals from FOL).
 
 We could have these translations:
 
