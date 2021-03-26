@@ -1,4 +1,4 @@
-(idea from Navid)
+(ideas and notes from Navid Roux)
 
 **Logical Relations on Translations from Type Theory to Set Theory** (some ideas for LATIN)
 
