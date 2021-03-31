@@ -81,7 +81,6 @@ theory Mizar : ur:?LFS =
   adjE : {X,A}{x : term} x be (adjective X A) ⟶  x be X❙
   adjE_' : {X,A}{x : term} x be (adjective X A) ⟶ ⊦ A x❙
 
-  fraenkel : tp ⟶ (term ⟶ prop) ⟶ (term ⟶ term) ⟶ term❙
   fraenkelTerm : {univ:tp, n, expr: term^n ⟶ term, cond: term^n ⟶ prop} term ❙
   simpleFraenkelTerm : {univ:tp, n, expr: term^n ⟶ term} term ❘= [u,n,expr] fraenkelTerm u n expr ([tms:term^n] not_contradition) ❙
   proof_by_example : {A: tp, tm: term} tm be A ❙
@@ -125,12 +124,6 @@ theory HIDDEN : ?SoftTypedDefinedFOL =
 		
    in : term ⟶ term ⟶ prop ❘ # 1 in 2 prec 35❘ ## 1 ‍∈ 2 prec 35❙
 
-   fraenkelE : {a : tp} {p : term ⟶ prop}{f : term ⟶ term}
-     ⊦ for set [x] x in (fraenkel a p f) ⇒ ex a [y] p y ∧ f y ≐ x ❙
-   fraenkelI : {a : tp} {p : term ⟶ prop}{f : term ⟶ term}
-     ⊦ for a [x] p x ⇒ (f x) in (fraenkel a p f)❙
-     //Scheme-Block-Item1 : [x:term^4] ex Function [f_22:term] nary_and 2 ⟨((dom f_22) ≐ (x..0)),(for Ordinal [x_20: term] (x_20 ∈ (x..0)) ⇒ (nary_and 2 ⟨(x..1) ⇒ ((funcAppl f_22 x_20) ≐ (x..2)), (implies (¬(x..1)) ((funcAppl f_22 x_20) ≐ (x..3)))⟩))⟩ ❙
-     // scheme: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ nary_and m ⟨' (assumptions..j) x | j:m '⟩ ⟶ ⊦ (p x) ❙
    function: tp❙
    ordinal: tp❙
    dom: term ⟶ term❙
