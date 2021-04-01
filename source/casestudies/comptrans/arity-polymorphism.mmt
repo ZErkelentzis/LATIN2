@@ -13,12 +13,12 @@ theory Nat =
 theory Types =
   include ?Nat ❙
   univ: ℕ ⟶ type ❙
-  tm: {n: ℕ} univ n ⟶ type ❘ # tm 2 ❙
+  tm: {n: ℕ} univ n ⟶ type ❘ # tm 2 prec 10 ❙
 
   /T _cast_ ty_p_es .❙
-  castp: {n} univ n ⟶ univ (s n) ❘ # 2↑ ❙
+  castp: {n} univ n ⟶ univ (s n) ❘ # 2 ↑ prec 20 ❙
   /T _cast_ ter_m_s . ❙
-  castm: {n,U: univ n} tm U ⟶ tm (castp U) ❘ # 3⇑ ❙
+  castm: {n,U: univ n} tm U ⟶ tm U↑ ❘ # 3 ⇑ ❙
 
   base: univ z ❙
 ❚
@@ -53,7 +53,7 @@ theory CumulativeTermCasts =
   include ?Types ❙
   _N: {n: ℕ} univ n ⟶ type ❘ = [n, U] tm U ❙
   _z: tm base ❙
-  _s: {n: ℕ, U: univ n} tm U ⟶ tm (castp U) ❘ = [n,U,t] t⇑ ❙
+  _s: {n: ℕ, U: univ n} tm U ⟶ tm U↑ ❘ = [n,U,t] t⇑ ❙
 ❚
 
 // idea: generalize from `base: univ z` to `base: Σn: univ n`. ❚
