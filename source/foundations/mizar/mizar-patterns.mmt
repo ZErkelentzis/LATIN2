@@ -220,32 +220,44 @@ theory MizarPatterns : ?HIDDEN =
 	/T axiomatizes a functor synonym declaration
     n and argTps correspond to the number and types of the arguments and
     v to the definition (applied to its arguments) to define a synonym for ❙
-  pattern synonymicFunctorNotation(n:NAT, argTps:(term^n ⟶ tp)^n, v: term^n ⟶ term) ❘ =
-  	notation: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ term ❘ = [argumentSequence] [p] v argumentSequence ❘ role mainDecl ❙
+  pattern synonymicFunctNotation(n:NAT, argTps:(term^n ⟶ tp)^n, v: term^n ⟶ term) ❘ =
+  	funct: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ term ❘ = [argumentSequence] [p] v argumentSequence ❘ role mainDecl ❙
   ❚
 	/T axiomatizes a predicate synonym declaration
     n and argTps correspond to the number and types of the arguments and
     v to the definition (applied to its arguments) to define a synonym for ❙
-  pattern synonymicPredicateNotation(n:NAT, argTps:(term^n ⟶ tp)^n, v: term^n ⟶ prop) ❘ =
-  	notation: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ prop ❘ = [argumentSequence] [p] v argumentSequence ❘ role mainDecl ❙
+  pattern synonymicPredNotation(n:NAT, argTps:(term^n ⟶ tp)^n, v: term^n ⟶ prop) ❘ =
+  	pred: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ prop ❘ = [argumentSequence] [p] v argumentSequence ❘ role mainDecl ❙
   ❚
 	/T axiomatizes a predicate antonym declaration
     n and argTps correspond to the number and types of the arguments and
     v to the definition (applied to its arguments) to define an antonym for ❙
-  pattern antonymicPredicateNotation(n:NAT, argTps:(term^n ⟶ tp)^n, v: term^n ⟶ prop) ❘ =
-  	notation: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ prop ❘ = [argumentSequence] [p] ¬ (v argumentSequence) ❘ role mainDecl ❙
+  pattern antonymicPredNotation(n:NAT, argTps:(term^n ⟶ tp)^n, v: term^n ⟶ prop) ❘ =
+  	pred: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ prop ❘ = [argumentSequence] [p] ¬ (v argumentSequence) ❘ role mainDecl ❙
   ❚
-	/T axiomatizes a attribute or mode synonym declaration
+	/T axiomatizes an attribute synonym declaration
     n and argTps correspond to the number and types of the arguments and
     v to the definition (applied to its arguments) to define a synonym for ❙
-  pattern synonymicNotation(n:NAT, argTps:(term^n ⟶ tp)^n, v: term^n ⟶ term ⟶ prop) ❘ =
-  	notation: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ term ⟶ prop ❘ = [argumentSequence] [p] v argumentSequence ❘ role mainDecl ❙
+  pattern synonymicAttributeNotation(n:NAT, argTps:(term^n ⟶ tp)^n, v: term^n ⟶ term ⟶ prop) ❘ =
+  	attribute: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ term ⟶ prop ❘ = [argumentSequence] [p] v argumentSequence ❘ role mainDecl ❙
   ❚
-	/T axiomatizes a attribute or mode antonym declaration
+	/T axiomatizes an attribute antonym declaration
     n and argTps correspond to the number and types of the arguments and
     v to the definition (applied to its arguments) to define an antonym for ❙
-  pattern antonymicNotation(n:NAT, argTps:(term^n ⟶ tp)^n, v: term^n ⟶ term ⟶ prop) ❘ =
-  	notation: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ term ⟶ prop ❘ = [argumentSequence] [p] ([arg] ¬ (v argumentSequence) arg) ❘ role mainDecl ❙
+  pattern antonymicAttributeNotation(n:NAT, argTps:(term^n ⟶ tp)^n, v: term^n ⟶ term ⟶ prop) ❘ =
+  	attribute: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ term ⟶ prop ❘ = [argumentSequence] [p] ([arg] ¬ (v argumentSequence) arg) ❘ role mainDecl ❙
+  ❚
+	/T axiomatizes a mode synonym declaration
+    n and argTps correspond to the number and types of the arguments and
+    v to the definition (applied to its arguments) to define a synonym for ❙
+  pattern synonymicModeNotation(n:NAT, argTps:(term^n ⟶ tp)^n, v: term^n ⟶ term ⟶ prop) ❘ =
+  	mode: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ term ⟶ prop ❘ = [argumentSequence] [p] v argumentSequence ❘ role mainDecl ❙
+  ❚
+	/T axiomatizes a mode antonym declaration
+    n and argTps correspond to the number and types of the arguments and
+    v to the definition (applied to its arguments) to define an antonym for ❙
+  pattern antonymicModeNotation(n:NAT, argTps:(term^n ⟶ tp)^n, v: term^n ⟶ term ⟶ prop) ❘ =
+  	mode: {argumentSequence:term^n} ⟨' ⊦ argumentSequence..i ⦂ (argTps..i) argumentSequence | i:n '⟩ ⟶ term ⟶ prop ❘ = [argumentSequence] [p] ([arg] ¬ (v argumentSequence) arg) ❘ role mainDecl ❙
   ❚
 	/T axiomatizes an existential registration
     n and argTps correspond to the number and types of the arguments,
