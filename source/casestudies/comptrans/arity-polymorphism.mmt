@@ -10,7 +10,8 @@ theory Nat =
   plus: ℕ ⟶ ℕ ⟶ ℕ ❘ # 1 + 2 ❙
 ❚
 
-theory Types =
+/T Theory of cumulative hard-typed type theories ❚
+theory CumTypes =
   include ?Nat ❙
   univ: ℕ ⟶ type ❙
   tm: {n: ℕ} univ n ⟶ type ❘ # tm 2 prec 10 ❙
@@ -23,19 +24,19 @@ theory Types =
   base: univ z ❙
 ❚
 
-// id_{Types}: identity morphism, comptrans on nothing
+// id_{CumTypes}: identity morphism, comptrans on empty list
    built-in in MMT, hence not given
 
    Basic Lemma yields:
       true       ===> |- base : univ z
 ❚
 
-/T comptrans on inclusion morphism Nat -> Types
+/T comptrans on <incl. morphism Nat -> CumTypes>
 
    Basic Lemma yields:
-      |- n : nat ===> |- base↑...↑ : univ n   (n uparrows)
+      |- n : nat ===> |- base↑…↑ : univ n   (n type casts)
 ❚
-theory CumulativeTypeCasts =
+theory CumTypes_TypeCasts =
   include ?Types ❙
 
   _N: ℕ ⟶ type ❘ = [n: ℕ] univ n ❙
@@ -43,22 +44,26 @@ theory CumulativeTypeCasts =
   _s: {n: ℕ, U: univ n} univ (s n) ❘ = [n,U] U↑ ❙
 ❚
 
-/T comptrans on CumulativeTypeCasts
+/T comptrans on <CumTypes_TypeCasts>
 
    Basic Lemma yields:
           |- n : nat  /\ |- _z : tm base
-     ===> |- _z⇑ : tm base↑...↑      (n uparrows)
+     ===> |- _z⇑…⇑ : tm base↑…↑      (n term and type casts)
 ❚
-theory CumulativeTermCasts =
+theory CumTypes_TermCasts =
   include ?Types ❙
+
   _N: {n: ℕ} univ n ⟶ type ❘ = [n, U] tm U ❙
+
+  /T not defined since this comptrans (and the resulting Basic Lemma) are polymorphic in MMT terms of type `tm base` ❙
   _z: tm base ❙
   _s: {n: ℕ, U: univ n} tm U ⟶ tm U↑ ❘ = [n,U,t] t⇑ ❙
+
+  // further idea: generalize from `base: univ z` to `base: Σn: univ n`. ❙
 ❚
 
-// idea: generalize from `base: univ z` to `base: Σn: univ n`. ❚
-
-theory CumulativeInternalTypes =
+/T Theory of soft-typed type theories with cumulative type hierarchy ❚
+theory InternalCumTypes =
   include ?Nat ❙
   include ☞latin:/?IPLND ❙
   include ☞latin:/?Proofs ❙
@@ -78,23 +83,27 @@ theory CumulativeInternalTypes =
                ❘ = [n,m,t] sketch "provable via induction on m (ignoring the issue that Nat is an LF-level formalization)" ❙
 ❚
 
-/T abbreviated as TUE below
+/T Erase types. Concretely, starting with CumTypes
 
-   erase hard-typed types from terms, but keep universes ❚
-view TypeUniverseErasure : ?Types -> ?CumulativeInternalTypes =
+   - on type-level: do nothing (identity on `univ`, `castp`, and `base`)
+   - on term-level: erase types in hard-typed terms (assignments to `tm` and `castm`)
+
+   Abbreviated as TE in comments below.
+❚
+view TypeEras : ?Types -> ?InternalCumTypes =
   include ?Nat ❙
-  univ = [n] univ n ❙
+  univ = univ ❙
   tm = [n,U] term ❙
-  castp = [n,U] U↑ ❙
+  castp = castp ❙
   castm = [n,U,t] t ❙
   base = base ❙
 ❚
 
-/T comptrans on TypeUniverseErasure
+/T comptrans on <TypeEras>
 
    Basic Lemma yields:
           |- U : univ n  /\  |- t : tm U
-     ===> |- TUE(t) : ⊦ t ⦂ (τ U)
+     ===> |- TE(t) : ⊦ t ⦂ (τ U)
 ❚
 theory TypePres =
   include ?CumulativeInternalTypes ❙
@@ -108,9 +117,9 @@ theory TypePres =
         ❘ = [n,U,t,tt] (t ⇑ U) implE tt ❙
 ❚
 
-/T comptrans TypeUniverseErasure ∘ CumulativeTypeCasts
+/T comptrans InternalCumTypes_TermCasts := TE ∘ CumTypes_TermCasts.
 
    Basic Lemma yields:
           |- n : nat  /\ |- _z : tm base
-     ===> ⊦ _z ∈ base↑...↑  provable         (n uparrows)
+     ===> ⊦ TE(_z⇑…⇑) ∈ base↑…↑  provable         (n term and type casts)
 ❚
