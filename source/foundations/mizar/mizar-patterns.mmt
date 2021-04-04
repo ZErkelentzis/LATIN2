@@ -124,7 +124,7 @@ theory MizarPatterns : ?HIDDEN =
     n and argTps correspond to the number and types of the arguments,
     m and cases to the number of cases and cases in the definition, caseRes to the definitions in those cases
     and consistencyProof is a proof of consistency of the caseRes ❙
-	pattern directComplPredDef(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ prop)^m, consistencyProof: consistencyDirectPredAttrDef n argTps m cases caseRes, defRes: term^n ⟶ prop) ❘ =
+	pattern directComplPredDef(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ prop)^m, consistencyProof: consistencyDirectPredAttrDef n argTps m cases caseRes) ❘ =
     pred: term^n ⟶ prop ❘ role mainDecl ❙
 		consistency = consistencyProof ❙
 		means: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ 
