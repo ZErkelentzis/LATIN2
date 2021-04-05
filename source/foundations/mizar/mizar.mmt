@@ -54,7 +54,9 @@ theory Mizar : ur:?LFS =
 	// ded: prop ⟶ type ❘ # ⊦ 1 prec -5❘ ## ded 1 prec -5 ❙
 	/T Fold the ps over TacticsLF?use to give a definien for this ? ❙
 	using: {n, ps: type^n, claim: prop} ⊦ claim ❘ # 3 using 2 ❙
-	be: term ⟶ tp ⟶ type ❘= [x,a] ⊦ x ⦂ a ❘# 1 be 2 prec 50❙
+	/T infereable but not inferred term of type tp ❙
+	dummyTerm : {t: tp} term ❘ # dummy ❙
+  be: term ⟶ tp ⟶ type ❘= [x,a] ⊦ x ⦂ a ❘# 1 be 2 prec 50❙
 
   // propositional logic❙
   contradiction : type ❘= ⊦ false ❙
