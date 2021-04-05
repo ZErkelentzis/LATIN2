@@ -1,0 +1,69 @@
+namespace latin:/casestudies/comptrans/curryhoward ❚
+fixmeta ur:?LF ❚
+rule scala://parser.api.mmt.kwarc.info?MMTURILexer ❚
+
+theory TypedTerms =
+  tp: type❙
+  tm: tp ⟶ type❘# tm 1 prec -5❙
+❚
+view CurryHoward : ?TypedTerms -> latin:/?Logic =
+  tp = prop ❙
+  tm = ded ❙
+❚
+
+theory SimpleFunctions =
+  include ?TypedTerms ❙
+  simpfun : tp ⟶ tp ⟶ tp❘# 1 %R→ 2 prec 50❙
+  simplambda: {A,B} (tm A ⟶ tm B) ⟶ tm A → B❘# λ 3 prec 40❙
+  simpapply: {A,B} tm A → B ⟶ tm A ⟶ tm B❘# 3 @ 4 prec 50❙
+❚
+// straightforward: ❚
+view CurryHoward_SimpleFunctions : ?SimpleFunctions -> latin:/?PLND =
+  include ?CurryHoward ❙
+  simpfun = impl ❙
+  simplambda = implI ❙
+  simpapply = implE ❙
+❚
+
+
+theory DependentFunctions =
+  include ?TypedTerms❙
+  depfun : {A} (tm A ⟶ tp) ⟶ tp❘# Π 2 prec 40❙
+  deplambda: {A,B} ({x: tm A} tm B x) ⟶ tm Π B❘# λ 3 prec 40❙
+  depapply: {A,B} tm Π B ⟶ {x: tm A} tm B x ❘# 3 @ 4 prec 50❙
+❚
+
+// would like to map dependent functions to universal quantifications
+   but this is impossible!
+
+   NR@FR: can we fix that with comptrans? ❚
+view CurryHoward_DependentFunctions : ?DependentFunctions -> latin:/?SFOLND =
+  include ?CurryHoward ❙
+
+  /T The type of `depprod` is                 `{A: tp} (tm A ⟶ tp) ⟶ tp`       (*)
+     The expected type of the assignment is:  `{p: prop} (⊦ p ⟶ prop) ⟶ prop` (**)
+
+     If we could start with (*), one would be inclined to map it to
+       `[A: tp, P: tm A ⟶ tp] ∀[x: tm A] curry_howard (P x)`.
+
+     But that wouldn't be compositionally and thus go against (**).
+     With (**) we can only map dependent function types to dependent implications. ❙
+  depfun = dimpl ❙
+  deplambda = dimplI ❙
+  depapply = dimplE ❙
+❚
+
+//
+
+Recall TypedTerms is included in SFOLND
+CurryHoward
+
+comptrans ... : [[id_{TypedTerms}, CurryHoward]]: DependentFunctions -> SFOLND =
+  depfun : {A: tp, A': prop,
+            P: tm A ⟶ tp, P': ⊦ A' ⟶ prop,
+            pf: {x: tm A} P x ⟶ prop
+           } prop
+
+         = [A, A', P, P'] ∀[x: tm A] P x
+
+❚

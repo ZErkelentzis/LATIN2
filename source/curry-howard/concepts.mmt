@@ -46,7 +46,7 @@ view TypesAsPropositions_prod : ?SimpleProducts -> ?PLND =
    =========================== ❚
 
    // cup DependentImplicationND  = ❚
-view TypesAsPropositions_depprod : ?DependentProducts -> ?IFOLND =
+view TypesAsPropositions_depfun : ?DependentFunctions -> ?IFOLND =
   include ?TypesAsPropositions ❙
   include ?TypesAsPropositions_proof_irrelevance ❙
   /T The type of `depprod` is                 `{A: tp} (tm A ⟶ tp) ⟶ tp`       (*)
@@ -56,8 +56,8 @@ view TypesAsPropositions_depprod : ?DependentProducts -> ?IFOLND =
        `[A: tp, P: tm A ⟶ tp] ∀[x: tm A] curry_howard (P x)`.
 
      But that wouldn't be compositionally and thus go against (**).
-     With (**) we can only map dependent product types to dependent implications. ❙
-  depprod = dimpl ❙
+     With (**) we can only map dependent function types to dependent implications. ❙
+  depfun = dimpl ❙
   deplambda = dimplI ❙
   depapply = dimplE ❙
   depbeta = [p,q,P,x,y] trueI ❙
