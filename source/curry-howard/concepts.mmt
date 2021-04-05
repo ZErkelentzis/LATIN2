@@ -7,7 +7,22 @@ view PropositionsAsTypes : ?Logic → ?TypedTerms =
   ded  = tm❙
 ❚
 
-view TypesAsPropositionsAs : ?TypedTerms → ?Logic =
+view TypesAsPropositions : ?TypedTerms → ?Logic =
   tp = prop❙
   tm = ded❙
+❚
+
+view TypesAsPropositions_proof_irrelevance : ?TypedEquality -> ?TruthND =
+  equal = [p,pf1,pf2] true ❙
+  refl = trueI ❙
+  // missing: congB = ❚
+❚
+
+view TypesAsPropositions_fun : ?SimpleFunctions -> ?PLND =
+  include ?TypesAsPropositions ❙
+  include ?TypesAsPropositions_proof_irrelevance ❙
+  simpfun = impl ❙
+  simplambda = implI ❙
+  simpapply = implE ❙
+  simpbeta = [p,q,F,x] trueI ❙
 ❚
