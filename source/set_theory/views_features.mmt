@@ -4,18 +4,6 @@ fixmeta ?SetFOL❚
 
 // AS: this file needs to be fixed as soon as I have reorganized modules❚
 
-theory SelfPair =
-	include ?UnorderedPairs❙
-	include ?BigUnion❙
-	
-	realize ?Singletons❙
-  singleton = [X] uopair X X❙
-  singletonI = [X] uopairIl❙
-  singletonE = [X,x,p] p uopairE ([q] q) ([q] q)❙
-  
-  singleton_inv = [p] ⋃p❙ 
-❚
-
 // FR additional features: Union, BigIntersection, Intersection❚
 // no changes in zfc.mmt needed to realize those - 
 instead we can state here already that, e.g., BigUnion and UnorderedPair are enough to realize SmallUnion;
@@ -24,14 +12,16 @@ view is often better; realize A within B in those cases where anybody who includ
 view also helpful when multiple features are needed, e.g., BigUnion and UnorderedPair
 ❚
 
-// FR: not sure if any syntax like this already works
+// FR: not sure if any syntax like this already works → AS: no it does not
 view SmallUnionAsBigUnion: ?SmallUnion → ?BigUnion, ?UnorderedPair =
 
 ❚
 // if it doesn't we can use this as a fallback❚
+
+// Views for Union❙
 theory UnionAsBigUnion =
-  include ?UnorderedPairs❙
   include ?BigUnion❙
+  include ?UnorderedPairs❙
   realize ?Union❙
   
   union = [X,Y] ⋃ uopair X Y❙
@@ -41,6 +31,54 @@ theory UnionAsBigUnion =
   unionE = [X,Y,x,C,p,f,g] p bigunionE ([U,q,r] q uopairE
     ([s] f (in_eq r s)) 
     ([s] g (in_eq r s)))❙
+❚
+
+view UnionComprehension : ?Union → ?Comprehension =
+	union = [X,Y] Z | ([x] x∈X ∨ x∈Y)❙
+❚
+
+view UnionFilter : ?Union → ?Filter =
+	// AS: this is basically the same as UnionComprehension❙
+	union = [X,Y] filter Z ([x] x∈X ∨ x∈Y)❙
+❚
+
+theory UnionComplement =
+	include ?Complement❙
+	include ?Difference❙
+	include ?Intersection❙
+	include ?UniversalSet❙
+	realize ?Union❙
+	
+	union = [X,Y] 𝒰 ∖ ((comp X) ∩ (comp Y))❙
+❚
+
+theory IntersectionAsBigIntersection = 
+	include ?BigIntersection❙
+	include ?UnorderedPairs❙
+	realize ?Intersection❙
+	
+	// AS: is there a way that this include is implicit?❙
+	include ?EmptySetDefinitions❙
+	
+	inter = [X,Y] ⋂ uopair X Y❙
+	// AS: check if this was fixed❙
+	interI = [X,Y,x,p,q] biginterI (existsI X uopairIl) ([U,r] r uopairE 
+	  ([s] in_eq p (eq/sym s))
+	  ([s] in_eq q (eq/sym s)))❙
+	
+	interEl = [X,Y,x,p] p biginterE uopairIl❙
+	interEr = [X,Y,y,p] p biginterE uopairIr❙
+❚
+
+theory IntersectionAsComprehension =
+	include ?Comprehension❙
+	include ?Union❙
+	realize ?Intersection❙
+	
+	inter = [X,Y] X∪Y | ([x] x∈X ∧ x∈Y)❙
+	interI = [X,Y,x,p,q] comprehendI (unionIl Y p) (andI p q)❙
+	interEl = [X,Y,x,p] p comprehendEr andEl❙
+	interEr = [X,Y,y,p] p comprehendEr andEr❙
 ❚
 
 theory BigIntersectionAsComprehension =
@@ -54,33 +92,4 @@ theory BigIntersectionAsComprehension =
 	biginter = [M] ⋃M|[x]∀[X] X∈M ⇒ x∈X❙
 	biginterI = [M,x,ne,P] comprehendI (nonemptyE ne ([X,p] bigunionI p (P X p))) (forallI [X] implI P X)❙
 	biginterE = [M,X,x,p,q] p comprehendEr forallE X implE q❙
-❚
-
-theory IntersectionAsBigIntersection = 
-	include ?UnorderedPairs❙
-	include ?BigIntersection❙
-	realize ?Intersection❙
-	
-	// AS: is there a way that this include is implicit?❙
-	include ?EmptySetDefinitions❙
-	
-	inter = [X,Y] ⋂ uopair X Y❙
-	// AS: this is wrong❙
-	interI = [X,Y,x,p,q] biginterI (existsI X uopairIl) ([U,r] r uopairE 
-	  ([s] in_eq p (eq/sym s))
-	  ([s] in_eq q (eq/sym s)))❙
-	
-	interEl = [X,Y,x,p] p biginterE uopairIl❙
-	interEr = [X,Y,y,p] p biginterE uopairIr❙
-❚
-
-theory IntersectionAsComprehension =
-	include ?Union❙
-	include ?Comprehension❙
-	realize ?Intersection❙
-	
-	inter = [X,Y] X∪Y | ([x] x∈X ∧ x∈Y)❙
-	interI = [X,Y,x,p,q] comprehendI (unionIl Y p) (andI p q)❙
-	interEl = [X,Y,x,p] p comprehendEr andEl❙
-	interEr = [X,Y,y,p] p comprehendEr andEr❙
 ❚
