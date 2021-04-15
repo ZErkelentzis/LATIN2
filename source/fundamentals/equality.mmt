@@ -55,6 +55,13 @@ theory TypedEqualityND =
   include ?TypedEquality❙
   refl   : {A,x: tm A} ⊦ x ≐ x❙
 
+  congStrengthened_navid : {A,Ar: tm A ⟶ tm A ⟶ prop, B,Br: tm B ⟶ tm B ⟶ prop,
+                            X: tm A ⟶ tm B, Xr: {a} ⊦ Ar a a ⟶ ⊦ Br (X a) (X a),
+                            Y: tm A ⟶ tm B, Yr: {a} ⊦ Ar a a ⟶ ⊦ Br (Y a) (Y a)}
+
+                           ({a} ⊦ Br (X a) (Y a)) ⟶
+                           {P: (tm A ⟶ tm B) ⟶ prop} ⊦ P X ⟶ ⊦ P Y ❙
+
   /T Explanation:
      Let `P: (tm A ⟶ tm B) ⟶ prop` be a predicate, which by HOAS we can interpret as a predicate that is
      allowed to apply a function `tm A ⟶ tm B`.
@@ -65,8 +72,8 @@ theory TypedEqualityND =
 
   /T
     Explanation of definiens:
-    We instantiate `congB` with (i) two constant functions `[_] x` and `[_] y` (inferred implicit arguments)
-    and (ii) the predicate `(tm A ⟶ tm A) ⟶ prop` given by `[U] P (U x)`. Here, it is irrelevant whether
+    We instantiate `congB` with (i) two constant functions `λ_. x` and `λ_. y` (inferred implicit arguments)
+    and (ii) the predicate `(tm A ⟶ tm A) ⟶ prop` given by `λU. P (U x)`. Here, it is irrelevant whether
     we would have written `U x` (as-is) or `U y` (since we are using constant functions anyway).
   ❙
   congP  : {A,  x,y} ⊦ x ≐ y ⟶ {P: tm A ⟶ prop} ⊦ P x ⟶ ⊦ P y❘# 4 congP 5 6❘
