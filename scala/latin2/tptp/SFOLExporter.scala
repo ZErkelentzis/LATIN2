@@ -10,8 +10,8 @@ import info.kwarc.mmt.api.symbols.Constant
 import info.kwarc.mmt.api.uom.SimplificationUnit
 import info.kwarc.mmt.lf.{ApplySpine, Lambda}
 import latin2.sfol.CommonSymbols.DedList
-import latin2.sfol.SFOLPatterns.{FuncDecl, PredDecl, TypeDecl}
-import leo.datastructures.TPTP.{Problem, TFF, TFFAnnotated}
+import latin2.sfol.SFOLPatterns.{AxDecl, FuncDecl, PredDecl, TypeDecl}
+import leo.datastructures.TPTP.{Problem, TFF, TFFAnnotated, Include}
 import lf.Conjunction.and
 import lf.Disjunction.or
 import lf.Equivalence.equiv
@@ -23,17 +23,16 @@ import lf.Types.tp
 import lf.TypedEquality.equal
 import lf.TypedUniversalQuantification.forall
 
-class SFOLExporter extends StructurePresenter {
+class SFOLExporter extends StructurePresenter { //TODO: Extension in exporter
   override def apply(e : StructuralElement, standalone: Boolean = false)(implicit rh : RenderingHandler): Unit = {}
 
   /** a string identifying this build target, used for parsing commands, logging, error messages */
   override def key: _root_.scala.Predef.String = "tptp"
 
   override def exportTheory(thy : Theory, bf: BuildTask): Unit = {
-    val vars = bf.getClass.getDeclaredFields
-    for(v <- vars){
-      v.setAccessible(true)
-      println("Field: " + v.getName() + " => " + v.get(this))
+    outputTo(getOutFileForModule(thy.path).get) {
+      //TODO: Theory name sanitizing
+      rh(export_theory(thy)(controller).pretty)
     }
   }
 
@@ -53,6 +52,13 @@ class SFOLExporter extends StructurePresenter {
     }
 
     Problem(List(), (axioms++conjectures))
+  }
+
+  def export_theory(theory: Theory)(implicit ctrl: Controller): Problem = {
+    val includes = theory.getIncludesWithoutMeta.map(in => ("$" + in.name.toString + ".tptp", Nil)) //TODO: should be .ax
+    val axioms = translate_theory(theory).map(x => if (x.role == "") { x.copy(role = "axiom") } else x)
+
+    Problem(includes, axioms)
   }
 
   def translate_theory(theory: Theory)(implicit ctrl: Controller): List[TFFAnnotated] = {
@@ -83,7 +89,7 @@ class SFOLExporter extends StructurePresenter {
       case Some(ded(formula)) => //TODO: difference to AxDecl?
         Some(TFFAnnotated(c.name.toString, "", TFF.Logical(translate_formula(formula)), None))
       case Some(TypeDecl(Nil)) =>
-        Some(TFFAnnotated(c.name.toString+"_type", "type", TFF.Typing(c.name.toString, TFF.AtomicType("$tType", Nil)), None)) //is optional FIXME: prints singles quotes around name
+        Some(TFFAnnotated(c.name.toString+"_type", "type", TFF.Typing(c.name.toString, TFF.AtomicType("$tType", Nil)), None)) //is optional
       case Some(FuncDecl(Nil, OMID(out))) =>
         Some(TFFAnnotated(c.name.toString+"_type", "type", TFF.Typing(c.name.toString, TFF.AtomicType(out.name.toString, Nil)), None))
       case Some(FuncDecl(in, out)) =>
