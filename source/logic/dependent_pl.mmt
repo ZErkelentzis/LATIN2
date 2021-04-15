@@ -39,6 +39,6 @@ theory DependentImplication =
 
 theory DependentImplicationND =
   include ?DependentImplication❙
-  dimpI  : {F,G} ({p} ⊦ G p) ⟶ ⊦ F ⇒- G❙
-  dimpE  : {F,G} ⊦ F ⇒- G ⟶ {p:⊦ F} ⊦ G p❘# 3 dimpE 4❘role ForwardRule❙
+  dimplI  : {F,G} ({p} ⊦ G p) ⟶ ⊦ F ⇒- G❙
+  dimplE  : {F,G} ⊦ F ⇒- G ⟶ {p:⊦ F} ⊦ G p❘# 3 dimpE 4❘role ForwardRule❙
 ❚

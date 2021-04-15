@@ -7,7 +7,58 @@ view PropositionsAsTypes : ?Logic → ?TypedTerms =
   ded  = tm❙
 ❚
 
-view TypesAsPropositionsAs : ?TypedTerms → ?Logic =
+view TypesAsPropositions : ?TypedTerms → ?Logic =
   tp = prop❙
   tm = ded❙
+❚
+
+view TypesAsPropositions_proof_irrelevance : ?TypedEquality -> ?TruthND =
+  equal = [p,pf1,pf2] true ❙
+  refl = trueI ❙
+  // missing: congB = ❙
+❚
+
+// Curry-Howard with PL
+   =========================== ❚
+view TypesAsPropositions_fun : ?SimpleFunctions -> ?PLND =
+  include ?TypesAsPropositions ❙
+  include ?TypesAsPropositions_proof_irrelevance ❙
+  simpfun = impl ❙
+  simplambda = implI ❙
+  simpapply = implE ❙
+  simpbeta = [p,q,F,x] trueI ❙
+❚
+
+view TypesAsPropositions_prod : ?SimpleProducts -> ?PLND =
+  include ?TypesAsPropositions ❙
+  include ?TypesAsPropositions_proof_irrelevance ❙
+  simpprod = and ❙
+  simppair = andI ❙
+  simppi1 = andEl ❙
+  simppi2 = andEr ❙
+  compute1 = [p,q,pf1,pf2] trueI ❙
+  compute2 = [p,q,pf1,pf2] trueI ❙
+❚
+
+// missing: coproducts, not yet formalized under type_theory ❚
+
+// Curry-Howard with FOL
+   =========================== ❚
+
+   // cup DependentImplicationND  = ❚
+view TypesAsPropositions_depfun : ?DependentFunctions -> ?IFOLND =
+  include ?TypesAsPropositions ❙
+  include ?TypesAsPropositions_proof_irrelevance ❙
+  /T The type of `depprod` is                 `{A: tp} (tm A ⟶ tp) ⟶ tp`       (*)
+     The expected type of the assignment is:  `{p: prop} (⊦ p ⟶ prop) ⟶ prop` (**)
+
+     If we could start with (*), one would be inclined to map it to
+       `[A: tp, P: tm A ⟶ tp] ∀[x: tm A] curry_howard (P x)`.
+
+     But that wouldn't be compositionally and thus go against (**).
+     With (**) we can only map dependent function types to dependent implications. ❙
+  depfun = dimpl ❙
+  deplambda = dimplI ❙
+  depapply = dimplE ❙
+  depbeta = [p,q,P,x,y] trueI ❙
 ❚

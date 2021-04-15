@@ -1,4 +1,5 @@
 namespace latin:/ ❚
+import lfx http://gl.mathhub.info/MMT/LFX/TypedHierarchy ❚
 
 theory Mizar : ur:?LFS =
   include ?SoftTypedDefinedFOL ❙
@@ -50,107 +51,38 @@ theory Mizar : ur:?LFS =
 	// ex: {A:tp, p: term ⟶ prop} prop ❘ = [A, p] ∃ [x] (x ⦂ A) ∧ (p x) ❙
 
 	// proofs ❙
-	// proof: prop ⟶ type ❘ # ⊦ 1 prec -5❘ ## proof 1 prec -5 ❙
+	// ded: prop ⟶ type ❘ # ⊦ 1 prec -5❘ ## ded 1 prec -5 ❙
 	/T Fold the ps over TacticsLF?use to give a definien for this ? ❙
-	using: {n, ps: prop^n, claim: prop} ⊦ claim ❘ # 3 using 2 ❙
-	be: term ⟶ tp ⟶ type ❘= [x,a] ⊦ x ⦂ a ❘# 1 be 2 prec 50❙
+	using: {n, ps: type^n, claim: prop} ⊦ claim ❘ # 3 using 2 ❙
+	/T infereable but not inferred term of type tp ❙
+	dummyTerm : {t: tp} term ❘ # dummy ❙
+  be: term ⟶ tp ⟶ type ❘= [x,a] ⊦ x ⦂ a ❘# 1 be 2 prec 50❙
 
   // propositional logic❙
   contradiction : type ❘= ⊦ false ❙
 	not_contradition : prop ❘= true ❙
 	// inconsistent (from ☞base:?Proofs) is formalized as {a} ⊦ a, so we can't use it. ❙
- 
-  proof_by_contradiction : {A:prop} (⊦ (¬ A) ⟶ contradiction) ⟶ ⊦ A❘# %%prefix 1 1❙
-  contradictionE : contradiction ⟶ {B} ⊦ B❙
-  notE : {A:prop} ⊦ (¬ A) ⟶ ⊦ A ⟶ contradiction❘# %%prefix 1 2❙ 
-   
-  andI : {A:prop,B:prop} ⊦ A ⟶ ⊦ B ⟶ ⊦ A ∧ B ❘  // thus❙
-  andEl : {A,B} ⊦ A ∧ B ⟶ ⊦ A ❘ # andEl 1 2 3 ❘            // by/from❙
-  andEr : {A,B} ⊦ A ∧ B ⟶ ⊦ B❘ # andEr 1 2 3 ❘            // by/from❙
-
-  not_idem : {A:prop} ⊦ ¬ (¬ A) ⟶ ⊦ A ❘= [A,p] proof_by_contradiction ([q] notE p q) ❘ # not_idem 1 2 ❙
-  tnd : {A} ⊦ A ∨ ¬ A ❘// = [A] proof_by_contradiction ([p] notE (andEr (not_idem p)) (andEl (not_idem p)))❙
-   
-  // definitions below are well-typed but cannot be checked yet because LFS beta-reduction of not finished ❙
-   
-  orIl : {A,B} ⊦ A ⟶ ⊦ A ∨ B ❘// = [A,B,p] (proof_by_contradiction [q] notE (andEl (not_idem q)) p)❙
-  orIr : {A,B} ⊦ B ⟶ ⊦ A ∨ B ❘// = [A,B,p] (proof_by_contradiction [q] notE (andEr (not_idem q)) p)❙
-  per_cases : {A,B,C} (⊦ A ⟶ ⊦ C) ⟶ (⊦ B ⟶ ⊦ C) ⟶ (⊦ A ∨ B ⟶ ⊦ C)❙
-   
-  //assume❙
-  impliesI : {A,B} (⊦ A ⟶ ⊦ B) ⟶ ⊦ (A ⇒ B) ❘ # impliesI 1 2 3
-      ❘// = [A,B,p] per_cases ([q: proof A] proof_by_contradiction ([s] notE (andEr (not_idem s)) (p q) ) ) 
-                       ([r] proof_by_contradiction ([s] notE r (andEl (not_idem s)) ) )
-                            tnd❙ 
-  impliesE : {A,B} ⊦ A ⇒ B ⟶ ⊦ A ⟶ ⊦ B ❘
-            = [A,B][p][q] proof_by_contradiction ([r : ⊦ ¬ B] notE (A ∧ ¬ B) p (andI A (¬ B) q r)) ❙
-	implies_refleq: {A:prop} ⊦ (¬ (A ∧ (¬ A))) ❘ = [A] (proof_by_contradiction ([p:⊦ (¬ (¬ (A ∧ (¬ A))))] notE A (andEr A (¬ A) (not_idem (A ∧ (¬ A)) p)) (andEl A (¬ A) (not_idem (A ∧ (¬ A)) p))))❙ 
-	implies_refl : {A:prop} ⊦ A ⇒ A ❘= [A] implies_refleq ❘ # implies_refl 1 2 ❙ 
-   
-  iffI : {A,B} (⊦ A ⟶ ⊦ B) ⟶ (⊦ B ⟶ ⊦ A) ⟶ ⊦ (A ⇔ B) ❘= [A,B][p][q] andI (A ⇒ B) (B ⇒ A) (impliesI A B p) (impliesI B A q)❙
-  iffEl : {A,B} ⊦ A ⇔ B ⟶ ⊦ A ⟶ ⊦ B ❘= [A,B][p][q] impliesE A B (andEl (A ⇒ B) (B ⇒ A) p) q❙
-  iffEr : {A,B} ⊦ A ⇔ B ⟶ ⊦ B ⟶ ⊦ A ❘= [A,B][p][q] impliesE B A (andEr (A ⇒ B) (B ⇒ A) p) q❙
-  iff_refl : {A} ⊦ A ⇔ A ❘= [A] andI (A ⇒ A) (A ⇒ A) (implies_refl A) (implies_refl A) ❙
-
-  // quantifier rules, using Mizar keywords❙
-  let : {A,F} ({x} x be A ⟶ ⊦ (F x)) ⟶ ⊦ (for A [x] F x)❘    //forallI❙
-  consider : {A,F} ⊦ (for A [x] F x) ⟶ {c} c be A ⟶ ⊦ (F c)❘ //forallE❙
-   
-  take : {A,F} {x} x be A ⟶ ⊦ (F x) ⟶ ⊦ (ex A [x] F x)❘    //exI❙
-  given : {A,F,G} ⊦ (ex A [x] F x) ⟶ ({y} y be A ⟶ ⊦ F y ⟶ ⊦ G) ⟶ ⊦ G❘ //exE❙ 
-   
-  // equality rules❙
-  refl  : {X} ⊦ X ≐ X❙
-  sym   : {X:term,Y:term} ⊦ X ≐ Y ⟶ ⊦ Y ≐ X❙
-  trans : {X:term,Y:term,Z:term} ⊦ X ≐ Y ⟶ ⊦ Y ≐ Z ⟶ ⊦ X ≐ Z ❙
-  congP : {X:term,Y:term} ⊦ X ≐ Y ⟶ {F : term ⟶ prop} ⊦ F Y ⟶ ⊦ F X❙ 
-  congF : {X:term,Y:term} ⊦ X ≐ Y ⟶ {F : term ⟶ term} ⊦ F X ≐ F Y❙
-
-  // some important rewrite rules (needed in particular to eliminate artifacts caused by instances with empty sequences)❙
-  impliesLeftNeutral : {a} ⊦ (true ⇒ a) ⇔ a❘ role Simplify❙
-  impliesRightAttractive : {a} ⊦ (a ⇒ true) ⇔ true❘ role Simplify❙
-  iffLeftNeutral : {a} ⊦ (true ⇔ a) ⇔ a❘ role Simplify❙
-  iffRightNeutral: {a} ⊦ (a ⇔ true) ⇔ a❘ role Simplify❙
-  // for the flexary connectives, the rewrite rules need programming❙
-  // rule mmt/sequences?BoundedSemilattice (and) true❙
-  // rule mmt/sequences?BoundedSemilattice (or) false❙
-  
-  // for implicitly defined functions: an element uniquely characterized by a predicate❙
-  func : {A:tp}{f : term ⟶ prop} (⊦ ex A [x] f x) ⟶ ⊦ for A ([x] (for A ([y] (f x ∧ f y) ⇒ (x ≐ y)))) ⟶ term ❙
-   
-  func_prop : {A : tp, F : term ⟶ prop,EX : ⊦ ex A [x] (F x),UNQ}{S} ⊦ S ≐ func A F EX UNQ ⟶ ⊦ F S❙
-  // for implicitly defined tps: a type characterized by a predicate❙
-  implMode : {A : tp} {f : term ⟶ prop} ⊦ (ex A [x] (f x)) ⟶ tp ❙
-  tp_prop : {X,A,F,P} ⊦ X ⦂ (implMode A F P) ⇔ (X ⦂ A ∧ F X)❙
- 
+  /T what is currently still left to show in a proof ❙
+	thesis: type ❙
       
   // attributes as predicates on types❙
   attr : tp ⟶ type ❘= [t] (term ⟶ prop)❙
   dep_typed_attr : {n:NAT, t:term^n ⟶ tp} type ❘= [n, t] (term ⟶ prop) ❙
-  neg_attr : {T} attr T ⟶ attr T ❘= [T,a] ([x] ¬ (a x))❙ 
-   
-  // clusters as conjunctions of attributes❙
-  cluster: {T} attr T ⟶ attr T ⟶ attr T ❘= [T][a][b] [x] (a x) ∧ (b x)❙
      
    // choice operator ❙
   choice : tp ⟶ term❙
-  choice_prop : {t : tp} ⊦ (choice t) ⦂ t❙
+  choice_prop : {t : tp} ⊦ (choice t) ⦂  t ❙
     
   // types formed by imposing a possibly negated attribute on a type❙
-  adjective : {t: tp} attr t ⟶ tp ❙
+  adjective : {t: tp} attr t ⟶ tp ❘ # 2 _ 1 ❙
   dep_typed_adjective : {n:NAT, t: term^n ⟶ tp} dep_typed_attr n t ⟶ tp ❘ # adj_appl 3 2 ❙
-  adjective_non : {t: tp} attr t ⟶ tp ❙
 	attr_appl: {n:NAT, m:NAT, t: term^n ⟶ tp, attrs: (dep_typed_attr n t)^m} tp ❘= [n,m,t,attrs] intersectionMode m (⟨' (dep_typed_adjective n t (attrs .. i)) | i:m '⟩) ❘ # 4 @ 3 ❙
 
-  // adjective_prop : proof X of (adjective T A) ⇔ X of T ∧ A X❙
+  // adjective_prop : ⊦ X of (adjective T A) ⇔ X of T ∧ A X❙
   adjI : {X,A}{x : term} x be X ⟶ (⊦ A x) ⟶ x be (adjective X A)❙
   adjE : {X,A}{x : term} x be (adjective X A) ⟶  x be X❙
   adjE_' : {X,A}{x : term} x be (adjective X A) ⟶ ⊦ A x❙
-  adj_nonI : {X,A}{x : term} x be X ⟶ ⊦ ¬ (A x) ⟶ x be (adjective_non X A)❙
-  adj_nonE : {X,A} {x : term} x be (adjective_non X A) ⟶ x be X❙
-  //adj_nonE': {x : be (adjective_non X A)} ⊦ ¬ (A (adj_nonE x))❙
 
-  fraenkel : tp ⟶ (term ⟶ prop) ⟶ (term ⟶ term) ⟶ term❙
   fraenkelTerm : {univ:tp, n, expr: term^n ⟶ term, cond: term^n ⟶ prop} term ❙
   simpleFraenkelTerm : {univ:tp, n, expr: term^n ⟶ term} term ❘= [u,n,expr] fraenkelTerm u n expr ([tms:term^n] not_contradition) ❙
   proof_by_example : {A: tp, tm: term} tm be A ❙
@@ -172,7 +104,18 @@ theory HIDDEN : ?SoftTypedDefinedFOL =
 	 // sets (submode of object)❙
    set : tp ❙
    set_ax : {X:term} ⊦ X ⦂ set ❙
-	 sethoot_property: {t:tp} type ❘ = [t] ⊦ for t [tm] (tm ⦂ t ⇒ tm ⦂ set) ❙
+	 sethoot_property: {t:tp} prop ❘ = [t] for t [tm] (tm ⦂ t ⇒ tm ⦂ set) ❙
+	 commutativity_property: {f: term ⟶ term ⟶ term} prop ❘ = [f] ∀ [x] ∀ [y] (f x y ≐ f y x) ❙
+	 idempotence_property: {f: term ⟶ term ⟶ term} prop ❘ = [f] ∀ [x] (f x x ≐ x) ❙
+	 projectivity_property: {f: term ⟶ term} prop ❘ = [f] ∀ [x] (f ( f x) ≐ f x) ❙
+	 involutiveness_property: {f: term ⟶ term} prop ❘ = [f] ∀ [x] f ( f x) ≐ x ❙
+	 
+	 symmetry_property: {R: term ⟶ term ⟶ prop} prop ❘ = [R] ∀ [x] ∀ [y] (R x y ⇒ R y x) ❙
+	 assymmetry_property: {R: term ⟶ term ⟶ prop} prop ❘ = [R] ∀ [x] ∀ [y] (R x y ⇒ ¬ R y x) ❙
+	 connectedness_property: {R: term ⟶ term ⟶ prop} prop ❘ = [R] ∀ [x] ∀ [y] (R x y ∨ R y x) ❙
+	 reflexivity_property: {R: term ⟶ term ⟶ prop} prop ❘ = [R] ∀ [x] R x x ❙
+	 irreflexivity_property: {R: term ⟶ term ⟶ prop} prop ❘ = [R] ∀ [x] ¬ R x x ❙
+
    // set: type ❙
 
    // eq is already declared in Mizar
@@ -181,14 +124,8 @@ theory HIDDEN : ?SoftTypedDefinedFOL =
    // include ?InternalTypes ❙
    // be object -> be term -> prop❙
 		
-   in : term ⟶ term ⟶ prop❘# 1 in 2 prec 35❘## 1 ‍∈ 2 prec 35❙
+   in : term ⟶ term ⟶ prop ❘ # 1 in 2 prec 35❘ ## 1 ‍∈ 2 prec 35❙
 
-   fraenkelE : {a : tp} {p : term ⟶ prop}{f : term ⟶ term}
-     ⊦ for set [x] x in (fraenkel a p f) ⇒ ex a [y] p y ∧ f y ≐ x ❙
-   fraenkelI : {a : tp} {p : term ⟶ prop}{f : term ⟶ term}
-     ⊦ for a [x] p x ⇒ (f x) in (fraenkel a p f)❙
-     //Scheme-Block-Item1 : [x:term^4] ex Function [f_22:term] nary_and 2 ⟨((dom f_22) ≐ (x..0)),(for Ordinal [x_20: term] (x_20 ∈ (x..0)) ⇒ (nary_and 2 ⟨(x..1) ⇒ ((funcAppl f_22 x_20) ≐ (x..2)), (implies (¬(x..1)) ((funcAppl f_22 x_20) ≐ (x..3)))⟩))⟩ ❙
-     // scheme: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ nary_and m ⟨' (assumptions..j) x | j:m '⟩ ⟶ ⊦ (p x) ❙
    function: tp❙
    ordinal: tp❙
    dom: term ⟶ term❙
@@ -196,8 +133,8 @@ theory HIDDEN : ?SoftTypedDefinedFOL =
    id: term ⟶ prop❙
    /T the example is from finset_1: The application of id is necessary, since the typechecker would otherwise complain (even more) 
    originally x had idnr 20 and f idnr 22 ❙
-     scheme1: {x:term^4} ⟨' ⊦ (x..i) ⦂ (⟨([x:term^4] set),([x:term^4] term⟶prop),([x:term^4] term⟶term),([x:term^4] term⟶term)⟩..i) x | i:4 '⟩ ⟶ 
+   /T scheme1: {x:term^4} ⟨' ⊦ (x..i) ⦂ (⟨([x:term^4] set),([x:term^4] term⟶prop),([x:term^4] term⟶term),([x:term^4] term⟶term)⟩..i) x | i:4 '⟩ ⟶ 
      ⊦ nary_and 0 ⟨⟩ ⟶ ⊦ (([x:term^4] (ex function [f:term] nary_and 2 ⟨((dom f) ≐ (x..0)),(for ordinal [y: term] (y in (x..0)) 
      ⇒ (nary_and 2 ⟨id (x..1) ⇒ ((funcAppl f y) ≐ (x..2)), (implies (¬(id (x..1))) ((funcAppl f y) ≐ (x..3)))⟩))⟩)) x) ❙
-	// exam: {A: tp, B: tp, p: attr A, q: attr B, r: term ⟶ term ⟶ prop, s: term ⟶ term ⟶ prop} prop ❘= [A, B, p, q, r, s] for A [x] (x ⦂ A) ∧ (ex A [z] ( (r x z) ∧ (for B [y] (((s x y) ∧ (r x y)) ⇒ ( (r x y) ∧ (r x z) ))))) ❙
+	// exam: {A: tp, B: tp, p: attr A, q: attr B, r: term ⟶ term ⟶ prop, s: term ⟶ term ⟶ prop} prop ❘// = [A, B, p, q, r, s] for A [x] (x ⦂ A) ∧ (ex A [z] ( (r x z) ∧ (for B [y] (((s x y) ∧ (r x y)) ⇒ ( (r x y) ∧ (r x z) ))))) ❙
 ❚

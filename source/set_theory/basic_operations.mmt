@@ -2,6 +2,29 @@ namespace latin:/❚
 
 fixmeta ?SetFOL❚
 
+theory Union =
+	// symbol: jcup❙
+	union : set ⟶ set ⟶ set❘# 1 ∪ 2 prec 40❙
+	unionIl : {X,Y,x} ⊦ x∈X ⟶ ⊦ x∈X∪Y❘ # unionIl 2 4❙
+	unionIr : {X,Y,y} ⊦ y∈Y ⟶ ⊦ y∈X∪Y❘ # unionIr 2 4❙
+	unionE : {X,Y,x,C} ⊦ x∈X∪Y ⟶ (⊦x∈X ⟶ ⊦ C) ⟶ (⊦x∈Y ⟶ ⊦ C) ⟶ ⊦ C❘# 5 unionE 6 7❙ 
+		
+	union_subsetl : {X,Y} ⊦ X ⪽ X∪Y❙
+	union_subsetr : {X,Y} ⊦ Y ⪽ X∪Y❙
+	union_sup : {X,Y,M} ⊦ X⪽M ⟶ ⊦ Y⪽M ⟶ ⊦ X∪Y ⪽ M❙
+	
+	union_idem : {X} ⊦ X∪X ≐ X❙
+	// AS: maybe delete this, if algebra works here❙
+	union_comm : {X,Y} ⊦ X∪Y ≐ Y∪X❙
+	union_ass : {X,Y,Z} ⊦ (X∪Y)∪Z ≐ X∪(Y∪Z)❙
+	
+	include ?EmptySet❙
+	union_neutral : {X} ⊦ X∪∅ ≐ X❙
+	
+	include ?UniversalSet❙
+	union_universal : {X} ⊦ X∪𝒰 ≐ 𝒰❙
+❚
+
 theory Intersection =
 	// symbol: jcap❙
 	inter : set ⟶ set ⟶ set❘# 1 ∩ 2 prec 40❙
@@ -26,9 +49,25 @@ theory Intersection =
   // ❚
   
   include ?EmptySet❙
-  inter_neutral : {X} ⊦ X∩∅ ≐ X❙
+  inter_neutral : {X} ⊦ X∩∅ ≐ ∅❙
+  
+  include ?UniversalSet❙
+  inter_universal : {X} ⊦ X∩𝒰 ≐ X❙
+
   // AS: seems wrong, maybe change to something like isdisjoint❙
   disjoint : {X,Y} ⊦ X∩Y ≐ ∅❙ 
+❚
+
+theory BigUnion =
+	// symbol: jbigcup❙
+  bigunion : set ⟶ set❘# ⋃ 1 prec 45❙
+  bigunionI : {M,X,x} ⊦ X∈M ⟶ ⊦ x∈X ⟶ ⊦ x∈ ⋃M❙
+  bigunionE : {M,x,C} ⊦ x∈⋃M ⟶ ({X}⊦X∈M ⟶ ⊦ x∈X ⟶ ⊦C) ⟶ ⊦C❘# 4 bigunionE 5❙
+  
+  bigunion_subset : {M,X} ⊦ X∈M ⟶ ⊦ X ⪽ ⋃M❙ 
+  
+  include ?EmptySet❙
+  bigunion_neutral : ⊦ ⋃∅ ≐ ∅❙
 ❚
 
 theory BigIntersection =
@@ -45,38 +84,6 @@ theory BigIntersection =
 	biginter_neutral : ⊦ ⋂∅ ≐ ∅❙
 ❚
 
-theory Union =
-	// symbol: jcup❙
-	union : set ⟶ set ⟶ set❘# 1 ∪ 2 prec 40❙
-	unionIl : {X,Y,x} ⊦ x∈X ⟶ ⊦ x∈X∪Y❘ # unionIl 2 4❙
-	unionIr : {X,Y,y} ⊦ y∈Y ⟶ ⊦ y∈X∪Y❘ # unionIr 2 4❙
-	unionE : {X,Y,x,C} ⊦ x∈X∪Y ⟶ (⊦x∈X ⟶ ⊦ C) ⟶ (⊦x∈Y ⟶ ⊦ C) ⟶ ⊦ C❘# 5 unionE 6 7❙ 
-		
-	union_subsetl : {X,Y} ⊦ X ⪽ X∪Y❙
-	union_subsetr : {X,Y} ⊦ Y ⪽ X∪Y❙
-	union_sup : {X,Y,M} ⊦ X⪽M ⟶ ⊦ Y⪽M ⟶ ⊦ X∪Y ⪽ M❙
-	
-	union_idem : {X} ⊦ X∪X ≐ X❙
-	// AS: maybe delete this, if algebra works here❙
-	union_comm : {X,Y} ⊦ X∪Y ≐ Y∪X❙
-	union_ass : {X,Y,Z} ⊦ (X∪Y)∪Z ≐ X∪(Y∪Z)❙
-	
-	include ?EmptySet❙
-	union_neutral : {X} ⊦ ∅∪X ≐ X❙
-❚
-
-theory BigUnion =
-	// symbol: jbigcup❙
-  bigunion : set ⟶ set❘# ⋃ 1 prec 45❙
-  bigunionI : {M,X,x} ⊦ X∈M ⟶ ⊦ x∈X ⟶ ⊦ x∈ ⋃M❙
-  bigunionE : {M,x,C} ⊦ x∈⋃M ⟶ ({X}⊦X∈M ⟶ ⊦ x∈X ⟶ ⊦C) ⟶ ⊦C❘# 4 bigunionE 5❙
-  
-  bigunion_subset : {M,X} ⊦ X∈M ⟶ ⊦ X ⪽ ⋃M❙ 
-  
-  include ?EmptySet❙
-  bigunion_neutral : ⊦ ⋃∅ ≐ ∅❙
-❚
-
 theory Difference =
 	// symbol: jsetminus❙
 	dif : set ⟶ set ⟶ set❘# 1 ∖ 2 prec 40❙
@@ -88,13 +95,54 @@ theory Difference =
 ❚
 
 theory Complement =
-	// AS : universe is just a set or?❙
-	comp : set ⟶ set ⟶ set❙
-	// AS : is this too similar to Difference?; How to deal with Complement anyway?❙
-	compI : {U,X,y,Y} ⊦ y∈U ⟶ ⊦ ¬ y∈X ⟶ ⊦ y∈Y❙
+	// AS : Maybe change notation❙
+	comp : set ⟶ set❙
+	compI : {X,y,Y} ⊦ ¬ y∈X ⟶ ⊦ y∈Y❙
+	
+	include ?UniversalSet❙
+	include ?Union❙
+	comp_union : {X} ⊦ X ∪ comp X ≐ 𝒰❙
+	
+	include ?EmptySet❙
+	include ?Intersection❙
+	comp_inter : {X} ⊦ X ∩ comp X ≐ ∅❙
 ❚
 
 theory SymmetricDifference =
 	// AS : add definition X Δ Y = (X ∪ Y) ∖ (X ∩ Y)❙
+	// AS : think of another notation, since this leads to mistakes!❙
+	// symbol: jDelta❙
 	symdif : set ⟶ set ⟶ set❘ # 1 Δ 2 prec 40❙
+	symdifIl : {X,Y,x} ⊦ x∈X ⟶ ⊦ ¬ x∈Y ⟶ ⊦ x ∈ X Δ Y❙
+	symdifIr : {X,Y,y} ⊦ ¬ y∈X ⟶ ⊦ y∈Y ⟶ ⊦ y ∈ X Δ Y❙
+	// AS: maybe there is a smarter/shorter way to describe elimination rules❙
+	symdifEll : {X,Y,x} ⊦ x ∈ X Δ Y ⟶ ⊦ x∈X ⟶ ⊦ ¬ x∈Y❙
+	symdifElr : {X,Y,x} ⊦ x ∈ X Δ Y ⟶ ⊦ ¬ x∈Y ⟶ ⊦ x∈X❙
+	symdifErl : {X,Y,y} ⊦ y ∈ X Δ Y ⟶ ⊦ y∈Y ⟶ ⊦ ¬ y∈X❙
+	symdifErr : {X,Y,y} ⊦ y ∈ X Δ Y ⟶ ⊦ ¬ y∈X ⟶ ⊦ y∈Y❙
+❚
+
+theory DisjointUnion =
+	// AS: is there a way to make this independent of OrderedPair and 0 and 1?❙
+	include ?OrderedPairs❙
+	// symbol: jsqcup❙
+	disjUnion : set ⟶ set ⟶ set❘# 1 ⊔ 2❙
+	// TODO: I and E only possible with 0 and 1❙
+❚
+
+theory Adjoint =
+	// AS: Maybe rename this to Insert❙
+	// AS: think of a notation❙
+	adjoint : set ⟶ set ⟶ set❙
+	adjointIl : {X,y,x} ⊦ x∈X ⟶ ⊦ x∈(adjoint X y)❙
+	adjointIr : {X,y} ⊦ y∈(adjoint X y)❙
+	adjointE : {X,y,x} ⊦ x∈(adjoint X y) ⟶ ⊦ x∈X ∨ x≐y❙
+❚
+
+theory Erase =
+	// AS: Maybe rename this to Delete❙
+	// AS: think of a notation❙
+	erase : set ⟶ set ⟶ set❙
+	eraseI : {X,y,x} ⊦ x∈X ⟶ ⊦ ¬ x≐y ⟶ ⊦ x∈(erase X y)❙
+	eraseE : {X,y,x} ⊦ x∈(erase X y) ⟶ ⊦ x∈X ∧ ¬ x≐y❙ 
 ❚
