@@ -5,45 +5,31 @@ fixmeta ?SetFOL❚
 theory PowerSets =
 	// symbol: jpow❙
   powerset : set ⟶ set❘# ℘ 1 prec 60❙
-  powersetI : {X,Y} ({x} ⊦x∈X ⟶ ⊦x∈Y) ⟶ ⊦X∈ ℘Y❙
-  powersetE : {X,Y} ⊦X∈ ℘Y ⟶ {x} ⊦x∈X ⟶ ⊦x∈Y❘# 3 powersetE 4❙
+  powersetI : {A,B} ({x} ⊦ x∈B ⟶ ⊦ x∈A) ⟶ ⊦ B∈ ℘A❙
+  // AS: maybe 5 needs to be added for ⊦x∈B❙
+  powersetE : {A,B} ⊦ B∈ ℘A ⟶ {x} ⊦ x∈B ⟶ ⊦ x∈A❘# 3 powersetE 4❙
 ❚
 
 theory Image =
 	// AS: think of a shorter notation❙
 	image : (set ⟶ set) ⟶ set ⟶ set❙
-	imageI : {f,X,x} ⊦ x∈X ⟶ ⊦ (f x)∈ image f X❙
-	imageE : {f,X,y} ⊦ y ∈ image f X ⟶ ⊦ ∃[x] x∈X ∧ (f x)≐y❘# 4 imageE❙
+	imageI : {f,A,x} ⊦ x∈A ⟶ ⊦ (f x)∈ image f A❙
+	imageE : {f,A,y} ⊦ y ∈ image f A ⟶ ⊦ ∃[x] x∈A ∧ (f x)≐y❘# 4 imageE❙
 ❚
 
-// AS: probably unnecessary because it is the same as comprehension❚
 theory Filter =
-	// AS: think of a shorter notation❙
-	filter : set ⟶ (set ⟶ prop) ⟶ set❙
-	filterI : {X,P,x} ⊦ x∈X ⟶ ⊦ P x ⟶ ⊦ x∈ filter X P❙
-	filterEl : {X,P,x} ⊦ x ∈ filter X P ⟶ ⊦ x∈X❘# 4 filterEl❙
-	filterEr : {X,P,x} ⊦ x ∈ filter X P ⟶ ⊦ P x❘# 4 filterEr❙
-❚
-
-theory Regularity =	
-	// FR: only axiom here, no constant; can be a feature a that ZFC includes❙
-	// AS: add introduction and elimination rule?❙
-	regularity_axiom : ⊦ ∀[M](∃[t] t∈M) ⇒ ∃[Y] Y∈M ∧ ¬(∃[z] z∈M ∧ z∈Y)❙
-❚
-
-theory Comprehension =
-  comprehend  : set ⟶ (set ⟶ prop) ⟶ set❘# 1 | 2 prec 40❙
-  comprehendI : {X,P,x} ⊦ x∈X ⟶ ⊦ P x ⟶ ⊦ x ∈ X|P❙
-  comprehendEl : {X,P,x} ⊦ x ∈ X|P ⟶ ⊦ x∈X❘# 4 comprehendEl❙
-  comprehendEr : {X,P,x} ⊦ x ∈ X|P ⟶ ⊦ P x❘# 4 comprehendEr❙
+  filter  : set ⟶ (set ⟶ prop) ⟶ set❘# 1 | 2 prec 40❙
+  filterI : {A,P,x} ⊦ x∈A ⟶ ⊦ P x ⟶ ⊦ x ∈ A|P❙
+  filterEl : {A,P,x} ⊦ x ∈ A|P ⟶ ⊦ x∈A❘# 4 filterEl❙
+  filterEr : {A,P,x} ⊦ x ∈ A|P ⟶ ⊦ P x❘# 4 filterEr❙
   
-  comprehend_sub : {X,P,x} ⊦ x ∈ X|P ⟶ ⊦ x∈X❙
+  filter_sub : {A,P,x} ⊦ x ∈ A|P ⟶ ⊦ x∈A❙
 ❚
 
 theory Replacement =
   replace  : set ⟶ (set ⟶ set) ⟶ set❘# 1 map 2 prec 40❙
-  replaceI : {M,F,X} ⊦ X∈M ⟶ ⊦ (F X) ∈ M map F❙
-  replaceE : {M,F,X,C} ⊦ X ∈ M map F ⟶ ({Y} ⊦Y∈M ⟶ ⊦(F Y) ≐ X ⟶ ⊦C) ⟶ ⊦C❘ # 5 replaceE 6❙
+  replaceI : {A,F,x} ⊦ x∈A ⟶ ⊦ (F x) ∈ A map F❙
+  replaceE : {A,F,y,C} ⊦ y ∈ A map F ⟶ ({x} ⊦ x∈A ⟶ ⊦(F x) ≐ y ⟶ ⊦C) ⟶ ⊦C❘ # 5 replaceE 6❙
 ❚
 
 // FR: these two need some abbreviation just to state them; those can be here and then reused in the ZF theory that realizes them❚
@@ -56,7 +42,7 @@ theory Infinity =
 	include ?Union❙
 	
 	// AS: add introduction and elimination rule?❙
-	infinity_axiom : ⊦ ∃[M] ∅∈M ∧ ∀[X] X∈M ⇒ (X ∪ (singleton X))∈M❙
+	infinity_axiom : ⊦ ∃[A] ∅∈A ∧ ∀[x] x∈A ⇒ (x ∪ (singleton x))∈A❙
 ❚
 
 theory Choice =
@@ -67,5 +53,5 @@ theory Choice =
   // AS: maybe define this in Intersection or BigIntersection❙
   pairwise_disjoint: set ⟶ prop❘ // = ❙
   // AS: add introduction and elimination rule?❙
-  choice_axiom : ⊦ ∀[M] (all_nonempty M ∧ pairwise_disjoint M) ⇒ ∃[C] ischoice M C❙
+  choice_axiom : ⊦ ∀[A] (all_nonempty A ∧ pairwise_disjoint A) ⇒ ∃[C] ischoice A C❙
 ❚
