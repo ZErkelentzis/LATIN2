@@ -5,41 +5,41 @@ fixmeta ?SetFOL❚
 theory Union =
 	// symbol: jcup❙
 	union : set ⟶ set ⟶ set❘# 1 ∪ 2 prec 40❙
-	unionIl : {X,Y,x} ⊦ x∈X ⟶ ⊦ x∈X∪Y❘ # unionIl 2 4❙
-	unionIr : {X,Y,y} ⊦ y∈Y ⟶ ⊦ y∈X∪Y❘ # unionIr 2 4❙
-	unionE : {X,Y,x,C} ⊦ x∈X∪Y ⟶ (⊦x∈X ⟶ ⊦ C) ⟶ (⊦x∈Y ⟶ ⊦ C) ⟶ ⊦ C❘# 5 unionE 6 7❙ 
+	unionIl : {A,B,x} ⊦ x∈A ⟶ ⊦ x∈A∪B❘ # unionIl 2 4❙
+	unionIr : {A,B,y} ⊦ y∈B ⟶ ⊦ y∈A∪B❘ # unionIr 2 4❙
+	unionE : {A,B,x,C} ⊦ x∈A∪B ⟶ (⊦x∈A ⟶ ⊦ C) ⟶ (⊦x∈B ⟶ ⊦ C) ⟶ ⊦ C❘# 5 unionE 6 7❙ 
 		
-	union_subsetl : {X,Y} ⊦ X ⪽ X∪Y❙
-	union_subsetr : {X,Y} ⊦ Y ⪽ X∪Y❙
-	union_sup : {X,Y,M} ⊦ X⪽M ⟶ ⊦ Y⪽M ⟶ ⊦ X∪Y ⪽ M❙
+	union_subsetl : {A,B} ⊦ A ⪽ A∪B❙
+	union_subsetr : {A,B} ⊦ B ⪽ A∪B❙
+	union_sup : {A,B,C} ⊦ A⪽C ⟶ ⊦ B⪽C ⟶ ⊦ A∪B ⪽C❙
 	
-	union_idem : {X} ⊦ X∪X ≐ X❙
+	union_idem : {A} ⊦ A∪A ≐ A❙
 	// AS: maybe delete this, if algebra works here❙
-	union_comm : {X,Y} ⊦ X∪Y ≐ Y∪X❙
-	union_ass : {X,Y,Z} ⊦ (X∪Y)∪Z ≐ X∪(Y∪Z)❙
+	union_comm : {A,B} ⊦ A∪B ≐ B∪A❙
+	union_ass : {A,B,C} ⊦ (A∪B)∪C ≐ A∪(B∪C)❙
 	
 	include ?EmptySet❙
-	union_neutral : {X} ⊦ X∪∅ ≐ X❙
+	union_neutral : {A} ⊦ A∪∅ ≐ A❙
 	
 	include ?UniversalSet❙
-	union_universal : {X} ⊦ X∪𝒰 ≐ 𝒰❙
+	union_universal : {A} ⊦ A∪𝒰 ≐ 𝒰❙
 ❚
 
 theory Intersection =
 	// symbol: jcap❙
 	inter : set ⟶ set ⟶ set❘# 1 ∩ 2 prec 40❙
-	interI : {X,Y,x} ⊦ x∈X ⟶ ⊦ x∈Y ⟶ ⊦ x∈X∩Y❙
-	interEl : {X,Y,x} ⊦ x∈X∩Y ⟶ ⊦ x∈X❘# 4 interEl❙
-	interEr : {X,Y,y} ⊦ y∈X∩Y ⟶ ⊦ y∈Y❘# 4 interEr❙
+	interI : {A,B,x} ⊦ x∈A ⟶ ⊦ x∈B ⟶ ⊦ x∈A∩B❙
+	interEl : {A,B,x} ⊦ x∈A∩B ⟶ ⊦ x∈A❘# 4 interEl❙
+	interEr : {A,B,y} ⊦ y∈A∩B ⟶ ⊦ y∈B❘# 4 interEr❙
 	
-	inter_subsetl : {X,Y} ⊦ X∩Y ⪽ X❙
-	inter_subsetr : {X,Y} ⊦ X∩Y ⪽ Y❙
-	inter_sup : {X,Y,Z} ⊦ Z⪽X ⟶ ⊦ Z⪽Y ⟶ ⊦ Z⪽(X∩Y)❙
+	inter_subsetl : {A,B} ⊦ A∩B ⪽ A❙
+	inter_subsetr : {A,B} ⊦ A∩B ⪽ B❙
+	inter_sub : {A,B,C} ⊦ C⪽A ⟶ ⊦ C⪽B ⟶ ⊦ C⪽(A∩B)❙
 	
-	inter_idem : {X} ⊦ X∩X ≐ X❙
+	inter_idem : {A} ⊦ A∩A ≐ A❙
 	// AS: maybe delete this, if algebra works here❙
-	inter_comm : {X,Y} ⊦ X∩Y ≐ Y∩X❙
-	inter_assoc : {X,Y,Z} ⊦ (X∩Y)∩Z ≐ X∩(Y∩Z)❙
+	inter_comm : {A,B} ⊦ A∩B ≐ B∩A❙
+	inter_assoc : {A,B,C} ⊦ (A∩B)∩C ≐ A∩(B∩C)❙
 		
 	// this does not work because all algebra theories are written relative to SFOL and we're in FOL❙ 
 	// total structure algebra : algebraic?BoundedSemilattice =
@@ -49,22 +49,22 @@ theory Intersection =
   // ❚
   
   include ?EmptySet❙
-  inter_neutral : {X} ⊦ X∩∅ ≐ ∅❙
+  inter_neutral : {A} ⊦ A∩∅ ≐ ∅❙
   
   include ?UniversalSet❙
-  inter_universal : {X} ⊦ X∩𝒰 ≐ X❙
+  inter_universal : {A} ⊦ A∩𝒰 ≐ A❙
 
   // AS: seems wrong, maybe change to something like isdisjoint❙
-  disjoint : {X,Y} ⊦ X∩Y ≐ ∅❙ 
+  disjoint : {A,B} ⊦ A∩B ≐ ∅❙ 
 ❚
 
 theory BigUnion =
 	// symbol: jbigcup❙
   bigunion : set ⟶ set❘# ⋃ 1 prec 45❙
-  bigunionI : {M,X,x} ⊦ X∈M ⟶ ⊦ x∈X ⟶ ⊦ x∈ ⋃M❙
-  bigunionE : {M,x,C} ⊦ x∈⋃M ⟶ ({X}⊦X∈M ⟶ ⊦ x∈X ⟶ ⊦C) ⟶ ⊦C❘# 4 bigunionE 5❙
+  bigunionI : {A,X,x} ⊦ X∈A ⟶ ⊦ x∈X ⟶ ⊦ x∈ ⋃A❙
+  bigunionE : {A,x,C} ⊦ x∈⋃A ⟶ ({X}⊦X∈A ⟶ ⊦ x∈X ⟶ ⊦C) ⟶ ⊦C❘# 4 bigunionE 5❙
   
-  bigunion_subset : {M,X} ⊦ X∈M ⟶ ⊦ X ⪽ ⋃M❙ 
+  bigunion_subset : {A,X} ⊦ X∈A ⟶ ⊦ X ⪽ ⋃A❙ 
   
   include ?EmptySet❙
   bigunion_neutral : ⊦ ⋃∅ ≐ ∅❙
@@ -74,11 +74,11 @@ theory BigIntersection =
   include ?EmptySetDefinitions❙
   // symbol: jbigcap❙
 	biginter : set ⟶ set❘# ⋂ 1 prec 45❙
-	// M must be nonempty because otherwise intrsection would produce the set of all sets❙
-	biginterI : {M,x} ⊦ nonempty M ⟶ ({X} ⊦ X∈M ⟶ ⊦ x∈X) ⟶ ⊦ x ∈ ⋂M❙
-	biginterE : {M,X,x} ⊦ x ∈ ⋂M ⟶ ⊦ X∈M ⟶ ⊦ x∈X❘# 4 biginterE 5❙
+	// A must be nonempty because otherwise intrsection would produce the set of all sets❙
+	biginterI : {A,x} ⊦ nonempty A ⟶ ({X} ⊦ X∈A ⟶ ⊦ x∈X) ⟶ ⊦ x ∈ ⋂A❙
+	biginterE : {A,X,x} ⊦ x ∈ ⋂A ⟶ ⊦ X∈A ⟶ ⊦ x∈X❘# 4 biginterE 5❙
 	
-	biginter_subset : {M,X} ⊦ X∈M ⟶ ⊦ ⋂M ⪽ X❙
+	biginter_subset : {A,X} ⊦ X∈A ⟶ ⊦ ⋂A ⪽ X❙
 	
 	include ?EmptySet❙
 	biginter_neutral : ⊦ ⋂∅ ≐ ∅❙
@@ -87,39 +87,40 @@ theory BigIntersection =
 theory Difference =
 	// symbol: jsetminus❙
 	dif : set ⟶ set ⟶ set❘# 1 ∖ 2 prec 40❙
-	difI : {X,Y,x} ⊦ x∈X ⟶ ⊦ ¬ x∈Y ⟶ ⊦ x ∈ X∖Y❙
-	difEl : {X,Y,x} ⊦ x ∈ X∖Y ⟶ ⊦ x∈X❘# 4 difEl❙
-	difEr : {X,Y,x} ⊦ x ∈ X∖Y ⟶ ⊦ ¬ x∈Y❘# 4 difEr❙
+	difI : {A,B,x} ⊦ x∈A ⟶ ⊦ ¬ x∈B ⟶ ⊦ x ∈ A∖B❙
+	difEl : {A,B,x} ⊦ x ∈ A∖B ⟶ ⊦ x∈A❘# 4 difEl❙
+	difEr : {A,B,x} ⊦ x ∈ A∖B ⟶ ⊦ ¬ x∈B❘# 4 difEr❙
 	
-	dif_subset : {X,Y} ⊦ X∖Y ⪽ X❙
+	dif_subset : {A,B} ⊦ A∖B ⪽ A❙
 ❚
 
 theory Complement =
 	// AS : Maybe change notation❙
 	comp : set ⟶ set❙
-	compI : {X,y,Y} ⊦ ¬ y∈X ⟶ ⊦ y∈Y❙
+	compI : {A,x,B} ⊦ x∈A ⟶ ⊦ ¬ x∈B❙
+	compE : {A,x,B} ⊦ ¬ x∈B ⟶ ⊦ x∈A❙
 	
 	include ?UniversalSet❙
 	include ?Union❙
-	comp_union : {X} ⊦ X ∪ comp X ≐ 𝒰❙
+	comp_union : {A} ⊦ A ∪ comp A ≐ 𝒰❙
 	
 	include ?EmptySet❙
 	include ?Intersection❙
-	comp_inter : {X} ⊦ X ∩ comp X ≐ ∅❙
+	comp_inter : {A} ⊦ A ∩ comp A ≐ ∅❙
 ❚
 
 theory SymmetricDifference =
-	// AS : add definition X Δ Y = (X ∪ Y) ∖ (X ∩ Y)❙
+	// AS : add definition A Δ B = (A ∪ B) ∖ (A ∩ B)❙
 	// AS : think of another notation, since this leads to mistakes!❙
 	// symbol: jDelta❙
 	symdif : set ⟶ set ⟶ set❘ # 1 Δ 2 prec 40❙
-	symdifIl : {X,Y,x} ⊦ x∈X ⟶ ⊦ ¬ x∈Y ⟶ ⊦ x ∈ X Δ Y❙
-	symdifIr : {X,Y,y} ⊦ ¬ y∈X ⟶ ⊦ y∈Y ⟶ ⊦ y ∈ X Δ Y❙
+	symdifIl : {A,B,x} ⊦ x∈A ⟶ ⊦ ¬ x∈B ⟶ ⊦ x ∈ A Δ B❙
+	symdifIr : {A,B,y} ⊦ ¬ y∈A ⟶ ⊦ y∈B ⟶ ⊦ y ∈ A Δ B❙
 	// AS: maybe there is a smarter/shorter way to describe elimination rules❙
-	symdifEll : {X,Y,x} ⊦ x ∈ X Δ Y ⟶ ⊦ x∈X ⟶ ⊦ ¬ x∈Y❙
-	symdifElr : {X,Y,x} ⊦ x ∈ X Δ Y ⟶ ⊦ ¬ x∈Y ⟶ ⊦ x∈X❙
-	symdifErl : {X,Y,y} ⊦ y ∈ X Δ Y ⟶ ⊦ y∈Y ⟶ ⊦ ¬ y∈X❙
-	symdifErr : {X,Y,y} ⊦ y ∈ X Δ Y ⟶ ⊦ ¬ y∈X ⟶ ⊦ y∈Y❙
+	symdifEll : {A,B,x} ⊦ x ∈ A Δ B ⟶ ⊦ x∈A ⟶ ⊦ ¬ x∈B❙
+	symdifElr : {A,B,x} ⊦ x ∈ A Δ B ⟶ ⊦ ¬ x∈B ⟶ ⊦ x∈A❙
+	symdifErl : {A,B,y} ⊦ y ∈ A Δ B ⟶ ⊦ y∈B ⟶ ⊦ ¬ y∈A❙
+	symdifErr : {A,B,y} ⊦ y ∈ A Δ B ⟶ ⊦ ¬ y∈A ⟶ ⊦ y∈B❙
 ❚
 
 theory DisjointUnion =
@@ -134,15 +135,15 @@ theory Adjoint =
 	// AS: Maybe rename this to Insert❙
 	// AS: think of a notation❙
 	adjoint : set ⟶ set ⟶ set❙
-	adjointIl : {X,y,x} ⊦ x∈X ⟶ ⊦ x∈(adjoint X y)❙
-	adjointIr : {X,y} ⊦ y∈(adjoint X y)❙
-	adjointE : {X,y,x} ⊦ x∈(adjoint X y) ⟶ ⊦ x∈X ∨ x≐y❙
+	adjointIl : {A,b,x} ⊦ x∈A ⟶ ⊦ x∈(adjoint A b)❙
+	adjointIr : {A,b} ⊦ b∈(adjoint A b)❙
+	adjointE : {A,b,x} ⊦ x∈(adjoint A b) ⟶ ⊦ x∈A ∨ x≐b❙
 ❚
 
 theory Erase =
 	// AS: Maybe rename this to Delete❙
 	// AS: think of a notation❙
 	erase : set ⟶ set ⟶ set❙
-	eraseI : {X,y,x} ⊦ x∈X ⟶ ⊦ ¬ x≐y ⟶ ⊦ x∈(erase X y)❙
-	eraseE : {X,y,x} ⊦ x∈(erase X y) ⟶ ⊦ x∈X ∧ ¬ x≐y❙ 
+	eraseI : {A,b,x} ⊦ x∈A ⟶ ⊦ ¬ x≐b ⟶ ⊦ x∈(erase A b)❙
+	eraseE : {A,b,x} ⊦ x∈(erase A b) ⟶ ⊦ x∈A ∧ ¬ x≐b❙ 
 ❚
