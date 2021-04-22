@@ -10,7 +10,7 @@ theory EmptySet =
   emptyE : {x} ⊦ x∈∅ ⟶ ↯❘# 2 emptyE❘
   		= [x,p] isemptyE empty_prop p❙
   
-  empty_sub : {X} ⊦ ∅ ⪽ X❘ // = ???❙
+  empty_sub : {A} ⊦ ∅ ⪽ A❘ // = ???❙
 ❚
 
 theory UniversalSet =
@@ -19,16 +19,16 @@ theory UniversalSet =
 	universal : set❘# 𝒰❙
 	universal_prop : ⊦ isuniversal 𝒰❙
 	
-	universal_sub: {X} ⊦ X ⪽ 𝒰❘ // = ???❙
+	universal_sub: {A} ⊦ A ⪽ 𝒰❘ // = ???❙
 ❚
 
 theory Singletons =
 	include ?SingletonDefinition❙
   singleton : set ⟶ set❘# singleton 1 prec 100❙
 
-  singleton_the : {X} ⊦ issingleton X ⟶ set❘ = [X,p] the ([x] x ∈ X) p❙
-  singletonI : {X} ⊦ X ∈ singleton X❙
-  singletonE : {X,x} ⊦ x ∈ singleton X ⟶ ⊦ x≐X❘# 3 singletonE❙
+  singleton_the : {A} ⊦ issingleton A ⟶ set❘ = [A,p] the ([u] u∈A) p❙
+  singletonI : {x} ⊦ x∈ singleton x❙
+  singletonE : {A,x} ⊦ x∈ singleton A ⟶ ⊦ x≐A❘# 3 singletonE❙
   
   // AS: this was used in KRMT;
   		however its definition was with Big_Union, which would ruin the modularity here❙
@@ -37,9 +37,9 @@ theory Singletons =
 
 theory UnorderedPairs =
   uopair : set ⟶ set ⟶ set❘# uopair 1 2 prec 40❙
-  uopairIl : {X,Y} ⊦ X ∈ uopair X Y❙
-  uopairIr : {X,Y} ⊦ Y ∈ uopair X Y❙
-  uopairE  : {U,X,Y,C} ⊦ U ∈ uopair X Y ⟶ (⊦ U≐X ⟶ ⊦C) ⟶ (⊦ U≐Y ⟶ ⊦C) ⟶ ⊦C❘# 5 uopairE 6 7❙
+  uopairIl : {x,B} ⊦ x∈ uopair x B❙
+  uopairIr : {A,y} ⊦ y∈ uopair A y❙
+  uopairE  : {A,B,x,C} ⊦ x∈ uopair A B ⟶ (⊦ x≐A ⟶ ⊦C) ⟶ (⊦ x≐B ⟶ ⊦C) ⟶ ⊦C❘# 5 uopairE 6 7❙
   
-  uopair_comm : {X,Y} ⊦ uopair X Y ≐ uopair Y X❙
+  uopair_comm : {A,B} ⊦ uopair A B ≐ uopair B A❙
 ❚
