@@ -27,61 +27,66 @@ theory ZFEmptySet =
 ❚
 
 theory ZFPairing =
+	// This is similar to UopairFromAxiom❙
   include ?ZFBase❙
   include ?PairingAx❙
   
   realize ?UnorderedPairs❙
   
   uopair : set ⟶ set ⟶ set❘ # uopair 1 2❘
-          = [X,Y] the ([M] isuopair X Y M) pairing_unique❙
+          = [A,B] the ([Z] isuopair A B Z) pairing_unique❙
   // AS: the introduction and elimination rules should be defined❙
   // uopairIL, uopairIR, uopairE❙ 
 ❚
 
 theory ZFUnion =
+	// This is similar to BigUnionFromAxiom❙
   include ?ZFBase❙
   include ?UnionAx❙
 	
 	realize ?BigUnion❙
 	
 	bigunion : set ⟶ set❘# ⋃ 1❘
-					= [M] the ([Z] isbigunion M Z) union_unique❙
+					= [A] the ([Z] isbigunion A Z) union_unique❙
 	// AS: the introduction and elimination rules should be defined❙
   // bigunionI, bigunionE❙ 
 ❚
 
 theory ZFPowerSet =
+	// This is similar to PowersetFromAxiom❙
   include ?ZFBase❙
   include ?PowersetAx❙
   
 	realize ?PowerSets❙
 	
 	powerset : set ⟶ set❘# ℘ 1 prec 60❘
-					= [X] the ([M] ispowerset X M) powerset_unique❙
+					= [A] the ([Z] ispowerset A Z) powerset_unique❙
 	// AS: the introduction and elimination rules should be defined❙
   // powersetI, powersetE❙ 
 ❚
 
 theory ZFComprehension =
+	// This is similar to ComprehensionFromAxiom❙
   include ?ZFBase❙
   include ?ComprehensionAx❙
 	
 	realize ?Comprehension❙
 	
 	comprehend  : set ⟶ (set ⟶ prop) ⟶ set❘# 1 | 2 prec 40❘
-					= [X,P] the ([Z] iscomprehension X P Z) comprehension_unique❙
+					= [A,P] the ([Z] iscomprehension A P Z) comprehension_unique❙
 	// AS: the introduction and elimination rules should be defined❙
   // comprehendI, comprehend_sub, comprehendE❙ 
 ❚
 
 theory ZFReplacement =
+	// This is similar to ReplacementFromAxiom❙
   include ?ZFBase❙
   include ?ReplacementAx❙
 	
 	realize ?Replacement❙
 	
 	replace  : set ⟶ (set ⟶ set) ⟶ set❘# 1 map 2 prec 40❘
-					= [X,F] the ([Z] isreplacement X F Z) replacement_unique❙
+					= [A,F] the ([Z] isreplacement A F Z) replacement_unique❙
 	// AS: the introduction and elimination rules should be defined❙
   // replaceI, replaceE❙ 
 ❚

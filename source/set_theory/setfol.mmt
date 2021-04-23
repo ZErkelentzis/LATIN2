@@ -1,5 +1,7 @@
 namespace latin:/❚
 
+// AS: SetFOL shall contain FOL and all definitions which are necessary to formalize set theory❚
+
 theory SetFOL : ur:?LF =
 	// FOLEQND: FOL, PLND, IFOLND (IPLND, UniversalQuantificationND, 
 			ExistentialQuantificationND), UntypedEquality, UntypedEqualityND❙
@@ -17,10 +19,10 @@ theory SetFOL : ur:?LF =
 
   set = term❙
   
-  eq_in : {x,y,z} ⊦x≐y ⟶ ⊦y∈z ⟶ ⊦x∈z❘
-        = [x,y,z,p,q] (eq/sym p) congP ([u]u∈z) q❙
-  in_eq : {x,y,z} ⊦x∈y ⟶ ⊦y≐z ⟶ ⊦x∈z❘
-        = [x,y,z,p,q] q congP ([u]x∈u) p❙
+  eq_in : {x,y,A} ⊦ x≐y ⟶ ⊦ y∈A ⟶ ⊦ x∈A❘
+        = [x,y,A,p,q] (eq/sym p) congP ([u] u∈A) q❙
+  in_eq : {x,A,B} ⊦ x∈A ⟶ ⊦A≐B ⟶ ⊦ x∈B❘
+        = [x,A,B,p,q] q congP ([U] x∈U) p❙
 ❚
 
 // AS: this might be unnecessary
