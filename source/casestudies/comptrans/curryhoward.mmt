@@ -53,6 +53,22 @@ view CurryHoward_DependentFunctions : ?DependentFunctions -> latin:/?SFOLND =
   depapply = dimplE ❙
 ❚
 
+// (type, prop, prop) -- logic
+   (type, type, type) -- dependent type theory
+
+   meta theorems that do "concept splits," where the translation is non-uniform
+   where one constant is translated in ways depending on its usage in terms
+
+   ---
+
+   Translations that are partial on some constants, but still translate complex terms containing those constants
+   e.g. cannot translate the cut elimination rule itself, but can translate every proof using it
+
+   1) partial on c => partial on terms containing c
+   2) partial on c => translate `constant d : E = def. containing c` to `constant d : E'` (throw away definiens)
+   3)
+❚
+
 //
 
 Recall TypedTerms is included in SFOLND
