@@ -106,7 +106,7 @@ theory NegationND =
 theory NegationNDS =
   include ?ProofEquality ❙
   include ?NegationND ❙
-  notS: {F, pf: ⊦ F ⟶ ↯, pfF: ⊦ F} {a} ((notI pf) notE pfF) a ⇝ pf pfF a ❘ role Simplify ❙
+  notS: {F, pf: ⊦ F ⟶ ↯, pfF: ⊦ F} {a} ((notI pf) notE pfF) a ⟺ pf pfF a ❘ role Simplify ❙
 ❚
 
 theory Disjunction =
@@ -136,8 +136,8 @@ theory DisjunctionND =
 theory DisjunctionNDS =
   include ?ProofEquality ❙
   include ?DisjunctionND ❙
-  orSl: {F,G,C, pfF: ⊦ F, pf1: ⊦ F ⟶ ⊦ C, pf2: ⊦ G ⟶ ⊦ C} (pfF orIl) orE pf1 pf2 ⇝ pf1 pfF ❘ role Simplify ❙
-  orSr: {F,G,C, pfG: ⊦ G, pf1: ⊦ F ⟶ ⊦ C, pf2: ⊦ G ⟶ ⊦ C} (pfG orIr) orE pf1 pf2 ⇝ pf2 pfG ❘ role Simplify ❙
+  orSl: {F,G,C, pfF: ⊦ F, pf1: ⊦ F ⟶ ⊦ C, pf2: ⊦ G ⟶ ⊦ C} (pfF orIl) orE pf1 pf2 ⟺ pf1 pfF ❘ role Simplify ❙
+  orSr: {F,G,C, pfG: ⊦ G, pf1: ⊦ F ⟶ ⊦ C, pf2: ⊦ G ⟶ ⊦ C} (pfG orIr) orE pf1 pf2 ⟺ pf2 pfG ❘ role Simplify ❙
 ❚
 
 theory DisjunctionSL =
@@ -178,8 +178,8 @@ theory ConjunctionND =
 theory ConjunctionNDS =
   include ?ProofEquality ❙
   include ?ConjunctionND ❙
-  andSl: {F,G, pfF: ⊦ F, pfG: ⊦ G} (andI pfF pfG) andEl ⇝ pfF ❘ role Simplify ❙
-  andSr: {F,G, pfF: ⊦ F, pfG: ⊦ G} (andI pfF pfG) andEr ⇝ pfG ❘ role Simplify ❙
+  andSl: {F,G, pfF: ⊦ F, pfG: ⊦ G} (andI pfF pfG) andEl ⟺ pfF ❘ role Simplify ❙
+  andSr: {F,G, pfF: ⊦ F, pfG: ⊦ G} (andI pfF pfG) andEr ⟺ pfG ❘ role Simplify ❙
 ❚
 
 theory ConjunctionSL =
@@ -226,7 +226,7 @@ theory ImplicationND =
 theory ImplicationNDS =
   include ?ProofEquality ❙
   include ?ImplicationND ❙
-  implS: {F,G, pf: ⊦ F ⟶ ⊦ G, pfF: ⊦ F} (implI pf) implE pfF ⇝ pf pfF ❘ role Simplify ❙
+  implS: {F,G, pf: ⊦ F ⟶ ⊦ G, pfF: ⊦ F} (implI pf) implE pfF ⟺ pf pfF ❘ role Simplify ❙
 ❚
 
 theory IPL =

@@ -167,9 +167,10 @@ theory UniqueExistentialQuantificationNDS =
   include ?UniqueExistentialQuantificationND ❙
   include ?ProofEquality❙
 
+  /T does not typecheck due to https://github.com/UniFormal/MMT/blob/e28a07fb6792b79337e6b69673c9c15ce08cfd4d/src/mmt-lf/src/info/kwarc/mmt/lf/SimplificationRuleGenerator.scala#L205 ❙
   existsUniqueS: {x,P: term ⟶ prop,px: ⊦ P x,pf1: {y} ⊦ P y ⟶ ⊦ x ≐ y,
                   C,pf2: {z} ⊦ P z ⟶ ({y} ⊦ P y ⟶ ⊦ z ≐ y) ⟶ ⊦ C}
-                    ((existsUniqueI px pf1) existsUniqueE pf2) ⇝ pf2 x px pf1 ❘ role Simplify ❙
+                    ((existsUniqueI px pf1) existsUniqueE pf2) ⟺ pf2 x px pf1 ❘ role Simplify ❙
 ❚
 
 theory Description =
@@ -188,12 +189,13 @@ theory DescriptionND =
 theory DescriptionNDS =
   include ?DescriptionND❙
   include ?ProofEquality ❙
+  /T does not typecheck due to https://github.com/UniFormal/MMT/blob/e28a07fb6792b79337e6b69673c9c15ce08cfd4d/src/mmt-lf/src/info/kwarc/mmt/lf/SimplificationRuleGenerator.scala#L205 ❙
   theS: {x,P: term ⟶ prop,px: ⊦ P x,pf1: {y} ⊦ P y ⟶ ⊦ x ≐ y}
           ⊦ the P (existsUniqueI px pf1) ≐ x ❘ role Simplify❙
 
   /T well-typedness of this constant depends on simplification rule theS above ❙
   the_axS: {x,P: term ⟶ prop,px: ⊦ P x,pf1}
-          (the_ax P (existsUniqueI px pf1)) ⇝ px ❘ role Simplify ❙
+          (the_ax P (existsUniqueI px pf1)) ⟺ px ❘ role Simplify ❙
 ❚
 
 theory Choice =
@@ -217,7 +219,7 @@ theory ChoiceNDS =
   someS: {P,X,pf: ⊦ P X} ⊦ some P (existsI X pf) ≐ X ❘ role Simplify ❙
 
   /T well-typedness of this constant depends on simplification rule someS above ❙
-  some_axS: {P,X,pf: ⊦ P X} some_ax P (existsI X pf) ⇝ pf ❘ role Simplify ❙
+  some_axS: {P,X,pf: ⊦ P X} some_ax P (existsI X pf) ⟺ pf ❘ role Simplify ❙
 ❚
 
 theory FOLEQDesc = 

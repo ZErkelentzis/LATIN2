@@ -24,11 +24,19 @@ theory UntypedEqualityND =
   ❚
 ❚
 
+/T Equality on proofs, mainly used for proof simplification in ./logic.
+
+   As such it is the Curry-Howard analog of program execution / reduction in lambda calculi. ❚
+theory ProofEquality =
+  include ?Proofs ❙
+  proofeq: {p} ⊦ p ⟶ ⊦ p ⟶ type ❘ # 2 ⟺ 3 prec 10 ❘ role Eq ❙
+❚
+
 theory UntypedEqualityNDS =
   include ?UntypedEqualityND❙
   include ?ProofEquality ❙
   congP_s : {x, P: term ⟶ prop, pf: ⊦ P x}
-              (congP_ x x refl P pf) ⇝ pf ❘ role Simplify ❙
+              (congP_ x x refl P pf) ⟺ pf ❘ role Simplify ❙
 ❚
 
 /T A relative equality for a typed language, in which the equality of objects may depend on the type at which it is taken.
@@ -94,12 +102,4 @@ theory TypedEqualityND =
          = [A, v,w,x,y,z,p,q,r,s] p trans q trans r trans s❙
   congT2 : {A,B,C,x,y,xˈ,yˈ} ⊦ x≐y ⟶ ⊦xˈ≐yˈ⟶ {T: tm A ⟶ tm B ⟶ tm C} ⊦ T x xˈ ≐ T y yˈ❘# 8 9 congT2 10❘
          = [A,B,C,x,y,xˈ,yˈ,p,q,T] (p congT [u] T u xˈ) trans (q congT [u] T y u)❙
-❚
-
-/T Equality on proofs, mainly used for proof simplification in ./logic.
-
-   As such it is the Curry-Howard analog of program execution / reduction in lambda calculi. ❚
-theory ProofEquality =
-  include ?Proofs ❙
-  proofeq: {p} ⊦ p ⟶ ⊦ p ⟶ type ❘ # 2 ⇝ 3 prec 10 ❘ role Eq ❙
 ❚
