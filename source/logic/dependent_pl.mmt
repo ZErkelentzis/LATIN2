@@ -28,10 +28,10 @@ theory DependentConjunctionNDS =
   include ?ProofEquality❙
 
   dandSl : {F,G,pfF: ⊦ F, pfG: ⊦ G pfF}
-             (?DependentConjunctionND?dandI F G pfF pfG) dandEl ⇝ pfF ❘ role Simplify ❙
+             (?DependentConjunctionND?dandI F G pfF pfG) dandEl ⟺ pfF ❘ role Simplify ❙
   dandSr : {F,G,pfF: ⊦ F, pfG: ⊦ G pfF}
-             (?DependentConjunctionND?dandI F G pfF pfG) dandEr ⇝ pfG ❘ role Simplify ❙
-❚ompute1 : {A, B, a: tm A, b} ⊦ ((a,b):tm Σ B)₁ ≐ a❘role Simplify❙
+             (?DependentConjunctionND?dandI F G pfF pfG) dandEr ⟺ pfG ❘ role Simplify ❙
+❚
 
 /T Disjunction where the second disjunct's well-formedness may depend on the falsity of the first disjunct
    Curry-Howard analogue of an unusual union type where the second argument is only considered if the first one is empty❚ 
@@ -78,5 +78,5 @@ theory DependentImplicationND =
 theory DependentImplicationNDS =
   include ?DependentImplicationND❙
   include ?ProofEquality❙
-  dimplS : {F,G: ⊦ F ⟶ prop, pf: {p} ⊦ G p, pfF} ((dimplI pf) dimplE pfF) ⇝ pf pfF ❘ role Simplify ❙
+  dimplS : {F,G: ⊦ F ⟶ prop, pf: {p} ⊦ G p, pfF} ((dimplI pf) dimplE pfF) ⟺ pf pfF ❘ role Simplify ❙
 ❚

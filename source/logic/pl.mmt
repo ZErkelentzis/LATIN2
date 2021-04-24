@@ -50,8 +50,8 @@ theory EquivalenceND =
 theory EquivalenceNDS =
   include ?ProofEquality ❙
   include ?EquivalenceND ❙
-  equivSl: {F,G, pf1: ⊦ F ⟶ ⊦ G, pf2, pfF} (equivI pf1 pf2) equivEl pfF ⇝ pf1 pfF  ❘ role Simplify ❙
-  equivSr: {F,G, pf1: ⊦ F ⟶ ⊦ G, pf2, pfG} (equivI pf1 pf2) equivEr pfG ⇝ pf2 pfG  ❘ role Simplify ❙
+  equivSl: {F,G, pf1: ⊦ F ⟶ ⊦ G, pf2, pfF} ((equivI pf1 pf2) equivEl pfF) ⟺ pf1 pfF  ❘ role Simplify ❙
+  equivSr: {F,G, pf1: ⊦ F ⟶ ⊦ G, pf2, pfG} ((equivI pf1 pf2) equivEr pfG) ⟺ pf2 pfG  ❘ role Simplify ❙
 ❚
 
 theory Lindenbaum =
@@ -136,8 +136,8 @@ theory DisjunctionND =
 theory DisjunctionNDS =
   include ?ProofEquality ❙
   include ?DisjunctionND ❙
-  orSl: {F,G,C, pfF: ⊦ F, pf1: ⊦ F ⟶ ⊦ C, pf2: ⊦ G ⟶ ⊦ C} (pfF orIl) orE pf1 pf2 ⟺ pf1 pfF ❘ role Simplify ❙
-  orSr: {F,G,C, pfG: ⊦ G, pf1: ⊦ F ⟶ ⊦ C, pf2: ⊦ G ⟶ ⊦ C} (pfG orIr) orE pf1 pf2 ⟺ pf2 pfG ❘ role Simplify ❙
+  orSl: {F,G,C, pfF: ⊦ F, pf1: ⊦ F ⟶ ⊦ C, pf2: ⊦ G ⟶ ⊦ C} (?DisjunctionNDE?orE F G C (pfF orIl) pf1 pf2) ⟺ pf1 pfF ❘ role Simplify ❙
+  orSr: {F,G,C, pfG: ⊦ G, pf1: ⊦ F ⟶ ⊦ C, pf2: ⊦ G ⟶ ⊦ C} (?DisjunctionNDE?orE F G C (pfG orIr) pf1 pf2) ⟺ pf2 pfG ❘ role Simplify ❙
 ❚
 
 theory DisjunctionSL =
@@ -185,7 +185,7 @@ theory ConjunctionNDS =
 theory ConjunctionSL =
   include ?Lindenbaum❙
   include ?ConjunctionND❙
-  realize latin:/algebraic?Semilattice❙
+  realize ☞latin:/algebraic?Semilattice❙
   op = and❙
   idempotent = [F] equivI ([p] p andEl) ([p] andI p p)❙
   comm = [F,G] equivI ([p] and_swap p) ([p] and_swap p)❙
@@ -226,7 +226,7 @@ theory ImplicationND =
 theory ImplicationNDS =
   include ?ProofEquality ❙
   include ?ImplicationND ❙
-  implS: {F,G, pf: ⊦ F ⟶ ⊦ G, pfF: ⊦ F} (implI pf) implE pfF ⟺ pf pfF ❘ role Simplify ❙
+  implS: {F,G, pf: ⊦ F ⟶ ⊦ G, pfF: ⊦ F} ((implI pf) implE pfF) ⟺ pf pfF ❘ role Simplify ❙
 ❚
 
 theory IPL =
