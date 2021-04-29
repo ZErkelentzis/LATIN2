@@ -80,8 +80,8 @@ theory ReplacementAx =
 	
 	replacement_axiom : {A,F} ⊦ ∃[Z] isreplacement A F Z❙
 	replacement_unique : {A,F} ⊦ ∃¹[Z] isreplacement A F Z❘ // = _ ❙
-	replacementAxI : {A,F,Z,B} ⊦ (∃[x] x∈A ∧ B ≐(F x)) ⟶ ⊦ B∈Z❙
-	replacementAxE : {A,F,Z,B} ⊦ B∈Z ⟶ ⊦ ∃[x] x∈A ∧ B ≐(F x)❘# 5 replacementAxE❙ 
+	replacementAxI : {A,F,Z,a} ⊦ a∈A ⟶ ⊦ (F a)∈Z❙
+	replacementAxE : {A,F,Z,z,C} ⊦ z∈Z ⟶ ([a] ⊦a∈A ⟶ ⊦ F a ≐ z ⟶ ⊦C) ⟶ ⊦C❘# 5 replacementAxE❙ 
 ❚
 
 theory RegularityAx =
