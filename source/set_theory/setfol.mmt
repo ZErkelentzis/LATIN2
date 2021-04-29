@@ -3,19 +3,18 @@ namespace latin:/❚
 // AS: SetFOL shall contain FOL and all definitions which are necessary to formalize set theory❚
 
 theory SetFOL : ur:?LF =
-	// FOLEQND: FOL, PLND, IFOLND (IPLND, UniversalQuantificationND, 
-			ExistentialQuantificationND), UntypedEquality, UntypedEqualityND❙
-  include ?FOLEQND❙
+	// AS: I changed FOLEQND + DescriptionND to the already existing combination❙
+  include ?FOLEQDescND❙
   // InternalTypes: Terms, Propositions, in, realization of SoftTypedTerms❙
   include ?InternalTypes❙
   include ?SoftSubtyping❙
 
-  include ?DescriptionND❙
   include ?RelativizedUniversalQuantificationND❙
   include ?RelativizedExistentialQuantificationND❙
 
-  include ?DependentConjunctionND❙
-  include ?DependentImplicationND❙
+  // AS: this needed to be removed, since these have been rewritten❙
+  // include ?DependentConjunctionND❙
+  // include ?DependentImplicationND❙
 
   set = term❙
   
