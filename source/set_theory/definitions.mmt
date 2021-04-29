@@ -4,9 +4,9 @@ fixmeta ?SetFOL❚
 
 theory EmptySetDefinitions =
   isempty : set ⟶ prop❘ = [A] ¬∃[x]x∈A❙
-  nonempty: set ⟶ prop❘ = [A] ∃[x]x∈A❙
+  nonempty : set ⟶ prop❘ = [A] ∃[x]x∈A❙
   
-  isemptyE : {A,x} ⊦ isempty A ⟶ ⊦ x∈A ⟶ ↯❘ # isemptyE 3 4❘
+  isemptyE : {A,x} ⊦ isempty A ⟶ ⊦ x∈A ⟶ ↯❘ # 3 isemptyE 4❘
            = [A,x,p,q] p notE (existsI x q)❙
   nonemptyE: {A,C} ⊦ nonempty A ⟶ ({x} ⊦x∈A ⟶ ⊦C) ⟶ ⊦C❘
            = [A,C,ne,P] ne existsE [x,p] P x p❙
@@ -14,11 +14,11 @@ theory EmptySetDefinitions =
 
 theory UniversalSetDefinition =
 	// AS: is this correct? 𝒰 consists of all elements, but what about sets?❙
-	isuniversal: set ⟶ prop❘ = [A] ∀[x]x∈A❙
+	isuniversal : set ⟶ prop❘ = [A] ∀[x]x∈A❙
 ❚
 
 theory BigUnionDefinition =
-	isbigunion = [A,Z] ∀[x]∀[X](X∈A ⇒ x∈X ⇒ x∈Z)❙
+	isbigunion = [A,Z] ∀[x]∀[X] X∈A ⇒ x∈X ⇒ x∈Z❙
 ❚
 
 theory ChoiceDefinition =
@@ -26,7 +26,7 @@ theory ChoiceDefinition =
 ❚
 
 theory ComprehensionDefinition =
-	iscomprehension = [A,P,Z] ∀[x](x∈A ∧ (P x)) ⇔ x∈Z❙
+	iscomprehension = [A,P,Z] ∀[x] x∈A ∧ (P x) ⇔ x∈Z❙
 ❚
 
 theory ExtensionalityDefinition =
@@ -48,8 +48,8 @@ theory LeftTotal =
 	islefttotal = [A,B,P] ∀[x] x∈A ∧ ∃[y] y∈B ∧ P x y❙
 ❚
 
-theory PowerSetDefinition =
-	ispowerset = [A,Z] ∀[B]((∀[x](x∈B ⇒ x∈A)) ⇒ B∈Z)❙
+theory PowersetDefinition =
+	ispowerset = [A,Z] ∀[B] (∀[x] x∈B ⇒ x∈A) ⇒ B∈Z❙
 ❚
 
 theory RegularityDefinition =
@@ -72,9 +72,10 @@ theory SingletonDefinition =
 ❚
 
 theory UnionDefinition =
-	isunion = [A,B,Z] (∀[x](x∈A ∨ x∈B) ⇒ x∈Z)❙
+	// AS: this might not be used right now❙
+	isunion = [A,B,Z] ∀[x] x∈A ∨ x∈B ⇒ x∈Z❙
 ❚
 
 theory UnorderedPairDefinition =
-	isuopair = [A,B,Z] ∀[x]x∈Z ⇔ (x≐A ∨ x≐B)❙
+	isuopair = [A,B,Z] ∀[x] x∈Z ⇔ x≐A ∨ x≐B❙
 ❚
