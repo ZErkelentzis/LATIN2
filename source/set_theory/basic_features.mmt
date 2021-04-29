@@ -2,12 +2,12 @@ namespace latin:/❚
 
 fixmeta ?SetFOL❚
 
-theory PowerSets =
+theory Powersets =
 	// symbol: jpow❙
   powerset : set ⟶ set❘# ℘ 1 prec 60❙
   powersetI : {A,B} ({x} ⊦ x∈B ⟶ ⊦ x∈A) ⟶ ⊦ B∈ ℘A❙
   // AS: maybe 5 needs to be added for ⊦x∈B❙
-  powersetE : {A,B} ⊦ B∈ ℘A ⟶ {x} ⊦ x∈B ⟶ ⊦ x∈A❘# 3 powersetE 4❙
+  powersetE : {A,B} ⊦ B∈ ℘A ⟶ {x} ⊦ x∈B ⟶ ⊦ x∈A❘# 3 powersetE 4 5❙
 ❚
 
 theory Image =
@@ -23,7 +23,7 @@ theory Filter =
   filterEl : {A,P,x} ⊦ x ∈ A|P ⟶ ⊦ x∈A❘# 4 filterEl❙
   filterEr : {A,P,x} ⊦ x ∈ A|P ⟶ ⊦ P x❘# 4 filterEr❙
   
-  filter_sub : {A,P,x} ⊦ x ∈ A|P ⟶ ⊦ x∈A❙
+  filter_sub : {A,P} ⊦ A|P ⪽ A❙
 ❚
 
 theory Replacement =
@@ -41,13 +41,13 @@ theory Infinity =
 	include ?Singletons❙
 	include ?Union❙
 	
-	// AS: add introduction and elimination rule?❙
+	// AS: realize this with InfinityAx!❙
 	infinity_axiom : ⊦ ∃[A] ∅∈A ∧ ∀[x] x∈A ⇒ (x ∪ (singleton x))∈A❙
 ❚
 
 theory Choice =
-	// AS: define choice like in the lecture or shall Choice from FOL be used? ❙
-	// like in KRMT❙
+	// AS: define choice like in the lecture or shall Choice from FOL be used?❙
+	// AS: realize this with ChoiceAx!❙
 	include ?ChoiceDefinition❙
   all_nonempty: set ⟶ prop❘ // = ❙
   // AS: maybe define this in Intersection or BigIntersection❙
