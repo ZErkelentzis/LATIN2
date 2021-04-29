@@ -16,31 +16,32 @@ theory ZFTyped =
   
   // Class P is the class of all sets satisfying P❙
   Class : (set ⟶ prop) ⟶ type❙
-  celem : {P,X} ⊦ P X ⟶ Class P❙
-  cwhich : {P} Class P ⟶ set❘# cwhich 2 prec 40❙
-  cwhy : {P,X:Class P} ⊦ (P (cwhich X))❘# cwhy 2❙ 
+  celem : {P,x} ⊦ P x ⟶ Class P❙
+  cwhich : {P} Class P ⟶ set❙
+  cwhy : {P,c:Class P} ⊦ (P (cwhich P c))❙ 
 
   // rules for Classes❙
   // A term with a proof is equal to the original term❙
-  ceq_which : {P,X,p} ⊦ (cwhich (celem P X p)) ≐ X❙
+  ceq_which : {P,x,p} ⊦ (cwhich P (celem P x p)) ≐ x❙
   // Elements of classes are equal if their first components are (proof irrelevance)❙
-  EqcongEl : {P,X,Y,f: Class P ⟶ prop} ⊦ (cwhich X ≐ cwhich Y) ⟶ ⊦ f X ⟶ ⊦ f Y❙
+  EqcongEl : {P,c,d,F: Class P ⟶ prop} ⊦ (cwhich P c ≐ cwhich P d) ⟶ ⊦ F c ⟶ ⊦ F d❙
   
   // Elem❙
-  Elem : set ⟶ type❘ = [X] Class [x] x∈X❙
-  elem : {X,x} ⊦ x∈X ⟶ Elem X❘
-  	= [X,x,p] celem ([y] y∈X) x p❙
-  which : {X} Elem X ⟶ set❘# which 2 prec 40❘
-  	= [X,x] cwhich x❙
-  why : {X,x:Elem X} ⊦ (which x)∈X❘# why 2❘
-  	= [X,x] cwhy x❙
-  eq_which : {A,X,P} ⊦ (which (elem A X P)) ≐ X❙
+  Elem : set ⟶ type❘ = [A] Class [x] x∈A❙
+  elem : {A,x} ⊦ x∈A ⟶ Elem A❘
+  	= [A,x,p] celem ([u] u∈A) x p❙
+  which : {A} Elem A ⟶ set❘
+  	= [A,e] cwhich ([x] x∈A) e❙
+  why : {A,e:Elem A} ⊦ (which A e)∈A❘
+  	= [A,e] cwhy ([x] x∈A) e❙
+  eq_which : {A,x,p} ⊦ (which A (elem A x p)) ≐ x❘
+  	= [A,x,p] ceq_which❙
   
   // AS: Typed equality → already exists in LATIN2! Import?❙
-  Eq : {X} Elem X ⟶ Elem X ⟶ prop❘
-  		= [X,Y,Z] ((which Y) ≐ (which Z))❙
-  EqcongEr : {P,X,Y,f: Class P ⟶ prop} ⊦ (cwhich X ≐ cwhich Y) ⟶ ⊦ f Y ⟶ ⊦ f X❘
-  		= [P,X,Y,f,p,q] EqcongEl P Y X f (eq/sym p) q❙
-  EqcongF : {P,X,Y,f: Class P ⟶ set} ⊦ (cwhich X ≐ cwhich Y) ⟶ ⊦ (f X) ≐ (f Y)❙
-  EqCongF : {P,Q,X,Y,f: Class P ⟶ Class Q} ⊦ (cwhich X ≐ cwhich Y) ⟶ ⊦ (cwhich (f X) ≐ cwhich (f Y))❙
+  Eq : {A} Elem A ⟶ Elem A ⟶ prop❘
+  		= [A,e,d] (which A e ≐ which A d)❙
+  EqcongEr : {P,c,d,F: Class P ⟶ prop} ⊦ (cwhich P c ≐ cwhich P d) ⟶ ⊦ F d ⟶ ⊦ F c❘
+  		= [P,c,d,F,p,q] EqcongEl P d c F (eq/sym p) q❙
+  EqcongF : {P,c,d,F: Class P ⟶ set} ⊦ (cwhich P c ≐ cwhich P d) ⟶ ⊦ (F c) ≐ (F d)❙
+  EqCongF : {P,Q,c,d,F: Class P ⟶ Class Q} ⊦ (cwhich P c ≐ cwhich P d) ⟶ ⊦ (cwhich Q (F c) ≐ cwhich Q (F d))❙
 ❚
