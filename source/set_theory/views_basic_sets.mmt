@@ -62,6 +62,8 @@ theory SingleFilter =
 	
 	// AS: 𝒰 was just the safest solution here❙
 	singleton = [A] 𝒰 | ([x] x ≐ A)❙
+	singletonI = [x] filterI (universal_prop forallE x) refl❙
+	singletonE = [A,x,p] p filterEr❙
 ❚
 
 theory SingleAdjoint =
@@ -70,6 +72,8 @@ theory SingleAdjoint =
 	realize ?Singletons❙
 	
 	singleton = [A] adjoint ∅ A❙
+	singletonI = [x] adjointIr❙
+	singletonE = [A,x,p] p adjointE ([pa] empty_prop notE (existsI x pa) inconE) ([pb] pb)❙
 ❚
 
 // Views for Uopairs❚
@@ -78,7 +82,10 @@ theory UopairUnion =
 	include ?Union❙
 	realize ?UnorderedPairs❙
 	
-	uopair = [A,B] (singleton A) ∪ (singleton B)❙ 
+	uopair = [A,B] (singleton A) ∪ (singleton B)❙
+	uopairIl = [x,B] unionIl (singleton B) singletonI❙
+	uopairIr = [A,y] unionIr (singleton A) singletonI❙
+	uopairE = [A,B,x,C,p,pa,pb] p unionE ([qa] pa (qa singletonE)) ([qb] pb (qb singletonE))❙
 ❚
 
 theory UopairFilter =
