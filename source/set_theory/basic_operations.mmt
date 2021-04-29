@@ -6,11 +6,11 @@ theory Union =
 	// symbol: jcup❙
 	union : set ⟶ set ⟶ set❘# 1 ∪ 2 prec 40❙
 	unionIl : {A,B,x} ⊦ x∈A ⟶ ⊦ x∈A∪B❘ # unionIl 2 4❙
-	unionIr : {A,B,y} ⊦ y∈B ⟶ ⊦ y∈A∪B❘ # unionIr 2 4❙
-	unionE : {A,B,x,C} ⊦ x∈A∪B ⟶ (⊦x∈A ⟶ ⊦ C) ⟶ (⊦x∈B ⟶ ⊦ C) ⟶ ⊦ C❘# 5 unionE 6 7❙ 
+	unionIr : {A,B,y} ⊦ y∈B ⟶ ⊦ y∈A∪B❘ # unionIr 1 4❙
+	unionE : {A,B,x,C} ⊦ x∈A∪B ⟶ (⊦ x∈A ⟶ ⊦ C) ⟶ (⊦ x∈B ⟶ ⊦ C) ⟶ ⊦ C❘# 5 unionE 6 7❙ 
 		
-	union_subsetl : {A,B} ⊦ A ⪽ A∪B❙
-	union_subsetr : {A,B} ⊦ B ⪽ A∪B❙
+	union_subl : {A,B} ⊦ A ⪽ A∪B❙
+	union_subr : {A,B} ⊦ B ⪽ A∪B❙
 	union_sup : {A,B,C} ⊦ A⪽C ⟶ ⊦ B⪽C ⟶ ⊦ A∪B ⪽C❙
 	
 	union_idem : {A} ⊦ A∪A ≐ A❙
@@ -32,9 +32,9 @@ theory Intersection =
 	interEl : {A,B,x} ⊦ x∈A∩B ⟶ ⊦ x∈A❘# 4 interEl❙
 	interEr : {A,B,y} ⊦ y∈A∩B ⟶ ⊦ y∈B❘# 4 interEr❙
 	
-	inter_subsetl : {A,B} ⊦ A∩B ⪽ A❙
-	inter_subsetr : {A,B} ⊦ A∩B ⪽ B❙
-	inter_sub : {A,B,C} ⊦ C⪽A ⟶ ⊦ C⪽B ⟶ ⊦ C⪽(A∩B)❙
+	inter_subl : {A,B} ⊦ A∩B ⪽ A❙
+	inter_subr : {A,B} ⊦ A∩B ⪽ B❙
+	inter_sup : {A,B,C} ⊦ C⪽A ⟶ ⊦ C⪽B ⟶ ⊦ C⪽(A∩B)❙
 	
 	inter_idem : {A} ⊦ A∩A ≐ A❙
 	// AS: maybe delete this, if algebra works here❙
@@ -64,7 +64,7 @@ theory BigUnion =
   bigunionI : {A,X,x} ⊦ X∈A ⟶ ⊦ x∈X ⟶ ⊦ x∈ ⋃A❙
   bigunionE : {A,x,C} ⊦ x∈⋃A ⟶ ({X}⊦X∈A ⟶ ⊦ x∈X ⟶ ⊦C) ⟶ ⊦C❘# 4 bigunionE 5❙
   
-  bigunion_subset : {A,X} ⊦ X∈A ⟶ ⊦ X ⪽ ⋃A❙ 
+  bigunion_sub : {A,X} ⊦ X∈A ⟶ ⊦ X ⪽ ⋃A❙ 
   
   include ?EmptySet❙
   bigunion_neutral : ⊦ ⋃∅ ≐ ∅❙
@@ -74,11 +74,11 @@ theory BigIntersection =
   include ?EmptySetDefinitions❙
   // symbol: jbigcap❙
 	biginter : set ⟶ set❘# ⋂ 1 prec 45❙
-	// A must be nonempty because otherwise intrsection would produce the set of all sets❙
+	// A must be nonempty because otherwise intersection would produce the set of all sets❙
 	biginterI : {A,x} ⊦ nonempty A ⟶ ({X} ⊦ X∈A ⟶ ⊦ x∈X) ⟶ ⊦ x ∈ ⋂A❙
 	biginterE : {A,X,x} ⊦ x ∈ ⋂A ⟶ ⊦ X∈A ⟶ ⊦ x∈X❘# 4 biginterE 5❙
 	
-	biginter_subset : {A,X} ⊦ X∈A ⟶ ⊦ ⋂A ⪽ X❙
+	biginter_sub : {A,X} ⊦ X∈A ⟶ ⊦ ⋂A ⪽ X❙
 	
 	include ?EmptySet❙
 	biginter_neutral : ⊦ ⋂∅ ≐ ∅❙
@@ -91,14 +91,15 @@ theory Difference =
 	difEl : {A,B,x} ⊦ x ∈ A∖B ⟶ ⊦ x∈A❘# 4 difEl❙
 	difEr : {A,B,x} ⊦ x ∈ A∖B ⟶ ⊦ ¬ x∈B❘# 4 difEr❙
 	
-	dif_subset : {A,B} ⊦ A∖B ⪽ A❙
+	dif_sub : {A,B} ⊦ A∖B ⪽ A❙
 ❚
 
 theory Complement =
 	// AS : Maybe change notation❙
 	comp : set ⟶ set❙
-	compI : {A,x,B} ⊦ x∈A ⟶ ⊦ ¬ x∈B❙
-	compE : {A,x,B} ⊦ ¬ x∈B ⟶ ⊦ x∈A❙
+	// AS: do I have to add two more cases here?❙
+	compI : {A,x} ⊦ ¬ x∈A ⟶ ⊦ x∈ (comp A)❙
+	compE : {A,x} ⊦ x∈ (comp A) ⟶ ⊦ ¬ x∈A❘# 3 compE❙
 	
 	include ?UniversalSet❙
 	include ?Union❙
@@ -114,13 +115,12 @@ theory SymmetricDifference =
 	// AS : think of another notation, since this leads to mistakes!❙
 	// symbol: jDelta❙
 	symdif : set ⟶ set ⟶ set❘ # 1 Δ 2 prec 40❙
-	symdifIl : {A,B,x} ⊦ x∈A ⟶ ⊦ ¬ x∈B ⟶ ⊦ x ∈ A Δ B❙
-	symdifIr : {A,B,y} ⊦ ¬ y∈A ⟶ ⊦ y∈B ⟶ ⊦ y ∈ A Δ B❙
-	// AS: maybe there is a smarter/shorter way to describe elimination rules❙
-	symdifEll : {A,B,x} ⊦ x ∈ A Δ B ⟶ ⊦ x∈A ⟶ ⊦ ¬ x∈B❙
-	symdifElr : {A,B,x} ⊦ x ∈ A Δ B ⟶ ⊦ ¬ x∈B ⟶ ⊦ x∈A❙
-	symdifErl : {A,B,y} ⊦ y ∈ A Δ B ⟶ ⊦ y∈B ⟶ ⊦ ¬ y∈A❙
-	symdifErr : {A,B,y} ⊦ y ∈ A Δ B ⟶ ⊦ ¬ y∈A ⟶ ⊦ y∈B❙
+	// AS: do I have to do more/different cases here?❙
+	symdifI : {A,B,x} ⊦ x∈A ⟶ ⊦ ¬ x∈B ⟶ ⊦ x ∈ A Δ B❙
+	symdifEl : {A,B,x} ⊦ x ∈ A Δ B ⟶ ⊦ x∈A ⟶ ⊦ ¬ x∈B❘# 4 symdifEl❙
+	symdifEr : {A,B,x} ⊦ x ∈ A Δ B ⟶ ⊦ ¬ x∈B ⟶ ⊦ x∈A❘# 4 symdifEr❙
+	
+	// AS: I need to add A Δ B ≐ B Δ A somewhere!❙
 ❚
 
 theory DisjointUnion =
@@ -137,7 +137,7 @@ theory Adjoint =
 	adjoint : set ⟶ set ⟶ set❙
 	adjointIl : {A,b,x} ⊦ x∈A ⟶ ⊦ x∈(adjoint A b)❙
 	adjointIr : {A,b} ⊦ b∈(adjoint A b)❙
-	adjointE : {A,b,x} ⊦ x∈(adjoint A b) ⟶ ⊦ x∈A ∨ x≐b❙
+	adjointE : {A,b,x,C} ⊦ x∈(adjoint A b) ⟶ (⊦ x∈A ⟶ ⊦ C) ⟶ (⊦ x≐b ⟶ ⊦ C) ⟶ ⊦ C❘# 5 adjointE 6 7❙
 ❚
 
 theory Erase =
@@ -145,5 +145,5 @@ theory Erase =
 	// AS: think of a notation❙
 	erase : set ⟶ set ⟶ set❙
 	eraseI : {A,b,x} ⊦ x∈A ⟶ ⊦ ¬ x≐b ⟶ ⊦ x∈(erase A b)❙
-	eraseE : {A,b,x} ⊦ x∈(erase A b) ⟶ ⊦ x∈A ∧ ¬ x≐b❙ 
+	eraseE : {A,b,x} ⊦ x∈(erase A b) ⟶ ⊦ x∈A ∧ ¬ x≐b❘# 4 eraseE❙ 
 ❚
