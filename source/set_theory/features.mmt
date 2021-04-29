@@ -40,7 +40,7 @@ theory CartesianProduct =
 
 theory Relations =
 	// AS: maybe include CartesianProduct. A single relation is a subset of the CartesianProduct.
-		The set of all relations is a subset (?) of the powerset of the CartesianProduct❙
+		The set of all relations the powerset of the CartesianProduct?❙
 	// The set of all relations of A and B❙
 	rel : set ⟶ set ⟶ set❙
 	
@@ -65,9 +65,8 @@ theory Relations =
 ❚
 
 theory PartialFunctions =
-	// AS: maybe include Relations here as well.
-		Pro: makes it clear that a partial function is a right-unique relation
-		Con: it might create more work. I need to think about this a bit longer.❙
+	// AS: change this, so the dependency on Relations is used❙
+	include ?Relations❙
 	include ?RightUnique❙
 
 	// The set of all partial functions of A and B❙
@@ -94,10 +93,8 @@ theory PartialFunctions =
 ❚
 
 theory Functions =
-	// AS: maybe include PartialFunctions here as well.
-	Pro: makes it clear that a function is a left-total partial function
-	Con: it might create more work. I need to think about this a bit longer.❙
-	include ?RightUnique❙
+	// AS: change this, so the dependency on PartialFunctions is used❙
+	include ?PartialFunctions❙
 	include ?LeftTotal❙
 	
 	// The set of all functions of X and Y❙
