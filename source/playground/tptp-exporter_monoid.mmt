@@ -44,11 +44,10 @@ theory Monoid =
   include ?Semigroup❙
   include ?Unital❙
 
-  // e.g. conjecture `∀[x] (e ∘ x) ∘ e ≐ x` ❙
 ❚
 
-theory CommutativeMonoid =
+theory ConjectureMonoid =
   include ?Monoid❙
 
-  //TODO:❙
+  conj: ⊦ ∀[x] (e ∘ x) ∘ e ≐ x ❙
 ❚

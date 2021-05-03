@@ -10,7 +10,7 @@ import info.kwarc.mmt.api.symbols.Constant
 import info.kwarc.mmt.api.uom.SimplificationUnit
 import info.kwarc.mmt.lf.{ApplySpine, Lambda}
 import latin2.sfol.CommonSymbols.DedList
-import leo.datastructures.TPTP.{FOF, FOFAnnotated, Problem}
+import leo.datastructures.TPTP.{FOF, FOFAnnotated, Include, Problem}
 import lf.Conjunction.and
 import lf.Disjunction.or
 import lf.Equivalence.equiv
@@ -20,19 +20,7 @@ import lf.Negation.not
 import lf.Proofs.ded
 import lf.UniversalQuantification.forall
 
-class FOLExporter extends StructurePresenter {
-  override def apply(e : StructuralElement, standalone: Boolean = false)(implicit rh : RenderingHandler): Unit = {}
-
-  /** a string identifying this build target, used for parsing commands, logging, error messages */
-  override def key: _root_.scala.Predef.String = "tptp"
-
-  override def exportTheory(thy : Theory, bf: BuildTask): Unit = {
-    val vars = bf.getClass.getDeclaredFields
-    for(v <- vars){
-      v.setAccessible(true)
-      println("Field: " + v.getName() + " => " + v.get(this))
-    }
-  }
+class FOLExporter {
 
   def exportTPTP(ctx: Context, what: List[Term])(implicit ctrl: Controller): Problem = {
     // walk through ctx, collect all axioms
@@ -52,8 +40,23 @@ class FOLExporter extends StructurePresenter {
     Problem(List(), (axioms++conjectures))
   }
 
+  def export_theory_flattened(theory: Theory)(implicit ctrl: Controller): Problem = {
+    val axioms = translate_theory_flattened(theory).distinct.map(x => if (x.role == "") { x.copy(role = "axiom") } else x)
+    Problem(List(), axioms)
+  }
+
+  def translate_theory_flattened(theory: Theory)(implicit ctrl: Controller): List[FOFAnnotated] = {
+    theory.getIncludesWithoutMeta.flatMap(include => translate_theory_flattened(ctrl.getTheory(include))) ++ theory.getConstants.flatMap(translate_constant)
+  }
+
+  def export_theory(theory: Theory, includes: Seq[Include])(implicit ctrl: Controller): Problem = {
+    val axioms = translate_theory(theory).map(x => if (x.role == "") { x.copy(role = "axiom") } else x)
+
+    Problem(includes, axioms)
+  }
+
   def translate_theory(theory: Theory)(implicit ctrl: Controller): List[FOFAnnotated] = {
-    theory.getIncludesWithoutMeta.flatMap(include => translate_theory(ctrl.getTheory(include))) ++ theory.getConstants.flatMap(translate_constant)
+    theory.getConstants.flatMap(translate_constant)
   }
 
   def translate_var_decl(vd: VarDecl, ctx: Context)(implicit ctrl: Controller): Option[FOFAnnotated] = {

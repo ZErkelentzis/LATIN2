@@ -10,8 +10,8 @@ import info.kwarc.mmt.api.symbols.Constant
 import info.kwarc.mmt.api.uom.SimplificationUnit
 import info.kwarc.mmt.lf.{ApplySpine, Lambda}
 import latin2.sfol.CommonSymbols.DedList
-import latin2.sfol.SFOLPatterns.{AxDecl, FuncDecl, PredDecl, TypeDecl}
-import leo.datastructures.TPTP.{Problem, TFF, TFFAnnotated, Include}
+import latin2.sfol.SFOLPatterns.{FuncDecl, PredDecl, TypeDecl}
+import leo.datastructures.TPTP.{Include, Problem, TFF, TFFAnnotated}
 import lf.Conjunction.and
 import lf.Disjunction.or
 import lf.Equivalence.equiv
@@ -19,30 +19,17 @@ import lf.TypedExistentialQuantification.exists
 import lf.Implication.impl
 import lf.Negation.not
 import lf.Proofs.ded
-import lf.Types.tp
 import lf.TypedEquality.equal
 import lf.TypedUniversalQuantification.forall
 
-class SFOLExporter extends StructurePresenter { //TODO: Extension in exporter
-  override def apply(e : StructuralElement, standalone: Boolean = false)(implicit rh : RenderingHandler): Unit = {}
-
-  /** a string identifying this build target, used for parsing commands, logging, error messages */
-  override def key: _root_.scala.Predef.String = "tptp"
-
-  override def exportTheory(thy : Theory, bf: BuildTask): Unit = {
-    outputTo(getOutFileForModule(thy.path).get) {
-      //TODO: Theory name sanitizing
-      rh(export_theory(thy)(controller).pretty)
-    }
-  }
-
+class SFOLExporter {
   def exportTPTP(ctx: Context, what: List[Term])(implicit ctrl: Controller): Problem = {
     // walk through ctx, collect all axioms
     // especially, upon IncludeVarDecls, recurse into referenced theory
     val axioms = ctx.mapVarDecls {
       case (_, vd@IncludeVarDecl(_, _, _)) =>
         val path = vd.tp.get.toMPath
-        translate_theory(ctrl.getTheory(path))
+        translate_theory_flattened(ctrl.getTheory(path))
       case (ctx, vd: VarDecl) =>
         translate_var_decl(vd, ctx)(ctrl).toList
     }.flatten.distinct.map(x => if (x.role == "") { x.copy(role = "axiom") } else x)
@@ -54,15 +41,22 @@ class SFOLExporter extends StructurePresenter { //TODO: Extension in exporter
     Problem(List(), (axioms++conjectures))
   }
 
-  def export_theory(theory: Theory)(implicit ctrl: Controller): Problem = {
-    val includes = theory.getIncludesWithoutMeta.map(in => ("$" + in.name.toString + ".tptp", Nil)) //TODO: should be .ax
-    val axioms = translate_theory(theory).map(x => if (x.role == "") { x.copy(role = "axiom") } else x)
+  def export_theory_flattened(theory: Theory)(implicit ctrl: Controller): Problem = {
+    val axioms = translate_theory_flattened(theory).distinct.map(x => if (x.role == "") { x.copy(role = "axiom") } else x)
+    Problem(List(), axioms)
+  }
 
+  def translate_theory_flattened(theory: Theory)(implicit ctrl: Controller): List[TFFAnnotated] = {
+    theory.getIncludesWithoutMeta.flatMap(include => translate_theory_flattened(ctrl.getTheory(include))) ++ theory.getConstants.flatMap(translate_constant)
+  }
+
+  def export_theory(theory: Theory, includes: Seq[Include])(implicit ctrl: Controller): Problem = {
+    val axioms = translate_theory(theory).map(x => if (x.role == "") { x.copy(role = "axiom") } else x)
     Problem(includes, axioms)
   }
 
   def translate_theory(theory: Theory)(implicit ctrl: Controller): List[TFFAnnotated] = {
-    theory.getIncludesWithoutMeta.flatMap(include => translate_theory(ctrl.getTheory(include))) ++ theory.getConstants.flatMap(translate_constant)
+    theory.getConstants.flatMap(translate_constant)
   }
 
   def translate_var_decl(vd: VarDecl, ctx: Context)(implicit ctrl: Controller): Option[TFFAnnotated] = {
@@ -89,13 +83,13 @@ class SFOLExporter extends StructurePresenter { //TODO: Extension in exporter
       case Some(ded(formula)) => //TODO: difference to AxDecl?
         Some(TFFAnnotated(c.name.toString, "", TFF.Logical(translate_formula(formula)), None))
       case Some(TypeDecl(Nil)) =>
-        Some(TFFAnnotated(c.name.toString+"_type", "type", TFF.Typing(c.name.toString, TFF.AtomicType("$tType", Nil)), None)) //is optional
+        Some(TFFAnnotated("type_" + c.name.toString, "type", TFF.Typing(c.name.toString, TFF.AtomicType("$tType", Nil)), None)) //is optional
       case Some(FuncDecl(Nil, OMID(out))) =>
-        Some(TFFAnnotated(c.name.toString+"_type", "type", TFF.Typing(c.name.toString, TFF.AtomicType(out.name.toString, Nil)), None))
+        Some(TFFAnnotated("type_" + c.name.toString, "type", TFF.Typing(c.name.toString, TFF.AtomicType(out.name.toString, Nil)), None))
       case Some(FuncDecl(in, out)) =>
-        Some(TFFAnnotated(c.name.toString+"_type", "type", TFF.Typing(c.name.toString, TFF.MappingType(in.map(translate_type), translate_type(out))), None))
+        Some(TFFAnnotated("type_" + c.name.toString, "type", TFF.Typing(c.name.toString, TFF.MappingType(in.map(translate_type), translate_type(out))), None))
       case Some(PredDecl(in)) =>
-        Some(TFFAnnotated(c.name.toString+"_type", "type", TFF.Typing(c.name.toString, TFF.MappingType(in.map(translate_type), TFF.AtomicType("$o", Nil))), None))
+        Some(TFFAnnotated("type_" + c.name.toString, "type", TFF.Typing(c.name.toString, TFF.MappingType(in.map(translate_type), TFF.AtomicType("$o", Nil))), None))
       case _ => None
     }
   }
