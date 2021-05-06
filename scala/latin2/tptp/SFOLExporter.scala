@@ -83,13 +83,13 @@ class SFOLExporter {
       case Some(ded(formula)) => //TODO: difference to AxDecl?
         Some(TFFAnnotated(c.name.toString, "", TFF.Logical(translate_formula(formula)), None))
       case Some(TypeDecl(Nil)) =>
-        Some(TFFAnnotated("type_" + c.name.toString, "type", TFF.Typing(c.name.toString, TFF.AtomicType("$tType", Nil)), None)) //is optional
+        Some(TFFAnnotated("type_" + c.name.toString, "type", TFF.Typing("t_" + c.name.toString, TFF.AtomicType("$tType", Nil)), None)) //is optional
       case Some(FuncDecl(Nil, OMID(out))) =>
-        Some(TFFAnnotated("type_" + c.name.toString, "type", TFF.Typing(c.name.toString, TFF.AtomicType(out.name.toString, Nil)), None))
+        Some(TFFAnnotated("type_" + c.name.toString, "type", TFF.Typing("t_" + c.name.toString, TFF.AtomicType("t_" + out.name.toString, Nil)), None))
       case Some(FuncDecl(in, out)) =>
-        Some(TFFAnnotated("type_" + c.name.toString, "type", TFF.Typing(c.name.toString, TFF.MappingType(in.map(translate_type), translate_type(out))), None))
+        Some(TFFAnnotated("type_" + c.name.toString, "type", TFF.Typing("t_" + c.name.toString, TFF.MappingType(in.map(translate_type), translate_type(out))), None))
       case Some(PredDecl(in)) =>
-        Some(TFFAnnotated("type_" + c.name.toString, "type", TFF.Typing(c.name.toString, TFF.MappingType(in.map(translate_type), TFF.AtomicType("$o", Nil))), None))
+        Some(TFFAnnotated("type_" + c.name.toString, "type", TFF.Typing("t_" + c.name.toString, TFF.MappingType(in.map(translate_type), TFF.AtomicType("$o", Nil))), None))
       case _ => None
     }
   }
@@ -99,7 +99,7 @@ class SFOLExporter {
       TFF.QuantifiedFormula(
         TFF.!,
         Seq(
-          (v.toPath, Some(translate_type(ty)))
+          ("V_" + v.toPath, Some(translate_type(ty)))
         ),
         translate_formula(body)
       )
@@ -107,7 +107,7 @@ class SFOLExporter {
       TFF.QuantifiedFormula(
         TFF.?,
         Seq(
-          (v.toPath, Some(translate_type(ty)))
+          ("V_" + v.toPath, Some(translate_type(ty)))
         ),
         translate_formula(body)
       )
@@ -129,32 +129,34 @@ class SFOLExporter {
     case OMID(f) =>
       TFF.AtomicFormula(f.name.toString, Nil)
 
-    case OMV(x) =>
+    case OMV(x) => {
+      println("Does this ever happen? 2")
       TFF.AtomicFormula(x.toString, Nil)
+    }
 
     case ApplySpine(OMID(f), args) =>
-      TFF.AtomicFormula(f.name.toString, args.map(translate_term))
+      TFF.AtomicFormula("t_" + f.name.toString, args.map(translate_term))
 
   }
 
   def translate_term(t: Term): TFF.Term = t match {
     case ApplySpine(OMID(f), args) =>
       // f: GlobalName, args: List[Term]
-      TFF.AtomicTerm(f.name.toString, args.map(translate_term))
+      TFF.AtomicTerm("t_" + f.name.toString, args.map(translate_term))
 
     case OMID(f) =>
-      TFF.AtomicTerm(f.name.toString, Nil)
+      TFF.AtomicTerm("t_" + f.name.toString, Nil)
 
     //case OMV(x) =>
     //  // x: LocalName
     //  Var(x.name.toString)
     case OMV(x) =>
       // x: LocalName
-      TFF.Variable(x.toString)
+      TFF.Variable("V_" + x.toString)
   }
 
   def translate_type(t: Term): TFF.Type = t match {
     case OMID(f) =>
-      TFF.AtomicType(f.name.toString, Nil)
+      TFF.AtomicType("t_" + f.name.toString, Nil)
   }
 }

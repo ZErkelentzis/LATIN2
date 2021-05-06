@@ -89,7 +89,7 @@ class FOLExporter {
       FOF.QuantifiedFormula(
         FOF.!,
         Seq(
-          v.toPath
+          "V_" + v.toPath
         ),
         translate_formula(body)
       )
@@ -97,7 +97,7 @@ class FOLExporter {
       FOF.QuantifiedFormula(
         FOF.?,
         Seq(
-          v.toPath
+          "V_" + v.toPath
         ),
         translate_formula(body)
       )
@@ -137,6 +137,6 @@ class FOLExporter {
     //  Var(x.name.toString)
     case OMV(x) =>
       // x: LocalName
-      FOF.Variable(x.toString)
+      FOF.Variable("V_" + x.toString)
   }
 }
