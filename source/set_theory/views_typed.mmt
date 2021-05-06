@@ -1,0 +1,14 @@
+namespace latin:/❚
+
+fixmeta ?SetFOL❚
+
+theory SimpleProductsZF =
+	include ?CartesianProduct❙
+	include ?ZFTyped❙
+	include ?SimpleProductTypes❙
+	include ?TypedEquality❙
+	realize ?SimpleProducts❙
+	simppair = [A: term,B: term,a: tm A,b: tm B] elem (prodI A B (which A a) (which B b) (why A a) (why B b))❙
+	simppi1 = [A,B,e] elem ((which e)₁) ((why e) prodEl)❙
+	simppi2 = [A,B,e] elem ((which e)₂) ((why e) prodEr)❙
+❚
