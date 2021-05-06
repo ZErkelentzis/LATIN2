@@ -41,58 +41,89 @@ view PowersetFromAxiom : ?Powersets → ?PowersetAx =
 
 view ReplacementFromAxiom : ?Replacement → ?ReplacementAx =
 	replace = [A,F] the ([Z] isreplacement A F Z) replacement_unique❙
-	// AS: how to get ⊦ B ≐ (F x)?❙
-	replaceI = [A,F,x,p] replacementAxI (existsI x (andI p ?))❙
-	replaceE = [A,F,y,C,p,q] (p replacementAxE) existsE ([x,P] q x (P andEl) (eq/sym (P andEr)))❙
+	replaceI = [A,F,x,p] replacementAxI F p❙
+	replaceE = [A,F,y,C,p,q] p replacementAxE A F q❙
 ❚
 
-view UopairFromAxiom : ?UnorderedPairs → ?PairingAx =
+theory UopairFromAxiom =
+	include ?ExtensionalityAx❙
+ 	include ?PairingAx❙
+ 	realize ?UnorderedPairs❙
+ 	
 	uopair = [A,B] the ([Z] isuopair A B Z) pairing_unique❙
 	uopairIl = [x,B] pairingAxI (orIl (x≐x) (x≐B) refl)❙
 	uopairIr = [A,y] pairingAxI (orIr (y≐A) (y≐y) refl)❙
-	uopairE = [A,B,x,C,p,pa,pb] (p pairingAxE) orE pa pb❙
+	uopairE = [A,B,x,C,p,pa,pb] (p pairingAxE A B) orE pa pb❙
+	
+	uopair_comm = [A,B] extensionalityI ([x] equivI ([pa] pairingAxI or_swap (pa pairingAxE A B)) 
+			([pb] pairingAxI or_swap (pb pairingAxE B A)))❙
 ❚
 
 // Views for Union❚
 theory UnionAsBigUnion =
   include ?BigUnion❙
+  include ?ExtensionalityAx❙
   include ?UnorderedPairs❙
+  
+  // AS: is there a possibility to get rid of include ?EmptySet and ?UniversalSet?❙
+  include ?EmptySet❙
+  include ?UniversalSet❙
   realize ?Union❙
   
   union = [A,B] ⋃ uopair A B❙
   unionIl = [A,B,x,p] bigunionI uopairIl p❙
   unionIr = [A,B,y,p] bigunionI uopairIr p❙
-
-  unionE = [A,B,x,C,p,f,g] p bigunionE ([U,q,r] q uopairE
-    ([s] f (in_eq r s)) 
-    ([s] g (in_eq r s)))❙
-    
-  union_subsetl = [A,B] bigunion_subset uopairIl❙
-  union_subsetr = [A,B] bigunion_subset uopairIr❙
+  unionE = [A,B,x,C,p,pa,pb] p bigunionE ([X,qa,qb] qa uopairE
+    ([q] pa (in_eq qb q)) 
+    ([q] pb (in_eq qb q)))❙
+  
+  // AS: These are not needed anymore❙
+  // union_subl = [A,B] bigunion_sub uopairIl❙
+  // union_subr = [A,B] bigunion_sub uopairIr❙
+  // union_sup = [A,B,C,p,q] subtypeI ([x,r] r bigunionE 
+  		([X,pa,pb] pa uopairE ([qa] p subtypeE in_eq pb qa) ([qb] q subtypeE in_eq pb qb)))❙
+  
+  // union_idem = [A] extensionalityI ([x] equivI ([p] p bigunionE ([X,pa,pb] pa uopairE 
+  		([qa] in_eq pb qa) ([qb] in_eq pb qb))) ([q] bigunionI uopairIl q))❙
+  // union_comm = [A,B] extensionalityI ([x] equivI 
+  		([p] p bigunionE ([X,pa,pb] bigunionI (in_eq pa uopair_comm) pb))
+  		([q] q bigunionE ([X,qa,qb] bigunionI (in_eq qa uopair_comm) qb)))❙
 ❚
 
 theory UnionFilter =
 	// AS: This might not be useful in practise❙
 	include ?Filter❙
 	include ?UniversalSet❙	
+	
+	// AS: is there a possibility to get rid of include ?EmptySet and ?UniversalSet?❙
+  include ?EmptySet❙
+  include ?UniversalSet❙  
 	realize ?Union❙
 	
 	union = [A,B] 𝒰 | ([x] x∈A ∨ x∈B)❙
 	unionIl = [A,B,x,p] filterI (universal_prop forallE x) (orIl (x∈A) (x∈B) p)❙
 	unionIr = [A,B,y,p] filterI (universal_prop forallE y) (orIr (y∈A) (y∈B) p)❙
+	unionE = [A,B,x,C,p,pa,pb] p filterEr orE ([qa] pa qa) ([qb] pb qb)❙
+	
+	// AS: These are not needed anymore❙
+	// union_subl = [A,B] subtypeI ([x,p] filterI (universal_prop forallE x) (p orIl))❙
+	// union_subr = [A,B] subtypeI ([x,p] filterI (universal_prop forallE x) (p orIr))❙
 ❚
 
 // Views for Intersection❚
 theory IntersectionAsBigIntersection = 
 	include ?BigIntersection❙
 	include ?UnorderedPairs❙
+	
+  // AS: is there a possibility to get rid of include ?EmptySet and ?UniversalSet?❙
+  include ?EmptySet❙
+  include ?UniversalSet❙
 	realize ?Intersection❙
 	
 	inter = [A,B] ⋂ uopair A B❙
-	interI = [A,B,x,p,q] biginterI (existsI A uopairIl) ([u,r] r uopairE 
-	  ([s] in_eq p (eq/sym s))
-	  ([s] in_eq q (eq/sym s)))❙
-	
+	interI = [A,B,x,pa,pb] biginterI (existsI A uopairIl) ([X,q] q uopairE 
+	  ([qa] in_eq pa (eq/sym qa))
+	  ([qb] in_eq pb (eq/sym qb)))❙	
 	interEl = [A,B,x,p] p biginterE uopairIl❙
 	interEr = [A,B,y,p] p biginterE uopairIr❙
 ❚
@@ -111,6 +142,8 @@ theory IntersectionFilter =
 // Views for BigIntersection❚
 theory BigIntersectionFilter =
 	include ?BigUnion❙
+	// AS: is there a possibility to get rid of include ?EmptySetDefinitions?❙
+	include ?EmptySetDefinitions❙
 	include ?Filter❙
 	realize ?BigIntersection❙
 	
@@ -126,24 +159,22 @@ view DifFilter : ?Difference → ?Filter =
 	difI = [A,B,x,p,q] filterI p q❙
 	difEl = [A,B,x,p] p filterEl❙
 	difEr = [A,B,x,p] p filterEr❙
-	
-	dif_sub = [A,B] filter_sub❙
 ❚
 
 // Views for Complement❚
 theory ComplementFilter =
 	include ?Filter❙
 	include ?UniversalSet❙
+	// AS: is there a possibility to get rid of these includes?❙
+	include ?ExtensionalityAx❙
+	include ?EmptySet❙
+	include ?Union❙
+	include ?Intersection❙
 	realize ?Complement❙
 	
 	comp = [A] 𝒰 | ([x] ¬ x∈A)❙
 	compI = [A,x,p] filterI (universal_prop forallE x) p❙
 	compE = [A,x,p] p filterEr❙
-	
-	// AS: comp_union would be something like 
-		comp_union = [A] extensionalityI [x] equivI ([p] universal_prop forallE x)
-				([p] TND orE ([q] unionIl) ([q] unionIr))❙
-	// AS: This would require a dependence on classical logic and an include of extensionality!❙
 ❚
 
 // Views for SymmetricDifference❚
@@ -157,7 +188,7 @@ theory SymUnion =
 	symdifEl = [A,B,x,p,q] p unionE ([pa] pa difEr)
 		([pb] notI ([pf] pb difEr notE q))❙
 	symdifEr = [A,B,x,p,q] p unionE ([pa] pa difEl)
-		([pb] q notE (pb difEl))❙
+		([pb] q notE (pb difEl) inconE)❙
 ❚
 
 theory SymDifference =
@@ -170,7 +201,7 @@ theory SymDifference =
 	symdif = [A,B] (A∪B) ∖ (A∩B)❙
 	symdifI = [A,B,x,p,q] difI (unionIl B p) (notI ([pf: ⊦ x∈A∩B] q notE (pf interEr)))❙
 	symdifEl = [A,B,x,p,q] notI ([pf: ⊦ x∈B] (p difEr) notE (interI q pf))❙
-	symdifEr = [A,B,x,p,q] p difEl unionE ([pa] pa) ([pb] q notE pb)❙
+	symdifEr = [A,B,x,p,q] p difEl unionE ([pa] pa) ([pb] q notE pb inconE)❙
 ❚
 
 theory SymFilter =
@@ -183,7 +214,7 @@ theory SymFilter =
 	symdifEl = [A,B,x,p,q] p filterEr orE ([pa] pa andEr)
 		([pb] notI ([pf] pb andEl notE q))❙
 	symdifEr = [A,B,x,p,q] p filterEr orE ([pa] pa andEl)
-		([pb] notI ([pf: ⊦ ¬ x∈A] pb andEr notE q))❙
+		([pb] q notE (pb andEr) inconE)❙
 ❚
 
 // Views for Adjoint❚
