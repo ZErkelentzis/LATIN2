@@ -3,14 +3,6 @@ namespace latin:/❚
 fixmeta ?SetFOL❚
 
 // Views for EmptySet❚
-theory EmptyUniversalComplement =
-	include ?Complement❙
-	include ?UniversalSet❙
-	realize ?EmptySet❙
-	
-	empty = comp 𝒰❙
-❚
-
 view EmptyFilter : ?EmptySet → ?Filter =	
 	// AS: X could be any possible (nonempty) set❙
 	empty = X | ([x] ¬ x≐x)❙
@@ -31,14 +23,6 @@ view SelfDifference : ?EmptySet → ?Difference =
 ❚
 
 // Views for UniversalSet❚
-theory UniversalEmptyComplement =
-	include ?EmptySet❙
-	include ?Complement❙
-	realize ?UniversalSet❙
-	
-	universal = comp ∅❙
-❚
-
 theory UniversalUnion =
 	include ?Complement❙
 	include ?Union❙
@@ -95,6 +79,9 @@ theory UopairFilter =
 	
 	// AS: 𝒰 was just the safest solution here❙
 	uopair = [A,B] 𝒰 | ([x] x≐A ∨ x≐B)❙
+	uopairIl = [x,B] filterI (universal_prop forallE x) (refl orIl)❙
+	uopairIr = [A,y] filterI (universal_prop forallE y) (refl orIr)❙
+	uopairE = [A,B,x,C,p,pa,pb] p filterEr orE pa pb❙
 ❚
 
 theory UopairAdjointSingleton =
@@ -103,4 +90,7 @@ theory UopairAdjointSingleton =
 	realize ?UnorderedPairs❙
 	
 	uopair = [A,B] adjoint (singleton A) B❙
+	uopairIl = [x,B] adjointIl singletonI❙
+	uopairIr = [A,y] adjointIr❙
+	uopairE = [A,B,x,C,p,pa,pb] p adjointE ([q] pa (q singletonE)) pb❙
 ❚
