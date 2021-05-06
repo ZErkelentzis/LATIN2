@@ -34,7 +34,7 @@ theory PairingAx =
 	pairing_axiom : {A,B} ⊦ ∃[Z] isuopair A B Z❙
 	pairing_unique : {A,B} ⊦ ∃¹[Z] isuopair A B Z❘ // = _ ❙
 	pairingAxI : {A,B,Z,x} ⊦ x≐A ∨ x≐B ⟶ ⊦ x∈Z❙
-	pairingAxE : {A,B,Z,x} ⊦ x∈Z ⟶ ⊦ x≐A ∨ x≐B❘# 5 pairingAxE❙
+	pairingAxE : {A,B,Z,x} ⊦ x∈Z ⟶ ⊦ x≐A ∨ x≐B❘# 5 pairingAxE 1 2❙
 ❚
 
 theory UnionAx =
@@ -80,8 +80,8 @@ theory ReplacementAx =
 	
 	replacement_axiom : {A,F} ⊦ ∃[Z] isreplacement A F Z❙
 	replacement_unique : {A,F} ⊦ ∃¹[Z] isreplacement A F Z❘ // = _ ❙
-	replacementAxI : {A,F,Z,a} ⊦ a∈A ⟶ ⊦ (F a)∈Z❙
-	replacementAxE : {A,F,Z,z,C} ⊦ z∈Z ⟶ ([a] ⊦a∈A ⟶ ⊦ F a ≐ z ⟶ ⊦C) ⟶ ⊦C❘# 5 replacementAxE❙ 
+	replacementAxI : {A,F,Z,x} ⊦ x∈A ⟶ ⊦ (F x)∈Z❘# replacementAxI 2 5❙
+	replacementAxE : {A,F,Z,y,C} ⊦ y∈Z ⟶ ({x} ⊦x∈A ⟶ ⊦ F x ≐ y ⟶ ⊦C) ⟶ ⊦C❘# 6 replacementAxE 1 2 7❙ 
 ❚
 
 theory RegularityAx =
