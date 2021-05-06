@@ -30,12 +30,17 @@ theory CartesianProduct =
 	// AS: maybe change prec❙
 	// A × B❙
 	// symbol: jtimes❙
-	prod : set ⟶ set ⟶ set❘# 1 × 2 prec 40❙
+	prod : set ⟶ set ⟶ set❘# 1 × 2 prec 50❙
 	
 	// introduction and elimination rules❙
 	prodI : {A,B,a,b} ⊦ a∈A ⟶ ⊦ b∈B ⟶ ⊦ pair a b ∈ A×B❙
- 	prodEl : {A,B,p} ⊦ p ∈ A×B ⟶ ⊦ p₁∈A❙
-	prodEr : {A,B,p} ⊦ p ∈ A×B ⟶ ⊦ p₂∈B❙
+ 	prodEl : {A,B,p} ⊦ p ∈ A×B ⟶ ⊦ p₁∈A❘# 4 prodEl❙
+	prodEr : {A,B,p} ⊦ p ∈ A×B ⟶ ⊦ p₂∈B❘# 4 prodEr❙
+	
+	// subset❙
+	prod_sub : {A,B,C,D} ⊦ A⪽C ⟶ ⊦ B⪽D ⟶ ⊦ A×B ⪽ C×D❘
+		= [A,B,C,D,pa,pb] subtypeI ([x,p] prodI (p prodEl subtypeE pa) 
+			(p prodEr subtypeE pb))❙
 ❚
 
 theory Relations =
@@ -62,6 +67,9 @@ theory Relations =
   
   // introduction rule for the set of all relations of A and B❙
   relI : {A,B,P} ⊦ theRel A B P ∈ rel A B❙
+  
+  // subset❙
+  rel_sub : {A,B,C,D} ⊦ A⪽C ⟶ ⊦ B⪽D ⟶ ⊦ rel A B ⪽ rel C D❙
 ❚
 
 theory PartialFunctions =
