@@ -4,7 +4,7 @@ fixmeta ?SetFOL❚
 
 theory OrderedPairs =
 	// AS: think of a notation❙
-	// (x,y)❙
+	// (a,b)❙
 	pair : set ⟶ set ⟶ set❘# pair 1 2 prec 40❙
 	// first projection of a pair❙
 	pi1 : set ⟶ set❘# 1 ₁ prec 35❙
@@ -13,9 +13,9 @@ theory OrderedPairs =
 	ispair : set ⟶ prop❙
 	
 	// computation rules❙
-	// (x,y)_1 = x❙
-	compL : {x,y} ⊦ (pair x y)₁ ≐ x❙
-	compR : {x,y} ⊦ (pair x y)₂ ≐ y❙
+	// (a,b)_1 = a❙
+	compL : {a,b} ⊦ (pair a b)₁ ≐ a❙
+	compR : {a,b} ⊦ (pair a b)₂ ≐ b❙
 	
 	// representation rule❙
 	repr : {p} ⊦ ispair p ⟶ ⊦ p ≐ pair (p₁) (p₂)❙
@@ -28,83 +28,88 @@ theory CartesianProduct =
 	include ?OrderedPairs❙
 	
 	// AS: maybe change prec❙
-	// X × Y❙
+	// A × B❙
 	// symbol: jtimes❙
-	prod : set ⟶ set ⟶ set❘# 1 × 2 prec 40❙
+	prod : set ⟶ set ⟶ set❘# 1 × 2 prec 50❙
 	
 	// introduction and elimination rules❙
-	prodI : {X,Y,x,y} ⊦ x∈X ⟶ ⊦ y∈Y ⟶ ⊦ pair x y ∈ X×Y❙
- 	prodEl : {X,Y,Z} ⊦ Z ∈ X×Y ⟶ ⊦ Z₁∈X❙
-	prodEr : {X,Y,Z} ⊦ Z ∈ X×Y ⟶ ⊦ Z₂∈Y❙
+	prodI : {A,B,a,b} ⊦ a∈A ⟶ ⊦ b∈B ⟶ ⊦ pair a b ∈ A×B❙
+ 	prodEl : {A,B,p} ⊦ p ∈ A×B ⟶ ⊦ p₁∈A❘# 4 prodEl❙
+	prodEr : {A,B,p} ⊦ p ∈ A×B ⟶ ⊦ p₂∈B❘# 4 prodEr❙
+	
+	// subset❙
+	prod_sub : {A,B,C,D} ⊦ A⪽C ⟶ ⊦ B⪽D ⟶ ⊦ A×B ⪽ C×D❘
+		= [A,B,C,D,pa,pb] subtypeI ([x,p] prodI (p prodEl subtypeE pa) 
+			(p prodEr subtypeE pb))❙
 ❚
 
 theory Relations =
 	// AS: maybe include CartesianProduct. A single relation is a subset of the CartesianProduct.
-		The set of all relations is a subset (?) of the powerset of the CartesianProduct❙
-	// The set of all relations of X and Y❙
+		The set of all relations the powerset of the CartesianProduct?❙
+	// The set of all relations of A and B❙
 	rel : set ⟶ set ⟶ set❙
 	
 	// A single relation on the sets X and Y which fulfills some predicate P❙
-  theRel: {X:set,Y:set} (set ⟶ set ⟶ prop) ⟶ set❙
+  theRel: {A:set,B:set} (set ⟶ set ⟶ prop) ⟶ set❙
   inRel : set ⟶ set ⟶ set ⟶ prop❙
   
   // helper function to check whether a set is a relation❙
   isrel : set ⟶ prop❙
   
   // computation rule❙
-  comp : {X,Y,P,x,y} ⊦ inRel (theRel X Y P) x y ⇔ x∈X ∧ y∈Y ∧ P x y❙
+  comp : {A,B,P,a,b} ⊦ inRel (theRel A B P) a b ⇔ a∈A ∧ b∈B ∧ P a b❙
   
 	// representation rule❙
-  repr : {X,Y,R} ⊦ isrel R ⟶ ⊦ R ≐ theRel X Y ([x,y] inRel R x y)❙ 
+  repr : {A,B,R} ⊦ isrel R ⟶ ⊦ R ≐ theRel A B ([x,y] inRel R x y)❙ 
   
   // extensionality rule❙
   ext : {R,S} ⊦ isrel R ⟶ ⊦ isrel S ⟶ ({x,y} ⊦ inRel R x y ⇔ inRel S x y) ⟶ ⊦ R≐S❙
   
-  // introduction rule for the set of all relations of X and Y❙
-  relI : {X,Y,P} ⊦ theRel X Y P ∈ rel X Y❙
+  // introduction rule for the set of all relations of A and B❙
+  relI : {A,B,P} ⊦ theRel A B P ∈ rel A B❙
+  
+  // subset❙
+  rel_sub : {A,B,C,D} ⊦ A⪽C ⟶ ⊦ B⪽D ⟶ ⊦ rel A B ⪽ rel C D❙
 ❚
 
 theory PartialFunctions =
-	// AS: maybe include Relations here as well.
-		Pro: makes it clear that a partial function is a right-unique relation
-		Con: it might create more work. I need to think about this a bit longer.❙
+	// AS: change this, so the dependency on Relations is used❙
+	include ?Relations❙
 	include ?RightUnique❙
 
-	// The set of all partial functions of X and Y❙
+	// The set of all partial functions of A and B❙
 	pfunc : set ⟶ set ⟶ set❙
 	
-	// A single partial function on the sets X and Y which fulfills some predicate P❙
-	thePFunc : {X:set,Y:set} (set ⟶ set ⟶ prop) ⟶ set❙
+	// A single partial function on the sets A and B which fulfills some predicate P❙
+	thePFunc : {A:set,B:set} (set ⟶ set ⟶ prop) ⟶ set❙
 	inPFunc : set ⟶ set ⟶ set ⟶ prop❙
 	
 	// AS: the definition might need to take care of right-unique as well❙
 	ispfunc : set ⟶ prop❙
 	
 	// computation rule❙
-	comp : {X,Y,P,x,y} ⊦ inPFunc (thePFunc X Y P) x y ⇔ x∈X ∧ y∈Y ∧ P x y ∧ isrightunique x Y P❙ 
+	comp : {A,B,P,a,b} ⊦ inPFunc (thePFunc A B P) a b ⇔ a∈A ∧ b∈B ∧ P a b ∧ isrightunique a B P❙ 
 	
 	// representation rule❙
-	repr : {X,Y,R} ⊦ ispfunc R ⟶ ⊦ R ≐ thePFunc X Y ([x,y] inPFunc R x y)❙
+	repr : {A,B,R} ⊦ ispfunc R ⟶ ⊦ R ≐ thePFunc A B ([x,y] inPFunc R x y)❙
 	
 	// extensionality rule❙
 	ext : {R,S} ⊦ ispfunc R ⟶ ⊦ ispfunc S ⟶ ({x,y} ⊦ inPFunc R x y ⇔ inPFunc S x y) ⟶ ⊦ R≐S❙
 	
 	// introduction rule for the set of all partial functions of X and Y❙
-	pfuncI : {X,Y,P} ⊦ thePFunc X Y P ∈ pfunc X Y❙
+	pfuncI : {A,B,P} ⊦ thePFunc A B P ∈ pfunc A B❙
 ❚
 
 theory Functions =
-	// AS: maybe include PartialFunctions here as well.
-	Pro: makes it clear that a function is a left-total partial function
-	Con: it might create more work. I need to think about this a bit longer.❙
-	include ?RightUnique❙
+	// AS: change this, so the dependency on PartialFunctions is used❙
+	include ?PartialFunctions❙
 	include ?LeftTotal❙
 	
 	// The set of all functions of X and Y❙
 	func : set ⟶ set ⟶ set❙
 	
 	// A single function on the sets X and Y which fulfills some predicate P❙
-	theFunc : {X:set,Y:set} (set ⟶ set ⟶ prop) ⟶ set❙
+	theFunc : {A:set,B:set} (set ⟶ set ⟶ prop) ⟶ set❙
 	inFunc : set ⟶ set ⟶ set ⟶ prop❙
 	
 	// AS: the definition might need to take care of left-total and right-unique as well❙
@@ -112,14 +117,14 @@ theory Functions =
 	
 	// computation rule❙
 	// AS: I'm not sure whether left-total and right-unique fit here❙
-	comp : {X,Y,P,x,y} ⊦ inFunc (theFunc X Y P) x y ⇔ x∈X ∧ y∈Y ∧ P x y ∧ isrightunique x Y P ∧ islefttotal X Y P❙ 
+	comp : {A,B,P,a,b} ⊦ inFunc (theFunc A B P) a b ⇔ a∈A ∧ b∈B ∧ P a b ∧ isrightunique a B P ∧ islefttotal A B P❙ 
 	
 	// representation rule❙
-	repr : {X,Y,R} ⊦ isFunc R ⟶ ⊦ R ≐ theFunc X Y ([x,y] inFunc R x y)❙
+	repr : {A,B,R} ⊦ isFunc R ⟶ ⊦ R ≐ theFunc A B ([x,y] inFunc R x y)❙
 	
 	// extensionality rule❙
 	ext : {R,S} ⊦ isFunc R ⟶ ⊦ isFunc S ⟶ ({x,y} ⊦ inFunc R x y ⇔ inFunc S x y) ⟶ ⊦ R≐S❙
 	
 	// introduction rule for the set of all functions of X and Y❙
-	funcI : {X,Y,P} ⊦ theFunc X Y P ∈ func X Y❙
+	funcI : {A,B,P} ⊦ theFunc A B P ∈ func A B❙
 ❚

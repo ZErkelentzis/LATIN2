@@ -5,41 +5,66 @@ fixmeta ?SetFOL❚
 theory Union =
 	// symbol: jcup❙
 	union : set ⟶ set ⟶ set❘# 1 ∪ 2 prec 40❙
-	unionIl : {X,Y,x} ⊦ x∈X ⟶ ⊦ x∈X∪Y❘ # unionIl 2 4❙
-	unionIr : {X,Y,y} ⊦ y∈Y ⟶ ⊦ y∈X∪Y❘ # unionIr 2 4❙
-	unionE : {X,Y,x,C} ⊦ x∈X∪Y ⟶ (⊦x∈X ⟶ ⊦ C) ⟶ (⊦x∈Y ⟶ ⊦ C) ⟶ ⊦ C❘# 5 unionE 6 7❙ 
-		
-	union_subsetl : {X,Y} ⊦ X ⪽ X∪Y❙
-	union_subsetr : {X,Y} ⊦ Y ⪽ X∪Y❙
-	union_sup : {X,Y,M} ⊦ X⪽M ⟶ ⊦ Y⪽M ⟶ ⊦ X∪Y ⪽ M❙
+	unionIl : {A,B,x} ⊦ x∈A ⟶ ⊦ x∈A∪B❘ # unionIl 2 4❙
+	unionIr : {A,B,y} ⊦ y∈B ⟶ ⊦ y∈A∪B❘ # unionIr 1 4❙
+	unionE : {A,B,x,C} ⊦ x∈A∪B ⟶ (⊦ x∈A ⟶ ⊦ C) ⟶ (⊦ x∈B ⟶ ⊦ C) ⟶ ⊦ C❘# 5 unionE 6 7❙ 
 	
-	union_idem : {X} ⊦ X∪X ≐ X❙
-	// AS: maybe delete this, if algebra works here❙
-	union_comm : {X,Y} ⊦ X∪Y ≐ Y∪X❙
-	union_ass : {X,Y,Z} ⊦ (X∪Y)∪Z ≐ X∪(Y∪Z)❙
+	union_subl : {A,B} ⊦ A ⪽ A∪B❘
+		= [A,B] subtypeI ([x,p] unionIl B p)❙
+	union_subr : {A,B} ⊦ B ⪽ A∪B❘
+		= [A,B] subtypeI ([x,p] unionIr A p)❙
+	union_sup : {A,B,C} ⊦ A⪽C ⟶ ⊦ B⪽C ⟶ ⊦ A∪B ⪽C❘
+		= [A,B,C,pa,pb] subtypeI ([x,p] p unionE ([qa] qa subtypeE pa) ([qb] qb subtypeE pb))❙
+	
+	// AS: it's way easier to define these here. Or shall I do it in views?❙
+	include ?ExtensionalityAx❙
+	union_idem : {A} ⊦ A∪A ≐ A❘
+			= [A] extensionalityI ([x] equivI ([p] p unionE ([pa] pa) ([pb] pb)) ([q] unionIl A q))❙
+	union_comm : {A,B} ⊦ A∪B ≐ B∪A❘
+			= [A,B] extensionalityI ([x] equivI ([p] p unionE ([pa] unionIr B pa) ([pb] unionIl A pb))
+				([q] q unionE ([qa] unionIr A qa) ([qb] unionIl B qb)))❙
+	union_assoc : {A,B,C} ⊦ (A∪B)∪C ≐ A∪(B∪C)❘
+			= [A,B,C] extensionalityI ([x] equivI ([p] p unionE ([pab] pab unionE ([pa] unionIl (B∪C) pa)
+				([pb] unionIr A (unionIl C pb))) ([pc] unionIr A (unionIr B pc)))
+				([q] q unionE ([qa] unionIl C (unionIl B qa)) ([qbc] qbc unionE 
+				([qb] unionIl C (unionIr A qb)) ([qc] unionIr (A∪B) qc))))❙
 	
 	include ?EmptySet❙
-	union_neutral : {X} ⊦ X∪∅ ≐ X❙
+	union_empty : {A} ⊦ A∪∅ ≐ A❘
+			= [A] extensionalityI ([x] equivI ([p] p unionE ([pa] pa) ([pb] empty_prop notE existsI x pb inconE))
+				([q] unionIl ∅ q))❙
 	
 	include ?UniversalSet❙
-	union_universal : {X} ⊦ X∪𝒰 ≐ 𝒰❙
+	union_universal : {A} ⊦ A∪𝒰 ≐ 𝒰❘
+			= [A] extensionalityI ([x] equivI ([p] p unionE ([pa] universal_prop forallE x) ([pb] pb))
+				([q] unionIr A q))❙
 ❚
 
 theory Intersection =
 	// symbol: jcap❙
 	inter : set ⟶ set ⟶ set❘# 1 ∩ 2 prec 40❙
-	interI : {X,Y,x} ⊦ x∈X ⟶ ⊦ x∈Y ⟶ ⊦ x∈X∩Y❙
-	interEl : {X,Y,x} ⊦ x∈X∩Y ⟶ ⊦ x∈X❘# 4 interEl❙
-	interEr : {X,Y,y} ⊦ y∈X∩Y ⟶ ⊦ y∈Y❘# 4 interEr❙
+	interI : {A,B,x} ⊦ x∈A ⟶ ⊦ x∈B ⟶ ⊦ x∈A∩B❙
+	interEl : {A,B,x} ⊦ x∈A∩B ⟶ ⊦ x∈A❘# 4 interEl❙
+	interEr : {A,B,y} ⊦ y∈A∩B ⟶ ⊦ y∈B❘# 4 interEr❙
 	
-	inter_subsetl : {X,Y} ⊦ X∩Y ⪽ X❙
-	inter_subsetr : {X,Y} ⊦ X∩Y ⪽ Y❙
-	inter_sup : {X,Y,Z} ⊦ Z⪽X ⟶ ⊦ Z⪽Y ⟶ ⊦ Z⪽(X∩Y)❙
+	inter_subl : {A,B} ⊦ A∩B ⪽ A❘
+		= [A,B] subtypeI ([x,p] p interEl)❙
+	inter_subr : {A,B} ⊦ A∩B ⪽ B❘
+		= [A,B] subtypeI ([x,p] p interEr)❙
+	inter_inf : {A,B,C} ⊦ C⪽A ⟶ ⊦ C⪽B ⟶ ⊦ C⪽(A∩B)❘
+		= [A,B,C,pa,pb] subtypeI ([x,p] interI (p subtypeE pa) (p subtypeE pb))❙
 	
-	inter_idem : {X} ⊦ X∩X ≐ X❙
-	// AS: maybe delete this, if algebra works here❙
-	inter_comm : {X,Y} ⊦ X∩Y ≐ Y∩X❙
-	inter_assoc : {X,Y,Z} ⊦ (X∩Y)∩Z ≐ X∩(Y∩Z)❙
+	// AS: it's way easier to define these here. Or shall I do it in views?❙
+	include ?ExtensionalityAx❙	
+	inter_idem : {A} ⊦ A∩A ≐ A❘
+		= [A] extensionalityI ([x] equivI ([p] p interEl) ([q] interI q q))❙
+	inter_comm : {A,B} ⊦ A∩B ≐ B∩A❘
+		= [A,B] extensionalityI ([x] equivI ([p] interI (p interEr) (p interEl))
+			([q] interI (q interEr) (q interEl)))❙
+	inter_assoc : {A,B,C} ⊦ (A∩B)∩C ≐ A∩(B∩C)❘
+		= [A,B,C] extensionalityI ([x] equivI 
+			([p] interI (p interEl interEl) (interI (p interEl interEr) (p interEr)))
+			([q] interI (interI (q interEl) (q interEr interEl)) (q interEr interEr)))❙
 		
 	// this does not work because all algebra theories are written relative to SFOL and we're in FOL❙ 
 	// total structure algebra : algebraic?BoundedSemilattice =
@@ -49,77 +74,118 @@ theory Intersection =
   // ❚
   
   include ?EmptySet❙
-  inter_neutral : {X} ⊦ X∩∅ ≐ ∅❙
+  inter_empty : {A} ⊦ A∩∅ ≐ ∅❘
+  	= [A] extensionalityI ([x] equivI ([p] p interEr) 
+  		([q] empty_prop notE existsI x q inconE))❙
   
   include ?UniversalSet❙
-  inter_universal : {X} ⊦ X∩𝒰 ≐ X❙
+  inter_universal : {A} ⊦ A∩𝒰 ≐ A❘
+  	= [A] extensionalityI ([x] equivI ([p] p interEl) 
+  		([q] interI q (universal_prop forallE x)))❙
 
   // AS: seems wrong, maybe change to something like isdisjoint❙
-  disjoint : {X,Y} ⊦ X∩Y ≐ ∅❙ 
+  // disjoint : {A,B} ⊦ A∩B ≐ ∅❙ 
 ❚
 
 theory BigUnion =
 	// symbol: jbigcup❙
   bigunion : set ⟶ set❘# ⋃ 1 prec 45❙
-  bigunionI : {M,X,x} ⊦ X∈M ⟶ ⊦ x∈X ⟶ ⊦ x∈ ⋃M❙
-  bigunionE : {M,x,C} ⊦ x∈⋃M ⟶ ({X}⊦X∈M ⟶ ⊦ x∈X ⟶ ⊦C) ⟶ ⊦C❘# 4 bigunionE 5❙
+  bigunionI : {A,X,x} ⊦ X∈A ⟶ ⊦ x∈X ⟶ ⊦ x∈ ⋃A❙
+  bigunionE : {A,x,C} ⊦ x∈⋃A ⟶ ({X}⊦X∈A ⟶ ⊦ x∈X ⟶ ⊦C) ⟶ ⊦C❘# 4 bigunionE 5❙
   
-  bigunion_subset : {M,X} ⊦ X∈M ⟶ ⊦ X ⪽ ⋃M❙ 
+  bigunion_sub : {A,X} ⊦ X∈A ⟶ ⊦ X⪽⋃A❘
+  	= [A,X,p] subtypeI ([x,q] bigunionI p q)❙
+  bigunion_sup : {A,B} ({X} ⊦ X∈A ⟶ ⊦ X⪽B) ⟶ ⊦ ⋃A⪽B❘
+  	= [A,B,p] subtypeI ([x,q] q bigunionE ([X,qa,qb] qb subtypeE p X qa))❙
   
-  include ?EmptySet❙
-  bigunion_neutral : ⊦ ⋃∅ ≐ ∅❙
+  // AS: is this even correct?❙
+  // include ?EmptySet❙
+  // bigunion_neutral : ⊦ ⋃∅ ≐ ∅❙
 ❚
 
 theory BigIntersection =
   include ?EmptySetDefinitions❙
   // symbol: jbigcap❙
 	biginter : set ⟶ set❘# ⋂ 1 prec 45❙
-	// M must be nonempty because otherwise intrsection would produce the set of all sets❙
-	biginterI : {M,x} ⊦ nonempty M ⟶ ({X} ⊦ X∈M ⟶ ⊦ x∈X) ⟶ ⊦ x ∈ ⋂M❙
-	biginterE : {M,X,x} ⊦ x ∈ ⋂M ⟶ ⊦ X∈M ⟶ ⊦ x∈X❘# 4 biginterE 5❙
+	// A must be nonempty because otherwise intersection would produce the set of all sets❙
+	biginterI : {A,x} ⊦ nonempty A ⟶ ({X} ⊦ X∈A ⟶ ⊦ x∈X) ⟶ ⊦ x∈⋂A❙
+	biginterE : {A,X,x} ⊦ x∈⋂A ⟶ ⊦ X∈A ⟶ ⊦ x∈X❘# 4 biginterE 5❙
 	
-	biginter_subset : {M,X} ⊦ X∈M ⟶ ⊦ ⋂M ⪽ X❙
+	biginter_sub : {A,X} ⊦ X∈A ⟶ ⊦ ⋂A⪽X❘
+		= [A,X,p] subtypeI ([x,q] q biginterE p)❙
+	biginter_inf : {A,C} ⊦ nonempty A ⟶ ({X} ⊦ X∈A ⟶ ⊦ C⪽X) ⟶ ⊦ C⪽⋂A❘
+		= [A,C,pa,pb] subtypeI ([x,p] biginterI pa ([X,q] p subtypeE pb X q))❙
 	
-	include ?EmptySet❙
-	biginter_neutral : ⊦ ⋂∅ ≐ ∅❙
+	// AS: is this even correct?❙
+	// include ?EmptySet❙
+	// biginter_neutral : ⊦ ⋂∅ ≐ ∅❙
 ❚
 
 theory Difference =
 	// symbol: jsetminus❙
 	dif : set ⟶ set ⟶ set❘# 1 ∖ 2 prec 40❙
-	difI : {X,Y,x} ⊦ x∈X ⟶ ⊦ ¬ x∈Y ⟶ ⊦ x ∈ X∖Y❙
-	difEl : {X,Y,x} ⊦ x ∈ X∖Y ⟶ ⊦ x∈X❘# 4 difEl❙
-	difEr : {X,Y,x} ⊦ x ∈ X∖Y ⟶ ⊦ ¬ x∈Y❘# 4 difEr❙
+	difI : {A,B,x} ⊦ x∈A ⟶ ⊦ ¬ x∈B ⟶ ⊦ x ∈ A∖B❙
+	difEl : {A,B,x} ⊦ x ∈ A∖B ⟶ ⊦ x∈A❘# 4 difEl❙
+	difEr : {A,B,x} ⊦ x ∈ A∖B ⟶ ⊦ ¬ x∈B❘# 4 difEr❙
 	
-	dif_subset : {X,Y} ⊦ X∖Y ⪽ X❙
+	dif_sub : {A,B} ⊦ A∖B ⪽A❘
+		= [A,B] subtypeI ([x,p] p difEl)❙
+		
+	include ?ExtensionalityAx❙
+	include ?EmptySet❙
+	dif_idem : {A} ⊦ A∖∅ ≐ A❘
+		= [A] extensionalityI ([x] equivI ([p] p difEl) 
+			([q] difI q (notI ([pf] empty_prop notE existsI x pf))))❙
+	dif_empty : {A} ⊦ A∖A ≐ ∅❘
+		= [A] extensionalityI ([x] equivI ([p] p difEr notE (p difEl) inconE)
+			([q] empty_prop notE existsI x q inconE))❙
 ❚
 
 theory Complement =
 	// AS : Maybe change notation❙
 	comp : set ⟶ set❙
-	compI : {X,y,Y} ⊦ ¬ y∈X ⟶ ⊦ y∈Y❙
+	// AS: do I have to add two more cases here?❙
+	compI : {A,x} ⊦ ¬ x∈A ⟶ ⊦ x∈(comp A)❙
+	compE : {A,x} ⊦ x∈ (comp A) ⟶ ⊦ ¬ x∈A❘# 3 compE❙
 	
-	include ?UniversalSet❙
-	include ?Union❙
-	comp_union : {X} ⊦ X ∪ comp X ≐ 𝒰❙
-	
+	// AS: it's way easier to define these here. Or shall I do it in views?❙
+	include ?ExtensionalityAx❙	
+	comp_idem : {A} ⊦ comp (comp A) ≐ A❘
+		= [A] extensionalityI ([x] equivI ([p] dne notI ([pf] p compE notE compI pf)) 
+			([q] compI (notI ([pf] pf compE notE q))))❙
+
+	// AS: how to interact with these? They just make everything more complicated!❙
 	include ?EmptySet❙
+	include ?UniversalSet❙
+	comp_empty : ⊦ comp ∅ ≐ 𝒰❘
+		= extensionalityI ([x] equivI ([p] universal_prop forallE x)
+			([q] compI notI ([pf] empty_prop notE existsI x pf)))❙
+	comp_universal : ⊦ comp 𝒰 ≐ ∅❘
+		= extensionalityI ([x] equivI ([p] p compE notE (universal_prop forallE x) inconE)
+			([q] empty_prop notE existsI x q inconE))❙
+
+	include ?Union❙
+	comp_union : {A} ⊦ A ∪ comp A ≐ 𝒰❘
+		= [A] extensionalityI ([x] equivI ([p] universal_prop forallE x)
+		([q] tnd orE ([qa] unionIl (comp A) qa) ([qb] unionIr A (compI qb))))❙
+	
 	include ?Intersection❙
-	comp_inter : {X} ⊦ X ∩ comp X ≐ ∅❙
+	comp_inter : {A} ⊦ A ∩ comp A ≐ ∅❘
+		= [A] extensionalityI ([x] equivI ([p] (p interEr) compE notE (p interEl) inconE) 
+			([q] empty_prop notE existsI x q inconE))❙
 ❚
 
 theory SymmetricDifference =
-	// AS : add definition X Δ Y = (X ∪ Y) ∖ (X ∩ Y)❙
+	// AS : add definition A Δ B = (A ∪ B) ∖ (A ∩ B)❙
 	// AS : think of another notation, since this leads to mistakes!❙
 	// symbol: jDelta❙
 	symdif : set ⟶ set ⟶ set❘ # 1 Δ 2 prec 40❙
-	symdifIl : {X,Y,x} ⊦ x∈X ⟶ ⊦ ¬ x∈Y ⟶ ⊦ x ∈ X Δ Y❙
-	symdifIr : {X,Y,y} ⊦ ¬ y∈X ⟶ ⊦ y∈Y ⟶ ⊦ y ∈ X Δ Y❙
-	// AS: maybe there is a smarter/shorter way to describe elimination rules❙
-	symdifEll : {X,Y,x} ⊦ x ∈ X Δ Y ⟶ ⊦ x∈X ⟶ ⊦ ¬ x∈Y❙
-	symdifElr : {X,Y,x} ⊦ x ∈ X Δ Y ⟶ ⊦ ¬ x∈Y ⟶ ⊦ x∈X❙
-	symdifErl : {X,Y,y} ⊦ y ∈ X Δ Y ⟶ ⊦ y∈Y ⟶ ⊦ ¬ y∈X❙
-	symdifErr : {X,Y,y} ⊦ y ∈ X Δ Y ⟶ ⊦ ¬ y∈X ⟶ ⊦ y∈Y❙
+	// AS: do I have to do more/different cases here?❙
+	symdifI : {A,B,x} ⊦ x∈A ⟶ ⊦ ¬ x∈B ⟶ ⊦ x ∈ A Δ B❙
+	symdifEl : {A,B,x} ⊦ x ∈ A Δ B ⟶ ⊦ x∈A ⟶ ⊦ ¬ x∈B❘# 4 symdifEl❙
+	symdifEr : {A,B,x} ⊦ x ∈ A Δ B ⟶ ⊦ ¬ x∈B ⟶ ⊦ x∈A❘# 4 symdifEr❙
+	
+	// AS: I need to add A Δ B ≐ B Δ A somewhere!❙
 ❚
 
 theory DisjointUnion =
@@ -134,15 +200,21 @@ theory Adjoint =
 	// AS: Maybe rename this to Insert❙
 	// AS: think of a notation❙
 	adjoint : set ⟶ set ⟶ set❙
-	adjointIl : {X,y,x} ⊦ x∈X ⟶ ⊦ x∈(adjoint X y)❙
-	adjointIr : {X,y} ⊦ y∈(adjoint X y)❙
-	adjointE : {X,y,x} ⊦ x∈(adjoint X y) ⟶ ⊦ x∈X ∨ x≐y❙
+	adjointIl : {A,b,x} ⊦ x∈A ⟶ ⊦ x∈(adjoint A b)❙
+	adjointIr : {A,b} ⊦ b∈(adjoint A b)❙
+	adjointE : {A,b,x,C} ⊦ x∈(adjoint A b) ⟶ (⊦ x∈A ⟶ ⊦ C) ⟶ (⊦ x≐b ⟶ ⊦ C) ⟶ ⊦ C❘# 5 adjointE 6 7❙
+
+	adjoint_sub : {A,b} ⊦ A⪽adjoint A b❘
+		= [A,b] subtypeI ([x,p] adjointIl p)❙
 ❚
 
 theory Erase =
 	// AS: Maybe rename this to Delete❙
 	// AS: think of a notation❙
 	erase : set ⟶ set ⟶ set❙
-	eraseI : {X,y,x} ⊦ x∈X ⟶ ⊦ ¬ x≐y ⟶ ⊦ x∈(erase X y)❙
-	eraseE : {X,y,x} ⊦ x∈(erase X y) ⟶ ⊦ x∈X ∧ ¬ x≐y❙ 
+	eraseI : {A,b,x} ⊦ x∈A ⟶ ⊦ ¬ x≐b ⟶ ⊦ x∈(erase A b)❙
+	eraseE : {A,b,x} ⊦ x∈(erase A b) ⟶ ⊦ x∈A ∧ ¬ x≐b❘# 4 eraseE❙
+	
+	erase_sub : {A,b} ⊦ erase A b⪽A❘
+		= [A,b] subtypeI ([x,p] p eraseE andEl)❙
 ❚

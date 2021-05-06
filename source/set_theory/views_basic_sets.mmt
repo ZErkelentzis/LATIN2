@@ -3,21 +3,9 @@ namespace latin:/❚
 fixmeta ?SetFOL❚
 
 // Views for EmptySet❚
-theory EmptyUniversalComplement =
-	include ?Complement❙
-	include ?UniversalSet❙
-	realize ?EmptySet❙
-	
-	empty = comp 𝒰❙
-❚
-
-view EmptyComprehension : ?EmptySet → ?Comprehension =	
+view EmptyFilter : ?EmptySet → ?Filter =	
+	// AS: X could be any possible (nonempty) set❙
 	empty = X | ([x] ¬ x≐x)❙
-❚
-
-view EmptyFilter : ?EmptySet → ?Filter =
-	// AS: this is basically the same as EmptyComprehension❙
-	empty = filter X ([x] ¬ x≐x)❙
 ❚
 
 theory EmptyIntersection =
@@ -25,85 +13,41 @@ theory EmptyIntersection =
 	include ?Intersection❙
 	realize ?EmptySet❙
 	
+	// AS: X could be any possible (nonempty) set❙
 	empty = X ∩ comp X❙
 ❚
 
-theory EmptyBigIntersection =
-	// AS: this is a mixture of EmptyIntersection and IntersectionAsBigIntersection.
-			Therefore this seems pretty unnecessary.❙
-	include ?BigIntersection❙
-	include ?Complement❙
-	include ?UnorderedPairs❙
-	realize ?EmptySet❙
-	
-	empty = ⋂ (uopair X (comp X))❙
-❚
-
 view SelfDifference : ?EmptySet → ?Difference =
+	// AS: X could be any possible (nonempty) set❙
 	empty = X∖X❙
 ❚
 
 // Views for UniversalSet❚
-theory UniversalEmptyComplement =
-	include ?EmptySet❙
-	include ?Complement❙
-	realize ?UniversalSet❙
-	
-	universal = comp ∅❙
-❚
-
-view UniversalComprehension : ?UniversalSet → ?Comprehension =
-	universal = X | ([x] x ≐ x)❙
-❚
-
-view UniversalFilter : ?UniversalSet → ?Filter =
-	// AS: this is basically the same as UniversalComprehension❙
-	universal = filter X ([x] x ≐ x)❙
-❚
-
 theory UniversalUnion =
 	include ?Complement❙
 	include ?Union❙
 	realize ?UniversalSet❙
 	
+	// AS: X could be any possible (nonempty) set❙
 	universal = X ∪ comp X❙
-❚
-
-theory UniversalBigUnion =
-	// AS: this is a mixture of UniversalUnion and UnionAsBigUnion.
-			Therefore this seems pretty unnecessary.❙
-	include ?BigUnion❙
-	include ?Complement❙
-	include ?UnorderedPairs❙
-	realize ?UniversalSet❙
-	
-	universal = ⋃ (uopair X (comp X))❙
 ❚
 
 // Views for Singleton❚
 view SelfPair : ?Singletons → ?UnorderedPairs =
-  singleton = [X] uopair X X❙
-  singletonI = [X] uopairIl❙
-  singletonE = [X,x,p] p uopairE ([q] q) ([q] q)❙
+  singleton = [A] uopair A A❙
+  singletonI = [A] uopairIl❙
+  singletonE = [A,x,p] p uopairE ([q] q) ([q] q)❙
 ❚
 
-view SingleComprehension : ?Singletons → ?Comprehension =
-	singleton = [a] X | ([x] x ≐ a)❙
-❚
-
-view SingleFilter : ?Singletons → ?Filter =
-	// AS: this is basically the same as SingleComprehension❙
-	singleton = [a] filter X ([x] x ≐ a)❙
-❚
-
-theory SingleIntersection =
-	// AS: since uopair would be enough to define singleton, this seems pretty unnecessary.❙
-	include ?Complement❙
-	include ?Intersection❙
-	include ?UnorderedPairs❙
+theory SingleFilter =
+	include ?Filter❙
+	include ?UniversalSet❙
 	realize ?Singletons❙
 	
-	singleton = [x] (uopair x Y) ∩ (uopair x (comp Y))❙
+	// AS: 𝒰 was just the safest solution here❙
+	singleton = [A] 𝒰 | ([x] x ≐ A)❙
+	singletonI = [x] filterI (universal_prop forallE x) refl❙
+	singletonE = [A,x,p] p filterEr❙
 ❚
 
 theory SingleAdjoint =
@@ -111,16 +55,9 @@ theory SingleAdjoint =
 	include ?EmptySet❙
 	realize ?Singletons❙
 	
-	singleton = [x] adjoint ∅ x❙
-❚
-
-theory SingleComplement =
-	include ?Complement❙
-	include ?Erase❙
-	include ?UniversalSet❙
-	realize ?Singletons❙
-	
-	singleton = [x] comp (erase 𝒰 x)❙
+	singleton = [A] adjoint ∅ A❙
+	singletonI = [x] adjointIr❙
+	singletonE = [A,x,p] p adjointE ([pa] empty_prop notE (existsI x pa) inconE) ([pb] pb)❙
 ❚
 
 // Views for Uopairs❚
@@ -129,16 +66,22 @@ theory UopairUnion =
 	include ?Union❙
 	realize ?UnorderedPairs❙
 	
-	uopair = [x,y] (singleton x) ∪ (singleton y)❙ 
+	uopair = [A,B] (singleton A) ∪ (singleton B)❙
+	uopairIl = [x,B] unionIl (singleton B) singletonI❙
+	uopairIr = [A,y] unionIr (singleton A) singletonI❙
+	uopairE = [A,B,x,C,p,pa,pb] p unionE ([qa] pa (qa singletonE)) ([qb] pb (qb singletonE))❙
 ❚
 
-view UopairComprehension : ?UnorderedPairs → ?Comprehension =
-	uopair = [a,b] X | ([x] x≐a ∨ x≐b)❙
-❚
-
-view UopairFilter : ?UnorderedPairs → ?Filter =
-	// AS: this is basically the same as UopairComprehension❙
-	uopair = [a,b] filter X ([x] x≐a ∨ x≐b)❙
+theory UopairFilter =
+	include ?Filter❙
+	include ?UniversalSet❙
+	realize ?UnorderedPairs❙
+	
+	// AS: 𝒰 was just the safest solution here❙
+	uopair = [A,B] 𝒰 | ([x] x≐A ∨ x≐B)❙
+	uopairIl = [x,B] filterI (universal_prop forallE x) (refl orIl)❙
+	uopairIr = [A,y] filterI (universal_prop forallE y) (refl orIr)❙
+	uopairE = [A,B,x,C,p,pa,pb] p filterEr orE pa pb❙
 ❚
 
 theory UopairAdjointSingleton =
@@ -146,23 +89,8 @@ theory UopairAdjointSingleton =
 	include ?Singletons❙
 	realize ?UnorderedPairs❙
 	
-	uopair = [x,y] adjoint (singleton x) y❙
-❚
-
-theory UopairAdjointEmpty =
-	// AS: this is basically the same as UopairAdjointSingleton❙
-	include ?Adjoint❙
-	include ?EmptySet❙
-	realize ?UnorderedPairs❙
-	
-	uopair = [x,y] adjoint (adjoint ∅ x) y❙
-❚
-
-theory UopairComplement =
-	include ?Complement❙
-	include ?Erase❙
-	include ?UniversalSet❙
-	realize ?UnorderedPairs❙
-	
-	uopair = [x,y] comp (erase (erase 𝒰 x) y)❙
+	uopair = [A,B] adjoint (singleton A) B❙
+	uopairIl = [x,B] adjointIl singletonI❙
+	uopairIr = [A,y] adjointIr❙
+	uopairE = [A,B,x,C,p,pa,pb] p adjointE ([q] pa (q singletonE)) pb❙
 ❚

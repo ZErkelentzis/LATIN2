@@ -6,6 +6,7 @@ fixmeta ?SetFOL❚
 	- TODOs in theories
 	- check whether everything is right
 	- maybe some theories need to be rewritten after changes in axioms
+	- add ZFBase in each ZF theory?❙
 ❚
 
 theory ZFBase =
@@ -27,66 +28,32 @@ theory ZFEmptySet =
 ❚
 
 theory ZFPairing =
-  include ?ZFBase❙
   include ?PairingAx❙
-  
-  realize ?UnorderedPairs❙
-  
-  uopair : set ⟶ set ⟶ set❘ # uopair 1 2❘
-          = [X,Y] the ([M] isuopair X Y M) pairing_unique❙
-  // AS: the introduction and elimination rules should be defined❙
-  // uopairIL, uopairIR, uopairE❙ 
+  include ?UnorderedPairs❘ = ?UopairFromAxiom❙
 ❚
 
 theory ZFUnion =
-  include ?ZFBase❙
   include ?UnionAx❙
-	
-	realize ?BigUnion❙
-	
-	bigunion : set ⟶ set❘# ⋃ 1❘
-					= [M] the ([Z] isbigunion M Z) union_unique❙
-	// AS: the introduction and elimination rules should be defined❙
-  // bigunionI, bigunionE❙ 
+  include ?BigUnion❘ = ?BigUnionFromAxiom❙
 ❚
 
-theory ZFPowerSet =
-  include ?ZFBase❙
+theory ZFPowerset =
   include ?PowersetAx❙
-  
-	realize ?PowerSets❙
-	
-	powerset : set ⟶ set❘# ℘ 1 prec 60❘
-					= [X] the ([M] ispowerset X M) powerset_unique❙
-	// AS: the introduction and elimination rules should be defined❙
-  // powersetI, powersetE❙ 
+ 	include ?Powersets❘ = ?PowersetFromAxiom❙
 ❚
 
 theory ZFComprehension =
-  include ?ZFBase❙
   include ?ComprehensionAx❙
-	
-	realize ?Comprehension❙
-	
-	comprehend  : set ⟶ (set ⟶ prop) ⟶ set❘# 1 | 2 prec 40❘
-					= [X,P] the ([Z] iscomprehension X P Z) comprehension_unique❙
-	// AS: the introduction and elimination rules should be defined❙
-  // comprehendI, comprehend_sub, comprehendE❙ 
+	include ?Filter❘ = ?FilterFromAxiom❙
 ❚
 
 theory ZFReplacement =
-  include ?ZFBase❙
-  include ?ReplacementAx❙
-	
-	realize ?Replacement❙
-	
-	replace  : set ⟶ (set ⟶ set) ⟶ set❘# 1 map 2 prec 40❘
-					= [X,F] the ([Z] isreplacement X F Z) replacement_unique❙
-	// AS: the introduction and elimination rules should be defined❙
-  // replaceI, replaceE❙ 
+  include ?ReplacementAx❙	
+	include ?Replacement❘ = ?ReplacementFromAxiom❙
 ❚
 
 theory ZFInfinity =
+	// AS: either just include here oder like the rest❙
   include ?ZFBase❙
   include ?Infinity❙
 ❚
@@ -95,8 +62,8 @@ theory ZF =
   include ?ZFBase❙
   include ?ZFEmptySet❙
   include ?ZFPairing❙
-  include ?ZFBigUnion❙
-  include ?ZFPowerSet❙
+  include ?ZFUnion❙
+  include ?ZFPowerset❙
   include ?ZFComprehension❙
   include ?ZFReplacement❙
   include ?Regularity❙
@@ -105,6 +72,7 @@ theory ZF =
 
 // FR: maybe this is not needed - can just be included from ZF-independent feature Choice❚
 theory ZFChoice =
+	// AS: either just include here oder like the rest❙
   include ?ZFBase❙
   include ?ChoiceAx❙
   // realize ?SetChoice❙

@@ -1,5 +1,6 @@
 namespace latin:/❚
 
+import lfx http://gl.mathhub.info/MMT/LFX ❚
 fixmeta ur:?LF❚
 
 theory UntypedEquality =
@@ -10,7 +11,8 @@ theory UntypedEquality =
 theory UntypedEqualityND =
   include ?UntypedEquality❙
   refl  : {x} ⊦ x ≐ x❘# refl %I1❙
-  congP : {x,y} ⊦ x ≐ y ⟶ {P: term ⟶ prop} ⊦ P x ⟶ ⊦ P y❘# 3 congP 4 5❙
+  /T use the alias congP_ when inference of implicit arguments fails when using congP ❙
+  congP : {x,y} ⊦ x ≐ y ⟶ {P: term ⟶ prop} ⊦ P x ⟶ ⊦ P y❘# 3 congP 4 5 ❘@ congP_ ❙
   
   total structure eq : ?EquivalenceCongruence =
     carrier = term❙
@@ -20,6 +22,21 @@ theory UntypedEqualityND =
     trans = [x,y,z,p,q] q congP ([u]x≐u) p❙
     congT = [x,y,p,T] p congP ([u] T x ≐ T u) refl❙
   ❚
+❚
+
+/T Equality on proofs, mainly used for proof simplification in ./logic.
+
+   As such it is the Curry-Howard analog of program execution / reduction in lambda calculi. ❚
+theory ProofEquality =
+  include ?Proofs ❙
+  proofeq: {p} ⊦ p ⟶ ⊦ p ⟶ type ❘ # 2 ⟺ 3 prec 10 ❘ role Eq ❙
+❚
+
+theory UntypedEqualityNDS =
+  include ?UntypedEqualityND❙
+  include ?ProofEquality ❙
+  congP_s : {x, P: term ⟶ prop, pf: ⊦ P x}
+              (congP_ x x refl P pf) ⟺ pf ❘ role Simplify ❙
 ❚
 
 /T A relative equality for a typed language, in which the equality of objects may depend on the type at which it is taken.
@@ -54,13 +71,6 @@ theory TypedEquality =
 theory TypedEqualityND =
   include ?TypedEquality❙
   refl   : {A,x: tm A} ⊦ x ≐ x❙
-
-  congStrengthened_navid : {A,Ar: tm A ⟶ tm A ⟶ prop, B,Br: tm B ⟶ tm B ⟶ prop,
-                            X: tm A ⟶ tm B, Xr: {a} ⊦ Ar a a ⟶ ⊦ Br (X a) (X a),
-                            Y: tm A ⟶ tm B, Yr: {a} ⊦ Ar a a ⟶ ⊦ Br (Y a) (Y a)}
-
-                           ({a} ⊦ Br (X a) (Y a)) ⟶
-                           {P: (tm A ⟶ tm B) ⟶ prop} ⊦ P X ⟶ ⊦ P Y ❙
 
   /T Explanation:
      Let `P: (tm A ⟶ tm B) ⟶ prop` be a predicate, which by HOAS we can interpret as a predicate that is

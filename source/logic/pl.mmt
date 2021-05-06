@@ -47,6 +47,13 @@ theory EquivalenceND =
   ❚
 ❚
 
+theory EquivalenceNDS =
+  include ?ProofEquality ❙
+  include ?EquivalenceND ❙
+  equivSl: {F,G, pf1: ⊦ F ⟶ ⊦ G, pf2, pfF} ((equivI pf1 pf2) equivEl pfF) ⟺ pf1 pfF  ❘ role Simplify ❙
+  equivSr: {F,G, pf1: ⊦ F ⟶ ⊦ G, pf2, pfG} ((equivI pf1 pf2) equivEr pfG) ⟺ pf2 pfG  ❘ role Simplify ❙
+❚
+
 theory Lindenbaum =
   include ?EquivalenceND❙
   include ?EqualityType❘ = ?EquivalenceND?lindenbaum❙
@@ -96,6 +103,12 @@ theory NegationND =
   include ?NegationNDE❙
 ❚
 
+theory NegationNDS =
+  include ?ProofEquality ❙
+  include ?NegationND ❙
+  notS: {F, pf: ⊦ F ⟶ ↯, pfF: ⊦ F} {a} ((notI pf) notE pfF) a ⟺ pf pfF a ❘ role Simplify ❙
+❚
+
 theory Disjunction =
   include ?Propositions❙
   or    : prop ⟶ prop ⟶ prop❘# 1 ∨ 2 prec 15❙
@@ -120,10 +133,17 @@ theory DisjunctionND =
   or_swap : {F,G} ⊦ F∨G ⟶ ⊦ G∨F❘= [F,G,p] p orE ([q] q orIr) ([q] q orIl)❙
 ❚
 
+theory DisjunctionNDS =
+  include ?ProofEquality ❙
+  include ?DisjunctionND ❙
+  orSl: {F,G,C, pfF: ⊦ F, pf1: ⊦ F ⟶ ⊦ C, pf2: ⊦ G ⟶ ⊦ C} (?DisjunctionNDE?orE F G C (pfF orIl) pf1 pf2) ⟺ pf1 pfF ❘ role Simplify ❙
+  orSr: {F,G,C, pfG: ⊦ G, pf1: ⊦ F ⟶ ⊦ C, pf2: ⊦ G ⟶ ⊦ C} (?DisjunctionNDE?orE F G C (pfG orIr) pf1 pf2) ⟺ pf2 pfG ❘ role Simplify ❙
+❚
+
 theory DisjunctionSL =
   include ?Lindenbaum❙
   include ?DisjunctionND❙
-  realize ?Semilattice❙
+  realize ☞latin:/algebraic?Semilattice❙
   op = or❙
   idempotent = [F] equivI ([p] p orE ([q]q) ([q]q)) ([p] p orIl)❙
   comm = [F,G] equivI ([p] or_swap p) ([p] or_swap p)❙
@@ -155,10 +175,17 @@ theory ConjunctionND =
   and_swap: {F,G} ⊦ F∧G ⟶ ⊦ G∧F❘ = [F,G,p] andI (p andEr) (p andEl)❙
 ❚
 
+theory ConjunctionNDS =
+  include ?ProofEquality ❙
+  include ?ConjunctionND ❙
+  andSl: {F,G, pfF: ⊦ F, pfG: ⊦ G} (andI pfF pfG) andEl ⟺ pfF ❘ role Simplify ❙
+  andSr: {F,G, pfF: ⊦ F, pfG: ⊦ G} (andI pfF pfG) andEr ⟺ pfG ❘ role Simplify ❙
+❚
+
 theory ConjunctionSL =
   include ?Lindenbaum❙
   include ?ConjunctionND❙
-  realize ?Semilattice❙
+  realize ☞latin:/algebraic?Semilattice❙
   op = and❙
   idempotent = [F] equivI ([p] p andEl) ([p] andI p p)❙
   comm = [F,G] equivI ([p] and_swap p) ([p] and_swap p)❙
@@ -196,6 +223,12 @@ theory ImplicationND =
   ❚
 ❚
 
+theory ImplicationNDS =
+  include ?ProofEquality ❙
+  include ?ImplicationND ❙
+  implS: {F,G, pf: ⊦ F ⟶ ⊦ G, pfF: ⊦ F} ((implI pf) implE pfF) ⟺ pf pfF ❘ role Simplify ❙
+❚
+
 theory IPL =
   include ?Propositions❙
   include ?Truth❙
@@ -227,6 +260,14 @@ theory IPLND =
     structure equalityRel = ?EquivalenceND/equiv_equivalence❙
     antisym = [F,G,fg,gf] equivI ([f] fg implE f) ([g] gf implE g)❙
   ❚
+❚
+
+theory IPLNDS =
+  include ?IPLND ❙
+  include ?ConjunctionNDS ❙
+  include ?DisjunctionNDS ❙
+  include ?ImplicationNDS ❙
+  include ?EquivalenceNDS ❙
 ❚
 
 theory Classical =

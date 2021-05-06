@@ -3,34 +3,34 @@ namespace latin:/❚
 fixmeta ?SetFOL❚
 
 theory EmptySetDefinitions =
-  isempty : set ⟶ prop❘ = [X] ¬∃[x]x∈X❙
-  nonempty: set ⟶ prop❘ = [X] ∃[x]x∈X❙
+  isempty : set ⟶ prop❘ = [A] ¬∃[x]x∈A❙
+  nonempty : set ⟶ prop❘ = [A] ∃[x]x∈A❙
   
-  isemptyE : {X,x} ⊦ isempty X ⟶ ⊦ x∈X ⟶ ↯❘ # isemptyE 3 4❘
-           = [X,x,p,q] p notE (existsI x q)❙
-  nonemptyE: {X,C} ⊦ nonempty X ⟶ ({x} ⊦x∈X ⟶ ⊦C) ⟶ ⊦C❘
-           = [X,C,ne,P] ne existsE [x,p] P x p❙
+  isemptyE : {A,x} ⊦ isempty A ⟶ ⊦ x∈A ⟶ ↯❘ # 3 isemptyE 4❘
+           = [A,x,p,q] p notE (existsI x q)❙
+  nonemptyE: {A,C} ⊦ nonempty A ⟶ ({x} ⊦x∈A ⟶ ⊦C) ⟶ ⊦C❘
+           = [A,C,ne,P] ne existsE [x,p] P x p❙
 ❚
 
 theory UniversalSetDefinition =
 	// AS: is this correct? 𝒰 consists of all elements, but what about sets?❙
-	isuniversal: set ⟶ prop❘ = [X] ∀[x]x∈X❙
+	isuniversal : set ⟶ prop❘ = [A] ∀[x]x∈A❙
 ❚
 
 theory BigUnionDefinition =
-	isbigunion = [M,Z] ∀[x]∀[X](X∈M ⇒ x∈X ⇒ x∈Z)❙
+	isbigunion = [A,Z] ∀[x]∀[X] X∈A ⇒ x∈X ⇒ x∈Z❙
 ❚
 
 theory ChoiceDefinition =
-	ischoice = [M,C] ∀[X] X∈M ⇒ ∃¹[c]c∈C∧c∈X❙
+	ischoice = [A,C] ∀[X] X∈A ⇒ ∃¹[c]c∈C∧c∈X❙
 ❚
 
 theory ComprehensionDefinition =
-	iscomprehension = [X,P,Z] ∀[a](a∈X ∧ (P a)) ⇔ a∈Z❙
+	iscomprehension = [A,P,Z] ∀[x] x∈A ∧ (P x) ⇔ x∈Z❙
 ❚
 
 theory ExtensionalityDefinition =
-	isextensional = [X,Y] ∀[z] (z∈X ⇔ z∈Y) ⇒ X≐Y❙
+	isextensional = [A,B] ∀[x] (x∈A ⇔ x∈B) ⇒ A≐B❙
 ❚
 
 theory InfinityDefinition =
@@ -40,41 +40,42 @@ theory InfinityDefinition =
 	successor : set ⟶ set❙
 	
 	// AS: is there a way to define it more independently?❙
-	isinfinite = [M] ∅∈M ∧ ∀[X] X∈M ⇒ (successor X)∈M❙
+	isinfinite = [A] ∅∈A ∧ ∀[x] x∈A ⇒ (successor x)∈A❙
 ❚
 
 // AS: just an idea. Probably I'll have to change this❚
 theory LeftTotal =
-	islefttotal = [X,Y,P] ∀[x] x∈X ∧ ∃[y] y∈Y ∧ P x y❙
+	islefttotal = [A,B,P] ∀[x] x∈A ∧ ∃[y] y∈B ∧ P x y❙
 ❚
 
-theory PowerSetDefinition =
-	ispowerset = [X,M] ∀[Z]((∀[t](t ∈ Z ⇒ t ∈ X)) ⇒ Z ∈ M)❙
+theory PowersetDefinition =
+	ispowerset = [A,Z] ∀[B] (∀[x] x∈B ⇒ x∈A) ⇒ B∈Z❙
 ❚
 
 theory RegularityDefinition =
-	isregular = ∀[M](∃[t] t∈M) ⇒ ∃[Y] Y∈M ∧ ¬(∃[z] z∈M ∧ z∈Y)❙
+	isregular = ∀[A](∃[u] u∈A) ⇒ ∃[B] B∈A ∧ ¬(∃[x] x∈A ∧ x∈B)❙
 ❚
 
 theory ReplacementDefinition =
-	isreplacement = [X,F,Z] ∀[a] a∈Z ⇔ (∃[x] x∈X ∧ a≐(F x))❙
+	isreplacement = [A,F,Z] ∀[B] B∈Z ⇔ (∃[x] x∈A ∧ B≐(F x))❙
 ❚
 
 // AS: just an idea. Probably I'll have to change this❚
 theory RightUnique =
 	// AS: in general there could be the option that y is either unique or non-existent.
 			Right now I can neglect this❙
-	isrightunique = [x,Y,P: set ⟶ set ⟶ prop] ∃¹[y] y∈Y ∧ P x y❙
+	isrightunique = [x,A,P: set ⟶ set ⟶ prop] ∃¹[y] y∈A ∧ P x y❙
 ❚
 
 theory SingletonDefinition =
-  issingleton : set ⟶ prop❘ = [X] ∃¹[x] x∈X❙
+  issingleton : set ⟶ prop❘ = [A] ∃¹[x] x∈A❙
 ❚
 
 theory UnionDefinition =
-	isunion = [X,Y,Z] (∀[a](a ∈ X ∨ a ∈ Y) ⇒ a ∈ Z)❙
+	// AS: this might not be used right now❙
+	isunion = [A,B,Z] ∀[x] x∈A ∨ x∈B ⇒ x∈Z❙
 ❚
 
 theory UnorderedPairDefinition =
-	isuopair = [X,Y,M] ∀[Z]Z∈M ⇔ (Z≐X ∨ Z≐Y)❙
+	isuopair = [A,B,Z] ∀[x] x∈Z ⇔ x≐A ∨ x≐B❙
 ❚

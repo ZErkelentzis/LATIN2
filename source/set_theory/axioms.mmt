@@ -5,17 +5,16 @@ fixmeta ?SetFOL❚
 // TODO:
 	- TODOs in theories
 	- check whether everything is right
-	- should I add notations and proofs with unique here?
 	- maybe add more axioms for TG, NBG and more?
 ❚
 
 theory ExtensionalityAx =
-	// Two sets X and Y are equal iff they have the same elements❙
+	// Two sets A and B are equal iff they have the same elements❙
 	include ?ExtensionalityDefinition❙
 	
-	extensionality_axiom : {X,Y} ⊦ isextensional X Y❙	
-	extensionalityI : {X,Y} ({z} ⊦ z∈X ⇔ z∈Y) ⟶ ⊦ X≐Y❙
-	extensionalityE : {X,Y} ⊦ X≐Y ⟶ {z} ⊦ z∈X ⇔ z∈Y❘# 3 extensionalityE❙ 
+	extensionality_axiom : {A,B} ⊦ isextensional A B❙	
+	extensionalityI : {A,B} ({x} ⊦ x∈A ⇔ x∈B) ⟶ ⊦ A≐B❙
+	extensionalityE : {A,B} ⊦ A≐B ⟶ {x} ⊦ x∈A ⇔ x∈B❘# 3 extensionalityE❙ 
 ❚
 
 // AS: Set existence was defined as UniverseNonEmpty; 
@@ -23,65 +22,66 @@ theory ExtensionalityAx =
 		I did a theory, just to be safe❚
 theory ExistenceAx =
 	// There exists at least one set❙
-	existence_axiom : ⊦ ∃[X] true❙
+	existence_axiom : ⊦ ∃[A] true❙
 	
 	// AS : I can't think of meaningful introduction and elimination rules❙
 ❚
 
 theory PairingAx =
-	// The unordered pair {x,y} consists of exactly the two elements x and y❙
+	// The unordered pair {A,B} consists of exactly the two elements A and B❙
 	include ?UnorderedPairDefinition❙
 	
-	pairing_axiom : {X,Y} ⊦ ∃[M] isuopair X Y M❙
-	pairing_unique : {X,Y} ⊦ ∃¹[M] isuopair X Y M❘ // = _ ❙
-	pairingI : {X,Y,M,Z} ⊦ Z≐X ∨ Z≐Y ⟶ ⊦ Z∈M❙
-	pairingE : {X,Y,M,Z} ⊦ Z∈M ⟶ ⊦ Z≐X ∨ Z≐Y❘# 5 pairingE❙
+	pairing_axiom : {A,B} ⊦ ∃[Z] isuopair A B Z❙
+	pairing_unique : {A,B} ⊦ ∃¹[Z] isuopair A B Z❘ // = _ ❙
+	pairingAxI : {A,B,Z,x} ⊦ x≐A ∨ x≐B ⟶ ⊦ x∈Z❙
+	pairingAxE : {A,B,Z,x} ⊦ x∈Z ⟶ ⊦ x≐A ∨ x≐B❘# 5 pairingAxE 1 2❙
 ❚
 
 theory UnionAx =
-	// The big union of a family of sets M consists of all the elements x of its sets X.❙
+	// The big union of a family of sets A consists of all the elements x of its sets X.❙
 	include ?BigUnionDefinition❙
 	
-	union_axiom : {M} ⊦ ∃[Z] isbigunion M Z❙
-	union_unique : {M} ⊦ ∃¹[Z] isbigunion M Z❘ // = _ ❙
-	unionI : {M,Z,X,x} ⊦ X∈M ⟶ ⊦ x∈X ⟶ ⊦ x∈Z❙
-	unionE : {M,Z,x} ⊦ x∈Z ⟶ ⊦ ∃[X] X∈M ∧ x∈X❘# 4 unionE❙
+	union_axiom : {A} ⊦ ∃[Z] isbigunion A Z❙
+	union_unique : {A} ⊦ ∃¹[Z] isbigunion A Z❘ // = _ ❙
+	unionAxI : {A,Z,X,x} ⊦ X∈A ⟶ ⊦ x∈X ⟶ ⊦ x∈Z❙
+	unionAxE : {A,Z,x} ⊦ x∈Z ⟶ ⊦ ∃[X] X∈A ∧ x∈X❘# 4 unionAxE 1❙
 ❚
 
 theory PowersetAx =
-	// Each subset of the set X is an element of the powerset M❙
+	// Each subset B of the set A is an element of the powerset Z❙
 	include ?PowerSetDefinition❙
 	
-	powerset_axiom : {X} ⊦ ∃[M] ispowerset X M❙
-	powerset_unique : {X} ⊦ ∃¹[M] ispowerset X M❘ // = _ ❙
+	powerset_axiom : {A} ⊦ ∃[Z] ispowerset A Z❙
+	powerset_unique : {A} ⊦ ∃¹[Z] ispowerset A Z❘ // = _ ❙
+	
 	// AS: This definition is dependent on ⪽. So maybe use the alternative definition.❙
-	powersetI : {X,M,Z} ⊦ Z⪽X ⟶ ⊦ Z∈M❙
-	powersetE : {X,M,Z} ⊦ Z∈M ⟶ ⊦ Z⪽X❘# 4 powersetE❙
+	// powersetAxI : {A,B,Z} ⊦ B⪽A ⟶ ⊦ B∈Z❙
+	// powersetAxE : {A,B,Z} ⊦ B∈Z ⟶ ⊦ B⪽A❘// # 4 powersetAxE❙
 	
 	// Alternative definition❙
-	altpowersetI : {X,M,Z} ({t} ⊦ t∈Z ⇒ t∈X) ⟶ ⊦ Z∈M❙
-	altpowersetE : {X,M,Z} ⊦ Z∈M ⟶ {t} ⊦ t∈Z ⇒ t∈X❘# 4 altpowersetE❙
+	powersetAxI : {A,B,Z} ({x} ⊦ x∈B ⇒ x∈A) ⟶ ⊦ B∈Z❙
+	powersetAxE : {A,B,Z} ⊦ B∈Z ⟶ {x} ⊦ x∈B ⇒ x∈A❘# 4 powersetAxE 5❙
 ❚
 
 theory ComprehensionAx =
-	// The resulting set consists of all elements x of X that satisfy predicate P❙
+	// The resulting set consists of all elements x of A that satisfy predicate P❙
 	include ?ComprehensionDefinition❙
 	
-	comprehension_axiom : {X,P} ⊦ ∃[Z] iscomprehension X P Z❙
-	comprehension_unique : {X,P} ⊦ ∃¹[Z] iscomprehension X P Z❘ // = _ ❙
-	comprehensionI : {X,P,Z,x} ⊦ x∈X ⟶ ⊦ P x ⟶ ⊦ x∈Z❙
-	comprehensionEl : {P,Z,x} ⊦ x∈Z ⟶ ⊦ P x❘# 4 comprehensionEl❙
-	comprehensionEr : {X,Z,x} ⊦ x∈Z ⟶ ⊦ x∈X❘# 4 comprehensionEr❙
+	comprehension_axiom : {A,P} ⊦ ∃[Z] iscomprehension A P Z❙
+	comprehension_unique : {A,P} ⊦ ∃¹[Z] iscomprehension A P Z❘ // = _ ❙
+	comprehensionAxI : {A,P,Z,x} ⊦ x∈A ⟶ ⊦ P x ⟶ ⊦ x∈Z❙
+	comprehensionAxEl : {A,Z,x} ⊦ x∈Z ⟶ ⊦ x∈A❘# 4 comprehensionAxEl❙
+	comprehensionAxEr : {P,Z,x} ⊦ x∈Z ⟶ ⊦ P x❘# 4 comprehensionAxEr 1❙
 ❚
 
 theory ReplacementAx =
-	// The resulting set is a replacement for X regarding function F❙
+	// The resulting set is a replacement for A regarding function F❙
 	include ?ReplacementDefinition❙
 	
-	replacement_axiom : {X,F} ⊦ ∃[Z] isreplacement X F Z❙
-	replacement_unique : {X,F} ⊦ ∃¹[Z] isreplacement X F Z❘ // = _ ❙
-	replacementI : {X,F,Z,a} ⊦ (∃[x] x∈X ∧ a ≐(F x)) ⟶ ⊦ a∈Z❙
-	replacementE : {X,F,Z,a} ⊦ a∈Z ⟶ ⊦ ∃[x] x∈X ∧ a ≐(F x)❘# 5 replacementE❙ 
+	replacement_axiom : {A,F} ⊦ ∃[Z] isreplacement A F Z❙
+	replacement_unique : {A,F} ⊦ ∃¹[Z] isreplacement A F Z❘ // = _ ❙
+	replacementAxI : {A,F,Z,x} ⊦ x∈A ⟶ ⊦ (F x)∈Z❘# replacementAxI 2 5❙
+	replacementAxE : {A,F,Z,y,C} ⊦ y∈Z ⟶ ({x} ⊦x∈A ⟶ ⊦ F x ≐ y ⟶ ⊦C) ⟶ ⊦C❘# 6 replacementAxE 1 2 7❙ 
 ❚
 
 theory RegularityAx =
@@ -89,16 +89,16 @@ theory RegularityAx =
 	include ?RegularityDefinition❙
 	
 	regularity_axiom : ⊦ isregular❙
-	regularityI : {M} ⊦ (∃[t] t∈M) ⟶ ⊦ ∃[Y] Y∈M ∧ ¬(∃[z] z∈M ∧ z∈Y)❙
+	regularityI : {A} ⊦ (∃[u] u∈A) ⟶ ⊦ ∃[B] B∈A ∧ ¬(∃[x] x∈A ∧ x∈B)❙
 	// AS: this is probably unnecessary❙
-	regularityE : {M} ⊦ (∃[Y] Y∈M ∧ ¬(∃[z] z∈M ∧ z∈Y)) ⟶ ⊦ ∃[t] t∈M❘# 2 regularityE❙
+	regularityE : {A} ⊦ (∃[B] B∈A ∧ ¬(∃[x] x∈A ∧ x∈B)) ⟶ ⊦ ∃[u] u∈A❘# 2 regularityE❙
 ❚
 
 theory InfinityAx =
 	// There exists an infinite set containing ∅ and all successors of elements of its set.❙
 	include ?InfinityDefinition❙
 	
-	infinity_axiom : ⊦ ∃[M] isinfinite M❙
+	infinity_axiom : ⊦ ∃[A] isinfinite A❙
 	// AS: is it possible to define introduction and elimination rules here that make sense?
 		Maybe, if I do it similar to choice❙
 ❚
@@ -112,8 +112,8 @@ theory ChoiceAx =
   // AS: maybe define this in BigIntersection❙
   pairwise_disjoint: set ⟶ prop❘ // = ❙
   
-  choice_axiom : ⊦ ∀[M] (all_nonempty M ∧ pairwise_disjoint M) ⇒ ∃[C] ischoice M C❙
-  choiceI : {M} ⊦ all_nonempty M ⟶ ⊦ pairwise_disjoint M ⟶ ⊦ ∃[C] ischoice M C❙
-  choiceEl : {M} ⊦ (∃[C] ischoice M C) ⟶ ⊦ all_nonempty M❘# 2 choiceEl❙
-  choiceEr : {M} ⊦ (∃[C] ischoice M C) ⟶ ⊦ pairwise_disjoint M❘# 2 choiceEr❙
+  choice_axiom : ⊦ ∀[A] (all_nonempty A ∧ pairwise_disjoint A) ⇒ ∃[C] ischoice A C❙
+  choiceI : {A} ⊦ all_nonempty A ⟶ ⊦ pairwise_disjoint A ⟶ ⊦ ∃[C] ischoice A C❙
+  choiceEl : {A} ⊦ (∃[C] ischoice A C) ⟶ ⊦ all_nonempty A❘# 2 choiceEl❙
+  choiceEr : {A} ⊦ (∃[C] ischoice A C) ⟶ ⊦ pairwise_disjoint A❘# 2 choiceEr❙
 ❚
