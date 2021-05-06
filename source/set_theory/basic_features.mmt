@@ -6,8 +6,7 @@ theory Powersets =
 	// symbol: jpow❙
   powerset : set ⟶ set❘# ℘ 1 prec 60❙
   powersetI : {A,B} ({x} ⊦ x∈B ⟶ ⊦ x∈A) ⟶ ⊦ B∈ ℘A❙
-  // AS: maybe 5 needs to be added for ⊦x∈B❙
-  powersetE : {A,B} ⊦ B∈ ℘A ⟶ {x} ⊦ x∈B ⟶ ⊦ x∈A❘# 3 powersetE 4 5❙
+  powersetE : {A,B} ⊦ B∈ ℘A ⟶ {x} ⊦ x∈B ⟶ ⊦ x∈A❘# 3 powersetE 5❙
 ❚
 
 theory Image =
@@ -23,13 +22,14 @@ theory Filter =
   filterEl : {A,P,x} ⊦ x ∈ A|P ⟶ ⊦ x∈A❘# 4 filterEl❙
   filterEr : {A,P,x} ⊦ x ∈ A|P ⟶ ⊦ P x❘# 4 filterEr❙
   
-  filter_sub : {A,P} ⊦ A|P ⪽ A❙
+  filter_sub : {A,P} ⊦ A|P ⪽ A❘
+  	= [A,P] subtypeI ([x,p] p filterEl)❙
 ❚
 
 theory Replacement =
   replace  : set ⟶ (set ⟶ set) ⟶ set❘# 1 map 2 prec 40❙
   replaceI : {A,F,x} ⊦ x∈A ⟶ ⊦ (F x) ∈ A map F❙
-  replaceE : {A,F,y,C} ⊦ y ∈ A map F ⟶ ({x} ⊦ x∈A ⟶ ⊦(F x) ≐ y ⟶ ⊦C) ⟶ ⊦C❘ # 5 replaceE 6❙
+  replaceE : {A,F,y,C} ⊦ y ∈ A map F ⟶ ({x} ⊦ x∈A ⟶ ⊦ F x ≐ y ⟶ ⊦C) ⟶ ⊦C❘ # 5 replaceE 6❙
 ❚
 
 // FR: these two need some abbreviation just to state them; those can be here and then reused in the ZF theory that realizes them❚
