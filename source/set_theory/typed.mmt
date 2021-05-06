@@ -24,7 +24,7 @@ theory ZFTyped =
   // A term with a proof is equal to the original term❙
   ceq_which : {P,x,p} ⊦ (cwhich P (celem P x p)) ≐ x❙
   // Elements of classes are equal if their first components are (proof irrelevance)❙
-  EqcongEl : {P,c,d,F: Class P ⟶ prop} ⊦ (cwhich P c ≐ cwhich P d) ⟶ ⊦ F c ⟶ ⊦ F d❘# EqcongEl 4 5 6❙
+  EqcongEl : {P,c,d,F: Class P ⟶ prop} ⊦ (cwhich P c ≐ cwhich P d) ⟶ ⊦ F c ⟶ ⊦ F d❘# 5 EqcongEl 4 6❙
   
   // Elem❙
   Elem : set ⟶ type❘ = [A] Class [x] x∈A❙
@@ -40,8 +40,8 @@ theory ZFTyped =
   // AS: Typed equality → already exists in LATIN2! Import?❙
   Eq : {A} Elem A ⟶ Elem A ⟶ prop❘
   		= [A,e,d] (which A e ≐ which A d)❙
-  EqcongEr : {P,c,d,F: Class P ⟶ prop} ⊦ (cwhich P c ≐ cwhich P d) ⟶ ⊦ F d ⟶ ⊦ F c❘
-  		= [P,c,d,F,p,q] EqcongEl F (eq/sym p) q❙
+  EqcongEr : {P,c,d,F: Class P ⟶ prop} ⊦ (cwhich P c ≐ cwhich P d) ⟶ ⊦ F d ⟶ ⊦ F c❘# 5 EqcongEr 4 6❘
+  		= [P,c,d,F,p,q] (eq/sym p) EqcongEl F q❙
   EqcongF : {P,c,d,F: Class P ⟶ set} ⊦ (cwhich P c ≐ cwhich P d) ⟶ ⊦ (F c) ≐ (F d)❙
   EqCongF : {P,Q,c,d,F: Class P ⟶ Class Q} ⊦ (cwhich P c ≐ cwhich P d) ⟶ ⊦ (cwhich Q (F c) ≐ cwhich Q (F d))❙
 ❚
