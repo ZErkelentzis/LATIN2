@@ -1,5 +1,8 @@
 namespace latin:/❚
 import rules scala://lf.mmt.kwarc.info❚
+
+rule scala://parser.api.mmt.kwarc.info?MMTURILexer❚
+
 fixmeta ur:?LF❚
 
 /T A fully modular specification of intuitionistic and classical propositional
@@ -289,6 +292,8 @@ theory PLND =
   include ?IPLND❙
   include ?ProofIrrelevance❙
   include ?Classical❙
+
+  impl_flip: {F,G} ⊦F⇒G ⟶ ⊦ ¬G ⇒¬F❘= [F,G,p] implI [q] notI [r] q notE (p implE r)❙
 
   indirect : {F} (⊦¬F ⟶ ↯) ⟶ ⊦ F❘= [F,h] classical [q] h (notI q)❘# indirect 2❙  
   dne : {F} ⊦¬¬F ⟶ ⊦F❘= [F,p] indirect [q] p notE q❙
