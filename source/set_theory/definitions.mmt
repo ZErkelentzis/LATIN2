@@ -12,27 +12,6 @@ theory EmptySetDefinitions =
            = [A,C,ne,P] ne existsE [x,p] P x p❙
 ❚
 
-theory UniversalSetDefinition =
-	// AS: is this correct? 𝒰 consists of all elements, but what about sets?❙
-	isuniversal : set ⟶ prop❘ = [A] ∀[x]x∈A❙
-❚
-
-theory BigUnionDefinition =
-	isbigunion = [A,Z] ∀[x]∀[X] X∈A ⇒ x∈X ⇒ x∈Z❙
-❚
-
-theory ChoiceDefinition =
-	ischoice = [A,C] ∀[X] X∈A ⇒ ∃¹[c]c∈C∧c∈X❙
-❚
-
-theory ComprehensionDefinition =
-	iscomprehension = [A,P,Z] ∀[x] x∈A ∧ (P x) ⇔ x∈Z❙
-❚
-
-theory ExtensionalityDefinition =
-	isextensional = [A,B] ∀[x] (x∈A ⇔ x∈B) ⇒ A≐B❙
-❚
-
 theory InfinityDefinition =
 	include ?EmptySet❙
 	
@@ -48,18 +27,6 @@ theory LeftTotal =
 	islefttotal = [A,B,P] ∀[x] x∈A ∧ ∃[y] y∈B ∧ P x y❙
 ❚
 
-theory PowersetDefinition =
-	ispowerset = [A,Z] ∀[B] (∀[x] x∈B ⇒ x∈A) ⇒ B∈Z❙
-❚
-
-theory RegularityDefinition =
-	isregular = ∀[A](∃[u] u∈A) ⇒ ∃[B] B∈A ∧ ¬(∃[x] x∈A ∧ x∈B)❙
-❚
-
-theory ReplacementDefinition =
-	isreplacement = [A,F,Z] ∀[B] B∈Z ⇔ (∃[x] x∈A ∧ B≐(F x))❙
-❚
-
 // AS: just an idea. Probably I'll have to change this❚
 theory RightUnique =
 	// AS: in general there could be the option that y is either unique or non-existent.
@@ -67,15 +34,7 @@ theory RightUnique =
 	isrightunique = [x,A,P: set ⟶ set ⟶ prop] ∃¹[y] y∈A ∧ P x y❙
 ❚
 
-theory SingletonDefinition =
-  issingleton : set ⟶ prop❘ = [A] ∃¹[x] x∈A❙
-❚
-
 theory UnionDefinition =
 	// AS: this might not be used right now❙
 	isunion = [A,B,Z] ∀[x] x∈A ∨ x∈B ⇒ x∈Z❙
-❚
-
-theory UnorderedPairDefinition =
-	isuopair = [A,B,Z] ∀[x] x∈Z ⇔ x≐A ∨ x≐B❙
 ❚
