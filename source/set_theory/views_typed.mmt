@@ -4,20 +4,75 @@ fixmeta ?SetFOL❚
 
 theory BasicsZF =
 	include ?ZFTyped❙
+	// AS: Without these includes the realization is not total. However, they should
+		be unnecessary, since Propositions and Proofs are already in SetFOL!❙
+	include ?Propositions❙
+	include ?Proofs❙
 
-  realize ?TypedTerms❙
+	realize ?Types❙
+	tp = set❙
+	realize ?TypedTerms❙
+	tm = [A] Elem A❙
+	realize ?TypedLogic❙
 	realize ?TypedEquality❙
-	tm = Elem❙
-  // equal =❙
+  equal = Eq❙
+  realize ?TypedEqualityND❙
+  refl = _ ❙
+  congB = _❙
+❚
+
+theory TypedUniversalZF =
+	// AS: same as in BasicsZF❙
+	include ?Propositions❙
+	include ?Proofs❙
+	include ?BasicsZF❙
+	
+	realize ?TypedUniversalQuantificationND❙
+	
+	// AS: in LATIN there was Imp: (⊦ A: prop ⟶ prop) ⟶ prop;
+		MMT has right now in FOL impl: prop ⟶ prop ⟶ prop.
+		So I'll add Imp here (maybe the theory for this will change❙
+	Imp : {A: prop} (⊦ A ⟶ prop) ⟶ prop❙
+	ImpI : {A,B} ({p: ⊦ A} ⊦ B p) ⟶ ⊦ Imp A B❙
+	
+	forall = [A,P: Elem A ⟶ prop] forall ([x:set] Imp (x∈A) ([p: ⊦ x∈A] P (elem x p)))❙
+	forallI = [A,P,p] forallI ([x] ImpI ([q: ⊦ x∈A] p (elem x q)))❙
 ❚
 
 theory SimpleProductsZF =
+	// AS: same as in BasicsZF❙
+	include ?Propositions❙
+	include ?Proofs❙
   include ?BasicsZF❙
 	
   include ?CartesianProduct❙
+  
 	realize ?SimpleProducts❙
+	include ?Logic❙
 	simpprod = [A,B] prod A B❙
+	
 	simppair = [A,B,a: Elem A,b: Elem B] elem (pair (which a) (which b)) (prodI (why a) (why b))❙
 	simppi1 = [A,B,e: Elem (prod A B)] elem ((which e)₁) ((why e) prodEl)❙
 	simppi2 = [A,B,e: Elem (prod A B)] elem ((which e)₂) ((why e) prodEr)❙
+	
+	// AS: this needs to be done❙
+	compute1 = [A,B,a: Elem A, b: Elem B] _❙
+	compute2 = [A,B,a: Elem A, b: Elem B] _❙
 ❚
+
+theory PowerTypesZF =
+	// AS: same as in BascicsZF❙
+	include ?Propositions❙
+	include ?Proofs❙
+	include ?BasicsZF❙
+	
+	include ?Powersets❙
+	include ?Filter❙
+	include ?UniversalSet❙
+	
+	realize powertypes/?PowerTypes❙
+	power = [A] powerset A❙
+	in = [A,a: Elem A,b: Elem powerset A] (which a) ∈ (which b)❙
+	filter = [A,P: Elem A ⟶ prop] filter 𝒰 _❙
+❚
+
