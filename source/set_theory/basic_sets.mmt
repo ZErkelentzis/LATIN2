@@ -8,7 +8,12 @@ theory EmptySet =
   empty : set❘# ∅❙
   empty_prop : ⊦ isempty ∅❙
   // AS: think of a proof that does not use extensionality❙
-  include ?ExtensionalityAx❙
+  // include ?ExtensionalityAx❙
+  empty_unique : ⊦ ∃¹ isempty❘
+  	= existsUniqueI empty_prop ([y,p] extensionalityI ([x] equivI 
+  		([pa] empty_prop notE (existsI x pa) inconE)
+  		([pb] p notE (existsI x pb) inconE)))❙
+  
   emptyI : {A} ({x} ⊦ x∈A ⟶ ⊦ false) ⟶ ⊦ A≐∅❘
   	= [A,p] extensionalityI ([x] equivI ([pa] p x pa falseE inconE)
   		([pb] empty_prop notE existsI x pb inconE))❙
@@ -16,30 +21,29 @@ theory EmptySet =
   	= [x,p] empty_prop isemptyE p❙
   
   empty_sub : {A} ⊦ ∅ ⪽ A❘
-  	= [A] subtypeI ([x,p] empty_prop notE existsI x p inconE)❙
+  	= [A] subsetI ([x,p] empty_prop notE existsI x p inconE)❙
 ❚
 
 theory UniversalSet =
-	include ?UniversalSetDefinition❙
 	// symbol: jU❙
 	universal : set❘# 𝒰❙
+	isuniversal : set ⟶ prop❘ = [A] ∀[x]x∈A❙
 	universal_prop : ⊦ isuniversal 𝒰❙
 	
 	universal_sub: {A} ⊦ A ⪽ 𝒰❘
-		= [A] subtypeI ([x,p] universal_prop forallE x)❙
+		= [A] subsetI ([x,p] universal_prop forallE x)❙
 ❚
 
 theory Singletons =
-	include ?SingletonDefinition❙
   singleton : set ⟶ set❘# singleton 1 prec 100❙
   singletonI : {x} ⊦ x∈ singleton x❙
   singletonE : {A,x} ⊦ x∈ singleton A ⟶ ⊦ x≐A❘# 3 singletonE❙
   
+  issingleton : set ⟶ prop❘ = [A] ∃¹[x] x∈A❙
   singleton_the : {A} ⊦ issingleton A ⟶ set❘ 
   	= [A,p] the ([u] u∈A) p❙
   	
-  include ?ExtensionalityAx❙
-  // AS: This could be in SingletonDefinition, but it relies on singleton ❙
+  // include ?ExtensionalityAx❙
   issingletonI : {A,B} ⊦ A ≐ singleton B ⟶ ⊦ issingleton A❘
   	= [A,B,p] eq/sym p congP ([X] issingleton X)
   		(existsUniqueI singletonI ([C,q] eq/sym (q singletonE)))❙
@@ -64,7 +68,7 @@ theory UnorderedPairs =
   uopairE  : {A,B,x,C} ⊦ x∈ uopair A B ⟶ (⊦ x≐A ⟶ ⊦C) ⟶ (⊦ x≐B ⟶ ⊦C) ⟶ ⊦C❘# 5 uopairE 6 7❙
   
   // AS: it's way easier to define these here. Or shall I do it in views?❙
-	include ?ExtensionalityAx❙	
+	// include ?ExtensionalityAx❙	
   uopair_comm : {A,B} ⊦ uopair A B ≐ uopair B A❘
   	= [A,B] extensionalityI ([x] equivI 
   	([p] p uopairE ([pa] eq_in pa uopairIr) ([pb] eq_in pb uopairIl))
