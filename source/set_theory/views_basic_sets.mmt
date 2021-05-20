@@ -30,6 +30,7 @@ theory UniversalUnion =
 	
 	// AS: X could be any possible (nonempty) set❙
 	universal = X ∪ comp X❙
+	universal_prop = forallI ([x] tnd orE ([p] unionIl (comp X) p) ([q] unionIr X (compI q)))❙
 ❚
 
 // Views for Singleton❚
