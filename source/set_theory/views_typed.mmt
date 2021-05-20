@@ -29,13 +29,14 @@ theory TypedUniversalZF =
 	
 	realize ?TypedUniversalQuantificationND❙
 	
-	// AS: in LATIN there was Imp: (⊦ A: prop ⟶ prop) ⟶ prop;
+	// AS: in LATIN there was Imp: (⊦ A ⟶ prop) ⟶ prop;
+	This should come from dependent_pl.mmt
 		MMT has right now in FOL impl: prop ⟶ prop ⟶ prop.
 		So I'll add Imp here (maybe the theory for this will change❙
 	Imp : {A: prop} (⊦ A ⟶ prop) ⟶ prop❙
 	ImpI : {A,B} ({p: ⊦ A} ⊦ B p) ⟶ ⊦ Imp A B❙
 	
-	forall = [A,P: Elem A ⟶ prop] forall ([x:set] Imp (x∈A) ([p: ⊦ x∈A] P (elem x p)))❙
+	forall = [A,P: Elem A ⟶ prop] ∀[x:set] Imp (x∈A) ([p: ⊦ x∈A] P (elem x p))❙
 	forallI = [A,P,p] forallI ([x] ImpI ([q: ⊦ x∈A] p (elem x q)))❙
 ❚
 
