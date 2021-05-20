@@ -39,8 +39,8 @@ theory CartesianProduct =
 	
 	// subset❙
 	prod_sub : {A,B,C,D} ⊦ A⪽C ⟶ ⊦ B⪽D ⟶ ⊦ A×B ⪽ C×D❘
-		= [A,B,C,D,pa,pb] subtypeI ([x,p] prodI (p prodEl subtypeE pa) 
-			(p prodEr subtypeE pb))❙
+		= [A,B,C,D,pa,pb] subsetI ([x,p] prodI (p prodEl subsetE pa) 
+			(p prodEr subsetE pb))❙
 ❚
 
 theory Relations =
