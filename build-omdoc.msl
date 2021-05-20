@@ -33,38 +33,7 @@ build MMT/LATIN2 mmt-omdoc fundamentals/subtyping.mmt
 build MMT/LATIN2 mmt-omdoc fundamentals/type_equality.mmt
 build MMT/LATIN2 mmt-omdoc fundamentals/informal.mmt
 
-// logic
-// AS: pl needs some stuff from algebra...
-build MMT/LATIN2 mmt-omdoc logic/pl.mmt
-build MMT/LATIN2 mmt-omdoc logic/dependent_pl.mmt
-build MMT/LATIN2 mmt-omdoc logic/pl_hilbert.mmt
-build MMT/LATIN2 mmt-omdoc logic/pl-tableaux.mmt
-build MMT/LATIN2 mmt-omdoc logic/pl-views.mmt
-// AS: drt needs some scala stuff
-build MMT/LATIN2 mmt-omdoc logic/drt.mmt
-// AS: fol needs NDS stuff and ?Nonempty (commented rn)
-build MMT/LATIN2 mmt-omdoc logic/fol.mmt
-build MMT/LATIN2 mmt-omdoc logic/fol_hilbert.mmt
-build MMT/LATIN2 mmt-omdoc logic/sfol.mmt
-build MMT/LATIN2 mmt-omdoc logic/stfol.mmt
-build MMT/LATIN2 mmt-omdoc logic/metalogic.mmt
-build MMT/LATIN2 mmt-omdoc logic/booleans.mmt
-build MMT/LATIN2 mmt-omdoc logic/pl-sfol.mmt
-// AS: some kind of diagop is needed for fol_diagop
-build MMT/LATIN2 mmt-omdoc logic/fol-diagop.mmt
-// AS: sequent needs some scala stuff
-build MMT/LATIN2 mmt-omdoc logic/sequent.mmt
-build MMT/LATIN2 mmt-omdoc logic/linear.mmt
-build MMT/LATIN2 mmt-omdoc logic/refutation.mmt
-build MMT/LATIN2 mmt-omdoc logic/relevant.mmt
-build MMT/LATIN2 mmt-omdoc logic/defaults.mmt
-build MMT/LATIN2 mmt-omdoc logic/prolog.mmt
-// AS: The following are kind of dependent on types
-build MMT/LATIN2 mmt-omdoc logic/hol.mmt
-build MMT/LATIN2 mmt-omdoc logic/hol_andrews.mmt
-build MMT/LATIN2 mmt-omdoc logic/modal.mmt
-build MMT/LATIN2 mmt-omdoc logic/multimodal.mmt
-build MMT/LATIN2 mmt-omdoc logic/dynamic.mmt
+file source/logic/build.msl
 
 // AS: only a few dependencies are important here. In most cases the order is irrelevant
 build MMT/LATIN2 mmt-omdoc type_theory/function_types.mmt
