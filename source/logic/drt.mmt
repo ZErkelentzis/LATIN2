@@ -12,7 +12,6 @@ fixmeta ur:?LF❚
   referents in the mode. 
   The modes have special computation rules here, so that they are normalized correctly.
 ❚
-  
 
 theory DRT =
   dr: type❙ //Discourse Referents ❙
@@ -28,7 +27,7 @@ theory DRT =
   
   capture: {x} x⁺⊎x⁻ ≐ pos x❙ //specifying DR capture ❙
   
-  rule ☞scala://modes.drt.latin2?NormalizePunion❙
+  rule scala://modes.drt.latin2?NormalizePunion❙
   
   close : mode ⟶ mode❘# 1 ↓ prec 60❙
   close_pos: {x} x⁺↓ ≐ ∅❘ role Simplify❙
