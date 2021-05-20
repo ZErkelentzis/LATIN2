@@ -22,24 +22,104 @@ mathpath archive .
 // Build the mmt files, tricky due to mutual dependencies
 // Sometimes we even need to build a folder twice as the first run will run into an interdependency situation it cannot resolve (think of LaTeX and bibliography - it also needs multiple runs)
 
-build MMT/LATIN2 mmt-omdoc fundamentals
+// fundamentals
+build MMT/LATIN2 mmt-omdoc fundamentals/concepts.mmt
+build MMT/LATIN2 mmt-omdoc fundamentals/base_languages.mmt
+// AS: some kind of diagop is needed for base_language_translations
+build MMT/LATIN2 mmt-omdoc fundamentals/base_language_translations.mmt
+build MMT/LATIN2 mmt-omdoc fundamentals/relations.mmt
+build MMT/LATIN2 mmt-omdoc fundamentals/equality.mmt
+build MMT/LATIN2 mmt-omdoc fundamentals/subtyping.mmt
+build MMT/LATIN2 mmt-omdoc fundamentals/type_equality.mmt
+build MMT/LATIN2 mmt-omdoc fundamentals/informal.mmt
 
-build MMT/LATIN2 mmt-omdoc logic
-build MMT/LATIN2 mmt-omdoc logic
+// logic
+// AS: pl needs some stuff from algebra...
+build MMT/LATIN2 mmt-omdoc logic/pl.mmt
+build MMT/LATIN2 mmt-omdoc logic/dependent_pl.mmt
+build MMT/LATIN2 mmt-omdoc logic/pl_hilbert.mmt
+build MMT/LATIN2 mmt-omdoc logic/pl-tableaux.mmt
+build MMT/LATIN2 mmt-omdoc logic/pl-views.mmt
+// AS: drt needs some scala stuff
+build MMT/LATIN2 mmt-omdoc logic/drt.mmt
+// AS: fol needs NDS stuff and ?Nonempty (commented rn)
+build MMT/LATIN2 mmt-omdoc logic/fol.mmt
+build MMT/LATIN2 mmt-omdoc logic/fol_hilbert.mmt
+build MMT/LATIN2 mmt-omdoc logic/sfol.mmt
+build MMT/LATIN2 mmt-omdoc logic/stfol.mmt
+build MMT/LATIN2 mmt-omdoc logic/metalogic.mmt
+build MMT/LATIN2 mmt-omdoc logic/booleans.mmt
+build MMT/LATIN2 mmt-omdoc logic/pl-sfol.mmt
+// AS: some kind of diagop is needed for fol_diagop
+build MMT/LATIN2 mmt-omdoc logic/fol-diagop.mmt
+// AS: sequent needs some scala stuff
+build MMT/LATIN2 mmt-omdoc logic/sequent.mmt
+build MMT/LATIN2 mmt-omdoc logic/linear.mmt
+build MMT/LATIN2 mmt-omdoc logic/refutation.mmt
+build MMT/LATIN2 mmt-omdoc logic/relevant.mmt
+build MMT/LATIN2 mmt-omdoc logic/defaults.mmt
+build MMT/LATIN2 mmt-omdoc logic/prolog.mmt
+// AS: The following are kind of dependent on types
+build MMT/LATIN2 mmt-omdoc logic/hol.mmt
+build MMT/LATIN2 mmt-omdoc logic/hol_andrews.mmt
+build MMT/LATIN2 mmt-omdoc logic/modal.mmt
+build MMT/LATIN2 mmt-omdoc logic/multimodal.mmt
+build MMT/LATIN2 mmt-omdoc logic/dynamic.mmt
 
-build MMT/LATIN2 mmt-omdoc type_theory
-build MMT/LATIN2 mmt-omdoc type_theory
+// AS: only a few dependencies are important here. In most cases the order is irrelevant
+build MMT/LATIN2 mmt-omdoc type_theory/function_types.mmt
+build MMT/LATIN2 mmt-omdoc type_theory/nonempty.mmt
+build MMT/LATIN2 mmt-omdoc type_theory/power_types.mmt
+build MMT/LATIN2 mmt-omdoc type_theory/predicate_subtypes.mmt
+build MMT/LATIN2 mmt-omdoc type_theory/product_types.mmt
+build MMT/LATIN2 mmt-omdoc type_theory/quotient_types.mmt
+build MMT/LATIN2 mmt-omdoc type_theory/quotient_types-equiv.mmt
+build MMT/LATIN2 mmt-omdoc type_theory/type_erasure.mmt
+build MMT/LATIN2 mmt-omdoc type_theory/undefinedness.mmt
+build MMT/LATIN2 mmt-omdoc type_theory/endofunctors/endofunctors.mmt
+build MMT/LATIN2 mmt-omdoc type_theory/endofunctors/endomagmas.mmt
+build MMT/LATIN2 mmt-omdoc type_theory/endofunctors/monads.mmt
+build MMT/LATIN2 mmt-omdoc type_theory/collection_types.mmt
+build MMT/LATIN2 mmt-omdoc type_theory/quotation.mmt
 
-build MMT/LATIN2 mmt-omdoc set_theory
+// AS: I will change the files probably sometime soon.
+build MMT/LATIN2 mmt-omdoc set_theory/setfol.mmt
+build MMT/LATIN2 mmt-omdoc set_theory/definitions.mmt
+build MMT/LATIN2 mmt-omdoc set_theory/axioms.mmt
+build MMT/LATIN2 mmt-omdoc set_theory/basic_sets.mmt
+build MMT/LATIN2 mmt-omdoc set_theory/basic_operations.mmt
+build MMT/LATIN2 mmt-omdoc set_theory/basic_features.mmt
+build MMT/LATIN2 mmt-omdoc set_theory/features.mmt
+build MMT/LATIN2 mmt-omdoc set_theory/features_defined.mmt
+build MMT/LATIN2 mmt-omdoc set_theory/zfc.mmt
+build MMT/LATIN2 mmt-omdoc set_theory/views_features.mmt
+build MMT/LATIN2 mmt-omdoc set_theory/views_basic_sets.mmt
+build MMT/LATIN2 mmt-omdoc set_theory/typed.mmt
+build MMT/LATIN2 mmt-omdoc set_theory/typed_features.mmt
+build MMT/LATIN2 mmt-omdoc set_theory/views_typed.mmt
+
 build MMT/LATIN2 mmt-omdoc topology
 build MMT/LATIN2 mmt-omdoc curry-howard
 
+// AS: I need to check these again
 build MMT/LATIN2 mmt-omdoc algebra/sets.mmt
 build MMT/LATIN2 mmt-omdoc algebra/relations.mmt
+// AS: Magmas need nat
 build MMT/LATIN2 mmt-omdoc numbers/nat.mmt
-build MMT/LATIN2 mmt-omdoc algebra/magmas.mmt
-build MMT/LATIN2 mmt-omdoc algebra/groups.mmt
 
+build MMT/LATIN2 mmt-omdoc algebra/magmas.mmt
+build MMT/LATIN2 mmt-omdoc algebra/magmas-lf.mmt
+build MMT/LATIN2 mmt-omdoc algebra/groups.mmt
+build MMT/LATIN2 mmt-omdoc algebra/diagop-theories.mmt
+build MMT/LATIN2 mmt-omdoc algebra/additive_magmas.mmt
+build MMT/LATIN2 mmt-omdoc algebra/bands.mmt
+build MMT/LATIN2 mmt-omdoc algebra/diagop-test.mmt
+// AS: The following don't work
+build MMT/LATIN2 mmt-omdoc algebra/ringoids.mmt
+build MMT/LATIN2 mmt-omdoc algebra/modules.mmt
+build MMT/LATIN2 mmt-omdoc algebra/generated.mmt
+
+// AS: why is this needed?
 // Now build all again
 
 build MMT/LATIN2 mmt-omdoc fundamentals
