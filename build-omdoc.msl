@@ -75,7 +75,7 @@ build MMT/LATIN2 mmt-omdoc algebra/ringoids.mmt
 build MMT/LATIN2 mmt-omdoc algebra/modules.mmt
 build MMT/LATIN2 mmt-omdoc algebra/generated.mmt
 
-// AS: why is this needed?
+// AS: why is this needed? --- this should be removable if the order above works
 // Now build all again
 
 build MMT/LATIN2 mmt-omdoc fundamentals
@@ -88,3 +88,5 @@ build MMT/LATIN2 mmt-omdoc curry-howard
 // build MMT/LATIN2 mmt-omdoc algebra
 
 build MMT/LATIN2 lf-scala
+
+// build scala-bin scala
