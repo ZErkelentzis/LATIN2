@@ -9,10 +9,19 @@ fixmeta ?SetFOL❚
 	- add ZFBase in each ZF theory?❙
 ❚
 
+// ZFBase now contains all standard axioms of ZF instead of just Extensionality
+	and Existence.❚
 theory ZFBase =
+	// AS: ExtensionalityAx is directly included in SetFOL❙
+  // include ?ExtensionalityAx❙
 	// AS: should I use UniverseNonEmpty or ExistenceAx here?❙
   include ?UniverseNonEmpty❙
-  include ?ExtensionalityAx❙
+  include ?PairingAx❙
+  include ?UnionAx❙
+  include ?PowersetAx❙
+  include ?ComprehensionAx❙
+  include ?ReplacementAx❙
+  include ?RegularityAx❙
 ❚
 
 theory ZFEmptySet =
@@ -20,15 +29,13 @@ theory ZFEmptySet =
   include ?EmptySetDefinitions❙
   realize ?EmptySet❙
   
-  empty_unique : ⊦ ∃¹ isempty❘ // = ❙
+  // AS: these two are not a special case of ZFBase, but I cannot write them in EmptySet right now.❙
   empty = the isempty empty_unique❙
   empty_prop = the_ax isempty empty_unique❙
-  
-  // realize empty_sub❙
 ❚
 
 theory ZFPairing =
-  include ?PairingAx❙
+  include ?ZFBase❙
   include ?UnorderedPairs❘ = ?UopairFromAxiom❙
 ❚
 
