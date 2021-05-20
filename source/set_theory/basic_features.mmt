@@ -3,7 +3,7 @@ namespace latin:/❚
 fixmeta ?SetFOL❚
 
 theory Powersets =
-	// symbol: jpow❙
+  // symbol: jpow❙
   powerset : set ⟶ set❘# ℘ 1 prec 60❙
   powersetI : {A,B} ({x} ⊦ x∈B ⟶ ⊦ x∈A) ⟶ ⊦ B∈ ℘A❙
   powersetE : {A,B} ⊦ B∈ ℘A ⟶ {x} ⊦ x∈B ⟶ ⊦ x∈A❘# 3 powersetE 5❙
@@ -23,7 +23,7 @@ theory Filter =
   filterEr : {A,P,x} ⊦ x ∈ A|P ⟶ ⊦ P x❘# 4 filterEr❙
   
   filter_sub : {A,P} ⊦ A|P ⪽ A❘
-  	= [A,P] subtypeI ([x,p] p filterEl)❙
+  	= [A,P] subsetI ([x,p] p filterEl)❙
 ❚
 
 theory Replacement =
