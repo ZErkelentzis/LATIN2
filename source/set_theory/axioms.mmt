@@ -8,15 +8,6 @@ fixmeta ?SetFOL❚
 	- maybe add more axioms for TG, NBG and more?
 ❚
 
-theory ExtensionalityAx =
-	// Two sets A and B are equal iff they have the same elements❙
-	include ?ExtensionalityDefinition❙
-	
-	extensionality_axiom : {A,B} ⊦ isextensional A B❙	
-	extensionalityI : {A,B} ({x} ⊦ x∈A ⇔ x∈B) ⟶ ⊦ A≐B❙
-	extensionalityE : {A,B} ⊦ A≐B ⟶ {x} ⊦ x∈A ⇔ x∈B❘# 3 extensionalityE❙ 
-❚
-
 // AS: Set existence was defined as UniverseNonEmpty; 
 		Do I need to declare it again?
 		I did a theory, just to be safe❚
@@ -29,7 +20,7 @@ theory ExistenceAx =
 
 theory PairingAx =
 	// The unordered pair {A,B} consists of exactly the two elements A and B❙
-	include ?UnorderedPairDefinition❙
+	isuopair = [A,B,Z] ∀[x] x∈Z ⇔ x≐A ∨ x≐B❙
 	
 	pairing_axiom : {A,B} ⊦ ∃[Z] isuopair A B Z❙
 	pairing_unique : {A,B} ⊦ ∃¹[Z] isuopair A B Z❘ // = _ ❙
@@ -39,7 +30,7 @@ theory PairingAx =
 
 theory UnionAx =
 	// The big union of a family of sets A consists of all the elements x of its sets X.❙
-	include ?BigUnionDefinition❙
+	isbigunion = [A,Z] ∀[x]∀[X] X∈A ⇒ x∈X ⇒ x∈Z❙
 	
 	union_axiom : {A} ⊦ ∃[Z] isbigunion A Z❙
 	union_unique : {A} ⊦ ∃¹[Z] isbigunion A Z❘ // = _ ❙
@@ -49,7 +40,7 @@ theory UnionAx =
 
 theory PowersetAx =
 	// Each subset B of the set A is an element of the powerset Z❙
-	include ?PowerSetDefinition❙
+	ispowerset = [A,Z] ∀[B] (∀[x] x∈B ⇒ x∈A) ⇒ B∈Z❙
 	
 	powerset_axiom : {A} ⊦ ∃[Z] ispowerset A Z❙
 	powerset_unique : {A} ⊦ ∃¹[Z] ispowerset A Z❘ // = _ ❙
@@ -65,7 +56,7 @@ theory PowersetAx =
 
 theory ComprehensionAx =
 	// The resulting set consists of all elements x of A that satisfy predicate P❙
-	include ?ComprehensionDefinition❙
+	iscomprehension = [A,P,Z] ∀[x] x∈A ∧ (P x) ⇔ x∈Z❙
 	
 	comprehension_axiom : {A,P} ⊦ ∃[Z] iscomprehension A P Z❙
 	comprehension_unique : {A,P} ⊦ ∃¹[Z] iscomprehension A P Z❘ // = _ ❙
@@ -76,7 +67,7 @@ theory ComprehensionAx =
 
 theory ReplacementAx =
 	// The resulting set is a replacement for A regarding function F❙
-	include ?ReplacementDefinition❙
+	isreplacement = [A,F,Z] ∀[B] B∈Z ⇔ (∃[x] x∈A ∧ B≐(F x))❙
 	
 	replacement_axiom : {A,F} ⊦ ∃[Z] isreplacement A F Z❙
 	replacement_unique : {A,F} ⊦ ∃¹[Z] isreplacement A F Z❘ // = _ ❙
@@ -86,7 +77,7 @@ theory ReplacementAx =
 
 theory RegularityAx =
 	// Every set has a "smallest" element❙
-	include ?RegularityDefinition❙
+	isregular = ∀[A](∃[u] u∈A) ⇒ ∃[B] B∈A ∧ ¬(∃[x] x∈A ∧ x∈B)❙
 	
 	regularity_axiom : ⊦ isregular❙
 	regularityI : {A} ⊦ (∃[u] u∈A) ⟶ ⊦ ∃[B] B∈A ∧ ¬(∃[x] x∈A ∧ x∈B)❙
@@ -105,7 +96,7 @@ theory InfinityAx =
 
 theory ChoiceAx =
 	// There exists a set C with an unique element c that each set X of M has in common❙
-	include ?ChoiceDefinition❙
+	ischoice = [A,C] ∀[X] X∈A ⇒ ∃¹[c]c∈C∧c∈X❙
 	
 	// abstract functions❙
 	all_nonempty: set ⟶ prop❘ // = ❙
