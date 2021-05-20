@@ -45,24 +45,21 @@ view ReplacementFromAxiom : ?Replacement → ?ReplacementAx =
 	replaceE = [A,F,y,C,p,q] p replacementAxE A F q❙
 ❚
 
-theory UopairFromAxiom =
-	include ?ExtensionalityAx❙
- 	include ?PairingAx❙
- 	realize ?UnorderedPairs❙
- 	
+view UopairFromAxiom : ?UnorderedPairs → ?PairingAx =
+	// This needs Pairing Axiom; Extensionality is used in UnorderedPairs itself❙ 	
 	uopair = [A,B] the ([Z] isuopair A B Z) pairing_unique❙
 	uopairIl = [x,B] pairingAxI (orIl (x≐x) (x≐B) refl)❙
 	uopairIr = [A,y] pairingAxI (orIr (y≐A) (y≐y) refl)❙
 	uopairE = [A,B,x,C,p,pa,pb] (p pairingAxE A B) orE pa pb❙
 	
-	uopair_comm = [A,B] extensionalityI ([x] equivI ([pa] pairingAxI or_swap (pa pairingAxE A B)) 
+	// uopair_comm = [A,B] extensionalityI ([x] equivI ([pa] pairingAxI or_swap (pa pairingAxE A B)) 
 			([pb] pairingAxI or_swap (pb pairingAxE B A)))❙
 ❚
 
 // Views for Union❚
 theory UnionAsBigUnion =
   include ?BigUnion❙
-  include ?ExtensionalityAx❙
+  // include ?ExtensionalityAx❙
   include ?UnorderedPairs❙
   
   // AS: is there a possibility to get rid of include ?EmptySet and ?UniversalSet?❙
@@ -76,18 +73,6 @@ theory UnionAsBigUnion =
   unionE = [A,B,x,C,p,pa,pb] p bigunionE ([X,qa,qb] qa uopairE
     ([q] pa (in_eq qb q)) 
     ([q] pb (in_eq qb q)))❙
-  
-  // AS: These are not needed anymore❙
-  // union_subl = [A,B] bigunion_sub uopairIl❙
-  // union_subr = [A,B] bigunion_sub uopairIr❙
-  // union_sup = [A,B,C,p,q] subtypeI ([x,r] r bigunionE 
-  		([X,pa,pb] pa uopairE ([qa] p subtypeE in_eq pb qa) ([qb] q subtypeE in_eq pb qb)))❙
-  
-  // union_idem = [A] extensionalityI ([x] equivI ([p] p bigunionE ([X,pa,pb] pa uopairE 
-  		([qa] in_eq pb qa) ([qb] in_eq pb qb))) ([q] bigunionI uopairIl q))❙
-  // union_comm = [A,B] extensionalityI ([x] equivI 
-  		([p] p bigunionE ([X,pa,pb] bigunionI (in_eq pa uopair_comm) pb))
-  		([q] q bigunionE ([X,qa,qb] bigunionI (in_eq qa uopair_comm) qb)))❙
 ❚
 
 theory UnionFilter =
@@ -104,10 +89,6 @@ theory UnionFilter =
 	unionIl = [A,B,x,p] filterI (universal_prop forallE x) (orIl (x∈A) (x∈B) p)❙
 	unionIr = [A,B,y,p] filterI (universal_prop forallE y) (orIr (y∈A) (y∈B) p)❙
 	unionE = [A,B,x,C,p,pa,pb] p filterEr orE ([qa] pa qa) ([qb] pb qb)❙
-	
-	// AS: These are not needed anymore❙
-	// union_subl = [A,B] subtypeI ([x,p] filterI (universal_prop forallE x) (p orIl))❙
-	// union_subr = [A,B] subtypeI ([x,p] filterI (universal_prop forallE x) (p orIr))❙
 ❚
 
 // Views for Intersection❚
@@ -154,7 +135,10 @@ theory BigIntersectionFilter =
 
 
 // Views for Difference❚
-view DifFilter : ?Difference → ?Filter =
+theory DifFilter =
+	include ?EmptySet❙
+	include ?Filter❙
+	realize ?Difference❙
 	dif = [A,B] A | ([x] ¬ x∈B)❙
 	difI = [A,B,x,p,q] filterI p q❙
 	difEl = [A,B,x,p] p filterEl❙
@@ -166,7 +150,7 @@ theory ComplementFilter =
 	include ?Filter❙
 	include ?UniversalSet❙
 	// AS: is there a possibility to get rid of these includes?❙
-	include ?ExtensionalityAx❙
+	// include ?ExtensionalityAx❙
 	include ?EmptySet❙
 	include ?Union❙
 	include ?Intersection❙
@@ -184,11 +168,11 @@ theory SymUnion =
 	realize ?SymmetricDifference❙
 	
 	symdif = [A,B] (A∖B) ∪ (B∖A)❙
-	symdifI = [A,B,x,p,q] unionIl (B∖A) (difI p q)❙
-	symdifEl = [A,B,x,p,q] p unionE ([pa] pa difEr)
-		([pb] notI ([pf] pb difEr notE q))❙
-	symdifEr = [A,B,x,p,q] p unionE ([pa] pa difEl)
-		([pb] q notE (pb difEl) inconE)❙
+	symdifIl = [A,B,x,p,q] unionIl (B∖A) (difI p q)❙
+	symdifIr = [A,B,x,p,q] unionIr (A∖B) (difI q p)❙
+	symdifE = [A,B,x,C,p,pa,pb] p unionE 
+		([qa] pa (andI (qa difEl) (qa difEr)))
+		([qb] pb (andI (qb difEr) (qb difEl)))❙
 ❚
 
 theory SymDifference =
@@ -199,9 +183,11 @@ theory SymDifference =
 	realize ?SymmetricDifference❙
 	
 	symdif = [A,B] (A∪B) ∖ (A∩B)❙
-	symdifI = [A,B,x,p,q] difI (unionIl B p) (notI ([pf: ⊦ x∈A∩B] q notE (pf interEr)))❙
-	symdifEl = [A,B,x,p,q] notI ([pf: ⊦ x∈B] (p difEr) notE (interI q pf))❙
-	symdifEr = [A,B,x,p,q] p difEl unionE ([pa] pa) ([pb] q notE pb inconE)❙
+	symdifIl = [A,B,x,p,q] difI (unionIl B p) (notI ([pf] q notE (pf interEr)))❙
+	symdifIr = [A,B,x,p,q] difI (unionIr A q) (notI ([pf] p notE (pf interEl)))❙
+	symdifE = [A,B,x,C,p,pa,pb] p difEl unionE 
+		([qa] pa andI qa (notI ([pf] (p difEr) notE (interI qa pf))))
+		([qb] pb andI (notI ([pf] (p difEr) notE (interI pf qb))) qb)❙
 ❚
 
 theory SymFilter =
@@ -210,11 +196,9 @@ theory SymFilter =
 	realize ?SymmetricDifference❙
 	
 	symdif = [A,B] (A∪B) | ([x] (x∈A ∧ ¬ x∈B) ∨ (¬ x∈A ∧ x∈B))❙
-	symdifI = [A,B,x,p,q] filterI (unionIl B p) ((andI p q) orIl)❙
-	symdifEl = [A,B,x,p,q] p filterEr orE ([pa] pa andEr)
-		([pb] notI ([pf] pb andEl notE q))❙
-	symdifEr = [A,B,x,p,q] p filterEr orE ([pa] pa andEl)
-		([pb] q notE (pb andEr) inconE)❙
+	symdifIl = [A,B,x,p,q] filterI (unionIl B p) ((andI p q) orIl)❙
+	symdifIr = [A,B,x,p,q] filterI (unionIr A q) ((andI p q) orIr)❙
+	symdifE = [A,B,x,C,p,pa,pb] p filterEr orE ([qa] pa qa) ([qb] pb qb)❙
 ❚
 
 // Views for Adjoint❚
