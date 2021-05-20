@@ -1,21 +1,21 @@
 namespace latin:/❚
 
-fixmeta latin:/?SFOLEQ❚
+fixmeta latin:/?SFOLEQND❚
 
 theory Booleans =
   bool: tp❙
-  bool_nontrivial : ⊦ ¬ tt≐ff❙
   tt: tm bool❙
   ff: tm bool❙
+  bool_nontrivial : ⊦ ¬ tt≐ff❙
 ❚
 
 theory BooleanExtensionality =
    include ?Booleans❙
    
-   boolext : {F} ⊦ F tt ⟶ ⊦ F ff ⟶ {x:tm bool} ⊦ F x❙
+   boolext : {F} ⊦ F tt ⟶ ⊦ F ff ⟶ {x:tm bool} ⊦ F x❘# boolext 1 2 3 4❙
 
    bool_tnd : ⊦ ∀[b] b≐tt ∨ b≐ff❘
-            = forallI [b] boolext ([x]x≐tt ∨ x≐ff) (orIl refl) (orIr refl) b❙
+            = forallI [b] boolext ([x]x≐tt ∨ x≐ff) (refl orIl) (refl orIr) b❙
    
    if: {S} tm bool ⟶ tm S ⟶ tm S ⟶ tm S❘# if 2 then 3 else 4 prec 50❙
    if_tt : {s,x,y:tm s} ⊦ if tt then x else y ≐ x❙
