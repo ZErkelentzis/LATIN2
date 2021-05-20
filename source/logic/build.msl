@@ -1,10 +1,4 @@
-log console
-
-log+ archive
-log+ mmt-omdoc
-
-mathpath archive ../../../urtheories
-mathpath archive ../..
+file ../../build_config.msl
 
 // logic
 // AS: pl needs some stuff from algebra...

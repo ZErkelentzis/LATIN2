@@ -1,0 +1,16 @@
+log console
+log html build.html
+log+ archive
+log+ mmt-omdoc
+
+mathpath archive ../urtheories
+mathpath archive ../LFX
+mathpath archive .
+
+
+//log+ debug
+//log+ object-checker
+//log+ object-simplifier
+//log+ structure-simplifier
+//log+ structure-checker
+//log+ object-parser
