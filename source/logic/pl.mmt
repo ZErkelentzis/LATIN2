@@ -143,17 +143,6 @@ theory DisjunctionNDS =
   orSr: {F,G,C, pfG: ⊦ G, pf1: ⊦ F ⟶ ⊦ C, pf2: ⊦ G ⟶ ⊦ C} (?DisjunctionNDE?orE F G C (pfG orIr) pf1 pf2) ⟺ pf2 pfG ❘ role Simplify ❙
 ❚
 
-theory DisjunctionSL =
-  include ?Lindenbaum❙
-  include ?DisjunctionND❙
-  realize ☞latin:/algebraic?Semilattice❙
-  op = or❙
-  idempotent = [F] equivI ([p] p orE ([q]q) ([q]q)) ([p] p orIl)❙
-  comm = [F,G] equivI ([p] or_swap p) ([p] or_swap p)❙
-  assoc = [F,G,H] equivI ([p] p orE ([q] q orE ([r] r orIl) ([r] r orIl orIr)) ([q] q orIr orIr))
-                         ([p] p orE ([q] q orIl orIl) ([q] q orE ([r] r orIr orIl) ([r] r orIr)))❙ 
-❚
-
 theory Conjunction =
   include ?Propositions❙
   and   : prop ⟶ prop ⟶ prop❘# 1 ∧ 2 prec 15❙
@@ -184,18 +173,6 @@ theory ConjunctionNDS =
   andSl: {F,G, pfF: ⊦ F, pfG: ⊦ G} (andI pfF pfG) andEl ⟺ pfF ❘ role Simplify ❙
   andSr: {F,G, pfF: ⊦ F, pfG: ⊦ G} (andI pfF pfG) andEr ⟺ pfG ❘ role Simplify ❙
 ❚
-
-theory ConjunctionSL =
-  include ?Lindenbaum❙
-  include ?ConjunctionND❙
-  realize ☞latin:/algebraic?Semilattice❙
-  op = and❙
-  idempotent = [F] equivI ([p] p andEl) ([p] andI p p)❙
-  comm = [F,G] equivI ([p] and_swap p) ([p] and_swap p)❙
-  assoc = [F,G,H] equivI ([p] andI (p andEl andEl) (andI (p andEl andEr) (p andEr)))
-                         ([p] andI (andI (p andEl) (p andEr andEl)) (p andEr andEr))❙ 
-❚
-
 
 theory Implication =
   include ?Propositions❙
