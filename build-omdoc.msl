@@ -9,84 +9,34 @@ file build_config.msl
 // Build the mmt files, tricky due to mutual dependencies
 // Sometimes we even need to build a folder twice as the first run will run into an interdependency situation it cannot resolve (think of LaTeX and bibliography - it also needs multiple runs)
 
-// fundamentals
-build MMT/LATIN2 mmt-omdoc fundamentals/concepts.mmt
-build MMT/LATIN2 mmt-omdoc fundamentals/base_languages.mmt
-// AS: some kind of diagop is needed for base_language_translations
-build MMT/LATIN2 mmt-omdoc fundamentals/base_language_translations.mmt
-build MMT/LATIN2 mmt-omdoc fundamentals/relations.mmt
-build MMT/LATIN2 mmt-omdoc fundamentals/equality.mmt
-build MMT/LATIN2 mmt-omdoc fundamentals/subtyping.mmt
-build MMT/LATIN2 mmt-omdoc fundamentals/type_equality.mmt
-build MMT/LATIN2 mmt-omdoc fundamentals/informal.mmt
+file source/fundamentals/build.msl
+
+file source/type_theory/build.msl
 
 file source/logic/build.msl
 
-// AS: only a few dependencies are important here. In most cases the order is irrelevant
-build MMT/LATIN2 mmt-omdoc type_theory/function_types.mmt
-build MMT/LATIN2 mmt-omdoc type_theory/nonempty.mmt
-build MMT/LATIN2 mmt-omdoc type_theory/power_types.mmt
-build MMT/LATIN2 mmt-omdoc type_theory/predicate_subtypes.mmt
-build MMT/LATIN2 mmt-omdoc type_theory/product_types.mmt
-build MMT/LATIN2 mmt-omdoc type_theory/quotient_types.mmt
-build MMT/LATIN2 mmt-omdoc type_theory/quotient_types-equiv.mmt
-build MMT/LATIN2 mmt-omdoc type_theory/type_erasure.mmt
-build MMT/LATIN2 mmt-omdoc type_theory/undefinedness.mmt
-build MMT/LATIN2 mmt-omdoc type_theory/endofunctors/endofunctors.mmt
-build MMT/LATIN2 mmt-omdoc type_theory/endofunctors/endomagmas.mmt
-build MMT/LATIN2 mmt-omdoc type_theory/endofunctors/monads.mmt
-build MMT/LATIN2 mmt-omdoc type_theory/collection_types.mmt
-build MMT/LATIN2 mmt-omdoc type_theory/quotation.mmt
+// (AS: yields error due to changes I made)
+build MMT/LATIN2 mmt-omdoc category_theory
 
-// AS: I will change the files probably sometime soon.
-build MMT/LATIN2 mmt-omdoc set_theory/setfol.mmt
-build MMT/LATIN2 mmt-omdoc set_theory/definitions.mmt
-build MMT/LATIN2 mmt-omdoc set_theory/axioms.mmt
-build MMT/LATIN2 mmt-omdoc set_theory/basic_sets.mmt
-build MMT/LATIN2 mmt-omdoc set_theory/basic_operations.mmt
-build MMT/LATIN2 mmt-omdoc set_theory/basic_features.mmt
-build MMT/LATIN2 mmt-omdoc set_theory/features.mmt
-build MMT/LATIN2 mmt-omdoc set_theory/features_defined.mmt
-build MMT/LATIN2 mmt-omdoc set_theory/zfc.mmt
-build MMT/LATIN2 mmt-omdoc set_theory/views_features.mmt
-build MMT/LATIN2 mmt-omdoc set_theory/views_basic_sets.mmt
-build MMT/LATIN2 mmt-omdoc set_theory/typed.mmt
-build MMT/LATIN2 mmt-omdoc set_theory/typed_features.mmt
-build MMT/LATIN2 mmt-omdoc set_theory/views_typed.mmt
+// AS: some theories of type_theory are dependent on logic (and category_theory). Therefore I build it twice.
+file source/type_theory/build.msl
+
+file source/set_theory/build.msl
+
+// AS: maybe change the order
+// AS: since modal does not work for now, these cannot be built as well
+// file source/logic_extensions/build.msl
 
 build MMT/LATIN2 mmt-omdoc topology
+// AS: logic-to-type-theory leads to an error
 build MMT/LATIN2 mmt-omdoc curry-howard
 
-// AS: I need to check these again
-build MMT/LATIN2 mmt-omdoc algebra/sets.mmt
-build MMT/LATIN2 mmt-omdoc algebra/relations.mmt
-// AS: Magmas need nat
+// AS: nat-induct leads to an error, so I only build nat.mmt for now
 build MMT/LATIN2 mmt-omdoc numbers/nat.mmt
 
-build MMT/LATIN2 mmt-omdoc algebra/magmas.mmt
-build MMT/LATIN2 mmt-omdoc algebra/magmas-lf.mmt
-build MMT/LATIN2 mmt-omdoc algebra/groups.mmt
-build MMT/LATIN2 mmt-omdoc algebra/diagop-theories.mmt
-build MMT/LATIN2 mmt-omdoc algebra/additive_magmas.mmt
-build MMT/LATIN2 mmt-omdoc algebra/bands.mmt
-build MMT/LATIN2 mmt-omdoc algebra/diagop-test.mmt
-// AS: The following don't work
-build MMT/LATIN2 mmt-omdoc algebra/ringoids.mmt
-build MMT/LATIN2 mmt-omdoc algebra/modules.mmt
-build MMT/LATIN2 mmt-omdoc algebra/generated.mmt
+file source/algebra/build.msl
 
-// AS: why is this needed? --- this should be removable if the order above works
-// Now build all again
-
-build MMT/LATIN2 mmt-omdoc fundamentals
-build MMT/LATIN2 mmt-omdoc logic
-build MMT/LATIN2 mmt-omdoc type_theory
-build MMT/LATIN2 mmt-omdoc set_theory
-build MMT/LATIN2 mmt-omdoc topology
-build MMT/LATIN2 mmt-omdoc curry-howard
-
-// build MMT/LATIN2 mmt-omdoc algebra
-
+// TODO:
 build MMT/LATIN2 lf-scala
 
 // build scala-bin scala
