@@ -1,38 +1,51 @@
 file ../../build_config.msl
 
 // logic
-// AS: pl needs some stuff from algebra...
+// depends in general on fundamentals (these dependencies are not mentioned here)!
+
+// no dependencies
+// AS: drt needs some scala stuff which fails for me -> LOIF
+// build MMT/LATIN2 mmt-omdoc logic/drt.mmt
 build MMT/LATIN2 mmt-omdoc logic/pl.mmt
+
+// dependent on pl
+build MMT/LATIN2 mmt-omdoc logic/metalogic.mmt
+
 build MMT/LATIN2 mmt-omdoc logic/dependent_pl.mmt
 build MMT/LATIN2 mmt-omdoc logic/pl_hilbert.mmt
 build MMT/LATIN2 mmt-omdoc logic/pl-tableaux.mmt
 build MMT/LATIN2 mmt-omdoc logic/pl-views.mmt
-// AS: drt needs some scala stuff LOIF
-build MMT/LATIN2 mmt-omdoc logic/drt.mmt
-// AS: fol needs NDS stuff and ?Nonempty (commented rn)
+
+// AS: yields an error
 build MMT/LATIN2 mmt-omdoc logic/fol.mmt
-build MMT/LATIN2 mmt-omdoc logic/fol_hilbert.mmt
 build MMT/LATIN2 mmt-omdoc logic/sfol.mmt
+
+// dependent on fol (and some kind of pl)
 build MMT/LATIN2 mmt-omdoc logic/stfol.mmt
+build MMT/LATIN2 mmt-omdoc logic/fol_hilbert.mmt
+// AS: this is also dependent on ur:?DiagramOperators which fails for me -> LOIF
+// build MMT/LATIN2 mmt-omdoc logic/fol-diagop.mmt
+
+// dependent on fol and drt
+// AS: yields an error -> LOIF
+// build MMT/LATIN2 mmt-omdoc logic/drt-fol.mmt
+
+// dependent on sfol
+// (AS: yields an error due to a change I made)
 build MMT/LATIN2 mmt-omdoc logic/booleans.mmt
+
+// dependent on pl, sfol and booleans
 build MMT/LATIN2 mmt-omdoc logic/pl-sfol.mmt
-// AS: some kind of diagop is needed for fol_diagop LOIF
-build MMT/LATIN2 mmt-omdoc logic/fol-diagop.mmt
 
-// AS: sequent needs some scala stuff (ask Max if you can move this to a separate folder)
-build MMT/LATIN2 mmt-omdoc logic/sequent.mmt
-build MMT/LATIN2 mmt-omdoc logic/linear.mmt
-build MMT/LATIN2 mmt-omdoc logic/refutation.mmt
-build MMT/LATIN2 mmt-omdoc logic/relevant.mmt
-build MMT/LATIN2 mmt-omdoc logic/defaults.mmt
-build MMT/LATIN2 mmt-omdoc logic/prolog.mmt
-
-// AS: The following are kind of dependent on types
+// dependent on type_theory and fundamentals and files from before (these dependencies are not mentioned here)!
+// this order is kind of fixed
+// AS: yields an error
 build MMT/LATIN2 mmt-omdoc logic/hol.mmt
+// (AS: yields an error due to changes I made)
 build MMT/LATIN2 mmt-omdoc logic/hol_andrews.mmt
 
-build MMT/LATIN2 mmt-omdoc logic/modal.mmt
-build MMT/LATIN2 mmt-omdoc logic/multimodal.mmt
-build MMT/LATIN2 mmt-omdoc logic/dynamic.mmt
+// AS: yields an error (due to changes I made) - I have to leave it out for now
+// build MMT/LATIN2 mmt-omdoc logic/modal.mmt
+// build MMT/LATIN2 mmt-omdoc logic/multimodal.mmt
+// build MMT/LATIN2 mmt-omdoc logic/dynamic.mmt
 
-build MMT/LATIN2 mmt-omdoc logic/metalogic.mmt
