@@ -36,12 +36,17 @@ theory ZFTyped =
   	= [A,e] cwhy ([x] x∈A) e❘# why 2❙
   eq_which : {A,x,p: ⊦ x∈A} ⊦ which (elem x p) ≐ x❘
   	= [A,x,p] ceq_which❙
-  
-  // AS: Typed equality → already exists in LATIN2! Import?❙
+  	
   Eq : {A} Elem A ⟶ Elem A ⟶ prop❘
   		= [A,e,d] which e ≐ which d❙
   EqcongEr : {P,c,d,F: Class P ⟶ prop} ⊦ (cwhich P c ≐ cwhich P d) ⟶ ⊦ F d ⟶ ⊦ F c❘# 5 EqcongEr 4 6❘
   		= [P,c,d,F,p,q] (eq/sym p) EqcongEl F q❙
   EqcongF : {P,c,d,F: Class P ⟶ set} ⊦ (cwhich P c ≐ cwhich P d) ⟶ ⊦ (F c) ≐ (F d)❙
   EqCongF : {P,Q,c,d,F: Class P ⟶ Class Q} ⊦ (cwhich P c ≐ cwhich P d) ⟶ ⊦ (cwhich Q (F c) ≐ cwhich Q (F d))❙
+  
+  Refl : {A,e} ⊦ Eq A e e❙
+  
+  // AS: this is unnecessary but it makes the proofs for me a bit easier to understand❙
+  elem_id : {A,e: Elem A} ⊦ Eq A (elem (which e) (why e)) e❘
+  	= [A,e] ceq_which❙
 ❚
