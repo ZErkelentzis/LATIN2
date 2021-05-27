@@ -1,0 +1,21 @@
+file ../../build_config.msl
+
+// set_theory
+// depends in general on fundamentals and logic (these dependencies are not mentioned here)!
+// some parts depend on type_theory!
+
+// AS: change files!
+build MMT/LATIN2 mmt-omdoc set_theory/setfol.mmt
+build MMT/LATIN2 mmt-omdoc set_theory/definitions.mmt
+build MMT/LATIN2 mmt-omdoc set_theory/axioms.mmt
+build MMT/LATIN2 mmt-omdoc set_theory/basic_sets.mmt
+build MMT/LATIN2 mmt-omdoc set_theory/basic_operations.mmt
+build MMT/LATIN2 mmt-omdoc set_theory/basic_features.mmt
+build MMT/LATIN2 mmt-omdoc set_theory/features.mmt
+build MMT/LATIN2 mmt-omdoc set_theory/features_defined.mmt
+build MMT/LATIN2 mmt-omdoc set_theory/zfc.mmt
+build MMT/LATIN2 mmt-omdoc set_theory/views_features.mmt
+build MMT/LATIN2 mmt-omdoc set_theory/views_basic_sets.mmt
+build MMT/LATIN2 mmt-omdoc set_theory/typed.mmt
+build MMT/LATIN2 mmt-omdoc set_theory/typed_features.mmt
+build MMT/LATIN2 mmt-omdoc set_theory/views_typed.mmt
