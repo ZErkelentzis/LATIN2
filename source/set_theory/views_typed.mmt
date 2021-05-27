@@ -17,7 +17,7 @@ theory BasicsZF =
 	realize ?TypedEquality❙
   equal = Eq❙
   realize ?TypedEqualityND❙
-  refl = _ ❙
+  refl = [A,e: Elem A] Refl❙
   congB = _❙
 ❚
 
@@ -27,17 +27,32 @@ theory TypedUniversalZF =
 	include ?Proofs❙
 	include ?BasicsZF❙
 	
+	// dependent implication needed❙
+	include ?DependentImplication❙
+	include ?DependentImplicationND❙
+	
 	realize ?TypedUniversalQuantificationND❙
 	
-	// AS: in LATIN there was Imp: (⊦ A ⟶ prop) ⟶ prop;
-	This should come from dependent_pl.mmt
-		MMT has right now in FOL impl: prop ⟶ prop ⟶ prop.
-		So I'll add Imp here (maybe the theory for this will change❙
-	Imp : {A: prop} (⊦ A ⟶ prop) ⟶ prop❙
-	ImpI : {A,B} ({p: ⊦ A} ⊦ B p) ⟶ ⊦ Imp A B❙
+	tforall = [A,P: Elem A ⟶ prop] forall [x] (x∈A) ⇒- ([p] P (elem x p))❙
+	tforallI = [A,P,p] forallI [x] dimplI ([q] p (elem x q))❙
+	tforallE = [A,P,p,e: Elem A] elem_id EqcongEl P ((p forallE (which e)) dimplE (why e))❙
+❚
+
+theory TypedExistentialZF =
+	// AS: same as in BasicsZF❙
+	include ?Propositions❙
+	include ?Proofs❙
+	include ?BasicsZF❙
 	
-	forall = [A,P: Elem A ⟶ prop] ∀[x:set] Imp (x∈A) ([p: ⊦ x∈A] P (elem x p))❙
-	forallI = [A,P,p] forallI ([x] ImpI ([q: ⊦ x∈A] p (elem x q)))❙
+	// dependent conjunction needed❙
+	include ?DependentConjunction❙
+	include ?DependentConjunctionND❙
+	
+	realize ?TypedExistentialQuantificationND❙
+	
+	texists = [A,P: Elem A ⟶ prop] exists [x] (x∈A) ∧- ([p] P (elem x p))❙
+	texistsI = [A,P: Elem A ⟶ prop,e: Elem A,p] existsI (which e) (dandI (why e) (elem_id EqcongEr P p))❙
+	textistsE = [A,P,C,p,Q:({e:Elem A} ⊦ P e ⟶ ⊦ C)] p existsE ([x,px: (x∈A) ∧- ([pa: ⊦ x∈A] P (elem x pa))] Q (elem x (px dandEl)) (px dandEr))❙
 ❚
 
 theory SimpleProductsZF =
@@ -59,6 +74,27 @@ theory SimpleProductsZF =
 	// AS: this needs to be done❙
 	compute1 = [A,B,a: Elem A, b: Elem B] _❙
 	compute2 = [A,B,a: Elem A, b: Elem B] _❙
+❚
+
+theory TypedPredicateSubtypesZF =
+	// AS: same as in BasicsZF❙
+	include ?Propositions❙
+	include ?Proofs❙
+  include ?BasicsZF❙
+  
+  include ?Filter❙
+  
+	// dependent conjunction needed❙
+	include ?DependentConjunction❙
+	include ?DependentConjunctionND❙
+  
+  realize ?TypedPredicateSubtypes❙
+  
+  predsub = [A,P: Elem A ⟶ prop] filter A ([x] x∈A ∧- ([p] P (elem x p)))❙
+  predsubI = [A,P,e: Elem A,p] elem (which e) filterI (why e) (dandI (why e) (elem_id EqcongEr P p))❙
+  predsubEl = [A,P,e] elem (which e) ((why e) filterEl)❙
+  // AS: check this again❙
+  predsubEr = [A,P,e] (why e) filterEr dandEr❙
 ❚
 
 theory PowerTypesZF =
