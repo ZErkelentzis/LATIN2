@@ -1,0 +1,14 @@
+file ../../build_config.msl
+
+// AS: maybe change name of the folder
+// logic_extensions
+// depends in general on fundamentals, type_theory and logic (these dependencies are not mentioned here)!
+
+// dependent on pl, fol and modal
+// AS: order might be different
+build MMT/LATIN2 mmt-omdoc logic_extensions/sequent.mmt
+build MMT/LATIN2 mmt-omdoc logic_extensions/linear.mmt
+build MMT/LATIN2 mmt-omdoc logic_extensions/refutation.mmt
+build MMT/LATIN2 mmt-omdoc logic_extensions/relevant.mmt
+build MMT/LATIN2 mmt-omdoc logic_extensions/defaults.mmt
+build MMT/LATIN2 mmt-omdoc logic_extensions/prolog.mmt
