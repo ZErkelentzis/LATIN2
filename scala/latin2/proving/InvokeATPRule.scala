@@ -40,6 +40,9 @@ object InvokeATPRule extends InferenceAndTypingRule(Path.parseS("latin:/?Proposi
 
   override def apply(solver: Solver, tm: Term, tp: Option[Term], covered: Boolean)(implicit stack:  Stack, history: History): (Option[Term], Option[Boolean]) = tm match {
     case OMA(OMS(`head`), List(formula)) =>
+      if (solver.getUnsolvedVariables.nonEmpty) {
+        throw DelayJudgment("formula still contained unknowns")
+      }
       tp.foreach(givenTp => {
         if (!solver(Equality(stack, Proofs.ded(formula), givenTp, None))) {
           solver.error("???")

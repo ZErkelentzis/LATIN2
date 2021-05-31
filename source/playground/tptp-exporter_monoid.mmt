@@ -65,7 +65,7 @@ theory ATPExamples =
      In the code (where the debugging println line is), this leads to:
      """invoked ATP on `F` in context `F : latin:/?Propositions?prop, pfF : (http://cds.omdoc.org/urtheories?LambdaPi?apply latin:/?Proofs?ded F)` for constant `latin:/playground/tptp-exporter?ATPExamples?example1`"""
   ❙
-  example1 = [F: prop] ☞latin:/?ImplicationNDI?implI F F [pfF: ⊦ F] ATP_PROOF F ❙
+  // example1 = [F: prop] ☞latin:/?ImplicationNDI?implI F F [pfF: ⊦ F] ATP_PROOF F ❙
 
   // expected type of example2 is `{F: prop, G: prop} ⊦ F ∧ G ⇒ G ∧ F`
      To prove this, we -- as a user -- already employ implication introduction
@@ -75,7 +75,9 @@ theory ATPExamples =
      In the code (where the debugging println line is), this leads to:
      """invoked ATP on `(http://cds.omdoc.org/urtheories?LambdaPi?apply latin:/?Conjunction?and G F)` in context `F : latin:/?Propositions?prop, G : latin:/?Propositions?prop, pfFG : (http://cds.omdoc.org/urtheories?LambdaPi?apply latin:/?Proofs?ded (http://cds.omdoc.org/urtheories?LambdaPi?apply latin:/?Conjunction?and F G))` for constant `latin:/playground/tptp-exporter?ATPExamples?example2`"""
   ❙
-  example2 = [F: prop, G: prop] ☞latin:/?ImplicationNDI?implI (F ∧ G) (G ∧ F) [pfFG: ⊦ F ∧ G] ATP_PROOF G ∧ F ❙
+  // example2 = [F: prop, G: prop] ☞latin:/?ImplicationNDI?implI (F ∧ G) (G ∧ F) [pfFG: ⊦ F ∧ G] ATP_PROOF G ∧ F ❙
+
+  example3 = [F: prop] implI [pfF: ⊦ F] ATP_PROOF F ❙
 ❚
 
 // theory ConjectureMonoid =
