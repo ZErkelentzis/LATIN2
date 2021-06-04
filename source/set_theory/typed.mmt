@@ -11,7 +11,7 @@ fixmeta ?SetFOL❚
 	- add proofs
 ❚
 
-theory ZFTyped =
+theory TypedZFBase =
   include ?ZFBase❙
   
   // Class P is the class of all sets satisfying P❙
@@ -45,8 +45,14 @@ theory ZFTyped =
   EqCongF : {P,Q,c,d,F: Class P ⟶ Class Q} ⊦ (cwhich P c ≐ cwhich P d) ⟶ ⊦ (cwhich Q (F c) ≐ cwhich Q (F d))❙
   
   Refl : {A,e} ⊦ Eq A e e❙
+  EqcongB : {A,B,F: Elem A ⟶ Elem B,G: Elem A ⟶ Elem B} ({e} ⊦ Eq B (F e) (G e)) ⟶ {P: (Elem A ⟶ Elem B) ⟶ prop} ⊦ P F ⟶ ⊦ P G❙
   
   // AS: this is unnecessary but it makes the proofs for me a bit easier to understand❙
   elem_id : {A,e: Elem A} ⊦ Eq A (elem (which e) (why e)) e❘
   	= [A,e] ceq_which❙
+❚
+
+theory TypedZF =
+	include ?TypedZFBase❙
+	include ?ZF❙
 ❚
