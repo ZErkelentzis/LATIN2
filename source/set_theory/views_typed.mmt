@@ -3,7 +3,7 @@ namespace latin:/❚
 fixmeta ?SetFOL❚
 
 theory BasicsZF =
-	include ?ZFTyped❙
+	include ?TypedZF❙
 	// AS: Without these includes the realization is not total. However, they should
 		be unnecessary, since Propositions and Proofs are already in SetFOL!❙
 	include ?Propositions❙
@@ -18,7 +18,7 @@ theory BasicsZF =
   equal = Eq❙
   realize ?TypedEqualityND❙
   refl = [A,e: Elem A] Refl❙
-  congB = _❙
+  congB = EqcongB❙
 ❚
 
 theory TypedUniversalZF =
@@ -52,7 +52,7 @@ theory TypedExistentialZF =
 	
 	texists = [A,P: Elem A ⟶ prop] exists [x] (x∈A) ∧- ([p] P (elem x p))❙
 	texistsI = [A,P: Elem A ⟶ prop,e: Elem A,p] existsI (which e) (dandI (why e) (elem_id EqcongEr P p))❙
-	textistsE = [A,P,C,p,Q:({e:Elem A} ⊦ P e ⟶ ⊦ C)] p existsE ([x,px: (x∈A) ∧- ([pa: ⊦ x∈A] P (elem x pa))] Q (elem x (px dandEl)) (px dandEr))❙
+	texistsE = [A,P,C,p,Q] p existsE ([x,px] Q (elem x (px dandEl)) (px dandEr))❙
 ❚
 
 theory SimpleProductsZF =
@@ -71,9 +71,14 @@ theory SimpleProductsZF =
 	simppi1 = [A,B,e: Elem (prod A B)] elem ((which e)₁) ((why e) prodEl)❙
 	simppi2 = [A,B,e: Elem (prod A B)] elem ((which e)₂) ((why e) prodEr)❙
 	
-	// AS: this needs to be done❙
-	compute1 = [A,B,a: Elem A, b: Elem B] _❙
-	compute2 = [A,B,a: Elem A, b: Elem B] _❙
+	// AS: there is an error, but I don't know what it is❙
+	// AS: Simple products is based on TypedEquality and not TypedEqualityND. Refl might not be allowed❙
+	compute1 = [A,B,a: Elem A,b: Elem B] (eq/sym compL) congP 
+		([X] Eq A (celem ([x] x∈A) X ((prodI (why a) (why b)) prodEl)) a)
+		(ceq_which EqcongEr ([e] Eq A e a) Refl)❙
+	compute2 = [A,B,a: Elem A,b: Elem B] (eq/sym compR) congP 
+		([X] Eq B (celem ([x] x∈B) X ((prodI (why a) (why b)) prodEl)) b)
+		(ceq_which EqcongEr ([e] Eq B e b) Refl)❙
 ❚
 
 theory TypedPredicateSubtypesZF =
@@ -81,8 +86,6 @@ theory TypedPredicateSubtypesZF =
 	include ?Propositions❙
 	include ?Proofs❙
   include ?BasicsZF❙
-  
-  include ?Filter❙
   
 	// dependent conjunction needed❙
 	include ?DependentConjunction❙
@@ -103,8 +106,6 @@ theory PowerTypesZF =
 	include ?Proofs❙
 	include ?BasicsZF❙
 	
-	include ?Powersets❙
-	include ?Filter❙
 	include ?UniversalSet❙
 	
 	realize powertypes/?PowerTypes❙
