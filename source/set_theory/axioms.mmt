@@ -66,13 +66,13 @@ theory ComprehensionAx =
 ❚
 
 theory ReplacementAx =
-	// The resulting set is a replacement for A regarding function F❙
-	isreplacement = [A,F,Z] ∀[B] B∈Z ⇔ (∃[x] x∈A ∧ B≐(F x))❙
+	// The resulting set is a replacement for A regarding function f❙
+	isreplacement = [A,f,Z] ∀[B] B∈Z ⇔ (∃[x] x∈A ∧ B≐(f x))❙
 	
-	replacement_axiom : {A,F} ⊦ ∃[Z] isreplacement A F Z❙
-	replacement_unique : {A,F} ⊦ ∃¹[Z] isreplacement A F Z❘ // = _ ❙
-	replacementAxI : {A,F,Z,x} ⊦ x∈A ⟶ ⊦ (F x)∈Z❘# replacementAxI 2 5❙
-	replacementAxE : {A,F,Z,y,C} ⊦ y∈Z ⟶ ({x} ⊦x∈A ⟶ ⊦ F x ≐ y ⟶ ⊦C) ⟶ ⊦C❘# 6 replacementAxE 1 2 7❙ 
+	replacement_axiom : {A,f} ⊦ ∃[Z] isreplacement A f Z❙
+	replacement_unique : {A,f} ⊦ ∃¹[Z] isreplacement A f Z❘ // = _ ❙
+	replacementAxI : {A,f,Z,x} ⊦ x∈A ⟶ ⊦ (f x)∈Z❘# replacementAxI 2 5❙
+	replacementAxE : {A,f,Z,y,C} ⊦ y∈Z ⟶ ({x} ⊦x∈A ⟶ ⊦ f x ≐ y ⟶ ⊦C) ⟶ ⊦C❘# 6 replacementAxE 1 2 7❙ 
 ❚
 
 theory RegularityAx =
@@ -80,9 +80,9 @@ theory RegularityAx =
 	isregular = ∀[A](∃[u] u∈A) ⇒ ∃[B] B∈A ∧ ¬(∃[x] x∈A ∧ x∈B)❙
 	
 	regularity_axiom : ⊦ isregular❙
-	regularityI : {A} ⊦ (∃[u] u∈A) ⟶ ⊦ ∃[B] B∈A ∧ ¬(∃[x] x∈A ∧ x∈B)❙
+	regularityAxI : {A} ⊦ (∃[u] u∈A) ⟶ ⊦ ∃[B] B∈A ∧ ¬(∃[x] x∈A ∧ x∈B)❙
 	// AS: this is probably unnecessary❙
-	regularityE : {A} ⊦ (∃[B] B∈A ∧ ¬(∃[x] x∈A ∧ x∈B)) ⟶ ⊦ ∃[u] u∈A❘# 2 regularityE❙
+	regularityAxE : {A} ⊦ (∃[B] B∈A ∧ ¬(∃[x] x∈A ∧ x∈B)) ⟶ ⊦ ∃[u] u∈A❘# 2 regularityAxE❙
 ❚
 
 theory InfinityAx =
@@ -95,16 +95,16 @@ theory InfinityAx =
 ❚
 
 theory ChoiceAx =
+	include ?PairwiseDisjoint❙
+
 	// There exists a set C with an unique element c that each set X of M has in common❙
 	ischoice = [A,C] ∀[X] X∈A ⇒ ∃¹[c]c∈C∧c∈X❙
 	
 	// abstract functions❙
 	all_nonempty: set ⟶ prop❘ // = ❙
-  // AS: maybe define this in BigIntersection❙
-  pairwise_disjoint: set ⟶ prop❘ // = ❙
   
-  choice_axiom : ⊦ ∀[A] (all_nonempty A ∧ pairwise_disjoint A) ⇒ ∃[C] ischoice A C❙
-  choiceI : {A} ⊦ all_nonempty A ⟶ ⊦ pairwise_disjoint A ⟶ ⊦ ∃[C] ischoice A C❙
-  choiceEl : {A} ⊦ (∃[C] ischoice A C) ⟶ ⊦ all_nonempty A❘# 2 choiceEl❙
-  choiceEr : {A} ⊦ (∃[C] ischoice A C) ⟶ ⊦ pairwise_disjoint A❘# 2 choiceEr❙
+	choice_axiom : ⊦ ∀[A] (all_nonempty A ∧ ispwdisjoint A) ⇒ ∃[C] ischoice A C❙
+	choiceI : {A} ⊦ all_nonempty A ⟶ ⊦ ispwdisjoint A ⟶ ⊦ ∃[C] ischoice A C❙
+	choiceEl : {A} ⊦ (∃[C] ischoice A C) ⟶ ⊦ all_nonempty A❘# 2 choiceEl❙
+	choiceEr : {A} ⊦ (∃[C] ischoice A C) ⟶ ⊦ ispwdisjoint A❘# 2 choiceEr❙
 ❚
