@@ -10,7 +10,8 @@ theory OrderedPairs =
 	pi1 : set ⟶ set❘# 1 ₁ prec 35❙
 	pi2 : set ⟶ set❘# 1 ₂ prec 35❙
 	
-	ispair : set ⟶ prop❙
+	ispair : set ⟶ prop❘
+		= [p] ∃[a] ∃[b] p ≐ pair a b❙
 	
 	// computation rules❙
 	// (a,b)_1 = a❙
@@ -18,10 +19,20 @@ theory OrderedPairs =
 	compR : {a,b} ⊦ (pair a b)₂ ≐ b❙
 	
 	// representation rule❙
-	repr : {p} ⊦ ispair p ⟶ ⊦ p ≐ pair (p₁) (p₂)❙
+	repr : {p} ⊦ ispair p ⟶ ⊦ p ≐ pair (p₁) (p₂)❘
+		= [p,pp] pp existsE ([a,pa] pa existsE ([b,pb] eq/trans pb
+			(((eq/sym pb) congP ([C] (C₁) ≐ a) compL) congP ([C] pair C b ≐ pair (p₁) (p₂))
+			(((eq/sym pb) congP ([C] (C₂) ≐ b) compR) congP ([C] pair (p₁) C ≐ pair (p₁) (p₂)) refl))))❙
 	
 	// extensionality rule❙
-	ext : {p,q} ⊦ ispair p ⟶ ⊦ ispair q ⟶ ⊦ p₁ ≐ q₁ ⟶ ⊦ p₂ ≐ q₂ ⟶ ⊦ p ≐ q❙
+	ext : {p,q} ⊦ ispair p ⟶ ⊦ ispair q ⟶ ⊦ p₁ ≐ q₁ ⟶ ⊦ p₂ ≐ q₂ ⟶ ⊦ p ≐ q❘
+		= [p,q,pp,qq,pa,pb] eq/trans (pa congP ([C] p ≐ pair C (q₂))
+			(pb congP ([C] p ≐ pair (p₁) C) (repr pp))) (eq/sym repr qq)❙
+	
+	// injective❙
+	pair_inj : {A,B,C,D} ⊦ (pair A B) ≐ (pair C D) ⟶ ⊦ A≐C ∧ B≐D❘
+		= [A,B,C,D,p] andI (eq/trans (eq/sym compL) ((eq/sym p) congP ([X] (X₁) ≐ C) compL))
+			(eq/trans (eq/sym compR) ((eq/sym p) congP ([X] (X₂) ≐ D) compR))❙
 ❚
 
 theory CartesianProduct =
@@ -37,10 +48,12 @@ theory CartesianProduct =
  	prodEl : {A,B,p} ⊦ p ∈ A×B ⟶ ⊦ p₁∈A❘# 4 prodEl❙
 	prodEr : {A,B,p} ⊦ p ∈ A×B ⟶ ⊦ p₂∈B❘# 4 prodEr❙
 	
+	prodE : {A,B,p} ⊦ p ∈ A×B ⟶ ⊦ ispair p❘# 4 prodE❙
+	
 	// subset❙
 	prod_sub : {A,B,C,D} ⊦ A⪽C ⟶ ⊦ B⪽D ⟶ ⊦ A×B ⪽ C×D❘
-		= [A,B,C,D,pa,pb] subsetI ([x,p] prodI (p prodEl subsetE pa) 
-			(p prodEr subsetE pb))❙
+		= [A,B,C,D,pa,pb] subsetI ([x,p] eq_in (repr (p prodE)) 
+			prodI (p prodEl subsetE pa) (p prodEr subsetE pb))❙
 ❚
 
 theory Relations =
