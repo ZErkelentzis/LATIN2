@@ -1,0 +1,37 @@
+// Basic concepts
+   ========================================== ❚
+
+namespace latin:/casestudies/softening2021 ❚
+rule scala://parser.api.mmt.kwarc.info?MMTURILexer ❚
+
+// Set up the meta theory of all of our formalizations telling MMT to have LF, strings, and diagram operators in scope ❚
+theory Meta =
+  include ☞ur:?LF ❙
+  include ☞ur:?Strings ❙
+  include ☞ur:?DiagramOperators ❙
+❚
+fixmeta ?Meta ❚
+
+theory Types =
+  tp: type ❙
+❚
+theory Props =
+  prop: type ❙
+❚
+theory Proofs =
+  prop: type ❙
+  ded: prop ⟶ type ❘ # ⊦ 1 prec -5 ❙
+❚
+
+theory HTyped =
+  include ?Proofs ❙
+  tp: type ❙
+  tm: tp ⟶ type ❘ # tm 1 prec -5 ❙
+❚
+
+theory STyped =
+  include ?Proofs ❙
+  tp: type ❙
+  term: type ❙
+  of: term ⟶ tp ⟶ prop ❘ # 1 ⦂ 2 prec 30 ❙
+❚
