@@ -40,23 +40,23 @@ theory ZFPairing =
 ❚
 
 theory ZFUnion =
-  include ?UnionAx❙
+  include ?ZFBase❙
   include ?BigUnion❘ = ?BigUnionFromAxiom❙
 ❚
 
 theory ZFPowerset =
-  include ?PowersetAx❙
+  include ?ZFBase❙
  	include ?Powersets❘ = ?PowersetFromAxiom❙
 ❚
 
 theory ZFComprehension =
-  include ?ComprehensionAx❙
+  include ?ZFBase❙
 	include ?Filter❘ = ?FilterFromAxiom❙
 ❚
 
 theory ZFReplacement =
-  include ?ReplacementAx❙	
-	include ?Replacement❘ = ?ReplacementFromAxiom❙
+  include ?ZFBase❙
+	include ?Replace❘ = ?ReplaceFromAxiom❙
 ❚
 
 theory ZFInfinity =
@@ -77,6 +77,24 @@ theory ZF =
   include ?ZFInfinity❙
 ❚
 
+// AS: This was an idea - but it seems to be stupid. I'll remove it soon❚
+// ZF and features that can be built from ZF❚
+theory ZFFeatures =
+	include ?ZF❙
+	// include ?EmptySet❙
+	
+	// include ?Union❘ = ?UnionAsBigUnion❙
+	include ?BigIntersection❘ = ?BigIntersectionFilter❙
+	include ?Intersection❘ = ?IntersectionAsBigIntersection❙
+	include ?Difference❘ = ?DifFilter❙
+	// AS: right now there is no UniversalSet, so there is no complement❙
+	include ?SymmetricDifference❘ = ?SymUnion❙
+	
+	include ?Singletons❘ = ?SelfPair❙	
+	include ?Adjoint❘ = ?AdjointUnion❙
+	include ?Erase❘ = ?EraseFilter❙
+❚
+
 // FR: maybe this is not needed - can just be included from ZF-independent feature Choice❚
 theory ZFChoice =
 	// AS: either just include here oder like the rest❙
@@ -88,4 +106,10 @@ theory ZFChoice =
 theory ZFC = 
   include ?ZF❙
   include ?ZFChoice❙
+❚
+
+// AS: same as above❚
+theory ZFChoiceFeatures =
+	include ?ZFC❙
+	include ?ZFFeatures❙
 ❚

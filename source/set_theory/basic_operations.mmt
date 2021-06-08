@@ -97,10 +97,6 @@ theory BigUnion =
   	= [A,X,p] subsetI ([x,q] bigunionI p q)❙
   bigunion_sup : {A,B} ({X} ⊦ X∈A ⟶ ⊦ X⪽B) ⟶ ⊦ ⋃A⪽B❘
   	= [A,B,p] subsetI ([x,q] q bigunionE ([X,qa,qb] qb subsetE p X qa))❙
-  
-  // AS: is this even correct?❙
-  // include ?EmptySet❙
-  // bigunion_neutral : ⊦ ⋃∅ ≐ ∅❙
 ❚
 
 theory BigIntersection =
@@ -115,10 +111,6 @@ theory BigIntersection =
 		= [A,X,p] subsetI ([x,q] q biginterE p)❙
 	biginter_inf : {A,C} ⊦ nonempty A ⟶ ({X} ⊦ X∈A ⟶ ⊦ C⪽X) ⟶ ⊦ C⪽⋂A❘
 		= [A,C,pa,pb] subsetI ([x,p] biginterI pa ([X,q] p subsetE pb X q))❙
-	
-	// AS: is this even correct?❙
-	// include ?EmptySet❙
-	// biginter_neutral : ⊦ ⋂∅ ≐ ∅❙
 ❚
 
 theory Difference =
@@ -225,7 +217,6 @@ theory DisjointUnion =
 ❚
 
 theory Adjoint =
-	// AS: Maybe rename this to Insert❙
 	// AS: think of a notation❙
 	adjoint : set ⟶ set ⟶ set❙
 	adjointIl : {A,b,x} ⊦ x∈A ⟶ ⊦ x∈(adjoint A b)❙

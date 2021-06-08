@@ -2,17 +2,23 @@ namespace latin:/❚
 
 fixmeta ?SetFOL❚
 
+// AS: like in pl-views!❙
+/T   The views currently still need single theories as a domain and codomain, which 
+  forces us to provide spurious named theories. This should be refactored when
+  multi-theory domains and codomains are possible. ❚
+  
 // Views for EmptySet❚
 view EmptyFilter : ?EmptySet → ?Filter =	
 	// AS: X could be any possible (nonempty) set❙
 	empty = X | ([x] ¬ x≐x)❙
 ❚
 
-theory EmptyIntersection =
-	include ?Complement❙
+theory ComplementIntersection =
+ 	include ?Complement❙
 	include ?Intersection❙
-	realize ?EmptySet❙
-	
+❚
+
+view EmptyIntersection : ?EmptySet → ?ComplementIntersection =	
 	// AS: X could be any possible (nonempty) set❙
 	empty = X ∩ comp X❙
 ❚
@@ -23,11 +29,12 @@ view SelfDifference : ?EmptySet → ?Difference =
 ❚
 
 // Views for UniversalSet❚
-theory UniversalUnion =
+theory ComplementUnion =
 	include ?Complement❙
 	include ?Union❙
-	realize ?UniversalSet❙
-	
+❚
+
+view UniversalUnion : ?UniversalSet → ?ComplementUnion =
 	// AS: X could be any possible (nonempty) set❙
 	universal = X ∪ comp X❙
 	universal_prop = forallI ([x] tnd orE ([p] unionIl (comp X) p) ([q] unionIr X (compI q)))❙
@@ -40,44 +47,43 @@ view SelfPair : ?Singletons → ?UnorderedPairs =
   singletonE = [A,x,p] p uopairE ([q] q) ([q] q)❙
 ❚
 
-theory SingleFilter =
+theory UniversalFilter =
 	include ?Filter❙
 	include ?UniversalSet❙
-	realize ?Singletons❙
-	
+❚
+
+view SingleFilter : ?Singletons → ?UniversalFilter =
 	// AS: 𝒰 was just the safest solution here❙
 	singleton = [A] 𝒰 | ([x] x ≐ A)❙
 	singletonI = [x] filterI (universal_prop forallE x) refl❙
 	singletonE = [A,x,p] p filterEr❙
 ❚
 
-theory SingleAdjoint =
+theory EmptyAdjoint =
 	include ?Adjoint❙
 	include ?EmptySet❙
-	realize ?Singletons❙
-	
+❚
+
+view SingleAdjoint : ?Singletons → ?EmptyAdjoint =
 	singleton = [A] adjoint ∅ A❙
 	singletonI = [x] adjointIr❙
 	singletonE = [A,x,p] p adjointE ([pa] empty_prop notE (existsI x pa) inconE) ([pb] pb)❙
 ❚
 
 // Views for Uopairs❚
-theory UopairUnion =
+theory SingletonUnion =
 	include ?Singletons❙
 	include ?Union❙
-	realize ?UnorderedPairs❙
-	
+❚
+
+view UopairUnion : ?UnorderedPairs → SingletonUnion =
 	uopair = [A,B] (singleton A) ∪ (singleton B)❙
 	uopairIl = [x,B] unionIl (singleton B) singletonI❙
 	uopairIr = [A,y] unionIr (singleton A) singletonI❙
 	uopairE = [A,B,x,C,p,pa,pb] p unionE ([qa] pa (qa singletonE)) ([qb] pb (qb singletonE))❙
 ❚
 
-theory UopairFilter =
-	include ?Filter❙
-	include ?UniversalSet❙
-	realize ?UnorderedPairs❙
-	
+view UopairFilter : ?UnorderedPairs → ?UniversalFilter =
 	// AS: 𝒰 was just the safest solution here❙
 	uopair = [A,B] 𝒰 | ([x] x≐A ∨ x≐B)❙
 	uopairIl = [x,B] filterI (universal_prop forallE x) (refl orIl)❙
@@ -85,11 +91,12 @@ theory UopairFilter =
 	uopairE = [A,B,x,C,p,pa,pb] p filterEr orE pa pb❙
 ❚
 
-theory UopairAdjointSingleton =
+theory AdjointSingletons =
 	include ?Adjoint❙
 	include ?Singletons❙
-	realize ?UnorderedPairs❙
-	
+❚
+
+view UopairAdjointSingleton : ?UnorderedPairs → ?AdjointSingletons =
 	uopair = [A,B] adjoint (singleton A) B❙
 	uopairIl = [x,B] adjointIl singletonI❙
 	uopairIr = [A,y] adjointIr❙

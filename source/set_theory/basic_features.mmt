@@ -10,6 +10,7 @@ theory Powersets =
 ❚
 
 theory Image =
+	// image f A = {f(x) : x∈A}❙
 	// AS: think of a shorter notation❙
 	image : (set ⟶ set) ⟶ set ⟶ set❙
 	imageI : {f,A,x} ⊦ x∈A ⟶ ⊦ (f x)∈ image f A❙
@@ -26,10 +27,10 @@ theory Filter =
   	= [A,P] subsetI ([x,p] p filterEl)❙
 ❚
 
-theory Replacement =
+theory Replace =
   replace  : set ⟶ (set ⟶ set) ⟶ set❘# 1 map 2 prec 40❙
-  replaceI : {A,F,x} ⊦ x∈A ⟶ ⊦ (F x) ∈ A map F❙
-  replaceE : {A,F,y,C} ⊦ y ∈ A map F ⟶ ({x} ⊦ x∈A ⟶ ⊦ F x ≐ y ⟶ ⊦C) ⟶ ⊦C❘ # 5 replaceE 6❙
+  replaceI : {A,f,x} ⊦ x∈A ⟶ ⊦ (f x) ∈ A map f❙
+  replaceE : {A,f,y,C} ⊦ y ∈ A map f ⟶ ({x} ⊦ x∈A ⟶ ⊦ f x ≐ y ⟶ ⊦C) ⟶ ⊦C❘ # 5 replaceE 6❙
 ❚
 
 // FR: these two need some abbreviation just to state them; those can be here and then reused in the ZF theory that realizes them❚
@@ -42,6 +43,7 @@ theory Infinity =
 	include ?Union❙
 	
 	// AS: realize this with InfinityAx!❙
+	// AS: I don't think this can be realized❙
 	infinity_axiom : ⊦ ∃[A] ∅∈A ∧ ∀[x] x∈A ⇒ (x ∪ (singleton x))∈A❙
 ❚
 

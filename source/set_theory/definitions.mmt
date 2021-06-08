@@ -2,6 +2,11 @@ namespace latin:/❚
 
 fixmeta ?SetFOL❚
 
+theory Disjoint =
+	aredisjoint : set ⟶ set ⟶ prop❘
+		= [A,B] ¬(∃[x] x∈A ∧ x∈B)❙
+❚
+
 theory EmptySetDefinitions =
   isempty : set ⟶ prop❘ = [A] ¬∃[x]x∈A❙
   nonempty : set ⟶ prop❘ = [A] ∃[x]x∈A❙
@@ -18,7 +23,6 @@ theory InfinityDefinition =
 	// abstract successor function❙
 	successor : set ⟶ set❙
 	
-	// AS: is there a way to define it more independently?❙
 	isinfinite = [A] ∅∈A ∧ ∀[x] x∈A ⇒ (successor x)∈A❙
 ❚
 
@@ -27,14 +31,16 @@ theory LeftTotal =
 	islefttotal = [A,B,P] ∀[x] x∈A ∧ ∃[y] y∈B ∧ P x y❙
 ❚
 
+theory PairwiseDisjoint =
+	include ?Disjoint❙
+	
+	ispwdisjoint : set ⟶ prop❘
+		= [A] ∀[x]∀[y] x∈A ∧ y∈A ∧ (x≐y ∨ aredisjoint x y)❙
+❚
+
 // AS: just an idea. Probably I'll have to change this❚
 theory RightUnique =
 	// AS: in general there could be the option that y is either unique or non-existent.
 			Right now I can neglect this❙
 	isrightunique = [x,A,P: set ⟶ set ⟶ prop] ∃¹[y] y∈A ∧ P x y❙
-❚
-
-theory UnionDefinition =
-	// AS: this might not be used right now❙
-	isunion = [A,B,Z] ∀[x] x∈A ∨ x∈B ⇒ x∈Z❙
 ❚

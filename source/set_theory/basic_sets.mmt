@@ -7,8 +7,7 @@ theory EmptySet =
   // symbol: jemptyset❙
   empty : set❘# ∅❙
   empty_prop : ⊦ isempty ∅❙
-  // AS: think of a proof that does not use extensionality❙
-  // include ?ExtensionalityAx❙
+  
   empty_unique : ⊦ ∃¹ isempty❘
   	= existsUniqueI empty_prop ([y,p] extensionalityI ([x] equivI 
   		([pa] empty_prop notE (existsI x pa) inconE)
@@ -43,7 +42,6 @@ theory Singletons =
   singleton_the : {A} ⊦ issingleton A ⟶ set❘ 
   	= [A,p] the ([u] u∈A) p❙
   	
-  // include ?ExtensionalityAx❙
   issingletonI : {A,B} ⊦ A ≐ singleton B ⟶ ⊦ issingleton A❘
   	= [A,B,p] eq/sym p congP ([X] issingleton X)
   		(existsUniqueI singletonI ([C,q] eq/sym (q singletonE)))❙
@@ -54,11 +52,6 @@ theory Singletons =
   
   singleton_inj : {A,B} ⊦ singleton A ≐ singleton B ⟶ ⊦ A≐B❘
   	= [A,B,p] in_eq singletonI p singletonE❙
-  
-  // AS: this was used in KRMT;
-  		however its definition was with Big_Union, which would ruin the modularity here❙
-  // AS: I think singleton_inv is unecessary since singleton_the exists
-  singleton_inv : set ⟶ set❙
 ❚
 
 theory UnorderedPairs =
@@ -67,8 +60,6 @@ theory UnorderedPairs =
   uopairIr : {A,y} ⊦ y∈ uopair A y❙
   uopairE  : {A,B,x,C} ⊦ x∈ uopair A B ⟶ (⊦ x≐A ⟶ ⊦C) ⟶ (⊦ x≐B ⟶ ⊦C) ⟶ ⊦C❘# 5 uopairE 6 7❙
   
-  // AS: it's way easier to define these here. Or shall I do it in views?❙
-	// include ?ExtensionalityAx❙	
   uopair_comm : {A,B} ⊦ uopair A B ≐ uopair B A❘
   	= [A,B] extensionalityI ([x] equivI 
   	([p] p uopairE ([pa] eq_in pa uopairIr) ([pb] eq_in pb uopairIl))
