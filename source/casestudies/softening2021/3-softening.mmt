@@ -4,21 +4,15 @@
 namespace latin:/casestudies/softening2021 ❚
 fixmeta ?Meta ❚
 
-diagram HAll := baseddiag(diag(?Meta), ?Proofs, ?HTyped, ?HProd, ?HEqual, ?HFun) ❚
-diagram HLogrels :=
+diagram HAll := baseddiag(diag(?Meta),
+  ?Proofs, ?HTyped, ?HProd, ?HEqual, ?HFun, ?HDepFun, ?HBeta, ?HEta, ?HExten, ?HDepBeta
+) ❚
+diagram HAllLogrels :=
   LOGRELS OF ARITY "1"
   OVER ?Meta
-  EXCLUDING
-    "latin:/casestudies/softening2021?Proofs?prop,
-     latin:/casestudies/softening2021?Proofs?ded,
-     latin:/casestudies/softening2021?HTyped?tp"
+  PARTIAL ON symbols(?Proofs?prop, ?Proofs?ded, ?HTyped?tp)
   OF ?HAll
 ❚
-// NB: The "excluding" clause has the effect that the resulting theories are "interface theories" for logical relations over ?HTypedFormalizations that are partial on prop, ded, and tp. ❚
-
-/T Collect the generated logrel modules ❚
-diagram HLibraryLogrels := baseddiag(diag(?HTyped_logrel), ?HProd_logrel, ?HEqual_logrel, ?HFun_logrel) ❚
-
 
 view TypePres : ?HTyped_logrel -> ?STyped =
   prop_0 = prop❙
@@ -28,6 +22,7 @@ view TypePres : ?HTyped_logrel -> ?STyped =
   tm_r = [A, t] ⊦ t ⦂ A ❙
 ❚
 
-/T This diagram still contains unnecessary argument positions ❚
+diagram HLibraryLogrels := (?HAllLogrels EXCEPT diag(?Proofs,?HTyped)) REBASED TO ?HTyped_logrel ❚
+
 diagram STypedLibraryDirty := PUSHOUT ?TypePres ?HLibraryLogrels ❚
-diagram STypedLibrary := DEFAULT_DROP_ARGS diag(?STyped) ?STypedLibraryDirty ❚
+diagram STypedLibrary := DEFAULT_DROP_ARGS diag(?STyped) ?STypedLibraryDirty ❚ // <-- removes unused arg positions ❚

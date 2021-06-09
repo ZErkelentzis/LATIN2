@@ -36,6 +36,44 @@ theory HFun =
     ❘ meta http://cds.omdoc.org/urtheories?DiagramOperators?drop_args_keep drop_args_keep_specific "1"
   ❙
   app: {A, B} tm A→B ⟶ tm A ⟶ tm B ❘# 3 @ 4 prec 20 ❙
+❚
+
+theory HDepFun =
+  include ?HEqual ❙
+  dfun: {A} (tm A ⟶ tp) ⟶ tp
+    ❘ # Π 2
+    ❘ meta http://cds.omdoc.org/urtheories?DiagramOperators?drop_args_keep drop_args_keep_specific "1"
+  ❙
+  dlam: {A, B: tm A ⟶ tp} ({x: tm A} tm (B x)) ⟶ tm (Π B)
+    ❘ # λ 3 prec 10
+    ❘ meta http://cds.omdoc.org/urtheories?DiagramOperators?drop_args_keep drop_args_keep_specific "1"
+  ❙
+  dapp: {A, B: tm A ⟶ tp} tm Π B ⟶ {x: tm A} tm (B x) ❘# 3 @ 4 prec 20 ❙
+❚
+
+theory HBeta =
+  include ?HFun ❙
   beta: {A, B, F: tm A ⟶ tm B, x: tm A} ⊦ (λ F) @ x ≐ F x ❘# beta %I4 ❙
-  xi : {A, B, F: tm A ⟶ tm B, G: tm A ⟶ tm B} ({x: tm A} ⊦ F x ≐ G x) ⟶ ⊦ λ F ≐ λ G ❘# xi 5 ❙
+
+❚
+
+theory HEta =
+  include ?HFun ❙
+  // TODO order of LHS, RHS of eq is reversed from paper ❙
+  eta: {A, B, f: tm A→B} ⊦ (λ [x: tm A] f @ x) ≐ f ❘# eta %I3 ❙
+❚
+
+theory HExten =
+  include ?HFun ❙
+  exten : {A, B, F: tm A ⟶ tm B, G: tm A ⟶ tm B} ({x: tm A} ⊦ F x ≐ G x) ⟶ ⊦ λ F ≐ λ G ❘# xi 5 ❙
+❚
+
+theory HDepBeta =
+  include ?HDepFun ❙
+  beta: {A, B, F: {x:tm A} tm B x, x: tm A} ⊦ (λ F) @ x ≐ F x ❘# beta %I4 ❙
+❚
+
+theory HDepEta =
+  include ?HDepFun ❙
+  xi : {A, B, F: {x:tm A}tm B, G: tm A ⟶ tm B} ({x: tm A} ⊦ F x ≐ G x) ⟶ ⊦ λ F ≐ λ G ❘# xi 5 ❙
 ❚
