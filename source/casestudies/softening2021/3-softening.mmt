@@ -7,22 +7,28 @@ fixmeta ?Meta ❚
 diagram HAll := baseddiag(diag(?Meta),
   ?Proofs, ?HTyped, ?HProd, ?HEqual, ?HFun, ?HDepFun, ?HBeta, ?HEta, ?HExten, ?HDepBeta
 ) ❚
+
 diagram HAllLogrels :=
-  LOGRELS OF ARITY "1"
+  COMPTRANS OF SKELETON
+  ctskel(
+    "r",
+    ctskel("m", symbols(?Proofs?ded)),
+    symbols(?Proofs?prop, ?HTyped?tp)
+  )
   OVER ?Meta
-  PARTIAL ON symbols(?Proofs?prop, ?Proofs?ded, ?HTyped?tp)
   OF ?HAll
 ❚
 
-view TypePres : ?HTyped_logrel -> ?STyped =
-  prop_0 = prop❙
-  ded_0 = ded ❙
-  tp_0 = tp ❙
-  tm_0 = [x] term ❙
-  tm_r = [A, t] ⊦ t ⦂ A ❙
+view TypePres : ?HTyped_comptrans -> ?STyped =
+  constant prop/m = prop ❙
+  constant ded/r  = ded  ❙
+
+  constant tp/m   = tp   ❙
+  constant tm/m   = [x] term ❙
+  constant tm/r   = [A,t] ⊦ t ⦂ A ❙
 ❚
 
-diagram HLibraryLogrels := (?HAllLogrels EXCEPT diag(?Proofs,?HTyped)) REBASED TO ?HTyped_logrel ❚
+diagram HLibraryLogrels := (?HAllLogrels EXCEPT diag(?Proofs_comptrans,?HTyped_comptrans)) REBASED TO ?HTyped_comptrans ❚
 
 diagram STypedLibraryDirty := PUSHOUT ?TypePres ?HLibraryLogrels ❚
-diagram STypedLibrary := DEFAULT_DROP_ARGS diag(?STyped) ?STypedLibraryDirty ❚ // <-- removes unused arg positions ❚
+diagram STypedLibrary := DROP_ARGS_DEFAULT diag(?STyped) ?STypedLibraryDirty ❚
