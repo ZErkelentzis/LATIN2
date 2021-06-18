@@ -2,6 +2,8 @@ namespace latin:/❚
 
 fixmeta ?SetFOL❚
 
+// AS: UniversalSet is still used here. Find some other solution for these!❚
+
 // AS: this file needs to be fixed as soon as I have reorganized modules❚
 
 // FR additional features: Union, BigIntersection, Intersection❚
@@ -20,35 +22,36 @@ view SmallUnionAsBigUnion: ?SmallUnion → ?BigUnion, ?UnorderedPair =
 
 // Views for Axioms❚
 view BigUnionFromAxiom : ?BigUnion → ?UnionAx =
-	bigunion = [A] the ([Z] isbigunion A Z) union_unique❙
-	bigunionI = [A,X,x,p,q] unionAxI p q❙
-	bigunionE = [A,x,C,p,q] (p unionAxE A) existsE ([X,P] q X (P andEl) (P andEr))❙
+  bigunion = [A] the ([Z] isbigunion A Z) union_unique❙
+  bigunionI = [A,X,x,p,q] unionAxI (the_ax ([Z] isbigunion A Z) union_unique) p q❙
+  bigunionE = [A,x,C,p,q] (p unionAxE (the_ax ([Z] isbigunion A Z) union_unique))
+    uexistsE ([X,P] q X (P andEl) (P andEr))❙
 ❚
 
 view FilterFromAxiom : ?Filter → ?ComprehensionAx =
-	filter = [A,P] the ([Z] iscomprehension A P Z) comprehension_unique❙	
-	filterI = [A,P,x,p,q] comprehensionAxI A P (the ([Z] iscomprehension A P Z) comprehension_unique) x p q❙
-	filterEl = [A,P,x,p] p comprehensionAxEl❙
-	filterEr = [A,P,x,p] p comprehensionAxEr P❙
+  filter = [A,P] the ([Z] iscomprehension A P Z) comprehension_unique❙	
+  filterI = [A,P,x,p,q] comprehensionAxI (the_ax ([Z] iscomprehension A P Z) comprehension_unique) p q❙
+  filterEl = [A,P,x,p] p comprehensionAxEl (the_ax ([Z] iscomprehension A P Z) comprehension_unique)❙
+  filterEr = [A,P,x,p] p comprehensionAxEr (the_ax ([Z] iscomprehension A P Z) comprehension_unique)❙
 ❚
 
 view PowersetFromAxiom : ?Powersets → ?PowersetAx =  
-	powerset = [A] the ([Z] ispowerset A Z) powerset_unique❙
-	powersetI = [A,B,P] powersetAxI ([x] implI (P x))❙
-	powersetE = [A,B,p,x,q] (p powersetAxE x) implE q❙
+  powerset = [A] the ([Z] ispowerset A Z) powerset_unique❙
+  powersetI = [A,B,P] powersetAxI (the_ax ([Z] ispowerset A Z) powerset_unique) ([x] implI (P x))❙
+  powersetE = [A,B,p,x,q] (p powersetAxE (the_ax ([Z] ispowerset A Z) powerset_unique) x) implE q❙
 ❚
 
 view ReplaceFromAxiom : ?Replace → ?ReplacementAx =
-	replace = [A,F] the ([Z] isreplacement A F Z) replacement_unique❙
-	replaceI = [A,F,x,p] replacementAxI F p❙
-	replaceE = [A,F,y,C,p,q] p replacementAxE A F q❙
+  replace = [A,f] the ([Z] isreplacement A f Z) replacement_unique❙
+  replaceI = [A,f,x,p] replacementAxI (the_ax ([Z] isreplacement A f Z) replacement_unique) (uexistsI x (andI p urefl))❙
+  replaceE = [A,f,y,C,p,Q] p replacementAxE (the_ax ([Z] isreplacement A f Z) replacement_unique) Q❙
 ❚
 
 view UopairFromAxiom : ?UnorderedPairs → ?PairingAx =
-	uopair = [A,B] the ([Z] isuopair A B Z) pairing_unique❙
-	uopairIl = [x,B] pairingAxI (orIl (x≐x) (x≐B) refl)❙
-	uopairIr = [A,y] pairingAxI (orIr (y≐A) (y≐y) refl)❙
-	uopairE = [A,B,x,C,p,pa,pb] (p pairingAxE A B) orE pa pb❙
+  uopair = [A,B] the ([Z] isuopair A B Z) pairing_unique❙
+  uopairIl = [x,B] pairingAxI (the_ax ([Z] isuopair x B Z) pairing_unique) (urefl orIl)❙
+  uopairIr = [A,y] pairingAxI (the_ax ([Z] isuopair A y Z) pairing_unique) (urefl orIr)❙
+  uopairE = [A,B,x,C,p,pa,pb] p pairingAxE (the_ax ([Z] isuopair A B Z) pairing_unique) pa pb❙
 ❚
 
 // AS: like in pl-views!❙
@@ -58,15 +61,14 @@ view UopairFromAxiom : ?UnorderedPairs → ?PairingAx =
 
 // Views for Union❚
 theory BigUnionUnorderedPairs =
-	include ?BigUnion❙
-	include ?UnorderedPairs❙
+  include ?EmptySet❙
+  include ?BigUnion❙
+  include ?UnorderedPairs❙
 ❚
 
 view UnionAsBigUnion : ?Union → ?BigUnionUnorderedPairs =  
-	// AS: is there a possibility to get rid of include ?EmptySet and ?UniversalSet?❙
   include ?EmptySet❙
-  include ?UniversalSet❙
-  
+
   union = [A,B] ⋃ uopair A B❙
   unionIl = [A,B,x,p] bigunionI uopairIl p❙
   unionIr = [A,B,y,p] bigunionI uopairIr p❙
@@ -75,169 +77,203 @@ view UnionAsBigUnion : ?Union → ?BigUnionUnorderedPairs =
     ([q] pb (in_eq qb q)))❙
 ❚
 
-theory FilterUniversalSet =
-	include ?Filter❙
-	include ?UniversalSet❙
+theory FilterUniverse =
+  include ?Filter❙
+  include ?EmptySet❙
 ❚
 
-view UnionFiltered : ?Union → ?FilterUniversalSet =
-	// AS: This might not be useful in practise❙
-	// AS: is there a possibility to get rid of include ?EmptySet and ?UniversalSet?❙
-  include ?EmptySet❙
+// view UnionFiltered : ?Union → ?FilterUniverse =
+  // AS: This might not be useful in practise❙
+  // include ?EmptySet❙
   
-	union = [A,B] 𝒰 | ([x] x∈A ∨ x∈B)❙
-	unionIl = [A,B,x,p] filterI (universal_prop forallE x) (orIl (x∈A) (x∈B) p)❙
-	unionIr = [A,B,y,p] filterI (universal_prop forallE y) (orIr (y∈A) (y∈B) p)❙
-	unionE = [A,B,x,C,p,pa,pb] p filterEr orE ([qa] pa qa) ([qb] pb qb)❙
-❚
+  // AS: A and B must be subsets of U! So this needs a proper definition of universe!❙
+  // union = [A,B] U | ([x] x∈A ∨ x∈B)❙
+  // unionIl = [A,B,x,p] filterI (universal_prop uforallE x) (orIl (x∈A) (x∈B) p)❙
+  // unionIr = [A,B,y,p] filterI (universal_prop uforallE y) (orIr (y∈A) (y∈B) p)❙
+  // unionE = [A,B,x,C,p,pa,pb] p filterEr orE ([qa] pa qa) ([qb] pb qb)❙
+// ❚
 
 // Views for Intersection❚
 theory BigIntersectionUnorderedPairs =
-	include ?BigIntersection❙
-	include ?UnorderedPairs❙
+  include ?BigIntersection❙
+  include ?UnorderedPairs❙
+  include ?EmptySet❙
 ❚
 
 view IntersectionAsBigIntersection : ?Intersection → ?BigIntersectionUnorderedPairs = 	
-  // AS: is there a possibility to get rid of include ?EmptySet and ?UniversalSet?❙
   include ?EmptySet❙
-  include ?UniversalSet❙
-	
-	inter = [A,B] ⋂ uopair A B❙
-	interI = [A,B,x,pa,pb] biginterI (existsI A uopairIl) ([X,q] q uopairE 
-	  ([qa] in_eq pa (eq/sym qa))
-	  ([qb] in_eq pb (eq/sym qb)))❙	
-	interEl = [A,B,x,p] p biginterE uopairIl❙
-	interEr = [A,B,y,p] p biginterE uopairIr❙
+
+  inter = [A,B] ⋂ uopair A B❙
+  interI = [A,B,x,pa,pb] biginterI (uexistsI A uopairIl) ([X,q] q uopairE 
+    ([qa] in_eq pa (eq/sym qa))
+    ([qb] in_eq pb (eq/sym qb)))❙	
+  interEl = [A,B,x,p] p biginterE uopairIl❙
+  interEr = [A,B,y,p] p biginterE uopairIr❙
 ❚
 
 theory UnionFilter =
-	include ?Filter❙
-	include ?Union❙
+  include ?Filter❙
+  include ?Union❙
+  include ?EmptySet❙
 ❚
 
 view IntersectionFilter : ?Intersection → ?UnionFilter =
-	inter = [A,B] A∪B | ([x] x∈A ∧ x∈B)❙
-	interI = [A,B,x,p,q] filterI (unionIl B p) (andI p q)❙
-	interEl = [A,B,x,p] p filterEr andEl❙
-	interEr = [A,B,y,p] p filterEr andEr❙
+  include ?EmptySet❙
+  
+  inter = [A,B] A∪B | ([x] x∈A ∧ x∈B)❙
+  interI = [A,B,x,p,q] filterI (unionIl B p) (andI p q)❙
+  interEl = [A,B,x,p] p filterEr andEl❙
+  interEr = [A,B,y,p] p filterEr andEr❙
 ❚
 
 // Views for BigIntersection❚
 theory BigUnionFilterEmptyDefinition =
-	include ?BigUnion❙
-	// AS: is there a possibility to get rid of include ?EmptySetDefinitions?❙
-	include ?EmptySetDefinitions❙
-	include ?Filter❙
+  include ?BigUnion❙
+  include ?EmptyDefinitions❙
+  include ?Filter❙
 ❚
 
 view BigIntersectionFilter : ?BigIntersection → ?BigUnionFilterEmptyDefinition =	
-	biginter = [A] ⋃A|[x]∀[X] X∈A ⇒ x∈X❙
-	biginterI = [A,x,ne,P] filterI (nonemptyE ne ([X,p] bigunionI p (P X p))) (forallI [X] implI P X)❙
-	biginterE = [A,X,x,p,q] p filterEr forallE X implE q❙
+  include ?EmptyDefinitions❙
+  biginter = [A] ⋃A|[x]∀ͧ[X] X∈A ⇒ x∈X❙
+  biginterI = [A,x,ne,P] filterI (nonemptyE ne ([X,p] bigunionI p (P X p))) (uforallI [X] implI P X)❙
+  biginterE = [A,X,x,p,q] p filterEr uforallE X implE q❙
 ❚
 
-
 // Views for Difference❚
-view DifFilter : ?Difference → ?Filter =
-	include ?EmptySet❙
+theory FilterEmpty =
+  include ?EmptySet❙
+  include ?Filter❙
+❚
 
-	dif = [A,B] A | ([x] ¬ x∈B)❙
-	difI = [A,B,x,p,q] filterI p q❙
-	difEl = [A,B,x,p] p filterEl❙
-	difEr = [A,B,x,p] p filterEr❙
+view DifFilter : ?Difference → ?FilterEmpty =
+  include ?EmptySet❙
+
+  dif = [A,B] A | ([x] ¬ x∈B)❙
+  difI = [A,B,x,p,q] filterI p q❙
+  difEl = [A,B,x,p] p filterEl❙
+  difEr = [A,B,x,p] p filterEr❙
 ❚
 
 // Views for Complement❚
-view ComplementFilter : ?Complement → ?FilterUniversalSet =
-	// AS: is there a possibility to get rid of these includes?❙	
-	include ?EmptySet❙
-	include ?Union❙
-	include ?Intersection❙
-	
-	comp = [A] 𝒰 | ([x] ¬ x∈A)❙
-	compI = [A,x,p] filterI (universal_prop forallE x) p❙
-	compE = [A,x,p] p filterEr❙
+theory FilterEmptyUnionInter =
+  include ?EmptySet❙
+  include ?Filter❙
+  include ?Union❙
+  include ?Intersection❙
+❚
+
+view ComplementFilter : ?Complement → ?FilterEmptyUnionInter =
+  // AS: maybe change so I don't need these includes❙	
+  include ?EmptySet❙	
+  include ?Union❙
+  include ?Intersection❙
+
+  comp = [U,A] U | ([x] ¬ x∈A)❙
+  compI = [U,A,x,p,q] filterI p q❙
+  compEl = [U,A,x,p] p filterEl❙
+  compEr = [U,A,x,p] p filterEr❙
+❚
+
+theory DiffEmptyUnionInter =
+  include ?EmptySet❙
+  include ?Difference❙
+  include ?Union❙
+  include ?Intersection❙
+❚
+
+view ComplementDifference : ?Complement → ?DiffEmptyUnionInter =
+    // AS: maybe change so I don't need these includes❙	
+  include ?EmptySet❙	
+  include ?Union❙
+  include ?Intersection❙
+
+  comp = [U,A] U∖A❙
+  compI = [U,A,x,p,q] difI p q❙
+  compEl = [U,A,x,p] p difEl❙
+  compEr = [U,A,x,p] p difEr❙
 ❚
 
 // Views for SymmetricDifference❚
 theory UnionDifference =
-	include ?Difference❙
-	include ?Union❙
+  include ?Difference❙
+  include ?Union❙
+  include ?EmptySet❙
 ❚
 
 view SymUnion : ?SymmetricDifference → ?UnionDifference =	
-	symdif = [A,B] (A∖B) ∪ (B∖A)❙
-	symdifIl = [A,B,x,p,q] unionIl (B∖A) (difI p q)❙
-	symdifIr = [A,B,x,p,q] unionIr (A∖B) (difI q p)❙
-	symdifE = [A,B,x,C,p,pa,pb] p unionE 
-		([qa] pa (andI (qa difEl) (qa difEr)))
-		([qb] pb (andI (qb difEr) (qb difEl)))❙
+  include ?EmptySet❙
+  
+  symdif = [A,B] (A∖B) ∪ (B∖A)❙
+  symdifIl = [A,B,x,p,q] unionIl (B∖A) (difI p q)❙
+  symdifIr = [A,B,x,p,q] unionIr (A∖B) (difI q p)❙
+  symdifE = [A,B,x,C,p,pa,pb] p unionE 
+    ([qa] pa (andI (qa difEl) (qa difEr)))
+    ([qb] pb (andI (qb difEr) (qb difEl)))❙
 ❚
 
 theory UnionIntersectionDifference =
-	include ?UnionDifference❙
-	include ?Intersection❙
+  include ?UnionDifference❙
+  include ?Intersection❙
+  include ?EmptySet❙
 ❚
 
 view SymDifference : ?SymmetricDifference → ?UnionIntersectionDifference =
-	// AS: this might not be needed since Intersection could be left out❙
-	symdif = [A,B] (A∪B) ∖ (A∩B)❙
-	symdifIl = [A,B,x,p,q] difI (unionIl B p) (notI ([pf] q notE (pf interEr)))❙
-	symdifIr = [A,B,x,p,q] difI (unionIr A q) (notI ([pf] p notE (pf interEl)))❙
-	symdifE = [A,B,x,C,p,pa,pb] p difEl unionE 
-		([qa] pa andI qa (notI ([pf] (p difEr) notE (interI qa pf))))
-		([qb] pb andI (notI ([pf] (p difEr) notE (interI pf qb))) qb)❙
+  include ?EmptySet❙
+  
+  // AS: this might not be needed since Intersection could be left out❙
+  symdif = [A,B] (A∪B) ∖ (A∩B)❙
+  symdifIl = [A,B,x,p,q] difI (unionIl B p) (notI ([pf] q notE (pf interEr)))❙
+  symdifIr = [A,B,x,p,q] difI (unionIr A q) (notI ([pf] p notE (pf interEl)))❙
+  symdifE = [A,B,x,C,p,pa,pb] p difEl unionE 
+    ([qa] pa andI qa (notI ([pf] (p difEr) notE (interI qa pf))))
+    ([qb] pb andI (notI ([pf] (p difEr) notE (interI pf qb))) qb)❙
 ❚
 
-view SymFilter : ?SymmetricDifference → ?UnionFilter =	
-	symdif = [A,B] (A∪B) | ([x] (x∈A ∧ ¬ x∈B) ∨ (¬ x∈A ∧ x∈B))❙
-	symdifIl = [A,B,x,p,q] filterI (unionIl B p) ((andI p q) orIl)❙
-	symdifIr = [A,B,x,p,q] filterI (unionIr A q) ((andI p q) orIr)❙
-	symdifE = [A,B,x,C,p,pa,pb] p filterEr orE ([qa] pa qa) ([qb] pb qb)❙
+view SymFilter : ?SymmetricDifference → ?UnionFilter =
+  include ?EmptySet❙
+
+  symdif = [A,B] (A∪B) | ([x] (x∈A ∧ ¬ x∈B) ∨ (¬ x∈A ∧ x∈B))❙
+  symdifIl = [A,B,x,p,q] filterI (unionIl B p) ((andI p q) orIl)❙
+  symdifIr = [A,B,x,p,q] filterI (unionIr A q) ((andI p q) orIr)❙
+  symdifE = [A,B,x,C,p,pa,pb] p filterEr orE ([qa] pa qa) ([qb] pb qb)❙
 ❚
 
 // Views for Adjoint❚
 theory UnionSingleton =
-	include ?Union❙
-	include ?Singletons❙
+  include ?Union❙
+  include ?Singletons❙
 ❚
 
 view AdjointUnion : ?Adjoint → ?UnionSingleton =
-	adjoint = [A,b] A ∪ (singleton b)❙
-	adjointIl = [A,b,x,p] unionIl (singleton b) p❙
-	adjointIr = [A,b] unionIr A singletonI❙
-	adjointE = [A,b,x,C,p,pa,pb] p unionE pa ([q] pb (q singletonE))❙
+  adjoint = [A,b] A ∪ (singleton b)❙
+  adjointIl = [A,b,x,p] unionIl (singleton b) p❙
+  adjointIr = [A,b] unionIr A singletonI❙
+  adjointE = [A,b,x,C,p,pa,pb] p unionE pa ([q] pb (q singletonE))❙
 ❚
 
 // Views for Erase❚
 view EraseFilter : ?Erase → ?Filter =
-	erase = [A,b] A | ([x] ¬ x≐b)❙
-	eraseI = [A,b,x,p,q] filterI p q❙
-	eraseE = [A,b,x,p] andI (p filterEl) (p filterEr)❙
+  erase = [A,b] A | ([x] ¬ x =ͧ b)❙
+  eraseI = [A,b,x,p,q] filterI p q❙
+  eraseE = [A,b,x,p] andI (p filterEl) (p filterEr)❙
 ❚
 
 theory SingletonDifference =
-	include ?Difference❙
-	include ?Singletons❙
+  include ?Difference❙
+  include ?Singletons❙
 ❚
 
 view EraseDifference : ?Erase → ?SingletonDifference =
-	erase = [A,b] A∖(singleton b)❙
-	eraseI = [A,b,x,p,q] difI p (notI ([pf] q notE (pf singletonE)))❙
-	eraseE = [A,b,x,p] andI (p difEl) (notI ([pf] (p difEr) notE (eq_in pf singletonI)))❙
-❚
-
-// Views for Powerset❚
-view PowerFilter : ?Powersets → ?FilterUniversalSet =
-	powerset = [A] 𝒰 | ([X] ∀[x] x∈X ⇒ x∈A)❙
-	powersetI = [A,B,p] filterI (universal_prop forallE B) (forallI [x] implI (p x))❙
-	powersetE = [A,B,p,x,q] ((p filterEr) forallE x) implE q❙
+  erase = [A,b] A∖(singleton b)❙
+  eraseI = [A,b,x,p,q] difI p (notI ([pf] q notE (pf singletonE)))❙
+  eraseE = [A,b,x,p] andI (p difEl) (notI ([pf] (p difEr) notE (eq_in pf singletonI)))❙
 ❚
 
 // Views for Image❚
 view ImageReplace : ?Image → ?Replace =
-	// AS: maybe check this again❙
-	image = [f,A] A map f❙
-	imageI = [f,A,x,p] replaceI p❙
-	imageE = [f,A,y,p] p replaceE ([x,pa,pb] existsI x (andI pa pb))❙
+  // AS: maybe check this again❙
+  image = [f,A] A map f❙
+  imageI = [f,A,x,p] replaceI p❙
+  imageE = [f,A,y,p] p replaceE ([x,pa,pb] uexistsI x (andI pa pb))❙
 ❚

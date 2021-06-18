@@ -2,6 +2,7 @@ namespace latin:/❚
 
 fixmeta ur:?LFS❚
 
+// AS: maybe this needs some extra notation❚
 theory SoftTypedDefinedFOL =
 	// include ?InternalTypes ❙
   include ?SoftTypedLogic ❙
@@ -15,9 +16,9 @@ theory SoftTypedDefinedFOL =
 	or: prop ⟶ prop ⟶ prop❘= [a,b] ¬ (¬ a ∧ ¬ b) ❘# 1 ∨ 2 prec 15 ❙
 	implies: prop ⟶ prop ⟶ prop ❘# 1 ⇒ 2 prec 10 ❘ = [a,b] ¬ (a ∧ (¬ b)) ❙
 	iff: prop ⟶ prop ⟶ prop ❘ = [a,b] (a ⇒ b) ∧ (b ⇒ a) ❘ # 1 ⇔ 2 prec 15 ❙	
-  exists: (term ⟶ prop) ⟶ prop ❘ = [p] ¬ (∀ ([x] (¬ (p x)))) ❘# ∃ 1 ❙
-	existsUnique: (term ⟶ prop) ⟶ prop ❘ = [pred] (∃ pred) ∧ (∀ [x:term] ∀ [y:term] (pred x ⇒ pred y ⇒ (x ≐ y))) ❙
-	for: {A:tp, p: term ⟶ prop} prop ❘= [A, p] ∀ [x] x ⦂ A ⇒ p x ❙
+  exists: (term ⟶ prop) ⟶ prop ❘ = [p] ¬ (∀ͧ ([x] (¬ (p x)))) ❘# ∃ 1 ❙
+	existsUnique: (term ⟶ prop) ⟶ prop ❘ = [pred] (∃ pred) ∧ (∀ͧ [x:term] ∀ͧ [y:term] (pred x ⇒ pred y ⇒ (x =ͧ y))) ❙
+	for: {A:tp, p: term ⟶ prop} prop ❘= [A, p] ∀ͧ [x] x ⦂ A ⇒ p x ❙
 	ex: {A:tp, p: term ⟶ prop} prop ❘= [A, p] ∃ [x] (x ⦂ A) ∧ (p x) ❙
 ❚
 
@@ -41,8 +42,8 @@ view MizarView : ?SoftTypedFOL → ?SoftTypedDefinedFOL =
 	or = or ❙
 	impl = implies ❙
 	equiv = iff ❙
-	exists = exists ❙
-	existsUnique = existsUnique ❙
+	uexists = exists ❙
+	uexistsUnique = existsUnique ❙
 	rforall  = for ❙
 	rexists = ex ❙
 ❚

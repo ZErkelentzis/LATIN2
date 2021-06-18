@@ -9,10 +9,10 @@ theory Applicative =
   pure : {a} tm a ⟶ tm &a❘# pure 2 prec 60❙
   splat: {a,b} tm &(a→b) ⟶ tm &a ⟶ tm &b❘# 3 <*> 4 prec 50❙
   
-  identity: {a,X:tm &a} ⊦ pure (ident a) <*> X ≐ X❙
-  homomorphism: {a,b,f:tm a→b,x} ⊦ pure f <*> pure x ≐ pure (f@x)❙
-  interchange: {a,b,F:tm &(a→b), x} ⊦ F <*> pure x ≐ pure (applyTo x) <*> F❙
-  composition: {a,b,c,F:tm &(a→b),G:tm &(b→c),X} ⊦ G <*> (F <*> X) ≐ pure (λ[f]λ[g]f;g) <*> F <*> G <*> X❙
+  identity: {a,X:tm &a} ⊦ pure (ident a) <*> X =ͭ X❙
+  homomorphism: {a,b,f:tm a→b,x} ⊦ pure f <*> pure x =ͭ pure (f@x)❙
+  interchange: {a,b,F:tm &(a→b), x} ⊦ F <*> pure x =ͭ pure (applyTo x) <*> F❙
+  composition: {a,b,c,F:tm &(a→b),G:tm &(b→c),X} ⊦ G <*> (F <*> X) =ͭ pure (λ[f]λ[g]f;g) <*> F <*> G <*> X❙
   
   // The remaining implementation is missing ❙
   // realize ?InternalEndoFunctor❙
@@ -24,9 +24,9 @@ theory Monad =
   Return : {a} tm a ⟶ tm &a❘# Return 2 prec 60❙
   Bind : {a,b} tm &a ⟶ (tm a ⟶ tm &b) ⟶ tm &b❘# 3 >>= 4 prec 50❙
   
-  identLeft: {a,b,f:tm a ⟶ tm &b,x} ⊦ Return x >>= f ≐ f x❙
-  identRight: {a,X: tm &a} ⊦ X >>= ([x] Return x) ≐ X❙
-  assoc : {a,b,c,f:tm a ⟶ tm &b, g:tm b ⟶ tm &c,X} ⊦ X >>= f >>= g ≐ X >>= [x] (f x) >>= g❙
+  identLeft: {a,b,f:tm a ⟶ tm &b,x} ⊦ Return x >>= f =ͭ f x❙
+  identRight: {a,X: tm &a} ⊦ X >>= ([x] Return x) =ͭ X❙
+  assoc : {a,b,c,f:tm a ⟶ tm &b, g:tm b ⟶ tm &c,X} ⊦ X >>= f >>= g =ͭ X >>= [x] (f x) >>= g❙
   
   // The remaining implementation is missing ❙
   // realize ?EndoFunctor❙

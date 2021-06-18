@@ -3,97 +3,85 @@ namespace latin:/❚
 fixmeta ?SetFOL❚
 
 theory BasicsZF =
-	include ?TypedZF❙
-	// AS: Without these includes the realization is not total. However, they should
-		be unnecessary, since Propositions and Proofs are already in SetFOL!❙
-	include ?Propositions❙
-	include ?Proofs❙
+  include ?TypedZF❙
+  // AS: Without these includes the realization is not total. However, they should
+    be unnecessary, since Propositions and Proofs are already in SetFOL!❙
+  include ?Propositions❙
+  include ?Proofs❙
 
-	realize ?Types❙
-	tp = set❙
-	realize ?TypedTerms❙
-	tm = [A] Elem A❙
-	realize ?TypedLogic❙
-	realize ?TypedEquality❙
-  equal = Eq❙
+  realize ?Types❙
+  tp = set❙
+  realize ?TypedTerms❙
+  tm = [A] Elem A❙
+  realize ?TypedLogic❙
+  realize ?TypedEquality❙
+  tequal = Eq❙
   realize ?TypedEqualityND❙
-  refl = [A,e: Elem A] Refl❙
+  trefl = [A,e: Elem A] Refl❙
   congB = EqcongB❙
 ❚
 
 theory TypedUniversalZF =
-	// AS: same as in BasicsZF❙
-	include ?Propositions❙
-	include ?Proofs❙
-	include ?BasicsZF❙
-	
-	// dependent implication needed❙
-	include ?DependentImplication❙
-	include ?DependentImplicationND❙
-	
-	realize ?TypedUniversalQuantificationND❙
-	
-	tforall = [A,P: Elem A ⟶ prop] forall [x] (x∈A) ⇒- ([p] P (elem x p))❙
-	tforallI = [A,P,p] forallI [x] dimplI ([q] p (elem x q))❙
-	tforallE = [A,P,p,e: Elem A] elem_id EqcongEl P ((p forallE (which e)) dimplE (why e))❙
+  // AS: same as in BasicsZF❙
+  include ?Propositions❙
+  include ?Proofs❙
+  include ?BasicsZF❙
+  
+  realize ?TypedUniversalQuantificationND❙
+  
+  tforall = [A,P: Elem A ⟶ prop] uforall [x] (x∈A) ⇒ͩ ([p] P (elem x p))❙
+  tforallI = [A,P,p] uforallI [x] dimplI ([q] p (elem x q))❙
+  tforallE = [A,P,p,e: Elem A] elem_id EqcongEl P ((p uforallE (which e)) dimplE (why e))❙
 ❚
 
 theory TypedExistentialZF =
-	// AS: same as in BasicsZF❙
-	include ?Propositions❙
-	include ?Proofs❙
-	include ?BasicsZF❙
+  // AS: same as in BasicsZF❙
+  include ?Propositions❙
+  include ?Proofs❙
+  include ?BasicsZF❙
 	
-	// dependent conjunction needed❙
-	include ?DependentConjunction❙
-	include ?DependentConjunctionND❙
-	
-	realize ?TypedExistentialQuantificationND❙
-	
-	texists = [A,P: Elem A ⟶ prop] exists [x] (x∈A) ∧- ([p] P (elem x p))❙
-	texistsI = [A,P: Elem A ⟶ prop,e: Elem A,p] existsI (which e) (dandI (why e) (elem_id EqcongEr P p))❙
-	texistsE = [A,P,C,p,Q] p existsE ([x,px] Q (elem x (px dandEl)) (px dandEr))❙
+  realize ?TypedExistentialQuantificationND❙
+  
+  texists = [A,P: Elem A ⟶ prop] uexists [x] (x∈A) ∧ͩ ([p] P (elem x p))❙
+  texistsI = [A,P: Elem A ⟶ prop,e: Elem A,p] uexistsI (which e) (dandI (why e) (elem_id EqcongEr P p))❙
+  texistsE = [A,P,C,p,Q] p uexistsE ([x,px] Q (elem x (px dandEl)) (px dandEr))❙
 ❚
 
 theory SimpleProductsZF =
-	// AS: same as in BasicsZF❙
-	include ?Propositions❙
-	include ?Proofs❙
+  // AS: same as in BasicsZF❙
+  include ?Propositions❙
+  include ?Proofs❙
   include ?BasicsZF❙
-	
+
   include ?CartesianProduct❙
   
-	realize ?SimpleProducts❙
-	include ?Logic❙
-	simpprod = [A,B] prod A B❙
+  realize ?SimpleProducts❙
+  include ?Logic❙
+  simpprod = [A,B] prod A B❙
+
+  simppair = [A,B,a: Elem A,b: Elem B] elem (pair (which a) (which b)) (prodI (why a) (why b))❙
+  simppi1 = [A,B,e: Elem (prod A B)] elem ((which e)₁) ((why e) prodEl)❙
+  simppi2 = [A,B,e: Elem (prod A B)] elem ((which e)₂) ((why e) prodEr)❙
 	
-	simppair = [A,B,a: Elem A,b: Elem B] elem (pair (which a) (which b)) (prodI (why a) (why b))❙
-	simppi1 = [A,B,e: Elem (prod A B)] elem ((which e)₁) ((why e) prodEl)❙
-	simppi2 = [A,B,e: Elem (prod A B)] elem ((which e)₂) ((why e) prodEr)❙
-	
-	// AS: there is an error, but I don't know what it is❙
-	// AS: Simple products is based on TypedEquality and not TypedEqualityND. Refl might not be allowed❙
-	compute1 = [A,B,a: Elem A,b: Elem B] (eq/sym compL) congP 
-		([X] Eq A (celem ([x] x∈A) X ((prodI (why a) (why b)) prodEl)) a)
-		(ceq_which EqcongEr ([e] Eq A e a) Refl)❙
-	compute2 = [A,B,a: Elem A,b: Elem B] (eq/sym compR) congP 
-		([X] Eq B (celem ([x] x∈B) X ((prodI (why a) (why b)) prodEl)) b)
-		(ceq_which EqcongEr ([e] Eq B e b) Refl)❙
+  // AS: there is an error, but I don't know what it is❙
+  // AS: Simple products is based on TypedEquality and not TypedEqualityND. Refl might not be allowed❙
+  compute1 = [A,B,a: Elem A,b: Elem B] (eq/sym compL) ucongP 
+    ([X] Eq A (celem ([x] x∈A) X ((prodI (why a) (why b)) prodEl)) a)
+    (ceq_which EqcongEr ([e] Eq A e a) Refl)❙
+  compute2 = [A,B,a: Elem A,b: Elem B] (eq/sym compR) ucongP 
+    ([X] Eq B (celem ([x] x∈B) X ((prodI (why a) (why b)) prodEl)) b)
+    (ceq_which EqcongEr ([e] Eq B e b) Refl)❙
 ❚
 
 theory TypedPredicateSubtypesZF =
-	// AS: same as in BasicsZF❙
-	include ?Propositions❙
-	include ?Proofs❙
+  // AS: same as in BasicsZF❙
+  include ?Propositions❙
+  include ?Proofs❙
   include ?BasicsZF❙
-  
-	// dependent conjunction needed❙
-	include ?DependentConjunction❙
-	include ?DependentConjunctionND❙
-  
+
   realize ?TypedPredicateSubtypes❙
   
-  predsub = [A,P: Elem A ⟶ prop] filter A ([x] x∈A ∧- ([p] P (elem x p)))❙
+  predsub = [A,P: Elem A ⟶ prop] filter A ([x] x∈A ∧ͩ ([p] P (elem x p)))❙
   predsubI = [A,P,e: Elem A,p] elem (which e) filterI (why e) (dandI (why e) (elem_id EqcongEr P p))❙
   predsubEl = [A,P,e] elem (which e) ((why e) filterEl)❙
   // AS: check this again❙
@@ -101,16 +89,19 @@ theory TypedPredicateSubtypesZF =
 ❚
 
 theory PowerTypesZF =
-	// AS: same as in BascicsZF❙
-	include ?Propositions❙
-	include ?Proofs❙
-	include ?BasicsZF❙
-	
-	include ?UniversalSet❙
-	
-	realize powertypes/?PowerTypes❙
-	power = [A] powerset A❙
-	in = [A,a: Elem A,b: Elem powerset A] (which a) ∈ (which b)❙
-	filter = [A,P: Elem A ⟶ prop] filter 𝒰 _❙
-❚
+  // AS: Not quite sure if this makes sense at all❙
+  // AS: same as in BascicsZF❙
+  include ?Propositions❙
+  include ?Proofs❙
+  include ?BasicsZF❙
 
+  // AS: EquivalenceND should not have to be realized since it is already in SetFOL❙
+
+  realize powertypes/?PowerTypes❙
+
+  power = [A] powerset A❙
+  in = [A,a: Elem A,b: Elem powerset A] (which a) ∈ (which b)❙
+  filter = [A,P: Elem A ⟶ prop] elem ❙
+
+  // compute = [A,P,a: Elem A] ❙
+❚

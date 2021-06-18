@@ -37,6 +37,6 @@ build MMT/LATIN2 mmt-omdoc numbers/nat.mmt
 file source/algebra/build.msl
 
 // TODO:
-build MMT/LATIN2 lf-scala
+// build MMT/LATIN2 lf-scala
 
 // build scala-bin scala

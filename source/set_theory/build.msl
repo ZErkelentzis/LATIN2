@@ -15,9 +15,10 @@ build MMT/LATIN2 mmt-omdoc set_theory/features.mmt
 
 build MMT/LATIN2 mmt-omdoc set_theory/pair_definitions
 
-build MMT/LATIN2 mmt-omdoc set_theory/zfc.mmt
 build MMT/LATIN2 mmt-omdoc set_theory/views_features.mmt
 build MMT/LATIN2 mmt-omdoc set_theory/views_basic_sets.mmt
+
+build MMT/LATIN2 mmt-omdoc set_theory/zfc.mmt
 build MMT/LATIN2 mmt-omdoc set_theory/typed.mmt
 build MMT/LATIN2 mmt-omdoc set_theory/typed_features.mmt
 build MMT/LATIN2 mmt-omdoc set_theory/views_typed.mmt

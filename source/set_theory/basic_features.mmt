@@ -10,11 +10,11 @@ theory Powersets =
 ❚
 
 theory Image =
-	// image f A = {f(x) : x∈A}❙
-	// AS: think of a shorter notation❙
-	image : (set ⟶ set) ⟶ set ⟶ set❙
-	imageI : {f,A,x} ⊦ x∈A ⟶ ⊦ (f x)∈ image f A❙
-	imageE : {f,A,y} ⊦ y ∈ image f A ⟶ ⊦ ∃[x] x∈A ∧ (f x)≐y❘# 4 imageE❙
+  // image f A = {f(x) : x∈A}❙
+  // AS: think of a shorter notation❙
+  image : (set ⟶ set) ⟶ set ⟶ set❙
+  imageI : {f,A,x} ⊦ x∈A ⟶ ⊦ (f x)∈ image f A❙
+  imageE : {f,A,y} ⊦ y ∈ image f A ⟶ ⊦ ∃ͧ[x] x∈A ∧ y =ͧ (f x)❘# 4 imageE❙
 ❚
 
 theory Filter =
@@ -24,36 +24,16 @@ theory Filter =
   filterEr : {A,P,x} ⊦ x ∈ A|P ⟶ ⊦ P x❘# 4 filterEr❙
   
   filter_sub : {A,P} ⊦ A|P ⪽ A❘
-  	= [A,P] subsetI ([x,p] p filterEl)❙
+    = [A,P] subsetI ([x,p] p filterEl)❙
 ❚
 
 theory Replace =
   replace  : set ⟶ (set ⟶ set) ⟶ set❘# 1 map 2 prec 40❙
   replaceI : {A,f,x} ⊦ x∈A ⟶ ⊦ (f x) ∈ A map f❙
-  replaceE : {A,f,y,C} ⊦ y ∈ A map f ⟶ ({x} ⊦ x∈A ⟶ ⊦ f x ≐ y ⟶ ⊦C) ⟶ ⊦C❘ # 5 replaceE 6❙
+  replaceE : {A,f,y,C} ⊦ y ∈ A map f ⟶ ({x} ⊦ x∈A ⟶ ⊦ y =ͧ (f x) ⟶ ⊦C) ⟶ ⊦C❘ # 5 replaceE 6❙
 ❚
 
-// FR: these two need some abbreviation just to state them; those can be here and then reused in the ZF theory that realizes them❚
+// FR: these two (Infinity and Choice) need some abbreviation just to state them; those can be here and then reused in the ZF theory that realizes them❚
 
 // FR: maybe use inifity to define ℕ, either here or in ZFInfinity
 somewhere we should then realize the theory of Peano axioms❚
-theory Infinity =
-	include ?EmptySet❙
-	include ?Singletons❙
-	include ?Union❙
-	
-	// AS: realize this with InfinityAx!❙
-	// AS: I don't think this can be realized❙
-	infinity_axiom : ⊦ ∃[A] ∅∈A ∧ ∀[x] x∈A ⇒ (x ∪ (singleton x))∈A❙
-❚
-
-theory Choice =
-	// AS: define choice like in the lecture or shall Choice from FOL be used?❙
-	// AS: realize this with ChoiceAx!❙
-	include ?ChoiceDefinition❙
-  all_nonempty: set ⟶ prop❘ // = ❙
-  // AS: maybe define this in Intersection or BigIntersection❙
-  pairwise_disjoint: set ⟶ prop❘ // = ❙
-  // AS: add introduction and elimination rule?❙
-  choice_axiom : ⊦ ∀[A] (all_nonempty A ∧ pairwise_disjoint A) ⇒ ∃[C] ischoice A C❙
-❚

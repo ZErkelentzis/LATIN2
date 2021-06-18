@@ -3,18 +3,18 @@ namespace latin:/❚
 fixmeta ?SetFOL❚
 
 theory TBigUnion =
-	include ?ZFTyped❙
-	// symbol: jbigcup❙
-	Bigunion : {A} (Elem A ⟶ set) ⟶ set❘# ⋃ 2❙
-	BigunionI : {A,F,e: Elem A,x} ⊦ x ∈ F e ⟶ ⊦ x ∈ ⋃F❙
-	BigunionE : {A,F,x,C} ⊦ x ∈ ⋃F ⟶ ({e: Elem A} ⊦ x∈ F e ⟶ ⊦ C) ⟶ ⊦ C❘# 4 BigunionE 5❙
+  include ?TypedZF❙
+  // symbol: jbigcup❙
+  Bigunion : {A} (Elem A ⟶ set) ⟶ set❘# ⋃ 2❙
+  BigunionI : {A,F,e: Elem A,x} ⊦ x ∈ F e ⟶ ⊦ x ∈ ⋃F❙
+  BigunionE : {A,F,x,C} ⊦ x ∈ ⋃F ⟶ ({e: Elem A} ⊦ x∈ F e ⟶ ⊦ C) ⟶ ⊦ C❘# 4 BigunionE 5❙
 ❚
 
 theory TBigIntersection =
-	include ?ZFTyped❙
-	include ?EmptySetDefinitions❙
-	// symbol: jbigcap❙
-	Biginter : {A} (Elem A ⟶ set) ⟶ set❘# ⋂ 2❙
-	BiginterI : {A,F,x} ⊦ nonempty A ⟶ ({e: Elem A} ⊦ x∈ F e) ⟶ ⊦ x ∈ ⋂F❙
-	BiginterE : {A,F,x} ⊦ x ∈ ⋂F ⟶ {e: Elem A} ⊦ x ∈ F e❘# 4 BiginterE❙
+  include ?TypedZF❙
+  include ?EmptyDefinitions❙
+  // symbol: jbigcap❙
+  Biginter : {A} (Elem A ⟶ set) ⟶ set❘# ⋂ 2❙
+  BiginterI : {A,F,x} ⊦ nonempty A ⟶ ({e: Elem A} ⊦ x∈ F e) ⟶ ⊦ x ∈ ⋂F❙
+  BiginterE : {A,F,x} ⊦ x ∈ ⋂F ⟶ {e: Elem A} ⊦ x ∈ F e❘# 4 BiginterE❙
 ❚

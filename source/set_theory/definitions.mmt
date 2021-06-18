@@ -3,44 +3,26 @@ namespace latin:/❚
 fixmeta ?SetFOL❚
 
 theory Disjoint =
-	aredisjoint : set ⟶ set ⟶ prop❘
-		= [A,B] ¬(∃[x] x∈A ∧ x∈B)❙
+  aredisjoint : set ⟶ set ⟶ prop❘
+    = [A,B] ¬(∃ͧ[x] x∈A ∧ x∈B)❙
 ❚
 
-theory EmptySetDefinitions =
-  isempty : set ⟶ prop❘ = [A] ¬∃[x]x∈A❙
-  nonempty : set ⟶ prop❘ = [A] ∃[x]x∈A❙
+theory EmptyDefinitions =
+  isempty : set ⟶ prop❘ = [A] ¬∃ͧ[x]x∈A❙
+  nonempty : set ⟶ prop❘ = [A] ∃ͧ[x]x∈A❙
   
   isemptyE : {A,x} ⊦ isempty A ⟶ ⊦ x∈A ⟶ ↯❘ # 3 isemptyE 4❘
-           = [A,x,p,q] p notE (existsI x q)❙
-  nonemptyE: {A,C} ⊦ nonempty A ⟶ ({x} ⊦x∈A ⟶ ⊦C) ⟶ ⊦C❘
-           = [A,C,ne,P] ne existsE [x,p] P x p❙
-❚
-
-theory InfinityDefinition =
-	include ?EmptySet❙
-	
-	// abstract successor function❙
-	successor : set ⟶ set❙
-	
-	isinfinite = [A] ∅∈A ∧ ∀[x] x∈A ⇒ (successor x)∈A❙
-❚
-
-// AS: just an idea. Probably I'll have to change this❚
-theory LeftTotal =
-	islefttotal = [A,B,P] ∀[x] x∈A ∧ ∃[y] y∈B ∧ P x y❙
+    = [A,x,p,q] p notE (uexistsI x q)❙
+  nonemptyE : {A,C} ⊦ nonempty A ⟶ ({x} ⊦x∈A ⟶ ⊦C) ⟶ ⊦C❘
+    = [A,C,ne,P] ne uexistsE [x,p] P x p❙
+  
+  all_nonempty: set ⟶ prop❘
+    = [A] ∀ͧ[X] X∈A ⇒ nonempty X❙
 ❚
 
 theory PairwiseDisjoint =
-	include ?Disjoint❙
-	
-	ispwdisjoint : set ⟶ prop❘
-		= [A] ∀[x]∀[y] x∈A ∧ y∈A ∧ (x≐y ∨ aredisjoint x y)❙
-❚
+  include ?Disjoint❙
 
-// AS: just an idea. Probably I'll have to change this❚
-theory RightUnique =
-	// AS: in general there could be the option that y is either unique or non-existent.
-			Right now I can neglect this❙
-	isrightunique = [x,A,P: set ⟶ set ⟶ prop] ∃¹[y] y∈A ∧ P x y❙
+  ispwdisjoint : set ⟶ prop❘
+    = [A] ∀ͧ[x]∀ͧ[y] x∈A ∧ y∈A ∧ (x =ͧ y ∨ aredisjoint x y)❙
 ❚
