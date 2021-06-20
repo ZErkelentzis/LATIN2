@@ -35,6 +35,6 @@ diagram HLibraryLogrels := (?HAllLogrels EXCEPT diag(?Proofs_comptrans,?HTyped_c
 // for output of generated theories/views, see `3-softening-second-output.mmtx` ❚
 diagram STypedLibraryDirty := PUSHOUT ?TypePres ?HLibraryLogrels ❚
 
-// The final result: a library of soft-typed features
-   for output of generated theories/views, see `3-softening-third-output.mmtx` ❚
+// The final result: a library of soft-typed features.
+   You can inspect the generated output in the files named `{x/y/z}-generated-output-*.mmtx`. ❚
 diagram STypedLibrary := DROP_ARGS_DEFAULT diag(?STyped) ?STypedLibraryDirty ❚
