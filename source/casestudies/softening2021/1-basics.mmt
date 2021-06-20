@@ -4,7 +4,8 @@
 namespace latin:/casestudies/softening2021 ❚
 rule scala://parser.api.mmt.kwarc.info?MMTURILexer ❚
 
-// Set up the meta theory of all of our formalizations telling MMT to have LF, strings, and diagram operators in scope ❚
+// Bundle some default things like LF, strings, and diagram operators in a theory,
+   which by the fixmeta statement below acts as the meta theory of all theories we declare later on. ❚
 theory Meta =
   include ☞ur:?LF ❙
   include ☞ur:?Strings ❙

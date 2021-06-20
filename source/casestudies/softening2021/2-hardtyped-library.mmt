@@ -15,6 +15,8 @@ theory HProd =
 theory HEqual =
   include ?HTyped ❙
 
+  // The metadata annotation says that the the operator that identifies unnecessary argument positions
+     shall deviate from its default heuristic here and shall keep the first argument (the `A`) here ❙
   eq: {A} tm A ⟶ tm A ⟶ prop
     ❘# 2 ≐ 3 prec 5
     ❘ meta http://cds.omdoc.org/urtheories?DiagramOperators?drop_args_keep drop_args_keep_specific "1"
