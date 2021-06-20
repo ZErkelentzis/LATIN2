@@ -7,7 +7,7 @@ This is a self-contained formalization closely following the submitted paper.
 Many parts for this formalization have been extracted and adapted from the surrounding [LATIN2 archive](https://gl.mathhub.info/MMT/LATIN2/-/tree/devel) to be closer to the paper and easier to understand.
 For example, LATIN2 employs much more fine-grained theory graphs split over many directories and files and uses MMT features not discussed in the paper.
 
-## Usage
+## How to Verify/Typecheck the Formalizations
 
 1. Get the latest MMT development binary
    1. Go to [our GitHub Actions CI](https://github.com/UniFormal/MMT/actions?query=branch%3Adevel+event%3Apush+is%3Acompleted) and click on the top workflow run (even if it shows a red X for failure)
@@ -22,4 +22,6 @@ For example, LATIN2 employs much more fine-grained theory graphs split over many
    3. `build MMT/LATIN2 mmt-omdoc casestudies/softening2021/1-basics.mmt`
    4. `build MMT/LATIN2 mmt-omdoc casestudies/softening2021/2-hardtyped-library.mmt`
    5. `build MMT/LATIN2 mmt-omdoc casestudies/softening2021/3-softening.mmt` 
-4. ?
+
+If everything works as intended, steps 3.3 and 3.4 will output almost no status messages and step 3.5 will output a lot, namely the output of the generated formalizations (which you can also find in the `{x,y,z}-generated-output*` files).
+For more convenience in verifying and experimenting, we recommend setting up an IDE with MMT, please follow the instructions at <https://uniformal.github.io//doc/setup/> (but note that you absolutely need the latest mmt.jar binary you obtained above).
