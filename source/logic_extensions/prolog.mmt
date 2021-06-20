@@ -22,10 +22,10 @@ theory Prolog =
     prolog_rule : {A,B} clause_as_type (A ⟸ B) ⟶ {Γ, Δ} Γ, A ⟸ B ⊫ ⋀ (Δ ; B) ⟶ Γ, A ⟸ B ⊫ ⋀ (Δ,A) ❘ # 3 %Rthen 6 prec -2 ❙
         // admissible, but only provable on a meta level ❙
 
-    inst_rule : {f} clause_as_type (∀ f) ⟶ {t}{Γ,Δ} ∅ + Γ,(∀ f),(f t) ⊩ Δ ⟶ ∅ + Γ,(∀ f) ⊩ Δ ❘ # inst 2 @ 3 %Rthen 6 prec -2 ❙
+    inst_rule : {f} clause_as_type (∀ͧ f) ⟶ {t}{Γ,Δ} ∅ + Γ,(∀ͧ f),(f t) ⊩ Δ ⟶ ∅ + Γ,(∀ͧ f) ⊩ Δ ❘ # inst 2 @ 3 %Rthen 6 prec -2 ❙
         // admissible, but only provable on a meta level ❙
 
-    instantiate : {f,t} clause_as_type (∀ f) ⟶ clause_as_type (f t) ❘ = [f,t,p] clause (f t) ❘ # 3 @ 2 ❙
+    instantiate : {f,t} clause_as_type (∀ͧ f) ⟶ clause_as_type (f t) ❘ = [f,t,p] clause (f t) ❘ # 3 @ 2 ❙
 
     initial : {Γ} Γ ⊫ ⋀ ∅ ❘ = [Γ] sD1 ∅ (weaken trueR Γ ∅) ❘ # finish %I1 ❙
 ❚
@@ -38,7 +38,7 @@ theory PrologExample : ?Prolog =
     Q : term ⟶ atom ❙
     R : term ⟶ term ⟶ atom ❙
 
-    cl1 = ∀ [x] ∀ [y] (P x) ⟸ (∅, Q y, R x y) ❙
+    cl1 = ∀ͧ [x] ∀ͧ [y] (P x) ⟸ (∅, Q y, R x y) ❙
     cl2 = Q A ⟸ ∅ ❙
     cl3 = R B A ⟸ ∅ ❙
 

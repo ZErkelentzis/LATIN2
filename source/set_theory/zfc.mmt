@@ -3,101 +3,63 @@ namespace latin:/❚
 fixmeta ?SetFOL❚
 
 // TODO:
-	- TODOs in theories
-	- check whether everything is right
-	- maybe some theories need to be rewritten after changes in axioms
-	- add ZFBase in each ZF theory?❙
+  - TODOs in theories
+  - check whether everything is right
+  - maybe some theories need to be rewritten after changes in axioms
+  - add ZFBase in each ZF theory?❙
 ❚
 
 // ZFBase now contains all standard axioms of ZF instead of just Extensionality
-	and Existence.❚
+  and Existence.❚
 theory ZFBase =
-	// AS: ExtensionalityAx is directly included in SetFOL❙
-  // include ?ExtensionalityAx❙
-	// AS: should I use UniverseNonEmpty or ExistenceAx here?❙
-  include ?UniverseNonEmpty❙
+  include ?ExistenceAx❙
   include ?PairingAx❙
   include ?UnionAx❙
   include ?PowersetAx❙
   include ?ComprehensionAx❙
   include ?ReplacementAx❙
   include ?RegularityAx❙
-❚
-
-theory ZFEmptySet =
-  include ?ZFBase❙
-  include ?EmptySetDefinitions❙
-  realize ?EmptySet❙
-  
-  // AS: these two are not a special case of ZFBase, but I cannot write them in EmptySet right now.❙
-  empty = the isempty empty_unique❙
-  empty_prop = the_ax isempty empty_unique❙
-❚
-
-theory ZFPairing =
-  include ?ZFBase❙
-  include ?UnorderedPairs❘ = ?UopairFromAxiom❙
-❚
-
-theory ZFUnion =
-  include ?ZFBase❙
-  include ?BigUnion❘ = ?BigUnionFromAxiom❙
-❚
-
-theory ZFPowerset =
-  include ?ZFBase❙
- 	include ?Powersets❘ = ?PowersetFromAxiom❙
-❚
-
-theory ZFComprehension =
-  include ?ZFBase❙
-	include ?Filter❘ = ?FilterFromAxiom❙
-❚
-
-theory ZFReplacement =
-  include ?ZFBase❙
-	include ?Replace❘ = ?ReplaceFromAxiom❙
-❚
-
-theory ZFInfinity =
-	// AS: either just include here oder like the rest❙
-  include ?ZFBase❙
-  include ?Infinity❙
+  // AS: maybe add InfinityAx or remove Infinity❙
+  // AS: I excluded this, cause it relies on other theories that should not be included here!❙
+  // include ?Infinity❙
 ❚
 
 theory ZF =
   include ?ZFBase❙
-  include ?ZFEmptySet❙
-  include ?ZFPairing❙
-  include ?ZFUnion❙
-  include ?ZFPowerset❙
-  include ?ZFComprehension❙
-  include ?ZFReplacement❙
-  include ?Regularity❙
-  include ?ZFInfinity❙
+  
+  include ?UnorderedPairs❘ = ?UopairFromAxiom❙
+  include ?BigUnion❘ = ?BigUnionFromAxiom❙
+  include ?Powersets❘ = ?PowersetFromAxiom❙
+  include ?Filter❘ = ?FilterFromAxiom❙
+  include ?Replace❘ = ?ReplaceFromAxiom❙
 ❚
 
-// AS: This was an idea - but it seems to be stupid. I'll remove it soon❚
+// AS: maybe just add features to ZF directly❚
 // ZF and features that can be built from ZF❚
 theory ZFFeatures =
-	include ?ZF❙
-	// include ?EmptySet❙
-	
-	// include ?Union❘ = ?UnionAsBigUnion❙
-	include ?BigIntersection❘ = ?BigIntersectionFilter❙
-	include ?Intersection❘ = ?IntersectionAsBigIntersection❙
-	include ?Difference❘ = ?DifFilter❙
-	// AS: right now there is no UniversalSet, so there is no complement❙
-	include ?SymmetricDifference❘ = ?SymUnion❙
-	
-	include ?Singletons❘ = ?SelfPair❙	
-	include ?Adjoint❘ = ?AdjointUnion❙
-	include ?Erase❘ = ?EraseFilter❙
+  include ?ZF❙
+  
+  // AS: There are many includes that I wish would not be necessary❙
+  include ?ExistFilter❙
+  include ?EmptySet❘ = ?EmptyExistFilter❙
+  
+  include ?BigUnionUnorderedPairs❙
+  include ?Union❘ = ?UnionAsBigUnion❙
+  
+  include ?BigIntersection❘ = ?BigIntersectionFilter❙
+  include ?Intersection❘ = ?IntersectionAsBigIntersection❙
+  include ?Difference❘ = ?DifFilter❙
+  // AS: complement is missing right now❙
+  include ?SymmetricDifference❘ = ?SymUnion❙
+
+  include ?Singletons❘ = ?SelfPair❙	
+  include ?Adjoint❘ = ?AdjointUnion❙
+  include ?Erase❘ = ?EraseFilter❙
 ❚
 
 // FR: maybe this is not needed - can just be included from ZF-independent feature Choice❚
 theory ZFChoice =
-	// AS: either just include here oder like the rest❙
+  // AS: either just include here oder like the rest❙
   include ?ZFBase❙
   include ?ChoiceAx❙
   // realize ?SetChoice❙
@@ -110,6 +72,6 @@ theory ZFC =
 
 // AS: same as above❚
 theory ZFChoiceFeatures =
-	include ?ZFC❙
-	include ?ZFFeatures❙
+  include ?ZFC❙
+  include ?ZFFeatures❙
 ❚

@@ -3,141 +3,205 @@ namespace latin:/❚
 fixmeta ?SetFOL❚
 
 theory OrderedPairs =
-	// AS: think of a notation❙
-	// (a,b)❙
-	pair : set ⟶ set ⟶ set❘# pair 1 2 prec 40❙
-	// first projection of a pair❙
-	pi1 : set ⟶ set❘# 1 ₁ prec 35❙
-	pi2 : set ⟶ set❘# 1 ₂ prec 35❙
-	
-	ispair : set ⟶ prop❘
-		= [p] ∃[a] ∃[b] p ≐ pair a b❙
-	
-	// computation rules❙
-	// (a,b)_1 = a❙
-	compL : {a,b} ⊦ (pair a b)₁ ≐ a❙
-	compR : {a,b} ⊦ (pair a b)₂ ≐ b❙
-	
-	// representation rule❙
-	repr : {p} ⊦ ispair p ⟶ ⊦ p ≐ pair (p₁) (p₂)❘
-		= [p,pp] pp existsE ([a,pa] pa existsE ([b,pb] eq/trans pb
-			(((eq/sym pb) congP ([C] (C₁) ≐ a) compL) congP ([C] pair C b ≐ pair (p₁) (p₂))
-			(((eq/sym pb) congP ([C] (C₂) ≐ b) compR) congP ([C] pair (p₁) C ≐ pair (p₁) (p₂)) refl))))❙
-	
-	// extensionality rule❙
-	ext : {p,q} ⊦ ispair p ⟶ ⊦ ispair q ⟶ ⊦ p₁ ≐ q₁ ⟶ ⊦ p₂ ≐ q₂ ⟶ ⊦ p ≐ q❘
-		= [p,q,pp,qq,pa,pb] eq/trans (pa congP ([C] p ≐ pair C (q₂))
-			(pb congP ([C] p ≐ pair (p₁) C) (repr pp))) (eq/sym repr qq)❙
-	
-	// injective❙
-	pair_inj : {A,B,C,D} ⊦ (pair A B) ≐ (pair C D) ⟶ ⊦ A≐C ∧ B≐D❘
-		= [A,B,C,D,p] andI (eq/trans (eq/sym compL) ((eq/sym p) congP ([X] (X₁) ≐ C) compL))
-			(eq/trans (eq/sym compR) ((eq/sym p) congP ([X] (X₂) ≐ D) compR))❙
+  // AS: think of a notation❙
+  // (a,b)❙
+  pair : set ⟶ set ⟶ set❘# pair 1 2 prec 40❙
+  // first projection of a pair❙
+  pi1 : set ⟶ set❘# 1 ₁ prec 35❙
+  pi2 : set ⟶ set❘# 1 ₂ prec 35❙
+
+  ispair : set ⟶ prop❘
+    = [p] ∃ͧ[a] ∃ͧ[b] p =ͧ pair a b❙
+
+  // computation rules❙
+  // AS: should these be role Simplify?❙
+  compL : {a,b} ⊦ (pair a b)₁ =ͧ a❙
+  compR : {a,b} ⊦ (pair a b)₂ =ͧ b❙
+
+  // representation rule❙
+  repr : {p} ⊦ ispair p ⟶ ⊦ p =ͧ pair (p₁) (p₂)❘
+    = [p,pp] pp uexistsE ([a,pa] pa uexistsE ([b,pb] eq/trans pb
+      (((eq/sym pb) ucongP ([C] (C₁) =ͧ a) compL) ucongP ([C] pair C b =ͧ pair (p₁) (p₂))
+      (((eq/sym pb) ucongP ([C] (C₂) =ͧ b) compR) ucongP ([C] pair (p₁) C =ͧ pair (p₁) (p₂)) urefl))))❙
+
+  // extensionality rule❙
+  ext : {p,q} ⊦ ispair p ⟶ ⊦ ispair q ⟶ ⊦ p₁ =ͧ q₁ ⟶ ⊦ p₂ =ͧ q₂ ⟶ ⊦ p =ͧ q❘
+    = [p,q,pp,qq,pa,pb] eq/trans (pa ucongP ([C] p =ͧ pair C (q₂))
+      (pb ucongP ([C] p =ͧ pair (p₁) C) (repr pp))) (eq/sym repr qq)❙
+
+  // injective❙
+  pair_inj : {A,B,C,D} ⊦ (pair A B) =ͧ (pair C D) ⟶ ⊦ A =ͧ C ∧ B =ͧ D❘
+    = [A,B,C,D,p] andI (eq/trans (eq/sym compL) ((eq/sym p) ucongP ([X] (X₁) =ͧ C) compL))
+      (eq/trans (eq/sym compR) ((eq/sym p) ucongP ([X] (X₂) =ͧ D) compR))❙
 ❚
 
 theory CartesianProduct =
-	include ?OrderedPairs❙
-	
-	// AS: maybe change prec❙
-	// A × B❙
-	// symbol: jtimes❙
-	prod : set ⟶ set ⟶ set❘# 1 × 2 prec 50❙
-	
-	// introduction and elimination rules❙
-	prodI : {A,B,a,b} ⊦ a∈A ⟶ ⊦ b∈B ⟶ ⊦ pair a b ∈ A×B❙
- 	prodEl : {A,B,p} ⊦ p ∈ A×B ⟶ ⊦ p₁∈A❘# 4 prodEl❙
-	prodEr : {A,B,p} ⊦ p ∈ A×B ⟶ ⊦ p₂∈B❘# 4 prodEr❙
-	
-	prodE : {A,B,p} ⊦ p ∈ A×B ⟶ ⊦ ispair p❘# 4 prodE❙
-	
-	// subset❙
-	prod_sub : {A,B,C,D} ⊦ A⪽C ⟶ ⊦ B⪽D ⟶ ⊦ A×B ⪽ C×D❘
-		= [A,B,C,D,pa,pb] subsetI ([x,p] eq_in (repr (p prodE)) 
-			prodI (p prodEl subsetE pa) (p prodEr subsetE pb))❙
+  include ?OrderedPairs❙
+
+  // AS: maybe change prec❙
+  // A × B❙
+  // symbol: jtimes❙
+  prod : set ⟶ set ⟶ set❘# 1 × 2 prec 50❙
+
+  // introduction and elimination rules❙
+  prodI : {A,B,a,b} ⊦ a∈A ⟶ ⊦ b∈B ⟶ ⊦ pair a b ∈ A×B❙
+  prodEl : {A,B,p} ⊦ p ∈ A×B ⟶ ⊦ p₁∈A❘# 4 prodEl❙
+  prodEr : {A,B,p} ⊦ p ∈ A×B ⟶ ⊦ p₂∈B❘# 4 prodEr❙
+
+  prodE : {A,B,p} ⊦ p ∈ A×B ⟶ ⊦ ispair p❘# 4 prodE❙
+
+  // subset❙
+  prod_sub : {A,B,C,D} ⊦ A⪽C ⟶ ⊦ B⪽D ⟶ ⊦ A×B ⪽ C×D❘
+    = [A,B,C,D,pa,pb] subsetI ([x,p] eq_in (repr (p prodE)) 
+      prodI (p prodEl subsetE pa) (p prodEr subsetE pb))❙
 ❚
 
 theory Relations =
-	// AS: maybe include CartesianProduct. A single relation is a subset of the CartesianProduct.
-		The set of all relations the powerset of the CartesianProduct?❙
-	// The set of all relations of A and B❙
-	rel : set ⟶ set ⟶ set❙
-	
-	// A single relation on the sets X and Y which fulfills some predicate P❙
-  theRel: {A:set,B:set} (set ⟶ set ⟶ prop) ⟶ set❙
-  inRel : set ⟶ set ⟶ set ⟶ prop❙
+  // AS: This could be done independently of the CartesianProduct, 
+    but would this make sense?❙
+  // AS: At least it would be good for modularity!❙
+  include ?CartesianProduct❙
+  include ?Powersets❙
+  // A single relation is a subset of the CartesianProduct.
+    The set of all relations is the powerset of the CartesianProduct❙
+  // The set of all relations of A and B❙
+  rel : set ⟶ set ⟶ set❘
+    = [A,B] ℘ (A × B)❙
   
+  // A single relation on the sets A and B which fulfills some predicate P❙
+  include ?Filter❙
+  theRel: {A:set,B:set} (set ⟶ set ⟶ prop) ⟶ set❘
+    = [A,B,P] (A × B) | ([p] P (p₁) (p₂))❙
+  inRel : set ⟶ set ⟶ set ⟶ prop❘
+    = [R,a,b] pair a b ∈ R❙
+    
   // helper function to check whether a set is a relation❙
-  isrel : set ⟶ prop❙
+  // AS: ∃ͧ[A,B,P] R =ͧ theRel A B P does not work since we are in FOL!❙
+  isrel : set ⟶ prop❘
+    = [R] ∃ͧ[A] ∃ͧ[B] R ⪽ A×B❙
+  // A special case where A and B are arguments. This is needed whenever A and B are given❙ 
+  isrelAB : set ⟶ set ⟶ set ⟶ prop❘
+    = [R,A,B] R ⪽ A×B❙
+    
+  // helper function to make transformation easier❙
+  relABrel : {R,A,B} ⊦ isrelAB R A B ⟶ ⊦ isrel R❘
+    = [R,A,B,p] uexistsI A (uexistsI B p)❙
   
   // computation rule❙
-  comp : {A,B,P,a,b} ⊦ inRel (theRel A B P) a b ⇔ a∈A ∧ b∈B ∧ P a b❙
+  compRel : {A,B,P,a,b} ⊦ inRel (theRel A B P) a b ⇔ a∈A ∧ b∈B ∧ P a b❘
+    = [A,B,P,a,b] equivI
+      ([p] andI (andI (compL ucongP ([x] x∈A) ((p filterEl) prodEl)) 
+      (compR ucongP ([x] x∈B) ((p filterEl) prodEr)))
+      (compL ucongP ([x] P x b) (compR ucongP ([y] P (pair a b ₁) y) (p filterEr))))
+      ([q] filterI (prodI (q andEl andEl) (q andEl andEr)) 
+      ((eq/sym compL) ucongP ([x] P x (pair a b ₂)) 
+      ((eq/sym compR) ucongP ([y] P a y) (q andEr))))❙
   
-	// representation rule❙
-  repr : {A,B,R} ⊦ isrel R ⟶ ⊦ R ≐ theRel A B ([x,y] inRel R x y)❙ 
+  // representation rule❙
+  // AS: Probably I'll keep both variants❙
+  reprRelAB : {A,B,R} ⊦ isrelAB R A B ⟶ ⊦ R =ͧ theRel A B ([x,y] inRel R x y)❘
+    = [A,B,R,rr] extensionalityI ([x] equivI
+      ([p] filterI (p subsetE rr)
+      (repr (p subsetE rr prodE) ucongP ([y] y∈R) p))
+      ([q] (eq/sym repr (q filterEl prodE)) ucongP ([y] y∈R) (q filterEr)))❙
+      
+  reprRel : {R} ⊦ isrel R ⟶ ⊦ ∃ͧ[A]∃ͧ[B] R =ͧ theRel A B ([x,y] inRel R x y)❘
+    = [R,rr] rr uexistsE ([x,px] px uexistsE ([y,py] uexistsI x (uexistsI y (reprRelAB py))))❙
   
   // extensionality rule❙
-  ext : {R,S} ⊦ isrel R ⟶ ⊦ isrel S ⟶ ({x,y} ⊦ inRel R x y ⇔ inRel S x y) ⟶ ⊦ R≐S❙
+  extRel : {R,S} ⊦ isrel R ⟶ ⊦ isrel S ⟶ ({x,y} ⊦ inRel R x y ⇔ inRel S x y) ⟶ ⊦ R =ͧ S❘
+    = [R,S,rr,rs,Q] extensionalityI ([x] equivI
+      ([p] rr uexistsE ([y,py] py uexistsE ([z,pz]
+      (eq/sym repr (p subsetE pz prodE)) ucongP ([u] u∈S)
+      (Q (x₁) (x₂) equivEl (repr (p subsetE pz prodE) ucongP ([u] u∈R) p)))))
+      ([q] rs uexistsE ([y,qy] qy uexistsE ([z,qz]
+      (eq/sym repr (q subsetE qz prodE)) ucongP ([u] u∈R)
+      (Q (x₁) (x₂) equivEr (repr (q subsetE qz prodE) ucongP ([u] u∈S) q))))))❙
   
-  // introduction rule for the set of all relations of A and B❙
-  relI : {A,B,P} ⊦ theRel A B P ∈ rel A B❙
+  // introduction and elimination rule for the set of all relations of A and B❙
+  relI : {A,B,P} ⊦ theRel A B P ∈ rel A B❘# relI 3❘
+    = [A,B,P] powersetI ([x,p] p filterEl)❙
+  
+  relE : {A,B,R} ⊦ R ∈ rel A B ⟶ ⊦ isrelAB R A B❘# 4 relE❘
+    = [A,B,R,p] subsetI ([x,px] p powersetE px)❙
   
   // subset❙
-  rel_sub : {A,B,C,D} ⊦ A⪽C ⟶ ⊦ B⪽D ⟶ ⊦ rel A B ⪽ rel C D❙
+  rel_sub : {A,B,C,D} ⊦ A⪽C ⟶ ⊦ B⪽D ⟶ ⊦ rel A B ⪽ rel C D❘
+    = [A,B,C,D,pa,pb] subsetI ([x,px] powersetI ([y,py] (px powersetE py)
+      subsetE (prod_sub pa pb)))❙
 ❚
 
 theory PartialFunctions =
-	// AS: change this, so the dependency on Relations is used❙
-	include ?Relations❙
-	include ?RightUnique❙
+  include ?Relations❙
 
-	// The set of all partial functions of A and B❙
-	pfunc : set ⟶ set ⟶ set❙
-	
-	// A single partial function on the sets A and B which fulfills some predicate P❙
-	thePFunc : {A:set,B:set} (set ⟶ set ⟶ prop) ⟶ set❙
-	inPFunc : set ⟶ set ⟶ set ⟶ prop❙
-	
-	// AS: the definition might need to take care of right-unique as well❙
-	ispfunc : set ⟶ prop❙
-	
-	// computation rule❙
-	comp : {A,B,P,a,b} ⊦ inPFunc (thePFunc A B P) a b ⇔ a∈A ∧ b∈B ∧ P a b ∧ isrightunique a B P❙ 
-	
-	// representation rule❙
-	repr : {A,B,R} ⊦ ispfunc R ⟶ ⊦ R ≐ thePFunc A B ([x,y] inPFunc R x y)❙
-	
-	// extensionality rule❙
-	ext : {R,S} ⊦ ispfunc R ⟶ ⊦ ispfunc S ⟶ ({x,y} ⊦ inPFunc R x y ⇔ inPFunc S x y) ⟶ ⊦ R≐S❙
-	
-	// introduction rule for the set of all partial functions of X and Y❙
-	pfuncI : {A,B,P} ⊦ thePFunc A B P ∈ pfunc A B❙
+  // AS: I'd like to have this in definitions, but then I would have to
+    formulate this more complicated.❙
+  isrightunique : set ⟶ prop❘
+    = [F] ∀ͧ[x]∀ͧ[y]∀ͧ[z] (pair x y ∈F ∧ pair x z ∈F) ⇒ y =ͧ z❙
+
+  // The set of all partial functions of A and B. Partial functions are 
+    relations that are right unique.❙
+  pfunc : set ⟶ set ⟶ set❘
+    = [A,B] rel A B | ([R] isrightunique R)❙
+
+  // AS: it's not necessary to define thePFunc and the rules. It is just
+    a relation.❙
+
+  // helper function to check whether a set is a right unique relation and
+    therefore a partial function❙
+  ispfunc : set ⟶ prop❘
+    = [R] isrel R ∧ isrightunique R❙
+  // AS: special case, where A and B are given❙
+  ispfuncAB : set ⟶ set ⟶ set ⟶ prop❘
+    = [R,A,B] isrelAB R A B ∧ isrightunique R❙
+  
+  // helper fuction for transformation❙
+  pfuncABpfunc : {R,A,B} ⊦ ispfuncAB R A B ⟶ ⊦ ispfunc R❘
+    = [R,A,B,p] andI (relABrel (p andEl)) (p andEr)❙
+
+  // introduction and elimination rule for the set of all partial functions of X and Y❙
+  pfuncI : {A,B,P} ⊦ ispfunc (theRel A B P) ⟶ ⊦ theRel A B P ∈ pfunc A B❘# pfuncI 3 4❘
+    = [A,B,P,p] filterI (relI P) (p andEr)❙
+    
+  pfuncE : {A,B,F} ⊦ F ∈ pfunc A B ⟶ ⊦ ispfuncAB F A B❘# 4 pfuncE❘
+    = [A,B,F,p] andI (p filterEl relE) (p filterEr)❙
 ❚
 
 theory Functions =
-	// AS: change this, so the dependency on PartialFunctions is used❙
-	include ?PartialFunctions❙
-	include ?LeftTotal❙
-	
-	// The set of all functions of X and Y❙
-	func : set ⟶ set ⟶ set❙
-	
-	// A single function on the sets X and Y which fulfills some predicate P❙
-	theFunc : {A:set,B:set} (set ⟶ set ⟶ prop) ⟶ set❙
-	inFunc : set ⟶ set ⟶ set ⟶ prop❙
-	
-	// AS: the definition might need to take care of left-total and right-unique as well❙
-	isFunc : set ⟶ prop❙
-	
-	// computation rule❙
-	// AS: I'm not sure whether left-total and right-unique fit here❙
-	comp : {A,B,P,a,b} ⊦ inFunc (theFunc A B P) a b ⇔ a∈A ∧ b∈B ∧ P a b ∧ isrightunique a B P ∧ islefttotal A B P❙ 
-	
-	// representation rule❙
-	repr : {A,B,R} ⊦ isFunc R ⟶ ⊦ R ≐ theFunc A B ([x,y] inFunc R x y)❙
-	
-	// extensionality rule❙
-	ext : {R,S} ⊦ isFunc R ⟶ ⊦ isFunc S ⟶ ({x,y} ⊦ inFunc R x y ⇔ inFunc S x y) ⟶ ⊦ R≐S❙
-	
-	// introduction rule for the set of all functions of X and Y❙
-	funcI : {A,B,P} ⊦ theFunc A B P ∈ func A B❙
+  // AS: This is realized with Partial Functions, but it could be done with
+    only Relations as well (if isrighunique gets defined)❙
+  include ?PartialFunctions❙
+  
+  isdefined : set ⟶ set ⟶ prop❘
+    = [F,x] ∃ͧ[y] pair x y ∈F❙
+  islefttotal : set ⟶ set ⟶ prop❘
+    = [F,A] ∀ͧ[x] x∈A ⇒ isdefined F x❙
+
+  // The set of all functions of X and Y. Functions are partial functions that
+   are left total.❙
+  func : set ⟶ set ⟶ set❘
+    = [A,B] pfunc A B | ([F] islefttotal F A)❙
+
+  // AS: it's not necessary to define theFunc and the rules. It is just
+    a relation.❙
+
+  // helper function to check whether a set is a left total partial function
+    and therefore a function❙
+  isfunc : set ⟶ prop❘
+    = [F] ∃ͧ[A]∃ͧ[B] ispfuncAB F A B ∧ islefttotal F A❙
+  // special case❙
+  isfuncAB : set ⟶ set ⟶ set ⟶ prop❘
+    = [F,A,B] ispfuncAB F A B ∧ islefttotal F A❙
+    
+  // helper function for transformation❙
+  funcABfunc : {F,A,B} ⊦ isfuncAB F A B ⟶ ⊦ isfunc F❘
+    = [F,A,B,p] uexistsI A (uexistsI B p)❙  
+
+  // introduction and elimination rule for the set of all functions of X and Y❙
+  // AS: I haven't found a way to do this with isfunc by now. Main problem is
+    that after doing existsE I only have islefttotal F x and not islefttotal F A❙
+  funcI : {A,B,P} ⊦ isfuncAB (theRel A B P) A B ⟶ ⊦ theRel A B P ∈ func A B❘# funcI 3 4❘
+    = [A,B,P,p] filterI (pfuncI P (pfuncABpfunc (p andEl))) (p andEr)❙
+  funcE : {A,B,F} ⊦ F ∈ func A B ⟶ ⊦ isfuncAB F A B❘# 4 funcE❘
+    = [A,B,F,p] andI (p filterEl pfuncE) (p filterEr)❙
 ❚

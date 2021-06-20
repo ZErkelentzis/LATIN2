@@ -5,22 +5,27 @@ fixmeta ur:?LF❚
    Curry-Howard analogue of Sigma types ❚
 theory DependentConjunction =
   include ?Logic❙
-  dand   : {F} (⊦ F ⟶ prop) ⟶ prop❘# 1 ∧- 2 prec 10❙
+  dand   : {F} (⊦ F ⟶ prop) ⟶ prop❘# 1 ∧ͩ 2 prec 10❙
 
-  realize ?Conjunction ❙
-  and = [F, G] F ∧- ([x] G) ❙
+  total structure con : ?Conjunction =
+  	include ?Propositions❙
+  	and = [F, G] F ∧ͩ ([x] G)❙
+  ❚
 ❚
 
 theory DependentConjunctionND =
   include ?DependentConjunction❙
-  dandI  : {F,G} {p:⊦ F} ⊦ G p ⟶ ⊦ F ∧- G❙
-  dandEl : {F,G} ⊦ F ∧- G ⟶ ⊦ F❘# 3 dandEl❘role ForwardRule❙
-  dandEr : {F,G} {p: ⊦ F ∧- G} ⊦ G (p dandEl)❘# 3 dandEr❘role ForwardRule❙
+  dandI  : {F,G} {p:⊦ F} ⊦ G p ⟶ ⊦ F ∧ͩ G❙
+  dandEl : {F,G} ⊦ F ∧ͩ G ⟶ ⊦ F❘# 3 dandEl❘role ForwardRule❙
+  dandEr : {F,G} {p: ⊦ F ∧ͩ G} ⊦ G (p dandEl)❘# 3 dandEr❘role ForwardRule❙
 
-  realize ?ConjunctionND ❙
-  andI = [F, G, pfF, pfG] dandI pfF pfG ❙
-  andEl = [F, G, pfFG] pfFG dandEl ❙
-  andEr = [F, G, pfFG] pfFG andEr ❙
+  total structure conND : ?ConjunctionND =
+  	include ?Proofs❙
+  	include ?DependentConjunction/con❙
+  	andI = [F, G, pfF, pfG] dandI pfF pfG❙
+  	andEl = [F, G, pfFG] pfFG dandEl❙
+  	andEr = [F, G, pfFG] pfFG dandEr❙
+  ❚
 ❚
 
 theory DependentConjunctionNDS =
@@ -37,42 +42,52 @@ theory DependentConjunctionNDS =
    Curry-Howard analogue of an unusual union type where the second argument is only considered if the first one is empty❚ 
 theory DependentDisjunction =
   include ?Logic❙
-  dor    : {F} ((⊦ F ⟶ ↯) ⟶ prop) ⟶ prop❘# 1 ∨- 2 prec 10❙
+  dor    : {F} ((⊦ F ⟶ ↯) ⟶ prop) ⟶ prop❘# 1 ∨ͩ 2 prec 10❙
 
-  realize ?Disjunction ❙
-  or = [F, G] F ∨- [x] G ❙
+  total structure dis : ?Disjunction =
+  	include ?Propositions❙
+  	or = [F, G] F ∨ͩ [x] G❙
+  ❚
 ❚
 
 theory DependentDisjunctionND =
   include ?DependentDisjunction❙
-  dorIl  : {F,G} ⊦ F ⟶ ⊦ F ∨- G❘# 3 dorIl❙
-  dorIr  : {F,G} ({p:⊦ F ⟶ ↯} ⊦ G p) ⟶ ⊦ F ∨- G❘# 3 dorIr❙
-  dorE   : {F,G,C} ⊦ F ∨- G ⟶ (⊦ F ⟶ ⊦ C) ⟶ ({p: ⊦ F ⟶ ↯} ⊦ G p ⟶ ⊦ C) ⟶ ⊦ C❘# 4 dorE 5 6❙
+  dorIl  : {F,G} ⊦ F ⟶ ⊦ F ∨ͩ G❘# 3 dorIl❙
+  dorIr  : {F,G} ({p:⊦ F ⟶ ↯} ⊦ G p) ⟶ ⊦ F ∨ͩ G❘# 3 dorIr❙
+  dorE   : {F,G,C} ⊦ F ∨ͩ G ⟶ (⊦ F ⟶ ⊦ C) ⟶ ({p: ⊦ F ⟶ ↯} ⊦ G p ⟶ ⊦ C) ⟶ ⊦ C❘# 4 dorE 5 6❙
 
-  realize ?DisjunctionND ❙
-  orIl = [F, G, pfF] pfF dorIl ❙
-  orIr = [F, G, pfG] ([x] pfG) dorIr ❙
-  orE = [F, G, C, pfForG, pfFtoC, pfGtoC] pfForG dorE pfFtoC ([x] pfGtoC) ❙
+  total structure disND : ?DisjunctionND =
+  	include ?Proofs❙
+  	include ?DependentDisjunction/dis❙
+  	orIl = [F, G, pfF] pfF dorIl❙
+  	orIr = [F, G, pfG] ([x] pfG) dorIr❙
+  	orE = [F, G, C, pfForG, pfFtoC, pfGtoC] pfForG dorE pfFtoC ([x] pfGtoC)❙
+  ❚
 ❚
 
 /T Implication where the implicate's well-formedness may depend on the truth of the implicant
    Curry-Howard analogue of Pi types ❚
 theory DependentImplication =
   include ?Logic❙
-  dimpl  : {F} (⊦ F ⟶ prop) ⟶ prop❘# 1 ⇒- 2 prec 10❙
+  dimpl  : {F} (⊦ F ⟶ prop) ⟶ prop❘# 1 ⇒ͩ 2 prec 10❙
 
-  realize ?Implication ❙
-  impl = [F, G] F ⇒- [x] G ❙
+  total structure imp : ?Implication =
+  	include ?Propositions❙
+  	impl = [F, G] F ⇒ͩ [x] G❙
+  ❚
 ❚
 
 theory DependentImplicationND =
   include ?DependentImplication❙
-  dimplI  : {F,G} ({p} ⊦ G p) ⟶ ⊦ F ⇒- G❙
-  dimplE  : {F,G} ⊦ F ⇒- G ⟶ {p:⊦ F} ⊦ G p❘# 3 dimplE 4❘role ForwardRule❙
+  dimplI  : {F,G} ({p} ⊦ G p) ⟶ ⊦ F ⇒ͩ G❙
+  dimplE  : {F,G} ⊦ F ⇒ͩ G ⟶ {p:⊦ F} ⊦ G p❘# 3 dimplE 4❘role ForwardRule❙
 
-  realize ?ImplicationND ❙
-  implI = [F, G, FtoG] dimplI FtoG ❙
-  implE = [F, G, pfFimplG, pfF] pfFimplG dimplE pfF ❙
+  total structure impND : ?ImplicationND =
+  	include ?Proofs❙
+  	include ?DependentImplication/imp❙
+  	implI = [F, G, FtoG] dimplI FtoG❙
+  	implE = [F, G, pfFimplG, pfF] pfFimplG dimplE pfF❙
+  ❚
 ❚
 
 theory DependentImplicationNDS =

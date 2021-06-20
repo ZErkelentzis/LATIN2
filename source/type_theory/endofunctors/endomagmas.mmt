@@ -9,40 +9,40 @@ theory EndoMagma =
 
 theory EndoSemigroup =
   include ?EndoMagma❙
-  assoc: {a,x,y,z:tm &a} ⊦ (x∘y)∘z ≐ x∘(y∘z)❙
+  assoc: {a,x,y,z:tm &a} ⊦ (x∘y)∘z =ͭ x∘(y∘z)❙
   
-  assocR: {a,x,y,z:tm &a} ⊦ x∘(y∘z) ≐ (x∘y)∘z❘
-        = [a,x,y,z] assoc sym❙
+  assocR: {a,x,y,z:tm &a} ⊦ x∘(y∘z) =ͭ (x∘y)∘z❘
+        = [a,x,y,z] assoc tsym❙
 
-  assoc4:  {a,w,x,y,z:tm &a} ⊦ ((w∘x)∘y)∘z ≐ w∘(x∘(y∘z))❘
-        =  [a,w,x,y,z] trans3 (assoc congT [u]u∘z) assoc (assoc congT [u]w∘u)❙
-  assoc4R: {a,w,x,y,z:tm &a} ⊦ w∘(x∘(y∘z)) ≐ ((w∘x)∘y)∘z❘
-        = [a,w,x,y,z] assoc4 sym❙
-  assoc5: {a,v,w,x,y,z:tm &a} ⊦ (((v∘w)∘x)∘y)∘z ≐ v∘(w∘(x∘(y∘z)))❘
-        = [a,v,w,x,y,z] trans4 (assoc4 congT [u]u∘z) assoc
+  assoc4:  {a,w,x,y,z:tm &a} ⊦ ((w∘x)∘y)∘z =ͭ w∘(x∘(y∘z))❘
+        =  [a,w,x,y,z] ttrans3 (assoc congT [u]u∘z) assoc (assoc congT [u]w∘u)❙
+  assoc4R: {a,w,x,y,z:tm &a} ⊦ w∘(x∘(y∘z)) =ͭ ((w∘x)∘y)∘z❘
+        = [a,w,x,y,z] assoc4 tsym❙
+  assoc5: {a,v,w,x,y,z:tm &a} ⊦ (((v∘w)∘x)∘y)∘z =ͭ v∘(w∘(x∘(y∘z)))❘
+        = [a,v,w,x,y,z] ttrans4 (assoc4 congT [u]u∘z) assoc
                               (assoc congT [u]v∘u) (assoc congT [u]v∘(w∘u))❙
 ❚
 
 theory EndoCommutative =
   include ?EndoMagma❙
-  comm: {a,x,y:tm &a} ⊦ x∘y ≐ y∘x❙
+  comm: {a,x,y:tm &a} ⊦ x∘y =ͭ y∘x❙
 ❚
 
 theory EndoNeutral =
   include ?EndoMagma❙
   e  : {a} tm &a❘# e %I1❙
-  neutLeft: {a,x:tm &a} ⊦ e∘x ≐ x❙
-  neutRight: {a,x:tm &a} ⊦ x∘e ≐ x❙
+  neutLeft: {a,x:tm &a} ⊦ e∘x =ͭ x❙
+  neutRight: {a,x:tm &a} ⊦ x∘e =ͭ x❙
 ❚
 
 theory EndoIdempotent =
   include ?EndoMagma❙
-  idempotent: {a,x:tm &a} ⊦ x∘x ≐ x❙
+  idempotent: {a,x:tm &a} ⊦ x∘x =ͭ x❙
 ❚
 
 theory EndoFirstNonNeutral =
   include ?EndoNeutral❙
-  firstNonNeutral: {a,x,y:tm &a} (⊦ x≐e ⟶ ↯) ⟶ ⊦ x∘y ≐ x❙
+  firstNonNeutral: {a,x,y:tm &a} (⊦ x =ͭ e ⟶ ↯) ⟶ ⊦ x∘y =ͭ x❙
 ❚
 
 theory EndoMonoid =

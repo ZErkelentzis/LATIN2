@@ -4,17 +4,17 @@ fixmeta ur:?LF❚
 
 theory UniversalQuantification =
   include ?UntypedLogic❙
-  forall : (term ⟶ prop) ⟶ prop❘# ∀ 1❘## ∀ V1 2❙
+  uforall : (term ⟶ prop) ⟶ prop❘# ∀ͧ 1❘## ∀ͧ V1 2❙
 ❚
 
 theory UniversalQuantificationNDI =
   include ?UniversalQuantification❙
-  forallI  : {P} ({x} ⊦ (P x)) ⟶ ⊦ ∀ P❙
+  uforallI  : {P} ({x} ⊦ (P x)) ⟶ ⊦ ∀ͧ P❙
 ❚
 
 theory UniversalQuantificationNDE =
   include ?UniversalQuantification❙
-  forallE  : {P,X} ⊦ ∀ P ⟶ ⊦ (P X)❘# 3 forallE 2❘role ForwardRule❙
+  uforallE  : {P,X} ⊦ ∀ͧ P ⟶ ⊦ (P X)❘# 3 uforallE 2❘role ForwardRule❙
 ❚
 
 theory UniversalQuantificationND =
@@ -24,24 +24,24 @@ theory UniversalQuantificationND =
 
 theory UniversalQuantificationNDS =
   include ?UniversalQuantificationND❙
-  include ?ProofEquality ❙
+  include ?ProofEquality❙
 
-  forallS: {P, pf: {x} ⊦ P x, x} ((forallI pf) forallE x) ⇝ pf x ❘ role Simplify ❙
+  uforallS: {P, pf: {x} ⊦ P x, x} ((uforallI pf) uforallE x) ⟺ pf x ❘ role Simplify ❙
 ❚
 
 theory ExistentialQuantification =
   include ?UntypedLogic❙
-  exists : (term ⟶ prop) ⟶ prop❘# ∃ 1❘## ∃ V1 2❙
+  uexists : (term ⟶ prop) ⟶ prop❘# ∃ͧ 1❘## ∃ͧ V1 2❙
 ❚
 
 theory ExistentialQuantificationNDI =
   include ?ExistentialQuantification❙
-  existsI  : {P,X} ⊦ P X ⟶ ⊦ ∃ P❘# existsI 2 3❙
+  uexistsI  : {P,X} ⊦ P X ⟶ ⊦ ∃ͧ P❘# uexistsI 2 3❙
 ❚
 
 theory ExistentialQuantificationNDE =
   include ?ExistentialQuantification❙
-  existsE  : {P,C} ⊦ ∃ P ⟶ ({x} ⊦ (P x) ⟶ ⊦ C) ⟶ ⊦ C❘# 3 existsE 4❘role EliminationRule❙
+  uexistsE  : {P,C} ⊦ ∃ͧ P ⟶ ({x} ⊦ (P x) ⟶ ⊦ C) ⟶ ⊦ C❘# 3 uexistsE 4❘role EliminationRule❙
 ❚
 
 theory ExistentialQuantificationND =
@@ -53,7 +53,7 @@ theory ExistentialQuantificationNDS =
   include ?ExistentialQuantificationND❙
   include ?ProofEquality ❙
 
-  existsS: {P,X,pf1: ⊦ P X, C,pf2: {x} ⊦ P x ⟶ ⊦ C} ((existsI X pf1) existsE pf2) ⇝ pf2 X pf1 ❘ role Simplify ❙
+  uexistsS: {P,X,pf1: ⊦ P X, C,pf2: {x} ⊦ P x ⟶ ⊦ C} ((uexistsI X pf1) uexistsE pf2) ⟺ pf2 X pf1 ❘ role Simplify ❙
 ❚
 
 theory IFOL =
@@ -128,39 +128,45 @@ theory FOLEQNDS =
 theory RelativizedUniversalQuantification =
   include ?SoftTypedTerms❙
   include ?FOLEQ❙
-  rforall : tp ⟶ (term ⟶ prop) ⟶ prop❘= [A,P] ∀[x] x⦂A ⇒ P x❘# ∀' 1 2❙
+  rforall : tp ⟶ (term ⟶ prop) ⟶ prop❘# ∀ͬ 1 2❘
+  	= [A,P] ∀ͧ[x] x⦂A ⇒ P x❙
 ❚
 
 theory RelativizedUniversalQuantificationND =
   include ?RelativizedUniversalQuantification❙
   include ?FOLEQND❙
-  rforallI : {A,F} ({x} ⊦x⦂A ⟶ ⊦ F x) ⟶ ⊦ ∀' A F❘= [A,F,P] forallI [x] implI [xa] P x xa❙
-  rforallE : {A,F} ⊦ ∀' A F ⟶ {x} ⊦x⦂A ⟶ ⊦ F x❘= [A,F,p,x,xa] p forallE x implE xa❙
+  rforallI : {A,F} ({x} ⊦x⦂A ⟶ ⊦ F x) ⟶ ⊦ ∀ͬ A F❘
+  	= [A,F,P] uforallI [x] implI [xa] P x xa❙
+  rforallE : {A,F} ⊦ ∀ͬ A F ⟶ {x} ⊦x⦂A ⟶ ⊦ F x❘
+  	= [A,F,p,x,xa] p uforallE x implE xa❙
 ❚
 
 theory RelativizedExistentialQuantification =
   include ?SoftTypedTerms❙
   include ?FOLEQ❙
-  rexists : tp ⟶ (term ⟶ prop) ⟶ prop❘= [A,P] ∃[x] x⦂A ∧ P x❘# ∃' 1 2❙
+  rexists : tp ⟶ (term ⟶ prop) ⟶ prop❘# ∃ͬ 1 2❘
+  	= [A,P] ∃ͧ[x] x⦂A ∧ P x❙
 ❚
 
 theory RelativizedExistentialQuantificationND =
   include ?RelativizedExistentialQuantification❙
   include ?FOLEQND❙
-  rexistsI : {A,F} {x} ⊦x⦂A ⟶ ⊦ F x ⟶ ⊦ ∃' A F❘= [A,F,x,xa,p] existsI x andI xa p❙
-  rexistsE : {A,F,C} ⊦ ∃' A F ⟶ ({x} ⊦x⦂A ⟶ ⊦ F x ⟶ ⊦ C) ⟶ ⊦ C❘= [A,F,C,p,P] p existsE [x,q] P x (q andEl) (q andEr)❙
+  rexistsI : {A,F} {x} ⊦x⦂A ⟶ ⊦ F x ⟶ ⊦ ∃ͬ A F❘
+  	= [A,F,x,xa,p] uexistsI x andI xa p❙
+  rexistsE : {A,F,C} ⊦ ∃ͬ A F ⟶ ({x} ⊦x⦂A ⟶ ⊦ F x ⟶ ⊦ C) ⟶ ⊦ C❘
+  	= [A,F,C,p,P] p uexistsE [x,q] P x (q andEl) (q andEr)❙
 ❚
 
 theory UniqueExistentialQuantification =
   include ?ExistentialQuantification❙
   include ?UntypedEquality❙
-  existsUnique  : (term ⟶ prop) ⟶ prop❘# ∃¹ 1❙  
+  uexistsUnique  : (term ⟶ prop) ⟶ prop❘# ∃¹ͧ 1❙  
  ❚
 
 theory UniqueExistentialQuantificationND =
   include ?UniqueExistentialQuantification ❙
-  existsUniqueI : {P} {x} ⊦ P x ⟶ ({y} ⊦ P y ⟶ ⊦ x ≐ y) ⟶ ⊦ ∃¹ P❘# existsUniqueI 3 4 ❙
-  existsUniqueE : {P,C} ⊦ ∃¹ P ⟶ ({x} ⊦ P x ⟶ ({y} ⊦ P y ⟶ ⊦ x ≐ y) ⟶ ⊦ C) ⟶ ⊦ C❘# 3 existsUniqueE 4❙
+  uexistsUniqueI : {P} {x} ⊦ P x ⟶ ({y} ⊦ P y ⟶ ⊦ x =ͧ y) ⟶ ⊦ ∃¹ͧ P❘# uexistsUniqueI 3 4 ❙
+  uexistsUniqueE : {P,C} ⊦ ∃¹ͧ P ⟶ ({x} ⊦ P x ⟶ ({y} ⊦ P y ⟶ ⊦ x =ͧ y) ⟶ ⊦ C) ⟶ ⊦ C❘# 3 uexistsUniqueE 4❙
 ❚
 
 theory UniqueExistentialQuantificationNDS =
@@ -168,15 +174,16 @@ theory UniqueExistentialQuantificationNDS =
   include ?ProofEquality❙
 
   /T does not typecheck due to https://github.com/UniFormal/MMT/blob/e28a07fb6792b79337e6b69673c9c15ce08cfd4d/src/mmt-lf/src/info/kwarc/mmt/lf/SimplificationRuleGenerator.scala#L205 ❙
-  existsUniqueS: {x,P: term ⟶ prop,px: ⊦ P x,pf1: {y} ⊦ P y ⟶ ⊦ x ≐ y,
-                  C,pf2: {z} ⊦ P z ⟶ ({y} ⊦ P y ⟶ ⊦ z ≐ y) ⟶ ⊦ C}
-                    ((existsUniqueI px pf1) existsUniqueE pf2) ⟺ pf2 x px pf1 ❘ role Simplify ❙
+  existsUniqueS: {x,P: term ⟶ prop,px: ⊦ P x,pf1: {y} ⊦ P y ⟶ ⊦ x =ͧ y,
+                  C,pf2: {z} ⊦ P z ⟶ ({y} ⊦ P y ⟶ ⊦ z =ͧ y) ⟶ ⊦ C}
+                    ((uexistsUniqueI px pf1) uexistsUniqueE pf2) ⟺ pf2 x px pf1 ❘ role Simplify ❙
 ❚
 
+// AS: maybe rename with u❚
 theory Description =
   include ?Logic❙
   include ?UniqueExistentialQuantification❙
-  the : {P} ⊦ ∃¹ P ⟶ term❘# the 1 2❙
+  the : {P} ⊦ ∃¹ͧ P ⟶ term❘# the 1 2❙
 ❚
 
 theory DescriptionND =
@@ -190,18 +197,18 @@ theory DescriptionNDS =
   include ?DescriptionND❙
   include ?ProofEquality ❙
   /T does not typecheck due to https://github.com/UniFormal/MMT/blob/e28a07fb6792b79337e6b69673c9c15ce08cfd4d/src/mmt-lf/src/info/kwarc/mmt/lf/SimplificationRuleGenerator.scala#L205 ❙
-  theS: {x,P: term ⟶ prop,px: ⊦ P x,pf1: {y} ⊦ P y ⟶ ⊦ x ≐ y}
-          ⊦ the P (existsUniqueI px pf1) ≐ x ❘ role Simplify❙
+  theS: {x,P: term ⟶ prop,px: ⊦ P x,pf1: {y} ⊦ P y ⟶ ⊦ x =ͧ y}
+          ⊦ the P (uexistsUniqueI px pf1) =ͧ x ❘ role Simplify❙
 
   /T well-typedness of this constant depends on simplification rule theS above ❙
   the_axS: {x,P: term ⟶ prop,px: ⊦ P x,pf1}
-          (the_ax P (existsUniqueI px pf1)) ⟺ px ❘ role Simplify ❙
+          (the_ax P (uexistsUniqueI px pf1)) ⟺ px ❘ role Simplify ❙
 ❚
 
 theory Choice =
   include ?Logic❙
   include ?ExistentialQuantification❙
-  some : {P} ⊦ ∃ P ⟶ term❘# some 1 2❙
+  some : {P} ⊦ ∃ͧ P ⟶ term❘# some 1 2❙
 ❚
 
 theory ChoiceND =
@@ -216,10 +223,10 @@ theory ChoiceNDS =
   include ?UntypedEquality❙
   include ?ProofEquality❙
 
-  someS: {P,X,pf: ⊦ P X} ⊦ some P (existsI X pf) ≐ X ❘ role Simplify ❙
+  someS: {P,X,pf: ⊦ P X} ⊦ some P (uexistsI X pf) =ͧ X ❘ role Simplify ❙
 
   /T well-typedness of this constant depends on simplification rule someS above ❙
-  some_axS: {P,X,pf: ⊦ P X} some_ax P (existsI X pf) ⟺ pf ❘ role Simplify ❙
+  some_axS: {P,X,pf: ⊦ P X} some_ax P (uexistsI X pf) ⟺ pf ❘ role Simplify ❙
 ❚
 
 theory FOLEQDesc = 

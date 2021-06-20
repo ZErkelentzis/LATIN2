@@ -12,7 +12,7 @@ theory TypedPredicateSubtypes =
   predsubEr : {A, P, x:tm A|P} ⊦ P (predsubEl x) ❘# predsubEr 3 ❘@ predsubEr_long ❙
 
   predsubElBeta
-    : {A, P, a, p: ⊦ P a}  ⊦ predsubEl_long A P (a ↓ p) ≐ a
+    : {A, P, a, p: ⊦ P a}  ⊦ predsubEl_long A P (a ↓ p) =ͭ a
     ❘// we need predsubEl_long here due to an incompleteness/bug of MMT's inference algorithm
     ❘role Simplify
   ❙

@@ -5,24 +5,24 @@ fixmeta ur:?LF❚
 
 theory TypedUniversalQuantification =
   include ?TypedLogic❙
-  forall : {A} (tm A ⟶ prop) ⟶ prop❘# ∀ 2❙
+  tforall : {A} (tm A ⟶ prop) ⟶ prop❘# ∀ͭ 2❙
 ❚
 
 theory TypedUniversalQuantificationND =
   include ?TypedUniversalQuantification❙
-  forallI  : {A,P} ({x: tm A} ⊦ P x) ⟶ ⊦ ∀ [x] P x❙
-  forallE  : {A,P} ⊦ ∀ P ⟶ {x: tm A} ⊦ P x❘# 3 forallE 4❘role ForwardRule❙
+  tforallI  : {A,P} ({x: tm A} ⊦ P x) ⟶ ⊦ ∀ͭ [x] P x❙
+  tforallE  : {A,P} ⊦ ∀ͭ P ⟶ {x: tm A} ⊦ P x❘# 3 tforallE 4❘role ForwardRule❙
 ❚
 
 theory TypedExistentialQuantification =
   include ?TypedLogic❙
-  exists : {A} (tm A ⟶ prop) ⟶ prop❘# ∃ 2❙
+  texists : {A} (tm A ⟶ prop) ⟶ prop❘# ∃ͭ 2❙
 ❚
 
 theory TypedExistentialQuantificationND =
   include ?TypedExistentialQuantification❙
-  existsI  : {A,P} {x: tm A} ⊦ P x ⟶ ⊦ ∃ P❘# existsI 3 4❙
-  existsE  : {A,P,C} ⊦ ∃ P ⟶ ({x: tm A} ⊦ P x ⟶ ⊦ C) ⟶ ⊦ C❘# 4 existsE 5❘❙
+  texistsI  : {A,P} {x: tm A} ⊦ P x ⟶ ⊦ ∃ͭ P❘# texistsI 3 4❙
+  texistsE  : {A,P,C} ⊦ ∃ͭ P ⟶ ({x: tm A} ⊦ P x ⟶ ⊦ C) ⟶ ⊦ C❘# 4 texistsE 5❙
 ❚
 
 theory ISFOL =
@@ -53,7 +53,8 @@ theory SFOLND =
 theory SFOLEQ =
   include ?SFOL❙
   include ?TypedEquality❙
-  notequal : {A} tm A ⟶ tm A ⟶ prop❘= [A,x,y]¬x≐y❘# 2 ≠ 3 prec 30❙
+  notequal : {A} tm A ⟶ tm A ⟶ prop❘# 2 ≠ 3 prec 30❘
+  	= [A,x,y] ¬x =ͭ y❙
 ❚
 
 theory SFOLEQND =
@@ -71,25 +72,25 @@ theory ISFOLEQND =
 theory TypedUniqueExistentialQuantification =
   include ?TypedExistentialQuantification❙
   include ?TypedEquality❙
-  existsUnique  : {A} (tm A ⟶ prop) ⟶ prop❘# ∃¹ 2❙
+  texistsUnique  : {A} (tm A ⟶ prop) ⟶ prop❘# ∃¹ͭ 2❙
 ❚
 
 theory TypedUniqueExistentialQuantificationND =
   include ?TypedUniqueExistentialQuantification❙
-  existsUniqueI : {A,P} {x: tm A} ⊦ P x ⟶ ({y} ⊦ P y ⟶ ⊦ x ≐ y) ⟶ ⊦ ∃¹ P❘# existsUniqueI 3 4 5❙
-  existsUniqueE : {A,P,C} ⊦ ∃¹ P ⟶ ({x: tm A} ⊦ P x ⟶ ({y} ⊦ P y ⟶ ⊦ x ≐ y) ⟶ ⊦ C) ⟶ ⊦ C❘# 4 existsUniqueE 5❘❙
+  texistsUniqueI : {A,P} {x: tm A} ⊦ P x ⟶ ({y} ⊦ P y ⟶ ⊦ x =ͭ y) ⟶ ⊦ ∃¹ͭ P❘# texistsUniqueI 3 4 5❙
+  texistsUniqueE : {A,P,C} ⊦ ∃¹ͭ P ⟶ ({x: tm A} ⊦ P x ⟶ ({y} ⊦ P y ⟶ ⊦ x =ͭ y) ⟶ ⊦ C) ⟶ ⊦ C❘# 4 texistsUniqueE 5❙
 ❚
 
 theory TypedDescription =
   include ?TypedLogic❙
   include ?TypedUniqueExistentialQuantification❙
-  the : {A} {P:tm A ⟶ prop} ⊦ ∃¹ P ⟶ tm A❘# the 2 3❙
-  the_ax : {A,P: tm A ⟶ prop,p} ⊦ P (the P p)❘# the_ax 2 3❙
+  tthe : {A} {P:tm A ⟶ prop} ⊦ ∃¹ͭ P ⟶ tm A❘# tthe 2 3❙
+  tthe_ax : {A,P: tm A ⟶ prop,p} ⊦ P (tthe P p)❘# tthe_ax 2 3❙
 ❚
 
 theory TypedChoice =
   include ?TypedLogic❙
   include ?TypedExistentialQuantification❙
-  some : {A} {P:tm A ⟶ prop} ⊦ ∃ P ⟶ tm A❘# some 2 3❙
-  some_ax : {A,P: tm A ⟶ prop,p} ⊦ P (some P p)❘# some_ax 2 3❙
+  tsome : {A} {P:tm A ⟶ prop} ⊦ ∃ͭ P ⟶ tm A❘# tsome 2 3❙
+  tsome_ax : {A,P: tm A ⟶ prop,p} ⊦ P (tsome P p)❘# tsome_ax 2 3❙
 ❚

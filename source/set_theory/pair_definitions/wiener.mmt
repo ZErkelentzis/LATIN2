@@ -3,38 +3,38 @@ namespace latin:/❚
 fixmeta ?SetFOL❚
 
 theory WienerPairs =
-	// (a,b) = {{{a},∅},{{b}}}❙
-	include ?EmptySet❙
-	include ?Singletons❙
-	include ?UnorderedPairs❙
-	include ?BigUnion❙
-	include ?Filter❙
-	
-	realize ?OrderedPairs❙
-	pair = [a,b] uopair (uopair (singleton a) ∅) (singleton (singleton b))❙
-	pi1 = [p] ⋃(⋃(⋃p) | [a] ∃[b] uopair (uopair (singleton a) ∅) (singleton (singleton b)) ≐ p)❙
-	pi2 = [p] ⋃(⋃(⋃p) | [b] ∃[a] uopair (uopair (singleton a) ∅) (singleton (singleton b)) ≐ p)❙
-	
-	// computation rules❙
-	compL = [a,b] extensionalityI ([x] equivI
-		([p] p bigunionE ([X,pa,pb] (pa filterEl) bigunionE ([Y,qa,qb] qa bigunionE ([Z,ra,rb]
-		ra uopairE ([sa] (in_eq rb sa) uopairE ([ta] in_eq pb ((in_eq qb ta) singletonE))
-		([tb] empty_prop notE (existsI X (in_eq qb tb)) inconE))
-		([sb] (pa filterEr) existsE ([y,py] (in_eq uopairIl (eq/sym py)) uopairE
-		([ta] (in_eq uopairIl ta) uopairE ([ua] in_eq pb (eq/sym (singleton_inj ua)))
-		([ub] empty_prop notE (existsI a (in_eq singletonI ub)) inconE))
-		([tb] (issingletonI tb) existsUniqueE ([z,pz,qz] empty_prop notE (existsI a
-		(in_eq singletonI (eq/trans (eq/sym (qz (singleton a) uopairIl)) (qz ∅ uopairIr)))) inconE))))))))
-		([q] bigunionI (filterI (bigunionI (bigunionI uopairIl uopairIl) singletonI)
-		(existsI b refl)) q))❙
-		
-	compR = [a,b] extensionalityI ([x] equivI
-		([p] p bigunionE ([X,pa,pb] (pa filterEl) bigunionE ([Y,qa,qb] qa bigunionE ([Z,ra,rb]
-		ra uopairE ([sa] (pa filterEr) existsE ([y,py] (in_eq uopairIr (eq/sym py)) uopairE
-		([ta] (issingletonI (eq/sym ta)) existsUniqueE ([z,pz,qz] empty_prop notE (existsI y
-		(in_eq  singletonI (eq/trans (eq/sym (qz (singleton y) uopairIl)) (qz ∅ uopairIr)))) inconE))
-		([tb] in_eq pb (singleton_inj (singleton_inj (eq/sym tb))))))
-		([sb] in_eq pb ((in_eq qb ((in_eq rb sb) singletonE)) singletonE))))))
-		([q] bigunionI (filterI (bigunionI (bigunionI uopairIr singletonI) singletonI)
-		(existsI a refl)) q))❙
+  // (a,b) = {{{a},∅},{{b}}}❙
+  include ?EmptySet❙
+  include ?Singletons❙
+  include ?UnorderedPairs❙
+  include ?BigUnion❙
+  include ?Filter❙
+
+  realize ?OrderedPairs❙
+  pair = [a,b] uopair (uopair (singleton a) ∅) (singleton (singleton b))❙
+  pi1 = [p] ⋃(⋃(⋃p) | [a] ∃ͧ[b] uopair (uopair (singleton a) ∅) (singleton (singleton b)) =ͧ p)❙
+  pi2 = [p] ⋃(⋃(⋃p) | [b] ∃ͧ[a] uopair (uopair (singleton a) ∅) (singleton (singleton b)) =ͧ p)❙
+
+  // computation rules❙
+  compL = [a,b] extensionalityI ([x] equivI
+    ([p] p bigunionE ([X,pa,pb] (pa filterEl) bigunionE ([Y,qa,qb] qa bigunionE ([Z,ra,rb]
+    ra uopairE ([sa] (in_eq rb sa) uopairE ([ta] in_eq pb ((in_eq qb ta) singletonE))
+    ([tb] empty_prop notE (uexistsI X (in_eq qb tb)) inconE))
+    ([sb] (pa filterEr) uexistsE ([y,py] (in_eq uopairIl (eq/sym py)) uopairE
+    ([ta] (in_eq uopairIl ta) uopairE ([ua] in_eq pb (eq/sym (singleton_inj ua)))
+    ([ub] empty_prop notE (uexistsI a (in_eq singletonI ub)) inconE))
+    ([tb] (issingletonI tb) uexistsUniqueE ([z,pz,qz] empty_prop notE (uexistsI a
+    (in_eq singletonI (eq/trans (eq/sym (qz (singleton a) uopairIl)) (qz ∅ uopairIr)))) inconE))))))))
+    ([q] bigunionI (filterI (bigunionI (bigunionI uopairIl uopairIl) singletonI)
+    (uexistsI b urefl)) q))❙
+
+  compR = [a,b] extensionalityI ([x] equivI
+    ([p] p bigunionE ([X,pa,pb] (pa filterEl) bigunionE ([Y,qa,qb] qa bigunionE ([Z,ra,rb]
+    ra uopairE ([sa] (pa filterEr) uexistsE ([y,py] (in_eq uopairIr (eq/sym py)) uopairE
+    ([ta] (issingletonI (eq/sym ta)) uexistsUniqueE ([z,pz,qz] empty_prop notE (uexistsI y
+    (in_eq  singletonI (eq/trans (eq/sym (qz (singleton y) uopairIl)) (qz ∅ uopairIr)))) inconE))
+    ([tb] in_eq pb (singleton_inj (singleton_inj (eq/sym tb))))))
+    ([sb] in_eq pb ((in_eq qb ((in_eq rb sb) singletonE)) singletonE))))))
+    ([q] bigunionI (filterI (bigunionI (bigunionI uopairIr singletonI) singletonI)
+    (uexistsI a urefl)) q))❙
 ❚

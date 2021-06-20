@@ -3,65 +3,61 @@ namespace latin:/❚
 fixmeta ?SetFOL❚
 
 theory EmptySet =
-  include ?EmptySetDefinitions❙
-  // symbol: jemptyset❙
-  empty : set❘# ∅❙
-  empty_prop : ⊦ isempty ∅❙
+  include ?EmptyDefinitions❙
   
-  empty_unique : ⊦ ∃¹ isempty❘
-  	= existsUniqueI empty_prop ([y,p] extensionalityI ([x] equivI 
-  		([pa] empty_prop notE (existsI x pa) inconE)
-  		([pb] p notE (existsI x pb) inconE)))❙
-  
-  emptyI : {A} ({x} ⊦ x∈A ⟶ ⊦ false) ⟶ ⊦ A≐∅❘
-  	= [A,p] extensionalityI ([x] equivI ([pa] p x pa falseE inconE)
-  		([pb] empty_prop notE existsI x pb inconE))❙
-  emptyE : {x} ⊦ x∈∅ ⟶ ↯❘# 2 emptyE❘
-  	= [x,p] empty_prop isemptyE p❙
-  
-  empty_sub : {A} ⊦ ∅ ⪽ A❘
-  	= [A] subsetI ([x,p] empty_prop notE existsI x p inconE)❙
-❚
+  // AS: These two could be in EmptyDefinitions as well. But they are mainly necessary to prove EmptySet
+    therefore I put them here❙
+  isempty_exists : ⊦ ∃ͧ isempty❙
+  isempty_unique : ⊦ ∃¹ͧ isempty❘
+    = isempty_exists uexistsE ([X,px] uexistsUniqueI px ([y,py] extensionalityI
+      ([x] equivI ([pa] px notE (uexistsI x pa) inconE)
+      ([pb] py notE (uexistsI x pb) inconE))))❙
 
-theory UniversalSet =
-	// symbol: jU❙
-	universal : set❘# 𝒰❙
-	isuniversal : set ⟶ prop❘ = [A] ∀[x]x∈A❙
-	universal_prop : ⊦ isuniversal 𝒰❙
-	
-	universal_sub: {A} ⊦ A ⪽ 𝒰❘
-		= [A] subsetI ([x,p] universal_prop forallE x)❙
+  // symbol: jemptyset❙
+  emptyset : set❘# ∅❘
+    = the isempty isempty_unique❙
+  empty_prop : ⊦ isempty ∅❘
+    = the_ax isempty isempty_unique❙
+  
+  emptyI : {A} ({x} ⊦ x∈A ⟶ ⊦ false) ⟶ ⊦ A =ͧ ∅❘
+    = [A,p] extensionalityI ([x] equivI ([pa] p x pa falseE inconE)
+      ([pb] empty_prop notE uexistsI x pb inconE))❙
+  emptyE : {x} ⊦ x∈∅ ⟶ ↯❘# 2 emptyE❘
+    = [x,p] empty_prop isemptyE p❙
+
+  empty_sub : {A} ⊦ ∅ ⪽ A❘
+    = [A] subsetI ([x,p] empty_prop notE uexistsI x p inconE)❙
 ❚
 
 theory Singletons =
   singleton : set ⟶ set❘# singleton 1 prec 100❙
   singletonI : {x} ⊦ x∈ singleton x❙
-  singletonE : {A,x} ⊦ x∈ singleton A ⟶ ⊦ x≐A❘# 3 singletonE❙
+  singletonE : {A,x} ⊦ x∈ singleton A ⟶ ⊦ x =ͧ A❘# 3 singletonE❙
   
-  issingleton : set ⟶ prop❘ = [A] ∃¹[x] x∈A❙
+  issingleton : set ⟶ prop❘ = [A] ∃¹ͧ[x] x∈A❙
   singleton_the : {A} ⊦ issingleton A ⟶ set❘ 
-  	= [A,p] the ([u] u∈A) p❙
-  	
-  issingletonI : {A,B} ⊦ A ≐ singleton B ⟶ ⊦ issingleton A❘
-  	= [A,B,p] eq/sym p congP ([X] issingleton X)
-  		(existsUniqueI singletonI ([C,q] eq/sym (q singletonE)))❙
-  issingletonE : {A} ⊦ issingleton A ⟶ ⊦ ∃[X] A ≐ singleton X❘# 2 issingletonE❘
-  	= [A,p] p existsUniqueE ([X,pa,pb] existsI X extensionalityI ([x] equivI
-  		([qa] eq_in (eq/sym (pb x qa)) singletonI)
-  		([qb] eq_in (qb singletonE) pa)))❙
+    = [A,p] the ([u] u∈A) p❙
+
+  issingletonI : {A,B} ⊦ A =ͧ singleton B ⟶ ⊦ issingleton A❘
+    = [A,B,p] eq/sym p ucongP ([X] issingleton X)
+      (uexistsUniqueI singletonI ([C,q] eq/sym (q singletonE)))❙
+  issingletonE : {A} ⊦ issingleton A ⟶ ⊦ ∃ͧ[X] A =ͧ singleton X❘# 2 issingletonE❘
+    = [A,p] p uexistsUniqueE ([X,pa,pb] uexistsI X extensionalityI ([x] equivI
+      ([qa] eq_in (eq/sym (pb x qa)) singletonI)
+      ([qb] eq_in (qb singletonE) pa)))❙
   
-  singleton_inj : {A,B} ⊦ singleton A ≐ singleton B ⟶ ⊦ A≐B❘
-  	= [A,B,p] in_eq singletonI p singletonE❙
+  singleton_inj : {A,B} ⊦ singleton A =ͧ singleton B ⟶ ⊦ A =ͧ B❘
+    = [A,B,p] in_eq singletonI p singletonE❙
 ❚
 
 theory UnorderedPairs =
   uopair : set ⟶ set ⟶ set❘# uopair 1 2 prec 40❙
   uopairIl : {x,B} ⊦ x∈ uopair x B❙
   uopairIr : {A,y} ⊦ y∈ uopair A y❙
-  uopairE  : {A,B,x,C} ⊦ x∈ uopair A B ⟶ (⊦ x≐A ⟶ ⊦C) ⟶ (⊦ x≐B ⟶ ⊦C) ⟶ ⊦C❘# 5 uopairE 6 7❙
+  uopairE  : {A,B,x,C} ⊦ x∈ uopair A B ⟶ (⊦ x =ͧ A ⟶ ⊦C) ⟶ (⊦ x =ͧ B ⟶ ⊦C) ⟶ ⊦C❘# 5 uopairE 6 7❙
   
-  uopair_comm : {A,B} ⊦ uopair A B ≐ uopair B A❘
-  	= [A,B] extensionalityI ([x] equivI 
-  	([p] p uopairE ([pa] eq_in pa uopairIr) ([pb] eq_in pb uopairIl))
-  	([q] q uopairE ([qa] eq_in qa uopairIr) ([qb] eq_in qb uopairIl)))❙
+  uopair_comm : {A,B} ⊦ uopair A B =ͧ uopair B A❘
+    = [A,B] extensionalityI ([x] equivI 
+      ([p] p uopairE ([pa] eq_in pa uopairIr) ([pb] eq_in pb uopairIl))
+      ([q] q uopairE ([qa] eq_in qa uopairIr) ([qb] eq_in qb uopairIl)))❙
 ❚

@@ -86,7 +86,7 @@ theory Example : ?TypedDynamicLogic =
   plus: tm int ⟶ tm int ⟶ tm int❘# 1 + 2 prec 50❙
   
   test: {b: var bool,x:var int}prog❘
-      = [b,x] x≔1; b≔tt; while `b≐tt do (x ≔ `x+1; if `x≐5 then b≔ff else skip); x≔`x+1❙
+      = [b,x] x≔1; b≔tt; while `b =ͭ tt do (x ≔ `x+1; if `x =ͭ 5 then b≔ff else skip); x≔`x+1❙
 ❚
 
 namespace kripkemodels❚
@@ -98,7 +98,7 @@ theory State : latin:/?HOL =
   state: tm W ⟶ {S} tm cell S ⟶ tm S❘ # 3 * 1 prec 50 ❙
   
   extends : tm W ⟶ tm W ⟶ {S} tm cell S ⟶ (tm W ⟶ tm S) ⟶ prop❘
-          = [v,w,S,n,x] n*w ≐ x v ∧ ∀[m] ¬n≐m ⇒ m*v≐m*w❘
+          = [v,w,S,n,x] n*w =ͭ x v ∧ ∀ͭ[m] ¬n =ͭ m ⇒ m*v =ͭ m*w❘
           # extends 1 2 4 5❙
   
   trclos : {S} (tm S ⟶ tm S ⟶ prop) ⟶ (tm S ⟶ tm S ⟶ prop)❘ # trclos 2 3 4❙
@@ -114,13 +114,13 @@ view DynamicLogicSemantics : latin:/?DynamicLogic → ?State =
 view NonDetProgSemantics : latin:/?NonDetProg → ?State =
   include ☞latin:/?Programs❘ = ?DynamicLogicSemantics❙
   include ?PLSemantics❙
-  comp = [p,q] [u,w] ∃ [v] p u v ∧ q v w❙
+  comp = [p,q] [u,w] ∃ͭ [v] p u v ∧ q v w❙
   distrib = [p,q] [v,w] p v w ∨ q v w❙
   iteration = [p] [v,w] trclos p v w❙
-  test = [f] [v,w] f v ∧ v≐w❙
+  test = [f] [v,w] f v ∧ v =ͭ w❙
 
   // check currently skipped❙
-  skip = [v,w] v ≐ w❙
+  skip = [v,w] v =ͭ w❙
 ❚
 
 view PropDynamicLogicSemantics : latin:/?PropDynamicLogic → ?State =
@@ -134,5 +134,5 @@ view TypedDynamicSemantics : latin:/?TypedDynamicLogic → ?State =
   var = [S] tm cell S❙
   retrieve = [S,n] [w] n*w❙
   assign = [S,n,x] [v,w] extends v w n x❙ 
-  random_assign = [S,n] [v,w] ∃[t: tm W→S] extends v w n ([u]t@u)❙
+  random_assign = [S,n] [v,w] ∃ͭ[t: tm W→S] extends v w n ([u]t@u)❙
 ❚

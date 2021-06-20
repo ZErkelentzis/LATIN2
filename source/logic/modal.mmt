@@ -126,16 +126,16 @@ view SFOLSemantics : latin:/?SFOLEQ → ?Worlds =
   include ?TermSemantics❙
   include ?PLSemantics❙
   include ?LogicSemantics❙
-  forall = liftbind forall❙
-  exists = liftbind exists❙
-  equal = [S] liftFun2 (equal S)❙
+  tforall = liftbind tforall❙
+  texists = liftbind texists❙
+  tequal = [S] liftFun2 (tequal S)❙
 ❚
 
 view MLSemantics : latin:/?ML → ?KripkeModel =
   include ?PLSemantics❙
   include ?LogicSemantics❙
-  box = [p] [v] ∀ [w] v acc w ⇒ p w❙
-  diamond = [p] [v] ∃ [w] v acc w ∧ p w❙ 
+  box = [p] [v] ∀ͭ [w] v acc w ⇒ p w❙
+  diamond = [p] [v] ∃ͭ [w] v acc w ∧ p w❙ 
 ❚
 
 view MLHilbertSemantics : latin:/?MLHilbert → ?KripkeModel =
