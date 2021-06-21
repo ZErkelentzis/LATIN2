@@ -1,0 +1,15 @@
+dataconstructor latin:/?SoftTypedDependentFunctions?fun_typing
+theory latin:/?SoftTypedDependentFunctions
+HasMeta latin:/?SoftTypedDependentFunctions http://cds.omdoc.org/urtheories?LF
+Includes latin:/?SoftTypedDependentFunctions latin:/?SoftTypedTerms
+Includes latin:/?SoftTypedDependentFunctions latin:/?SoftTypedFunctions
+Includes latin:/?SoftTypedDependentFunctions latin:/?SoftDependentFunctionTypes
+Declares latin:/?SoftTypedDependentFunctions latin:/?SoftTypedDependentFunctions?fun_typing
+constant latin:/?SoftTypedDependentFunctions?fun_typing
+DependsOn latin:/?SoftTypedDependentFunctions?fun_typing?type latin:/?SoftTypedFunctions?lambda?type
+DependsOn latin:/?SoftTypedDependentFunctions?fun_typing?type latin:/?SoftTypedTerms?of?type
+DependsOn latin:/?SoftTypedDependentFunctions?fun_typing?type latin:/?Propositions?prop?type
+DependsOn latin:/?SoftTypedDependentFunctions?fun_typing?type latin:/?SoftDependentFunctionTypes?softfun?type
+DependsOn latin:/?SoftTypedDependentFunctions?fun_typing?type latin:/?Proofs?ded?type
+DependsOn latin:/?SoftTypedDependentFunctions?fun_typing?type latin:/?Terms?term?type
+DependsOn latin:/?SoftTypedDependentFunctions?fun_typing?type latin:/?Types?tp?type

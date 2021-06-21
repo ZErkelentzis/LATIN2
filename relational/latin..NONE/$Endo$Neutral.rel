@@ -1,0 +1,31 @@
+dataconstructor latin:/?EndoNeutral?e
+dataconstructor latin:/?EndoNeutral?neutLeft
+dataconstructor latin:/?EndoNeutral?neutRight
+theory latin:/?EndoNeutral
+HasMeta latin:/?EndoNeutral latin:/?TypedEquality
+Includes latin:/?EndoNeutral latin:/?EndoMagma
+Declares latin:/?EndoNeutral latin:/?EndoNeutral?e
+constant latin:/?EndoNeutral?e
+DependsOn latin:/?EndoNeutral?e?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?EndoNeutral?e?type latin:/?TypeOperator?applyType?type
+DependsOn latin:/?EndoNeutral?e?type latin:/?Types?tp?type
+Declares latin:/?EndoNeutral latin:/?EndoNeutral?neutLeft
+constant latin:/?EndoNeutral?neutLeft
+DependsOn latin:/?EndoNeutral?neutLeft?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?EndoNeutral?neutLeft?type latin:/?Propositions?prop?type
+DependsOn latin:/?EndoNeutral?neutLeft?type latin:/?EndoNeutral?e?type
+DependsOn latin:/?EndoNeutral?neutLeft?type latin:/?TypeOperator?applyType?type
+DependsOn latin:/?EndoNeutral?neutLeft?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?EndoNeutral?neutLeft?type latin:/?EndoMagma?op?type
+DependsOn latin:/?EndoNeutral?neutLeft?type latin:/?Proofs?ded?type
+DependsOn latin:/?EndoNeutral?neutLeft?type latin:/?Types?tp?type
+Declares latin:/?EndoNeutral latin:/?EndoNeutral?neutRight
+constant latin:/?EndoNeutral?neutRight
+DependsOn latin:/?EndoNeutral?neutRight?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?EndoNeutral?neutRight?type latin:/?Propositions?prop?type
+DependsOn latin:/?EndoNeutral?neutRight?type latin:/?EndoNeutral?e?type
+DependsOn latin:/?EndoNeutral?neutRight?type latin:/?TypeOperator?applyType?type
+DependsOn latin:/?EndoNeutral?neutRight?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?EndoNeutral?neutRight?type latin:/?EndoMagma?op?type
+DependsOn latin:/?EndoNeutral?neutRight?type latin:/?Proofs?ded?type
+DependsOn latin:/?EndoNeutral?neutRight?type latin:/?Types?tp?type

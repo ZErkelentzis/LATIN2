@@ -1,0 +1,15 @@
+dataconstructor latin:/algebraic?OppositeCommMagma?[latin:/algebraic?Magma]/op
+dataconstructor latin:/algebraic?OppositeCommMagma?[latin:/algebraic?Commutative]/comm_ax
+HasDomain latin:/algebraic?OppositeCommMagma latin:/algebraic?Commutative
+HasCodomain latin:/algebraic?OppositeCommMagma latin:/algebraic?Commutative
+view latin:/algebraic?OppositeCommMagma
+HasViewFrom latin:/algebraic?Commutative latin:/algebraic?Commutative
+Includes latin:/algebraic?OppositeCommMagma latin:/algebraic?Magma
+Declares latin:/algebraic?OppositeCommMagma latin:/algebraic?OppositeCommMagma?[latin:/algebraic?Magma]/op
+constant latin:/algebraic?OppositeCommMagma?[latin:/algebraic?Magma]/op
+DependsOn latin:/algebraic?OppositeCommMagma?[latin:/algebraic?Magma]/op?definition latin:/algebraic?Set?U?type
+DependsOn latin:/algebraic?OppositeCommMagma?[latin:/algebraic?Magma]/op?definition latin:/algebraic?Magma?op?type
+Declares latin:/algebraic?OppositeCommMagma latin:/algebraic?OppositeCommMagma?[latin:/algebraic?Commutative]/comm_ax
+constant latin:/algebraic?OppositeCommMagma?[latin:/algebraic?Commutative]/comm_ax
+DependsOn latin:/algebraic?OppositeCommMagma?[latin:/algebraic?Commutative]/comm_ax?definition latin:/?Proofs?ded?type
+DependsOn latin:/algebraic?OppositeCommMagma?[latin:/algebraic?Commutative]/comm_ax?definition latin:/algebraic?Commutative?comm_ax?type

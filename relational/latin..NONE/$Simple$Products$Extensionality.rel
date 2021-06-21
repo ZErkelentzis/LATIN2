@@ -1,0 +1,14 @@
+dataconstructor latin:/?SimpleProductsExtensionality?exten
+theory latin:/?SimpleProductsExtensionality
+HasMeta latin:/?SimpleProductsExtensionality http://cds.omdoc.org/urtheories?LF
+Includes latin:/?SimpleProductsExtensionality latin:/?SimpleProducts
+Declares latin:/?SimpleProductsExtensionality latin:/?SimpleProductsExtensionality?exten
+constant latin:/?SimpleProductsExtensionality?exten
+DependsOn latin:/?SimpleProductsExtensionality?exten?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?SimpleProductsExtensionality?exten?type latin:/?Propositions?prop?type
+DependsOn latin:/?SimpleProductsExtensionality?exten?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?SimpleProductsExtensionality?exten?type latin:/?SimpleProducts?simppi2?type
+DependsOn latin:/?SimpleProductsExtensionality?exten?type latin:/?Proofs?ded?type
+DependsOn latin:/?SimpleProductsExtensionality?exten?type latin:/?Types?tp?type
+DependsOn latin:/?SimpleProductsExtensionality?exten?type latin:/?SimpleProducts?simppi1?type
+DependsOn latin:/?SimpleProductsExtensionality?exten?type latin:/?SimpleProductTypes?simpprod?type

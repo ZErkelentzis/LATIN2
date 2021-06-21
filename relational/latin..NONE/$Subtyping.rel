@@ -1,0 +1,9 @@
+rule latin:/?Subtyping?subtype
+theory latin:/?Subtyping
+HasMeta latin:/?Subtyping http://cds.omdoc.org/urtheories?LF
+Includes latin:/?Subtyping latin:/?Types
+Includes latin:/?Subtyping latin:/?Logic
+Declares latin:/?Subtyping latin:/?Subtyping?subtype
+constant latin:/?Subtyping?subtype
+DependsOn latin:/?Subtyping?subtype?type latin:/?Propositions?prop?type
+DependsOn latin:/?Subtyping?subtype?type latin:/?Types?tp?type

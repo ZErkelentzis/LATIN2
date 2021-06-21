@@ -1,0 +1,17 @@
+document latin:/set_theory/features.omdoc
+Declares latin:/set_theory/features.omdoc latin:/?Subsets
+Declares latin:/set_theory/features.omdoc latin:/?EmptySet
+Declares latin:/set_theory/features.omdoc latin:/?UnorderedPairs
+Declares latin:/set_theory/features.omdoc latin:/?Singletons
+Declares latin:/set_theory/features.omdoc latin:/?Extensionality
+Declares latin:/set_theory/features.omdoc latin:/?Regularity
+Declares latin:/set_theory/features.omdoc latin:/?Comprehension
+Declares latin:/set_theory/features.omdoc latin:/?Replacement
+Declares latin:/set_theory/features.omdoc latin:/?BigUnion
+Declares latin:/set_theory/features.omdoc latin:/?Union
+Declares latin:/set_theory/features.omdoc latin:/?BigIntersection
+Declares latin:/set_theory/features.omdoc latin:/?Intersection
+Declares latin:/set_theory/features.omdoc latin:/?PowerSets
+Declares latin:/set_theory/features.omdoc latin:/?Difference
+Declares latin:/set_theory/features.omdoc latin:/?Infinity
+Declares latin:/set_theory/features.omdoc latin:/?Choice

@@ -1,0 +1,17 @@
+dataconstructor latin:/?DisjunctionHilbert2ND?[latin:/?DisjunctionHilbert]/orE_ax
+HasDomain latin:/?DisjunctionHilbert2ND latin:/?DisjunctionHilbert
+HasCodomain latin:/?DisjunctionHilbert2ND latin:/?PLND
+view latin:/?DisjunctionHilbert2ND
+HasViewFrom latin:/?PLND latin:/?DisjunctionHilbert
+Includes latin:/?DisjunctionHilbert2ND latin:/?DisjunctionNDI
+Includes latin:/?DisjunctionHilbert2ND latin:/?ImplicationHilbert
+Declares latin:/?DisjunctionHilbert2ND latin:/?DisjunctionHilbert2ND?[latin:/?DisjunctionHilbert]/orE_ax
+constant latin:/?DisjunctionHilbert2ND?[latin:/?DisjunctionHilbert]/orE_ax
+DependsOn latin:/?DisjunctionHilbert2ND?[latin:/?DisjunctionHilbert]/orE_ax?definition latin:/?Propositions?prop?type
+DependsOn latin:/?DisjunctionHilbert2ND?[latin:/?DisjunctionHilbert]/orE_ax?definition latin:/?ImplicationNDI?implI?type
+DependsOn latin:/?DisjunctionHilbert2ND?[latin:/?DisjunctionHilbert]/orE_ax?definition latin:/?ImplicationNDE?implE?type
+DependsOn latin:/?DisjunctionHilbert2ND?[latin:/?DisjunctionHilbert]/orE_ax?definition latin:/?Proofs?ded?type
+DependsOn latin:/?DisjunctionHilbert2ND?[latin:/?DisjunctionHilbert]/orE_ax?definition latin:/?DisjunctionNDE?orE?type
+DependsOn latin:/?DisjunctionHilbert2ND?[latin:/?DisjunctionHilbert]/orE_ax?definition latin:/?Disjunction?or?type
+DependsOn latin:/?DisjunctionHilbert2ND?[latin:/?DisjunctionHilbert]/orE_ax?definition latin:/?Implication?impl?type
+IsImplicitly latin:/?PLND latin:/?DisjunctionHilbert

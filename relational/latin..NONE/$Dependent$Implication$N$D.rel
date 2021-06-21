@@ -1,0 +1,15 @@
+dataconstructor latin:/?DependentImplicationND?dimpI
+dataconstructor latin:/?DependentImplicationND?dimpE
+theory latin:/?DependentImplicationND
+HasMeta latin:/?DependentImplicationND http://cds.omdoc.org/urtheories?LF
+Includes latin:/?DependentImplicationND latin:/?DependentImplication
+Declares latin:/?DependentImplicationND latin:/?DependentImplicationND?dimpI
+constant latin:/?DependentImplicationND?dimpI
+DependsOn latin:/?DependentImplicationND?dimpI?type latin:/?Propositions?prop?type
+DependsOn latin:/?DependentImplicationND?dimpI?type latin:/?Proofs?ded?type
+DependsOn latin:/?DependentImplicationND?dimpI?type latin:/?DependentImplication?dimpl?type
+Declares latin:/?DependentImplicationND latin:/?DependentImplicationND?dimpE
+constant latin:/?DependentImplicationND?dimpE
+DependsOn latin:/?DependentImplicationND?dimpE?type latin:/?Propositions?prop?type
+DependsOn latin:/?DependentImplicationND?dimpE?type latin:/?Proofs?ded?type
+DependsOn latin:/?DependentImplicationND?dimpE?type latin:/?DependentImplication?dimpl?type

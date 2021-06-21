@@ -1,0 +1,4 @@
+theory latin:/?Band
+HasMeta latin:/?Band http://cds.omdoc.org/urtheories?LF
+Includes latin:/?Band latin:/?Semigroup
+Includes latin:/?Band latin:/?Idempotent

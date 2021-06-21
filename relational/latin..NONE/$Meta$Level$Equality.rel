@@ -1,0 +1,25 @@
+dataconstructor latin:/?MetaLevelEquality?equal
+dataconstructor latin:/?MetaLevelEquality?refl
+dataconstructor latin:/?MetaLevelEquality?transport
+dataconstructor latin:/?MetaLevelEquality?cong
+theory latin:/?MetaLevelEquality
+HasMeta latin:/?MetaLevelEquality http://cds.omdoc.org/urtheories?PLF
+Includes latin:/?MetaLevelEquality latin:/?Logic
+Declares latin:/?MetaLevelEquality latin:/?MetaLevelEquality?equal
+constant latin:/?MetaLevelEquality?equal
+DependsOn latin:/?MetaLevelEquality?equal?type latin:/?Propositions?prop?type
+Declares latin:/?MetaLevelEquality latin:/?MetaLevelEquality?refl
+constant latin:/?MetaLevelEquality?refl
+DependsOn latin:/?MetaLevelEquality?refl?type latin:/?Propositions?prop?type
+DependsOn latin:/?MetaLevelEquality?refl?type latin:/?MetaLevelEquality?equal?type
+DependsOn latin:/?MetaLevelEquality?refl?type latin:/?Proofs?ded?type
+Declares latin:/?MetaLevelEquality latin:/?MetaLevelEquality?transport
+constant latin:/?MetaLevelEquality?transport
+DependsOn latin:/?MetaLevelEquality?transport?type latin:/?Propositions?prop?type
+DependsOn latin:/?MetaLevelEquality?transport?type latin:/?MetaLevelEquality?equal?type
+DependsOn latin:/?MetaLevelEquality?transport?type latin:/?Proofs?ded?type
+Declares latin:/?MetaLevelEquality latin:/?MetaLevelEquality?cong
+constant latin:/?MetaLevelEquality?cong
+DependsOn latin:/?MetaLevelEquality?cong?type latin:/?Propositions?prop?type
+DependsOn latin:/?MetaLevelEquality?cong?type latin:/?MetaLevelEquality?equal?type
+DependsOn latin:/?MetaLevelEquality?cong?type latin:/?Proofs?ded?type

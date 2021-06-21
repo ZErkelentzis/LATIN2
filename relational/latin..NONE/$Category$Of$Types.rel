@@ -1,0 +1,29 @@
+datatypeconstructor latin:/?CategoryOfTypes?[latin:/?Class]/obj
+dataconstructor latin:/?CategoryOfTypes?[latin:/?Category]/hom
+dataconstructor latin:/?CategoryOfTypes?[latin:/?Category]/ident
+dataconstructor latin:/?CategoryOfTypes?[latin:/?Category]/comp
+HasDomain latin:/?CategoryOfTypes latin:/?Category
+HasCodomain latin:/?CategoryOfTypes latin:/?SimpleFunctions
+view latin:/?CategoryOfTypes
+HasViewFrom latin:/?SimpleFunctions latin:/?Category
+Declares latin:/?CategoryOfTypes latin:/?CategoryOfTypes?[latin:/?Class]/obj
+constant latin:/?CategoryOfTypes?[latin:/?Class]/obj
+DependsOn latin:/?CategoryOfTypes?[latin:/?Class]/obj?definition latin:/?Types?tp?type
+Declares latin:/?CategoryOfTypes latin:/?CategoryOfTypes?[latin:/?Category]/hom
+constant latin:/?CategoryOfTypes?[latin:/?Category]/hom
+DependsOn latin:/?CategoryOfTypes?[latin:/?Category]/hom?definition latin:/?SimpleFunctionTypes?simpfun?type
+DependsOn latin:/?CategoryOfTypes?[latin:/?Category]/hom?definition latin:/?Types?tp?type
+Declares latin:/?CategoryOfTypes latin:/?CategoryOfTypes?[latin:/?Category]/ident
+constant latin:/?CategoryOfTypes?[latin:/?Category]/ident
+DependsOn latin:/?CategoryOfTypes?[latin:/?Category]/ident?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?CategoryOfTypes?[latin:/?Category]/ident?definition latin:/?SimpleFunctions?simplambda?type
+DependsOn latin:/?CategoryOfTypes?[latin:/?Category]/ident?definition latin:/?SimpleFunctionTypes?simpfun?type
+DependsOn latin:/?CategoryOfTypes?[latin:/?Category]/ident?definition latin:/?Types?tp?type
+Declares latin:/?CategoryOfTypes latin:/?CategoryOfTypes?[latin:/?Category]/comp
+constant latin:/?CategoryOfTypes?[latin:/?Category]/comp
+DependsOn latin:/?CategoryOfTypes?[latin:/?Category]/comp?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?CategoryOfTypes?[latin:/?Category]/comp?definition latin:/?SimpleFunctions?simplambda?type
+DependsOn latin:/?CategoryOfTypes?[latin:/?Category]/comp?definition latin:/?SimpleFunctionTypes?simpfun?type
+DependsOn latin:/?CategoryOfTypes?[latin:/?Category]/comp?definition latin:/?SimpleFunctions?simpapply?type
+DependsOn latin:/?CategoryOfTypes?[latin:/?Category]/comp?definition latin:/?Types?tp?type
+IsImplicitly latin:/?SimpleFunctions latin:/?Category

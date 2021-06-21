@@ -1,0 +1,9 @@
+dataconstructor latin:/?Idempotent?idempotent
+theory latin:/?Idempotent
+HasMeta latin:/?Idempotent http://cds.omdoc.org/urtheories?LF
+Includes latin:/?Idempotent latin:/?Magma
+Declares latin:/?Idempotent latin:/?Idempotent?idempotent
+constant latin:/?Idempotent?idempotent
+DependsOn latin:/?Idempotent?idempotent?type latin:/?Magma?op?type
+DependsOn latin:/?Idempotent?idempotent?type latin:/?EqualityType?equalityRel/[latin:/?Relation]/rel?type
+DependsOn latin:/?Idempotent?idempotent?type latin:/?OneTyped?carrier?type

@@ -1,0 +1,46 @@
+dataconstructor latin:/?MizarView?[latin:/?Disjunction]/or
+dataconstructor latin:/?MizarView?[latin:/?Implication]/impl
+dataconstructor latin:/?MizarView?[latin:/?Equivalence]/equiv
+dataconstructor latin:/?MizarView?[latin:/?ExistentialQuantification]/exists
+dataconstructor latin:/?MizarView?[latin:/?UniqueExistentialQuantification]/existsUnique
+dataconstructor latin:/?MizarView?[latin:/?RelativizedUniversalQuantification]/rforall
+dataconstructor latin:/?MizarView?[latin:/?RelativizedExistentialQuantification]/rexists
+HasDomain latin:/?MizarView latin:/?SoftTypedFOL
+HasCodomain latin:/?MizarView latin:/?SoftTypedDefinedFOL
+view latin:/?MizarView
+HasViewFrom latin:/?SoftTypedDefinedFOL latin:/?SoftTypedFOL
+Includes latin:/?MizarView latin:/?SoftTypedLogic
+Includes latin:/?MizarView latin:/?Conjunction
+Includes latin:/?MizarView latin:/?Negation
+Includes latin:/?MizarView latin:/?Truth
+Includes latin:/?MizarView latin:/?Falsity
+Includes latin:/?MizarView latin:/?UntypedEquality
+Includes latin:/?MizarView latin:/?UniversalQuantification
+Declares latin:/?MizarView latin:/?MizarView?[latin:/?Disjunction]/or
+constant latin:/?MizarView?[latin:/?Disjunction]/or
+DependsOn latin:/?MizarView?[latin:/?Disjunction]/or?definition latin:/?Propositions?prop?type
+DependsOn latin:/?MizarView?[latin:/?Disjunction]/or?definition latin:/?SoftTypedDefinedFOL?or?type
+Declares latin:/?MizarView latin:/?MizarView?[latin:/?Implication]/impl
+constant latin:/?MizarView?[latin:/?Implication]/impl
+DependsOn latin:/?MizarView?[latin:/?Implication]/impl?definition latin:/?Propositions?prop?type
+DependsOn latin:/?MizarView?[latin:/?Implication]/impl?definition latin:/?SoftTypedDefinedFOL?implies?type
+Declares latin:/?MizarView latin:/?MizarView?[latin:/?Equivalence]/equiv
+constant latin:/?MizarView?[latin:/?Equivalence]/equiv
+DependsOn latin:/?MizarView?[latin:/?Equivalence]/equiv?definition latin:/?SoftTypedDefinedFOL?iff?type
+DependsOn latin:/?MizarView?[latin:/?Equivalence]/equiv?definition latin:/?Propositions?prop?type
+Declares latin:/?MizarView latin:/?MizarView?[latin:/?ExistentialQuantification]/exists
+constant latin:/?MizarView?[latin:/?ExistentialQuantification]/exists
+DependsOn latin:/?MizarView?[latin:/?ExistentialQuantification]/exists?definition latin:/?Propositions?prop?type
+DependsOn latin:/?MizarView?[latin:/?ExistentialQuantification]/exists?definition latin:/?SoftTypedDefinedFOL?exists?type
+Declares latin:/?MizarView latin:/?MizarView?[latin:/?UniqueExistentialQuantification]/existsUnique
+constant latin:/?MizarView?[latin:/?UniqueExistentialQuantification]/existsUnique
+DependsOn latin:/?MizarView?[latin:/?UniqueExistentialQuantification]/existsUnique?definition latin:/?Propositions?prop?type
+DependsOn latin:/?MizarView?[latin:/?UniqueExistentialQuantification]/existsUnique?definition latin:/?SoftTypedDefinedFOL?existsUnique?type
+Declares latin:/?MizarView latin:/?MizarView?[latin:/?RelativizedUniversalQuantification]/rforall
+constant latin:/?MizarView?[latin:/?RelativizedUniversalQuantification]/rforall
+DependsOn latin:/?MizarView?[latin:/?RelativizedUniversalQuantification]/rforall?definition latin:/?Propositions?prop?type
+DependsOn latin:/?MizarView?[latin:/?RelativizedUniversalQuantification]/rforall?definition latin:/?SoftTypedDefinedFOL?for?type
+Declares latin:/?MizarView latin:/?MizarView?[latin:/?RelativizedExistentialQuantification]/rexists
+constant latin:/?MizarView?[latin:/?RelativizedExistentialQuantification]/rexists
+DependsOn latin:/?MizarView?[latin:/?RelativizedExistentialQuantification]/rexists?definition latin:/?Propositions?prop?type
+DependsOn latin:/?MizarView?[latin:/?RelativizedExistentialQuantification]/rexists?definition latin:/?SoftTypedDefinedFOL?ex?type

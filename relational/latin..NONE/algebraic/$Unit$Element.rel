@@ -1,0 +1,34 @@
+dataconstructor latin:/algebraic?UnitElement?unitelem/[latin:/algebraic?Set]/universe
+datatypeconstructor latin:/algebraic?UnitElement?unitelem/[latin:/algebraic?Set]/U
+dataconstructor latin:/algebraic?UnitElement?unitelem/elem
+dataconstructor latin:/algebraic?UnitElement?involution
+theory latin:/algebraic?UnitElement
+HasMeta latin:/algebraic?UnitElement latin:/?SFOLEQND
+Includes latin:/algebraic?UnitElement latin:/algebraic?Magma
+Declares latin:/algebraic?UnitElement latin:/algebraic?UnitElement?unitelem
+HasDomain latin:/algebraic?UnitElement?unitelem latin:/algebraic?Pointed
+HasCodomain latin:/algebraic?UnitElement?unitelem latin:/algebraic?UnitElement
+structure latin:/algebraic?UnitElement?unitelem
+Declares latin:/algebraic?UnitElement latin:/algebraic?UnitElement?unitelem/[latin:/algebraic?Set]
+HasDomain latin:/algebraic?UnitElement?unitelem/[latin:/algebraic?Set] latin:/algebraic?Set
+HasCodomain latin:/algebraic?UnitElement?unitelem/[latin:/algebraic?Set] latin:/algebraic?UnitElement
+structure latin:/algebraic?UnitElement?unitelem/[latin:/algebraic?Set]
+Declares latin:/algebraic?UnitElement latin:/algebraic?UnitElement?unitelem/[latin:/algebraic?Set]/universe
+constant latin:/algebraic?UnitElement?unitelem/[latin:/algebraic?Set]/universe
+Declares latin:/algebraic?UnitElement latin:/algebraic?UnitElement?unitelem/[latin:/algebraic?Set]/U
+constant latin:/algebraic?UnitElement?unitelem/[latin:/algebraic?Set]/U
+Declares latin:/algebraic?UnitElement latin:/algebraic?UnitElement?unitelem/elem
+constant latin:/algebraic?UnitElement?unitelem/elem
+IsAliasFor latin:/algebraic?UnitElement?e latin:/algebraic?UnitElement?unitelem/elem
+Declares latin:/algebraic?UnitElement latin:/algebraic?UnitElement?involution
+constant latin:/algebraic?UnitElement?involution
+DependsOn latin:/algebraic?UnitElement?involution?type latin:/?Propositions?prop?type
+DependsOn latin:/algebraic?UnitElement?involution?type latin:/algebraic?Set?U?type
+DependsOn latin:/algebraic?UnitElement?involution?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/algebraic?UnitElement?involution?definition latin:/?Propositions?prop?type
+DependsOn latin:/algebraic?UnitElement?involution?definition latin:/algebraic?Set?U?type
+DependsOn latin:/algebraic?UnitElement?involution?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/algebraic?UnitElement?involution?definition latin:/algebraic?Magma?op?type
+DependsOn latin:/algebraic?UnitElement?involution?definition latin:/?Types?tp?type
+DependsOn latin:/algebraic?UnitElement?involution?definition latin:/algebraic?Set?universe?type
+DependsOn latin:/algebraic?UnitElement?involution?definition latin:/algebraic?UnitElement?unitelem/elem?type

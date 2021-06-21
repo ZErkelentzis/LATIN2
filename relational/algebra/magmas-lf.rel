@@ -1,0 +1,12 @@
+document latin:/algebra/magmas-lf.omdoc
+Declares latin:/algebra/magmas-lf.omdoc latin:/?Magma
+Declares latin:/algebra/magmas-lf.omdoc latin:/?Semigroup
+Declares latin:/algebra/magmas-lf.omdoc latin:/?Commutative
+Declares latin:/algebra/magmas-lf.omdoc latin:/?Neutral
+Declares latin:/algebra/magmas-lf.omdoc latin:/?Idempotent
+Declares latin:/algebra/magmas-lf.omdoc latin:/?Monoid
+Declares latin:/algebra/magmas-lf.omdoc latin:/?CommSemigroup
+Declares latin:/algebra/magmas-lf.omdoc latin:/?Band
+Declares latin:/algebra/magmas-lf.omdoc latin:/?CommMonoid
+Declares latin:/algebra/magmas-lf.omdoc latin:/?Semilattice
+Declares latin:/algebra/magmas-lf.omdoc latin:/?BoundedSemilattice

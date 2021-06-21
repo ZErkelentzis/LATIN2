@@ -1,0 +1,10 @@
+dataconstructor latin:/?TypesNonEmpty?nonempty
+theory latin:/?TypesNonEmpty
+HasMeta latin:/?TypesNonEmpty http://cds.omdoc.org/urtheories?LF
+Includes latin:/?TypesNonEmpty latin:/?TypedLogic
+Declares latin:/?TypesNonEmpty latin:/?TypesNonEmpty?nonempty
+constant latin:/?TypesNonEmpty?nonempty
+DependsOn latin:/?TypesNonEmpty?nonempty?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?TypesNonEmpty?nonempty?type latin:/?Propositions?prop?type
+DependsOn latin:/?TypesNonEmpty?nonempty?type latin:/?Proofs?ded?type
+DependsOn latin:/?TypesNonEmpty?nonempty?type latin:/?Types?tp?type

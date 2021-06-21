@@ -1,0 +1,16 @@
+dataconstructor latin:/?RelativizedUniversalQuantification?rforall
+theory latin:/?RelativizedUniversalQuantification
+HasMeta latin:/?RelativizedUniversalQuantification http://cds.omdoc.org/urtheories?LF
+Includes latin:/?RelativizedUniversalQuantification latin:/?SoftTypedTerms
+Includes latin:/?RelativizedUniversalQuantification latin:/?FOLEQ
+Declares latin:/?RelativizedUniversalQuantification latin:/?RelativizedUniversalQuantification?rforall
+constant latin:/?RelativizedUniversalQuantification?rforall
+DependsOn latin:/?RelativizedUniversalQuantification?rforall?type latin:/?Propositions?prop?type
+DependsOn latin:/?RelativizedUniversalQuantification?rforall?type latin:/?Terms?term?type
+DependsOn latin:/?RelativizedUniversalQuantification?rforall?type latin:/?Types?tp?type
+DependsOn latin:/?RelativizedUniversalQuantification?rforall?definition latin:/?SoftTypedTerms?of?type
+DependsOn latin:/?RelativizedUniversalQuantification?rforall?definition latin:/?Propositions?prop?type
+DependsOn latin:/?RelativizedUniversalQuantification?rforall?definition latin:/?Terms?term?type
+DependsOn latin:/?RelativizedUniversalQuantification?rforall?definition latin:/?Types?tp?type
+DependsOn latin:/?RelativizedUniversalQuantification?rforall?definition latin:/?UniversalQuantification?forall?type
+DependsOn latin:/?RelativizedUniversalQuantification?rforall?definition latin:/?Implication?impl?type

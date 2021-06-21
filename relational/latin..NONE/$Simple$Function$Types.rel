@@ -1,0 +1,7 @@
+dataconstructor latin:/?SimpleFunctionTypes?simpfun
+theory latin:/?SimpleFunctionTypes
+HasMeta latin:/?SimpleFunctionTypes http://cds.omdoc.org/urtheories?LF
+Includes latin:/?SimpleFunctionTypes latin:/?Types
+Declares latin:/?SimpleFunctionTypes latin:/?SimpleFunctionTypes?simpfun
+constant latin:/?SimpleFunctionTypes?simpfun
+DependsOn latin:/?SimpleFunctionTypes?simpfun?type latin:/?Types?tp?type

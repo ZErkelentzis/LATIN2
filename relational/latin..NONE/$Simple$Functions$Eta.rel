@@ -1,0 +1,14 @@
+dataconstructor latin:/?SimpleFunctionsEta?eta
+theory latin:/?SimpleFunctionsEta
+HasMeta latin:/?SimpleFunctionsEta http://cds.omdoc.org/urtheories?LF
+Includes latin:/?SimpleFunctionsEta latin:/?SimpleFunctions
+Declares latin:/?SimpleFunctionsEta latin:/?SimpleFunctionsEta?eta
+constant latin:/?SimpleFunctionsEta?eta
+DependsOn latin:/?SimpleFunctionsEta?eta?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?SimpleFunctionsEta?eta?type latin:/?Propositions?prop?type
+DependsOn latin:/?SimpleFunctionsEta?eta?type latin:/?SimpleFunctions?simplambda?type
+DependsOn latin:/?SimpleFunctionsEta?eta?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?SimpleFunctionsEta?eta?type latin:/?Proofs?ded?type
+DependsOn latin:/?SimpleFunctionsEta?eta?type latin:/?SimpleFunctionTypes?simpfun?type
+DependsOn latin:/?SimpleFunctionsEta?eta?type latin:/?SimpleFunctions?simpapply?type
+DependsOn latin:/?SimpleFunctionsEta?eta?type latin:/?Types?tp?type

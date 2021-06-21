@@ -1,0 +1,24 @@
+dataconstructor latin:/?QuotientFunctionAccess?quot_fun
+dataconstructor latin:/?QuotientFunctionAccess?quote_fun_ax
+theory latin:/?QuotientFunctionAccess
+HasMeta latin:/?QuotientFunctionAccess http://cds.omdoc.org/urtheories?LF
+Includes latin:/?QuotientFunctionAccess latin:/?QuotientTypesBase
+Declares latin:/?QuotientFunctionAccess latin:/?QuotientFunctionAccess?quot_fun
+constant latin:/?QuotientFunctionAccess?quot_fun
+DependsOn latin:/?QuotientFunctionAccess?quot_fun?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?QuotientFunctionAccess?quot_fun?type latin:/?QuotientTypesBase?quot?type
+DependsOn latin:/?QuotientFunctionAccess?quot_fun?type latin:/?QuotientTypesBase?eqv?type
+DependsOn latin:/?QuotientFunctionAccess?quot_fun?type latin:/?QuotientTypesBase?fun_congruence?type
+DependsOn latin:/?QuotientFunctionAccess?quot_fun?type latin:/?Types?tp?type
+Declares latin:/?QuotientFunctionAccess latin:/?QuotientFunctionAccess?quote_fun_ax
+constant latin:/?QuotientFunctionAccess?quote_fun_ax
+DependsOn latin:/?QuotientFunctionAccess?quote_fun_ax?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?QuotientFunctionAccess?quote_fun_ax?type latin:/?Propositions?prop?type
+DependsOn latin:/?QuotientFunctionAccess?quote_fun_ax?type latin:/?QuotientTypesBase?quot_project?type
+DependsOn latin:/?QuotientFunctionAccess?quote_fun_ax?type latin:/?QuotientTypesBase?quot?type
+DependsOn latin:/?QuotientFunctionAccess?quote_fun_ax?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?QuotientFunctionAccess?quote_fun_ax?type latin:/?QuotientTypesBase?eqv?type
+DependsOn latin:/?QuotientFunctionAccess?quote_fun_ax?type latin:/?QuotientTypesBase?fun_congruence?type
+DependsOn latin:/?QuotientFunctionAccess?quote_fun_ax?type latin:/?Proofs?ded?type
+DependsOn latin:/?QuotientFunctionAccess?quote_fun_ax?type latin:/?Types?tp?type
+DependsOn latin:/?QuotientFunctionAccess?quote_fun_ax?type latin:/?QuotientFunctionAccess?quot_fun?type

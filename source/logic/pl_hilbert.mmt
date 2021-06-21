@@ -47,26 +47,26 @@ theory PLHilbert =
 
 implicit view ImplicationHilbert2ND : ?ImplicationHilbert → ?ImplicationND =
   include ?ImplicationNDE❙
-  K_ax = [F,G] impI [p] impI [q] p ❙
-  S_ax = [F,G,H] impI [p] impI [q] impI [r] (p impE r) impE (q impE r)❙
+  K_ax = [F,G] implI [p] implI [q] p ❙
+  S_ax = [F,G,H] implI [p] implI [q] implI [r] (p implE r) implE (q implE r)❙
 ❚
 
 implicit view NegationHilbert2ND : ?NegationHilbert → ?PLND =
   include ?NegationNDE❙
   include ?ImplicationHilbert2ND❙
-  notI_ax = [F] impI [p] notI [q] (p impE q) notE q❙
+  notI_ax = [F] implI [p] notI [q] (p implE q) notE q❙
 ❚
 
 implicit view DisjunctionHilbert2ND : ?DisjunctionHilbert → ?PLND =
   include ?DisjunctionNDI❙
   include ?ImplicationHilbert2ND❙
-  orE_ax = [F,G,H] impI [fg] impI [fh] impI [gh] fg orE ([f] fh impE f) ([g] gh impE g)❙
+  orE_ax = [F,G,H] implI [fg] implI [fh] implI [gh] fg orE ([f] fh implE f) ([g] gh implE g)❙
 ❚
 
 implicit view EquivalenceHilbert2ND : ?EquivalenceHilbert → ?PLND =
   include ?EquivalenceNDE❙
   include ?ImplicationHilbert2ND❙
-  equivI_ax = [F,G] impI [fg] impI [gf] equivI ([f] fg impE f) ([g] gf impE g)❙
+  equivI_ax = [F,G] implI [fg] implI [gf] equivI ([f] fg implE f) ([g] gf implE g)❙
 ❚
 
 implicit view PLHilbert2ND : ?PLHilbert → ?PLND =

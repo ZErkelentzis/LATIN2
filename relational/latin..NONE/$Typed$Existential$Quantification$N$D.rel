@@ -1,0 +1,19 @@
+dataconstructor latin:/?TypedExistentialQuantificationND?existsI
+dataconstructor latin:/?TypedExistentialQuantificationND?existsE
+theory latin:/?TypedExistentialQuantificationND
+HasMeta latin:/?TypedExistentialQuantificationND http://cds.omdoc.org/urtheories?LF
+Includes latin:/?TypedExistentialQuantificationND latin:/?TypedExistentialQuantification
+Declares latin:/?TypedExistentialQuantificationND latin:/?TypedExistentialQuantificationND?existsI
+constant latin:/?TypedExistentialQuantificationND?existsI
+DependsOn latin:/?TypedExistentialQuantificationND?existsI?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?TypedExistentialQuantificationND?existsI?type latin:/?Propositions?prop?type
+DependsOn latin:/?TypedExistentialQuantificationND?existsI?type latin:/?TypedExistentialQuantification?exists?type
+DependsOn latin:/?TypedExistentialQuantificationND?existsI?type latin:/?Proofs?ded?type
+DependsOn latin:/?TypedExistentialQuantificationND?existsI?type latin:/?Types?tp?type
+Declares latin:/?TypedExistentialQuantificationND latin:/?TypedExistentialQuantificationND?existsE
+constant latin:/?TypedExistentialQuantificationND?existsE
+DependsOn latin:/?TypedExistentialQuantificationND?existsE?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?TypedExistentialQuantificationND?existsE?type latin:/?Propositions?prop?type
+DependsOn latin:/?TypedExistentialQuantificationND?existsE?type latin:/?TypedExistentialQuantification?exists?type
+DependsOn latin:/?TypedExistentialQuantificationND?existsE?type latin:/?Proofs?ded?type
+DependsOn latin:/?TypedExistentialQuantificationND?existsE?type latin:/?Types?tp?type

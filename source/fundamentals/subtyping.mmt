@@ -5,21 +5,38 @@ fixmeta ur:?LF❚
 theory Subtyping =
   include ?Types❙
   include ?Logic❙
-  subtype : tp ⟶ tp ⟶ prop❘# 1 ⪽ 2 prec 30❙
-  
-  structure subtype_preorder : ?Preorder =
+  subtype : tp ⟶ tp ⟶ prop❘# 1 ⪽ 2 prec 30❘ role Judgment❙
+❚
+
+theory SubtypingPreorder =
+  include ?Subtyping ❙
+  structure sub : ?Preorder =
     carrier = tp❙
     rel = [A,B] ⊦ A⪽B❙
   ❚
 ❚
 
-theory SubtypeInjections =
-  include ?TypedTerms❙
+theory SoftSubtyping = 
+  include ?SoftTypedTerms❙
   include ?Subtyping❙
+  subtypeI : {A,B} ({x} ⊦ x⦂A ⟶ ⊦x⦂B) ⟶ ⊦ A⪽B❙
+  subtypeE : {A,B} ⊦ A⪽B ⟶ {x}⊦ x⦂A ⟶ ⊦x⦂B❘ # 5 subtypeE 3❙
+
+  realize ?SubtypingPreorder ❙
+  constant sub/refl = [A] subtypeI [x,p] p❙
+  constant sub/trans = [A,B,C,ab,bc] subtypeI ([x,a] a subtypeE ab subtypeE bc)❙
+❚
+
+theory HardSubtyping =
+  include ?TypedTerms❙
   include ?TypedEquality❙
+
+  include ?Subtyping❙
+  include ?SubtypingPreorder❙
   
   inject : {A,B} ⊦ A ⪽ B ⟶ tm A ⟶ tm B❘# 4 ↑ 3 prec 50❙
   
-  inject_refl : {A,x: tm A} ⊦ x ↑ subtype_preorder/refl ≐ x❙
-  inject_trans : {A,B,C,x: tm A,P:⊦A⪽B, Q:⊦B⪽C} ⊦ x↑(P subtype_preorder/trans Q) ≐ (x↑P)↑Q❙
+  inject_irrelevant : {A,x: tm A,p} ⊦ x ↑ p ≐ x ❘ role Simplify ❘ # inject_irrelevant 3 ❙
+  inject_refl : {A,x: tm A} ⊦ x ↑ sub/refl ≐ x ❘ = [A,x] inject_irrelevant sub/refl ❙
+  inject_trans : {A,B,C,x,P:⊦A⪽B, Q:⊦B⪽C} ⊦ (x↑P)↑Q ≐ x↑(P sub/trans Q) ❘ // role Simplify, doesn't work ❙
 ❚

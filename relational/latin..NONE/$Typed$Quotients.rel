@@ -1,0 +1,36 @@
+dataconstructor latin:/?TypedQuotients?quotient
+dataconstructor latin:/?TypedQuotients?class
+dataconstructor latin:/?TypedQuotients?equiv
+dataconstructor latin:/?TypedQuotients?welldefined
+theory latin:/?TypedQuotients
+HasMeta latin:/?TypedQuotients http://cds.omdoc.org/urtheories?LF
+Includes latin:/?TypedQuotients latin:/?TypedLogic
+Includes latin:/?TypedQuotients latin:/?TypedEquality
+Declares latin:/?TypedQuotients latin:/?TypedQuotients?quotient
+constant latin:/?TypedQuotients?quotient
+DependsOn latin:/?TypedQuotients?quotient?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?TypedQuotients?quotient?type latin:/?Propositions?prop?type
+DependsOn latin:/?TypedQuotients?quotient?type latin:/?Types?tp?type
+Declares latin:/?TypedQuotients latin:/?TypedQuotients?class
+constant latin:/?TypedQuotients?class
+DependsOn latin:/?TypedQuotients?class?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?TypedQuotients?class?type latin:/?Propositions?prop?type
+DependsOn latin:/?TypedQuotients?class?type latin:/?TypedQuotients?quotient?type
+DependsOn latin:/?TypedQuotients?class?type latin:/?Types?tp?type
+Declares latin:/?TypedQuotients latin:/?TypedQuotients?equiv
+constant latin:/?TypedQuotients?equiv
+DependsOn latin:/?TypedQuotients?equiv?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?TypedQuotients?equiv?type latin:/?Propositions?prop?type
+DependsOn latin:/?TypedQuotients?equiv?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?TypedQuotients?equiv?type latin:/?TypedQuotients?class?type
+DependsOn latin:/?TypedQuotients?equiv?type latin:/?TypedQuotients?quotient?type
+DependsOn latin:/?TypedQuotients?equiv?type latin:/?Proofs?ded?type
+DependsOn latin:/?TypedQuotients?equiv?type latin:/?Types?tp?type
+Declares latin:/?TypedQuotients latin:/?TypedQuotients?welldefined
+constant latin:/?TypedQuotients?welldefined
+DependsOn latin:/?TypedQuotients?welldefined?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?TypedQuotients?welldefined?type latin:/?Propositions?prop?type
+DependsOn latin:/?TypedQuotients?welldefined?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?TypedQuotients?welldefined?type latin:/?TypedQuotients?quotient?type
+DependsOn latin:/?TypedQuotients?welldefined?type latin:/?Proofs?ded?type
+DependsOn latin:/?TypedQuotients?welldefined?type latin:/?Types?tp?type

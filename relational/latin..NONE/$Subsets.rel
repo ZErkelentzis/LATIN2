@@ -1,0 +1,3 @@
+theory latin:/?Subsets
+HasMeta latin:/?Subsets latin:/?SetFOL
+Includes latin:/?Subsets latin:/?SoftSubtyping

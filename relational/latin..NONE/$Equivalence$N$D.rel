@@ -1,0 +1,118 @@
+dataconstructor latin:/?EquivalenceND?equiv_equivalence/[latin:/?Reflexivity]/refl
+judgementconstructor latin:/?EquivalenceND?equiv_equivalence/[latin:/?Relation]/rel
+datatypeconstructor latin:/?EquivalenceND?equiv_equivalence/[latin:/?OneTyped]/carrier
+dataconstructor latin:/?EquivalenceND?equiv_equivalence/[latin:/?Transitivity]/trans
+dataconstructor latin:/?EquivalenceND?equiv_equivalence/[latin:/?Transitivity]/trans3
+dataconstructor latin:/?EquivalenceND?equiv_equivalence/[latin:/?Transitivity]/trans4
+dataconstructor latin:/?EquivalenceND?equiv_equivalence/[latin:/?Symmetry]/sym
+datatypeconstructor latin:/?EquivalenceND?lindenbaum/[latin:/?OneTyped]/carrier
+dataconstructor latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?Reflexivity]/refl
+judgementconstructor latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?Relation]/rel
+datatypeconstructor latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?OneTyped]/carrier
+dataconstructor latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?Transitivity]/trans
+dataconstructor latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?Transitivity]/trans3
+dataconstructor latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?Transitivity]/trans4
+dataconstructor latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?Symmetry]/sym
+theory latin:/?EquivalenceND
+HasMeta latin:/?EquivalenceND http://cds.omdoc.org/urtheories?LF
+Includes latin:/?EquivalenceND latin:/?EquivalenceNDI
+Includes latin:/?EquivalenceND latin:/?EquivalenceNDE
+Declares latin:/?EquivalenceND latin:/?EquivalenceND?equiv_equivalence
+HasDomain latin:/?EquivalenceND?equiv_equivalence latin:/?EquivalenceRelation
+HasCodomain latin:/?EquivalenceND?equiv_equivalence latin:/?EquivalenceND
+structure latin:/?EquivalenceND?equiv_equivalence
+Declares latin:/?EquivalenceND latin:/?EquivalenceND?equiv_equivalence/[latin:/?Preorder]
+HasDomain latin:/?EquivalenceND?equiv_equivalence/[latin:/?Preorder] latin:/?Preorder
+HasCodomain latin:/?EquivalenceND?equiv_equivalence/[latin:/?Preorder] latin:/?EquivalenceND
+structure latin:/?EquivalenceND?equiv_equivalence/[latin:/?Preorder]
+Declares latin:/?EquivalenceND latin:/?EquivalenceND?equiv_equivalence/[latin:/?Reflexivity]
+HasDomain latin:/?EquivalenceND?equiv_equivalence/[latin:/?Reflexivity] latin:/?Reflexivity
+HasCodomain latin:/?EquivalenceND?equiv_equivalence/[latin:/?Reflexivity] latin:/?EquivalenceND
+structure latin:/?EquivalenceND?equiv_equivalence/[latin:/?Reflexivity]
+Declares latin:/?EquivalenceND latin:/?EquivalenceND?equiv_equivalence/[latin:/?Reflexivity]/refl
+constant latin:/?EquivalenceND?equiv_equivalence/[latin:/?Reflexivity]/refl
+Declares latin:/?EquivalenceND latin:/?EquivalenceND?equiv_equivalence/[latin:/?Relation]
+HasDomain latin:/?EquivalenceND?equiv_equivalence/[latin:/?Relation] latin:/?Relation
+HasCodomain latin:/?EquivalenceND?equiv_equivalence/[latin:/?Relation] latin:/?EquivalenceND
+structure latin:/?EquivalenceND?equiv_equivalence/[latin:/?Relation]
+Declares latin:/?EquivalenceND latin:/?EquivalenceND?equiv_equivalence/[latin:/?Relation]/rel
+constant latin:/?EquivalenceND?equiv_equivalence/[latin:/?Relation]/rel
+Declares latin:/?EquivalenceND latin:/?EquivalenceND?equiv_equivalence/[latin:/?OneTyped]
+HasDomain latin:/?EquivalenceND?equiv_equivalence/[latin:/?OneTyped] latin:/?OneTyped
+HasCodomain latin:/?EquivalenceND?equiv_equivalence/[latin:/?OneTyped] latin:/?EquivalenceND
+structure latin:/?EquivalenceND?equiv_equivalence/[latin:/?OneTyped]
+Declares latin:/?EquivalenceND latin:/?EquivalenceND?equiv_equivalence/[latin:/?OneTyped]/carrier
+constant latin:/?EquivalenceND?equiv_equivalence/[latin:/?OneTyped]/carrier
+Declares latin:/?EquivalenceND latin:/?EquivalenceND?equiv_equivalence/[latin:/?Transitivity]
+HasDomain latin:/?EquivalenceND?equiv_equivalence/[latin:/?Transitivity] latin:/?Transitivity
+HasCodomain latin:/?EquivalenceND?equiv_equivalence/[latin:/?Transitivity] latin:/?EquivalenceND
+structure latin:/?EquivalenceND?equiv_equivalence/[latin:/?Transitivity]
+Declares latin:/?EquivalenceND latin:/?EquivalenceND?equiv_equivalence/[latin:/?Transitivity]/trans
+constant latin:/?EquivalenceND?equiv_equivalence/[latin:/?Transitivity]/trans
+Declares latin:/?EquivalenceND latin:/?EquivalenceND?equiv_equivalence/[latin:/?Transitivity]/trans3
+constant latin:/?EquivalenceND?equiv_equivalence/[latin:/?Transitivity]/trans3
+Declares latin:/?EquivalenceND latin:/?EquivalenceND?equiv_equivalence/[latin:/?Transitivity]/trans4
+constant latin:/?EquivalenceND?equiv_equivalence/[latin:/?Transitivity]/trans4
+Declares latin:/?EquivalenceND latin:/?EquivalenceND?equiv_equivalence/[latin:/?Symmetry]
+HasDomain latin:/?EquivalenceND?equiv_equivalence/[latin:/?Symmetry] latin:/?Symmetry
+HasCodomain latin:/?EquivalenceND?equiv_equivalence/[latin:/?Symmetry] latin:/?EquivalenceND
+structure latin:/?EquivalenceND?equiv_equivalence/[latin:/?Symmetry]
+Declares latin:/?EquivalenceND latin:/?EquivalenceND?equiv_equivalence/[latin:/?Symmetry]/sym
+constant latin:/?EquivalenceND?equiv_equivalence/[latin:/?Symmetry]/sym
+Declares latin:/?EquivalenceND latin:/?EquivalenceND?lindenbaum
+HasDomain latin:/?EquivalenceND?lindenbaum latin:/?EqualityType
+HasCodomain latin:/?EquivalenceND?lindenbaum latin:/?EquivalenceND
+structure latin:/?EquivalenceND?lindenbaum
+Declares latin:/?EquivalenceND latin:/?EquivalenceND?lindenbaum/[latin:/?OneTyped]
+HasDomain latin:/?EquivalenceND?lindenbaum/[latin:/?OneTyped] latin:/?OneTyped
+HasCodomain latin:/?EquivalenceND?lindenbaum/[latin:/?OneTyped] latin:/?EquivalenceND
+structure latin:/?EquivalenceND?lindenbaum/[latin:/?OneTyped]
+Declares latin:/?EquivalenceND latin:/?EquivalenceND?lindenbaum/[latin:/?OneTyped]/carrier
+constant latin:/?EquivalenceND?lindenbaum/[latin:/?OneTyped]/carrier
+Declares latin:/?EquivalenceND latin:/?EquivalenceND?lindenbaum/equalityRel
+HasDomain latin:/?EquivalenceND?lindenbaum/equalityRel latin:/?EquivalenceRelation
+HasCodomain latin:/?EquivalenceND?lindenbaum/equalityRel latin:/?EquivalenceND
+structure latin:/?EquivalenceND?lindenbaum/equalityRel
+Declares latin:/?EquivalenceND latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?Preorder]
+HasDomain latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?Preorder] latin:/?Preorder
+HasCodomain latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?Preorder] latin:/?EquivalenceND
+structure latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?Preorder]
+Declares latin:/?EquivalenceND latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?Reflexivity]
+HasDomain latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?Reflexivity] latin:/?Reflexivity
+HasCodomain latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?Reflexivity] latin:/?EquivalenceND
+structure latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?Reflexivity]
+Declares latin:/?EquivalenceND latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?Reflexivity]/refl
+constant latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?Reflexivity]/refl
+IsAliasFor latin:/?EquivalenceND?lindenbaum/refl latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?Reflexivity]/refl
+Declares latin:/?EquivalenceND latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?Relation]
+HasDomain latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?Relation] latin:/?Relation
+HasCodomain latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?Relation] latin:/?EquivalenceND
+structure latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?Relation]
+Declares latin:/?EquivalenceND latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?Relation]/rel
+constant latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?Relation]/rel
+Declares latin:/?EquivalenceND latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?OneTyped]
+HasDomain latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?OneTyped] latin:/?OneTyped
+HasCodomain latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?OneTyped] latin:/?EquivalenceND
+structure latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?OneTyped]
+Declares latin:/?EquivalenceND latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?OneTyped]/carrier
+constant latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?OneTyped]/carrier
+Declares latin:/?EquivalenceND latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?Transitivity]
+HasDomain latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?Transitivity] latin:/?Transitivity
+HasCodomain latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?Transitivity] latin:/?EquivalenceND
+structure latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?Transitivity]
+Declares latin:/?EquivalenceND latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?Transitivity]/trans
+constant latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?Transitivity]/trans
+IsAliasFor latin:/?EquivalenceND?lindenbaum/trans latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?Transitivity]/trans
+Declares latin:/?EquivalenceND latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?Transitivity]/trans3
+constant latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?Transitivity]/trans3
+IsAliasFor latin:/?EquivalenceND?lindenbaum/trans3 latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?Transitivity]/trans3
+Declares latin:/?EquivalenceND latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?Transitivity]/trans4
+constant latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?Transitivity]/trans4
+IsAliasFor latin:/?EquivalenceND?lindenbaum/trans4 latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?Transitivity]/trans4
+Declares latin:/?EquivalenceND latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?Symmetry]
+HasDomain latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?Symmetry] latin:/?Symmetry
+HasCodomain latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?Symmetry] latin:/?EquivalenceND
+structure latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?Symmetry]
+Declares latin:/?EquivalenceND latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?Symmetry]/sym
+constant latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?Symmetry]/sym
+IsAliasFor latin:/?EquivalenceND?lindenbaum/sym latin:/?EquivalenceND?lindenbaum/equalityRel/[latin:/?Symmetry]/sym

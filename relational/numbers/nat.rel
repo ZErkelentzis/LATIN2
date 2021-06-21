@@ -1,0 +1,5 @@
+document latin:/numbers/nat.omdoc
+Declares latin:/numbers/nat.omdoc latin:/?Nat
+Declares latin:/numbers/nat.omdoc latin:/?NatPlus
+Declares latin:/numbers/nat.omdoc latin:/?NatPlusTimes
+Declares latin:/numbers/nat.omdoc latin:/?Int

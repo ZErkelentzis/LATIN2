@@ -1,0 +1,21 @@
+dataconstructor latin:/?Infinity?infinity_axiom
+theory latin:/?Infinity
+HasMeta latin:/?Infinity latin:/?SetFOL
+Includes latin:/?Infinity latin:/?EmptySet
+Includes latin:/?Infinity latin:/?Singletons
+Includes latin:/?Infinity latin:/?Union
+Declares latin:/?Infinity latin:/?Infinity?infinity_axiom
+constant latin:/?Infinity?infinity_axiom
+DependsOn latin:/?Infinity?infinity_axiom?type latin:/?Propositions?prop?type
+DependsOn latin:/?Infinity?infinity_axiom?type latin:/?SetFOL?set?type
+DependsOn latin:/?Infinity?infinity_axiom?type latin:/?EmptySet?empty?type
+DependsOn latin:/?Infinity?infinity_axiom?type latin:/?Union?union?type
+DependsOn latin:/?Infinity?infinity_axiom?type latin:/?SetFOL?set?definition
+DependsOn latin:/?Infinity?infinity_axiom?type latin:/?UniversalQuantification?forall?type
+DependsOn latin:/?Infinity?infinity_axiom?type latin:/?Implication?impl?type
+DependsOn latin:/?Infinity?infinity_axiom?type latin:/?Conjunction?and?type
+DependsOn latin:/?Infinity?infinity_axiom?type latin:/?ExistentialQuantification?exists?type
+DependsOn latin:/?Infinity?infinity_axiom?type latin:/?InternalTypes?in?type
+DependsOn latin:/?Infinity?infinity_axiom?type latin:/?Singletons?singleton?type
+DependsOn latin:/?Infinity?infinity_axiom?type latin:/?Proofs?ded?type
+DependsOn latin:/?Infinity?infinity_axiom?type latin:/?Terms?term?type

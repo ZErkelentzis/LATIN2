@@ -1,0 +1,16 @@
+dataconstructor latin:/?ConjunctionND?and_swap
+theory latin:/?ConjunctionND
+HasMeta latin:/?ConjunctionND http://cds.omdoc.org/urtheories?LF
+Includes latin:/?ConjunctionND latin:/?ConjunctionNDI
+Includes latin:/?ConjunctionND latin:/?ConjunctionNDE
+Declares latin:/?ConjunctionND latin:/?ConjunctionND?and_swap
+constant latin:/?ConjunctionND?and_swap
+DependsOn latin:/?ConjunctionND?and_swap?type latin:/?Propositions?prop?type
+DependsOn latin:/?ConjunctionND?and_swap?type latin:/?Conjunction?and?type
+DependsOn latin:/?ConjunctionND?and_swap?type latin:/?Proofs?ded?type
+DependsOn latin:/?ConjunctionND?and_swap?definition latin:/?Propositions?prop?type
+DependsOn latin:/?ConjunctionND?and_swap?definition latin:/?Conjunction?and?type
+DependsOn latin:/?ConjunctionND?and_swap?definition latin:/?ConjunctionNDE?andEr?type
+DependsOn latin:/?ConjunctionND?and_swap?definition latin:/?Proofs?ded?type
+DependsOn latin:/?ConjunctionND?and_swap?definition latin:/?ConjunctionNDE?andEl?type
+DependsOn latin:/?ConjunctionND?and_swap?definition latin:/?ConjunctionNDI?andI?type

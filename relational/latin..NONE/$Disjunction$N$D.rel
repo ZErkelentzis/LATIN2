@@ -1,0 +1,16 @@
+dataconstructor latin:/?DisjunctionND?or_swap
+theory latin:/?DisjunctionND
+HasMeta latin:/?DisjunctionND http://cds.omdoc.org/urtheories?LF
+Includes latin:/?DisjunctionND latin:/?DisjunctionNDI
+Includes latin:/?DisjunctionND latin:/?DisjunctionNDE
+Declares latin:/?DisjunctionND latin:/?DisjunctionND?or_swap
+constant latin:/?DisjunctionND?or_swap
+DependsOn latin:/?DisjunctionND?or_swap?type latin:/?Propositions?prop?type
+DependsOn latin:/?DisjunctionND?or_swap?type latin:/?Proofs?ded?type
+DependsOn latin:/?DisjunctionND?or_swap?type latin:/?Disjunction?or?type
+DependsOn latin:/?DisjunctionND?or_swap?definition latin:/?Propositions?prop?type
+DependsOn latin:/?DisjunctionND?or_swap?definition latin:/?Proofs?ded?type
+DependsOn latin:/?DisjunctionND?or_swap?definition latin:/?DisjunctionNDI?orIl?type
+DependsOn latin:/?DisjunctionND?or_swap?definition latin:/?DisjunctionNDI?orIr?type
+DependsOn latin:/?DisjunctionND?or_swap?definition latin:/?DisjunctionNDE?orE?type
+DependsOn latin:/?DisjunctionND?or_swap?definition latin:/?Disjunction?or?type

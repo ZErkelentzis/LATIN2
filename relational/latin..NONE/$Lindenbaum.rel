@@ -1,0 +1,4 @@
+theory latin:/?Lindenbaum
+HasMeta latin:/?Lindenbaum http://cds.omdoc.org/urtheories?LF
+Includes latin:/?Lindenbaum latin:/?EquivalenceND
+Includes latin:/?Lindenbaum latin:/?EqualityType

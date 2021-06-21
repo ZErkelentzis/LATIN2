@@ -1,0 +1,37 @@
+dataconstructor latin:/?BigUnion?bigunion
+dataconstructor latin:/?BigUnion?bigunionI
+dataconstructor latin:/?BigUnion?bigunionE
+dataconstructor latin:/?BigUnion?bigunion_subset
+theory latin:/?BigUnion
+HasMeta latin:/?BigUnion latin:/?SetFOL
+Declares latin:/?BigUnion latin:/?BigUnion?bigunion
+constant latin:/?BigUnion?bigunion
+DependsOn latin:/?BigUnion?bigunion?type latin:/?SetFOL?set?type
+Declares latin:/?BigUnion latin:/?BigUnion?bigunionI
+constant latin:/?BigUnion?bigunionI
+DependsOn latin:/?BigUnion?bigunionI?type latin:/?Propositions?prop?type
+DependsOn latin:/?BigUnion?bigunionI?type latin:/?InternalTypes?in?type
+DependsOn latin:/?BigUnion?bigunionI?type latin:/?SetFOL?set?type
+DependsOn latin:/?BigUnion?bigunionI?type latin:/?Proofs?ded?type
+DependsOn latin:/?BigUnion?bigunionI?type latin:/?Terms?term?type
+DependsOn latin:/?BigUnion?bigunionI?type latin:/?BigUnion?bigunion?type
+Declares latin:/?BigUnion latin:/?BigUnion?bigunionE
+constant latin:/?BigUnion?bigunionE
+DependsOn latin:/?BigUnion?bigunionE?type latin:/?Propositions?prop?type
+DependsOn latin:/?BigUnion?bigunionE?type latin:/?InternalTypes?in?type
+DependsOn latin:/?BigUnion?bigunionE?type latin:/?SetFOL?set?type
+DependsOn latin:/?BigUnion?bigunionE?type latin:/?Proofs?ded?type
+DependsOn latin:/?BigUnion?bigunionE?type latin:/?Terms?term?type
+DependsOn latin:/?BigUnion?bigunionE?type latin:/?BigUnion?bigunion?type
+Includes latin:/?BigUnion latin:/?Subsets
+Declares latin:/?BigUnion latin:/?BigUnion?bigunion_subset
+constant latin:/?BigUnion?bigunion_subset
+DependsOn latin:/?BigUnion?bigunion_subset?type latin:/?Propositions?prop?type
+DependsOn latin:/?BigUnion?bigunion_subset?type latin:/?InternalTypes?in?type
+DependsOn latin:/?BigUnion?bigunion_subset?type latin:/?Subtyping?subtype?type
+DependsOn latin:/?BigUnion?bigunion_subset?type latin:/?SetFOL?set?type
+DependsOn latin:/?BigUnion?bigunion_subset?type latin:/?Proofs?ded?type
+DependsOn latin:/?BigUnion?bigunion_subset?type latin:/?Terms?term?type
+DependsOn latin:/?BigUnion?bigunion_subset?type latin:/?Types?tp?definition
+DependsOn latin:/?BigUnion?bigunion_subset?type latin:/?Types?tp?type
+DependsOn latin:/?BigUnion?bigunion_subset?type latin:/?BigUnion?bigunion?type

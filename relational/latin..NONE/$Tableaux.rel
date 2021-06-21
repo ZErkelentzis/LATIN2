@@ -1,0 +1,55 @@
+datatypeconstructor latin:/?Tableaux?marktrue
+datatypeconstructor latin:/?Tableaux?markfalse
+datatypeconstructor latin:/?Tableaux?closedbranch
+dataconstructor latin:/?Tableaux?closebranch
+dataconstructor latin:/?Tableaux?closebranch2
+dataconstructor latin:/?Tableaux?proofstart
+dataconstructor latin:/?Tableaux?refutationstart
+dataconstructor latin:/?Tableaux?classicality
+theory latin:/?Tableaux
+HasMeta latin:/?Tableaux http://cds.omdoc.org/urtheories?LF
+Includes latin:/?Tableaux latin:/?Propositions
+Declares latin:/?Tableaux latin:/?Tableaux?marktrue
+constant latin:/?Tableaux?marktrue
+DependsOn latin:/?Tableaux?marktrue?type latin:/?Propositions?prop?type
+Declares latin:/?Tableaux latin:/?Tableaux?markfalse
+constant latin:/?Tableaux?markfalse
+DependsOn latin:/?Tableaux?markfalse?type latin:/?Propositions?prop?type
+Declares latin:/?Tableaux latin:/?Tableaux?closedbranch
+constant latin:/?Tableaux?closedbranch
+DependsOn latin:/?Tableaux?closedbranch?definition latin:/?Propositions?prop?type
+DependsOn latin:/?Tableaux?closedbranch?definition latin:/?Tableaux?marktrue?type
+Declares latin:/?Tableaux latin:/?Tableaux?closebranch
+constant latin:/?Tableaux?closebranch
+DependsOn latin:/?Tableaux?closebranch?type latin:/?Propositions?prop?type
+DependsOn latin:/?Tableaux?closebranch?type latin:/?Tableaux?marktrue?type
+DependsOn latin:/?Tableaux?closebranch?type latin:/?Tableaux?markfalse?type
+DependsOn latin:/?Tableaux?closebranch?type latin:/?Tableaux?closedbranch?type
+Declares latin:/?Tableaux latin:/?Tableaux?closebranch2
+constant latin:/?Tableaux?closebranch2
+DependsOn latin:/?Tableaux?closebranch2?type latin:/?Propositions?prop?type
+DependsOn latin:/?Tableaux?closebranch2?type latin:/?Tableaux?marktrue?type
+DependsOn latin:/?Tableaux?closebranch2?type latin:/?Tableaux?markfalse?type
+DependsOn latin:/?Tableaux?closebranch2?type latin:/?Tableaux?closedbranch?type
+DependsOn latin:/?Tableaux?closebranch2?definition latin:/?Tableaux?closedbranch?definition
+DependsOn latin:/?Tableaux?closebranch2?definition latin:/?Propositions?prop?type
+DependsOn latin:/?Tableaux?closebranch2?definition latin:/?Tableaux?marktrue?type
+DependsOn latin:/?Tableaux?closebranch2?definition latin:/?Tableaux?markfalse?type
+DependsOn latin:/?Tableaux?closebranch2?definition latin:/?Tableaux?closebranch?type
+Declares latin:/?Tableaux latin:/?Tableaux?proofstart
+constant latin:/?Tableaux?proofstart
+DependsOn latin:/?Tableaux?proofstart?type latin:/?Propositions?prop?type
+DependsOn latin:/?Tableaux?proofstart?type latin:/?Tableaux?marktrue?type
+DependsOn latin:/?Tableaux?proofstart?type latin:/?Tableaux?markfalse?type
+DependsOn latin:/?Tableaux?proofstart?type latin:/?Tableaux?closedbranch?type
+Declares latin:/?Tableaux latin:/?Tableaux?refutationstart
+constant latin:/?Tableaux?refutationstart
+DependsOn latin:/?Tableaux?refutationstart?type latin:/?Propositions?prop?type
+DependsOn latin:/?Tableaux?refutationstart?type latin:/?Tableaux?marktrue?type
+DependsOn latin:/?Tableaux?refutationstart?type latin:/?Tableaux?markfalse?type
+DependsOn latin:/?Tableaux?refutationstart?type latin:/?Tableaux?closedbranch?type
+Declares latin:/?Tableaux latin:/?Tableaux?classicality
+constant latin:/?Tableaux?classicality
+DependsOn latin:/?Tableaux?classicality?type latin:/?Propositions?prop?type
+DependsOn latin:/?Tableaux?classicality?type latin:/?Tableaux?marktrue?type
+DependsOn latin:/?Tableaux?classicality?type latin:/?Tableaux?closedbranch?type

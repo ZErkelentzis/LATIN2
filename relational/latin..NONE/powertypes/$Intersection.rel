@@ -1,0 +1,76 @@
+dataconstructor latin:/powertypes?Intersection?inter
+dataconstructor latin:/powertypes?Intersection?interEl
+dataconstructor latin:/powertypes?Intersection?interEr
+dataconstructor latin:/powertypes?Intersection?interI
+theory latin:/powertypes?Intersection
+HasMeta latin:/powertypes?Intersection http://cds.omdoc.org/urtheories?LF
+Includes latin:/powertypes?Intersection latin:/powertypes?PowerTypes
+Includes latin:/powertypes?Intersection latin:/?ConjunctionND
+Declares latin:/powertypes?Intersection latin:/powertypes?Intersection?inter
+constant latin:/powertypes?Intersection?inter
+DependsOn latin:/powertypes?Intersection?inter?type latin:/?TypedTerms?tm?type
+DependsOn latin:/powertypes?Intersection?inter?type latin:/powertypes?PowerTypes?power?type
+DependsOn latin:/powertypes?Intersection?inter?type latin:/?Types?tp?type
+DependsOn latin:/powertypes?Intersection?inter?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/powertypes?Intersection?inter?definition latin:/powertypes?PowerTypes?in?type
+DependsOn latin:/powertypes?Intersection?inter?definition latin:/?Propositions?prop?type
+DependsOn latin:/powertypes?Intersection?inter?definition latin:/?Conjunction?and?type
+DependsOn latin:/powertypes?Intersection?inter?definition latin:/powertypes?PowerTypes?filter?type
+DependsOn latin:/powertypes?Intersection?inter?definition latin:/powertypes?PowerTypes?power?type
+DependsOn latin:/powertypes?Intersection?inter?definition latin:/?Types?tp?type
+Declares latin:/powertypes?Intersection latin:/powertypes?Intersection?interEl
+constant latin:/powertypes?Intersection?interEl
+DependsOn latin:/powertypes?Intersection?interEl?type latin:/?TypedTerms?tm?type
+DependsOn latin:/powertypes?Intersection?interEl?type latin:/powertypes?PowerTypes?in?type
+DependsOn latin:/powertypes?Intersection?interEl?type latin:/?Propositions?prop?type
+DependsOn latin:/powertypes?Intersection?interEl?type latin:/?Proofs?ded?type
+DependsOn latin:/powertypes?Intersection?interEl?type latin:/powertypes?Intersection?inter?type
+DependsOn latin:/powertypes?Intersection?interEl?type latin:/powertypes?PowerTypes?power?type
+DependsOn latin:/powertypes?Intersection?interEl?type latin:/?Types?tp?type
+DependsOn latin:/powertypes?Intersection?interEl?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/powertypes?Intersection?interEl?definition latin:/powertypes?PowerTypes?in?type
+DependsOn latin:/powertypes?Intersection?interEl?definition latin:/?Propositions?prop?type
+DependsOn latin:/powertypes?Intersection?interEl?definition latin:/?Conjunction?and?type
+DependsOn latin:/powertypes?Intersection?interEl?definition latin:/powertypes?PowerTypes?filterE?type
+DependsOn latin:/powertypes?Intersection?interEl?definition latin:/?Proofs?ded?type
+DependsOn latin:/powertypes?Intersection?interEl?definition latin:/powertypes?Intersection?inter?type
+DependsOn latin:/powertypes?Intersection?interEl?definition latin:/powertypes?PowerTypes?filter?type
+DependsOn latin:/powertypes?Intersection?interEl?definition latin:/?ConjunctionNDE?andEl?type
+DependsOn latin:/powertypes?Intersection?interEl?definition latin:/?Types?tp?type
+Declares latin:/powertypes?Intersection latin:/powertypes?Intersection?interEr
+constant latin:/powertypes?Intersection?interEr
+DependsOn latin:/powertypes?Intersection?interEr?type latin:/?TypedTerms?tm?type
+DependsOn latin:/powertypes?Intersection?interEr?type latin:/powertypes?PowerTypes?in?type
+DependsOn latin:/powertypes?Intersection?interEr?type latin:/?Propositions?prop?type
+DependsOn latin:/powertypes?Intersection?interEr?type latin:/?Proofs?ded?type
+DependsOn latin:/powertypes?Intersection?interEr?type latin:/powertypes?Intersection?inter?type
+DependsOn latin:/powertypes?Intersection?interEr?type latin:/powertypes?PowerTypes?power?type
+DependsOn latin:/powertypes?Intersection?interEr?type latin:/?Types?tp?type
+DependsOn latin:/powertypes?Intersection?interEr?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/powertypes?Intersection?interEr?definition latin:/powertypes?PowerTypes?in?type
+DependsOn latin:/powertypes?Intersection?interEr?definition latin:/?Propositions?prop?type
+DependsOn latin:/powertypes?Intersection?interEr?definition latin:/?Conjunction?and?type
+DependsOn latin:/powertypes?Intersection?interEr?definition latin:/powertypes?PowerTypes?filterE?type
+DependsOn latin:/powertypes?Intersection?interEr?definition latin:/?ConjunctionNDE?andEr?type
+DependsOn latin:/powertypes?Intersection?interEr?definition latin:/?Proofs?ded?type
+DependsOn latin:/powertypes?Intersection?interEr?definition latin:/powertypes?Intersection?inter?type
+DependsOn latin:/powertypes?Intersection?interEr?definition latin:/powertypes?PowerTypes?filter?type
+DependsOn latin:/powertypes?Intersection?interEr?definition latin:/?Types?tp?type
+Declares latin:/powertypes?Intersection latin:/powertypes?Intersection?interI
+constant latin:/powertypes?Intersection?interI
+DependsOn latin:/powertypes?Intersection?interI?type latin:/?TypedTerms?tm?type
+DependsOn latin:/powertypes?Intersection?interI?type latin:/powertypes?PowerTypes?in?type
+DependsOn latin:/powertypes?Intersection?interI?type latin:/?Propositions?prop?type
+DependsOn latin:/powertypes?Intersection?interI?type latin:/?Proofs?ded?type
+DependsOn latin:/powertypes?Intersection?interI?type latin:/powertypes?Intersection?inter?type
+DependsOn latin:/powertypes?Intersection?interI?type latin:/powertypes?PowerTypes?power?type
+DependsOn latin:/powertypes?Intersection?interI?type latin:/?Types?tp?type
+DependsOn latin:/powertypes?Intersection?interI?definition latin:/powertypes?PowerTypes?filterI?type
+DependsOn latin:/powertypes?Intersection?interI?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/powertypes?Intersection?interI?definition latin:/powertypes?PowerTypes?in?type
+DependsOn latin:/powertypes?Intersection?interI?definition latin:/?Propositions?prop?type
+DependsOn latin:/powertypes?Intersection?interI?definition latin:/?Conjunction?and?type
+DependsOn latin:/powertypes?Intersection?interI?definition latin:/?Proofs?ded?type
+DependsOn latin:/powertypes?Intersection?interI?definition latin:/powertypes?PowerTypes?filter?type
+DependsOn latin:/powertypes?Intersection?interI?definition latin:/?ConjunctionNDI?andI?type
+DependsOn latin:/powertypes?Intersection?interI?definition latin:/?Types?tp?type

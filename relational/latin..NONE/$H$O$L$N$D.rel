@@ -1,0 +1,6 @@
+theory latin:/?HOLND
+HasMeta latin:/?HOLND http://cds.omdoc.org/urtheories?LF
+Includes latin:/?HOLND latin:/?HOL
+Includes latin:/?HOLND latin:/?IHOLND
+Includes latin:/?HOLND latin:/?SFOLND
+Includes latin:/?HOLND latin:/?SimpleFunctionsEta

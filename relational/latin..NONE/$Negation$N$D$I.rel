@@ -1,0 +1,11 @@
+dataconstructor latin:/?NegationNDI?notI
+theory latin:/?NegationNDI
+HasMeta latin:/?NegationNDI http://cds.omdoc.org/urtheories?LF
+Includes latin:/?NegationNDI latin:/?Negation
+Includes latin:/?NegationNDI latin:/?Logic
+Declares latin:/?NegationNDI latin:/?NegationNDI?notI
+constant latin:/?NegationNDI?notI
+DependsOn latin:/?NegationNDI?notI?type latin:/?Propositions?prop?type
+DependsOn latin:/?NegationNDI?notI?type latin:/?Logic?inconsistent?type
+DependsOn latin:/?NegationNDI?notI?type latin:/?Proofs?ded?type
+DependsOn latin:/?NegationNDI?notI?type latin:/?Negation?not?type

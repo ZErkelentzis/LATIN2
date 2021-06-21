@@ -1,0 +1,35 @@
+<errors>
+<error type="info.kwarc.mmt.api.checking.MMTStructureChecker$$anon$1" shortMsg="invalid element: structure is not total: latin:/?Category?iso_equiv" level="1">
+  latin:/?Transitivity?trans
+  <stacktrace>
+    <element>info.kwarc.mmt.api.checking.MMTStructureChecker.checkTotalTop(MMTStructureChecker.scala:604)</element>
+    <element>info.kwarc.mmt.api.checking.MMTStructureChecker.checkElementEnd(MMTStructureChecker.scala:560)</element>
+    <element>info.kwarc.mmt.api.checking.MMTStructureChecker.applyElementEnd(MMTStructureChecker.scala:81)</element>
+    <element>info.kwarc.mmt.api.checking.TwoStepInterpreter$$anon$1.onElementEnd(Interpreter.scala:99)</element>
+    <element>info.kwarc.mmt.api.parser.KeywordBasedParser.end(StructureParser.scala:145)</element>
+    <element>info.kwarc.mmt.api.parser.KeywordBasedParser.readStructure(StructureParser.scala:1132)</element>
+    <element>info.kwarc.mmt.api.parser.KeywordBasedParser.readInModuleAux(StructureParser.scala:657)</element>
+    <element>info.kwarc.mmt.api.parser.KeywordBasedParser.readInModule(StructureParser.scala:481)</element>
+    <element>info.kwarc.mmt.api.parser.KeywordBasedParser.$anonfun$readTheory$2(StructureParser.scala:775)</element>
+    <element>scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.scala:18)</element>
+    <element>info.kwarc.mmt.api.frontend.Logger.logGroup(Log.scala:34)</element>
+    <element>info.kwarc.mmt.api.frontend.Logger.logGroup$(Log.scala:31)</element>
+    <element>info.kwarc.mmt.api.parser.Parser.logGroup(Parser.scala:237)</element>
+    <element>info.kwarc.mmt.api.parser.KeywordBasedParser.readTheory(StructureParser.scala:775)</element>
+    <element>info.kwarc.mmt.api.parser.KeywordBasedParser.readInDocument(StructureParser.scala:420)</element>
+    <element>info.kwarc.mmt.api.parser.KeywordBasedParser.$anonfun$apply$1(StructureParser.scala:93)</element>
+    <element>scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.scala:18)</element>
+    <element>info.kwarc.mmt.api.frontend.Logger.logGroup(Log.scala:34)</element>
+    <element>info.kwarc.mmt.api.frontend.Logger.logGroup$(Log.scala:31)</element>
+    <element>info.kwarc.mmt.api.parser.Parser.logGroup(Parser.scala:237)</element>
+    <element>info.kwarc.mmt.api.parser.KeywordBasedParser.apply(StructureParser.scala:93)</element>
+    <element>info.kwarc.mmt.api.parser.KeywordBasedParser.apply(StructureParser.scala:83)</element>
+    <element>info.kwarc.mmt.api.checking.TwoStepInterpreter.apply(Interpreter.scala:102)</element>
+    <element>info.kwarc.mmt.api.checking.Interpreter.importDocument(Interpreter.scala:53)</element>
+    <element>info.kwarc.mmt.api.archives.Importer.buildFile(Index.scala:159)</element>
+    <element>info.kwarc.mmt.api.archives.TraversingBuildTarget.runBuildTask(BuildTarget.scala:564)</element>
+    <element>info.kwarc.mmt.api.archives.TraversingBuildTarget.runBuildTaskIfNeeded(BuildTarget.scala:470)</element>
+    <element>info.kwarc.mmt.api.archives.BuildQueue$$anon$1.run(BuildQueue.scala:263)</element>
+  </stacktrace>
+</error>
+</errors>

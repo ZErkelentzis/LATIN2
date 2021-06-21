@@ -1,0 +1,28 @@
+dataconstructor latin:/?Extensionality?extensionality_axiom
+dataconstructor latin:/?Extensionality?extensionalityI
+dataconstructor latin:/?Extensionality?extensionalityE
+theory latin:/?Extensionality
+HasMeta latin:/?Extensionality latin:/?SetFOL
+Includes latin:/?Extensionality latin:/?ExtensionalityDefinition
+Declares latin:/?Extensionality latin:/?Extensionality?extensionality_axiom
+constant latin:/?Extensionality?extensionality_axiom
+DependsOn latin:/?Extensionality?extensionality_axiom?type latin:/?Propositions?prop?type
+DependsOn latin:/?Extensionality?extensionality_axiom?type latin:/?ExtensionalityDefinition?isextensional?type
+DependsOn latin:/?Extensionality?extensionality_axiom?type latin:/?Proofs?ded?type
+DependsOn latin:/?Extensionality?extensionality_axiom?type latin:/?Terms?term?type
+Declares latin:/?Extensionality latin:/?Extensionality?extensionalityI
+constant latin:/?Extensionality?extensionalityI
+DependsOn latin:/?Extensionality?extensionalityI?type latin:/?Propositions?prop?type
+DependsOn latin:/?Extensionality?extensionalityI?type latin:/?InternalTypes?in?type
+DependsOn latin:/?Extensionality?extensionalityI?type latin:/?Equivalence?equiv?type
+DependsOn latin:/?Extensionality?extensionalityI?type latin:/?Proofs?ded?type
+DependsOn latin:/?Extensionality?extensionalityI?type latin:/?Terms?term?type
+DependsOn latin:/?Extensionality?extensionalityI?type latin:/?UntypedEquality?equal?type
+Declares latin:/?Extensionality latin:/?Extensionality?extensionalityE
+constant latin:/?Extensionality?extensionalityE
+DependsOn latin:/?Extensionality?extensionalityE?type latin:/?Propositions?prop?type
+DependsOn latin:/?Extensionality?extensionalityE?type latin:/?InternalTypes?in?type
+DependsOn latin:/?Extensionality?extensionalityE?type latin:/?Equivalence?equiv?type
+DependsOn latin:/?Extensionality?extensionalityE?type latin:/?Proofs?ded?type
+DependsOn latin:/?Extensionality?extensionalityE?type latin:/?Terms?term?type
+DependsOn latin:/?Extensionality?extensionalityE?type latin:/?UntypedEquality?equal?type

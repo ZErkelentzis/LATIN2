@@ -1,0 +1,4 @@
+theory latin:/?SmallCategory
+HasMeta latin:/?SmallCategory latin:/?SFOLEQND
+Includes latin:/?SmallCategory latin:/?SmallClass
+Includes latin:/?SmallCategory latin:/?Category

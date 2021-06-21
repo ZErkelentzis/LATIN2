@@ -1,0 +1,43 @@
+datatypeconstructor latin:/?Tableaux2Proofs?[latin:/?Propositions]/prop
+datatypeconstructor latin:/?Tableaux2Proofs?[latin:/?Tableaux]/marktrue
+datatypeconstructor latin:/?Tableaux2Proofs?[latin:/?Tableaux]/markfalse
+datatypeconstructor latin:/?Tableaux2Proofs?[latin:/?Tableaux]/closedbranch
+dataconstructor latin:/?Tableaux2Proofs?[latin:/?Tableaux]/closebranch
+dataconstructor latin:/?Tableaux2Proofs?[latin:/?Tableaux]/proofstart
+dataconstructor latin:/?Tableaux2Proofs?[latin:/?Tableaux]/classicality
+dataconstructor latin:/?Tableaux2Proofs?[latin:/?Tableaux]/refutationstart
+HasDomain latin:/?Tableaux2Proofs latin:/?Tableaux
+HasCodomain latin:/?Tableaux2Proofs latin:/?Classical
+view latin:/?Tableaux2Proofs
+HasViewFrom latin:/?Classical latin:/?Tableaux
+Declares latin:/?Tableaux2Proofs latin:/?Tableaux2Proofs?[latin:/?Propositions]/prop
+constant latin:/?Tableaux2Proofs?[latin:/?Propositions]/prop
+DependsOn latin:/?Tableaux2Proofs?[latin:/?Propositions]/prop?definition latin:/?Propositions?prop?type
+Declares latin:/?Tableaux2Proofs latin:/?Tableaux2Proofs?[latin:/?Tableaux]/marktrue
+constant latin:/?Tableaux2Proofs?[latin:/?Tableaux]/marktrue
+DependsOn latin:/?Tableaux2Proofs?[latin:/?Tableaux]/marktrue?definition latin:/?Propositions?prop?type
+DependsOn latin:/?Tableaux2Proofs?[latin:/?Tableaux]/marktrue?definition latin:/?Proofs?ded?type
+Declares latin:/?Tableaux2Proofs latin:/?Tableaux2Proofs?[latin:/?Tableaux]/markfalse
+constant latin:/?Tableaux2Proofs?[latin:/?Tableaux]/markfalse
+DependsOn latin:/?Tableaux2Proofs?[latin:/?Tableaux]/markfalse?definition latin:/?Propositions?prop?type
+DependsOn latin:/?Tableaux2Proofs?[latin:/?Tableaux]/markfalse?definition latin:/?Logic?inconsistent?type
+DependsOn latin:/?Tableaux2Proofs?[latin:/?Tableaux]/markfalse?definition latin:/?Proofs?ded?type
+Declares latin:/?Tableaux2Proofs latin:/?Tableaux2Proofs?[latin:/?Tableaux]/closedbranch
+constant latin:/?Tableaux2Proofs?[latin:/?Tableaux]/closedbranch
+DependsOn latin:/?Tableaux2Proofs?[latin:/?Tableaux]/closedbranch?definition latin:/?Logic?inconsistent?type
+Declares latin:/?Tableaux2Proofs latin:/?Tableaux2Proofs?[latin:/?Tableaux]/closebranch
+constant latin:/?Tableaux2Proofs?[latin:/?Tableaux]/closebranch
+DependsOn latin:/?Tableaux2Proofs?[latin:/?Tableaux]/closebranch?definition latin:/?Logic?inconsistent?definition
+DependsOn latin:/?Tableaux2Proofs?[latin:/?Tableaux]/closebranch?definition latin:/?Propositions?prop?type
+DependsOn latin:/?Tableaux2Proofs?[latin:/?Tableaux]/closebranch?definition latin:/?Proofs?ded?type
+Declares latin:/?Tableaux2Proofs latin:/?Tableaux2Proofs?[latin:/?Tableaux]/proofstart
+constant latin:/?Tableaux2Proofs?[latin:/?Tableaux]/proofstart
+DependsOn latin:/?Tableaux2Proofs?[latin:/?Tableaux]/proofstart?definition latin:/?Proofs?ded?type
+DependsOn latin:/?Tableaux2Proofs?[latin:/?Tableaux]/proofstart?definition latin:/?Classical?classical?type
+Declares latin:/?Tableaux2Proofs latin:/?Tableaux2Proofs?[latin:/?Tableaux]/classicality
+constant latin:/?Tableaux2Proofs?[latin:/?Tableaux]/classicality
+DependsOn latin:/?Tableaux2Proofs?[latin:/?Tableaux]/classicality?definition latin:/?Proofs?ded?type
+DependsOn latin:/?Tableaux2Proofs?[latin:/?Tableaux]/classicality?definition latin:/?Classical?classical?type
+Declares latin:/?Tableaux2Proofs latin:/?Tableaux2Proofs?[latin:/?Tableaux]/refutationstart
+constant latin:/?Tableaux2Proofs?[latin:/?Tableaux]/refutationstart
+DependsOn latin:/?Tableaux2Proofs?[latin:/?Tableaux]/refutationstart?definition latin:/?Logic?inconsistent?type

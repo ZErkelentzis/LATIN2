@@ -1,0 +1,29 @@
+namespace latin:/❚
+
+
+rule scala://parser.api.mmt.kwarc.info?MMTURILexer ❚
+
+import lfx http://gl.mathhub.info/MMT/LFX/TypedHierarchy ❚
+
+theory Examples :  ?SFOLEQND =
+   // include ?SFOLEQND ❙
+
+    simple_ex : {T  : tp, A: tm T ⟶ prop} ⊦ ∀ [x] A x ⇒ A x ❘ # simple_ex 1 2 ❙
+
+    bla : {T : tp , A : tm T ⟶ prop} ⊦ ∀ [x] A x ⇒ A x ❘ = [T : tp , A : tm T ⟶ prop] (simple_ex T A)  ❙
+
+❚
+
+
+theory meta =
+
+    include ☞lfx:?LFHierarchy ❙
+
+❚
+
+
+theory Examples2 : ?meta  =
+
+    test : {t : type} t ⟶ t ❙
+
+❚

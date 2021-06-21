@@ -1,0 +1,36 @@
+dataconstructor latin:/?SoftTypedPredicateSubtypes?predsub
+dataconstructor latin:/?SoftTypedPredicateSubtypes?predsubI
+dataconstructor latin:/?SoftTypedPredicateSubtypes?predsubEl
+dataconstructor latin:/?SoftTypedPredicateSubtypes?predsubEr
+theory latin:/?SoftTypedPredicateSubtypes
+HasMeta latin:/?SoftTypedPredicateSubtypes http://cds.omdoc.org/urtheories?LF
+Includes latin:/?SoftTypedPredicateSubtypes latin:/?SoftTypedLogic
+Declares latin:/?SoftTypedPredicateSubtypes latin:/?SoftTypedPredicateSubtypes?predsub
+constant latin:/?SoftTypedPredicateSubtypes?predsub
+DependsOn latin:/?SoftTypedPredicateSubtypes?predsub?type latin:/?Propositions?prop?type
+DependsOn latin:/?SoftTypedPredicateSubtypes?predsub?type latin:/?Terms?term?type
+DependsOn latin:/?SoftTypedPredicateSubtypes?predsub?type latin:/?Types?tp?type
+Declares latin:/?SoftTypedPredicateSubtypes latin:/?SoftTypedPredicateSubtypes?predsubI
+constant latin:/?SoftTypedPredicateSubtypes?predsubI
+DependsOn latin:/?SoftTypedPredicateSubtypes?predsubI?type latin:/?SoftTypedTerms?of?type
+DependsOn latin:/?SoftTypedPredicateSubtypes?predsubI?type latin:/?Propositions?prop?type
+DependsOn latin:/?SoftTypedPredicateSubtypes?predsubI?type latin:/?Proofs?ded?type
+DependsOn latin:/?SoftTypedPredicateSubtypes?predsubI?type latin:/?Terms?term?type
+DependsOn latin:/?SoftTypedPredicateSubtypes?predsubI?type latin:/?SoftTypedPredicateSubtypes?predsub?type
+DependsOn latin:/?SoftTypedPredicateSubtypes?predsubI?type latin:/?Types?tp?type
+Declares latin:/?SoftTypedPredicateSubtypes latin:/?SoftTypedPredicateSubtypes?predsubEl
+constant latin:/?SoftTypedPredicateSubtypes?predsubEl
+DependsOn latin:/?SoftTypedPredicateSubtypes?predsubEl?type latin:/?SoftTypedTerms?of?type
+DependsOn latin:/?SoftTypedPredicateSubtypes?predsubEl?type latin:/?Propositions?prop?type
+DependsOn latin:/?SoftTypedPredicateSubtypes?predsubEl?type latin:/?Proofs?ded?type
+DependsOn latin:/?SoftTypedPredicateSubtypes?predsubEl?type latin:/?Terms?term?type
+DependsOn latin:/?SoftTypedPredicateSubtypes?predsubEl?type latin:/?SoftTypedPredicateSubtypes?predsub?type
+DependsOn latin:/?SoftTypedPredicateSubtypes?predsubEl?type latin:/?Types?tp?type
+Declares latin:/?SoftTypedPredicateSubtypes latin:/?SoftTypedPredicateSubtypes?predsubEr
+constant latin:/?SoftTypedPredicateSubtypes?predsubEr
+DependsOn latin:/?SoftTypedPredicateSubtypes?predsubEr?type latin:/?SoftTypedTerms?of?type
+DependsOn latin:/?SoftTypedPredicateSubtypes?predsubEr?type latin:/?Propositions?prop?type
+DependsOn latin:/?SoftTypedPredicateSubtypes?predsubEr?type latin:/?Proofs?ded?type
+DependsOn latin:/?SoftTypedPredicateSubtypes?predsubEr?type latin:/?Terms?term?type
+DependsOn latin:/?SoftTypedPredicateSubtypes?predsubEr?type latin:/?SoftTypedPredicateSubtypes?predsub?type
+DependsOn latin:/?SoftTypedPredicateSubtypes?predsubEr?type latin:/?Types?tp?type

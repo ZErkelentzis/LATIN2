@@ -12,17 +12,6 @@ object PLITP extends TheoryScala {
   val _base = DPath(utils.URI(Some("latin"), None, abs=true))
   val _name = LocalName("PLITP")
   
-  object assume extends ConstantScala {
-    val parent: MPath = _path
-
-    val name: String = "assume"
-    def apply(x1: OML): Term = OMA(OMID(this.path), List(x1))
-    def unapply(t: Term): Option[OML] = t match {
-      case OMA(OMID(this.path), (x1: OML) :: Nil) => Some(x1)
-      case _ => None
-    }
-  }
-  
   object cases extends ConstantScala {
     val parent: MPath = _path
 

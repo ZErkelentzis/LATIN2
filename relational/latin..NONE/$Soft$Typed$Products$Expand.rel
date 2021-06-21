@@ -1,0 +1,13 @@
+dataconstructor latin:/?SoftTypedProductsExpand?expand
+theory latin:/?SoftTypedProductsExpand
+HasMeta latin:/?SoftTypedProductsExpand http://cds.omdoc.org/urtheories?LF
+Includes latin:/?SoftTypedProductsExpand latin:/?SoftTypedProducts
+Declares latin:/?SoftTypedProductsExpand latin:/?SoftTypedProductsExpand?expand
+constant latin:/?SoftTypedProductsExpand?expand
+DependsOn latin:/?SoftTypedProductsExpand?expand?type latin:/?Propositions?prop?type
+DependsOn latin:/?SoftTypedProductsExpand?expand?type latin:/?SoftTypedProducts?pair?type
+DependsOn latin:/?SoftTypedProductsExpand?expand?type latin:/?Proofs?ded?type
+DependsOn latin:/?SoftTypedProductsExpand?expand?type latin:/?Terms?term?type
+DependsOn latin:/?SoftTypedProductsExpand?expand?type latin:/?SoftTypedProducts?pi2?type
+DependsOn latin:/?SoftTypedProductsExpand?expand?type latin:/?UntypedEquality?equal?type
+DependsOn latin:/?SoftTypedProductsExpand?expand?type latin:/?SoftTypedProducts?pi1?type

@@ -1,0 +1,65 @@
+dataconstructor latin:/algebraic?SubMagma?parent/[latin:/algebraic?Set]/universe
+datatypeconstructor latin:/algebraic?SubMagma?parent/[latin:/algebraic?Set]/U
+dataconstructor latin:/algebraic?SubMagma?parent/op
+dataconstructor latin:/algebraic?SubMagma?parent/divisibility/[latin:/algebraic?Set]/universe
+datatypeconstructor latin:/algebraic?SubMagma?parent/divisibility/[latin:/algebraic?Set]/U
+dataconstructor latin:/algebraic?SubMagma?parent/divisibility/rel
+datatypeconstructor latin:/algebraic?SubMagma?parent/divisibility/metarel/[latin:/?OneTyped]/carrier
+judgementconstructor latin:/algebraic?SubMagma?parent/divisibility/metarel/rel
+dataconstructor latin:/algebraic?SubMagma?op
+theory latin:/algebraic?SubMagma
+HasMeta latin:/algebraic?SubMagma latin:/?SFOLEQND
+Includes latin:/algebraic?SubMagma latin:/algebraic?SubSet
+Declares latin:/algebraic?SubMagma latin:/algebraic?SubMagma?parent
+HasDomain latin:/algebraic?SubMagma?parent latin:/algebraic?Magma
+HasCodomain latin:/algebraic?SubMagma?parent latin:/algebraic?SubMagma
+structure latin:/algebraic?SubMagma?parent
+Declares latin:/algebraic?SubMagma latin:/algebraic?SubMagma?parent/[latin:/algebraic?Set]
+HasDomain latin:/algebraic?SubMagma?parent/[latin:/algebraic?Set] latin:/algebraic?Set
+HasCodomain latin:/algebraic?SubMagma?parent/[latin:/algebraic?Set] latin:/algebraic?SubMagma
+structure latin:/algebraic?SubMagma?parent/[latin:/algebraic?Set]
+Declares latin:/algebraic?SubMagma latin:/algebraic?SubMagma?parent/[latin:/algebraic?Set]/universe
+constant latin:/algebraic?SubMagma?parent/[latin:/algebraic?Set]/universe
+Declares latin:/algebraic?SubMagma latin:/algebraic?SubMagma?parent/[latin:/algebraic?Set]/U
+constant latin:/algebraic?SubMagma?parent/[latin:/algebraic?Set]/U
+Declares latin:/algebraic?SubMagma latin:/algebraic?SubMagma?parent/op
+constant latin:/algebraic?SubMagma?parent/op
+Declares latin:/algebraic?SubMagma latin:/algebraic?SubMagma?parent/divisibility
+HasDomain latin:/algebraic?SubMagma?parent/divisibility latin:/algebraic?Relation
+HasCodomain latin:/algebraic?SubMagma?parent/divisibility latin:/algebraic?SubMagma
+structure latin:/algebraic?SubMagma?parent/divisibility
+Declares latin:/algebraic?SubMagma latin:/algebraic?SubMagma?parent/divisibility/[latin:/algebraic?Set]
+HasDomain latin:/algebraic?SubMagma?parent/divisibility/[latin:/algebraic?Set] latin:/algebraic?Set
+HasCodomain latin:/algebraic?SubMagma?parent/divisibility/[latin:/algebraic?Set] latin:/algebraic?SubMagma
+structure latin:/algebraic?SubMagma?parent/divisibility/[latin:/algebraic?Set]
+Declares latin:/algebraic?SubMagma latin:/algebraic?SubMagma?parent/divisibility/[latin:/algebraic?Set]/universe
+constant latin:/algebraic?SubMagma?parent/divisibility/[latin:/algebraic?Set]/universe
+Declares latin:/algebraic?SubMagma latin:/algebraic?SubMagma?parent/divisibility/[latin:/algebraic?Set]/U
+constant latin:/algebraic?SubMagma?parent/divisibility/[latin:/algebraic?Set]/U
+Declares latin:/algebraic?SubMagma latin:/algebraic?SubMagma?parent/divisibility/rel
+constant latin:/algebraic?SubMagma?parent/divisibility/rel
+Declares latin:/algebraic?SubMagma latin:/algebraic?SubMagma?parent/divisibility/metarel
+HasDomain latin:/algebraic?SubMagma?parent/divisibility/metarel latin:/?Relation
+HasCodomain latin:/algebraic?SubMagma?parent/divisibility/metarel latin:/algebraic?SubMagma
+structure latin:/algebraic?SubMagma?parent/divisibility/metarel
+Declares latin:/algebraic?SubMagma latin:/algebraic?SubMagma?parent/divisibility/metarel/[latin:/?OneTyped]
+HasDomain latin:/algebraic?SubMagma?parent/divisibility/metarel/[latin:/?OneTyped] latin:/?OneTyped
+HasCodomain latin:/algebraic?SubMagma?parent/divisibility/metarel/[latin:/?OneTyped] latin:/algebraic?SubMagma
+structure latin:/algebraic?SubMagma?parent/divisibility/metarel/[latin:/?OneTyped]
+Declares latin:/algebraic?SubMagma latin:/algebraic?SubMagma?parent/divisibility/metarel/[latin:/?OneTyped]/carrier
+constant latin:/algebraic?SubMagma?parent/divisibility/metarel/[latin:/?OneTyped]/carrier
+Declares latin:/algebraic?SubMagma latin:/algebraic?SubMagma?parent/divisibility/metarel/rel
+constant latin:/algebraic?SubMagma?parent/divisibility/metarel/rel
+Declares latin:/algebraic?SubMagma latin:/algebraic?SubMagma?op
+constant latin:/algebraic?SubMagma?op
+DependsOn latin:/algebraic?SubMagma?op?type latin:/algebraic?SubSet?parent/universe?type
+DependsOn latin:/algebraic?SubMagma?op?type latin:/?TypedTerms?tm?type
+DependsOn latin:/algebraic?SubMagma?op?type latin:/?Propositions?prop?type
+DependsOn latin:/algebraic?SubMagma?op?type latin:/algebraic?SubSet?universe?type
+DependsOn latin:/algebraic?SubMagma?op?type latin:/algebraic?SubSet?parent/U?type
+DependsOn latin:/algebraic?SubMagma?op?type latin:/?Proofs?ded?type
+DependsOn latin:/algebraic?SubMagma?op?type latin:/?TypedUniversalQuantification?forall?type
+DependsOn latin:/algebraic?SubMagma?op?type latin:/algebraic?SubMagma?parent/op?type
+DependsOn latin:/algebraic?SubMagma?op?type latin:/?Types?tp?type
+DependsOn latin:/algebraic?SubMagma?op?type latin:/?Implication?impl?type
+DependsOn latin:/algebraic?SubMagma?op?type latin:/algebraic?SubSet?parent/U?definition

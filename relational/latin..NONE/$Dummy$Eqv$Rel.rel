@@ -1,0 +1,5 @@
+judgementconstructor latin:/?DummyEqvRel?rel
+theory latin:/?DummyEqvRel
+HasMeta latin:/?DummyEqvRel http://cds.omdoc.org/urtheories?LF
+Declares latin:/?DummyEqvRel latin:/?DummyEqvRel?rel
+constant latin:/?DummyEqvRel?rel

@@ -1,0 +1,45 @@
+package latin2.sfol
+
+import info.kwarc.mmt.api.GlobalName
+import info.kwarc.mmt.api.objects.{OMV, Term}
+import lf.Propositions
+
+import scala.collection.mutable
+
+class Complexity(d: Int, tp: Term, varlist: List[(OMV, Term)], symlist: List[GlobalName], lsym: GlobalName = null,
+                 lquant: GlobalName = null, qalt: Int = 0, bvar: List[(OMV, Term)] = List[(OMV, Term)]()) {
+  //object to save term complexity. Can save depth (level of nesting), variables and symbols of a term
+  //if a formula is described, sub term complexities are not taken into account here, as we finished using them in term
+  //generation. Formula specific complexities are optional, to make term generation easier to program.
+  def depth: Int = d
+  def output: Term = tp
+  //term generator saves variables, symbols etc unique, so we have information which symbols are contained, but not
+  //how often. Variables are saved as OMV references, and include the variable type
+  def variables: List[(OMV, Term)] = varlist
+  def symbols: List[GlobalName] = symlist
+  //we save the last applied quantor of a formula here in flag form.
+  //0 = no quantor, 1 = forall, 2 = exists, 3 = existsUnique
+  def lastsymb: GlobalName = lsym
+  def lastquant: GlobalName = lquant
+  def quantalt: Int = qalt
+
+  //number of different variables used in the term/formula
+  def getvarnum(): Int = variables.length
+  //depending on theory, e.g. plus, minus, etc
+  def getsymnum(): Int = symbols.length
+
+  //extension to save formula information with standard values set to regular terms
+  //Formulas are terms that return a proposition. We use that here to determine if we have a Formula
+  def isFormula(): Boolean = {
+    if(output == Propositions.prop.term) true
+    else false
+  }
+  //it can be interesting for generation and evaluation purposes to have a list of bound variables, as well
+  //the unbound variables
+  def boundVars: List[(OMV, Term)] = bvar
+  def getUnbound(): List[(OMV, Term)] = variables.filterNot(bvar.contains(_))
+
+  def getboundnum(): Int = boundVars.length
+  def getunboundnum(): Int = getvarnum() - getboundnum()
+
+}

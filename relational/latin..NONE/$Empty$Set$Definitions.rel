@@ -1,0 +1,61 @@
+dataconstructor latin:/?EmptySetDefinitions?isempty
+dataconstructor latin:/?EmptySetDefinitions?nonempty
+dataconstructor latin:/?EmptySetDefinitions?isemptyE
+dataconstructor latin:/?EmptySetDefinitions?nonemptyE
+theory latin:/?EmptySetDefinitions
+HasMeta latin:/?EmptySetDefinitions latin:/?SetFOL
+Declares latin:/?EmptySetDefinitions latin:/?EmptySetDefinitions?isempty
+constant latin:/?EmptySetDefinitions?isempty
+DependsOn latin:/?EmptySetDefinitions?isempty?type latin:/?Propositions?prop?type
+DependsOn latin:/?EmptySetDefinitions?isempty?type latin:/?SetFOL?set?type
+DependsOn latin:/?EmptySetDefinitions?isempty?definition latin:/?Propositions?prop?type
+DependsOn latin:/?EmptySetDefinitions?isempty?definition latin:/?ExistentialQuantification?exists?type
+DependsOn latin:/?EmptySetDefinitions?isempty?definition latin:/?InternalTypes?in?type
+DependsOn latin:/?EmptySetDefinitions?isempty?definition latin:/?SetFOL?set?type
+DependsOn latin:/?EmptySetDefinitions?isempty?definition latin:/?Negation?not?type
+DependsOn latin:/?EmptySetDefinitions?isempty?definition latin:/?Terms?term?type
+Declares latin:/?EmptySetDefinitions latin:/?EmptySetDefinitions?nonempty
+constant latin:/?EmptySetDefinitions?nonempty
+DependsOn latin:/?EmptySetDefinitions?nonempty?type latin:/?Propositions?prop?type
+DependsOn latin:/?EmptySetDefinitions?nonempty?type latin:/?SetFOL?set?type
+DependsOn latin:/?EmptySetDefinitions?nonempty?definition latin:/?Propositions?prop?type
+DependsOn latin:/?EmptySetDefinitions?nonempty?definition latin:/?ExistentialQuantification?exists?type
+DependsOn latin:/?EmptySetDefinitions?nonempty?definition latin:/?InternalTypes?in?type
+DependsOn latin:/?EmptySetDefinitions?nonempty?definition latin:/?SetFOL?set?type
+DependsOn latin:/?EmptySetDefinitions?nonempty?definition latin:/?Terms?term?type
+Declares latin:/?EmptySetDefinitions latin:/?EmptySetDefinitions?isemptyE
+constant latin:/?EmptySetDefinitions?isemptyE
+DependsOn latin:/?EmptySetDefinitions?isemptyE?type latin:/?Propositions?prop?type
+DependsOn latin:/?EmptySetDefinitions?isemptyE?type latin:/?Logic?inconsistent?type
+DependsOn latin:/?EmptySetDefinitions?isemptyE?type latin:/?EmptySetDefinitions?isempty?type
+DependsOn latin:/?EmptySetDefinitions?isemptyE?type latin:/?InternalTypes?in?type
+DependsOn latin:/?EmptySetDefinitions?isemptyE?type latin:/?SetFOL?set?type
+DependsOn latin:/?EmptySetDefinitions?isemptyE?type latin:/?Proofs?ded?type
+DependsOn latin:/?EmptySetDefinitions?isemptyE?type latin:/?Terms?term?type
+DependsOn latin:/?EmptySetDefinitions?isemptyE?definition latin:/?Logic?inconsistent?definition
+DependsOn latin:/?EmptySetDefinitions?isemptyE?definition latin:/?Propositions?prop?type
+DependsOn latin:/?EmptySetDefinitions?isemptyE?definition latin:/?EmptySetDefinitions?isempty?type
+DependsOn latin:/?EmptySetDefinitions?isemptyE?definition latin:/?NegationNDE?notE?type
+DependsOn latin:/?EmptySetDefinitions?isemptyE?definition latin:/?SetFOL?set?type
+DependsOn latin:/?EmptySetDefinitions?isemptyE?definition latin:/?Negation?not?type
+DependsOn latin:/?EmptySetDefinitions?isemptyE?definition latin:/?ExistentialQuantification?exists?type
+DependsOn latin:/?EmptySetDefinitions?isemptyE?definition latin:/?ExistentialQuantificationNDI?existsI?type
+DependsOn latin:/?EmptySetDefinitions?isemptyE?definition latin:/?InternalTypes?in?type
+DependsOn latin:/?EmptySetDefinitions?isemptyE?definition latin:/?Proofs?ded?type
+DependsOn latin:/?EmptySetDefinitions?isemptyE?definition latin:/?Terms?term?type
+Declares latin:/?EmptySetDefinitions latin:/?EmptySetDefinitions?nonemptyE
+constant latin:/?EmptySetDefinitions?nonemptyE
+DependsOn latin:/?EmptySetDefinitions?nonemptyE?type latin:/?Propositions?prop?type
+DependsOn latin:/?EmptySetDefinitions?nonemptyE?type latin:/?InternalTypes?in?type
+DependsOn latin:/?EmptySetDefinitions?nonemptyE?type latin:/?SetFOL?set?type
+DependsOn latin:/?EmptySetDefinitions?nonemptyE?type latin:/?Proofs?ded?type
+DependsOn latin:/?EmptySetDefinitions?nonemptyE?type latin:/?Terms?term?type
+DependsOn latin:/?EmptySetDefinitions?nonemptyE?type latin:/?EmptySetDefinitions?nonempty?type
+DependsOn latin:/?EmptySetDefinitions?nonemptyE?definition latin:/?Propositions?prop?type
+DependsOn latin:/?EmptySetDefinitions?nonemptyE?definition latin:/?ExistentialQuantification?exists?type
+DependsOn latin:/?EmptySetDefinitions?nonemptyE?definition latin:/?ExistentialQuantificationNDE?existsE?type
+DependsOn latin:/?EmptySetDefinitions?nonemptyE?definition latin:/?InternalTypes?in?type
+DependsOn latin:/?EmptySetDefinitions?nonemptyE?definition latin:/?SetFOL?set?type
+DependsOn latin:/?EmptySetDefinitions?nonemptyE?definition latin:/?Proofs?ded?type
+DependsOn latin:/?EmptySetDefinitions?nonemptyE?definition latin:/?Terms?term?type
+DependsOn latin:/?EmptySetDefinitions?nonemptyE?definition latin:/?EmptySetDefinitions?nonempty?type

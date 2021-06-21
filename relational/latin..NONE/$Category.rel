@@ -1,0 +1,140 @@
+dataconstructor latin:/?Category?hom
+datatypeconstructor latin:/?Category?Hom
+dataconstructor latin:/?Category?ident
+dataconstructor latin:/?Category?comp
+dataconstructor latin:/?Category?neutLeft
+dataconstructor latin:/?Category?neutRight
+dataconstructor latin:/?Category?assoc
+dataconstructor latin:/?Category?isos
+dataconstructor latin:/?Category?iso
+dataconstructor latin:/?Category?iso_equiv/[latin:/?Reflexivity]/refl
+judgementconstructor latin:/?Category?iso_equiv/[latin:/?Relation]/rel
+datatypeconstructor latin:/?Category?iso_equiv/[latin:/?OneTyped]/carrier
+dataconstructor latin:/?Category?iso_equiv/[latin:/?Transitivity]/trans
+dataconstructor latin:/?Category?iso_equiv/[latin:/?Transitivity]/trans3
+dataconstructor latin:/?Category?iso_equiv/[latin:/?Transitivity]/trans4
+dataconstructor latin:/?Category?iso_equiv/[latin:/?Symmetry]/sym
+theory latin:/?Category
+HasMeta latin:/?Category latin:/?SFOLEQND
+Includes latin:/?Category latin:/?Class
+Declares latin:/?Category latin:/?Category?hom
+constant latin:/?Category?hom
+DependsOn latin:/?Category?hom?type latin:/?Class?obj?type
+DependsOn latin:/?Category?hom?type latin:/?Types?tp?type
+Declares latin:/?Category latin:/?Category?Hom
+constant latin:/?Category?Hom
+DependsOn latin:/?Category?Hom?type latin:/?Class?obj?type
+DependsOn latin:/?Category?Hom?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?Category?Hom?definition latin:/?Class?obj?type
+DependsOn latin:/?Category?Hom?definition latin:/?Category?hom?type
+DependsOn latin:/?Category?Hom?definition latin:/?Types?tp?type
+Declares latin:/?Category latin:/?Category?ident
+constant latin:/?Category?ident
+DependsOn latin:/?Category?ident?type latin:/?Category?Hom?type
+DependsOn latin:/?Category?ident?type latin:/?Class?obj?type
+Declares latin:/?Category latin:/?Category?comp
+constant latin:/?Category?comp
+DependsOn latin:/?Category?comp?type latin:/?Category?Hom?type
+DependsOn latin:/?Category?comp?type latin:/?Class?obj?type
+Declares latin:/?Category latin:/?Category?neutLeft
+constant latin:/?Category?neutLeft
+DependsOn latin:/?Category?neutLeft?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?Category?neutLeft?type latin:/?Propositions?prop?type
+DependsOn latin:/?Category?neutLeft?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?Category?neutLeft?type latin:/?Category?Hom?type
+DependsOn latin:/?Category?neutLeft?type latin:/?Category?ident?type
+DependsOn latin:/?Category?neutLeft?type latin:/?Class?obj?type
+DependsOn latin:/?Category?neutLeft?type latin:/?Category?hom?type
+DependsOn latin:/?Category?neutLeft?type latin:/?Category?Hom?definition
+DependsOn latin:/?Category?neutLeft?type latin:/?Proofs?ded?type
+DependsOn latin:/?Category?neutLeft?type latin:/?Category?comp?type
+DependsOn latin:/?Category?neutLeft?type latin:/?Types?tp?type
+Declares latin:/?Category latin:/?Category?neutRight
+constant latin:/?Category?neutRight
+DependsOn latin:/?Category?neutRight?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?Category?neutRight?type latin:/?Propositions?prop?type
+DependsOn latin:/?Category?neutRight?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?Category?neutRight?type latin:/?Category?Hom?type
+DependsOn latin:/?Category?neutRight?type latin:/?Category?ident?type
+DependsOn latin:/?Category?neutRight?type latin:/?Class?obj?type
+DependsOn latin:/?Category?neutRight?type latin:/?Category?hom?type
+DependsOn latin:/?Category?neutRight?type latin:/?Category?Hom?definition
+DependsOn latin:/?Category?neutRight?type latin:/?Proofs?ded?type
+DependsOn latin:/?Category?neutRight?type latin:/?Category?comp?type
+DependsOn latin:/?Category?neutRight?type latin:/?Types?tp?type
+Declares latin:/?Category latin:/?Category?assoc
+constant latin:/?Category?assoc
+DependsOn latin:/?Category?assoc?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?Category?assoc?type latin:/?Propositions?prop?type
+DependsOn latin:/?Category?assoc?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?Category?assoc?type latin:/?Category?Hom?definition
+DependsOn latin:/?Category?assoc?type latin:/?Category?Hom?type
+DependsOn latin:/?Category?assoc?type latin:/?Proofs?ded?type
+DependsOn latin:/?Category?assoc?type latin:/?Category?comp?type
+DependsOn latin:/?Category?assoc?type latin:/?Class?obj?type
+DependsOn latin:/?Category?assoc?type latin:/?Category?hom?type
+DependsOn latin:/?Category?assoc?type latin:/?Types?tp?type
+Declares latin:/?Category latin:/?Category?isos
+constant latin:/?Category?isos
+DependsOn latin:/?Category?isos?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?Category?isos?definition latin:/?Propositions?prop?type
+DependsOn latin:/?Category?isos?definition latin:/?Conjunction?and?type
+DependsOn latin:/?Category?isos?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/?Category?isos?definition latin:/?Category?Hom?type
+DependsOn latin:/?Category?isos?definition latin:/?Category?ident?type
+DependsOn latin:/?Category?isos?definition latin:/?Category?comp?type
+DependsOn latin:/?Category?isos?definition latin:/?Class?obj?type
+DependsOn latin:/?Category?isos?definition latin:/?Category?hom?type
+DependsOn latin:/?Category?isos?definition latin:/?Types?tp?type
+Declares latin:/?Category latin:/?Category?iso
+constant latin:/?Category?iso
+DependsOn latin:/?Category?iso?definition latin:/?Category?isos?type
+DependsOn latin:/?Category?iso?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?Category?iso?definition latin:/?Propositions?prop?type
+DependsOn latin:/?Category?iso?definition latin:/?Category?Hom?type
+DependsOn latin:/?Category?iso?definition latin:/?TypedExistentialQuantification?exists?type
+DependsOn latin:/?Category?iso?definition latin:/?Class?obj?type
+DependsOn latin:/?Category?iso?definition latin:/?Category?hom?type
+DependsOn latin:/?Category?iso?definition latin:/?Types?tp?type
+Declares latin:/?Category latin:/?Category?iso_equiv
+HasDomain latin:/?Category?iso_equiv latin:/?EquivalenceRelation
+HasCodomain latin:/?Category?iso_equiv latin:/?Category
+structure latin:/?Category?iso_equiv
+Declares latin:/?Category latin:/?Category?iso_equiv/[latin:/?Preorder]
+HasDomain latin:/?Category?iso_equiv/[latin:/?Preorder] latin:/?Preorder
+HasCodomain latin:/?Category?iso_equiv/[latin:/?Preorder] latin:/?Category
+structure latin:/?Category?iso_equiv/[latin:/?Preorder]
+Declares latin:/?Category latin:/?Category?iso_equiv/[latin:/?Reflexivity]
+HasDomain latin:/?Category?iso_equiv/[latin:/?Reflexivity] latin:/?Reflexivity
+HasCodomain latin:/?Category?iso_equiv/[latin:/?Reflexivity] latin:/?Category
+structure latin:/?Category?iso_equiv/[latin:/?Reflexivity]
+Declares latin:/?Category latin:/?Category?iso_equiv/[latin:/?Reflexivity]/refl
+constant latin:/?Category?iso_equiv/[latin:/?Reflexivity]/refl
+Declares latin:/?Category latin:/?Category?iso_equiv/[latin:/?Relation]
+HasDomain latin:/?Category?iso_equiv/[latin:/?Relation] latin:/?Relation
+HasCodomain latin:/?Category?iso_equiv/[latin:/?Relation] latin:/?Category
+structure latin:/?Category?iso_equiv/[latin:/?Relation]
+Declares latin:/?Category latin:/?Category?iso_equiv/[latin:/?Relation]/rel
+constant latin:/?Category?iso_equiv/[latin:/?Relation]/rel
+Declares latin:/?Category latin:/?Category?iso_equiv/[latin:/?OneTyped]
+HasDomain latin:/?Category?iso_equiv/[latin:/?OneTyped] latin:/?OneTyped
+HasCodomain latin:/?Category?iso_equiv/[latin:/?OneTyped] latin:/?Category
+structure latin:/?Category?iso_equiv/[latin:/?OneTyped]
+Declares latin:/?Category latin:/?Category?iso_equiv/[latin:/?OneTyped]/carrier
+constant latin:/?Category?iso_equiv/[latin:/?OneTyped]/carrier
+Declares latin:/?Category latin:/?Category?iso_equiv/[latin:/?Transitivity]
+HasDomain latin:/?Category?iso_equiv/[latin:/?Transitivity] latin:/?Transitivity
+HasCodomain latin:/?Category?iso_equiv/[latin:/?Transitivity] latin:/?Category
+structure latin:/?Category?iso_equiv/[latin:/?Transitivity]
+Declares latin:/?Category latin:/?Category?iso_equiv/[latin:/?Transitivity]/trans
+constant latin:/?Category?iso_equiv/[latin:/?Transitivity]/trans
+Declares latin:/?Category latin:/?Category?iso_equiv/[latin:/?Transitivity]/trans3
+constant latin:/?Category?iso_equiv/[latin:/?Transitivity]/trans3
+Declares latin:/?Category latin:/?Category?iso_equiv/[latin:/?Transitivity]/trans4
+constant latin:/?Category?iso_equiv/[latin:/?Transitivity]/trans4
+Declares latin:/?Category latin:/?Category?iso_equiv/[latin:/?Symmetry]
+HasDomain latin:/?Category?iso_equiv/[latin:/?Symmetry] latin:/?Symmetry
+HasCodomain latin:/?Category?iso_equiv/[latin:/?Symmetry] latin:/?Category
+structure latin:/?Category?iso_equiv/[latin:/?Symmetry]
+Declares latin:/?Category latin:/?Category?iso_equiv/[latin:/?Symmetry]/sym
+constant latin:/?Category?iso_equiv/[latin:/?Symmetry]/sym

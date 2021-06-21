@@ -1,0 +1,4 @@
+theory latin:/?CommSemigroup
+HasMeta latin:/?CommSemigroup http://cds.omdoc.org/urtheories?LF
+Includes latin:/?CommSemigroup latin:/?Semigroup
+Includes latin:/?CommSemigroup latin:/?Commutative

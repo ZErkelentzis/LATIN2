@@ -1,0 +1,32 @@
+datatypeconstructor latin:/?TypesAsPredicates?typesAsPredicates/[latin:/?Terms]/term
+datatypeconstructor latin:/?TypesAsPredicates?typesAsPredicates/[latin:/?Types]/tp
+datatypeconstructor latin:/?TypesAsPredicates?typesAsPredicates/[latin:/?Propositions]/prop
+dataconstructor latin:/?TypesAsPredicates?typesAsPredicates/of
+theory latin:/?TypesAsPredicates
+HasMeta latin:/?TypesAsPredicates http://cds.omdoc.org/urtheories?LF
+Includes latin:/?TypesAsPredicates latin:/?Terms
+Includes latin:/?TypesAsPredicates latin:/?Logic
+Declares latin:/?TypesAsPredicates latin:/?TypesAsPredicates?typesAsPredicates
+HasDomain latin:/?TypesAsPredicates?typesAsPredicates latin:/?SoftTypedTerms
+HasCodomain latin:/?TypesAsPredicates?typesAsPredicates latin:/?TypesAsPredicates
+structure latin:/?TypesAsPredicates?typesAsPredicates
+Declares latin:/?TypesAsPredicates latin:/?TypesAsPredicates?typesAsPredicates/[latin:/?Terms]
+HasDomain latin:/?TypesAsPredicates?typesAsPredicates/[latin:/?Terms] latin:/?Terms
+HasCodomain latin:/?TypesAsPredicates?typesAsPredicates/[latin:/?Terms] latin:/?TypesAsPredicates
+structure latin:/?TypesAsPredicates?typesAsPredicates/[latin:/?Terms]
+Declares latin:/?TypesAsPredicates latin:/?TypesAsPredicates?typesAsPredicates/[latin:/?Terms]/term
+constant latin:/?TypesAsPredicates?typesAsPredicates/[latin:/?Terms]/term
+Declares latin:/?TypesAsPredicates latin:/?TypesAsPredicates?typesAsPredicates/[latin:/?Types]
+HasDomain latin:/?TypesAsPredicates?typesAsPredicates/[latin:/?Types] latin:/?Types
+HasCodomain latin:/?TypesAsPredicates?typesAsPredicates/[latin:/?Types] latin:/?TypesAsPredicates
+structure latin:/?TypesAsPredicates?typesAsPredicates/[latin:/?Types]
+Declares latin:/?TypesAsPredicates latin:/?TypesAsPredicates?typesAsPredicates/[latin:/?Types]/tp
+constant latin:/?TypesAsPredicates?typesAsPredicates/[latin:/?Types]/tp
+Declares latin:/?TypesAsPredicates latin:/?TypesAsPredicates?typesAsPredicates/[latin:/?Propositions]
+HasDomain latin:/?TypesAsPredicates?typesAsPredicates/[latin:/?Propositions] latin:/?Propositions
+HasCodomain latin:/?TypesAsPredicates?typesAsPredicates/[latin:/?Propositions] latin:/?TypesAsPredicates
+structure latin:/?TypesAsPredicates?typesAsPredicates/[latin:/?Propositions]
+Declares latin:/?TypesAsPredicates latin:/?TypesAsPredicates?typesAsPredicates/[latin:/?Propositions]/prop
+constant latin:/?TypesAsPredicates?typesAsPredicates/[latin:/?Propositions]/prop
+Declares latin:/?TypesAsPredicates latin:/?TypesAsPredicates?typesAsPredicates/of
+constant latin:/?TypesAsPredicates?typesAsPredicates/of

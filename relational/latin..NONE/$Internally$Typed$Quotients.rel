@@ -1,0 +1,46 @@
+dataconstructor latin:/?InternallyTypedQuotients?quotient
+dataconstructor latin:/?InternallyTypedQuotients?class
+dataconstructor latin:/?InternallyTypedQuotients?welldefined
+dataconstructor latin:/?InternallyTypedQuotients?equiv
+dataconstructor latin:/?InternallyTypedQuotients?quotientI
+dataconstructor latin:/?InternallyTypedQuotients?quotientE
+theory latin:/?InternallyTypedQuotients
+HasMeta latin:/?InternallyTypedQuotients http://cds.omdoc.org/urtheories?LF
+Includes latin:/?InternallyTypedQuotients latin:/?InternallyTypedLogic
+Includes latin:/?InternallyTypedQuotients latin:/?UntypedEquality
+Declares latin:/?InternallyTypedQuotients latin:/?InternallyTypedQuotients?quotient
+constant latin:/?InternallyTypedQuotients?quotient
+DependsOn latin:/?InternallyTypedQuotients?quotient?type latin:/?Propositions?prop?type
+DependsOn latin:/?InternallyTypedQuotients?quotient?type latin:/?Terms?term?type
+Declares latin:/?InternallyTypedQuotients latin:/?InternallyTypedQuotients?class
+constant latin:/?InternallyTypedQuotients?class
+DependsOn latin:/?InternallyTypedQuotients?class?type latin:/?Propositions?prop?type
+DependsOn latin:/?InternallyTypedQuotients?class?type latin:/?Terms?term?type
+Declares latin:/?InternallyTypedQuotients latin:/?InternallyTypedQuotients?welldefined
+constant latin:/?InternallyTypedQuotients?welldefined
+DependsOn latin:/?InternallyTypedQuotients?welldefined?type latin:/?Propositions?prop?type
+DependsOn latin:/?InternallyTypedQuotients?welldefined?type latin:/?Terms?term?type
+Declares latin:/?InternallyTypedQuotients latin:/?InternallyTypedQuotients?equiv
+constant latin:/?InternallyTypedQuotients?equiv
+DependsOn latin:/?InternallyTypedQuotients?equiv?type latin:/?Propositions?prop?type
+DependsOn latin:/?InternallyTypedQuotients?equiv?type latin:/?InternallyTypedQuotients?class?type
+DependsOn latin:/?InternallyTypedQuotients?equiv?type latin:/?Proofs?ded?type
+DependsOn latin:/?InternallyTypedQuotients?equiv?type latin:/?Terms?term?type
+DependsOn latin:/?InternallyTypedQuotients?equiv?type latin:/?UntypedEquality?equal?type
+Declares latin:/?InternallyTypedQuotients latin:/?InternallyTypedQuotients?quotientI
+constant latin:/?InternallyTypedQuotients?quotientI
+DependsOn latin:/?InternallyTypedQuotients?quotientI?type latin:/?InternallyTypedQuotients?quotient?type
+DependsOn latin:/?InternallyTypedQuotients?quotientI?type latin:/?Propositions?prop?type
+DependsOn latin:/?InternallyTypedQuotients?quotientI?type latin:/?InternalTypes?in?type
+DependsOn latin:/?InternallyTypedQuotients?quotientI?type latin:/?InternallyTypedQuotients?class?type
+DependsOn latin:/?InternallyTypedQuotients?quotientI?type latin:/?Proofs?ded?type
+DependsOn latin:/?InternallyTypedQuotients?quotientI?type latin:/?Terms?term?type
+Declares latin:/?InternallyTypedQuotients latin:/?InternallyTypedQuotients?quotientE
+constant latin:/?InternallyTypedQuotients?quotientE
+DependsOn latin:/?InternallyTypedQuotients?quotientE?type latin:/?InternallyTypedQuotients?quotient?type
+DependsOn latin:/?InternallyTypedQuotients?quotientE?type latin:/?Propositions?prop?type
+DependsOn latin:/?InternallyTypedQuotients?quotientE?type latin:/?InternalTypes?in?type
+DependsOn latin:/?InternallyTypedQuotients?quotientE?type latin:/?Proofs?ded?type
+DependsOn latin:/?InternallyTypedQuotients?quotientE?type latin:/?Terms?term?type
+DependsOn latin:/?InternallyTypedQuotients?quotientE?type latin:/?InternallyTypedQuotients?welldefined?type
+DependsOn latin:/?InternallyTypedQuotients?quotientE?type latin:/?UntypedEquality?equal?type

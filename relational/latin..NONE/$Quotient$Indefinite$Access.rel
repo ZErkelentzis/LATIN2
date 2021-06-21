@@ -1,0 +1,32 @@
+dataconstructor latin:/?QuotientIndefiniteAccess?quot_inj
+dataconstructor latin:/?QuotientIndefiniteAccess?quot_inj_proj_inverse
+dataconstructor latin:/?QuotientIndefiniteAccess?quot_proj_inj_almost_inverse
+theory latin:/?QuotientIndefiniteAccess
+HasMeta latin:/?QuotientIndefiniteAccess http://cds.omdoc.org/urtheories?LF
+Includes latin:/?QuotientIndefiniteAccess latin:/?QuotientTypesBase
+Declares latin:/?QuotientIndefiniteAccess latin:/?QuotientIndefiniteAccess?quot_inj
+constant latin:/?QuotientIndefiniteAccess?quot_inj
+DependsOn latin:/?QuotientIndefiniteAccess?quot_inj?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?QuotientIndefiniteAccess?quot_inj?type latin:/?QuotientTypesBase?quot?type
+DependsOn latin:/?QuotientIndefiniteAccess?quot_inj?type latin:/?QuotientTypesBase?eqv?type
+DependsOn latin:/?QuotientIndefiniteAccess?quot_inj?type latin:/?Types?tp?type
+Declares latin:/?QuotientIndefiniteAccess latin:/?QuotientIndefiniteAccess?quot_inj_proj_inverse
+constant latin:/?QuotientIndefiniteAccess?quot_inj_proj_inverse
+DependsOn latin:/?QuotientIndefiniteAccess?quot_inj_proj_inverse?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?QuotientIndefiniteAccess?quot_inj_proj_inverse?type latin:/?Propositions?prop?type
+DependsOn latin:/?QuotientIndefiniteAccess?quot_inj_proj_inverse?type latin:/?QuotientTypesBase?quot_project?type
+DependsOn latin:/?QuotientIndefiniteAccess?quot_inj_proj_inverse?type latin:/?QuotientTypesBase?quot?type
+DependsOn latin:/?QuotientIndefiniteAccess?quot_inj_proj_inverse?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?QuotientIndefiniteAccess?quot_inj_proj_inverse?type latin:/?QuotientTypesBase?eqv?type
+DependsOn latin:/?QuotientIndefiniteAccess?quot_inj_proj_inverse?type latin:/?Proofs?ded?type
+DependsOn latin:/?QuotientIndefiniteAccess?quot_inj_proj_inverse?type latin:/?QuotientIndefiniteAccess?quot_inj?type
+DependsOn latin:/?QuotientIndefiniteAccess?quot_inj_proj_inverse?type latin:/?Types?tp?type
+Declares latin:/?QuotientIndefiniteAccess latin:/?QuotientIndefiniteAccess?quot_proj_inj_almost_inverse
+constant latin:/?QuotientIndefiniteAccess?quot_proj_inj_almost_inverse
+DependsOn latin:/?QuotientIndefiniteAccess?quot_proj_inj_almost_inverse?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?QuotientIndefiniteAccess?quot_proj_inj_almost_inverse?type latin:/?QuotientTypesBase?quot_project?type
+DependsOn latin:/?QuotientIndefiniteAccess?quot_proj_inj_almost_inverse?type latin:/?QuotientTypesBase?quot?type
+DependsOn latin:/?QuotientIndefiniteAccess?quot_proj_inj_almost_inverse?type latin:/?QuotientTypesBase?eqv?type
+DependsOn latin:/?QuotientIndefiniteAccess?quot_proj_inj_almost_inverse?type latin:/?QuotientIndefiniteAccess?quot_inj?type
+DependsOn latin:/?QuotientIndefiniteAccess?quot_proj_inj_almost_inverse?type latin:/?Types?tp?type
+DependsOn latin:/?QuotientIndefiniteAccess?quot_proj_inj_almost_inverse?type latin:/?QuotientTypesBase?eqv?definition

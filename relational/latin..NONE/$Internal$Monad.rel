@@ -1,0 +1,43 @@
+dataconstructor latin:/?InternalMonad?return
+dataconstructor latin:/?InternalMonad?bind
+dataconstructor latin:/?InternalMonad?laws/[latin:/?TypeOperator]/applyType
+dataconstructor latin:/?InternalMonad?laws/Return
+dataconstructor latin:/?InternalMonad?laws/Bind
+dataconstructor latin:/?InternalMonad?laws/identLeft
+dataconstructor latin:/?InternalMonad?laws/identRight
+dataconstructor latin:/?InternalMonad?laws/assoc
+theory latin:/?InternalMonad
+HasMeta latin:/?InternalMonad latin:/?HOLND
+Includes latin:/?InternalMonad latin:/?TypeOperator
+Declares latin:/?InternalMonad latin:/?InternalMonad?return
+constant latin:/?InternalMonad?return
+DependsOn latin:/?InternalMonad?return?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?InternalMonad?return?type latin:/?TypeOperator?applyType?type
+DependsOn latin:/?InternalMonad?return?type latin:/?SimpleFunctionTypes?simpfun?type
+DependsOn latin:/?InternalMonad?return?type latin:/?Types?tp?type
+Declares latin:/?InternalMonad latin:/?InternalMonad?bind
+constant latin:/?InternalMonad?bind
+DependsOn latin:/?InternalMonad?bind?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?InternalMonad?bind?type latin:/?TypeOperator?applyType?type
+DependsOn latin:/?InternalMonad?bind?type latin:/?SimpleFunctionTypes?simpfun?type
+DependsOn latin:/?InternalMonad?bind?type latin:/?Types?tp?type
+Declares latin:/?InternalMonad latin:/?InternalMonad?laws
+HasDomain latin:/?InternalMonad?laws latin:/?Monad
+HasCodomain latin:/?InternalMonad?laws latin:/?InternalMonad
+structure latin:/?InternalMonad?laws
+Declares latin:/?InternalMonad latin:/?InternalMonad?laws/[latin:/?TypeOperator]
+HasDomain latin:/?InternalMonad?laws/[latin:/?TypeOperator] latin:/?TypeOperator
+HasCodomain latin:/?InternalMonad?laws/[latin:/?TypeOperator] latin:/?InternalMonad
+structure latin:/?InternalMonad?laws/[latin:/?TypeOperator]
+Declares latin:/?InternalMonad latin:/?InternalMonad?laws/[latin:/?TypeOperator]/applyType
+constant latin:/?InternalMonad?laws/[latin:/?TypeOperator]/applyType
+Declares latin:/?InternalMonad latin:/?InternalMonad?laws/Return
+constant latin:/?InternalMonad?laws/Return
+Declares latin:/?InternalMonad latin:/?InternalMonad?laws/Bind
+constant latin:/?InternalMonad?laws/Bind
+Declares latin:/?InternalMonad latin:/?InternalMonad?laws/identLeft
+constant latin:/?InternalMonad?laws/identLeft
+Declares latin:/?InternalMonad latin:/?InternalMonad?laws/identRight
+constant latin:/?InternalMonad?laws/identRight
+Declares latin:/?InternalMonad latin:/?InternalMonad?laws/assoc
+constant latin:/?InternalMonad?laws/assoc

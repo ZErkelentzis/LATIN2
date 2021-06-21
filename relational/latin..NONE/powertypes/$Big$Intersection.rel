@@ -1,0 +1,64 @@
+dataconstructor latin:/powertypes?BigIntersection?biginter
+dataconstructor latin:/powertypes?BigIntersection?biginterI
+dataconstructor latin:/powertypes?BigIntersection?biginterE
+theory latin:/powertypes?BigIntersection
+HasMeta latin:/powertypes?BigIntersection http://cds.omdoc.org/urtheories?LF
+Includes latin:/powertypes?BigIntersection latin:/powertypes?PowerTypes
+Includes latin:/powertypes?BigIntersection latin:/?ImplicationND
+Includes latin:/powertypes?BigIntersection latin:/?TypedUniversalQuantificationND
+Declares latin:/powertypes?BigIntersection latin:/powertypes?BigIntersection?biginter
+constant latin:/powertypes?BigIntersection?biginter
+DependsOn latin:/powertypes?BigIntersection?biginter?type latin:/?TypedTerms?tm?type
+DependsOn latin:/powertypes?BigIntersection?biginter?type latin:/powertypes?PowerTypes?power?type
+DependsOn latin:/powertypes?BigIntersection?biginter?type latin:/?Types?tp?type
+DependsOn latin:/powertypes?BigIntersection?biginter?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/powertypes?BigIntersection?biginter?definition latin:/powertypes?PowerTypes?in?type
+DependsOn latin:/powertypes?BigIntersection?biginter?definition latin:/?Propositions?prop?type
+DependsOn latin:/powertypes?BigIntersection?biginter?definition latin:/?TypedUniversalQuantification?forall?type
+DependsOn latin:/powertypes?BigIntersection?biginter?definition latin:/powertypes?PowerTypes?filter?type
+DependsOn latin:/powertypes?BigIntersection?biginter?definition latin:/powertypes?PowerTypes?power?type
+DependsOn latin:/powertypes?BigIntersection?biginter?definition latin:/?Types?tp?type
+DependsOn latin:/powertypes?BigIntersection?biginter?definition latin:/?Implication?impl?type
+Declares latin:/powertypes?BigIntersection latin:/powertypes?BigIntersection?biginterI
+constant latin:/powertypes?BigIntersection?biginterI
+DependsOn latin:/powertypes?BigIntersection?biginterI?type latin:/?TypedTerms?tm?type
+DependsOn latin:/powertypes?BigIntersection?biginterI?type latin:/powertypes?PowerTypes?in?type
+DependsOn latin:/powertypes?BigIntersection?biginterI?type latin:/?Propositions?prop?type
+DependsOn latin:/powertypes?BigIntersection?biginterI?type latin:/powertypes?BigIntersection?biginter?type
+DependsOn latin:/powertypes?BigIntersection?biginterI?type latin:/?Proofs?ded?type
+DependsOn latin:/powertypes?BigIntersection?biginterI?type latin:/powertypes?PowerTypes?power?type
+DependsOn latin:/powertypes?BigIntersection?biginterI?type latin:/?Types?tp?type
+DependsOn latin:/powertypes?BigIntersection?biginterI?definition latin:/powertypes?PowerTypes?filterI?type
+DependsOn latin:/powertypes?BigIntersection?biginterI?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/powertypes?BigIntersection?biginterI?definition latin:/?Propositions?prop?type
+DependsOn latin:/powertypes?BigIntersection?biginterI?definition latin:/?TypedUniversalQuantification?forall?type
+DependsOn latin:/powertypes?BigIntersection?biginterI?definition latin:/?Implication?impl?type
+DependsOn latin:/powertypes?BigIntersection?biginterI?definition latin:/?TypedUniversalQuantificationND?forallI?type
+DependsOn latin:/powertypes?BigIntersection?biginterI?definition latin:/powertypes?PowerTypes?in?type
+DependsOn latin:/powertypes?BigIntersection?biginterI?definition latin:/?ImplicationNDI?implI?type
+DependsOn latin:/powertypes?BigIntersection?biginterI?definition latin:/?Proofs?ded?type
+DependsOn latin:/powertypes?BigIntersection?biginterI?definition latin:/powertypes?PowerTypes?filter?type
+DependsOn latin:/powertypes?BigIntersection?biginterI?definition latin:/powertypes?PowerTypes?power?type
+DependsOn latin:/powertypes?BigIntersection?biginterI?definition latin:/?Types?tp?type
+Declares latin:/powertypes?BigIntersection latin:/powertypes?BigIntersection?biginterE
+constant latin:/powertypes?BigIntersection?biginterE
+DependsOn latin:/powertypes?BigIntersection?biginterE?type latin:/?TypedTerms?tm?type
+DependsOn latin:/powertypes?BigIntersection?biginterE?type latin:/powertypes?PowerTypes?in?type
+DependsOn latin:/powertypes?BigIntersection?biginterE?type latin:/?Propositions?prop?type
+DependsOn latin:/powertypes?BigIntersection?biginterE?type latin:/powertypes?BigIntersection?biginter?type
+DependsOn latin:/powertypes?BigIntersection?biginterE?type latin:/?Proofs?ded?type
+DependsOn latin:/powertypes?BigIntersection?biginterE?type latin:/powertypes?PowerTypes?power?type
+DependsOn latin:/powertypes?BigIntersection?biginterE?type latin:/?Types?tp?type
+DependsOn latin:/powertypes?BigIntersection?biginterE?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/powertypes?BigIntersection?biginterE?definition latin:/?Propositions?prop?type
+DependsOn latin:/powertypes?BigIntersection?biginterE?definition latin:/powertypes?PowerTypes?filterE?type
+DependsOn latin:/powertypes?BigIntersection?biginterE?definition latin:/?TypedUniversalQuantification?forall?type
+DependsOn latin:/powertypes?BigIntersection?biginterE?definition latin:/?Implication?impl?type
+DependsOn latin:/powertypes?BigIntersection?biginterE?definition latin:/powertypes?PowerTypes?in?type
+DependsOn latin:/powertypes?BigIntersection?biginterE?definition latin:/powertypes?BigIntersection?biginter?type
+DependsOn latin:/powertypes?BigIntersection?biginterE?definition latin:/?TypedUniversalQuantificationND?forallE?type
+DependsOn latin:/powertypes?BigIntersection?biginterE?definition latin:/?ImplicationNDE?implE?type
+DependsOn latin:/powertypes?BigIntersection?biginterE?definition latin:/?Proofs?ded?type
+DependsOn latin:/powertypes?BigIntersection?biginterE?definition latin:/powertypes?PowerTypes?filter?type
+DependsOn latin:/powertypes?BigIntersection?biginterE?definition latin:/powertypes?PowerTypes?power?type
+DependsOn latin:/powertypes?BigIntersection?biginterE?definition latin:/?Types?tp?type

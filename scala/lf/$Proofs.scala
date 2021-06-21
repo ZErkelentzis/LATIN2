@@ -22,27 +22,5 @@ object Proofs extends TheoryScala {
       case _ => None
     }
   }
-  
-  object inconsistent extends ConstantScala {
-    val parent: MPath = _path
-
-    val name: String = "inconsistent"
-    def apply(): Term = OMID(this.path)
-    def unapply(t: Term): Option[Unit] = t match {
-      case OMID(this.path) => Some(())
-      case _ => None
-    }
-  }
-  
-  object inconsistentE extends ConstantScala {
-    val parent: MPath = _path
-
-    val name: String = "inconsistentE"
-    def apply(x0: Term,x1: Term): Term = ApplyGeneral(OMID(this.path), List(x0):::List(x1))
-    def unapply(t: Term): Option[(Term, Term)] = t match {
-      case ApplyGeneral(OMID(this.path), x0 :: x1 :: Nil) => Some((x0, x1))
-      case _ => None
-    }
-  }
 
 }

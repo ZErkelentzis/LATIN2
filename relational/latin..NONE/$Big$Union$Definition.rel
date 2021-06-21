@@ -1,0 +1,10 @@
+dataconstructor latin:/?BigUnionDefinition?isbigunion
+theory latin:/?BigUnionDefinition
+HasMeta latin:/?BigUnionDefinition latin:/?SetFOL
+Declares latin:/?BigUnionDefinition latin:/?BigUnionDefinition?isbigunion
+constant latin:/?BigUnionDefinition?isbigunion
+DependsOn latin:/?BigUnionDefinition?isbigunion?definition latin:/?Propositions?prop?type
+DependsOn latin:/?BigUnionDefinition?isbigunion?definition latin:/?InternalTypes?in?type
+DependsOn latin:/?BigUnionDefinition?isbigunion?definition latin:/?Terms?term?type
+DependsOn latin:/?BigUnionDefinition?isbigunion?definition latin:/?UniversalQuantification?forall?type
+DependsOn latin:/?BigUnionDefinition?isbigunion?definition latin:/?Implication?impl?type

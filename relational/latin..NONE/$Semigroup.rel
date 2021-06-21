@@ -1,0 +1,9 @@
+dataconstructor latin:/?Semigroup?assoc
+theory latin:/?Semigroup
+HasMeta latin:/?Semigroup http://cds.omdoc.org/urtheories?LF
+Includes latin:/?Semigroup latin:/?Magma
+Declares latin:/?Semigroup latin:/?Semigroup?assoc
+constant latin:/?Semigroup?assoc
+DependsOn latin:/?Semigroup?assoc?type latin:/?Magma?op?type
+DependsOn latin:/?Semigroup?assoc?type latin:/?EqualityType?equalityRel/[latin:/?Relation]/rel?type
+DependsOn latin:/?Semigroup?assoc?type latin:/?OneTyped?carrier?type
