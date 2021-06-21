@@ -41,8 +41,6 @@ help/inconsistentE (hd2cert X2) a (hd2cert X2).
 
 help/inconsistentE (bccert X3) a (bccert X2) :- bc/pos X3 , X2 is X3 - 1.
 
-
-
 /* generated from trueI : ⊦true */
 
 ded X1 true :- help/trueI X1.
@@ -100,6 +98,7 @@ help/notElimination (hdcert X2) A (hdcert X2).
 help/notElimination (hd2cert X2) A (hd2cert X2).
 
 help/notElimination (bccert X3) A (bccert X2) :- bc/pos X3 , X2 is X3 - 1.
+
 
 /* generated from falseIntroduction : {A}⊦¬A⟶⊦A⟶⊦false */
 

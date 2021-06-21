@@ -1,0 +1,19 @@
+accumulate "generic/bc".
+
+id_prove_run N Res F :- ded (bccert N) F, print X, Res is "Success".
+
+accumulate "generic/idprove".
+
+accumulate "/home/totoro/Development/KWARC/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Sudoku".
+accumulate "/home/totoro/Development/KWARC/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Sudoku$Solve".
+accumulate "/home/totoro/Development/KWARC/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Sudoku$Test$Easy".
+
+cell_solved P C :- print "Cell is solved!", P (box (pencil C D)), print D.
+
+solution P :- cell_solved P c01.
+
+mytest P :- solution P c02 c03.
+
+main :- mytest id_prove.
+main.
+
