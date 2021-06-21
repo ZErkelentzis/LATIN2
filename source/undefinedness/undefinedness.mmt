@@ -2,6 +2,21 @@ namespace latin:/❚
 
 fixmeta ur:?LF❚
 
+theory NonDenoting =
+    include ?UntypedLogic❙
+
+    denoting    : term ⟶ prop❘# 1 ⥿❙
+    nondenoting : term ⟶ prop❘# 1 ⥾❙
+❚
+
+theory NonDenotingND =
+    include ?NonDenoting❙
+    include ?NegationND❙
+
+    den_not_nonden : { A } (⊦ (A ⥿)) ⟶ (⊦ (¬ (A ⥾)))❙
+    nonden_not_den : { A } (⊦ (A ⥾)) ⟶ (⊦ (¬ (A ⥿)))❙
+❚
+
 theory Undefined =
     include ?UntypedLogic❙
 
@@ -11,9 +26,8 @@ theory Undefined =
 
 theory UndefinedND =
     include ?Undefined❙
-    include ?IPLND❙
-    include ?Equality❙
+    include ?NegationND❙
 
-    def_not_undef : { a } ⊦ ((a ↓) ⟶ ⊦ (¬ (a ↑)))❙
-    undef_not_def : { a } ⊦ ((a ↑) ⟶ ⊦ (¬ (a ↓)))❙
+    def_not_undef : { A } (⊦ (A ↓)) ⟶ (⊦ (¬ (A ↑)))❙
+    undef_not_def : { A } (⊦ (A ↑)) ⟶ (⊦ (¬ (A ↓)))❙
 ❚
