@@ -38,7 +38,7 @@ theory ZF =
 // ZF and features that can be built from ZF❚
 theory ZFFeatures =
   include ?ZF❙
-  
+
   // AS: There are many includes that I wish would not be necessary❙
   include ?ExistFilter❙
   include ?EmptySet❘ = ?EmptyExistFilter❙
@@ -46,15 +46,29 @@ theory ZFFeatures =
   include ?BigUnionUnorderedPairs❙
   include ?Union❘ = ?UnionAsBigUnion❙
   
+  include ?BigUnionFilterEmptyDefinition❙
   include ?BigIntersection❘ = ?BigIntersectionFilter❙
+  
+  include ?BigIntersectionUnorderedPairs❙
   include ?Intersection❘ = ?IntersectionAsBigIntersection❙
+  
+  include ?FilterEmpty❙
   include ?Difference❘ = ?DifFilter❙
-  // AS: complement is missing right now❙
+  
+  include ?FilterEmptyUnionInter❙
+  include ?Complement❘ = ?ComplementFilter❙
+  
+  include ?UnionDifference❙
   include ?SymmetricDifference❘ = ?SymUnion❙
 
-  include ?Singletons❘ = ?SelfPair❙	
+  include ?Singletons❘ = ?SelfPair❙
+  
+  include ?UnionSingleton❙
   include ?Adjoint❘ = ?AdjointUnion❙
+  
   include ?Erase❘ = ?EraseFilter❙
+  
+  // AS: Some features still have to be included❙
 ❚
 
 // FR: maybe this is not needed - can just be included from ZF-independent feature Choice❚
