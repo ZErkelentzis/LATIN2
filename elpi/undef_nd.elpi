@@ -1,11 +1,11 @@
-%accumulate "generated/plnd".
 %accumulate "generated/fol".
+accumulate "generated/plnd".
+accumulate "generic/idprove".
 accumulate "generic/bc".
 
-id_prove_run N Res F :- ded (prodcert (bccert N) (ptcert X)) F, print X, Res is "Success".
-%id_prove_run N Res F :- print "N is " N, ded (idcert N) F, Res is N.
+%id_prove_run N Res F :- ded (prodcert (bccert N) (ptcert X)) F, print X, Res is "Success".
+id_prove_run N Res F :- ded (bccert N) F, Res is "Success".
 
-accumulate "generic/idprove".
 accumulate "/home/totoro/Development/KWARC/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Undef$E$L$P$I$Test".
 
 mytest P :- P (undefined (foo zero)).

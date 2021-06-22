@@ -1,30 +1,11 @@
-dataconstructor latin:/?Choice?all_nonempty
-dataconstructor latin:/?Choice?pairwise_disjoint
-dataconstructor latin:/?Choice?choice_axiom
+dataconstructor latin:/?Choice?some
 theory latin:/?Choice
-HasMeta latin:/?Choice latin:/?SetFOL
-Includes latin:/?Choice latin:/?EmptySet
-Includes latin:/?Choice latin:/?Intersection
-Includes latin:/?Choice latin:/?Singletons
-Includes latin:/?Choice latin:/?ChoiceDefinition
-Declares latin:/?Choice latin:/?Choice?all_nonempty
-constant latin:/?Choice?all_nonempty
-DependsOn latin:/?Choice?all_nonempty?type latin:/?Propositions?prop?type
-DependsOn latin:/?Choice?all_nonempty?type latin:/?SetFOL?set?type
-Declares latin:/?Choice latin:/?Choice?pairwise_disjoint
-constant latin:/?Choice?pairwise_disjoint
-DependsOn latin:/?Choice?pairwise_disjoint?type latin:/?Propositions?prop?type
-DependsOn latin:/?Choice?pairwise_disjoint?type latin:/?SetFOL?set?type
-Declares latin:/?Choice latin:/?Choice?choice_axiom
-constant latin:/?Choice?choice_axiom
-DependsOn latin:/?Choice?choice_axiom?type latin:/?ChoiceDefinition?ischoice?type
-DependsOn latin:/?Choice?choice_axiom?type latin:/?Propositions?prop?type
-DependsOn latin:/?Choice?choice_axiom?type latin:/?Conjunction?and?type
-DependsOn latin:/?Choice?choice_axiom?type latin:/?ExistentialQuantification?exists?type
-DependsOn latin:/?Choice?choice_axiom?type latin:/?SetFOL?set?type
-DependsOn latin:/?Choice?choice_axiom?type latin:/?Choice?all_nonempty?type
-DependsOn latin:/?Choice?choice_axiom?type latin:/?Proofs?ded?type
-DependsOn latin:/?Choice?choice_axiom?type latin:/?Choice?pairwise_disjoint?type
-DependsOn latin:/?Choice?choice_axiom?type latin:/?Terms?term?type
-DependsOn latin:/?Choice?choice_axiom?type latin:/?UniversalQuantification?forall?type
-DependsOn latin:/?Choice?choice_axiom?type latin:/?Implication?impl?type
+HasMeta latin:/?Choice http://cds.omdoc.org/urtheories?LF
+Includes latin:/?Choice latin:/?Logic
+Includes latin:/?Choice latin:/?ExistentialQuantification
+Declares latin:/?Choice latin:/?Choice?some
+constant latin:/?Choice?some
+DependsOn latin:/?Choice?some?type latin:/?Propositions?prop?type
+DependsOn latin:/?Choice?some?type latin:/?ExistentialQuantification?exists?type
+DependsOn latin:/?Choice?some?type latin:/?Proofs?ded?type
+DependsOn latin:/?Choice?some?type latin:/?Terms?term?type

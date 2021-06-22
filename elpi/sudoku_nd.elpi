@@ -1,18 +1,24 @@
 accumulate "generic/bc".
+accumulate "generated/plnd".
 
-id_prove_run N Res F :- ded (bccert N) F, print X, Res is "Success".
+%id_prove_run N Res F :- ded (bccert N) F, print X, Res is "Success".
+id_prove_run N Res F :- ded (bccert N) F, Res is "Success".
 
 accumulate "generic/idprove".
 
-accumulate "/home/totoro/Development/KWARC/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Sudoku".
-accumulate "/home/totoro/Development/KWARC/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Sudoku$Solve".
-accumulate "/home/totoro/Development/KWARC/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Sudoku$Test$Easy".
 
-cell_solved P C :- print "Cell is solved!", P (box (pencil C D)), print D.
+accumulate "/home/totoro/Development/KWARC/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Sudoku$Test$Trivial".
 
-solution P :- cell_solved P c01.
-
-mytest P :- solution P c02 c03.
+mytest P :- P (box (pencil c01 X)).
+mytest P :- P (box (pencil c10 X)).
+mytest P :- P (box (pencil c19 X)).
+mytest P :- P (box (pencil c27 X)).
+mytest P :- P (box (pencil c36 X)).
+mytest P :- P (box (pencil c45 X)).
+mytest P :- P (box (pencil c54 X)).
+mytest P :- P (box (pencil c63 X)).
+mytest P :- P (box (pencil c72 X)).
+mytest P :- P (box (pencil c81 X)).
 
 main :- mytest id_prove.
 main.

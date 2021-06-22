@@ -2,17 +2,56 @@ namespace latin:/❚
 
 fixmeta ur:?LF❚
 
+// Based on Daan Luca Di Scala's 2020 Bachelor Thesis: https://dspace.library.uu.nl/handle/1874/396282 ❚
+
 theory ExclusiveOr =
     // Exclusive OR is necessary for some Strategies.❙
     include ?IPL❙
     xor : prop ⟶ prop ⟶ prop❘ = [p,q] ¬(p ⇔ q) ❘# 1 ⨂ 2 prec 15❙
 ❚
 
+theory AllDifferent =
+        include ?TypedLogic❙
+        include ?SFOLEQND❙
+
+        all_different : { T, a : tm T, b : tm T, c : tm T, d : tm T, e : tm T, f : tm T, g : tm T, h : tm T, i : tm T } prop❘
+                      = [T,p1,p2,p3,p4,p5,p6,p7,p8,p9]
+                        ((p1 ≠ p2) ∧ (p1 ≠ p3) ∧ (p1 ≠ p4) ∧ (p1 ≠ p5) ∧ (p1 ≠ p6) ∧ (p1 ≠ p7) ∧ (p1 ≠ p8) ∧ (p1 ≠ p9) ∧ (p2 ≠ p3)
+                      ∧ (p2 ≠ p4) ∧ (p2 ≠ p5) ∧ (p2 ≠ p6) ∧ (p2 ≠ p7) ∧ (p2 ≠ p8) ∧ (p2 ≠ p9) ∧ (p3 ≠ p4) ∧ (p3 ≠ p5) ∧ (p3 ≠ p6)
+                      ∧ (p3 ≠ p7) ∧ (p3 ≠ p8) ∧ (p3 ≠ p9) ∧ (p4 ≠ p5) ∧ (p4 ≠ p6) ∧ (p4 ≠ p7) ∧ (p4 ≠ p8) ∧ (p4 ≠ p9) ∧ (p5 ≠ p6)
+                      ∧ (p5 ≠ p7) ∧ (p5 ≠ p8) ∧ (p5 ≠ p9) ∧ (p6 ≠ p7) ∧ (p6 ≠ p8) ∧ (p6 ≠ p9) ∧ (p7 ≠ p8) ∧ (p7 ≠ p9) ∧ (p8 ≠ p9))
+                      ❘# ⋖ 2 3 4 5 6 7 8 9 10 ⋗❙
+
+        swap12 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T }
+               ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (⋖ d2 d1 d3 d4 d5 d6 d7 d8 d9 ⋗)❙
+
+        swap13 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T }
+               ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (⋖ d3 d2 d1 d4 d5 d6 d7 d8 d9 ⋗)❙
+
+        swap14 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T }
+               ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (⋖ d4 d2 d3 d1 d5 d6 d7 d8 d9 ⋗)❙
+
+        swap15 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T }
+               ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (⋖ d5 d2 d3 d4 d1 d6 d7 d8 d9 ⋗)❙
+
+        swap16 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T }
+               ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (⋖ d6 d2 d3 d4 d5 d1 d7 d8 d9 ⋗)❙
+
+        swap17 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T }
+               ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (⋖ d7 d2 d3 d4 d5 d6 d1 d8 d9 ⋗)❙
+
+        swap18 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T }
+               ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (⋖ d8 d2 d3 d4 d5 d6 d7 d1 d9 ⋗)❙
+
+        swap19 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T }
+               ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (⋖ d9 d2 d3 d4 d5 d6 d7 d8 d1 ⋗)❙
+❚
+
 theory SudokuBoard =
-    // Based on Daan Luca Di Scala's 2020 Bachelor Thesis: https://dspace.library.uu.nl/handle/1874/396282❙
     include ?TypedLogic❙
     include ?SFOLEQND❙
     include ?MLHilbert❙
+    include ?AllDifferent❙
 
     cell : tp❙ // type or tp? or tm W? ❙
 
@@ -118,6 +157,17 @@ theory SudokuBoard =
     c61Bc71 : ⊦ (c₆₁ ℬ c₇₁)❙ c62Bc71 : ⊦ (c₆₂ ℬ c₇₁)❙ c63Bc71 : ⊦ (c₆₃ ℬ c₇₁)❙ c70Bc71 : ⊦ (c₇₀ ℬ c₇₁)❙
     c72Bc71 : ⊦ (c₇₂ ℬ c₇₁)❙ c79Bc71 : ⊦ (c₇₉ ℬ c₇₁)❙ c80Bc71 : ⊦ (c₈₀ ℬ c₇₁)❙ c81Bc71 : ⊦ (c₈₁ ℬ c₇₁)❙
 
+    alldiff_column_1 : ⊦ (⋖ c01 c10 c19 c28 c37 c46 c55 c64 c73⋗)❙
+    alldiff_column_2 : ⊦ (⋖ c02 c11 c20 c29 c38 c47 c56 c65 c74⋗)❙
+    alldiff_column_3 : ⊦ (⋖ c03 c12 c21 c30 c39 c48 c57 c66 c75⋗)❙
+    alldiff_column_4 : ⊦ (⋖ c04 c13 c22 c31 c40 c49 c58 c67 c76⋗)❙
+    alldiff_column_5 : ⊦ (⋖ c05 c14 c23 c32 c41 c50 c59 c68 c77⋗)❙
+    alldiff_column_6 : ⊦ (⋖ c06 c15 c24 c33 c42 c51 c60 c69 c78⋗)❙
+    alldiff_column_7 : ⊦ (⋖ c07 c16 c25 c34 c43 c52 c61 c70 c79⋗)❙
+    alldiff_column_8 : ⊦ (⋖ c08 c17 c26 c35 c44 c53 c62 c71 c80⋗)❙
+    alldiff_column_9 : ⊦ (⋖ c09 c18 c27 c36 c45 c54 c63 c72 c81⋗)❙
+
+
     // If two cells are in one of these relations to each other, they're not equal. ❙
     uneq_H : { c1 : tm cell, c2 : tm cell } (⊦ (c1 ℋ c2)) ⟶ (⊦ (c1 ≠ c2))❙
     uneq_V : { c1 : tm cell, c2 : tm cell } (⊦ (c1 𝒱 c2)) ⟶ (⊦ (c1 ≠ c2))❙
@@ -129,6 +179,7 @@ theory SudokuPencilMarks =
     include ?SFOLEQND❙
     include ?MLHilbert❙
     include ?ExclusiveOr❙
+    include ?AllDifferent❙
 
     // Pencil Marks❙
     PM  : tp❙
@@ -136,38 +187,6 @@ theory SudokuPencilMarks =
     pm7 : tm PM❘# ⑦❙ pm8 : tm PM❘# ⑧❙ pm9 : tm PM❘# ⑨❙
 
     upper_bound_axiom_pm : {p : tm PM} ⊦ ((p ≐ ①) ⨂ (p ≐ ②) ⨂ (p ≐ ③) ⨂ (p ≐ ④) ⨂ (p ≐ ⑤) ⨂ (p ≐ ⑥) ⨂ (p ≐ ⑦) ⨂ (p ≐ ⑧) ⨂ (p ≐ ⑨))❙
-
-    all_different : { a : tm PM, b : tm PM, c : tm PM, d : tm PM, e : tm PM, f : tm PM, g : tm PM, h : tm PM, i : tm PM } prop❘
-                  = [p1,p2,p3,p4,p5,p6,p7,p8,p9]
-                    ((p1 ≠ p2) ∧ (p1 ≠ p3) ∧ (p1 ≠ p4) ∧ (p1 ≠ p5) ∧ (p1 ≠ p6) ∧ (p1 ≠ p7) ∧ (p1 ≠ p8) ∧ (p1 ≠ p9) ∧ (p2 ≠ p3)
-                  ∧ (p2 ≠ p4) ∧ (p2 ≠ p5) ∧ (p2 ≠ p6) ∧ (p2 ≠ p7) ∧ (p2 ≠ p8) ∧ (p2 ≠ p9) ∧ (p3 ≠ p4) ∧ (p3 ≠ p5) ∧ (p3 ≠ p6)
-                  ∧ (p3 ≠ p7) ∧ (p3 ≠ p8) ∧ (p3 ≠ p9) ∧ (p4 ≠ p5) ∧ (p4 ≠ p6) ∧ (p4 ≠ p7) ∧ (p4 ≠ p8) ∧ (p4 ≠ p9) ∧ (p5 ≠ p6)
-                  ∧ (p5 ≠ p7) ∧ (p5 ≠ p8) ∧ (p5 ≠ p9) ∧ (p6 ≠ p7) ∧ (p6 ≠ p8) ∧ (p6 ≠ p9) ∧ (p7 ≠ p8) ∧ (p7 ≠ p9) ∧ (p8 ≠ p9))
-                  ❘# ⋖ 1 2 3 4 5 6 7 8 9 ⋗❙
-
-    swap12 : { d1 : tm PM, d2 : tm PM, d3 : tm PM, d4 : tm PM, d5 : tm PM, d6 : tm PM, d7 : tm PM, d8 : tm PM, d9 : tm PM }
-           ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (⋖ d2 d1 d3 d4 d5 d6 d7 d8 d9 ⋗)❙
-
-    swap13 : { d1 : tm PM, d2 : tm PM, d3 : tm PM, d4 : tm PM, d5 : tm PM, d6 : tm PM, d7 : tm PM, d8 : tm PM, d9 : tm PM }
-           ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (⋖ d3 d2 d1 d4 d5 d6 d7 d8 d9 ⋗)❙
-
-    swap14 : { d1 : tm PM, d2 : tm PM, d3 : tm PM, d4 : tm PM, d5 : tm PM, d6 : tm PM, d7 : tm PM, d8 : tm PM, d9 : tm PM }
-           ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (⋖ d4 d2 d3 d1 d5 d6 d7 d8 d9 ⋗)❙
-
-    swap15 : { d1 : tm PM, d2 : tm PM, d3 : tm PM, d4 : tm PM, d5 : tm PM, d6 : tm PM, d7 : tm PM, d8 : tm PM, d9 : tm PM }
-           ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (⋖ d5 d2 d3 d4 d1 d6 d7 d8 d9 ⋗)❙
-
-    swap16 : { d1 : tm PM, d2 : tm PM, d3 : tm PM, d4 : tm PM, d5 : tm PM, d6 : tm PM, d7 : tm PM, d8 : tm PM, d9 : tm PM }
-           ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (⋖ d6 d2 d3 d4 d5 d1 d7 d8 d9 ⋗)❙
-
-    swap17 : { d1 : tm PM, d2 : tm PM, d3 : tm PM, d4 : tm PM, d5 : tm PM, d6 : tm PM, d7 : tm PM, d8 : tm PM, d9 : tm PM }
-           ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (⋖ d7 d2 d3 d4 d5 d6 d1 d8 d9 ⋗)❙
-
-    swap18 : { d1 : tm PM, d2 : tm PM, d3 : tm PM, d4 : tm PM, d5 : tm PM, d6 : tm PM, d7 : tm PM, d8 : tm PM, d9 : tm PM }
-           ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (⋖ d8 d2 d3 d4 d5 d6 d7 d1 d9 ⋗)❙
-
-    swap19 : { d1 : tm PM, d2 : tm PM, d3 : tm PM, d4 : tm PM, d5 : tm PM, d6 : tm PM, d7 : tm PM, d8 : tm PM, d9 : tm PM }
-           ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (⋖ d9 d2 d3 d4 d5 d6 d7 d8 d1 ⋗)❙
 
     stndard_alldiff : ⊦ (⋖ ① ② ③ ④ ⑤ ⑥ ⑦ ⑧ ⑨ ⋗)❙
 ❚
@@ -252,8 +271,29 @@ theory SudokuStrategyHBE =
     hbe_blck : { c1 : tm cell, c2 : tm cell, d : tm PM } (⊦ (□ (c1 Π d))) ⟶ (⊦ (c1 ℬ c2)) ⟶ (⊦ (¬ (◇ (c2 Π d))))❙
 ❚
 
+// Last Remaining Cell❚
+// ”If all the other cells in the same house cannot possibly contain a certain digit, then this cell must contain that digit” ❚
 theory SudokuStrategyLRC =
     include ?Sudoku❙
+
+    hH : { c : tm cell, k : tm cell, p : tm PM } prop❘ = [c1,k1,p1] (c1 ≠ k1) ∧ (c1 ℋ k1) ∧ (¬ (◇ (k1 Π p1))) ❘# ℍ 1 2 3❙
+    hV : { c : tm cell, k : tm cell, p : tm PM } prop❘ = [c1,k1,p1] (c1 ≠ k1) ∧ (c1 𝒱 k1) ∧ (¬ (◇ (k1 Π p1))) ❘# 𝕍 1 2 3❙
+    hB : { c : tm cell, k : tm cell, p : tm PM } prop❘ = [c1,k1,p1] (c1 ≠ k1) ∧ (c1 ℬ k1) ∧ (¬ (◇ (k1 Π p1))) ❘# 𝔹 1 2 3❙
+
+    lrc_hori : { c1 : tm cell, c2 : tm cell, c3 : tm cell, c4 : tm cell, c5 : tm cell, c6 : tm cell, c7 : tm cell, c8 : tm cell, c9 : tm cell, p : tm PM }
+             (⊦ (⋖ c1 c2 c3 c4 c5 c6 c7 c8 c9 ⋗))
+             ⟶ ⊦ ℍ c1 c2 p ⟶ ⊦ ℍ c1 c3 p ⟶ ⊦ ℍ c1 c4 p ⟶ ⊦ ℍ c1 c5 p ⟶ ⊦ ℍ c1 c6 p ⟶ ⊦ ℍ c1 c7 p ⟶ ⊦ ℍ c1 c8 p ⟶ ⊦ ℍ c1 c9 p
+             ⟶ ⊦ (□ (c1 Π p))❙
+
+    lrc_vert : { c1 : tm cell, c2 : tm cell, c3 : tm cell, c4 : tm cell, c5 : tm cell, c6 : tm cell, c7 : tm cell, c8 : tm cell, c9 : tm cell, p : tm PM }
+             (⊦ (⋖ c1 c2 c3 c4 c5 c6 c7 c8 c9 ⋗))
+             ⟶ ⊦ 𝕍 c1 c2 p ⟶ ⊦ 𝕍 c1 c3 p ⟶ ⊦ 𝕍 c1 c4 p ⟶ ⊦ 𝕍 c1 c5 p ⟶ ⊦ 𝕍 c1 c6 p ⟶ ⊦ 𝕍 c1 c7 p ⟶ ⊦ 𝕍 c1 c8 p ⟶ ⊦ 𝕍 c1 c9 p
+             ⟶ ⊦ (□ (c1 Π p))❙
+
+    lrc_box : { c1 : tm cell, c2 : tm cell, c3 : tm cell, c4 : tm cell, c5 : tm cell, c6 : tm cell, c7 : tm cell, c8 : tm cell, c9 : tm cell, p : tm PM }
+             (⊦ (⋖ c1 c2 c3 c4 c5 c6 c7 c8 c9 ⋗))
+             ⟶ ⊦ 𝔹 c1 c2 p ⟶ ⊦ 𝔹 c1 c3 p ⟶ ⊦ 𝔹 c1 c4 p ⟶ ⊦ 𝔹 c1 c5 p ⟶ ⊦ 𝔹 c1 c6 p ⟶ ⊦ 𝔹 c1 c7 p ⟶ ⊦ 𝔹 c1 c8 p ⟶ ⊦ 𝔹 c1 c9 p
+             ⟶ ⊦ (□ (c1 Π p))❙
 ❚
 
 // Pencil Mark Introduction❚
@@ -263,6 +303,8 @@ theory SudokuStrategyPMI =
 ❚
 
 theory SudokuSolve =
+    // General❙
+
     // Beginner Strategies❙
     include ?SudokuStrategyCBE❙
     include ?SudokuStrategyPMD❙
