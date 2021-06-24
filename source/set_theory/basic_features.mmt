@@ -14,7 +14,7 @@ theory Image =
   // AS: think of a shorter notation❙
   image : (set ⟶ set) ⟶ set ⟶ set❙
   imageI : {f,A,x} ⊦ x∈A ⟶ ⊦ (f x)∈ image f A❙
-  imageE : {f,A,y} ⊦ y ∈ image f A ⟶ ⊦ ∃ͧ[x] x∈A ∧ y =ͧ (f x)❘# 4 imageE❙
+  imageE : {f,A,y} ⊦ y ∈ image f A ⟶ ⊦ ∃ͧ[x] x∈A ∧ f x =ͧ y❘# 4 imageE❙
 ❚
 
 theory Filter =
@@ -28,9 +28,11 @@ theory Filter =
 ❚
 
 theory Replace =
-  replace  : set ⟶ (set ⟶ set) ⟶ set❘# 1 map 2 prec 40❙
-  replaceI : {A,f,x} ⊦ x∈A ⟶ ⊦ (f x) ∈ A map f❙
-  replaceE : {A,f,y,C} ⊦ y ∈ A map f ⟶ ({x} ⊦ x∈A ⟶ ⊦ y =ͧ (f x) ⟶ ⊦C) ⟶ ⊦C❘ # 5 replaceE 6❙
+  include ?FunctionDefinitions❙
+  // AS: is 1 map 2 really right?❙
+  replace  : {A:set, f:set ⟶ set} ⊦ isfunction (fun2rel f) A ⟶ set❙
+  replaceI : {A,f,x} ⊦ x∈A ⟶ ⊦ (f x) ∈ replace A f isfun_fun2rel❙
+  replaceE : {A,f,y,C} ⊦ y ∈ replace A f isfun_fun2rel ⟶ ({x} ⊦ x∈A ⟶ ⊦ f x =ͧ y ⟶ ⊦C) ⟶ ⊦C❘ # 5 replaceE 6❙
 ❚
 
 // FR: these two (Infinity and Choice) need some abbreviation just to state them; those can be here and then reused in the ZF theory that realizes them❚

@@ -3,34 +3,33 @@ namespace latin:/❚
 fixmeta ?SetFOL❚
 
 theory OrderedPairs =
-  // AS: think of a notation❙
   // (a,b)❙
-  pair : set ⟶ set ⟶ set❘# pair 1 2 prec 40❙
+  pair : set ⟶ set ⟶ set❘# 1 , 2 prec 50❙
   // first projection of a pair❙
-  pi1 : set ⟶ set❘# 1 ₁ prec 35❙
-  pi2 : set ⟶ set❘# 1 ₂ prec 35❙
+  pi1 : set ⟶ set❘# 1 ₁ prec 60❙
+  pi2 : set ⟶ set❘# 1 ₂ prec 60❙
 
   ispair : set ⟶ prop❘
-    = [p] ∃ͧ[a] ∃ͧ[b] p =ͧ pair a b❙
+    = [p] ∃ͧ[a] ∃ͧ[b] p =ͧ (a,b)❙
 
   // computation rules❙
   // AS: should these be role Simplify?❙
-  compL : {a,b} ⊦ (pair a b)₁ =ͧ a❙
-  compR : {a,b} ⊦ (pair a b)₂ =ͧ b❙
+  compL : {a,b} ⊦ (a,b)₁ =ͧ a❙
+  compR : {a,b} ⊦ (a,b)₂ =ͧ b❙
 
   // representation rule❙
-  repr : {p} ⊦ ispair p ⟶ ⊦ p =ͧ pair (p₁) (p₂)❘
+  repr : {p} ⊦ ispair p ⟶ ⊦ p =ͧ (p₁,p₂)❘
     = [p,pp] pp uexistsE ([a,pa] pa uexistsE ([b,pb] eq/trans pb
-      (((eq/sym pb) ucongP ([C] (C₁) =ͧ a) compL) ucongP ([C] pair C b =ͧ pair (p₁) (p₂))
-      (((eq/sym pb) ucongP ([C] (C₂) =ͧ b) compR) ucongP ([C] pair (p₁) C =ͧ pair (p₁) (p₂)) urefl))))❙
+      (((eq/sym pb) ucongP ([C] (C₁) =ͧ a) compL) ucongP ([C] (C,b) =ͧ (p₁,p₂))
+      (((eq/sym pb) ucongP ([C] (C₂) =ͧ b) compR) ucongP ([C] (p₁,C) =ͧ (p₁,p₂)) urefl))))❙
 
   // extensionality rule❙
   ext : {p,q} ⊦ ispair p ⟶ ⊦ ispair q ⟶ ⊦ p₁ =ͧ q₁ ⟶ ⊦ p₂ =ͧ q₂ ⟶ ⊦ p =ͧ q❘
-    = [p,q,pp,qq,pa,pb] eq/trans (pa ucongP ([C] p =ͧ pair C (q₂))
-      (pb ucongP ([C] p =ͧ pair (p₁) C) (repr pp))) (eq/sym repr qq)❙
+    = [p,q,pp,qq,pa,pb] eq/trans (pa ucongP ([C] p =ͧ (C,q₂))
+      (pb ucongP ([C] p =ͧ (p₁,C)) (repr pp))) (eq/sym repr qq)❙
 
   // injective❙
-  pair_inj : {A,B,C,D} ⊦ (pair A B) =ͧ (pair C D) ⟶ ⊦ A =ͧ C ∧ B =ͧ D❘
+  pair_inj : {A,B,C,D} ⊦ (A,B) =ͧ (C,D) ⟶ ⊦ A =ͧ C ∧ B =ͧ D❘
     = [A,B,C,D,p] andI (eq/trans (eq/sym compL) ((eq/sym p) ucongP ([X] (X₁) =ͧ C) compL))
       (eq/trans (eq/sym compR) ((eq/sym p) ucongP ([X] (X₂) =ͧ D) compR))❙
 ❚
@@ -44,7 +43,7 @@ theory CartesianProduct =
   prod : set ⟶ set ⟶ set❘# 1 × 2 prec 50❙
 
   // introduction and elimination rules❙
-  prodI : {A,B,a,b} ⊦ a∈A ⟶ ⊦ b∈B ⟶ ⊦ pair a b ∈ A×B❙
+  prodI : {A,B,a,b} ⊦ a∈A ⟶ ⊦ b∈B ⟶ ⊦ (a,b) ∈ A×B❙
   prodEl : {A,B,p} ⊦ p ∈ A×B ⟶ ⊦ p₁∈A❘# 4 prodEl❙
   prodEr : {A,B,p} ⊦ p ∈ A×B ⟶ ⊦ p₂∈B❘# 4 prodEr❙
 
@@ -73,7 +72,7 @@ theory Relations =
   theRel: {A:set,B:set} (set ⟶ set ⟶ prop) ⟶ set❘
     = [A,B,P] (A × B) | ([p] P (p₁) (p₂))❙
   inRel : set ⟶ set ⟶ set ⟶ prop❘
-    = [R,a,b] pair a b ∈ R❙
+    = [R,a,b] (a,b) ∈ R❙
     
   // helper function to check whether a set is a relation❙
   // AS: ∃ͧ[A,B,P] R =ͧ theRel A B P does not work since we are in FOL!❙
@@ -92,9 +91,9 @@ theory Relations =
     = [A,B,P,a,b] equivI
       ([p] andI (andI (compL ucongP ([x] x∈A) ((p filterEl) prodEl)) 
       (compR ucongP ([x] x∈B) ((p filterEl) prodEr)))
-      (compL ucongP ([x] P x b) (compR ucongP ([y] P (pair a b ₁) y) (p filterEr))))
+      (compL ucongP ([x] P x b) (compR ucongP ([y] P ((a,b)₁) y) (p filterEr))))
       ([q] filterI (prodI (q andEl andEl) (q andEl andEr)) 
-      ((eq/sym compL) ucongP ([x] P x (pair a b ₂)) 
+      ((eq/sym compL) ucongP ([x] P x ((a,b)₂)) 
       ((eq/sym compR) ucongP ([y] P a y) (q andEr))))❙
   
   // representation rule❙
@@ -133,16 +132,16 @@ theory Relations =
 
 theory PartialFunctions =
   include ?Relations❙
-
-  // AS: I'd like to have this in definitions, but then I would have to
-    formulate this more complicated.❙
-  isrightunique : set ⟶ prop❘
-    = [F] ∀ͧ[x]∀ͧ[y]∀ͧ[z] (pair x y ∈F ∧ pair x z ∈F) ⇒ y =ͧ z❙
+  
+  include ?RightUniqueness❙
+    // AS: just a helper to specify isrightunique❙
+  isrightu : set ⟶ prop❘
+    = [R] isrightunique (inRel R)❙
 
   // The set of all partial functions of A and B. Partial functions are 
     relations that are right unique.❙
   pfunc : set ⟶ set ⟶ set❘
-    = [A,B] rel A B | ([R] isrightunique R)❙
+    = [A,B] rel A B | ([R] isrightu R)❙
 
   // AS: it's not necessary to define thePFunc and the rules. It is just
     a relation.❙
@@ -150,10 +149,10 @@ theory PartialFunctions =
   // helper function to check whether a set is a right unique relation and
     therefore a partial function❙
   ispfunc : set ⟶ prop❘
-    = [R] isrel R ∧ isrightunique R❙
+    = [R] isrel R ∧ isrightu R❙
   // AS: special case, where A and B are given❙
   ispfuncAB : set ⟶ set ⟶ set ⟶ prop❘
-    = [R,A,B] isrelAB R A B ∧ isrightunique R❙
+    = [R,A,B] isrelAB R A B ∧ isrightu R❙
   
   // helper fuction for transformation❙
   pfuncABpfunc : {R,A,B} ⊦ ispfuncAB R A B ⟶ ⊦ ispfunc R❘
@@ -169,18 +168,18 @@ theory PartialFunctions =
 
 theory Functions =
   // AS: This is realized with Partial Functions, but it could be done with
-    only Relations as well (if isrighunique gets defined)❙
+    only Relations as well (if isrightunique gets included as well)❙
   include ?PartialFunctions❙
+  include ?FunctionDefinitions❙
   
-  isdefined : set ⟶ set ⟶ prop❘
-    = [F,x] ∃ͧ[y] pair x y ∈F❙
-  islefttotal : set ⟶ set ⟶ prop❘
-    = [F,A] ∀ͧ[x] x∈A ⇒ isdefined F x❙
+  // AS: just a helper to specify isfunction❙
+  isfun : set ⟶ set ⟶ prop❘
+    = [F,A] isfunction ([x,y] (x,y)∈F) A❙
 
   // The set of all functions of X and Y. Functions are partial functions that
    are left total.❙
   func : set ⟶ set ⟶ set❘
-    = [A,B] pfunc A B | ([F] islefttotal F A)❙
+    = [A,B] pfunc A B | ([F] isfun F A)❙
 
   // AS: it's not necessary to define theFunc and the rules. It is just
     a relation.❙
@@ -188,10 +187,10 @@ theory Functions =
   // helper function to check whether a set is a left total partial function
     and therefore a function❙
   isfunc : set ⟶ prop❘
-    = [F] ∃ͧ[A]∃ͧ[B] ispfuncAB F A B ∧ islefttotal F A❙
+    = [F] ∃ͧ[A]∃ͧ[B] ispfuncAB F A B ∧ isfun F A❙
   // special case❙
   isfuncAB : set ⟶ set ⟶ set ⟶ prop❘
-    = [F,A,B] ispfuncAB F A B ∧ islefttotal F A❙
+    = [F,A,B] ispfuncAB F A B ∧ isfun F A❙
     
   // helper function for transformation❙
   funcABfunc : {F,A,B} ⊦ isfuncAB F A B ⟶ ⊦ isfunc F❘

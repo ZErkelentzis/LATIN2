@@ -68,7 +68,17 @@ theory ZFFeatures =
   
   include ?Erase❘ = ?EraseFilter❙
   
-  // AS: Some features still have to be included❙
+  include ?ReplaceDef❙
+  include ?Image❘ = ?ImageReplace❙ 
+  
+  // AS: pairs and so on❙
+  include ?WienerPairs❙
+  
+  include ?OrderedBigUnionImage❙
+  include ?CartesianProduct❘ = ?CartImage❙
+  
+  // AS: functions already include relations and partial functions❙
+  include ?Functions❙
 ❚
 
 // FR: maybe this is not needed - can just be included from ZF-independent feature Choice❚

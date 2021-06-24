@@ -42,9 +42,12 @@ view PowersetFromAxiom : ?Powersets → ?PowersetAx =
 ❚
 
 view ReplaceFromAxiom : ?Replace → ?ReplacementAx =
-  replace = [A,f] the ([Z] isreplacement A f Z) replacement_unique❙
-  replaceI = [A,f,x,p] replacementAxI (the_ax ([Z] isreplacement A f Z) replacement_unique) (uexistsI x (andI p urefl))❙
-  replaceE = [A,f,y,C,p,Q] p replacementAxE (the_ax ([Z] isreplacement A f Z) replacement_unique) Q❙
+  include ?FunctionDefinitions❙
+  replace = [A,f,p] the ([Z] isreplacement (fun2rel f) A Z) replacement_unique p❙
+  replaceI = [A,f,x,p] replacementAxI isfun_fun2rel (the_ax ([Z] isreplacement (fun2rel f) A Z) 
+    replacement_unique isfun_fun2rel) (uexistsI x (andI p urefl))❙
+  replaceE = [A,f,y,C,p,Q] p replacementAxE isfun_fun2rel (the_ax ([Z] isreplacement (fun2rel f) A Z)
+    replacement_unique isfun_fun2rel) Q❙
 ❚
 
 view UopairFromAxiom : ?UnorderedPairs → ?PairingAx =
@@ -271,9 +274,35 @@ view EraseDifference : ?Erase → ?SingletonDifference =
 ❚
 
 // Views for Image❚
-view ImageReplace : ?Image → ?Replace =
-  // AS: maybe check this again❙
-  image = [f,A] A map f❙
+theory ReplaceDef =
+  include ?FunctionDefinitions❙
+  include ?Replace❙
+❚
+
+view ImageReplace : ?Image → ?ReplaceDef =
+  image = [f,A] replace A f isfun_fun2rel❙
   imageI = [f,A,x,p] replaceI p❙
   imageE = [f,A,y,p] p replaceE ([x,pa,pb] uexistsI x (andI pa pb))❙
+❚
+
+// Views for CartesianProduct❚
+theory OrderedBigUnionImage =
+  include ?OrderedPairs❙
+  include ?BigUnion❙
+  include ?Image❙
+❚
+
+view CartImage : ?CartesianProduct → ?OrderedBigUnionImage =
+  include ?OrderedPairs❙
+  prod = [A,B] ⋃(image ([x] image ([y] x,y) B) A)❙
+  prodI = [A,B,a,b,pa,pb] bigunionI (imageI pa) (imageI pb)❙
+  prodEl = [A,B,p,pp] pp bigunionE ([X,qa,qb] qa imageE uexistsE 
+    ([x,px] in_eq qb (eq/sym (px andEr)) imageE uexistsE
+    ([y,py] eq_in ((py andEr) ucongP ([z] z₁ =ͧ x) compL) (px andEl))))❙
+  prodEr = [A,B,p,pp] pp bigunionE ([X,qa,qb] qa imageE uexistsE 
+    ([x,px] in_eq qb (eq/sym (px andEr)) imageE uexistsE
+    ([y,py] eq_in ((py andEr) ucongP ([z] z₂ =ͧ y) compR) (py andEl))))❙
+  prodE = [A,B,p,pp] pp bigunionE ([X,qa,qb] qa imageE uexistsE 
+    ([x,px] in_eq qb (eq/sym (px andEr)) imageE uexistsE
+    ([y,py] uexistsI x (uexistsI y (eq/sym (py andEr))))))❙
 ❚

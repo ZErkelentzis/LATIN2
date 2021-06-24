@@ -20,9 +20,25 @@ theory EmptyDefinitions =
     = [A] ∀ͧ[X] X∈A ⇒ nonempty X❙
 ❚
 
+theory FunctionDefinitions =
+  isfunction : (set ⟶ set ⟶ prop) ⟶ set ⟶ prop❘
+    = [f,A] ∀ͧ[x] x∈A ⇒ ∃¹ͧ[y] f x y❙
+  
+  fun2rel : (set ⟶ set) ⟶ (set ⟶ set ⟶ prop)❘
+    = [f] [x,y] f x =ͧ y❙
+  isfun_fun2rel : {f:set ⟶ set, A:set} ⊦ isfunction (fun2rel f) A❘
+    = [f,A] uforallI ([x] implI ([p] uexistsUniqueI urefl
+      ([y,py] eq/trans urefl py)))❙
+❚
+
 theory PairwiseDisjoint =
   include ?Disjoint❙
 
   ispwdisjoint : set ⟶ prop❘
     = [A] ∀ͧ[x]∀ͧ[y] x∈A ∧ y∈A ∧ (x =ͧ y ∨ aredisjoint x y)❙
+❚
+
+theory RightUniqueness =
+  isrightunique : (set ⟶ set ⟶ prop) ⟶ prop❘
+    = [f] ∀ͧ[x]∀ͧ[y]∀ͧ[z] (f x y ∧ f x z) ⇒ y =ͧ z❙
 ❚

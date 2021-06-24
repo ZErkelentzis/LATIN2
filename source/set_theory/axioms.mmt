@@ -82,18 +82,21 @@ theory ComprehensionAx =
 ❚
 
 theory ReplacementAx =
+  include ?FunctionDefinitions❙
+  
   // The resulting set is a replacement for A regarding function f❙
-  isreplacement = [A,f,Z] ∀ͧ[B] B∈Z ⇔ (∃ͧ[x] x∈A ∧ B =ͧ (f x))❙
+  isreplacement = [f,A,Z] ∀ͧ[y] y∈Z ⇔ (∃ͧ[x] x∈A ∧ f x y)❙  
 
-  replacement_axiom : {A,f} ⊦ ∃ͧ[Z] isreplacement A f Z❙
-  replacement_unique : {A,f} ⊦ ∃¹ͧ[Z] isreplacement A f Z❘
-    = [A,f] replacement_axiom uexistsE ([z,pz] uexistsUniqueI pz
-      ([y,py] extensionalityI ([B] equiv_equivalence/trans (pz uforallE B)
-      (equiv_equivalence/sym (py uforallE B)))))❙
-  replacementAxI : {A,f,Z,B} ⊦ isreplacement A f Z ⟶ ⊦ (∃ͧ[x] x∈A ∧ B =ͧ (f x)) ⟶ ⊦ B∈Z❘
-    = [A,f,Z,B,p,q] p uforallE B equivEr q❙
-  replacementAxE : {A,f,Z,B,C} ⊦ isreplacement A f Z ⟶ ⊦ B∈Z ⟶ ({x} ⊦ x∈A ⟶ ⊦ B =ͧ (f x) ⟶ ⊦C) ⟶ ⊦C❘# 7 replacementAxE 6 8❘
-    = [A,f,Z,B,C,p,q,Q] p uforallE B equivEl q uexistsE ([x,px] Q x (px andEl) (px andEr))❙ 
+  replacement_axiom : {f} ⊦ ∀ͧ[A] isfunction f A ⇒ ∃ͧ[Z] isreplacement f A Z❙
+  replacement_unique : {f,A} ⊦ isfunction f A ⟶ ⊦ ∃¹ͧ[Z] isreplacement f A Z❘
+    = [f,A,p] replacement_axiom uforallE A implE p uexistsE ([z,pz] uexistsUniqueI pz
+      ([y,py] extensionalityI ([x] equiv_equivalence/trans (pz uforallE x)
+      (equiv_equivalence/sym (py uforallE x)))))❙
+  // AS: do I need isfunction f A here?❙
+  replacementAxI : {f,A,Z,y} ⊦ isfunction f A ⟶ ⊦ isreplacement f A Z ⟶ ⊦ (∃ͧ[x] x∈A ∧ f x y) ⟶ ⊦ y∈Z❘
+    = [f,A,Z,y,pf,pr,q] pr uforallE y equivEr q❙
+  replacementAxE : {f,A,Z,y,C} ⊦ isfunction f A ⟶ ⊦ isreplacement f A Z ⟶ ⊦ y∈Z ⟶ ({x} ⊦ x∈A ⟶ ⊦ f x y ⟶ ⊦C) ⟶ ⊦C❘# 8 replacementAxE 6 7 9❘
+    = [f,A,Z,y,C,pf,pr,q,Q] pr uforallE y equivEl q uexistsE ([x,px] Q x (px andEl) (px andEr))❙ 
 ❚
 
 theory RegularityAx =
