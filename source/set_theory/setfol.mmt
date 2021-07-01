@@ -1,29 +1,23 @@
 namespace latin:/❚
 
-// AS: SetFOL shall contain FOL and all definitions which are necessary to formalize set theory❚
+fixmeta ur:?LF❚
 
-theory SetFOL : ur:?LF =
-  include ?DependentConjunctionND❙
-  include ?DependentImplicationND❙
-  // AS: I changed FOLEQND + DescriptionND to the already existing combination❙
-  include ?FOLEQDescND❙
+theory SetDefinitions =
+  include ?DependentFOLEQDescND❙
 
   set = term❙
   
-  // AS: This would be in InternalTypes❙
   in : set ⟶ set ⟶ prop❘# 1 ∈ 2 prec 30❙
-  
-  // AS: This would be in SoftSubtyping and its includes❙
-  subset : set ⟶ set ⟶ prop❘# 1 ⪽ 2 prec 30❙
-  subsetI : {A,B} ({x} ⊦ x∈A ⟶ ⊦ x∈B) ⟶ ⊦ A⪽B❙
-  subsetE : {A,B} ⊦ A⪽B ⟶ {x} ⊦ x∈A ⟶ ⊦ x∈B❘# 5 subsetE 3❙
   
   eq_in : {x,y,A} ⊦ x =ͧ y ⟶ ⊦ y∈A ⟶ ⊦ x∈A❘
     = [x,y,A,p,q] (eq/sym p) ucongP ([u] u∈A) q❙
   in_eq : {x,A,B} ⊦ x∈A ⟶ ⊦ A =ͧ B ⟶ ⊦ x∈B❘
     = [x,A,B,p,q] q ucongP ([U] x∈U) p❙
-  
-  // AS: This would have been ExtensionalityAx❙
+❚
+
+theory ExtensionalityAx =
+  include ?SetDefinitions❙
+
   // Two sets A and B are equal iff they have the same elements❙
   isextensional = [A,B] (∀ͧ[x] (x∈A ⇔ x∈B)) ⇔ A =ͧ B❙
 
@@ -34,4 +28,95 @@ theory SetFOL : ur:?LF =
     = [A,B,p,x] extensionality_axiom equivEr p uforallE x❙
 ❚
 
+theory Subset =
+  include ?SetDefinitions❙
+  
+  subset : set ⟶ set ⟶ prop❘# 1 ⊆ 2 prec 30❘
+    = [A,B] ∀ͧ[x] x∈A ⇒ x∈B❙
+  subsetI : {A,B} ({x} ⊦ x∈A ⟶ ⊦ x∈B) ⟶ ⊦ A⊆B❘
+    = [A,B,Q] uforallI ([x] implI ([p] Q x p))❙
+  subsetE : {A,B} ⊦ A⊆B ⟶ {x} ⊦ x∈A ⟶ ⊦ x∈B❘# 5 subsetE 3❘
+    = [A,B,p,x,q] p uforallE x implE q❙
+❚
+
+theory EmptyDefinitions =
+  include ?SetDefinitions❙
+
+  isempty : set ⟶ prop❘ = [A] ¬∃ͧ[x]x∈A❙
+  nonempty : set ⟶ prop❘ = [A] ∃ͧ[x]x∈A❙
+  
+  isemptyE : {A,x} ⊦ isempty A ⟶ ⊦ x∈A ⟶ ↯❘ # 3 isemptyE 4❘
+    = [A,x,p,q] p notE (uexistsI x q)❙
+  nonemptyE : {A,C} ⊦ nonempty A ⟶ ({x} ⊦x∈A ⟶ ⊦C) ⟶ ⊦C❘
+    = [A,C,ne,P] ne uexistsE [x,p] P x p❙
+  
+  all_nonempty : set ⟶ prop❘
+    = [A] ∀ͧ[X] X∈A ⇒ nonempty X❙
+  all_nonemptyI : {A} ({X} ⊦ X∈A ⟶ ⊦ nonempty X) ⟶ ⊦ all_nonempty A❘
+    = [A,Q] uforallI ([X] implI ([p] Q X p))❙
+  all_nonemptyE : {A} ⊦ all_nonempty A ⟶ {X} ⊦ X∈A ⟶ ⊦ nonempty X❘
+    = [A,p,X,q] p uforallE X implE q❙
+❚
+
+theory Disjoint =
+  include ?SetDefinitions❙
+  
+  // AS: maybe rewrite this as ¬(∃ͧ[x] x∈A ∧ x∈B), but this would be a bit more annoying to proof❙
+  aredisjoint : set ⟶ set ⟶ prop❘
+    = [A,B] ∀ͧ[x] ¬(x∈A ∧ x∈B)❙
+  aredisjointI : {A,B} ({x} ⊦ ¬ (x∈A ∧ x∈B)) ⟶ ⊦ aredisjoint A B❘
+    = [A,B,Q] uforallI Q❙
+  aredisjointE : {A,B} ⊦ aredisjoint A B ⟶ {x} ⊦ ¬(x∈A ∧ x∈B)❘
+    = [A,B,p,x] p uforallE x❙
+  
+  ispwdisjoint : set ⟶ prop❘
+    = [A] ∀ͧ[x]∀ͧ[y] x∈A ∧ y∈A ⇒ x =ͧ y ∨ aredisjoint x y❙
+  ispwdisjointI : {A} ({x,y} ⊦ x∈A ∧ y∈A ⟶ ⊦ x =ͧ y ∨ aredisjoint x y) ⟶ ⊦ ispwdisjoint A❘
+    = [A,Q] uforallI ([x] uforallI ([y] implI ([p] Q x y p)))❙
+  ispwdisjointE : {A} ⊦ ispwdisjoint A ⟶ {x,y} ⊦ x∈A ∧ y∈A ⟶ ⊦ x =ͧ y ∨ aredisjoint x y❘
+    = [A,p,x,y,q] p uforallE x uforallE y implE q❙
+❚
+
+theory FunctionDefinitions =
+  include ?SetDefinitions❙
+  
+  // AS: maybe rename as isfunction_on❙
+  isfunction : (set ⟶ set ⟶ prop) ⟶ set ⟶ prop❘
+    = [f,A] ∀ͧ[x] x∈A ⇒ ∃͛ͧ[y] f x y❙
+  isfunctionI : {f,A} ({x} ⊦ x∈A ⟶ ⊦ ∃͛ͧ[y] f x y) ⟶ ⊦ isfunction f A❘
+    = [f,A,Q] uforallI ([x] implI ([p] Q x p))❙
+  isfunctionE : {f,A} ⊦ isfunction f A ⟶ {x} ⊦ x∈A ⟶ ⊦ ∃͛ͧ[y] f x y❘
+    = [f,A,p,x,q] p uforallE x implE q❙
+  
+  fun2rel : (set ⟶ set) ⟶ (set ⟶ set ⟶ prop)❘
+    = [f] [x,y] f x =ͧ y❙
+  isfun_fun2rel : {f,A} ⊦ isfunction (fun2rel f) A❘
+    = [f,A] isfunctionI ([x,p] uexistsUniqueI urefl ([y,py] eq/trans urefl py))❙
+❚
+
+theory RightUniqueness =
+  include ?SetDefinitions❙
+  
+  isrightunique : (set ⟶ set ⟶ prop) ⟶ prop❘
+    = [f] ∀ͧ[x]∀ͧ[y]∀ͧ[z] (f x y ∧ f x z) ⇒ y =ͧ z❙
+  isrightuniqueI : {f} ({x,y,z} ⊦ f x y ∧ f x z ⟶ ⊦ y =ͧ z) ⟶ ⊦ isrightunique f❘
+    = [f,Q] uforallI ([x] uforallI ([y] uforallI ([z] implI ([p] Q x y z p))))❙
+  isrightuniqueE : {f} ⊦ isrightunique f ⟶ {x,y,z} ⊦ f x y ∧ f x z ⟶ ⊦ y =ͧ z❘
+    = [f,p,x,y,z,q] p uforallE x uforallE y uforallE z implE q❙
+❚
+
 // AS: maybe add Cardinality as well❚ 
+
+theory SetBase =
+  include ?SetDefinitions❙
+  include ?ExtensionalityAx❙
+  include ?Subset❙
+  // AS: UniverseNonEmpty is used instead of ExistenceAx❙
+  include ?UniverseNonEmpty❙
+  
+  // AS: maybe skip these❙
+  include ?EmptyDefinitions❙
+  include ?Disjoint❙
+  include ?FunctionDefinitions❙
+  include ?RightUniqueness❙
+❚

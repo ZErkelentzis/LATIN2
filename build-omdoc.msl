@@ -15,7 +15,6 @@ file source/type_theory/build.msl
 
 file source/logic/build.msl
 
-// (AS: yields error due to changes I made)
 build MMT/LATIN2 mmt-omdoc category_theory
 
 // AS: some theories of type_theory are dependent on logic (and category_theory). Therefore I build it twice.

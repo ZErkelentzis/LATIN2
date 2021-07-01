@@ -72,19 +72,19 @@ theory ISFOLEQND =
 theory TypedUniqueExistentialQuantification =
   include ?TypedExistentialQuantification❙
   include ?TypedEquality❙
-  texistsUnique  : {A} (tm A ⟶ prop) ⟶ prop❘# ∃¹ͭ 2❙
+  texistsUnique  : {A} (tm A ⟶ prop) ⟶ prop❘# ∃͛ͭ 2❙
 ❚
 
 theory TypedUniqueExistentialQuantificationND =
   include ?TypedUniqueExistentialQuantification❙
-  texistsUniqueI : {A,P} {x: tm A} ⊦ P x ⟶ ({y} ⊦ P y ⟶ ⊦ x =ͭ y) ⟶ ⊦ ∃¹ͭ P❘# texistsUniqueI 3 4 5❙
-  texistsUniqueE : {A,P,C} ⊦ ∃¹ͭ P ⟶ ({x: tm A} ⊦ P x ⟶ ({y} ⊦ P y ⟶ ⊦ x =ͭ y) ⟶ ⊦ C) ⟶ ⊦ C❘# 4 texistsUniqueE 5❙
+  texistsUniqueI : {A,P} {x: tm A} ⊦ P x ⟶ ({y} ⊦ P y ⟶ ⊦ x =ͭ y) ⟶ ⊦ ∃͛ͭ P❘# texistsUniqueI 3 4 5❙
+  texistsUniqueE : {A,P,C} ⊦ ∃͛ͭ P ⟶ ({x: tm A} ⊦ P x ⟶ ({y} ⊦ P y ⟶ ⊦ x =ͭ y) ⟶ ⊦ C) ⟶ ⊦ C❘# 4 texistsUniqueE 5❙
 ❚
 
 theory TypedDescription =
   include ?TypedLogic❙
   include ?TypedUniqueExistentialQuantification❙
-  tthe : {A} {P:tm A ⟶ prop} ⊦ ∃¹ͭ P ⟶ tm A❘# tthe 2 3❙
+  tthe : {A} {P:tm A ⟶ prop} ⊦ ∃͛ͭ P ⟶ tm A❘# tthe 2 3❙
   tthe_ax : {A,P: tm A ⟶ prop,p} ⊦ P (tthe P p)❘# tthe_ax 2 3❙
 ❚
 

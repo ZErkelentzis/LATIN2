@@ -10,5 +10,7 @@ build MMT/LATIN2 mmt-omdoc logic_extensions/sequent.mmt
 build MMT/LATIN2 mmt-omdoc logic_extensions/linear.mmt
 build MMT/LATIN2 mmt-omdoc logic_extensions/refutation.mmt
 build MMT/LATIN2 mmt-omdoc logic_extensions/relevant.mmt
+// AS: causes an error
 build MMT/LATIN2 mmt-omdoc logic_extensions/defaults.mmt
+// AS: causes an error
 build MMT/LATIN2 mmt-omdoc logic_extensions/prolog.mmt

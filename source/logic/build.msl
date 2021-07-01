@@ -15,7 +15,7 @@ build MMT/LATIN2 mmt-omdoc logic/dependent_pl.mmt
 build MMT/LATIN2 mmt-omdoc logic/pl_hilbert.mmt
 build MMT/LATIN2 mmt-omdoc logic/pl-views.mmt
 
-// AS: yields an error
+// AS: yields an error; fol now dependent on dependent_pl
 build MMT/LATIN2 mmt-omdoc logic/fol.mmt
 build MMT/LATIN2 mmt-omdoc logic/sfol.mmt
 
@@ -31,7 +31,6 @@ build MMT/LATIN2 mmt-omdoc logic/fol_hilbert.mmt
 // build MMT/LATIN2 mmt-omdoc logic/drt-fol.mmt
 
 // dependent on sfol
-// (AS: yields an error due to a change I made)
 build MMT/LATIN2 mmt-omdoc logic/booleans.mmt
 
 // dependent on pl, sfol and booleans
@@ -41,10 +40,9 @@ build MMT/LATIN2 mmt-omdoc logic/pl-sfol.mmt
 // this order is kind of fixed
 // AS: yields an error
 build MMT/LATIN2 mmt-omdoc logic/hol.mmt
-// (AS: yields an error due to changes I made)
 build MMT/LATIN2 mmt-omdoc logic/hol_andrews.mmt
 
-// AS: yields an error (due to changes I made) - I have to leave it out for now
+// AS: yields an error - I have to leave it out for now
 // build MMT/LATIN2 mmt-omdoc logic/modal.mmt
 // build MMT/LATIN2 mmt-omdoc logic/multimodal.mmt
 // build MMT/LATIN2 mmt-omdoc logic/dynamic.mmt
