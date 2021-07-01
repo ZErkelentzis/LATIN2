@@ -112,9 +112,9 @@ theory InfinityAx =
 	
   // abstract successor function❙
   successor : set ⟶ set❙
-  isinfinite = [A] ∅∈A ∧ ∀ͧ[x] x∈A ⇒ (successor x)∈A❙
+  hasnats = [A] ∅∈A ∧ ∀ͧ[x] x∈A ⇒ (successor x)∈A❙
 	
-  infinity_axiom : ⊦ ∃ͧ[A] isinfinite A❙
+  infinity_axiom : ⊦ ∃ͧ[A] hasnats A❙
 ❚
 
 theory ChoiceAx =
