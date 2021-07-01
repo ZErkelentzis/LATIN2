@@ -1,6 +1,6 @@
 namespace latin:/❚
 
-fixmeta ?SetFOL❚
+fixmeta ?SetBase❚
 
 theory OrderedPairs =
   // (a,b)❙
@@ -48,9 +48,8 @@ theory CartesianProduct =
   prodEr : {A,B,p} ⊦ p ∈ A×B ⟶ ⊦ p₂∈B❘# 4 prodEr❙
 
   prodE : {A,B,p} ⊦ p ∈ A×B ⟶ ⊦ ispair p❘# 4 prodE❙
-
-  // subset❙
-  prod_sub : {A,B,C,D} ⊦ A⪽C ⟶ ⊦ B⪽D ⟶ ⊦ A×B ⪽ C×D❘
+  
+  prod_sub : {A,B,C,D} ⊦ A⊆C ⟶ ⊦ B⊆D ⟶ ⊦ A×B ⊆ C×D❘
     = [A,B,C,D,pa,pb] subsetI ([x,p] eq_in (repr (p prodE)) 
       prodI (p prodEl subsetE pa) (p prodEr subsetE pb))❙
 ❚
@@ -76,11 +75,12 @@ theory Relations =
     
   // helper function to check whether a set is a relation❙
   // AS: ∃ͧ[A,B,P] R =ͧ theRel A B P does not work since we are in FOL!❙
+  // AS: include Subset as soon as it is an own theory❙
   isrel : set ⟶ prop❘
-    = [R] ∃ͧ[A] ∃ͧ[B] R ⪽ A×B❙
+    = [R] ∃ͧ[A] ∃ͧ[B] R ⊆ A×B❙
   // A special case where A and B are arguments. This is needed whenever A and B are given❙ 
   isrelAB : set ⟶ set ⟶ set ⟶ prop❘
-    = [R,A,B] R ⪽ A×B❙
+    = [R,A,B] R ⊆ A×B❙
     
   // helper function to make transformation easier❙
   relABrel : {R,A,B} ⊦ isrelAB R A B ⟶ ⊦ isrel R❘
@@ -124,8 +124,7 @@ theory Relations =
   relE : {A,B,R} ⊦ R ∈ rel A B ⟶ ⊦ isrelAB R A B❘# 4 relE❘
     = [A,B,R,p] subsetI ([x,px] p powersetE px)❙
   
-  // subset❙
-  rel_sub : {A,B,C,D} ⊦ A⪽C ⟶ ⊦ B⪽D ⟶ ⊦ rel A B ⪽ rel C D❘
+  rel_sub : {A,B,C,D} ⊦ A⊆C ⟶ ⊦ B⊆D ⟶ ⊦ rel A B ⊆ rel C D❘
     = [A,B,C,D,pa,pb] subsetI ([x,px] powersetI ([y,py] (px powersetE py)
       subsetE (prod_sub pa pb)))❙
 ❚

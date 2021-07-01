@@ -1,6 +1,6 @@
 namespace latin:/❚
 
-fixmeta ?SetFOL❚
+fixmeta ?SetBase❚
 
 // AS: UniversalSet is still used here. Find some other solution for these!❚
 
@@ -64,14 +64,11 @@ view UopairFromAxiom : ?UnorderedPairs → ?PairingAx =
 
 // Views for Union❚
 theory BigUnionUnorderedPairs =
-  include ?EmptySet❙
   include ?BigUnion❙
   include ?UnorderedPairs❙
 ❚
 
 view UnionAsBigUnion : ?Union → ?BigUnionUnorderedPairs =  
-  include ?EmptySet❙
-
   union = [A,B] ⋃ uopair A B❙
   unionIl = [A,B,x,p] bigunionI uopairIl p❙
   unionIr = [A,B,y,p] bigunionI uopairIr p❙
@@ -80,10 +77,10 @@ view UnionAsBigUnion : ?Union → ?BigUnionUnorderedPairs =
     ([q] pb (in_eq qb q)))❙
 ❚
 
-theory FilterUniverse =
-  include ?Filter❙
-  include ?EmptySet❙
-❚
+// theory FilterUniverse =
+//  include ?Filter❙
+//  include ?EmptySet❙
+// ❚
 
 // view UnionFiltered : ?Union → ?FilterUniverse =
   // AS: This might not be useful in practise❙
@@ -100,12 +97,9 @@ theory FilterUniverse =
 theory BigIntersectionUnorderedPairs =
   include ?BigIntersection❙
   include ?UnorderedPairs❙
-  include ?EmptySet❙
 ❚
 
 view IntersectionAsBigIntersection : ?Intersection → ?BigIntersectionUnorderedPairs = 	
-  include ?EmptySet❙
-
   inter = [A,B] ⋂ uopair A B❙
   interI = [A,B,x,pa,pb] biginterI (uexistsI A uopairIl) ([X,q] q uopairE 
     ([qa] in_eq pa (eq/sym qa))
@@ -117,12 +111,9 @@ view IntersectionAsBigIntersection : ?Intersection → ?BigIntersectionUnordered
 theory UnionFilter =
   include ?Filter❙
   include ?Union❙
-  include ?EmptySet❙
 ❚
 
 view IntersectionFilter : ?Intersection → ?UnionFilter =
-  include ?EmptySet❙
-  
   inter = [A,B] A∪B | ([x] x∈A ∧ x∈B)❙
   interI = [A,B,x,p,q] filterI (unionIl B p) (andI p q)❙
   interEl = [A,B,x,p] p filterEr andEl❙
@@ -144,14 +135,7 @@ view BigIntersectionFilter : ?BigIntersection → ?BigUnionFilterEmptyDefinition
 ❚
 
 // Views for Difference❚
-theory FilterEmpty =
-  include ?EmptySet❙
-  include ?Filter❙
-❚
-
-view DifFilter : ?Difference → ?FilterEmpty =
-  include ?EmptySet❙
-
+view DifFilter : ?Difference → ?Filter =
   dif = [A,B] A | ([x] ¬ x∈B)❙
   difI = [A,B,x,p,q] filterI p q❙
   difEl = [A,B,x,p] p filterEl❙
@@ -159,38 +143,14 @@ view DifFilter : ?Difference → ?FilterEmpty =
 ❚
 
 // Views for Complement❚
-theory FilterEmptyUnionInter =
-  include ?EmptySet❙
-  include ?Filter❙
-  include ?Union❙
-  include ?Intersection❙
-❚
-
-view ComplementFilter : ?Complement → ?FilterEmptyUnionInter =
-  // AS: maybe change so I don't need these includes❙	
-  include ?EmptySet❙	
-  include ?Union❙
-  include ?Intersection❙
-
+view ComplementFilter : ?Complement → ?Filter =
   comp = [U,A] U | ([x] ¬ x∈A)❙
   compI = [U,A,x,p,q] filterI p q❙
   compEl = [U,A,x,p] p filterEl❙
   compEr = [U,A,x,p] p filterEr❙
 ❚
 
-theory DiffEmptyUnionInter =
-  include ?EmptySet❙
-  include ?Difference❙
-  include ?Union❙
-  include ?Intersection❙
-❚
-
-view ComplementDifference : ?Complement → ?DiffEmptyUnionInter =
-    // AS: maybe change so I don't need these includes❙	
-  include ?EmptySet❙	
-  include ?Union❙
-  include ?Intersection❙
-
+view ComplementDifference : ?Complement → ?Difference =
   comp = [U,A] U∖A❙
   compI = [U,A,x,p,q] difI p q❙
   compEl = [U,A,x,p] p difEl❙
@@ -201,12 +161,9 @@ view ComplementDifference : ?Complement → ?DiffEmptyUnionInter =
 theory UnionDifference =
   include ?Difference❙
   include ?Union❙
-  include ?EmptySet❙
 ❚
 
 view SymUnion : ?SymmetricDifference → ?UnionDifference =	
-  include ?EmptySet❙
-  
   symdif = [A,B] (A∖B) ∪ (B∖A)❙
   symdifIl = [A,B,x,p,q] unionIl (B∖A) (difI p q)❙
   symdifIr = [A,B,x,p,q] unionIr (A∖B) (difI q p)❙
@@ -218,12 +175,9 @@ view SymUnion : ?SymmetricDifference → ?UnionDifference =
 theory UnionIntersectionDifference =
   include ?UnionDifference❙
   include ?Intersection❙
-  include ?EmptySet❙
 ❚
 
 view SymDifference : ?SymmetricDifference → ?UnionIntersectionDifference =
-  include ?EmptySet❙
-  
   // AS: this might not be needed since Intersection could be left out❙
   symdif = [A,B] (A∪B) ∖ (A∩B)❙
   symdifIl = [A,B,x,p,q] difI (unionIl B p) (notI ([pf] q notE (pf interEr)))❙
@@ -234,32 +188,30 @@ view SymDifference : ?SymmetricDifference → ?UnionIntersectionDifference =
 ❚
 
 view SymFilter : ?SymmetricDifference → ?UnionFilter =
-  include ?EmptySet❙
-
   symdif = [A,B] (A∪B) | ([x] (x∈A ∧ ¬ x∈B) ∨ (¬ x∈A ∧ x∈B))❙
   symdifIl = [A,B,x,p,q] filterI (unionIl B p) ((andI p q) orIl)❙
   symdifIr = [A,B,x,p,q] filterI (unionIr A q) ((andI p q) orIr)❙
   symdifE = [A,B,x,C,p,pa,pb] p filterEr orE ([qa] pa qa) ([qb] pb qb)❙
 ❚
 
-// Views for Adjoint❚
+// Views for Adjoin❚
 theory UnionSingleton =
   include ?Union❙
   include ?Singletons❙
 ❚
 
-view AdjointUnion : ?Adjoint → ?UnionSingleton =
-  adjoint = [A,b] A ∪ (singleton b)❙
-  adjointIl = [A,b,x,p] unionIl (singleton b) p❙
-  adjointIr = [A,b] unionIr A singletonI❙
-  adjointE = [A,b,x,C,p,pa,pb] p unionE pa ([q] pb (q singletonE))❙
+view AdjoinUnion : ?Adjoin → ?UnionSingleton =
+  adjoin = [A,b] A ∪ (singleton b)❙
+  adjoinIl = [A,b,x,p] unionIl (singleton b) p❙
+  adjoinIr = [A,b] unionIr A singletonI❙
+  adjoinE = [A,b,x,C,p,pa,pb] p unionE pa ([q] pb (q singletonE))❙
 ❚
 
-// Views for Erase❚
-view EraseFilter : ?Erase → ?Filter =
-  erase = [A,b] A | ([x] ¬ x =ͧ b)❙
-  eraseI = [A,b,x,p,q] filterI p q❙
-  eraseE = [A,b,x,p] andI (p filterEl) (p filterEr)❙
+// Views for Remove❚
+view RemoveFilter : ?Remove → ?Filter =
+  remove = [A,b] A | ([x] ¬ x =ͧ b)❙
+  removeI = [A,b,x,p,q] filterI p q❙
+  removeE = [A,b,x,p] andI (p filterEl) (p filterEr)❙
 ❚
 
 theory SingletonDifference =
@@ -267,19 +219,14 @@ theory SingletonDifference =
   include ?Singletons❙
 ❚
 
-view EraseDifference : ?Erase → ?SingletonDifference =
-  erase = [A,b] A∖(singleton b)❙
-  eraseI = [A,b,x,p,q] difI p (notI ([pf] q notE (pf singletonE)))❙
-  eraseE = [A,b,x,p] andI (p difEl) (notI ([pf] (p difEr) notE (eq_in pf singletonI)))❙
+view RemoveDifference : ?Remove → ?SingletonDifference =
+  remove = [A,b] A∖(singleton b)❙
+  removeI = [A,b,x,p,q] difI p (notI ([pf] q notE (pf singletonE)))❙
+  removeE = [A,b,x,p] andI (p difEl) (notI ([pf] (p difEr) notE (eq_in pf singletonI)))❙
 ❚
 
 // Views for Image❚
-theory ReplaceDef =
-  include ?FunctionDefinitions❙
-  include ?Replace❙
-❚
-
-view ImageReplace : ?Image → ?ReplaceDef =
+view ImageReplace : ?Image → ?Replace =
   image = [f,A] replace A f isfun_fun2rel❙
   imageI = [f,A,x,p] replaceI p❙
   imageE = [f,A,y,p] p replaceE ([x,pa,pb] uexistsI x (andI pa pb))❙

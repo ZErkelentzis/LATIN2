@@ -1,27 +1,22 @@
 namespace latin:/❚
 
-fixmeta ?SetFOL❚
+fixmeta ?SetBase❚
 
 // TODO:
   - TODOs in theories
   - check whether everything is right
-  - maybe some theories need to be rewritten after changes in axioms
-  - add ZFBase in each ZF theory?❙
+  - theories of two features need to be included
 ❚
 
 // ZFBase now contains all standard axioms of ZF instead of just Extensionality
   and Existence.❚
 theory ZFBase =
-  include ?ExistenceAx❙
   include ?PairingAx❙
   include ?UnionAx❙
   include ?PowersetAx❙
   include ?ComprehensionAx❙
   include ?ReplacementAx❙
   include ?RegularityAx❙
-  // AS: maybe add InfinityAx or remove Infinity❙
-  // AS: I excluded this, cause it relies on other theories that should not be included here!❙
-  // include ?Infinity❙
 ❚
 
 theory ZF =
@@ -45,30 +40,34 @@ theory ZFFeatures =
   
   include ?BigUnionUnorderedPairs❙
   include ?Union❘ = ?UnionAsBigUnion❙
+  include ?UnionEmpty❙
   
   include ?BigUnionFilterEmptyDefinition❙
   include ?BigIntersection❘ = ?BigIntersectionFilter❙
   
   include ?BigIntersectionUnorderedPairs❙
   include ?Intersection❘ = ?IntersectionAsBigIntersection❙
+  include ?IntersectionEmpty❙
   
-  include ?FilterEmpty❙
   include ?Difference❘ = ?DifFilter❙
+  include ?DifferenceEmpty❙
   
-  include ?FilterEmptyUnionInter❙
   include ?Complement❘ = ?ComplementFilter❙
+  include ?ComplementEmpty❙
+  include ?ComplementUnion❙
+  include ?ComplementIntersection❙
   
   include ?UnionDifference❙
   include ?SymmetricDifference❘ = ?SymUnion❙
+  include ?SymmetricDifferenceEmpty❙
 
   include ?Singletons❘ = ?SelfPair❙
   
   include ?UnionSingleton❙
   include ?Adjoint❘ = ?AdjointUnion❙
   
-  include ?Erase❘ = ?EraseFilter❙
+  include ?Remove❘ = ?RemoveFilter❙
   
-  include ?ReplaceDef❙
   include ?Image❘ = ?ImageReplace❙ 
   
   // AS: pairs and so on❙

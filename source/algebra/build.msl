@@ -6,26 +6,25 @@ file ../../build_config.msl
 // this order is kind of strict
 build MMT/LATIN2 mmt-omdoc algebra/sets.mmt
 build MMT/LATIN2 mmt-omdoc algebra/relations.mmt
-// (AS: yields an error because of changes I made)
 build MMT/LATIN2 mmt-omdoc algebra/magmas.mmt
 
 // dependent on the files above, but no fixed order
-// AS: yields an error (because of changes I made)
+// AS: yields an error
 build MMT/LATIN2 mmt-omdoc algebra/groups.mmt
 // AS: yields an error
 build MMT/LATIN2 mmt-omdoc algebra/bands.mmt
 // AS: yields an error
 build MMT/LATIN2 mmt-omdoc algebra/ringoids.mmt
 
+// dependent on magmas
+// AS: yields an error
+build MMT/LATIN2 mmt-omdoc algebra/additive_magmas.mmt
+
 // dependent on files above
 // AS: yields an error
 build MMT/LATIN2 mmt-omdoc algebra/modules.mmt
 // AS: yields an error
 build MMT/LATIN2 mmt-omdoc algebra/generated.mmt
-
-// dependent on magmas
-// AS: yields an error
-build MMT/LATIN2 mmt-omdoc algebra/additive_magmas.mmt
 
 // these are left out for now
 // build MMT/LATIN2 mmt-omdoc algebra/diagop-theories.mmt

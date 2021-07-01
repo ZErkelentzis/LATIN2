@@ -1,6 +1,6 @@
 namespace latin:/❚
 
-fixmeta ?SetFOL❚
+fixmeta ?SetBase❚
 
 // TODO:
   - TODOs in theories
@@ -8,6 +8,7 @@ fixmeta ?SetFOL❚
   - maybe add more axioms for TG, NBG and more?
 ❚
 
+// AS: ExistenceAx is not needed anymore❚
 theory ExistenceAx =
   // There exists at least one set❙
   existence_axiom : ⊦ ∃ͧ[A] true❙
@@ -18,7 +19,7 @@ theory PairingAx =
   isuopair = [A,B,Z] ∀ͧ[x] x∈Z ⇔ x =ͧ A ∨ x =ͧ B❙
 
   pairing_axiom : {A,B} ⊦ ∃ͧ[Z] isuopair A B Z❙
-  pairing_unique : {A,B} ⊦ ∃¹ͧ[Z] isuopair A B Z❘ 
+  pairing_unique : {A,B} ⊦ ∃͛ͧ[Z] isuopair A B Z❘ 
     = [A,B] pairing_axiom uexistsE ([z,pz] uexistsUniqueI pz
       ([y,py] extensionalityI ([x] equiv_equivalence/trans (pz uforallE x)
       (equiv_equivalence/sym (py uforallE x)))))❙
@@ -33,7 +34,7 @@ theory UnionAx =
   isbigunion = [A,Z] ∀ͧ[x] x∈Z ⇔ ∃ͧ[X] X∈A ∧ x∈X❙
 
   union_axiom : {A} ⊦ ∃ͧ[Z] isbigunion A Z❙
-  union_unique : {A} ⊦ ∃¹ͧ[Z] isbigunion A Z❘
+  union_unique : {A} ⊦ ∃͛ͧ[Z] isbigunion A Z❘
     = [A] union_axiom uexistsE ([z,pz] uexistsUniqueI pz
       ([y,py] extensionalityI ([x] equiv_equivalence/trans (pz uforallE x)
       (equiv_equivalence/sym (py uforallE x)))))❙
@@ -48,14 +49,14 @@ theory PowersetAx =
   ispowerset = [A,Z] ∀ͧ[B] B∈Z ⇔ (∀ͧ[x] x∈B ⇒ x∈A)❙
 
   powerset_axiom : {A} ⊦ ∃ͧ[Z] ispowerset A Z❙
-  powerset_unique : {A} ⊦ ∃¹ͧ[Z] ispowerset A Z❘
+  powerset_unique : {A} ⊦ ∃͛ͧ[Z] ispowerset A Z❘
     = [A] powerset_axiom uexistsE ([z,pz] uexistsUniqueI pz
       ([y,py] extensionalityI ([B] equiv_equivalence/trans (pz uforallE B)
       (equiv_equivalence/sym (py uforallE B)))))❙
 
-  // AS: This definition is dependent on ⪽. So maybe use the alternative definition.❙
-  // powersetAxI : {A,B,Z} ⊦ B⪽A ⟶ ⊦ B∈Z❙
-  // powersetAxE : {A,B,Z} ⊦ B∈Z ⟶ ⊦ B⪽A❘// # 4 powersetAxE❙
+  // AS: This definition is dependent on ⊆. So maybe use the alternative definition.❙
+  // powersetAxI : {A,B,Z} ⊦ B⊆A ⟶ ⊦ B∈Z❙
+  // powersetAxE : {A,B,Z} ⊦ B∈Z ⟶ ⊦ B⊆A❘// # 4 powersetAxE❙
 
   // Alternative definition❙
   powersetAxI : {A,B,Z} ⊦ ispowerset A Z ⟶ ({x} ⊦ x∈B ⇒ x∈A) ⟶ ⊦ B∈Z❘
@@ -69,7 +70,7 @@ theory ComprehensionAx =
   iscomprehension = [A,P,Z] ∀ͧ[x] x∈Z ⇔ x∈A ∧ (P x)❙
 
   comprehension_axiom : {A,P} ⊦ ∃ͧ[Z] iscomprehension A P Z❙
-  comprehension_unique : {A,P} ⊦ ∃¹ͧ[Z] iscomprehension A P Z❘
+  comprehension_unique : {A,P} ⊦ ∃͛ͧ[Z] iscomprehension A P Z❘
     = [A,P] comprehension_axiom uexistsE ([z,pz] uexistsUniqueI pz
       ([y,py] extensionalityI ([x] equiv_equivalence/trans (pz uforallE x)
       (equiv_equivalence/sym (py uforallE x)))))❙
@@ -88,7 +89,7 @@ theory ReplacementAx =
   isreplacement = [f,A,Z] ∀ͧ[y] y∈Z ⇔ (∃ͧ[x] x∈A ∧ f x y)❙  
 
   replacement_axiom : {f} ⊦ ∀ͧ[A] isfunction f A ⇒ ∃ͧ[Z] isreplacement f A Z❙
-  replacement_unique : {f,A} ⊦ isfunction f A ⟶ ⊦ ∃¹ͧ[Z] isreplacement f A Z❘
+  replacement_unique : {f,A} ⊦ isfunction f A ⟶ ⊦ ∃͛ͧ[Z] isreplacement f A Z❘
     = [f,A,p] replacement_axiom uforallE A implE p uexistsE ([z,pz] uexistsUniqueI pz
       ([y,py] extensionalityI ([x] equiv_equivalence/trans (pz uforallE x)
       (equiv_equivalence/sym (py uforallE x)))))❙
@@ -106,23 +107,12 @@ theory RegularityAx =
   regularity_axiom : ⊦ isregular❙
 ❚
 
-theory InfinityAx =
-  // There exists an infinite set containing ∅ and all successors of elements of its set.❙
-  include ?EmptySet❙
-	
-  // abstract successor function❙
-  successor : set ⟶ set❙
-  isinfinite = [A] ∅∈A ∧ ∀ͧ[x] x∈A ⇒ (successor x)∈A❙
-	
-  infinity_axiom : ⊦ ∃ͧ[A] isinfinite A❙
-❚
-
 theory ChoiceAx =
   include ?EmptyDefinitions❙
-  include ?PairwiseDisjoint❙
+  include ?Disjoint❙
 
   // There exists a set C with an unique element c that each set X of M has in common❙
-  ischoice = [A,C] ∀ͧ[X] X∈A ⇒ ∃¹ͧ[c]c∈C∧c∈X❙
+  ischoice = [A,C] ∀ͧ[X] X∈A ⇒ ∃͛ͧ[c]c∈C∧c∈X❙
 
   choice_axiom : ⊦ ∀ͧ[A] (all_nonempty A ∧ ispwdisjoint A) ⇒ ∃ͧ[C] ischoice A C❙
   

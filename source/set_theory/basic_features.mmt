@@ -1,6 +1,6 @@
 namespace latin:/❚
 
-fixmeta ?SetFOL❚
+fixmeta ?SetBase❚
 
 theory Powersets =
   // symbol: jpow❙
@@ -23,14 +23,14 @@ theory Filter =
   filterEl : {A,P,x} ⊦ x ∈ A|P ⟶ ⊦ x∈A❘# 4 filterEl❙
   filterEr : {A,P,x} ⊦ x ∈ A|P ⟶ ⊦ P x❘# 4 filterEr❙
   
-  filter_sub : {A,P} ⊦ A|P ⪽ A❘
+  filter_sub : {A,P} ⊦ A|P ⊆A❘
     = [A,P] subsetI ([x,p] p filterEl)❙
 ❚
 
 theory Replace =
   include ?FunctionDefinitions❙
   // AS: is 1 map 2 really right?❙
-  replace  : {A:set, f:set ⟶ set} ⊦ isfunction (fun2rel f) A ⟶ set❙
+  replace  : {A:set, f:set ⟶ set} ⊦ (isfunction (fun2rel f) A) ⟶ set❙
   replaceI : {A,f,x} ⊦ x∈A ⟶ ⊦ (f x) ∈ replace A f isfun_fun2rel❙
   replaceE : {A,f,y,C} ⊦ y ∈ replace A f isfun_fun2rel ⟶ ({x} ⊦ x∈A ⟶ ⊦ f x =ͧ y ⟶ ⊦C) ⟶ ⊦C❘ # 5 replaceE 6❙
 ❚

@@ -160,13 +160,13 @@ theory RelativizedExistentialQuantificationND =
 theory UniqueExistentialQuantification =
   include ?ExistentialQuantification❙
   include ?UntypedEquality❙
-  uexistsUnique  : (term ⟶ prop) ⟶ prop❘# ∃¹ͧ 1❙  
+  uexistsUnique  : (term ⟶ prop) ⟶ prop❘# ∃͛ͧ 1❙  
  ❚
 
 theory UniqueExistentialQuantificationND =
   include ?UniqueExistentialQuantification ❙
-  uexistsUniqueI : {P} {x} ⊦ P x ⟶ ({y} ⊦ P y ⟶ ⊦ x =ͧ y) ⟶ ⊦ ∃¹ͧ P❘# uexistsUniqueI 3 4 ❙
-  uexistsUniqueE : {P,C} ⊦ ∃¹ͧ P ⟶ ({x} ⊦ P x ⟶ ({y} ⊦ P y ⟶ ⊦ x =ͧ y) ⟶ ⊦ C) ⟶ ⊦ C❘# 3 uexistsUniqueE 4❙
+  uexistsUniqueI : {P} {x} ⊦ P x ⟶ ({y} ⊦ P y ⟶ ⊦ x =ͧ y) ⟶ ⊦ ∃͛ͧ P❘# uexistsUniqueI 3 4 ❙
+  uexistsUniqueE : {P,C} ⊦ ∃͛ͧ P ⟶ ({x} ⊦ P x ⟶ ({y} ⊦ P y ⟶ ⊦ x =ͧ y) ⟶ ⊦ C) ⟶ ⊦ C❘# 3 uexistsUniqueE 4❙
 ❚
 
 theory UniqueExistentialQuantificationNDS =
@@ -183,7 +183,7 @@ theory UniqueExistentialQuantificationNDS =
 theory Description =
   include ?Logic❙
   include ?UniqueExistentialQuantification❙
-  the : {P} ⊦ ∃¹ͧ P ⟶ term❘# the 1 2❙
+  the : {P} ⊦ ∃͛ͧ P ⟶ term❘# the 1 2❙
 ❚
 
 theory DescriptionND =
@@ -244,6 +244,29 @@ theory FOLEQDescNDS =
   include ?FOLEQDescND❙
   include ?FOLEQNDS❙
   include ?DescriptionNDS❙
+❚
+
+theory DependentFOLEQDesc =
+  include ?FOLEQDesc❙
+  include ?DependentConjunction❙
+  include ?DependentDisjunction❙
+  include ?DependentImplication❙
+❚
+
+theory DependentFOLEQDescND =
+  include ?DependentFOLEQDesc❙
+  include ?FOLEQDescND❙
+  include ?DependentConjunctionND❙
+  include ?DependentDisjunctionND❙
+  include ?DependentImplicationND❙
+❚
+
+// I added this theory just to be complete. It can be deleted, if it is not wanted❚
+theory DependentFOLEQDescNDS =
+  include ?DependentFOLEQDescND❙
+  include ?FOLEQDescNDS❙
+  include ?DependentConjunctionNDS❙
+  include ?DependentImplicationNDS❙
 ❚
 
 // does not typecheck:
