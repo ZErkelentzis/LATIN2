@@ -1,9 +1,10 @@
 namespace latin:/❚
 
-fixmeta ?SetBase❚
+fixmeta ?DependentFOLEQDescND❚
 
 theory TBigUnion =
   include ?TypedZF❙
+  
   // symbol: jbigcup❙
   Bigunion : {A} (Elem A ⟶ set) ⟶ set❘# ⋃ 2❙
   BigunionI : {A,F,e: Elem A,x} ⊦ x ∈ F e ⟶ ⊦ x ∈ ⋃F❙
@@ -13,6 +14,7 @@ theory TBigUnion =
 theory TBigIntersection =
   include ?TypedZF❙
   include ?EmptyDefinitions❙
+  
   // symbol: jbigcap❙
   Biginter : {A} (Elem A ⟶ set) ⟶ set❘# ⋂ 2❙
   BiginterI : {A,F,x} ⊦ nonempty A ⟶ ({e: Elem A} ⊦ x∈ F e) ⟶ ⊦ x ∈ ⋂F❙

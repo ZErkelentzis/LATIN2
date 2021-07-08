@@ -1,8 +1,10 @@
 namespace latin:/❚
 
-fixmeta ?SetBase❚
+fixmeta ?DependentFOLEQDescND❚
 
 theory Powersets =
+  include ?SetBase❙
+  
   // symbol: jpow❙
   powerset : set ⟶ set❘# ℘ 1 prec 60❙
   powersetI : {A,B} ({x} ⊦ x∈B ⟶ ⊦ x∈A) ⟶ ⊦ B∈ ℘A❙
@@ -10,6 +12,8 @@ theory Powersets =
 ❚
 
 theory Image =
+  include ?SetBase❙
+  
   // image f A = {f(x) : x∈A}❙
   // AS: think of a shorter notation❙
   image : (set ⟶ set) ⟶ set ⟶ set❙
@@ -18,6 +22,8 @@ theory Image =
 ❚
 
 theory Filter =
+  include ?SetBase❙
+  
   filter  : set ⟶ (set ⟶ prop) ⟶ set❘# 1 | 2 prec 40❙
   filterI : {A,P,x} ⊦ x∈A ⟶ ⊦ P x ⟶ ⊦ x ∈ A|P❙
   filterEl : {A,P,x} ⊦ x ∈ A|P ⟶ ⊦ x∈A❘# 4 filterEl❙
@@ -28,7 +34,9 @@ theory Filter =
 ❚
 
 theory Replace =
+  include ?SetBase❙  
   include ?FunctionDefinitions❙
+  
   // AS: is 1 map 2 really right?❙
   replace  : {A:set, f:set ⟶ set} ⊦ (isfunction (fun2rel f) A) ⟶ set❙
   replaceI : {A,f,x} ⊦ x∈A ⟶ ⊦ (f x) ∈ replace A f isfun_fun2rel❙

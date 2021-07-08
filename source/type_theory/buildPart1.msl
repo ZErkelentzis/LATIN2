@@ -15,26 +15,13 @@ build MMT/LATIN2 mmt-omdoc type_theory/quotient_types.mmt
 // build MMT/LATIN2 mmt-omdoc type_theory/quotient_types-equiv.mmt
 build MMT/LATIN2 mmt-omdoc type_theory/undefinedness.mmt
 
-// dependent on function_types (if comment gets removed)
+// dependent on function_types
 build MMT/LATIN2 mmt-omdoc type_theory/type_erasure.mmt
 
 // dependent on function_types and undefinedness
 build MMT/LATIN2 mmt-omdoc type_theory/quotation.mmt
 
-// AS: the following are partially dependent on theories that are not parsed at this time!
-// dependent on logic (e.g. SFOLEQND)
+// dependent on logic from part1
 // AS: yields an error (due to changes I made)
 build MMT/LATIN2 mmt-omdoc type_theory/power_types.mmt
-
-// dependent on category_theory and function_types
-build MMT/LATIN2 mmt-omdoc type_theory/endofunctors/endofunctors.mmt
-
-// dependent on endofunctors
-build MMT/LATIN2 mmt-omdoc type_theory/endofunctors/endomagmas.mmt
-
-// dependent on endomagmas
-build MMT/LATIN2 mmt-omdoc type_theory/collection_types.mmt
-
-// dependent on HOLND, endofunctors and category_theory
-build MMT/LATIN2 mmt-omdoc type_theory/endofunctors/monads.mmt
 

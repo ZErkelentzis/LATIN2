@@ -1,0 +1,16 @@
+file ../../build_config.msl
+
+// logic
+// depends in general on fundamentals (these dependencies are not mentioned here)!
+
+// dependent on fundamentals, type_theory (function_types and power_types)
+// and files from before (these dependencies are not mentioned here)!
+// this order is kind of fixed
+// AS: yields an error
+build MMT/LATIN2 mmt-omdoc logic/hol.mmt
+build MMT/LATIN2 mmt-omdoc logic/hol_andrews.mmt
+
+build MMT/LATIN2 mmt-omdoc logic/modal.mmt
+build MMT/LATIN2 mmt-omdoc logic/multimodal.mmt
+build MMT/LATIN2 mmt-omdoc logic/dynamic.mmt
+

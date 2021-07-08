@@ -1,6 +1,6 @@
 namespace latin:/❚
 
-fixmeta ?SetBase❚
+fixmeta ?DependentFOLEQDescND❚
 
 // AS: UniversalSet is still used here. Find some other solution for these!❚
 
@@ -16,8 +16,10 @@ theory ExistFilter =
 ❚
 
 view EmptyExistFilter : ?EmptySet → ?ExistFilter =
+  include ?SetBase❙
   include ?EmptyDefinitions❙
-  isempty_exists = nonempty ([X] dne notI ([pf] tnd orE
+  
+  isempty_exists = univ_nonempty ([X] dne notI ([pf] tnd orE
     ([pa] pa uexistsE ([y,py] py filterEr notE urefl inconE))
     ([pb] pf notE (uexistsI (filter X ([z] ¬z =ͧ z)) pb) inconE) falseE))❙ 
 ❚
@@ -28,9 +30,11 @@ theory ComplementIntersection =
  	include ?EmptyDefinitions❙
 ❚
 
-view EmptyIntersection : ?EmptySet → ?ComplementIntersection =	
+view EmptyIntersection : ?EmptySet → ?ComplementIntersection =
+  include ?SetBase❙
   include ?EmptyDefinitions❙
-  isempty_exists = nonempty ([X] nonempty ([U] 
+  
+  isempty_exists = univ_nonempty ([X] univ_nonempty ([U] 
     dne notI ([pf] tnd orE ([pa] pa uexistsE ([y,py] (py interEr) compEr notE (py interEl) inconE))
     ([pb] pf notE (uexistsI (X ∩ (comp U X)) pb) inconE) falseE)))❙ 
 ❚
@@ -41,37 +45,31 @@ theory ExistDifference =
 ❚
 
 view SelfDifference : ?EmptySet → ?ExistDifference =
+  include ?SetBase❙
   include ?EmptyDefinitions❙
-  isempty_exists = nonempty ([X] dne notI ([pf] tnd orE
+  
+  isempty_exists = univ_nonempty ([X] dne notI ([pf] tnd orE
     ([pa] pa uexistsE ([y,py] (py difEr) notE (py difEl) inconE))
     ([pb] pf notE (uexistsI (dif X X) pb) inconE) falseE))❙
 ❚
 
 // Views for Singleton❚
 view SelfPair : ?Singletons → ?UnorderedPairs =
+  include ?SetBase❙
+  
   singleton = [A] uopair A A❙
   singletonI = [A] uopairIl❙
   singletonE = [A,x,p] p uopairE ([q] q) ([q] q)❙
 ❚
-
-// theory UniversalFilter =
-//  include ?Filter❙
-//  include ?UniversalSet❙
-// ❚
-
-// view SingleFilter : ?Singletons → ?UniversalFilter =
-  // AS: 𝒰 was just the safest solution here❙
-//  singleton = [A] 𝒰 | ([x] x =ͧ A)❙
-//  singletonI = [x] filterI (universal_prop uforallE x) urefl❙
-//  singletonE = [A,x,p] p filterEr❙
-// ❚
 
 theory EmptyAdjoin =
   include ?Adjoin❙
   include ?EmptySet❙
 ❚
 
-view SingleAdjoint : ?Singletons → ?EmptyAdjoin =
+view SingleAdjoin : ?Singletons → ?EmptyAdjoin =
+  include ?SetBase❙
+  
   singleton = [A] adjoin ∅ A❙
   singletonI = [x] adjoinIr❙
   singletonE = [A,x,p] p adjoinE ([pa] empty_prop notE (uexistsI x pa) inconE) ([pb] pb)❙
@@ -84,19 +82,13 @@ theory SingletonUnion =
 ❚
 
 view UopairUnion : ?UnorderedPairs → ?SingletonUnion =
+  include ?SetBase❙
+  
   uopair = [A,B] (singleton A) ∪ (singleton B)❙
   uopairIl = [x,B] unionIl (singleton B) singletonI❙
   uopairIr = [A,y] unionIr (singleton A) singletonI❙
   uopairE = [A,B,x,C,p,pa,pb] p unionE ([qa] pa (qa singletonE)) ([qb] pb (qb singletonE))❙
 ❚
-
-// view UopairFilter : ?UnorderedPairs → ?UniversalFilter =
-//  // AS: 𝒰 was just the safest solution here❙
-//  uopair = [A,B] 𝒰 | ([x] x =ͧ A ∨ x =ͧ B)❙
-//  uopairIl = [x,B] filterI (universal_prop uforallE x) (urefl orIl)❙
-//  uopairIr = [A,y] filterI (universal_prop uforallE y) (urefl orIr)❙
-//  uopairE = [A,B,x,C,p,pa,pb] p filterEr orE pa pb❙
-// ❚
 
 theory AdjoinSingletons =
   include ?Adjoin❙
@@ -104,6 +96,8 @@ theory AdjoinSingletons =
 ❚
 
 view UopairAdjointSingleton : ?UnorderedPairs → ?AdjoinSingletons =
+  include ?SetBase❙
+  
   uopair = [A,B] adjoin (singleton A) B❙
   uopairIl = [x,B] adjoinIl singletonI❙
   uopairIr = [A,y] adjoinIr❙

@@ -1,8 +1,10 @@
 namespace latin:/❚
 
-fixmeta ?SetBase❚
+fixmeta ?DependentFOLEQDescND❚
 
 theory Union =
+  include ?SetBase❙
+  
   // symbol: jcup❙
   union : set ⟶ set ⟶ set❘# 1 ∪ 2 prec 40❙
   unionIl : {A,B,x} ⊦ x∈A ⟶ ⊦ x∈A∪B❘ # unionIl 2 4❙
@@ -44,6 +46,8 @@ theory UnionEmpty =
 ❚
 
 theory Intersection =
+  include ?SetBase❙
+  
   // symbol: jcap❙
   inter : set ⟶ set ⟶ set❘# 1 ∩ 2 prec 40❙
   interI : {A,B,x} ⊦ x∈A ⟶ ⊦ x∈B ⟶ ⊦ x∈A∩B❙
@@ -90,6 +94,8 @@ theory IntersectionEmpty =
 ❚
 
 theory BigUnion =
+  include ?SetBase❙
+  
   // symbol: jbigcup❙
   bigunion : set ⟶ set❘# ⋃ 1 prec 45❙
   bigunionI : {A,X,x} ⊦ X∈A ⟶ ⊦ x∈X ⟶ ⊦ x∈ ⋃A❙
@@ -103,7 +109,9 @@ theory BigUnion =
 
 
 theory BigIntersection =
+  include ?SetBase❙
   include ?EmptyDefinitions❙
+  
   // symbol: jbigcap❙
   biginter : set ⟶ set❘# ⋂ 1 prec 45❙
   // A must be nonempty because otherwise intersection would produce the set of all sets❙
@@ -117,6 +125,8 @@ theory BigIntersection =
 ❚
 
 theory Difference =
+  include ?SetBase❙
+  
   // symbol: jsetminus❙
   dif : set ⟶ set ⟶ set❘# 1 ∖ 2 prec 40❙
   difI : {A,B,x} ⊦ x∈A ⟶ ⊦ ¬ x∈B ⟶ ⊦ x ∈ A∖B❙
@@ -140,6 +150,8 @@ theory DifferenceEmpty =
 ❚
 
 theory Complement =
+  include ?SetBase❙
+  
   // A should be a subset of U❙
   // AS : Maybe change notation❙
   comp : set ⟶ set ⟶ set❙
@@ -189,6 +201,8 @@ theory ComplementIntersection =
 ❚
 
 theory SymmetricDifference =
+  include ?SetBase❙
+  
   // AS : think of another notation, since this leads to mistakes!❙
   // symbol: jDelta❙
   symdif : set ⟶ set ⟶ set❘ # 1 Δ 2 prec 40❙
@@ -232,16 +246,9 @@ theory SymmetricDifferenceEmpty =
       ([q] empty_prop notE (uexistsI x q) inconE))❙
 ❚
 
-// AS: This might be left out, if I don't do it soon❚
-theory DisjointUnion =
-  // AS: is there a way to make this independent of OrderedPair and 0 and 1?❙
-  include ?OrderedPairs❙
-  // symbol: jsqcup❙
-  disjUnion : set ⟶ set ⟶ set❘# 1 ⊔ 2❙
-  // TODO: I and E only possible with 0 and 1❙
-❚
-
 theory Adjoin =
+  include ?SetBase❙
+  
   // AS: think of a notation❙
   adjoin : set ⟶ set ⟶ set❙
   adjoinIl : {A,b,x} ⊦ x∈A ⟶ ⊦ x∈(adjoin A b)❙
@@ -258,6 +265,8 @@ theory Adjoin =
 ❚
 
 theory Remove =
+  include ?SetBase❙
+  
   // AS: think of a notation❙
   remove : set ⟶ set ⟶ set❙
   removeI : {A,b,x} ⊦ x∈A ⟶ ⊦ ¬ x =ͧ b ⟶ ⊦ x∈(remove A b)❙

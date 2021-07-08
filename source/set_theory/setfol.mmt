@@ -1,6 +1,6 @@
 namespace latin:/❚
 
-fixmeta ?DependentFOLEQDescND❚
+fixmeta latin:/?DependentFOLEQDescND❚
 
 theory SetDefinitions =
   set = term❙
@@ -26,7 +26,7 @@ theory ExtensionalityAx =
     = [A,B,p,x] extensionality_axiom equivEr p uforallE x❙
 ❚
 
-theory Subset =
+theory SubsetDefinitions =
   include ?SetDefinitions❙
   
   subset : set ⟶ set ⟶ prop❘# 1 ⊆ 2 prec 30❘
@@ -56,7 +56,7 @@ theory EmptyDefinitions =
     = [A,p,X,q] p uforallE X implE q❙
 ❚
 
-theory Disjoint =
+theory DisjointDefinitions =
   include ?SetDefinitions❙
   
   // AS: maybe rewrite this as ¬(∃ͧ[x] x∈A ∧ x∈B), but this would be a bit more annoying to proof❙
@@ -75,9 +75,41 @@ theory Disjoint =
     = [A,p,x,y,q] p uforallE x uforallE y implE q❙
 ❚
 
-theory FunctionDefinitions =
+theory RelationDefinitions =
   include ?SetDefinitions❙
   
+  islefttotal : (set ⟶ set ⟶ prop) ⟶ set ⟶ prop❘
+    = [f,A] ∀ͧ[x] x∈A ⇒ ∃ͧ[y] f x y❙
+  islefttotalI : {f,A} ({x} ⊦ x∈A ⟶ ⊦ ∃ͧ[y] f x y) ⟶ ⊦ islefttotal f A❘
+    = [f,A,Q] uforallI ([x] implI ([p] Q x p))❙
+  islefttotalE : {f,A} ⊦ islefttotal f A ⟶ {x} ⊦ x∈A ⟶ ⊦ ∃ͧ[y] f x y❘
+    = [f,A,p,x,q] p uforallE x implE q❙
+  
+  isrighttotal : (set ⟶ set ⟶ prop) ⟶ set ⟶ prop❘
+    = [f,B] ∀ͧ[y] y∈B ⇒ ∃ͧ[x] f x y❙
+  isrighttotalI : {f,B} ({y} ⊦ y∈B ⟶ ⊦ ∃ͧ[x] f x y) ⟶ ⊦ isrighttotal f B❘
+    = [f,B,Q] uforallI ([y] implI ([p] Q y p))❙
+  isrighttotalE : {f,B} ⊦ isrighttotal f B ⟶ {y} ⊦ y∈B ⟶ ⊦ ∃ͧ[x] f x y❘
+    = [f,B,p,y,q] p uforallE y implE q❙  
+  
+  isleftunique : (set ⟶ set ⟶ prop) ⟶ prop❘
+    = [f] ∀ͧ[x]∀ͧ[y]∀ͧ[z] (f x y ∧ f z y) ⇒ x =ͧ z❙
+  isleftuniqueI : {f} ({x,y,z} ⊦ f x y ∧ f z y ⟶ ⊦ x =ͧ z) ⟶ ⊦ isleftunique f❘
+    = [f,Q] uforallI ([x] uforallI ([y] uforallI ([z] implI ([p] Q x y z p))))❙
+  isleftuniqueE : {f} ⊦ isleftunique f ⟶ {x,y,z} ⊦ f x y ∧ f z y ⟶ ⊦ x =ͧ z❘
+    = [f,p,x,y,z,q] p uforallE x uforallE y uforallE z implE q❙
+    
+  isrightunique : (set ⟶ set ⟶ prop) ⟶ prop❘
+    = [f] ∀ͧ[x]∀ͧ[y]∀ͧ[z] (f x y ∧ f x z) ⇒ y =ͧ z❙
+  isrightuniqueI : {f} ({x,y,z} ⊦ f x y ∧ f x z ⟶ ⊦ y =ͧ z) ⟶ ⊦ isrightunique f❘
+    = [f,Q] uforallI ([x] uforallI ([y] uforallI ([z] implI ([p] Q x y z p))))❙
+  isrightuniqueE : {f} ⊦ isrightunique f ⟶ {x,y,z} ⊦ f x y ∧ f x z ⟶ ⊦ y =ͧ z❘
+    = [f,p,x,y,z,q] p uforallE x uforallE y uforallE z implE q❙
+❚
+
+theory FunctionDefinitions =
+  include ?SetDefinitions❙
+  // AS: isfunction should not be used anymore❙
   // AS: maybe rename as isfunction_on❙
   isfunction : (set ⟶ set ⟶ prop) ⟶ set ⟶ prop❘
     = [f,A] ∀ͧ[x] x∈A ⇒ ∃͛ͧ[y] f x y❙
@@ -92,29 +124,12 @@ theory FunctionDefinitions =
     = [f,A] isfunctionI ([x,p] uexistsUniqueI urefl ([y,py] eq/trans urefl py))❙
 ❚
 
-theory RightUniqueness =
-  include ?SetDefinitions❙
-  
-  isrightunique : (set ⟶ set ⟶ prop) ⟶ prop❘
-    = [f] ∀ͧ[x]∀ͧ[y]∀ͧ[z] (f x y ∧ f x z) ⇒ y =ͧ z❙
-  isrightuniqueI : {f} ({x,y,z} ⊦ f x y ∧ f x z ⟶ ⊦ y =ͧ z) ⟶ ⊦ isrightunique f❘
-    = [f,Q] uforallI ([x] uforallI ([y] uforallI ([z] implI ([p] Q x y z p))))❙
-  isrightuniqueE : {f} ⊦ isrightunique f ⟶ {x,y,z} ⊦ f x y ∧ f x z ⟶ ⊦ y =ͧ z❘
-    = [f,p,x,y,z,q] p uforallE x uforallE y uforallE z implE q❙
-❚
-
 // AS: maybe add Cardinality as well❚ 
 
 theory SetBase =
   include ?SetDefinitions❙
   include ?ExtensionalityAx❙
-  include ?Subset❙
-  // AS: UniverseNonEmpty is used instead of ExistenceAx❙
+  include ?SubsetDefinitions❙
+  // UniverseNonEmpty is used instead of ExistenceAx❙
   include ?UniverseNonEmpty❙
-  
-  // AS: maybe skip these❙
-  include ?EmptyDefinitions❙
-  include ?Disjoint❙
-  include ?FunctionDefinitions❙
-  include ?RightUniqueness❙
 ❚

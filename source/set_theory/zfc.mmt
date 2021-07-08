@@ -1,6 +1,6 @@
 namespace latin:/❚
 
-fixmeta ?SetBase❚
+fixmeta ?DependentFOLEQDescND❚
 
 // TODO:
   - TODOs in theories
@@ -8,9 +8,12 @@ fixmeta ?SetBase❚
   - theories of two features need to be included
 ❚
 
+// AS: I commented the definitions, cause it ruins the performance❚
+
 // ZFBase now contains all standard axioms of ZF instead of just Extensionality
   and Existence.❚
 theory ZFBase =
+  include ?SetBase❙
   include ?PairingAx❙
   include ?UnionAx❙
   include ?PowersetAx❙
@@ -22,11 +25,11 @@ theory ZFBase =
 theory ZF =
   include ?ZFBase❙
   
-  include ?UnorderedPairs❘ = ?UopairFromAxiom❙
-  include ?BigUnion❘ = ?BigUnionFromAxiom❙
-  include ?Powersets❘ = ?PowersetFromAxiom❙
-  include ?Filter❘ = ?FilterFromAxiom❙
-  include ?Replace❘ = ?ReplaceFromAxiom❙
+  include ?UnorderedPairs❙// = ?UopairFromAxiom❙
+  include ?BigUnion❙// = ?BigUnionFromAxiom❙
+  include ?Powersets❙// = ?PowersetFromAxiom❙
+  include ?Filter❙// = ?FilterFromAxiom❙
+  include ?Replace❙// = ?ReplaceFromAxiom❙
 ❚
 
 // AS: maybe just add features to ZF directly❚
@@ -36,45 +39,46 @@ theory ZFFeatures =
 
   // AS: There are many includes that I wish would not be necessary❙
   include ?ExistFilter❙
-  include ?EmptySet❘ = ?EmptyExistFilter❙
+  include ?EmptySet❙// = ?EmptyExistFilter❙
   
   include ?BigUnionUnorderedPairs❙
-  include ?Union❘ = ?UnionAsBigUnion❙
+  include ?Union❙// = ?UnionAsBigUnion❙
   include ?UnionEmpty❙
   
   include ?BigUnionFilterEmptyDefinition❙
-  include ?BigIntersection❘ = ?BigIntersectionFilter❙
+  include ?BigIntersection❙// = ?BigIntersectionFilter❙
   
   include ?BigIntersectionUnorderedPairs❙
-  include ?Intersection❘ = ?IntersectionAsBigIntersection❙
+  include ?Intersection❙// = ?IntersectionAsBigIntersection❙
   include ?IntersectionEmpty❙
   
-  include ?Difference❘ = ?DifFilter❙
+  include ?Difference❙// = ?DifFilter❙
   include ?DifferenceEmpty❙
   
-  include ?Complement❘ = ?ComplementFilter❙
+  include ?Complement❙// = ?ComplementFilter❙
   include ?ComplementEmpty❙
   include ?ComplementUnion❙
   include ?ComplementIntersection❙
   
   include ?UnionDifference❙
-  include ?SymmetricDifference❘ = ?SymUnion❙
+  include ?SymmetricDifference❙// = ?SymUnion❙
   include ?SymmetricDifferenceEmpty❙
 
-  include ?Singletons❘ = ?SelfPair❙
+  include ?Singletons❙// = ?SelfPair❙
   
   include ?UnionSingleton❙
-  include ?Adjoint❘ = ?AdjointUnion❙
+  include ?Adjoin❙// = ?AdjoinUnion❙
   
-  include ?Remove❘ = ?RemoveFilter❙
+  include ?Remove❙// = ?RemoveFilter❙
   
-  include ?Image❘ = ?ImageReplace❙ 
+  include ?Image❙// = ?ImageReplace❙ 
   
-  // AS: pairs and so on❙
-  include ?WienerPairs❙
+  // AS: pairs and so on. WienerPairs lead to errors❙
+  // include ?WienerPairs❙
   
   include ?OrderedBigUnionImage❙
-  include ?CartesianProduct❘ = ?CartImage❙
+  // AS: This would lead to an error, if it was defined!❙
+  include ?CartesianProduct❙// = ?CartImage❙
   
   // AS: functions already include relations and partial functions❙
   include ?Functions❙

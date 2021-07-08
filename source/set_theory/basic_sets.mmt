@@ -1,8 +1,9 @@
 namespace latin:/❚
 
-fixmeta ?SetBase❚
+fixmeta ?DependentFOLEQDescND❚
 
 theory EmptySet =
+  include ?SetBase❙
   include ?EmptyDefinitions❙
   
   // AS: These two could be in EmptyDefinitions as well. But they are mainly necessary to prove EmptySet
@@ -30,6 +31,8 @@ theory EmptySet =
 ❚
 
 theory Singletons =
+  include ?SetBase❙
+  
   singleton : set ⟶ set❘# singleton 1 prec 100❙
   singletonI : {x} ⊦ x∈ singleton x❙
   singletonE : {A,x} ⊦ x∈ singleton A ⟶ ⊦ x =ͧ A❘# 3 singletonE❙
@@ -51,6 +54,8 @@ theory Singletons =
 ❚
 
 theory UnorderedPairs =
+  include ?SetBase❙
+  
   uopair : set ⟶ set ⟶ set❘# uopair 1 2 prec 40❙
   uopairIl : {x,B} ⊦ x∈ uopair x B❙
   uopairIr : {A,y} ⊦ y∈ uopair A y❙

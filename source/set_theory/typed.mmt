@@ -1,6 +1,6 @@
 namespace latin:/❚
 
-fixmeta ?SetBase❚
+fixmeta ?DependentFOLEQDescND❚
 
 // TODO:
   - rework this file (letters, precs, ...)
@@ -29,7 +29,7 @@ theory TypedZFBase =
   // Elem❙
   Elem : set ⟶ type❘ = [A] Class [x] x∈A❙
   elem : {A,x} ⊦ x∈A ⟶ Elem A❘
-    = [A,x,p] celem ([u] u∈A) x p❘ # elem 2 3❙
+    = [A,x,p] celem ([u] u∈A) x p❘# elem 2 3❙
   which : {A} Elem A ⟶ set❘
     = [A,e] cwhich ([x] x∈A) e❘# which 2 prec 50❙
   why : {A,e:Elem A} ⊦ which e ∈ A❘
@@ -55,4 +55,11 @@ theory TypedZFBase =
 theory TypedZF =
   include ?TypedZFBase❙
   include ?ZF❙
+❚
+
+theory TypedZFFeatures =
+  include ?TypedZF❙
+  include ?ZFFeatures❙
+  
+  // AS: maybe include TBigUnion and TBigIntersection❙
 ❚

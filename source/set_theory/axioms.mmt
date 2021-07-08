@@ -1,6 +1,6 @@
 namespace latin:/❚
 
-fixmeta ?SetBase❚
+fixmeta ?DependentFOLEQDescND❚
 
 // TODO:
   - TODOs in theories
@@ -8,13 +8,9 @@ fixmeta ?SetBase❚
   - maybe add more axioms for TG, NBG and more?
 ❚
 
-// AS: ExistenceAx is not needed anymore❚
-theory ExistenceAx =
-  // There exists at least one set❙
-  existence_axiom : ⊦ ∃ͧ[A] true❙
-❚
-
 theory PairingAx =
+  include ?SetBase❙
+  
   // The unordered pair {A,B} consists of exactly the two elements A and B❙
   isuopair = [A,B,Z] ∀ͧ[x] x∈Z ⇔ x =ͧ A ∨ x =ͧ B❙
 
@@ -30,6 +26,8 @@ theory PairingAx =
 ❚
 
 theory UnionAx =
+  include ?SetBase❙
+  
   // The big union of a family of sets A consists of all the elements x of its sets X.❙
   isbigunion = [A,Z] ∀ͧ[x] x∈Z ⇔ ∃ͧ[X] X∈A ∧ x∈X❙
 
@@ -45,6 +43,8 @@ theory UnionAx =
 ❚
 
 theory PowersetAx =
+  include ?SetBase❙
+  
   // Each subset B of the set A is an element of the powerset Z❙
   ispowerset = [A,Z] ∀ͧ[B] B∈Z ⇔ (∀ͧ[x] x∈B ⇒ x∈A)❙
 
@@ -66,6 +66,8 @@ theory PowersetAx =
 ❚
 
 theory ComprehensionAx =
+  include ?SetBase❙
+  
   // The resulting set consists of all elements x of A that satisfy predicate P❙
   iscomprehension = [A,P,Z] ∀ͧ[x] x∈Z ⇔ x∈A ∧ (P x)❙
 
@@ -83,6 +85,7 @@ theory ComprehensionAx =
 ❚
 
 theory ReplacementAx =
+  include ?SetBase❙
   include ?FunctionDefinitions❙
   
   // The resulting set is a replacement for A regarding function f❙
@@ -101,6 +104,8 @@ theory ReplacementAx =
 ❚
 
 theory RegularityAx =
+  include ?SetBase❙
+  
   // Every set has a "smallest" element❙
   isregular = ∀ͧ[A](∃ͧ[u] u∈A) ⇒ ∃ͧ[B] B∈A ∧ ¬(∃ͧ[x] x∈A ∧ x∈B)❙
 
@@ -108,8 +113,9 @@ theory RegularityAx =
 ❚
 
 theory ChoiceAx =
+  include ?SetBase❙
   include ?EmptyDefinitions❙
-  include ?Disjoint❙
+  include ?DisjointDefinitions❙
 
   // There exists a set C with an unique element c that each set X of M has in common❙
   ischoice = [A,C] ∀ͧ[X] X∈A ⇒ ∃͛ͧ[c]c∈C∧c∈X❙

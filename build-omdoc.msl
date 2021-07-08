@@ -4,6 +4,7 @@
 
 server on 8080
 
+log html build.html
 file build_config.msl
 
 // Build the mmt files, tricky due to mutual dependencies
@@ -11,20 +12,18 @@ file build_config.msl
 
 file source/fundamentals/build.msl
 
-file source/type_theory/build.msl
-
-file source/logic/build.msl
+file source/logic/buildPart1.msl
+file source/type_theory/buildPart1.msl
+file source/logic/buildPart2.msl
 
 build MMT/LATIN2 mmt-omdoc category_theory
 
-// AS: some theories of type_theory are dependent on logic (and category_theory). Therefore I build it twice.
-file source/type_theory/build.msl
+file source/type_theory/buildPart2.msl
 
 file source/set_theory/build.msl
 
 // AS: maybe change the order
-// AS: since modal does not work for now, these cannot be built as well
-// file source/logic_extensions/build.msl
+file source/logic_extensions/build.msl
 
 build MMT/LATIN2 mmt-omdoc topology
 // AS: logic-to-type-theory leads to an error
