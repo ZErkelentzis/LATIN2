@@ -36,4 +36,9 @@ build MMT/LATIN2 mmt-omdoc logic/booleans.mmt
 // dependent on pl, sfol and booleans
 build MMT/LATIN2 mmt-omdoc logic/pl-sfol.mmt
 
+build MMT/LATIN2 mmt-omdoc logic/modal.mmt
+build MMT/LATIN2 mmt-omdoc logic/multimodal.mmt
+build MMT/LATIN2 mmt-omdoc logic/dynamic.mmt
+
+
 

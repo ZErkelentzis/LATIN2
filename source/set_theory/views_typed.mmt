@@ -62,15 +62,15 @@ theory SimpleProductsZF =
   simppi2 = [A,B,e: Elem (A×ͧB)] elem ((which e)₂ͧ) ((why e) prodEr)❙
 	
   // AS: pretty annoying proof since I need the special form of simppi1 (simppair a b)❙
-  compute1 = [A,B,a: Elem A,b: Elem B] eq/trans ((eq_which (prodI (why a) (why b)))
+  compute1 = [A,B,a: Elem A,b: Elem B] ((eq_which (prodI (why a) (why b)))
     ucongP ([x] which (elem ((which (elem (which a,ͧwhich b) (prodI (why a) (why b))))₁ͧ)
     ((why elem (which a,ͧwhich b) (prodI (why a) (why b))) prodEl)) =ͧ (x₁ͧ))
-    (eq_which (why (elem (which a,ͧwhich b) (prodI (why a) (why b))) prodEl))) compL❙
+    (eq_which (why (elem (which a,ͧwhich b) (prodI (why a) (why b))) prodEl))) eq/trans compL❙
     
-  compute2 = [A,B,a: Elem A,b: Elem B] eq/trans ((eq_which (prodI (why a) (why b)))
+  compute2 = [A,B,a: Elem A,b: Elem B] ((eq_which (prodI (why a) (why b)))
     ucongP ([x] which (elem ((which (elem (which a,ͧwhich b) (prodI (why a) (why b))))₂ͧ)
     ((why elem (which a,ͧwhich b) (prodI (why a) (why b))) prodEr)) =ͧ (x₂ͧ))
-    (eq_which (why (elem (which a,ͧwhich b) (prodI (why a) (why b))) prodEr))) compR❙
+    (eq_which (why (elem (which a,ͧwhich b) (prodI (why a) (why b))) prodEr))) eq/trans compR❙
 ❚
 
 theory TypedPredicateSubtypesZF =
@@ -86,8 +86,8 @@ theory TypedPredicateSubtypesZF =
   predsubEl = [A,P,e] elem (which e) ((why e) filterEl)❙
   predsubEr = [A,P,e] (why e) filterEr dandEr❙
   
-  predsubElBeta = [A,P,a: Elem A,p: ⊦ P a] eq/trans (eq_which 
-    ((why (elem (which a) filterI (why a) (dandI (why a) (elem_id EqcongEr P p)))) filterEl))
+  predsubElBeta = [A,P,a: Elem A,p: ⊦ P a] (eq_which ((why (elem (which a) 
+    filterI (why a) (dandI (why a) (elem_id EqcongEr P p)))) filterEl)) eq/trans
     (eq_which (filterI (why a) (dandI (why a) (elem_id EqcongEr P p))))❙
 ❚
 

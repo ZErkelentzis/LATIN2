@@ -61,22 +61,22 @@ theory PowerHOLND =
 
 // Diaconescu's theorem, following the Wikipedia article❚
 theory ClassicalViaChoice =
-  include ?HOL❙
+  include ?HOLND❙
   include ?Choice❙
-  Forbot = [F][x] F ∨ (x == ⊥).
-  Fortop = [F][x] F ∨ (x == ⊤).
+  Forbot = [F][x] F ∨ (x =ͭ ⊥)❙
+  Fortop = [F][x] F ∨ (x =ͭ ⊤)❙
   tnd : {F} ⊦ F ∨ (¬ F)❘
-      = [F] ∨E (rul_some (Forbot F) ⊥ (∨Ir eqrefl))
-        ([p: ⊦ F] ∨Il p)
-        ([p: ⊦ (some (Forbot F)) == ⊥] ∨E (rul_some (Fortop F) ⊤ (∨Ir eqrefl))
-                                   ([q: ⊦ F] ∨Il q)
-                                   ([q: ⊦ (some (Fortop F)) == ⊤] ∨Ir (¬I [r: ⊦ F]
+      = [F] (rul_some (Forbot F) ⊥ (trefl orIr)) orE
+        ([p: ⊦ F] p orIl)
+        ([p: ⊦ (some (Forbot F)) =ͭ ⊥] (rul_some (Fortop F) ⊤ (trefl orIr)) orE
+                                   ([q: ⊦ F] q orIl)
+                                   ([q: ⊦ (some (Fortop F)) =ͭ ⊤] (notI [r: ⊦ F]
                                      eq⊦ (eqtrans3
                                        (eqsym q)
-                                       (eqapp eqrefl (eqλ [x] top_unique (∨Il r) (∨Il r)))
+                                       (eqapp eqrefl (eqλ [x] top_unique (r orIl) (r orIl)))
                                        p
                                      ) ⊤I  
-                                   ))
+                                   ) orIl)
         )❙
 ❚
 

@@ -1,6 +1,6 @@
 namespace latin:/❚
 
-fixmeta latin:/?DependentFOLEQDescND❚
+fixmeta ?DependentFOLEQDescND❚
 
 theory SetDefinitions =
   set = term❙
@@ -121,7 +121,7 @@ theory FunctionDefinitions =
   fun2rel : (set ⟶ set) ⟶ (set ⟶ set ⟶ prop)❘
     = [f] [x,y] f x =ͧ y❙
   isfun_fun2rel : {f,A} ⊦ isfunction (fun2rel f) A❘
-    = [f,A] isfunctionI ([x,p] uexistsUniqueI urefl ([y,py] eq/trans urefl py))❙
+    = [f,A] isfunctionI ([x,p] uexistsUniqueI urefl ([y,py] py))❙
 ❚
 
 // AS: maybe add Cardinality as well❚ 

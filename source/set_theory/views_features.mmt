@@ -263,14 +263,14 @@ theory OrderedBigUnionImage =
 
 view CartImage : ?CartesianProduct → ?OrderedBigUnionImage =
   include ?OrderedPairs❙
-  prod = [A,B] ⋃(image ([x] image ([y] x,y) B) A)❙
+  prod = [A,B] ⋃(image ([x] image ([y] x,ͧy) B) A)❙
   prodI = [A,B,a,b,pa,pb] bigunionI (imageI pa) (imageI pb)❙
   prodEl = [A,B,p,pp] pp bigunionE ([X,qa,qb] qa imageE uexistsE 
     ([x,px] in_eq qb (eq/sym (px andEr)) imageE uexistsE
-    ([y,py] eq_in ((py andEr) ucongP ([z] z₁ =ͧ x) compL) (px andEl))))❙
+    ([y,py] eq_in ((py andEr) ucongP ([z] z₁ͧ =ͧ x) compL) (px andEl))))❙
   prodEr = [A,B,p,pp] pp bigunionE ([X,qa,qb] qa imageE uexistsE 
     ([x,px] in_eq qb (eq/sym (px andEr)) imageE uexistsE
-    ([y,py] eq_in ((py andEr) ucongP ([z] z₂ =ͧ y) compR) (py andEl))))❙
+    ([y,py] eq_in ((py andEr) ucongP ([z] z₂ͧ =ͧ y) compR) (py andEl))))❙
   prodE = [A,B,p,pp] pp bigunionE ([X,qa,qb] qa imageE uexistsE 
     ([x,px] in_eq qb (eq/sym (px andEr)) imageE uexistsE
     ([y,py] uexistsI x (uexistsI y (eq/sym (py andEr))))))❙

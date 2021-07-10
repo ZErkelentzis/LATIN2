@@ -17,7 +17,7 @@ theory PairingAx =
   pairing_axiom : {A,B} ⊦ ∃ͧ[Z] isuopair A B Z❙
   pairing_unique : {A,B} ⊦ ∃͛ͧ[Z] isuopair A B Z❘ 
     = [A,B] pairing_axiom uexistsE ([z,pz] uexistsUniqueI pz
-      ([y,py] extensionalityI ([x] equiv_equivalence/trans (pz uforallE x)
+      ([y,py] extensionalityI ([x] (pz uforallE x) equiv_equivalence/trans
       (equiv_equivalence/sym (py uforallE x)))))❙
   pairingAxI : {A,B,Z,x} ⊦ isuopair A B Z ⟶ ⊦ x =ͧ A ∨ x =ͧ B ⟶ ⊦ x∈Z❘
     = [A,B,Z,x,p,q] p uforallE x equivEr q❙
@@ -34,7 +34,7 @@ theory UnionAx =
   union_axiom : {A} ⊦ ∃ͧ[Z] isbigunion A Z❙
   union_unique : {A} ⊦ ∃͛ͧ[Z] isbigunion A Z❘
     = [A] union_axiom uexistsE ([z,pz] uexistsUniqueI pz
-      ([y,py] extensionalityI ([x] equiv_equivalence/trans (pz uforallE x)
+      ([y,py] extensionalityI ([x] (pz uforallE x) equiv_equivalence/trans
       (equiv_equivalence/sym (py uforallE x)))))❙
   unionAxI : {A,Z,X,x} ⊦ isbigunion A Z ⟶ ⊦ X∈A ⟶ ⊦ x∈X ⟶ ⊦ x∈Z❘
     = [A,Z,X,x,p,pa,pb] p uforallE x equivEr (uexistsI X (andI pa pb))❙
@@ -51,7 +51,7 @@ theory PowersetAx =
   powerset_axiom : {A} ⊦ ∃ͧ[Z] ispowerset A Z❙
   powerset_unique : {A} ⊦ ∃͛ͧ[Z] ispowerset A Z❘
     = [A] powerset_axiom uexistsE ([z,pz] uexistsUniqueI pz
-      ([y,py] extensionalityI ([B] equiv_equivalence/trans (pz uforallE B)
+      ([y,py] extensionalityI ([B] (pz uforallE B) equiv_equivalence/trans
       (equiv_equivalence/sym (py uforallE B)))))❙
 
   // AS: This definition is dependent on ⊆. So maybe use the alternative definition.❙
@@ -74,7 +74,7 @@ theory ComprehensionAx =
   comprehension_axiom : {A,P} ⊦ ∃ͧ[Z] iscomprehension A P Z❙
   comprehension_unique : {A,P} ⊦ ∃͛ͧ[Z] iscomprehension A P Z❘
     = [A,P] comprehension_axiom uexistsE ([z,pz] uexistsUniqueI pz
-      ([y,py] extensionalityI ([x] equiv_equivalence/trans (pz uforallE x)
+      ([y,py] extensionalityI ([x] (pz uforallE x) equiv_equivalence/trans
       (equiv_equivalence/sym (py uforallE x)))))❙
   comprehensionAxI : {A,P,Z,x} ⊦ iscomprehension A P Z ⟶ ⊦ x∈A ⟶ ⊦ P x ⟶ ⊦ x∈Z❘
     = [A,P,Z,x,p,pa,pb] p uforallE x equivEr (andI pa pb)❙
@@ -94,7 +94,7 @@ theory ReplacementAx =
   replacement_axiom : {f} ⊦ ∀ͧ[A] isfunction f A ⇒ ∃ͧ[Z] isreplacement f A Z❙
   replacement_unique : {f,A} ⊦ isfunction f A ⟶ ⊦ ∃͛ͧ[Z] isreplacement f A Z❘
     = [f,A,p] replacement_axiom uforallE A implE p uexistsE ([z,pz] uexistsUniqueI pz
-      ([y,py] extensionalityI ([x] equiv_equivalence/trans (pz uforallE x)
+      ([y,py] extensionalityI ([x] (pz uforallE x) equiv_equivalence/trans
       (equiv_equivalence/sym (py uforallE x)))))❙
   // AS: do I need isfunction f A here?❙
   replacementAxI : {f,A,Z,y} ⊦ isfunction f A ⟶ ⊦ isreplacement f A Z ⟶ ⊦ (∃ͧ[x] x∈A ∧ f x y) ⟶ ⊦ y∈Z❘

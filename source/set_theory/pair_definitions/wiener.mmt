@@ -25,7 +25,7 @@ theory WienerPairs =
     ([ta] (in_eq uopairIl ta) uopairE ([ua] in_eq pb (eq/sym (singleton_inj ua)))
     ([ub] empty_prop notE (uexistsI a (in_eq singletonI ub)) inconE))
     ([tb] (issingletonI tb) uexistsUniqueE ([z,pz,qz] empty_prop notE (uexistsI a
-    (in_eq singletonI (eq/trans (eq/sym (qz (singleton a) uopairIl)) (qz ∅ uopairIr)))) inconE))))))))
+    (in_eq singletonI ((eq/sym (qz (singleton a) uopairIl)) eq/trans (qz ∅ uopairIr)))) inconE))))))))
     ([q] bigunionI (filterI (bigunionI (bigunionI uopairIl uopairIl) singletonI)
     (uexistsI b urefl)) q))❙
 
@@ -33,7 +33,7 @@ theory WienerPairs =
     ([p] p bigunionE ([X,pa,pb] (pa filterEl) bigunionE ([Y,qa,qb] qa bigunionE ([Z,ra,rb]
     ra uopairE ([sa] (pa filterEr) uexistsE ([y,py] (in_eq uopairIr (eq/sym py)) uopairE
     ([ta] (issingletonI (eq/sym ta)) uexistsUniqueE ([z,pz,qz] empty_prop notE (uexistsI y
-    (in_eq  singletonI (eq/trans (eq/sym (qz (singleton y) uopairIl)) (qz ∅ uopairIr)))) inconE))
+    (in_eq  singletonI ((eq/sym (qz (singleton y) uopairIl)) eq/trans (qz ∅ uopairIr)))) inconE))
     ([tb] in_eq pb (singleton_inj (singleton_inj (eq/sym tb))))))
     ([sb] in_eq pb ((in_eq qb ((in_eq rb sb) singletonE)) singletonE))))))
     ([q] bigunionI (filterI (bigunionI (bigunionI uopairIr singletonI) singletonI)

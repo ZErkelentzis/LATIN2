@@ -3,10 +3,12 @@ namespace latin:/❚
 fixmeta ?DependentFOLEQDescND❚
 
 theory NatNums =
+  include ?UnionSingleton❙
+  include ?Adjoin❘ = ?AdjoinUnion❙
   include ?ZFFeatures❙
 	
   // successor function❙
-  succ : set ⟶ set❘# s 1❘ = [X] adjoint X X❙
+  succ : set ⟶ set❘# s 1❘ = [X] adjoin X X❙
 
   // some numbers❙
   zero : set❘# z❘ = ∅❙
@@ -17,17 +19,17 @@ theory NatNums =
   one_prop : ⊦ one =ͧ (singleton ∅)❘
     = union_comm ucongP ([x] x =ͧ (singleton ∅)) union_empty❙
   zero_neq_one : ⊦ z =ͧ one ⟶ ⊦ false❘
-    = [p] empty_prop isemptyE (in_eq adjointIr (eq/sym p)) inconE❙
+    = [p] empty_prop isemptyE (in_eq adjoinIr (eq/sym p)) inconE❙
   two_eq : ⊦ two =ͧ uopair z one❘
-    = extensionalityI ([x] equivI ([p] p adjointE 
+    = extensionalityI ([x] equivI ([p] p adjoinE 
       ([pa] eq_in ((in_eq pa one_prop) singletonE) uopairIl) 
       ([pb] eq_in pb uopairIr))
-      ([q] q uopairE ([qa] eq_in qa (adjointIl adjointIr))
-      ([qb] eq_in qb adjointIr)))❙
+      ([q] q uopairE ([qa] eq_in qa (adjoinIl adjoinIr))
+      ([qb] eq_in qb adjoinIr)))❙
   
   // A contains the (intended) natural numbers❙
   has_nats : set ⟶ prop❘
-    = [A] z∈A ∧ ∀ͧ[X] X∈A ⇒ s X ∈A❙
+    = [A] z∈A ∧ ∀ͧ[X] X∈A ⇒ (s X) ∈A❙
     
   // Axiom of infinity would be ∃ͧ[X] has_nats X❙
 ❚
