@@ -1,0 +1,37 @@
+namespace latin:/❚
+
+fixmeta ?DependentFOLEQDescND❚
+
+theory Bools =
+  include ?NatNums❙
+  include ?TypedZFFeatures❙
+  
+  // classical booleans❙
+  cbool : set❘ = uopair z one❙
+  cfalse : Elem cbool❘# ⊥ͨ❘
+    = elem z uopairIl❙
+  ctrue : Elem cbool❘# ⊤ͨ❘
+    = elem one uopairIr❙
+  
+  // AS: I added these cause MMT didn't seem able to infer it correctly otherwise❙
+  cfalse_eq : ⊦ which ⊥ͨ =ͧ z❘
+    = eq_which uopairIl❘ role Simplify❙
+  ctrue_eq : ⊦ which ⊤ͨ =ͧ one❘
+    = eq_which uopairIr❘ role Simplify❙
+  
+  cons : ⊦ ¬ z =ͧ one❘
+    = notI ([pf] zero_neq_one pf falseE)❙
+  ccons : ⊦ ¬ (⊥ͨ Eq ⊤ͨ)❘
+    = notI ([pf] cons notE pf)❙
+  ctnd : {b: Elem cbool} ⊦ (b Eq ⊥ͨ) ∨ (b Eq ⊤ͨ)❘
+    = [b] (why b) uopairE ([p] p orIl) ([q] q orIr)❙ 
+  
+  // if then else❙
+  // AS: I don't have something like case in LATIN❙
+  ifte : {A} Elem cbool ⟶ Elem A ⟶ Elem A ⟶ Elem A❙
+  ifte0 : {A,a: Elem A,b: Elem A} ⊦ ifte A ⊥ͨ a b Eq b❙
+  ifte1 : {A,a: Elem A,b: Elem A} ⊦ ifte A ⊤ͨ a b Eq a❙
+  
+  // intuitionistic booleans❙
+  // TODO❙
+❚

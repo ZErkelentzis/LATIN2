@@ -23,7 +23,7 @@ theory Symmetry =
 
 theory Transitivity =
   include ?Relation❙
-  trans    : {x,y,z} x$y ⟶ y$z ⟶ x$z❘# 4 %n 5❙
+  trans    : {x,y,z} x$y ⟶ y$z ⟶ x$z❘# 4 trans 5❙
   trans3   : {w,x,y,z} w$x ⟶ x$y ⟶ y$z ⟶ w$z❘
            = [w,x,y,z,p,q,r] p trans q trans r❙
   trans4   : {v,w,x,y,z} v$w ⟶ w$x ⟶ x$y ⟶ y$z ⟶ v$z❘

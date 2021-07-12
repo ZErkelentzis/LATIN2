@@ -82,49 +82,46 @@ theory RelationDefinitions =
     = [f,A] ∀ͧ[x] x∈A ⇒ ∃ͧ[y] f x y❙
   islefttotalI : {f,A} ({x} ⊦ x∈A ⟶ ⊦ ∃ͧ[y] f x y) ⟶ ⊦ islefttotal f A❘
     = [f,A,Q] uforallI ([x] implI ([p] Q x p))❙
-  islefttotalE : {f,A} ⊦ islefttotal f A ⟶ {x} ⊦ x∈A ⟶ ⊦ ∃ͧ[y] f x y❘
+  islefttotalE : {f,A} ⊦ islefttotal f A ⟶ {x} ⊦ x∈A ⟶ ⊦ ∃ͧ[y] f x y❘# 3 islefttotalE 4 5❘
     = [f,A,p,x,q] p uforallE x implE q❙
   
   isrighttotal : (set ⟶ set ⟶ prop) ⟶ set ⟶ prop❘
     = [f,B] ∀ͧ[y] y∈B ⇒ ∃ͧ[x] f x y❙
   isrighttotalI : {f,B} ({y} ⊦ y∈B ⟶ ⊦ ∃ͧ[x] f x y) ⟶ ⊦ isrighttotal f B❘
     = [f,B,Q] uforallI ([y] implI ([p] Q y p))❙
-  isrighttotalE : {f,B} ⊦ isrighttotal f B ⟶ {y} ⊦ y∈B ⟶ ⊦ ∃ͧ[x] f x y❘
+  isrighttotalE : {f,B} ⊦ isrighttotal f B ⟶ {y} ⊦ y∈B ⟶ ⊦ ∃ͧ[x] f x y❘# 3 isrighttotalE 4 5❘
     = [f,B,p,y,q] p uforallE y implE q❙  
   
   isleftunique : (set ⟶ set ⟶ prop) ⟶ prop❘
     = [f] ∀ͧ[x]∀ͧ[y]∀ͧ[z] (f x y ∧ f z y) ⇒ x =ͧ z❙
   isleftuniqueI : {f} ({x,y,z} ⊦ f x y ∧ f z y ⟶ ⊦ x =ͧ z) ⟶ ⊦ isleftunique f❘
     = [f,Q] uforallI ([x] uforallI ([y] uforallI ([z] implI ([p] Q x y z p))))❙
-  isleftuniqueE : {f} ⊦ isleftunique f ⟶ {x,y,z} ⊦ f x y ∧ f z y ⟶ ⊦ x =ͧ z❘
+  isleftuniqueE : {f} ⊦ isleftunique f ⟶ {x,y,z} ⊦ f x y ∧ f z y ⟶ ⊦ x =ͧ z❘# 2 isleftuniqueE 3 4 5 6❘
     = [f,p,x,y,z,q] p uforallE x uforallE y uforallE z implE q❙
     
   isrightunique : (set ⟶ set ⟶ prop) ⟶ prop❘
     = [f] ∀ͧ[x]∀ͧ[y]∀ͧ[z] (f x y ∧ f x z) ⇒ y =ͧ z❙
   isrightuniqueI : {f} ({x,y,z} ⊦ f x y ∧ f x z ⟶ ⊦ y =ͧ z) ⟶ ⊦ isrightunique f❘
     = [f,Q] uforallI ([x] uforallI ([y] uforallI ([z] implI ([p] Q x y z p))))❙
-  isrightuniqueE : {f} ⊦ isrightunique f ⟶ {x,y,z} ⊦ f x y ∧ f x z ⟶ ⊦ y =ͧ z❘
+  isrightuniqueE : {f} ⊦ isrightunique f ⟶ {x,y,z} ⊦ f x y ∧ f x z ⟶ ⊦ y =ͧ z❘# 2 isrightuniqueE 3 4 5 6❘
     = [f,p,x,y,z,q] p uforallE x uforallE y uforallE z implE q❙
-❚
-
-theory FunctionDefinitions =
-  include ?SetDefinitions❙
-  // AS: isfunction should not be used anymore❙
-  // AS: maybe rename as isfunction_on❙
+    
+  // AS: isfunction should not be used anymore, but it might be useful sometime❙
   isfunction : (set ⟶ set ⟶ prop) ⟶ set ⟶ prop❘
-    = [f,A] ∀ͧ[x] x∈A ⇒ ∃͛ͧ[y] f x y❙
-  isfunctionI : {f,A} ({x} ⊦ x∈A ⟶ ⊦ ∃͛ͧ[y] f x y) ⟶ ⊦ isfunction f A❘
-    = [f,A,Q] uforallI ([x] implI ([p] Q x p))❙
-  isfunctionE : {f,A} ⊦ isfunction f A ⟶ {x} ⊦ x∈A ⟶ ⊦ ∃͛ͧ[y] f x y❘
-    = [f,A,p,x,q] p uforallE x implE q❙
+    = [f,A] islefttotal f A ∧ isrightunique f❙
+  isfunctionI : {f,A} ⊦ islefttotal f A ⟶ ⊦ isrightunique f ⟶ ⊦ isfunction f A❘
+    = [f,A,pl,pr] andI pl pr❙
+  isfunctionEl : {f,A} ⊦ isfunction f A ⟶ ⊦ islefttotal f A❘
+    = [f,A,p] p andEl❙
+  isfunctionEr : {f,A} ⊦ isfunction f A ⟶ ⊦ isrightunique f❘
+    = [f,A,p] p andEr❙
   
   fun2rel : (set ⟶ set) ⟶ (set ⟶ set ⟶ prop)❘
     = [f] [x,y] f x =ͧ y❙
   isfun_fun2rel : {f,A} ⊦ isfunction (fun2rel f) A❘
-    = [f,A] isfunctionI ([x,p] uexistsUniqueI urefl ([y,py] py))❙
+    = [f,A] andI (islefttotalI ([x,p] uexistsI (f x) urefl))
+      (isrightuniqueI ([x,y,z,p] (eq/sym (p andEl)) eq/trans (p andEr)))❙
 ❚
-
-// AS: maybe add Cardinality as well❚ 
 
 theory SetBase =
   include ?SetDefinitions❙

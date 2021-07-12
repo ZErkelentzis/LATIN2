@@ -3,6 +3,8 @@ namespace latin:/❚
 fixmeta ?DependentFOLEQDescND❚
 
 theory NatNums =
+  // AS: The include of the view should not be needed. But for performance
+    reasons I had to remove it from ZFFeatures❙
   include ?UnionSingleton❙
   include ?Adjoin❘ = ?AdjoinUnion❙
   include ?ZFFeatures❙

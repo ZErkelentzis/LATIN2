@@ -21,7 +21,7 @@ build MMT/LATIN2 mmt-omdoc logic/sfol.mmt
 
 // dependent on fol (and some kind of pl)
 build MMT/LATIN2 mmt-omdoc logic/stfol.mmt
-build MMT/LATIN2 mmt-omdoc logic/pl-tableaux.mmt
+build MMT/LATIN2 mmt-omdoc logic/tableaux.mmt
 build MMT/LATIN2 mmt-omdoc logic/fol_hilbert.mmt
 // AS: this is also dependent on ur:?DiagramOperators which fails for me -> LOIF
 // build MMT/LATIN2 mmt-omdoc logic/fol-diagop.mmt

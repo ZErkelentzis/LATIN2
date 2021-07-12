@@ -37,7 +37,7 @@ theory TypedZFBase =
   eq_which : {A,x,p: ⊦ x∈A} ⊦ which (elem x p) =ͧ x❘
     = [A,x,p] ceq_which❙
   	
-  Eq : {A} Elem A ⟶ Elem A ⟶ prop❘
+  Eq : {A} Elem A ⟶ Elem A ⟶ prop❘# 2 Eq 3❘
     = [A,e,d] which e =ͧ which d❙
   EqcongEr : {P,c,d,F: Class P ⟶ prop} ⊦ (cwhich P c =ͧ cwhich P d) ⟶ ⊦ F d ⟶ ⊦ F c❘# 5 EqcongEr 4 6❘
     = [P,c,d,F,p,q] (eq/sym p) EqcongEl F q❙
@@ -48,7 +48,7 @@ theory TypedZFBase =
   EqcongB : {A,B,F: Elem A ⟶ Elem B,G: Elem A ⟶ Elem B} ({e} ⊦ Eq B (F e) (G e)) ⟶ {P: (Elem A ⟶ Elem B) ⟶ prop} ⊦ P F ⟶ ⊦ P G❙
   
   // AS: this is unnecessary but it makes the proofs for me a bit easier to understand❙
-  elem_id : {A,e: Elem A} ⊦ Eq A (elem (which e) (why e)) e❘
+  elem_id : {A,e: Elem A} ⊦ (elem (which e) (why e)) Eq e❘
     = [A,e] ceq_which❙
 ❚
 
