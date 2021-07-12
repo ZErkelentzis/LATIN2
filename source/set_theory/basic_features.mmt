@@ -35,7 +35,7 @@ theory Filter =
 
 theory Replace =
   include ?SetBase❙  
-  include ?FunctionDefinitions❙
+  include ?RelationDefinitions❙
   
   // AS: is 1 map 2 really right?❙
   replace  : {A:set, f:set ⟶ set} ⊦ (isfunction (fun2rel f) A) ⟶ set❙

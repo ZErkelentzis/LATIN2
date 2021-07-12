@@ -86,7 +86,7 @@ theory ComprehensionAx =
 
 theory ReplacementAx =
   include ?SetBase❙
-  include ?FunctionDefinitions❙
+  include ?RelationDefinitions❙
   
   // The resulting set is a replacement for A regarding function f❙
   isreplacement = [f,A,Z] ∀ͧ[y] y∈Z ⇔ (∃ͧ[x] x∈A ∧ f x y)❙  

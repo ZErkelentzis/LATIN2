@@ -106,7 +106,7 @@ theory RelationDefinitions =
   isrightuniqueE : {f} ⊦ isrightunique f ⟶ {x,y,z} ⊦ f x y ∧ f x z ⟶ ⊦ y =ͧ z❘# 2 isrightuniqueE 3 4 5 6❘
     = [f,p,x,y,z,q] p uforallE x uforallE y uforallE z implE q❙
     
-  // AS: isfunction should not be used anymore, but it might be useful sometime❙
+  // a function is lefttotal and rightunique❙
   isfunction : (set ⟶ set ⟶ prop) ⟶ set ⟶ prop❘
     = [f,A] islefttotal f A ∧ isrightunique f❙
   isfunctionI : {f,A} ⊦ islefttotal f A ⟶ ⊦ isrightunique f ⟶ ⊦ isfunction f A❘

@@ -5,7 +5,7 @@ file ../../build_config.msl
 // some parts depend on type_theory!
 
 // AS: change files!
-build MMT/LATIN2 mmt-omdoc set_theory/setfol.mmt
+build MMT/LATIN2 mmt-omdoc set_theory/setbase.mmt
 build MMT/LATIN2 mmt-omdoc set_theory/axioms.mmt
 build MMT/LATIN2 mmt-omdoc set_theory/basic_sets.mmt
 build MMT/LATIN2 mmt-omdoc set_theory/basic_operations.mmt

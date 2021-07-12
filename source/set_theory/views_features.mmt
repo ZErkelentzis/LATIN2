@@ -49,7 +49,7 @@ view PowersetFromAxiom : ?Powersets → ?PowersetAx =
 
 view ReplaceFromAxiom : ?Replace → ?ReplacementAx =
   include ?SetBase❙
-  include ?FunctionDefinitions❙
+  include ?RelationDefinitions❙
   
   replace = [A,f,p] the ([Z] isreplacement (fun2rel f) A Z) replacement_unique p❙
   replaceI = [A,f,x,p] replacementAxI isfun_fun2rel (the_ax ([Z] isreplacement (fun2rel f) A Z) 

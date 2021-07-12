@@ -21,7 +21,7 @@ build MMT/LATIN2 mmt-omdoc type_theory/type_erasure.mmt
 // dependent on function_types and undefinedness
 build MMT/LATIN2 mmt-omdoc type_theory/quotation.mmt
 
-// dependent on logic from part1
+// dependent on logic/fol_like
 // AS: yields an error (due to changes I made)
 build MMT/LATIN2 mmt-omdoc type_theory/power_types.mmt
 
