@@ -3,47 +3,8 @@ file ../../build_config.msl
 // logic
 // depends in general on fundamentals (these dependencies are not mentioned here)!
 
-// no dependencies
-// AS: drt needs some scala stuff which fails for me -> LOIF
-// build MMT/LATIN2 mmt-omdoc logic/drt.mmt
-build MMT/LATIN2 mmt-omdoc logic/pl.mmt
-
-// dependent on pl
-build MMT/LATIN2 mmt-omdoc logic/metalogic.mmt
-
-build MMT/LATIN2 mmt-omdoc logic/dependent_pl.mmt
-build MMT/LATIN2 mmt-omdoc logic/pl_hilbert.mmt
-build MMT/LATIN2 mmt-omdoc logic/pl-views.mmt
-
-// AS: yields an error; fol now dependent on dependent_pl
-build MMT/LATIN2 mmt-omdoc logic/fol.mmt
-build MMT/LATIN2 mmt-omdoc logic/sfol.mmt
-
-// dependent on fol (and some kind of pl)
-build MMT/LATIN2 mmt-omdoc logic/stfol.mmt
-build MMT/LATIN2 mmt-omdoc logic/tableaux.mmt
-build MMT/LATIN2 mmt-omdoc logic/fol_hilbert.mmt
-// AS: this is also dependent on ur:?DiagramOperators which fails for me -> LOIF
-// build MMT/LATIN2 mmt-omdoc logic/fol-diagop.mmt
-
-// dependent on fol and drt
-// AS: yields an error -> LOIF
-// build MMT/LATIN2 mmt-omdoc logic/drt-fol.mmt
-
-// dependent on sfol
-build MMT/LATIN2 mmt-omdoc logic/booleans.mmt
-
-// dependent on pl, sfol and booleans
-build MMT/LATIN2 mmt-omdoc logic/pl-sfol.mmt
-
-// dependent on fundamentals, type_theory (function_types and power_types)
-// and files from before (these dependencies are not mentioned here)!
-// this order is kind of fixed
-// AS: yields an error
-build MMT/LATIN2 mmt-omdoc logic/hol.mmt
-build MMT/LATIN2 mmt-omdoc logic/hol_andrews.mmt
-
-build MMT/LATIN2 mmt-omdoc logic/modal.mmt
-build MMT/LATIN2 mmt-omdoc logic/multimodal.mmt
-build MMT/LATIN2 mmt-omdoc logic/dynamic.mmt
-
+file source/logic/propositional/build.msl
+file source/logic/metalogic/build.msl
+file source/logic/fol_like/build.msl
+file source/logic/hol_like/build.msl
+file source/logic/model_theory/build.msl

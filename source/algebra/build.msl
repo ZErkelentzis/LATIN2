@@ -3,29 +3,32 @@ file ../../build_config.msl
 // algebra
 // depends in general on fundamentals and logic (these dependencies are not mentioned here)!
 
-// this order is kind of strict
+// fixed order
 build MMT/LATIN2 mmt-omdoc algebra/sets.mmt
 build MMT/LATIN2 mmt-omdoc algebra/relations.mmt
 build MMT/LATIN2 mmt-omdoc algebra/magmas.mmt
 
-// dependent on the files above, but no fixed order
+// dependent on magmas
+// AS: yields an error
+build MMT/LATIN2 mmt-omdoc algebra/additive_magmas.mmt
 // AS: yields an error
 build MMT/LATIN2 mmt-omdoc algebra/groups.mmt
 // AS: yields an error
 build MMT/LATIN2 mmt-omdoc algebra/bands.mmt
+
+// dependent on magmas, sets and groups
 // AS: yields an error
 build MMT/LATIN2 mmt-omdoc algebra/ringoids.mmt
 
-// dependent on magmas
-// AS: yields an error
-build MMT/LATIN2 mmt-omdoc algebra/additive_magmas.mmt
-
-// dependent on files above
+// dependent on power_types, groups and ringoids
 // AS: yields an error
 build MMT/LATIN2 mmt-omdoc algebra/modules.mmt
+
+// dependent on power_types, topology and files from before
 // AS: yields an error
 build MMT/LATIN2 mmt-omdoc algebra/generated.mmt
 
-// these are left out for now
+// independent of the rest
 // build MMT/LATIN2 mmt-omdoc algebra/diagop-theories.mmt
+// dependent on informal and others (not completely checked by now)
 // build MMT/LATIN2 mmt-omdoc algebra/diagop-test.mmt

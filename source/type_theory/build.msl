@@ -3,37 +3,6 @@ file ../../build_config.msl
 // type_theory
 // depends in general on fundamentals (these dependencies are not mentioned here)!
 
-// no dependency
-// AS: yields an error (invalid unit)
-build MMT/LATIN2 mmt-omdoc type_theory/function_types.mmt
-build MMT/LATIN2 mmt-omdoc type_theory/nonempty.mmt
-build MMT/LATIN2 mmt-omdoc type_theory/predicate_subtypes.mmt
-// AS: yields an error (invalid unit)
-build MMT/LATIN2 mmt-omdoc type_theory/product_types.mmt
-build MMT/LATIN2 mmt-omdoc type_theory/quotient_types.mmt
-// AS: not sure if this is already finished; yields an error -> LOIF
-// build MMT/LATIN2 mmt-omdoc type_theory/quotient_types-equiv.mmt
-build MMT/LATIN2 mmt-omdoc type_theory/undefinedness.mmt
-
-// dependent on function_types
-build MMT/LATIN2 mmt-omdoc type_theory/type_erasure.mmt
-
-// dependent on function_types and undefinedness
-build MMT/LATIN2 mmt-omdoc type_theory/quotation.mmt
-
-// dependent on logic/fol_like
-// AS: yields an error (due to changes I made)
-build MMT/LATIN2 mmt-omdoc type_theory/power_types.mmt
-
-// dependent on category_theory and files from before
-build MMT/LATIN2 mmt-omdoc type_theory/endofunctors/endofunctors.mmt
-
-// dependent on endofunctors
-build MMT/LATIN2 mmt-omdoc type_theory/endofunctors/endomagmas.mmt
-
-// dependent on endomagmas
-build MMT/LATIN2 mmt-omdoc type_theory/endofunctors/collection_types.mmt
-
-// dependent on endofunctors and hol
-build MMT/LATIN2 mmt-omdoc type_theory/endofunctors/monads.mmt
+file source/type_theory/buildNoEndo.msl
+file source/type_theory/endofunctors/build.msl
 
