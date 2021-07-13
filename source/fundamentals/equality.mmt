@@ -19,7 +19,7 @@ theory UntypedEqualityND =
     rel = [x,y] ⊦ x =ͧ y❙
     refl = [x] urefl❙
     sym = [x,y,p] p ucongP ([u]u =ͧ x) urefl❙
-    trans = [x,y,z,p,q] q ucongP ([u]x =ͧ u) p❙
+    trans = [x,y,z,p,q] q ucongP ([u]x =ͧ u) p❘# 4 %n 5❙
     congT = [x,y,p,T] p ucongP ([u] T x =ͧ T u) urefl❙
   ❚
 ❚

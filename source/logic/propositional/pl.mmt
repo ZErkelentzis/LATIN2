@@ -42,7 +42,7 @@ theory EquivalenceND =
     refl = [F] equivI ([p]p) ([p]p)❙
     sym  = [F,G,p] equivI ([q] p equivEr q) ([q] p equivEl q)❙
     trans = [F,G,H,fg,gh] equivI ([f] gh equivEl (fg equivEl f))
-                                 ([h] fg equivEr (gh equivEr h))❙
+                                 ([h] fg equivEr (gh equivEr h))❘# 4 %n 5❙
   ❚
   total structure lindenbaum : ?EqualityType =
      carrier = prop❙
