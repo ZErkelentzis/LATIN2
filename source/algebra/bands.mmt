@@ -40,22 +40,22 @@ theory RightRegular =
 
 implicit view Regular2LeftNormal : ?Regular -> ?LeftNormal =
   include ?Band❙
-	regular = [x,y,z] leftregular1 congT [u]u∘z❙
+	regular = [x,y,z] leftregular1 tcongT [u]u∘z❙
 ❚
 
 implicit view LeftNormal2LeftRegular : ?LeftNormal -> ?LeftRegular =
   include ?Band❙
-	leftregular1 = [x,y,z] leftregular congT [u]u∘y❙
+	leftregular1 = [x,y,z] leftregular tcongT [u]u∘y❙
 ❚
 
 implicit view Regular2RightNormal : ?Regular -> ?RightNormal =
   include ?Band❙
-	regular = [x,y,z] ttrans3 assoc5 ((ttrans3 assoc4R rightregular1 assoc) congT [u]z∘u) assoc4R❙
+	regular = [x,y,z] ttrans3 assoc5 ((ttrans3 assoc4R rightregular1 assoc) tcongT [u]z∘u) assoc4R❙
 ❚
 
 implicit view RightNormal2RightRegular : ?RightNormal -> ?RightRegular =
   include ?Band❙
-	rightregular1 = [x,y,z] ttrans3 assoc4 ((assocR ttrans rightregular) congT [u] x∘u) assocR❙
+	rightregular1 = [x,y,z] ttrans3 assoc4 ((assocR ttrans rightregular) tcongT [u] x∘u) assocR❙
 ❚
 
 /T normal bands ❚
@@ -79,22 +79,22 @@ theory LeftCommutative =
 
 implicit view Normal2RightCommutative : ?Normal -> ?RightCommutative =
   include ?Band❙
-	normal = [x,y,z] leftnormal congT [u]u∘z❙
+	normal = [x,y,z] leftnormal tcongT [u]u∘z❙
 ❚
 
 implicit view Normal2LeftCommutative : ?Normal -> ?LeftCommutative =
   include ?Band❙
-	normal = [x,y,z] ttrans3 assoc (rightnormal congT [u]z∘u) assocR❙
+	normal = [x,y,z] ttrans3 assoc (rightnormal tcongT [u]z∘u) assocR❙
 ❚
 
 view RightCommutative2Semilattice : ?RightCommutative -> ?Semilattice =
   include ?Band❙
-	leftnormal = [x,y,z] comm congT [u]z∘u❙
+	leftnormal = [x,y,z] comm tcongT [u]z∘u❙
 ❚
 
 implicit view LeftCommutative2Semilattice : ?LeftCommutative -> ?Semilattice =
   include ?Band❙
-	rightnormal = [x,y,z] comm congT [u]u∘z❙
+	rightnormal = [x,y,z] comm tcongT [u]u∘z❙
 ❚
 
 /T views from regular to normal band theories ❚
@@ -107,7 +107,7 @@ implicit view LeftNormal2Normal : ?LeftNormal -> ?Normal =
 
 implicit view LeftRegular2RightCommutative : ?LeftRegular -> ?RightCommutative =
   include ?Band❙
-	leftregular = [x,z] ttrans4 assoc leftnormal assocR (idem congT [u]u∘x)❙
+	leftregular = [x,z] ttrans4 assoc leftnormal assocR (idem tcongT [u]u∘x)❙
 ❚
 
 implicit view RightNormal2Normal : ?RightNormal -> ?Normal =
@@ -118,7 +118,7 @@ implicit view RightNormal2Normal : ?RightNormal -> ?Normal =
 
 implicit view RightRegular2LeftCommutative : ?RightRegular -> ?LeftCommutative =
   include ?Band❙
-	rightregular = [y,z] ttrans3 rightnormal assoc (idem congT [u]y∘u)❙
+	rightregular = [y,z] ttrans3 rightnormal assoc (idem tcongT [u]y∘u)❙
 ❚
 
 /T rectangular bands (the axioms here already imply idempotency)❚

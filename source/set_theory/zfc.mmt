@@ -30,6 +30,17 @@ theory ZF =
   include ?Powersets❙// = ?PowersetFromAxiom❙
   include ?Filter❙// = ?FilterFromAxiom❙
   include ?Replace❙// = ?ReplaceFromAxiom❙
+  
+  // AS: maybe move this somewhere else; This could not be in regularity itself, since
+    it is dependent on unordered pairs, so maybe make a view or something❙
+  // special cases of regularity❙
+  in_acyclic : {A,B} ⊦ A∈B ⟶ ⊦ B∈A ⟶ ⊦ ⊥❘
+    = [A,B,p,q] regularity_axiom uforallE (uopair A B) implE (uexistsI A uopairIl)
+      uexistsE ([Z,pz] pz andEl uopairE
+      ([pa] (pz andEr) notE (uexistsI B (andI uopairIr (in_eq q (eq/sym pa)))) inconE)
+      ([pb] (pz andEr) notE (uexistsI A (andI uopairIl (in_eq p (eq/sym pb)))) inconE))❙
+  in_acyclic0 : {A} ⊦ A∈A ⟶ ⊦ ⊥❘
+    = [A,p] in_acyclic p p❙
 ❚
 
 // AS: maybe just add features to ZF directly❚

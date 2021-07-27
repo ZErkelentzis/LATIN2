@@ -70,12 +70,12 @@ theory Semigroup =
   assocR: {x,y,z} ⊦ x∘(y∘z) =ͭ (x∘y)∘z❘
         = [x,y,z] assoc tsym❙
   assoc4:  {w,x,y,z} ⊦ ((w∘x)∘y)∘z =ͭ w∘(x∘(y∘z))❘
-        =  [w,x,y,z] ttrans3 (assoc congT [u]u∘z) assoc (assoc congT [u]w∘u)❙
+        =  [w,x,y,z] ttrans3 (assoc tcongT [u]u∘z) assoc (assoc tcongT [u]w∘u)❙
   assoc4R: {w,x,y,z} ⊦ w∘(x∘(y∘z)) =ͭ ((w∘x)∘y)∘z❘
           = [w,x,y,z] assoc4 tsym❙
   assoc5: {v,w,x,y,z} ⊦ (((v∘w)∘x)∘y)∘z =ͭ v∘(w∘(x∘(y∘z)))❘
-        = [v,w,x,y,z] ttrans4 (assoc4 congT [u]u∘z) assoc
-                             (assoc congT [u]v∘u) (assoc congT [u]v∘(w∘u))❙
+        = [v,w,x,y,z] ttrans4 (assoc4 tcongT [u]u∘z) assoc
+                             (assoc tcongT [u]v∘u) (assoc tcongT [u]v∘(w∘u))❙
   
   realize ?PowerAssociative❙
   power_assoc = tforallI [x] assoc❙
@@ -201,16 +201,16 @@ theory Monoid =
               = [x,xˈ,p] andI (p andEr) (p andEl)❙
   inverse_unique : {x,x1,x2} ⊦ inverse x x1 ⟶ ⊦ inverse x x2 ⟶ ⊦ x1 =ͭ x2❘
                  = [x,x1,x2,p,q] ttrans3
-                   ((neutR tsym) ttrans (q andEl tsym congT [u]x1∘u))
+                   ((neutR tsym) ttrans (q andEl tsym tcongT [u]x1∘u))
                    assocR
-                   ((p andEr congT [u]u∘x2) ttrans neutL)❙
+                   ((p andEr tcongT [u]u∘x2) ttrans neutL)❙
 
   inverse_neutral : ⊦ inverse e e❘
                   = andI neutL neutL❙
   inverse_op : {x,y,xˈ,yˈ} ⊦ inverse x xˈ ⟶ ⊦ inverse y yˈ ⟶ ⊦ inverse (x∘y) (yˈ∘xˈ)❘
              = [x,y,xˈ,yˈ,p,q] andI
-             (ttrans3 assoc ((ttrans3 assocR (q andEl congT [u]u∘xˈ) neutL) congT [u]x∘u) (p andEl))
-             (ttrans3 assoc ((ttrans3 assocR (p andEr congT [u]u∘y) neutL) congT [u]yˈ∘u) (q andEr))
+             (ttrans3 assoc ((ttrans3 assocR (q andEl tcongT [u]u∘xˈ) neutL) tcongT [u]x∘u) (p andEl))
+             (ttrans3 assoc ((ttrans3 assocR (p andEr tcongT [u]u∘y) neutL) tcongT [u]yˈ∘u) (q andEr))
              ❙
 
   involution_inverse: {x} ⊦ involution x ⇔ inverse x x❘

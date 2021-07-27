@@ -15,12 +15,12 @@ theory EndoSemigroup =
         = [a,x,y,z] assoc tsym❙
 
   assoc4:  {a,w,x,y,z:tm &a} ⊦ ((w∘x)∘y)∘z =ͭ w∘(x∘(y∘z))❘
-        =  [a,w,x,y,z] ttrans3 (assoc congT [u]u∘z) assoc (assoc congT [u]w∘u)❙
+        =  [a,w,x,y,z] ttrans3 (assoc tcongT [u]u∘z) assoc (assoc tcongT [u]w∘u)❙
   assoc4R: {a,w,x,y,z:tm &a} ⊦ w∘(x∘(y∘z)) =ͭ ((w∘x)∘y)∘z❘
         = [a,w,x,y,z] assoc4 tsym❙
   assoc5: {a,v,w,x,y,z:tm &a} ⊦ (((v∘w)∘x)∘y)∘z =ͭ v∘(w∘(x∘(y∘z)))❘
-        = [a,v,w,x,y,z] ttrans4 (assoc4 congT [u]u∘z) assoc
-                              (assoc congT [u]v∘u) (assoc congT [u]v∘(w∘u))❙
+        = [a,v,w,x,y,z] ttrans4 (assoc4 tcongT [u]u∘z) assoc
+                              (assoc tcongT [u]v∘u) (assoc tcongT [u]v∘(w∘u))❙
 ❚
 
 theory EndoCommutative =

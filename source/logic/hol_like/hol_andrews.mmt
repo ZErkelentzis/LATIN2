@@ -14,7 +14,7 @@ theory HOLAndrews =
   trueI = trefl❙
   
   false = (λ[x]x) =ͭ λ[x]true❙
-  falseE = [p,H] eq_thm ((p congT ([u]u@H)) tsym) trueI❙
+  falseE = [p,H] eq_thm ((p tcongT ([u]u@H)) tsym) trueI❙
 
   not = [F]F =ͭ false❙
   notI = [F,P] propext ([q] P q false) [q] q falseE F❙
@@ -25,7 +25,7 @@ theory HOLAndrews =
   tforallE = [A,F,q,x] true_thm (apply_eq_l q x)❙
   
   and = [F,G] ∀ͭ[h:tm bool→bool→bool] h@F@G =ͭ h@true@true❙
-  andI = [F,G,p,q] tforallI [h] (thm_true p) (thm_true q) congT2 [u,v] h@u@v❙
+  andI = [F,G,p,q] tforallI [h] (thm_true p) (thm_true q) tcongT2 [u,v] h@u@v❙
   andEl = [F,G,p] true_thm (p tforallE λ[x]λ[y]x)❙
   andEr = [F,G,p] true_thm (p tforallE λ[x]λ[y]y)❙
   

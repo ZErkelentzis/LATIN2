@@ -6,5 +6,6 @@ file ../../build_config.msl
 file source/logic/propositional/build.msl
 file source/logic/metalogic/build.msl
 file source/logic/fol_like/build.msl
+// AS: drt needs to be added somewhere, probably here
 file source/logic/hol_like/build.msl
 file source/logic/model_theory/build.msl

@@ -15,7 +15,7 @@ theory PairingAx =
   isuopair = [A,B,Z] ∀ͧ[x] x∈Z ⇔ x =ͧ A ∨ x =ͧ B❙
 
   pairing_axiom : {A,B} ⊦ ∃ͧ[Z] isuopair A B Z❙
-  pairing_unique : {A,B} ⊦ ∃͛ͧ[Z] isuopair A B Z❘ 
+  pairing_unique : {A,B} ⊦ ∃ꜝͧ[Z] isuopair A B Z❘ 
     = [A,B] pairing_axiom uexistsE ([z,pz] uexistsUniqueI pz
       ([y,py] extensionalityI ([x] (pz uforallE x) equiv_equivalence/trans
       (equiv_equivalence/sym (py uforallE x)))))❙
@@ -32,7 +32,7 @@ theory UnionAx =
   isbigunion = [A,Z] ∀ͧ[x] x∈Z ⇔ ∃ͧ[X] X∈A ∧ x∈X❙
 
   union_axiom : {A} ⊦ ∃ͧ[Z] isbigunion A Z❙
-  union_unique : {A} ⊦ ∃͛ͧ[Z] isbigunion A Z❘
+  union_unique : {A} ⊦ ∃ꜝͧ[Z] isbigunion A Z❘
     = [A] union_axiom uexistsE ([z,pz] uexistsUniqueI pz
       ([y,py] extensionalityI ([x] (pz uforallE x) equiv_equivalence/trans
       (equiv_equivalence/sym (py uforallE x)))))❙
@@ -49,7 +49,7 @@ theory PowersetAx =
   ispowerset = [A,Z] ∀ͧ[B] B∈Z ⇔ (∀ͧ[x] x∈B ⇒ x∈A)❙
 
   powerset_axiom : {A} ⊦ ∃ͧ[Z] ispowerset A Z❙
-  powerset_unique : {A} ⊦ ∃͛ͧ[Z] ispowerset A Z❘
+  powerset_unique : {A} ⊦ ∃ꜝͧ[Z] ispowerset A Z❘
     = [A] powerset_axiom uexistsE ([z,pz] uexistsUniqueI pz
       ([y,py] extensionalityI ([B] (pz uforallE B) equiv_equivalence/trans
       (equiv_equivalence/sym (py uforallE B)))))❙
@@ -72,7 +72,7 @@ theory ComprehensionAx =
   iscomprehension = [A,P,Z] ∀ͧ[x] x∈Z ⇔ x∈A ∧ (P x)❙
 
   comprehension_axiom : {A,P} ⊦ ∃ͧ[Z] iscomprehension A P Z❙
-  comprehension_unique : {A,P} ⊦ ∃͛ͧ[Z] iscomprehension A P Z❘
+  comprehension_unique : {A,P} ⊦ ∃ꜝͧ[Z] iscomprehension A P Z❘
     = [A,P] comprehension_axiom uexistsE ([z,pz] uexistsUniqueI pz
       ([y,py] extensionalityI ([x] (pz uforallE x) equiv_equivalence/trans
       (equiv_equivalence/sym (py uforallE x)))))❙
@@ -92,7 +92,7 @@ theory ReplacementAx =
   isreplacement = [f,A,Z] ∀ͧ[y] y∈Z ⇔ (∃ͧ[x] x∈A ∧ f x y)❙  
 
   replacement_axiom : {f} ⊦ ∀ͧ[A] isfunction f A ⇒ ∃ͧ[Z] isreplacement f A Z❙
-  replacement_unique : {f,A} ⊦ isfunction f A ⟶ ⊦ ∃͛ͧ[Z] isreplacement f A Z❘
+  replacement_unique : {f,A} ⊦ isfunction f A ⟶ ⊦ ∃ꜝͧ[Z] isreplacement f A Z❘
     = [f,A,p] replacement_axiom uforallE A implE p uexistsE ([z,pz] uexistsUniqueI pz
       ([y,py] extensionalityI ([x] (pz uforallE x) equiv_equivalence/trans
       (equiv_equivalence/sym (py uforallE x)))))❙
@@ -118,7 +118,7 @@ theory ChoiceAx =
   include ?DisjointDefinitions❙
 
   // There exists a set C with an unique element c that each set X of M has in common❙
-  ischoice = [A,C] ∀ͧ[X] X∈A ⇒ ∃͛ͧ[c]c∈C∧c∈X❙
+  ischoice = [A,C] ∀ͧ[X] X∈A ⇒ ∃ꜝͧ[c]c∈C∧c∈X❙
 
   choice_axiom : ⊦ ∀ͧ[A] (all_nonempty A ∧ ispwdisjoint A) ⇒ ∃ͧ[C] ischoice A C❙
   

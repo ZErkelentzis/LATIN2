@@ -54,13 +54,13 @@ theory SoftTypedEquality =
 theory SoftTypedEqualityND =
   include ?SoftTypedEquality❙
   rrefl  : {A,x} ⊦ x =ͬ A x❘# rrefl 1 %I2❙
-  equal_tp : {A,x} ⊦ x =ͬ A x ⟶ ⊦ x ⦂ A❙
+  requal_tp : {A,x} ⊦ x =ͬ A x ⟶ ⊦ x ⦂ A❙
   rsym   : {A,x,y} ⊦ x =ͬ A y ⟶ ⊦ y =ͬ A x❘ # 4 rsym❙
-  rtrans : {A,x,y,z} ⊦ x =ͬ A y ⟶ ⊦ y =ͬ A z ⟶ ⊦ x =ͬ A z❘ # 5 trans 6❙
-  equal_any_tp : {A,x,y} ⊦ x =ͬ A y ⟶ ⊦ x ⦂ A❘
-               = [A,x,y,p] equal_tp (p trans (p rsym))❙
-  equal_as : {A,x,y} ⊦ x =ͬ A y ⟶ term❘ = [A,x,y,p] ↑(equal_any_tp p)❘ # equal_as 4❙ 
-  rcongP : {A,x,y,p:⊦ x =ͬ A y, P: term ⟶ prop} ⊦ P (equal_as p) ⟶ ⊦ P (equal_as (p rsym))❘# 4 rcongP 5 6❙
+  rtrans : {A,x,y,z} ⊦ x =ͬ A y ⟶ ⊦ y =ͬ A z ⟶ ⊦ x =ͬ A z❘ # 5 rtrans 6❙
+  requal_any_tp : {A,x,y} ⊦ x =ͬ A y ⟶ ⊦ x ⦂ A❘
+               = [A,x,y,p] requal_tp (p rtrans (p rsym))❙
+  requal_as : {A,x,y} ⊦ x =ͬ A y ⟶ term❘ = [A,x,y,p] ↑(requal_any_tp p)❘ # requal_as 4❙ 
+  rcongP : {A,x,y,p:⊦ x =ͬ A y, P: term ⟶ prop} ⊦ P (requal_as p) ⟶ ⊦ P (requal_as (p rsym))❘# 4 rcongP 5 6❙
 ❚
 
 theory TypedEquality =
@@ -78,7 +78,7 @@ theory TypedEqualityND =
      Now the axiom asserts that if `X,Y: tm A ⟶ tm B` are two functions that are extensionally equal,
      then `⊦ P X` implies `⊦ P Y`.
   ❙
-  congB : {A,B, X,Y: tm A ⟶ tm B} ({a}⊦X a =ͭ Y a) ⟶ {P: (tm A ⟶ tm B) ⟶ prop} ⊦ P X ⟶ ⊦ P Y❙
+  tcongB : {A,B, X,Y: tm A ⟶ tm B} ({a}⊦X a =ͭ Y a) ⟶ {P: (tm A ⟶ tm B) ⟶ prop} ⊦ P X ⟶ ⊦ P Y❙
 
   /T
     Explanation of definiens:
@@ -87,10 +87,10 @@ theory TypedEqualityND =
     we would have written `U x` (as-is) or `U y` (since we are using constant functions anyway).
   ❙
   tcongP  : {A,x,y} ⊦ x =ͭ y ⟶ {P: tm A ⟶ prop} ⊦ P x ⟶ ⊦ P y❘# 4 tcongP 5 6❘
-         = [A,x,y,p,P,q] congB ([a]p) ([U] P (U x)) q❙
+         = [A,x,y,p,P,q] tcongB ([a]p) ([U] P (U x)) q❙
   
   
-  congT  : {A,B,x,y} ⊦ x =ͭ y ⟶ {T: tm A ⟶ tm B} ⊦ T x =ͭ T y ❘# 5 congT 6❘
+  tcongT  : {A,B,x,y} ⊦ x =ͭ y ⟶ {T: tm A ⟶ tm B} ⊦ T x =ͭ T y ❘# 5 tcongT 6❘
          = [A,B,x,y,p,T] p tcongP ([u] T x =ͭ T u) trefl❙
   tsym    : {A, x,y: tm A} ⊦ x =ͭ y ⟶ ⊦ y =ͭ x❘# 4 tsym❘
          = [A,x,y,p] p tcongP ([u]u =ͭ x) trefl❙
@@ -100,6 +100,6 @@ theory TypedEqualityND =
          = [A, w,x,y,z,p,q,r] p ttrans q ttrans r❙
   ttrans4 : {A, v,w,x,y,z: tm A} ⊦ v =ͭ w ⟶ ⊦ w =ͭ x ⟶ ⊦ x =ͭ y ⟶ ⊦ y =ͭ z ⟶ ⊦ v =ͭ z❘
          = [A, v,w,x,y,z,p,q,r,s] p ttrans q ttrans r ttrans s❙
-  congT2 : {A,B,C,x,y,xˈ,yˈ} ⊦ x =ͭ y ⟶ ⊦xˈ =ͭ yˈ⟶ {T: tm A ⟶ tm B ⟶ tm C} ⊦ T x xˈ =ͭ T y yˈ❘# 8 9 congT2 10❘
-         = [A,B,C,x,y,xˈ,yˈ,p,q,T] (p congT [u] T u xˈ) ttrans (q congT [u] T y u)❙
+  tcongT2 : {A,B,C,x,y,xˈ,yˈ} ⊦ x =ͭ y ⟶ ⊦xˈ =ͭ yˈ⟶ {T: tm A ⟶ tm B ⟶ tm C} ⊦ T x xˈ =ͭ T y yˈ❘# 8 9 tcongT2 10❘
+         = [A,B,C,x,y,xˈ,yˈ,p,q,T] (p tcongT [u] T u xˈ) ttrans (q tcongT [u] T y u)❙
 ❚

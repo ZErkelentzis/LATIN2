@@ -66,9 +66,9 @@ theory InternallyTypedQuotients =
   equiv: {A,R,x,y} ⊦ R x y ⟶ ⊦ x class A R =ͧ y class A R❙
   
   /T the typing rule for the projection: The projection of an element of the base set is in the quotient.❙
-  quotientI: {A,R,x} ⊦ x∈A ⟶ ⊦ x class A R ∈ A⧸R❙
+  quotientI: {A,R,x} ⊦ x∈ͨA ⟶ ⊦ x class A R ∈ͨ A⧸R❙
   /T the typing rule for the lifting: Given [A:term,R:term⟶term⟶prop,B:term,F:term⟶term] if $F$ is a function from $A$ to $B$ that preserves $R$, then its lifting is the function from $A⧸R$ to $B$ defined by $F$.
   ❙
-  quotientE : {A,R,B,F} ({x}⊦x∈A ⟶ ⊦ F x ∈ B) ⟶ ({x,y} ⊦x∈A ⟶ ⊦y∈A ⟶ ⊦ R x y ⟶ ⊦ F x =ͧ F y)
-            ⟶ {x} ⊦x ∈ A⧸R ⟶ ⊦ A R wldf F x =ͧ F x❙
+  quotientE : {A,R,B,F} ({x}⊦x∈ͨA ⟶ ⊦ F x ∈ͨ B) ⟶ ({x,y} ⊦x∈ͨA ⟶ ⊦y∈ͨA ⟶ ⊦ R x y ⟶ ⊦ F x =ͧ F y)
+            ⟶ {x} ⊦x ∈ͨ A⧸R ⟶ ⊦ A R wldf F x =ͧ F x❙
 ❚
