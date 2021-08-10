@@ -1,0 +1,23 @@
+namespace latin:/❚
+
+fixmeta ?DependentFOLEQDescND❚
+
+theory Replace =
+  include ?SetBase❙  
+  include ?RelationDefinitions❙
+  
+  // AS: is 1 map 2 really right?❙
+  replace  : {A:set, f:set ⟶ set} ⊦ (isfunction (fun2rel f) A) ⟶ set❙
+  replaceI : {A,f,x} ⊦ x∈A ⟶ ⊦ (f x) ∈ replace A f isfun_fun2rel❙
+  replaceE : {A,f,y,C} ⊦ y ∈ replace A f isfun_fun2rel ⟶ ({x} ⊦ x∈A ⟶ ⊦ f x =ͧ y ⟶ ⊦C) ⟶ ⊦C❘ # 5 replaceE 6❙
+❚
+
+theory Image =
+  include ?SetBase❙
+  
+  // image f A = {f(x) : x∈A}❙
+  // AS: think of a shorter notation❙
+  image : (set ⟶ set) ⟶ set ⟶ set❙
+  imageI : {f,A,x} ⊦ x∈A ⟶ ⊦ (f x)∈ image f A❙
+  imageE : {f,A,y} ⊦ y ∈ image f A ⟶ ⊦ ∃ͧ[x] x∈A ∧ f x =ͧ y❘# 4 imageE❙
+❚

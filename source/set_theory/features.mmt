@@ -2,60 +2,6 @@ namespace latin:/❚
 
 fixmeta ?DependentFOLEQDescND❚
 
-theory OrderedPairs =
-  include ?SetBase❙
-  
-  // (a,b)❙
-  pair : set ⟶ set ⟶ set❘# 1 ,ͧ 2 prec 50❙
-  // first projection of a pair❙
-  pi1 : set ⟶ set❘# 1 ₁ͧ prec 60❙
-  pi2 : set ⟶ set❘# 1 ₂ͧ prec 60❙
-
-  ispair : set ⟶ prop❘
-    = [p] ∃ͧ[a] ∃ͧ[b] p =ͧ (a,ͧb)❙
-
-  // computation rules❙
-  // AS: should these be role Simplify?❙
-  compL : {a,b} ⊦ (a,ͧb)₁ͧ =ͧ a❙
-  compR : {a,b} ⊦ (a,ͧb)₂ͧ =ͧ b❙
-
-  // representation rule❙
-  repr : {p} ⊦ ispair p ⟶ ⊦ p =ͧ (p₁ͧ,ͧp₂ͧ)❘
-    = [p,pp] pp uexistsE ([a,pa] pa uexistsE ([b,pb] pb eq/trans
-      (((eq/sym pb) ucongP ([C] (C₁ͧ) =ͧ a) compL) ucongP ([C] (C,ͧb) =ͧ (p₁ͧ,ͧp₂ͧ))
-      (((eq/sym pb) ucongP ([C] (C₂ͧ) =ͧ b) compR) ucongP ([C] (p₁ͧ,ͧC) =ͧ (p₁ͧ,ͧp₂ͧ)) urefl))))❙
-
-  // extensionality rule❙
-  ext : {p,q} ⊦ ispair p ⟶ ⊦ ispair q ⟶ ⊦ p₁ͧ =ͧ q₁ͧ ⟶ ⊦ p₂ͧ =ͧ q₂ͧ ⟶ ⊦ p =ͧ q❘
-    = [p,q,pp,qq,pa,pb] (pa ucongP ([C] p =ͧ (C,ͧq₂ͧ)) (pb ucongP ([C] p =ͧ (p₁ͧ,ͧC)) (repr pp)))
-      eq/trans (eq/sym repr qq)❙
-
-  // injective❙
-  pair_inj : {A,B,C,D} ⊦ (A,ͧB) =ͧ (C,ͧD) ⟶ ⊦ A =ͧ C ∧ B =ͧ D❘
-    = [A,B,C,D,p] andI ((eq/sym compL) eq/trans ((eq/sym p) ucongP ([X] (X₁ͧ) =ͧ C) compL))
-      ((eq/sym compR) eq/trans ((eq/sym p) ucongP ([X] (X₂ͧ) =ͧ D) compR))❙
-❚
-
-theory CartesianProduct =
-  include ?OrderedPairs❙
-
-  // AS: maybe change prec❙
-  // A × B❙
-  // symbol: jtimes❙
-  prod : set ⟶ set ⟶ set❘# 1 ×ͧ 2 prec 50❙
-
-  // introduction and elimination rules❙
-  prodI : {A,B,a,b} ⊦ a∈A ⟶ ⊦ b∈B ⟶ ⊦ (a,ͧb) ∈ A×ͧB❙
-  prodEl : {A,B,p} ⊦ p ∈ A×ͧB ⟶ ⊦ p₁ͧ∈A❘# 4 prodEl❙
-  prodEr : {A,B,p} ⊦ p ∈ A×ͧB ⟶ ⊦ p₂ͧ∈B❘# 4 prodEr❙
-
-  prodE : {A,B,p} ⊦ p ∈ A×ͧB ⟶ ⊦ ispair p❘# 4 prodE❙
-  
-  prod_sub : {A,B,C,D} ⊦ A⊆C ⟶ ⊦ B⊆D ⟶ ⊦ A×ͧB ⊆ C×ͧD❘
-    = [A,B,C,D,pa,pb] subsetI ([x,p] eq_in (repr (p prodE)) 
-      prodI (p prodEl subsetE pa) (p prodEr subsetE pb))❙
-❚
-
 theory Relations =
   // AS: This could be done independently of the CartesianProduct, 
     but would this make sense?❙

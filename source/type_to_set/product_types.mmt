@@ -1,0 +1,29 @@
+namespace latin:/❚
+
+fixmeta ?DependentFOLEQDescND❚
+
+theory SimpleProductsZF =
+  // AS: same as in BasicsZF❙
+  include ?Propositions❙
+  include ?Proofs❙
+  include ?BasicsZF❙
+ 
+  realize ?SimpleProducts❙
+  include ?Logic❙
+  simpprod = [A,B] prod A B❙
+
+  simppair = [A,B,a: Elem A,b: Elem B] elem (which a,ͧwhich b) (prodI (why a) (why b))❙
+  simppi1 = [A,B,e: Elem (A×ͧB)] elem ((which e)₁ͧ) ((why e) prodEl)❙
+  simppi2 = [A,B,e: Elem (A×ͧB)] elem ((which e)₂ͧ) ((why e) prodEr)❙
+	
+  // AS: pretty annoying proof since I need the special form of simppi1 (simppair a b)❙
+  compute1 = [A,B,a: Elem A,b: Elem B] ((eq_which (prodI (why a) (why b)))
+    ucongP ([x] which (elem ((which (elem (which a,ͧwhich b) (prodI (why a) (why b))))₁ͧ)
+    ((why elem (which a,ͧwhich b) (prodI (why a) (why b))) prodEl)) =ͧ (x₁ͧ))
+    (eq_which (why (elem (which a,ͧwhich b) (prodI (why a) (why b))) prodEl))) eq/trans compL❙
+    
+  compute2 = [A,B,a: Elem A,b: Elem B] ((eq_which (prodI (why a) (why b)))
+    ucongP ([x] which (elem ((which (elem (which a,ͧwhich b) (prodI (why a) (why b))))₂ͧ)
+    ((why elem (which a,ͧwhich b) (prodI (why a) (why b))) prodEr)) =ͧ (x₂ͧ))
+    (eq_which (why (elem (which a,ͧwhich b) (prodI (why a) (why b))) prodEr))) eq/trans compR❙
+❚
