@@ -40,6 +40,9 @@ file source/algebra/build.msl
 
 build MMT/LATIN2 mmt-omdoc algebraic_logic/pl_semilattice.mmt
 
+// AS: this folder should not need a specific build order
+build MMT/LATIN2 mmt-omdoc source/type_to_set
+
 // TODO:
 // build MMT/LATIN2 lf-scala
 
