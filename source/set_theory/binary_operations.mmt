@@ -93,6 +93,36 @@ theory IntersectionEmpty =
       ([q] empty_prop notE uexistsI x q inconE))❙
 ❚
 
+theory BigUnion =
+  include ?SetBase❙
+  
+  // symbol: jbigcup❙
+  bigunion : set ⟶ set❘# ⋃ 1 prec 45❙
+  bigunionI : {A,X,x} ⊦ X∈A ⟶ ⊦ x∈X ⟶ ⊦ x∈ ⋃A❙
+  bigunionE : {A,x,C} ⊦ x∈⋃A ⟶ ({X}⊦X∈A ⟶ ⊦ x∈X ⟶ ⊦C) ⟶ ⊦C❘# 4 bigunionE 5❙
+  
+  bigunion_sub : {A,X} ⊦ X∈A ⟶ ⊦ X⊆⋃A❘
+    = [A,X,p] subsetI ([x,q] bigunionI p q)❙
+  bigunion_sup : {A,B} ({X} ⊦ X∈A ⟶ ⊦ X⊆B) ⟶ ⊦ ⋃A⊆B❘
+    = [A,B,p] subsetI ([x,q] q bigunionE ([X,qa,qb] qb subsetE p X qa))❙
+❚
+
+theory BigIntersection =
+  include ?SetBase❙
+  include ?EmptyDefinitions❙
+  
+  // symbol: jbigcap❙
+  biginter : set ⟶ set❘# ⋂ 1 prec 45❙
+  // A must be nonempty because otherwise intersection would produce the set of all sets❙
+  biginterI : {A,x} ⊦ nonempty A ⟶ ({X} ⊦ X∈A ⟶ ⊦ x∈X) ⟶ ⊦ x∈⋂A❙
+  biginterE : {A,X,x} ⊦ x∈⋂A ⟶ ⊦ X∈A ⟶ ⊦ x∈X❘# 4 biginterE 5❙
+  
+  biginter_sub : {A,X} ⊦ X∈A ⟶ ⊦ ⋂A⊆X❘
+    = [A,X,p] subsetI ([x,q] q biginterE p)❙
+  biginter_inf : {A,C} ⊦ nonempty A ⟶ ({X} ⊦ X∈A ⟶ ⊦ C⊆X) ⟶ ⊦ C⊆⋂A❘
+    = [A,C,pa,pb] subsetI ([x,p] biginterI pa ([X,q] p subsetE pb X q))❙
+❚
+
 theory Difference =
   include ?SetBase❙
   
@@ -167,96 +197,4 @@ theory ComplementIntersection =
     = [U,A] extensionalityI ([x] equivI 
       ([p] (p interEr) compEr notE (p interEl) inconE) 
       ([q] empty_prop notE uexistsI x q inconE))❙
-❚
-
-theory SymmetricDifference =
-  include ?SetBase❙
-  
-  // symbol: jincrement❙
-  // AS: jDelta leads to errors since it is a letter!❙
-  symdif : set ⟶ set ⟶ set❘ # 1 ∆ 2 prec 40❙
-
-  symdifIl : {A,B,x} ⊦ x∈A ⟶ ⊦ ¬ x∈B ⟶ ⊦ x ∈ A∆B❙
-  symdifIr : {A,B,x} ⊦ ¬ x∈A ⟶ ⊦ x∈B ⟶ ⊦ x ∈ A∆B❙
-  symdifE : {A,B,x,C} ⊦ x ∈ A∆B ⟶ (⊦ x∈A ∧ ¬x∈B ⟶ ⊦ C) ⟶ (⊦ ¬x∈A ∧ x∈B ⟶ ⊦ C) ⟶ ⊦ C❘# 5 symdifE 6 7❙
-
-  symdif_comm : {A,B} ⊦ A∆B =ͧ B∆A❘
-    = [A,B] extensionalityI ([x] equivI 
-      ([p] p symdifE ([pa] symdifIr (pa andEr) (pa andEl)) ([pb] symdifIl (pb andEr) (pb andEl)))
-      ([q] q symdifE ([qa] symdifIr (qa andEr) (qa andEl)) ([qb] symdifIl (qb andEr) (qb andEl))))❙
-
-  symdif_assoc : {A,B,C} ⊦ (A∆B)∆C =ͧ A∆(B∆C)❘
-    = [A,B,C] extensionalityI ([x] equivI
-      ([p] p symdifE ([pa] (pa andEl) symdifE ([pc] symdifIl (pc andEl) 
-      notI ([pf1] pf1 symdifE ([pfa1] (pc andEr) notE (pfa1 andEl) inconE) ([pfb1] (pa andEr) notE (pfb1 andEr) inconE) falseE))
-      ([pd] symdifIr (pd andEl) (symdifIl (pd andEr) (pa andEr))))
-      ([pb] tnd orE ([ta] symdifIl ta notI ([pf2] pf2 symdifE 
-      ([pfa2] (pfa2 andEr) notE (pb andEr) inconE) ([pfb2] (pb andEl) notE (symdifIl ta (pfb2 andEl)) inconE) falseE))
-      ([tb] symdifIr tb (symdifIr (notI ([pf3] (pb andEl) notE (symdifIr tb pf3))) (pb andEr)))))
-      ([q] q symdifE ([qa] tnd orE ([tc] symdifIr (notI ([pf4] pf4 symdifE 
-      ([pfa4] (qa andEr) notE (symdifIr (pfa4 andEr) tc) inconE) ([pfb4] (pfb4 andEl) notE (qa andEl) inconE) falseE)) tc)
-      ([td] symdifIl (symdifIl (qa andEl) notI ([pf5] (qa andEr) notE (symdifIl pf5 td))) td))
-      ([qb] (qb andEr) symdifE ([qc] symdifIl (symdifIr (qb andEl) (qc andEl)) (qc andEr))
-      ([qd] symdifIr (notI ([pf6] pf6 symdifE ([pfa6] (qb andEl) notE (pfa6 andEl) inconE)
-      ([pfb6] (qd andEl) notE (pfb6 andEr) inconE) falseE)) (qd andEr)))))❙
-❚
-
-theory SymmetricDifferenceEmpty =
-  include ?SymmetricDifference❙
-  include ?EmptySet❙
-  
-  symdif_idem : {A} ⊦ A∆∅ =ͧ A❘
-    = [A] extensionalityI ([x] equivI 
-      ([p] p symdifE ([pa] pa andEl) ([pb] empty_prop notE (uexistsI x (pb andEr)) inconE))
-      ([q] symdifIl q notI ([pf] empty_prop notE (uexistsI x pf))))❙
-  symdif_empty : {A} ⊦ A∆A =ͧ ∅❘
-    = [A] extensionalityI ([x] equivI
-      ([p] p symdifE ([pa] (pa andEr) notE (pa andEl) inconE) ([pb] (pb andEl) notE (pb andEr) inconE))
-      ([q] empty_prop notE (uexistsI x q) inconE))❙
-❚
-
-theory Adjoin =
-  include ?SetBase❙
-  
-  // AS: think of a notation❙
-  adjoin : set ⟶ set ⟶ set❙
-  adjoinIl : {A,b,x} ⊦ x∈A ⟶ ⊦ x∈(adjoin A b)❙
-  adjoinIr : {A,b} ⊦ b∈(adjoin A b)❙
-  adjoinE : {A,b,x,C} ⊦ x∈(adjoin A b) ⟶ (⊦ x∈A ⟶ ⊦ C) ⟶ (⊦ x =ͧ b ⟶ ⊦ C) ⟶ ⊦ C❘# 5 adjoinE 6 7❙
-
-  adjoin_idem : {A,b} ⊦ b∈A ⟶ ⊦ adjoin A b =ͧ A❘
-    = [A,b,pe] extensionalityI ([x] equivI
-      ([p] p adjoinE ([pa] pa) ([pb] eq_in pb pe))
-      ([q] adjoinIl q))❙
-      
-  adjoin_sub : {A,b} ⊦ A⊆adjoin A b❘
-    = [A,b] subsetI ([x,p] adjoinIl p)❙
-❚
-
-theory Remove =
-  include ?SetBase❙
-  
-  // AS: think of a notation❙
-  remove : set ⟶ set ⟶ set❙
-  removeI : {A,b,x} ⊦ x∈A ⟶ ⊦ ¬ x =ͧ b ⟶ ⊦ x∈(remove A b)❙
-  removeE : {A,b,x} ⊦ x∈(remove A b) ⟶ ⊦ x∈A ∧ ¬ x =ͧ b❘# 4 removeE❙
-
-  remove_idem : {A,b} ⊦ ¬ b∈A ⟶ ⊦ remove A b =ͧ A❘
-    = [A,b,pe] extensionalityI ([x] equivI ([p] p removeE andEl)
-      ([q] removeI q notI ([pf] pe notE (eq_in (eq/sym pf) q))))❙
-     
-  remove_sub : {A,b} ⊦ remove A b⊆A❘
-    = [A,b] subsetI ([x,p] p removeE andEl)❙
-❚
-
-theory Filter =
-  include ?SetBase❙
-  
-  filter  : set ⟶ (set ⟶ prop) ⟶ set❘# 1 | 2 prec 40❙
-  filterI : {A,P,x} ⊦ x∈A ⟶ ⊦ P x ⟶ ⊦ x ∈ A|P❙
-  filterEl : {A,P,x} ⊦ x ∈ A|P ⟶ ⊦ x∈A❘# 4 filterEl❙
-  filterEr : {A,P,x} ⊦ x ∈ A|P ⟶ ⊦ P x❘# 4 filterEr❙
-  
-  filter_sub : {A,P} ⊦ A|P ⊆A❘
-    = [A,P] subsetI ([x,p] p filterEl)❙
 ❚

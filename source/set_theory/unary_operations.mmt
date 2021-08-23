@@ -2,37 +2,6 @@ namespace latin:/❚
 
 fixmeta ?DependentFOLEQDescND❚
 
-theory BigUnion =
-  include ?SetBase❙
-  
-  // symbol: jbigcup❙
-  bigunion : set ⟶ set❘# ⋃ 1 prec 45❙
-  bigunionI : {A,X,x} ⊦ X∈A ⟶ ⊦ x∈X ⟶ ⊦ x∈ ⋃A❙
-  bigunionE : {A,x,C} ⊦ x∈⋃A ⟶ ({X}⊦X∈A ⟶ ⊦ x∈X ⟶ ⊦C) ⟶ ⊦C❘# 4 bigunionE 5❙
-  
-  bigunion_sub : {A,X} ⊦ X∈A ⟶ ⊦ X⊆⋃A❘
-    = [A,X,p] subsetI ([x,q] bigunionI p q)❙
-  bigunion_sup : {A,B} ({X} ⊦ X∈A ⟶ ⊦ X⊆B) ⟶ ⊦ ⋃A⊆B❘
-    = [A,B,p] subsetI ([x,q] q bigunionE ([X,qa,qb] qb subsetE p X qa))❙
-❚
-
-
-theory BigIntersection =
-  include ?SetBase❙
-  include ?EmptyDefinitions❙
-  
-  // symbol: jbigcap❙
-  biginter : set ⟶ set❘# ⋂ 1 prec 45❙
-  // A must be nonempty because otherwise intersection would produce the set of all sets❙
-  biginterI : {A,x} ⊦ nonempty A ⟶ ({X} ⊦ X∈A ⟶ ⊦ x∈X) ⟶ ⊦ x∈⋂A❙
-  biginterE : {A,X,x} ⊦ x∈⋂A ⟶ ⊦ X∈A ⟶ ⊦ x∈X❘# 4 biginterE 5❙
-  
-  biginter_sub : {A,X} ⊦ X∈A ⟶ ⊦ ⋂A⊆X❘
-    = [A,X,p] subsetI ([x,q] q biginterE p)❙
-  biginter_inf : {A,C} ⊦ nonempty A ⟶ ({X} ⊦ X∈A ⟶ ⊦ C⊆X) ⟶ ⊦ C⊆⋂A❘
-    = [A,C,pa,pb] subsetI ([x,p] biginterI pa ([X,q] p subsetE pb X q))❙
-❚
-
 theory Powersets =
   include ?SetBase❙
   
@@ -41,8 +10,3 @@ theory Powersets =
   powersetI : {A,B} ({x} ⊦ x∈B ⟶ ⊦ x∈A) ⟶ ⊦ B∈ ℘A❙
   powersetE : {A,B} ⊦ B∈ ℘A ⟶ {x} ⊦ x∈B ⟶ ⊦ x∈A❘# 3 powersetE 5❙
 ❚
-
-// FR: these two (Infinity and Choice) need some abbreviation just to state them; those can be here and then reused in the ZF theory that realizes them❚
-
-// FR: maybe use inifity to define ℕ, either here or in ZFInfinity
-somewhere we should then realize the theory of Peano axioms❚
