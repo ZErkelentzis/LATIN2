@@ -7,11 +7,11 @@ file ../../build_config.msl
 build MMT/LATIN2 mmt-omdoc set_theory/setbase.mmt
 build MMT/LATIN2 mmt-omdoc set_theory/axioms.mmt
 build MMT/LATIN2 mmt-omdoc set_theory/finite_sets.mmt
+build MMT/LATIN2 mmt-omdoc set_theory/lattice_operations.mmt
 build MMT/LATIN2 mmt-omdoc set_theory/binary_operations.mmt
-build MMT/LATIN2 mmt-omdoc set_theory/unary_operations.mmt
+build MMT/LATIN2 mmt-omdoc set_theory/powersets.mmt
 build MMT/LATIN2 mmt-omdoc set_theory/cartesian_product.mmt
 build MMT/LATIN2 mmt-omdoc set_theory/relations.mmt
-build MMT/LATIN2 mmt-omdoc set_theory/function_related_operations.mmt
 
 build MMT/LATIN2 mmt-omdoc set_theory/pair_definitions
 
