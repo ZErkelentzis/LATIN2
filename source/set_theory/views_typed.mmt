@@ -2,31 +2,91 @@ namespace latin:/❚
 
 fixmeta ?DependentFOLEQDescND❚
 
-theory BasicsZF =
+theory TypesZF =
   include ?TypedZFFeatures❙
-  // AS: Without these includes the realization is not total. However, they should
-    be unnecessary, since Propositions and Proofs are already in fixmeta!❙
-  include ?Propositions❙
-  include ?Proofs❙
-
+  
   realize ?Types❙
   tp = set❙
+❚
+
+theory TypedTermsZF =
+  include ?TypesZF❙
+  
   realize ?TypedTerms❙
   tm = [A] Elem A❙
+❚
+
+theory SoftTypedTermsZF =
+  // AS: Propositions and Terms are part of the fixmeta❙
+  include ?Propositions❙
+  include ?Terms❙
+  include ?TypesZF❙
+  
+  realize ?SoftTypedTerms❙
+  of = in❙
+❚
+
+theory TypedLogicZF =
+  // AS: Propositions and Proofs are part of the fixmeta❙
+  include ?Propositions❙
+  include ?Proofs❙
+  include ?TypedTermsZF❙
+  
   realize ?TypedLogic❙
+❚
+
+theory SoftTypedLogicZF =
+  // AS: Propositions, Terms and Proofs are part of the fixmeta❙
+  include ?Propositions❙
+  include ?Terms❙
+  include ?Proofs❙
+  include ?SoftTypedTermsZF❙
+  
+  realize ?SoftTypedLogic❙
+❚
+
+theory TypedEqualityZF =
+  // AS: Propositions and Proofs are part of the fixmeta❙
+  include ?Propositions❙
+  include ?Proofs❙
+  include ?TypedLogicZF❙
+  
   realize ?TypedEquality❙
-  tequal = Eq❙
+  tequal = Eq❙ 
+❚
+
+theory TypedEqualityNDZF =
+  // AS: Propositions and Proofs are part of the fixmeta❙
+  include ?Propositions❙
+  include ?Proofs❙
+  include ?TypedEqualityZF❙
+  
   realize ?TypedEqualityND❙
   trefl = [A,e: Elem A] Refl❙
   tcongB = EqcongB❙
 ❚
 
-// AS: move universal and existential into logic_to_set❙
-theory TypedUniversalZF =
-  // AS: same as in BasicsZF❙
+theory TypeEqualityNDZF =
+  // AS: Propositions and Proofs are part of the fixmeta❙
   include ?Propositions❙
   include ?Proofs❙
-  include ?BasicsZF❙
+  include ?TypesZF❙
+  
+  realize ?TypeEqualityND❙
+  // AS: How to realize a structure?❙
+❚
+
+theory DependentTypeEqualityZF =
+  include ?TypeEqualityNDZF❙
+  include ?TypedEqualityNDZF❙
+  
+  realize ?DependentTypeEquality❙
+  // TODO:❙
+❚
+
+// AS: move universal and existential into logic_to_set❙
+theory TypedUniversalQuantificationZF =
+  include ?TypedLogicZF❙
   
   realize ?TypedUniversalQuantificationND❙
   
@@ -35,32 +95,17 @@ theory TypedUniversalZF =
   tforallE = [A,P,p,e: Elem A] elem_id EqcongEl P ((p uforallE (which e)) dimplE (why e))❙
 ❚
 
-theory TypedExistentialZF =
-  // AS: same as in BasicsZF❙
+theory TypedExistentialQuantificationZF =
+  // AS: Propositions and Proofs are part of the fixmeta❙
   include ?Propositions❙
-  include ?Proofs❙
-  include ?BasicsZF❙
+  include ?Proofs❙  
+  include ?TypedLogicZF❙
 	
   realize ?TypedExistentialQuantificationND❙
   
   texists = [A,P: Elem A ⟶ prop] uexists [x] (x∈A) ∧ͩ ([p] P (elem x p))❙
-  texistsI = [A,P: Elem A ⟶ prop,e: Elem A,p] uexistsI (which e) (dandI (why e) (elem_id EqcongEr P p))❙
+  texistsI = [A,P: Elem A ⟶ prop,e: Elem A,p] uexistsI (which e) (dandI (why e) (ceq_which EqcongEr P p))❙
   texistsE = [A,P,C,p,Q] p uexistsE ([x,px] Q (elem x (px dandEl)) (px dandEr))❙
-❚
-
-theory SimpleFunctionsZF =
-  // AS: same as in BasicsZF❙
-  include ?Propositions❙
-  include ?Proofs❙
-  include ?BasicsZF❙
-  
-  realize ?SimpleFunctions❙
-  
-  simpfun = func❙
-  
-  // AS: I lack the proofs of ⊦ a∈A and ⊦ b∈B❙
-  // simplambda = [A,B,F: Elem A ⟶ Elem B] elem (theRel A B ([a,b] ))
-    (funcI (andI ))❙
 ❚
 
 theory PowerTypesZF =

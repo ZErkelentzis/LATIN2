@@ -120,6 +120,7 @@ theory ChoiceAx =
   // There exists a set C with an unique element c that each set X of M has in common❙
   ischoice = [A,C] ∀ͧ[X] X∈A ⇒ ∃ꜝͧ[c]c∈C∧c∈X❙
 
+  // AS: probably wrong, since pwdisjoint sets do not share an element❙
   choice_axiom : ⊦ ∀ͧ[A] (all_nonempty A ∧ ispwdisjoint A) ⇒ ∃ͧ[C] ischoice A C❙
   
   // AS: I have to rethink this❙

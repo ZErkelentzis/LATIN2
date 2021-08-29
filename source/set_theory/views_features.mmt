@@ -368,3 +368,30 @@ view CartImage : ?CartesianProduct → ?OrderedBigUnionImage =
     ([x,px] in_eq qb (eq/sym (px andEr)) imageE uexistsE
     ([y,py] uexistsI x (uexistsI y (eq/sym (py andEr))))))❙
 ❚
+
+view SigmaCart : ?CartesianProduct → ?Sigma =
+  include ?OrderedPairs❙
+  prod = [A,B] Σͧ A ([x] B)❙
+  prodI = [A,B,a,b,pa,pb] sigmaI pa pb❙
+  prodEl = [A,B,p,pp] pp sigmaEl❙
+  prodEr = [A,B,p,pp] pp sigmaEr❙
+  prodE = [A,B,p,pp] pp sigmaE❙
+❚
+
+// Views for Sigma❚
+view SigmaUnion : ?Sigma → ?OrderedBigUnionImage =
+  include ?OrderedPairs❙
+  // AS: This is nearly the same as for the CartesianProduct❙
+  sigma = [A,B] ⋃(image ([x] image ([y] x,ͧy) (B x)) A)❙
+  sigmaI = [A,B,a,b,pa,pb] bigunionI (imageI pa) (imageI pb)❙
+  sigmaEl = [A,B,p,pp] pp bigunionE ([X,qa,qb] qa imageE uexistsE 
+    ([x,px] in_eq qb (eq/sym (px andEr)) imageE uexistsE
+    ([y,py] eq_in ((py andEr) ucongP ([z] z₁ͧ =ͧ x) compL) (px andEl))))❙
+  sigmaEr = [A,B,p,pp] pp bigunionE ([X,qa,qb] qa imageE uexistsE 
+    ([x,px] in_eq qb (eq/sym (px andEr)) imageE uexistsE
+    ([y,py] (eq/sym ((py andEr) ucongP ([v] v₁ͧ =ͧ x) compL)) ucongP ([w] p₂ͧ∈ (B w))
+    (eq_in ((py andEr) ucongP ([z] z₂ͧ =ͧ y) compR) (py andEl)))))❙
+  sigmaE = [A,B,p,pp] pp bigunionE ([X,qa,qb] qa imageE uexistsE 
+    ([x,px] in_eq qb (eq/sym (px andEr)) imageE uexistsE
+    ([y,py] uexistsI x (uexistsI y (eq/sym (py andEr))))))❙    
+❚

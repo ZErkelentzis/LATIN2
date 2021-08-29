@@ -55,3 +55,19 @@ theory CartesianProduct =
     = [A,B,C,D,pa,pb] subsetI ([x,p] eq_in (repr (p prodE)) 
       prodI (p prodEl subsetE pa) (p prodEr subsetE pb))❙
 ❚
+
+theory Sigma =
+  // AS: sigma function or dependent product. Similar to Isabelle/ZF and Lean and Nuprl❙
+  include ?OrderedPairs❙
+  
+  sigma : set ⟶ (set ⟶ set) ⟶ set❘# Σͧ 1 2 prec 40❙
+  
+  // AS: maybe use different letters here❙
+  sigmaI : {A,B,a,b} ⊦ a∈A ⟶ ⊦ b∈(B a) ⟶ ⊦ (a,ͧb) ∈ Σͧ A B❙
+  sigmaEl : {A,B,p} ⊦ p ∈ Σͧ A B ⟶ ⊦ p₁ͧ∈A❘# 4 sigmaEl❙
+  sigmaEr : {A,B,p} ⊦ p ∈ Σͧ A B ⟶ ⊦ p₂ͧ∈(B (p₁ͧ))❘# 4 sigmaEr❙
+  
+  sigmaE : {A,B,p} ⊦ p ∈ Σͧ A B ⟶ ⊦ ispair p❘# 4 sigmaE❙
+  
+  // AS: think about subsets etc❙
+❚
