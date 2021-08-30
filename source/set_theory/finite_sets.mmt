@@ -57,8 +57,8 @@ theory UnorderedPairs =
   include ?SetBase❙
   
   uopair : set ⟶ set ⟶ set❘# uopair 1 2 prec 40❙
-  uopairIl : {x,B} ⊦ x∈ uopair x B❙
-  uopairIr : {A,y} ⊦ y∈ uopair A y❙
+  uopairIl : {A,B} ⊦ A∈ uopair A B❙
+  uopairIr : {A,B} ⊦ B∈ uopair A B❙
   uopairE  : {A,B,x,C} ⊦ x∈ uopair A B ⟶ (⊦ x =ͧ A ⟶ ⊦C) ⟶ (⊦ x =ͧ B ⟶ ⊦C) ⟶ ⊦C❘# 5 uopairE 6 7❙
   
   uopair_comm : {A,B} ⊦ uopair A B =ͧ uopair B A❘
