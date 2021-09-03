@@ -97,7 +97,7 @@ view EmptyIntersection : ?EmptySet → ?ComplementIntersection =
   
   isempty_exists = univ_nonempty ([X] univ_nonempty ([U] 
     dne notI ([pf] tnd orE ([pa] pa uexistsE ([y,py] (py interEr) compEr notE (py interEl) inconE))
-    ([pb] pf notE (uexistsI (X ∩ (U ∁X)) pb) inconE) falseE)))❙ 
+    ([pb] pf notE (uexistsI (X ∩ (∁ U X)) pb) inconE) falseE)))❙ 
 ❚
 
 theory ExistDifference =

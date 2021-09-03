@@ -29,12 +29,28 @@ theory ExtensionalityAx =
 theory SubsetDefinitions =
   include ?SetDefinitions❙
   
+  // symbol: jsubseteq❙
   subset : set ⟶ set ⟶ prop❘# 1 ⊆ 2 prec 30❘
     = [A,B] ∀ͧ[x] x∈A ⇒ x∈B❙
   subsetI : {A,B} ({x} ⊦ x∈A ⟶ ⊦ x∈B) ⟶ ⊦ A⊆B❘
     = [A,B,Q] uforallI ([x] implI ([p] Q x p))❙
   subsetE : {A,B} ⊦ A⊆B ⟶ {x} ⊦ x∈A ⟶ ⊦ x∈B❘# 5 subsetE 3❘
     = [A,B,p,x,q] p uforallE x implE q❙
+    
+  subset_idem : {A} ⊦ A⊆A❘
+    = [A] subsetI ([x,p] p)❙
+❚
+
+// AS: This could be written in SubsetDefinitions, but then subset would be dependent
+  on ExtensionalityAx. Because both theories are part of SetBase, this would be irrelevant.
+  For consistency reasons, I decided to make an extra theory which can be included if needed.❚
+theory SubsetExtensionality =
+  include ?SubsetDefinitions❙
+  include ?ExtensionalityAx❙
+  
+  subset_eq : {A,B} ⊦ A⊆B ⟶ ⊦ B⊆A ⟶ ⊦ A =ͧ B❘
+    = [A,B,pa,pb] extensionalityI ([x] equivI 
+      ([qa] qa subsetE pa) ([qb] qb subsetE pb))❙
 ❚
 
 theory EmptyDefinitions =
@@ -127,6 +143,7 @@ theory SetBase =
   include ?SetDefinitions❙
   include ?ExtensionalityAx❙
   include ?SubsetDefinitions❙
+
   // UniverseNonEmpty is used instead of ExistenceAx❙
   include ?UniverseNonEmpty❙
 ❚

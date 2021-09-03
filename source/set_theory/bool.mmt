@@ -14,15 +14,19 @@ theory Bools =
     = elem one uopairIr❙
   
   // AS: I added these cause MMT didn't seem able to infer it correctly otherwise❙
-  cfalse_eq : ⊦ which ⊥ͨ =ͧ z❘
-    = eq_which uopairIl❘ role Simplify❙
-  ctrue_eq : ⊦ which ⊤ͨ =ͧ one❘
-    = eq_which uopairIr❘ role Simplify❙
+  // The main problem seems to be that simplify can only be applicated to the whole term and not
+  // only on parts of it❙
+  // cfalse_eq : ⊦ which ⊥ͨ =ͧ z❘
+  // = eq_which uopairIl❘// role Simplify❙
+  // ctrue_eq : ⊦ which ⊤ͨ =ͧ one❘
+  // = eq_which uopairIr❘// role Simplify❙
   
   cons : ⊦ ¬ z =ͧ one❘
     = notI ([pf] zero_neq_one pf falseE)❙
+  // AS: because of eq_which simplify it seems to simplify pf and is later uncapable of reversing it)❙
   ccons : ⊦ ¬ (⊥ͨ Eq ⊤ͨ)❘
-    = notI ([pf] cons notE pf)❙
+    = cons❙
+    // = notI ([pf] cons notE pf)❙
   ctnd : {b: Elem cbool} ⊦ (b Eq ⊥ͨ) ∨ (b Eq ⊤ͨ)❘
     = [b] (why b) uopairE ([p] p orIl) ([q] q orIr)❙ 
   

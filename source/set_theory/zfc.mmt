@@ -20,6 +20,7 @@ theory ZFBase =
   include ?ComprehensionAx❙
   include ?ReplacementAx❙
   include ?RegularityAx❙
+  // AS: InfinityAx relies on Empty Set and should probably be added after defining Empty Set❙
 ❚
 
 theory ZF =
@@ -96,17 +97,9 @@ theory ZFFeatures =
   include ?Functions❙
 ❚
 
-// FR: maybe this is not needed - can just be included from ZF-independent feature Choice❚
-theory ZFChoice =
-  // AS: either just include here oder like the rest❙
-  include ?ZFBase❙
-  include ?ChoiceAx❙
-  // realize ?SetChoice❙
-❚
-
 theory ZFC = 
   include ?ZF❙
-  include ?ZFChoice❙
+  include ?ChoiceAx❙
 ❚
 
 // AS: same as above❚

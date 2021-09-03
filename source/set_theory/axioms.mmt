@@ -112,20 +112,39 @@ theory RegularityAx =
   regularity_axiom : ⊦ isregular❙
 ❚
 
+theory InfinityAx =
+  // There exists an successor set A containing ∅ and for every element x of A, the successor
+    of x is a member of A as well.❙
+  include ?EmptySet❙
+
+  // abstract successor function❙
+  successor : set ⟶ set❙
+  issuccset = [A] ∅∈A ∧ ∀ͧ[x] x∈A ⇒ (successor x)∈A❙
+
+  infinity_axiom : ⊦ ∃ͧ[A] issuccset A❙
+❚
+
 theory ChoiceAx =
   include ?SetBase❙
   include ?EmptyDefinitions❙
   include ?DisjointDefinitions❙
 
-  // There exists a set C with an unique element c that each set X of M has in common❙
+  // There exists a set C that shares an unique element c with each set X of A❙
   ischoice = [A,C] ∀ͧ[X] X∈A ⇒ ∃ꜝͧ[c]c∈C∧c∈X❙
 
-  // AS: probably wrong, since pwdisjoint sets do not share an element❙
+  // AS: Halmos (p60) gives this definition❙
   choice_axiom : ⊦ ∀ͧ[A] (all_nonempty A ∧ ispwdisjoint A) ⇒ ∃ͧ[C] ischoice A C❙
   
-  // AS: I have to rethink this❙
   choiceI : {A} ⊦ all_nonempty A ⟶ ⊦ ispwdisjoint A ⟶ ⊦ ∃ͧ[C] ischoice A C❘
     = [A,ne,pw] choice_axiom uforallE A implE (andI ne pw)❙
-  choiceEl : {A} ⊦ (∃ͧ[C] ischoice A C) ⟶ ⊦ all_nonempty A❘# 2 choiceEl❙
-  choiceEr : {A} ⊦ (∃ͧ[C] ischoice A C) ⟶ ⊦ ispwdisjoint A❘# 2 choiceEr❙
+  choiceE : {A} ⊦ (∃ͧ[C] ischoice A C) ⟶ ⊦ all_nonempty A❘# 2 choiceEl❘
+    = [A,p] all_nonemptyI ([X,pa] p uexistsE ([C,pb] pb uforallE X implE pa uexistsUniqueE 
+      ([c,q,Q] uexistsI c (q andEr))))❙
+  // AS: this proof is not be possible, since two sets A and B can have the same element❙
+  // even if ischoice is defined with an addition ∧¬(∃[Y]Y∈A∧c∈Y) it is not provable, because
+  // even if two sets share an element, c in choice could be another element.❙
+  // choiceEr : {A} ⊦ (∃ͧ[C] ischoice A C) ⟶ ⊦ ispwdisjoint A❘// # 2 choiceEr❙
+    // = [A,p] ispwdisjointI ([X,Y,pa] tnd orE ([qa] qa orIl)
+      ([qb] p uexistsE ([C,pb] aredisjointI ([x] notI ([pf] pb uforallE X implE (pa andEl)
+      uexistsUniqueE ([c,pc,Q] ❙
 ❚

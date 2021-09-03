@@ -33,9 +33,8 @@ theory NatNums =
   has_nats : set ⟶ prop❘
     = [A] z∈A ∧ ∀ͧ[X] X∈A ⇒ (s X) ∈A❙
     
-  // Axiom of infinity would be ∃ͧ[X] has_nats X❙
-  // AS: move this sometime❙
-  infinity_axiom : ⊦ ∃ͧ[X] has_nats X❙
+  // AS: This is basically infinity_axiom. But I don't know how to connect these two for now❙
+  infinity_ax : ⊦ ∃ͧ[X] has_nats X❙
 ❚
 
 theory Nats =

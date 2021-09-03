@@ -153,13 +153,13 @@ theory Complement =
   
   // A should be a subset of U❙
   // symbol: jcomp❙
-  comp : set ⟶ set ⟶ set❘# 1 ∁ 2 prec 50❙
-  compI : {U,A,x} ⊦ x∈U ⟶  ⊦ ¬ x∈A ⟶ ⊦ x∈(U ∁A)❙
-  compEl : {U,A,x} ⊦ x∈(U ∁A) ⟶ ⊦ x∈U❘# 4 compEl❙
-  compEr : {U,A,x} ⊦ x∈(U ∁A) ⟶ ⊦ ¬ x∈A❘# 4 compEr❙
+  comp : set ⟶ set ⟶ set❘# ∁ 1 2 prec 50❙
+  compI : {U,A,x} ⊦ x∈U ⟶  ⊦ ¬ x∈A ⟶ ⊦ x∈(∁U A)❙
+  compEl : {U,A,x} ⊦ x∈(∁ U A) ⟶ ⊦ x∈U❘# 4 compEl❙
+  compEr : {U,A,x} ⊦ x∈(∁ U A) ⟶ ⊦ ¬ x∈A❘# 4 compEr❙
 
   // This is only true, if A is a subset of U❙  
-  comp_idem : {U,A} ({x} ⊦ x∈A ⟶ ⊦ x∈U) ⟶ ⊦ U ∁(U ∁A) =ͧ A❘
+  comp_idem : {U,A} ({x} ⊦ x∈A ⟶ ⊦ x∈U) ⟶ ⊦ ∁ U (∁ U A) =ͧ A❘
     = [U,A,Q] extensionalityI ([x] equivI 
       ([p] dne notI ([pf] p compEr notE (compI (p compEl) pf))) 
       ([q] compI (Q x q) (notI ([pf] pf compEr notE q))))❙
@@ -169,10 +169,10 @@ theory ComplementEmpty =
   include ?Complement❙
   include ?EmptySet❙
   
-  comp_empty : {U} ⊦ U ∁∅ =ͧ U❘
+  comp_empty : {U} ⊦ ∁ U ∅ =ͧ U❘
     = [U] extensionalityI ([x] equivI ([p] p compEl)
       ([q] compI q notI ([pf] empty_prop notE uexistsI x pf)))❙
-  comp_universe : {U} ⊦ U ∁U =ͧ ∅❘
+  comp_universe : {U} ⊦ ∁ U U =ͧ ∅❘
     = [U] extensionalityI ([x] equivI ([p] p compEr notE (p compEl) inconE)
       ([q] empty_prop notE (uexistsI x q) inconE))❙
 ❚
@@ -182,7 +182,7 @@ theory ComplementUnion =
   include ?Union❙
   
   // This is only true, if A is a subset of U❙
-  comp_union : {U,A} ({x} ⊦ x∈A ⟶ ⊦ x∈U) ⟶ ⊦ A ∪ U ∁A =ͧ U❘
+  comp_union : {U,A} ({x} ⊦ x∈A ⟶ ⊦ x∈U) ⟶ ⊦ A ∪ ∁ U A =ͧ U❘
     = [U,A,Q] extensionalityI ([x] equivI 
       ([p] p unionE ([pa] Q x pa) ([pb] pb compEl))
       ([q] tnd orE ([qa] unionIl (comp U A) qa) ([qb] unionIr A (compI q qb))))❙
@@ -193,7 +193,7 @@ theory ComplementIntersection =
   include ?Intersection❙
   include ?EmptySet❙
   
-  comp_inter : {U,A} ⊦ A ∩ U ∁A =ͧ ∅❘
+  comp_inter : {U,A} ⊦ A ∩ ∁ U A =ͧ ∅❘
     = [U,A] extensionalityI ([x] equivI 
       ([p] (p interEr) compEr notE (p interEl) inconE) 
       ([q] empty_prop notE uexistsI x q inconE))❙
