@@ -3,7 +3,7 @@ namespace latin:/❚
 fixmeta ?DependentFOLEQDescND❚
 
 theory TBigUnion =
-  include ?TypedZF❙
+  include ?TypedBase❙
   
   // symbol: jbigcup❙
   Bigunion : {A} (Elem A ⟶ set) ⟶ set❘# ⋃ 2❙
@@ -12,7 +12,7 @@ theory TBigUnion =
 ❚
 
 theory TBigIntersection =
-  include ?TypedZF❙
+  include ?TypedBase❙
   include ?EmptyDefinitions❙
   
   // symbol: jbigcap❙
@@ -22,10 +22,10 @@ theory TBigIntersection =
 ❚
 
 theory TPowersets =
-  include ?TypedZFFeatures❙
+  include ?TypedBase❙
   // AS: I decided to use jcombx to modify the symbols here, since jcombp does not exist for now.
     Of course this can be changed later.❙
-  
+  include ?Powersets❙
   Powerset : set ⟶ type❘
     = [A] Elem (℘A)❙
   PowPowerset : set ⟶ type❘
@@ -33,7 +33,8 @@ theory TPowersets =
     
   In : {A} Elem A ⟶ Powerset A ⟶ prop❘# 2 ∈ͯ 3❘
     = [A,a,b] which a ∈ which b❙
-    
+  
+  include ?Filter❙
   // note from Twelf: definitions type check but would cause ambiguous typing lateron❙
   // AS: those like "those elements, that satisfy F"❙
   those : {A} (Elem A ⟶ prop) ⟶ Powerset A❘# those 2❘

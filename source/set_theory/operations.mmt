@@ -75,7 +75,7 @@ theory SymmetricDifferenceEmpty =
   include ?SymmetricDifference❙
   include ?EmptySet❙
   
-  symdif_idem : {A} ⊦ A∆∅ =ͧ A❘
+  symdif_id : {A} ⊦ A∆∅ =ͧ A❘
     = [A] extensionalityI ([x] equivI 
       ([p] p symdifE ([pa] pa andEl) ([pb] empty_prop notE (uexistsI x (pb andEr)) inconE))
       ([q] symdifIl q notI ([pf] empty_prop notE (uexistsI x pf))))❙

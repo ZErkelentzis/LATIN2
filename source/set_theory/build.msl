@@ -7,7 +7,7 @@ file ../../build_config.msl
 build MMT/LATIN2 mmt-omdoc set_theory/setbase.mmt
 build MMT/LATIN2 mmt-omdoc set_theory/finite_sets.mmt
 build MMT/LATIN2 mmt-omdoc set_theory/lattice_operations.mmt
-build MMT/LATIN2 mmt-omdoc set_theory/binary_operations.mmt
+build MMT/LATIN2 mmt-omdoc set_theory/operations.mmt
 build MMT/LATIN2 mmt-omdoc set_theory/powersets.mmt
 build MMT/LATIN2 mmt-omdoc set_theory/axioms.mmt
 build MMT/LATIN2 mmt-omdoc set_theory/cartesian_product.mmt
@@ -18,8 +18,11 @@ build MMT/LATIN2 mmt-omdoc set_theory/pair_definitions
 build MMT/LATIN2 mmt-omdoc set_theory/views_features.mmt
 
 build MMT/LATIN2 mmt-omdoc set_theory/zfc.mmt
-build MMT/LATIN2 mmt-omdoc set_theory/typed.mmt
+
+build MMT/LATIN2 mmt-omdoc set_theory/typebase.mmt
 build MMT/LATIN2 mmt-omdoc set_theory/typed_features.mmt
+build MMT/LATIN2 mmt-omdoc set_theory/typed_zfc.mmt
+
 build MMT/LATIN2 mmt-omdoc set_theory/typed_fundamentals.mmt
 
 build MMT/LATIN2 mmt-omdoc set_theory/nat.mmt

@@ -15,7 +15,8 @@ theory OrderedPairs =
     = [p] ∃ͧ[a] ∃ͧ[b] p =ͧ (a,ͧb)❙
 
   // computation rules❙
-  // AS: should these be role Simplify?❙
+  // AS: add role Simplify here if wanted. I made the proofs before I knew of Simplify
+    and didn't want to change them later.❙
   compL : {a,b} ⊦ (a,ͧb)₁ͧ =ͧ a❙
   compR : {a,b} ⊦ (a,ͧb)₂ͧ =ͧ b❙
 
@@ -56,13 +57,60 @@ theory CartesianProduct =
       prodI (p prodEl subsetE pa) (p prodEr subsetE pb))❙
 ❚
 
+// The Cartesian product with an empty set results in the empty set❚
+theory CartEmpty =
+  include ?CartesianProduct❙
+  include ?EmptySet❙
+  cart_empty1 : {A} ⊦ ∅×ͧA =ͧ ∅❘
+    = [A] extensionalityI ([x] equivI
+      ([p] empty_prop notE (uexistsI (x₁ͧ) (p prodEl)) inconE)
+      ([q] empty_prop notE (uexistsI x q) inconE))❙
+  cart_empty2 : {A} ⊦ A×ͧ∅ =ͧ ∅❘
+    = [A] extensionalityI ([x] equivI
+      ([p] empty_prop notE (uexistsI (x₂ͧ) (p prodEr)) inconE)
+      ([q] empty_prop notE (uexistsI x q) inconE))❙
+❚
+
+theory CartInter =
+  include ?CartesianProduct❙
+  include ?Intersection❙
+  
+  cart_interBC : {A,B,C} ⊦ A×ͧ(B∩C) =ͧ (A×ͧB)∩(A×ͧC)❘
+    = [A,B,C] extensionalityI ([x] equivI
+      ([p] eq_in (repr (p prodE)) (interI (prodI (p prodEl) ((p prodEr) interEl))
+      (prodI (p prodEl) ((p prodEr) interEr))))
+      ([q] eq_in (repr (q interEl prodE)) (prodI (q interEl prodEl)
+      (interI (q interEl prodEr) (q interEr prodEr)))))❙
+      
+  cart_inter : {A,B,C,D} ⊦ (A×ͧB)∩(C×ͧD) =ͧ (A∩C)×ͧ(B∩D)❘
+    = [A,B,C,D] extensionalityI ([x] equivI
+      ([p] eq_in (repr (p interEl prodE)) (prodI (interI (p interEl prodEl)
+      (p interEr prodEl)) (interI (p interEl prodEr) (p interEr prodEr))))
+      ([q] eq_in (repr (q prodE)) (interI (prodI (q prodEl interEl)
+      (q prodEr interEl)) (prodI (q prodEl interEr) (q prodEr interEr)))))❙
+❚
+
+theory CartUnion =
+  include ?CartesianProduct❙
+  include ?Union❙
+  
+  cart_unionBC : {A,B,C} ⊦ A×ͧ(B∪C) =ͧ (A×ͧB)∪(A×ͧC)❘
+    = [A,B,C] extensionalityI ([x] equivI
+      ([p] eq_in (repr (p prodE)) (p prodEr unionE 
+      ([pa] unionIl (A×ͧC) (prodI (p prodEl) pa))
+      ([pb] unionIr (A×ͧB) (prodI (p prodEl) pb))))
+      ([q] q unionE ([qa] eq_in (repr (qa prodE))
+      (prodI (qa prodEl) (unionIl C (qa prodEr))))
+      ([qb] eq_in (repr (qb prodE)) 
+      (prodI (qb prodEl) (unionIr B (qb prodEr))))))❙
+❚
+
 theory Sigma =
   // AS: sigma function or dependent product. Similar to Isabelle/ZF and Lean and Nuprl❙
   include ?OrderedPairs❙
   
   sigma : set ⟶ (set ⟶ set) ⟶ set❘# Σͧ 1 2 prec 40❙
   
-  // AS: maybe use different letters here❙
   sigmaI : {A,B,a,b} ⊦ a∈A ⟶ ⊦ b∈(B a) ⟶ ⊦ (a,ͧb) ∈ Σͧ A B❙
   sigmaEl : {A,B,p} ⊦ p ∈ Σͧ A B ⟶ ⊦ p₁ͧ∈A❘# 4 sigmaEl❙
   sigmaEr : {A,B,p} ⊦ p ∈ Σͧ A B ⟶ ⊦ p₂ͧ∈(B (p₁ͧ))❘# 4 sigmaEr❙

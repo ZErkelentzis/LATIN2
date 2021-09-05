@@ -3,18 +3,11 @@ namespace latin:/❚
 fixmeta ?DependentFOLEQDescND❚
 
 // TODO:
-  - rework this file (letters, precs, ...)
-  - think about whether this has to be dependent on ZF
-  - check whether everything is right
-  - check if I need to formalize some more
-  - check if I formalized unnecessary stuff
   - add proofs
 ❚
 
-// AS: Maybe split this file into typebase and typed_zfc, then typed_features could be added to typed_zfc❚
-
-theory TypedZFBase =
-  include ?ZFBase❙
+theory TypedBase =
+  include ?SetBase❙
   
   // Class P is the class of all sets satisfying P❙
   Class : (set ⟶ prop) ⟶ type❙
@@ -52,16 +45,4 @@ theory TypedZFBase =
   
   // AS: trying to solve the simplify problem❙
   EqcongP : {A,e: Elem A, P: Elem A ⟶ prop} ⊦ P e ⟶ ⊦ P (elem (which e) (why e))❘# EqcongP 3 4❙
-❚
-
-theory TypedZF =
-  include ?TypedZFBase❙
-  include ?ZF❙
-❚
-
-theory TypedZFFeatures =
-  include ?TypedZF❙
-  include ?ZFFeatures❙
-  
-  // AS: maybe include TBigUnion and TBigIntersection❙
 ❚

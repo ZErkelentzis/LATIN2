@@ -1,0 +1,18 @@
+namespace latin:/❚
+
+fixmeta ?DependentFOLEQDescND❚
+
+theory TypedZF =
+  include ?TypedZFBase❙
+  include ?ZF❙
+❚
+
+theory TypedZFFeatures =
+  include ?TypedZF❙
+  include ?ZFFeatures❙
+  
+  // AS: these have to be defined!❙
+  include ?TBigUnion❙
+  include ?TBigIntersection❙
+  include ?TPowersets❙
+❚

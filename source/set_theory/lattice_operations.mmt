@@ -8,7 +8,7 @@ theory Union =
   // symbol: jcup❙
   union : set ⟶ set ⟶ set❘# 1 ∪ 2 prec 40❙
   unionIl : {A,B,x} ⊦ x∈A ⟶ ⊦ x∈A∪B❘ # unionIl 2 4❙
-  unionIr : {A,B,y} ⊦ y∈B ⟶ ⊦ y∈A∪B❘ # unionIr 1 4❙
+  unionIr : {A,B,x} ⊦ x∈B ⟶ ⊦ x∈A∪B❘ # unionIr 1 4❙
   unionE : {A,B,x,C} ⊦ x∈A∪B ⟶ (⊦ x∈A ⟶ ⊦ C) ⟶ (⊦ x∈B ⟶ ⊦ C) ⟶ ⊦ C❘# 5 unionE 6 7❙ 
 
   union_subl : {A,B} ⊦ A ⊆ A∪B❘
@@ -140,11 +140,22 @@ theory DifferenceEmpty =
   include ?Difference❙
   include ?EmptySet❙
   
-  dif_idem : {A} ⊦ A∖∅ =ͧ A❘
+  dif_empty : {A} ⊦ A∖∅ =ͧ A❘
     = [A] extensionalityI ([x] equivI ([p] p difEl) 
       ([q] difI q (notI ([pf] empty_prop notE uexistsI x pf))))❙
-  dif_empty : {A} ⊦ A∖A =ͧ ∅❘
+  dif_id : {A} ⊦ A∖A =ͧ ∅❘
     = [A] extensionalityI ([x] equivI ([p] p difEr notE (p difEl) inconE)
+      ([q] empty_prop notE uexistsI x q inconE))❙
+❚
+
+theory DifferenceIntersection =
+  include ?Difference❙
+  include ?Intersection❙
+  include ?EmptySet❙
+  
+  dif_inter : {A,B} ⊦ A ∩ (B∖A) =ͧ ∅❘
+    = [A,B] extensionalityI ([x] equivI
+      ([p] (p interEr) difEr notE (p interEl) inconE)
       ([q] empty_prop notE uexistsI x q inconE))❙
 ❚
 
@@ -157,12 +168,23 @@ theory Complement =
   compI : {U,A,x} ⊦ x∈U ⟶  ⊦ ¬ x∈A ⟶ ⊦ x∈(∁U A)❙
   compEl : {U,A,x} ⊦ x∈(∁ U A) ⟶ ⊦ x∈U❘# 4 compEl❙
   compEr : {U,A,x} ⊦ x∈(∁ U A) ⟶ ⊦ ¬ x∈A❘# 4 compEr❙
+  
+  comp_sub : {U,A} ⊦ ∁ U A ⊆ U❘
+    = [U,A] subsetI ([x,p] p compEl)❙
 
   // This is only true, if A is a subset of U❙  
-  comp_idem : {U,A} ({x} ⊦ x∈A ⟶ ⊦ x∈U) ⟶ ⊦ ∁ U (∁ U A) =ͧ A❘
+  comp_id : {U,A} ({x} ⊦ x∈A ⟶ ⊦ x∈U) ⟶ ⊦ ∁ U (∁ U A) =ͧ A❘
     = [U,A,Q] extensionalityI ([x] equivI 
       ([p] dne notI ([pf] p compEr notE (compI (p compEl) pf))) 
       ([q] compI (Q x q) (notI ([pf] pf compEr notE q))))❙
+  
+  // This is only true, if A is a subset of U; this does not need to be
+    explicitely defined for B, since B is defined as ∁ U A already❙
+  comp_equality : {U,A,B} ({x} ⊦ x∈A ⟶ ⊦ x∈U) ⟶ ⊦ ∁ U A =ͧ B ⟶ ⊦ ∁ U B =ͧ A❘
+    = [U,A,B,Q,p] extensionalityI ([x] equivI
+      ([pa] dne notI ([pf] ((eq/sym p) ucongP ([X] ¬x∈X) (pa compEr)) 
+      notE (compI (pa compEl) pf)))
+      ([pb] compI (Q x pb) (notI ([pf] (in_eq pf (eq/sym p) compEr) notE pb))))❙
 ❚
 
 theory ComplementEmpty =
