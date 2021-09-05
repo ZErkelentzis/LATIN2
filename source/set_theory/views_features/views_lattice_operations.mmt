@@ -1,0 +1,110 @@
+namespace latin:/❚
+
+fixmeta ?DependentFOLEQDescND❚
+
+/T   The views currently still need single theories as a domain and codomain, which 
+  forces us to provide spurious named theories. This should be refactored when
+  multi-theory domains and codomains are possible.❚
+
+// Views for Union❚
+theory BigUnionUnorderedPairs =
+  include ?BigUnion❙
+  include ?UnorderedPairs❙
+❚
+
+view UnionAsBigUnion : ?Union → ?BigUnionUnorderedPairs = 
+  include ?SetBase❙
+  
+  union = [A,B] ⋃ uopair A B❙
+  unionIl = [A,B,x,p] bigunionI uopairIl p❙
+  unionIr = [A,B,y,p] bigunionI uopairIr p❙
+  unionE = [A,B,x,C,p,pa,pb] p bigunionE ([X,qa,qb] qa uopairE
+    ([q] pa (in_eq qb q)) 
+    ([q] pb (in_eq qb q)))❙
+❚
+
+// Views for Intersection❚
+theory BigIntersectionUnorderedPairs =
+  include ?BigIntersection❙
+  include ?UnorderedPairs❙
+❚
+
+view IntersectionAsBigIntersection : ?Intersection → ?BigIntersectionUnorderedPairs = 	
+  include ?SetBase❙
+  
+  inter = [A,B] ⋂ uopair A B❙
+  interI = [A,B,x,pa,pb] biginterI (uexistsI A uopairIl) ([X,q] q uopairE 
+    ([qa] in_eq pa (eq/sym qa))
+    ([qb] in_eq pb (eq/sym qb)))❙	
+  interEl = [A,B,x,p] p biginterE uopairIl❙
+  interEr = [A,B,y,p] p biginterE uopairIr❙
+❚
+
+theory UnionFilter =
+  include ?Filter❙
+  include ?Union❙
+❚
+
+view IntersectionFilter : ?Intersection → ?UnionFilter =
+  include ?SetBase❙
+  
+  inter = [A,B] A∪B | ([x] x∈A ∧ x∈B)❙
+  interI = [A,B,x,p,q] filterI (unionIl B p) (andI p q)❙
+  interEl = [A,B,x,p] p filterEr andEl❙
+  interEr = [A,B,y,p] p filterEr andEr❙
+❚
+
+// Views for BigUnion❚
+view BigUnionFromAxiom : ?BigUnion → ?UnionAx =
+  include ?SetBase❙
+  
+  bigunion = [A] the ([Z] isbigunion A Z) union_unique❙
+  bigunionI = [A,X,x,p,q] unionAxI (the_ax ([Z] isbigunion A Z) union_unique) p q❙
+  bigunionE = [A,x,C,p,q] (p unionAxE (the_ax ([Z] isbigunion A Z) union_unique))
+    uexistsE ([X,P] q X (P andEl) (P andEr))❙
+❚
+
+// Views for BigIntersection❚
+theory BigUnionFilterEmptyDefinition =
+  include ?BigUnion❙
+  include ?EmptyDefinitions❙
+  include ?Filter❙
+❚
+
+view BigIntersectionFilter : ?BigIntersection → ?BigUnionFilterEmptyDefinition =	
+  include ?SetBase❙
+  include ?EmptyDefinitions❙
+  
+  biginter = [A] ⋃A|[x]∀ͧ[X] X∈A ⇒ x∈X❙
+  biginterI = [A,x,ne,P] filterI (nonemptyE ne ([X,p] bigunionI p (P X p))) (uforallI [X] implI P X)❙
+  biginterE = [A,X,x,p,q] p filterEr uforallE X implE q❙
+❚
+
+// Views for Difference❚
+view DifFilter : ?Difference → ?Filter =
+  include ?SetBase❙
+  
+  dif = [A,B] A | ([x] ¬ x∈B)❙
+  difI = [A,B,x,p,q] filterI p q❙
+  difEl = [A,B,x,p] p filterEl❙
+  difEr = [A,B,x,p] p filterEr❙
+❚
+
+// Views for Complement❚
+view ComplementFilter : ?Complement → ?Filter =
+  include ?SetBase❙
+  
+  comp = [U,A] U | ([x] ¬ x∈A)❙
+  compI = [U,A,x,p,q] filterI p q❙
+  compEl = [U,A,x,p] p filterEl❙
+  compEr = [U,A,x,p] p filterEr❙
+❚
+
+view ComplementDifference : ?Complement → ?Difference =
+  include ?SetBase❙
+  
+  comp = [U,A] U∖A❙
+  compI = [U,A,x,p,q] difI p q❙
+  compEl = [U,A,x,p] p difEl❙
+  compEr = [U,A,x,p] p difEr❙
+❚

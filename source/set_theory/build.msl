@@ -15,7 +15,8 @@ build MMT/LATIN2 mmt-omdoc set_theory/relations.mmt
 
 build MMT/LATIN2 mmt-omdoc set_theory/pair_definitions
 
-build MMT/LATIN2 mmt-omdoc set_theory/views_features.mmt
+// AS: This folder should have no order
+build MMT/LATIN2 mmt-omdoc set_theory/views_features
 
 build MMT/LATIN2 mmt-omdoc set_theory/zfc.mmt
 

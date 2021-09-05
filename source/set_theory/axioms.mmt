@@ -112,6 +112,16 @@ theory RegularityAx =
   regularity_axiom : ⊦ isregular❙
 ❚
 
+// AS: These are special cases of regularity. Maybe it should be moved to a file
+  containing features, but for now there is no suitable file❚
+theory Acyclic =
+  include ?SetBase❙
+  
+  in_acyclic : {A,B} ⊦ A∈B ⟶ ⊦ B∈A ⟶ ⊦ ⊥❙
+  in_acyclic0 : {A} ⊦ A∈A ⟶ ⊦ ⊥❘
+    = [A,p] in_acyclic p p❙
+❚
+
 theory InfinityAx =
   // There exists an successor set A containing ∅ and for every element x of A, the successor
     of x is a member of A as well.❙

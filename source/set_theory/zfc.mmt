@@ -5,7 +5,6 @@ fixmeta ?DependentFOLEQDescND❚
 // TODO:
   - TODOs in theories
   - check whether everything is right
-  - theories of two features need to be included
 ❚
 
 // AS: I commented the definitions, cause it ruins the performance❚
@@ -20,7 +19,7 @@ theory ZFBase =
   include ?ComprehensionAx❙
   include ?ReplacementAx❙
   include ?RegularityAx❙
-  // AS: InfinityAx relies on Empty Set and should probably be added after defining Empty Set❙
+  // InfinityAx relies on Empty Set and should probably be added after defining Empty Set❙
 ❚
 
 theory ZF =
@@ -32,64 +31,51 @@ theory ZF =
   include ?Filter❙// = ?FilterFromAxiom❙
   include ?Replace❙// = ?ReplaceFromAxiom❙
   
-  // AS: maybe move this somewhere else; This could not be in regularity itself, since
-    it is dependent on unordered pairs, so maybe make a view or something❙
-  // special cases of regularity❙
-  in_acyclic : {A,B} ⊦ A∈B ⟶ ⊦ B∈A ⟶ ⊦ ⊥❘
-    = [A,B,p,q] regularity_axiom uforallE (uopair A B) implE (uexistsI A uopairIl)
-      uexistsE ([Z,pz] pz andEl uopairE
-      ([pa] (pz andEr) notE (uexistsI B (andI uopairIr (in_eq q (eq/sym pa)))) inconE)
-      ([pb] (pz andEr) notE (uexistsI A (andI uopairIl (in_eq p (eq/sym pb)))) inconE))❙
-  in_acyclic0 : {A} ⊦ A∈A ⟶ ⊦ ⊥❘
-    = [A,p] in_acyclic p p❙
+  // Acyclic is a special case of RegularityAx❙
+  // include ?RegularityUopair❙
+  include ?Acyclic❙// = ?AcyclicUopair❙
+  
+  // AS: Since empty is necessary for InfinityAx, this is added here❙
+  // include ?ExistFilter❙
+  include ?EmptySet❙// = ?EmptyExistFilter❙
+  
+  include ?InfinityAx❙
 ❚
 
-// AS: maybe just add features to ZF directly❚
 // ZF and features that can be built from ZF❚
 theory ZFFeatures =
   include ?ZF❙
 
-  // AS: There are many includes that I wish would not be necessary❙
-  include ?ExistFilter❙
-  include ?EmptySet❙// = ?EmptyExistFilter❙
-  
-  include ?BigUnionUnorderedPairs❙
+  // AS: There are many includes that I wish would not be necessary❙  
+  // include ?BigUnionUnorderedPairs❙
   include ?Union❙// = ?UnionAsBigUnion❙
-  include ?UnionEmpty❙
   
-  include ?BigUnionFilterEmptyDefinition❙
+  // include ?BigUnionFilterEmptyDefinition❙
   include ?BigIntersection❙// = ?BigIntersectionFilter❙
   
-  include ?BigIntersectionUnorderedPairs❙
+  // include ?BigIntersectionUnorderedPairs❙
   include ?Intersection❙// = ?IntersectionAsBigIntersection❙
-  include ?IntersectionEmpty❙
   
   include ?Difference❙// = ?DifFilter❙
-  include ?DifferenceEmpty❙
   
   include ?Complement❙// = ?ComplementFilter❙
-  include ?ComplementEmpty❙
-  include ?ComplementUnion❙
-  include ?ComplementIntersection❙
   
-  include ?UnionDifference❙
+  // include ?UnionDifference❙
   include ?SymmetricDifference❙// = ?SymUnion❙
-  include ?SymmetricDifferenceEmpty❙
 
   include ?Singletons❙// = ?SelfPair❙
   
-  include ?UnionSingleton❙
+  // include ?UnionSingleton❙
   include ?Adjoin❙// = ?AdjoinUnion❙
   
   include ?Remove❙// = ?RemoveFilter❙
   
   include ?Image❙// = ?ImageReplace❙ 
   
-  // AS: pairs and so on. WienerPairs lead to errors❙
-  // include ?WienerPairs❙
+  // AS: pairs and so on. KuratowskiPairs lead to errors❙
+  // include ?KuratowskiPairs❙
   
-  include ?OrderedBigUnionImage❙
-  // AS: This would lead to an error, if it was defined!❙
+  // include ?OrderedBigUnionImage❙
   include ?CartesianProduct❙// = ?CartImage❙
   include ?Sigma❙// = ?SigmaUnion❙
   
@@ -102,8 +88,7 @@ theory ZFC =
   include ?ChoiceAx❙
 ❚
 
-// AS: same as above❚
-theory ZFChoiceFeatures =
+theory ZFCFeatures =
   include ?ZFC❙
   include ?ZFFeatures❙
 ❚

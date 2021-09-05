@@ -1,0 +1,16 @@
+namespace latin:/❚
+
+fixmeta ?DependentFOLEQDescND❚
+
+/T   The views currently still need single theories as a domain and codomain, which 
+  forces us to provide spurious named theories. This should be refactored when
+  multi-theory domains and codomains are possible.❚
+  
+// Views for Powerset❚
+view PowersetFromAxiom : ?Powersets → ?PowersetAx = 
+  include ?SetBase❙
+  
+  powerset = [A] the ([Z] ispowerset A Z) powerset_unique❙
+  powersetI = [A,B,P] powersetAxI (the_ax ([Z] ispowerset A Z) powerset_unique) ([x] implI (P x))❙
+  powersetE = [A,B,p,x,q] (p powersetAxE (the_ax ([Z] ispowerset A Z) powerset_unique) x) implE q❙
+❚

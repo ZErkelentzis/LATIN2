@@ -12,16 +12,11 @@ theory TheRelation =
   inRel : set ⟶ set ⟶ set ⟶ prop❘
     = [R,a,b] (a,ͧb) ∈ R❙
     
-  // helper function to check whether a set is a relation❙
-  // AS: ∃ͧ[A,B,P] R =ͧ theRel A B P does not work since we are in FOL!❙
-  isrel : set ⟶ prop❘
-    = [R] ∃ͧ[A] ∃ͧ[B] R ⊆ A×ͧB❙
-  // A special case where A and B are arguments. This is needed whenever A and B are given❙ 
+  // auxiliary function to check whether a set is a relation of A B❙
+  // AS: note that it is not possible to define this similar as in ordered pairs.
+      isrelAB = [R,A,B] ∃[P] R =ͧ theRel A B P does not work in FOL!❙
   isrelAB : set ⟶ set ⟶ set ⟶ prop❘
     = [R,A,B] R ⊆ A×ͧB❙
-  // helper function to make transformation easier❙
-  relABrel : {R,A,B} ⊦ isrelAB R A B ⟶ ⊦ isrel R❘
-    = [R,A,B,p] uexistsI A (uexistsI B p)❙
   
   // computation rule❙
   compRel : {A,B,P,a,b} ⊦ inRel (theRel A B P) a b ⇔ a∈A ∧ b∈B ∧ P a b❘
@@ -34,25 +29,19 @@ theory TheRelation =
       ((eq/sym compR) ucongP ([y] P a y) (q andEr))))❙
   
   // representation rule❙
-  // AS: Probably I'll keep both variants❙
-  reprRelAB : {A,B,R} ⊦ isrelAB R A B ⟶ ⊦ R =ͧ theRel A B ([x,y] inRel R x y)❘
+  reprRel : {A,B,R} ⊦ isrelAB R A B ⟶ ⊦ R =ͧ theRel A B ([x,y] inRel R x y)❘
     = [A,B,R,rr] extensionalityI ([x] equivI
       ([p] filterI (p subsetE rr)
       (repr (p subsetE rr prodE) ucongP ([y] y∈R) p))
       ([q] (eq/sym repr (q filterEl prodE)) ucongP ([y] y∈R) (q filterEr)))❙
-      
-  reprRel : {R} ⊦ isrel R ⟶ ⊦ ∃ͧ[A]∃ͧ[B] R =ͧ theRel A B ([x,y] inRel R x y)❘
-    = [R,rr] rr uexistsE ([x,px] px uexistsE ([y,py] uexistsI x (uexistsI y (reprRelAB py))))❙
   
   // extensionality rule❙
-  extRel : {R,S} ⊦ isrel R ⟶ ⊦ isrel S ⟶ ({x,y} ⊦ inRel R x y ⇔ inRel S x y) ⟶ ⊦ R =ͧ S❘
-    = [R,S,rr,rs,Q] extensionalityI ([x] equivI
-      ([p] rr uexistsE ([y,py] py uexistsE ([z,pz]
-      (eq/sym repr (p subsetE pz prodE)) ucongP ([u] u∈S)
-      (Q (x₁ͧ) (x₂ͧ) equivEl (repr (p subsetE pz prodE) ucongP ([u] u∈R) p)))))
-      ([q] rs uexistsE ([y,qy] qy uexistsE ([z,qz]
-      (eq/sym repr (q subsetE qz prodE)) ucongP ([u] u∈R)
-      (Q (x₁ͧ) (x₂ͧ) equivEr (repr (q subsetE qz prodE) ucongP ([u] u∈S) q))))))❙
+  extRel : {A,B,R,S} ⊦ isrelAB R A B ⟶ ⊦ isrelAB S A B ⟶ ({x,y} ⊦ inRel R x y ⇔ inRel S x y) ⟶ ⊦ R =ͧ S❘
+    = [A,B,R,S,rr,rs,Q] extensionalityI ([x] equivI
+      ([p] eq/sym repr (p subsetE rr prodE) ucongP ([u] u∈S)
+      (Q (x₁ͧ) (x₂ͧ) equivEl (repr (p subsetE rr prodE) ucongP ([u] u∈R) p)))
+      ([q] eq/sym repr (q subsetE rs prodE) ucongP ([u] u∈R)
+      (Q (x₁ͧ) (x₂ͧ) equivEr (repr (q subsetE rs prodE) ucongP ([u] u∈S) q))))❙
 ❚
 
 theory Relations =
@@ -93,15 +82,16 @@ theory PartialFunctions =
   // AS: it's not necessary to define thePFunc and the rules. It is just
     a relation.❙
 
-  // helper function to check whether a set is a right unique relation and
+  // auxiliary function to check whether a set is a right unique relation and
     therefore a partial function❙
+  // AS: This is not needed, see TheRelation❙
   ispfunc : set ⟶ prop❘
     = [R] isrel R ∧ isrightu R❙
-  // AS: special case, where A and B are given❙
+  // A and B are given❙
   ispfuncAB : set ⟶ set ⟶ set ⟶ prop❘
     = [R,A,B] isrelAB R A B ∧ isrightu R❙
   
-  // helper fuction for transformation❙
+  // auxiliary fuction for transformation❙
   pfuncABpfunc : {R,A,B} ⊦ ispfuncAB R A B ⟶ ⊦ ispfunc R❘
     = [R,A,B,p] andI (relABrel (p andEl)) (p andEr)❙
 
@@ -130,21 +120,23 @@ theory Functions =
   // AS: it's not necessary to define theFunc and the rules. It is just
     a relation.❙
 
-  // helper function to check whether a set is a left total partial function
+  // auxiliary function to check whether a set is a left total partial function
     and therefore a function❙
+  // AS: This is not needed, see TheRelation❙
   isfunc : set ⟶ prop❘
     = [F] ∃ͧ[A]∃ͧ[B] ispfuncAB F A B ∧ isleftt F A❙
-  // special case❙
+  // A and B are given❙
   isfuncAB : set ⟶ set ⟶ set ⟶ prop❘
     = [F,A,B] ispfuncAB F A B ∧ isleftt F A❙
     
-  // helper function for transformation❙
+  // auxiliary function for transformation❙
   funcABfunc : {F,A,B} ⊦ isfuncAB F A B ⟶ ⊦ isfunc F❘
     = [F,A,B,p] uexistsI A (uexistsI B p)❙  
 
   // introduction and elimination rule for the set of all functions of X and Y❙
   // AS: I haven't found a way to do this with isfunc by now. Main problem is
-    that after doing existsE I only have islefttotal F x and not islefttotal F A❙
+    that after doing existsE I only have islefttotal F x and not islefttotal F A
+    → AS: This is not necessary anyways!❙
   funcI : {A,B,P} ⊦ isfuncAB (theRel A B P) A B ⟶ ⊦ theRel A B P ∈ func A B❘# funcI 3 4❘
     = [A,B,P,p] filterI (pfuncI P (pfuncABpfunc (p andEl))) (p andEr)❙
   funcE : {A,B,F} ⊦ F ∈ func A B ⟶ ⊦ isfuncAB F A B❘# 4 funcE❘
