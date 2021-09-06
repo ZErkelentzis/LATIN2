@@ -2,36 +2,39 @@ namespace latin:/❚
 
 fixmeta ?DependentFOLEQDescND❚
 
-theory SimpleProductTypesZF =
-  include ?TypesZF❙
+theory SimpleProductTypesSet =
+  include ?TypesSet❙
+  include ?CartesianProduct❙
   realize ?SimpleProductTypes❙
   simpprod = [A,B] A ×ͧ B❙
 ❚
 
-theory DependentProductTypesZF =
-  include ?TypedTermsZF❙
+theory DependentProductTypesSet =
+  include ?TypedTermsSet❙
+  include ?Sigma❙
   
   realize ?DependentProductTypes❙
   // AS: I need set, but dependent implication needs a prop❙
   depprod = [A,B: Elem A ⟶ set] Σͧ A ([x] x∈A ⇒ͩ ([p] B (elem x p)))❙
 ❚
 
-theory SoftDependentProductTypesZF =
+theory SoftDependentProductTypesSet =
   // AS: Propositions and Terms are part of the fixmeta❙
   include ?Propositions❙
   include ?Terms❙
-  include ?SoftTypedTermsZF❙
+  include ?SoftTypedTermsSet❙
+  include ?Sigma❙
   
   realize ?SoftDependentProductTypes❙
   softprod = [A,B] sigma A B❙
 ❚
 
-theory SimpleProductsZF =
+theory SimpleProductsSet =
   // AS: Propositions and Proofs are part of the fixmeta❙
   include ?Propositions❙
   include ?Proofs❙
-  include ?TypedEqualityZF❙
-  include ?SimpleProductTypesZF❙
+  include ?TypedEqualitySet❙
+  include ?SimpleProductTypesSet❙
  
   realize ?SimpleProducts❙
 
@@ -53,21 +56,21 @@ theory SimpleProductsZF =
     (eq_which (why (elem (which a,ͧwhich b) (prodI (why a) (why b))) prodEr))) eq/trans compR❙
 ❚
 
-theory DependentProductsZF =
+theory DependentProductsSet =
   // AS: Propositions and Proofs are part of the fixmeta❙
   include ?Propositions❙
   include ?Proofs❙
   
-  include ?DependentProductTypesZF❙
-  include ?TypedEqualityZF❙
-  include ?DependentTypeEqualityZF❙
+  include ?DependentProductTypesSet❙
+  include ?TypedEqualitySet❙
+  include ?DependentTypeEqualitySet❙
   
   realize ?DependentProducts❙
   // AS: dependent product types need to be fixed first❙
   // deppair = [A,B: (Elem A ⟶ set),a: Elem A,b: Elem (B a)]❙
 ❚
 
-theory SoftTypedProductsZF =
+theory SoftTypedProductsSet =
   // AS: Propositions, Proofs, Terms and UntypedEquality are part of the fixmeta❙
   include ?Propositions❙
   include ?Proofs❙
@@ -85,101 +88,101 @@ theory SoftTypedProductsZF =
   // TODO: Simplify and Solve❙
 ❚
 
-theory SoftTypedSimpleProductsZF =
+theory SoftTypedSimpleProductsSet =
   // AS: Propositions, Proofs, Terms and UntypedEquality are part of the fixmeta❙
   include ?Propositions❙
   include ?Proofs❙
   include ?Terms❙
   include ?UntypedEquality❙
   
-  include ?SoftTypedTermsZF❙
-  include ?SoftTypedProductsZF❙
-  include ?SimpleProductTypesZF❙
+  include ?SoftTypedTermsSet❙
+  include ?SoftTypedProductsSet❙
+  include ?SimpleProductTypesSet❙
   
   realize ?SoftTypedSimpleProducts❙
   fun_typing = [A,B,a,b,p: ⊦ a∈A,q: ⊦ b∈B] prodI p q❙
 ❚
 
-theory SoftTypedDependentProductsZF =
+theory SoftTypedDependentProductsSet =
   // AS: Propositions, Proofs, Terms and UntypedEquality are part of the fixmeta❙
   include ?Propositions❙
   include ?Proofs❙
   include ?Terms❙
   include ?UntypedEquality❙
   
-  include ?SoftTypedTermsZF❙
-  include ?SoftTypedProductsZF❙
-  include ?SoftDependentProductTypesZF❙
+  include ?SoftTypedTermsSet❙
+  include ?SoftTypedProductsSet❙
+  include ?SoftDependentProductTypesSet❙
   
   realize ?SoftTypedDependentProducts❙
   fun_typing = [A,B,a,b,p: ⊦ a∈A,q: ⊦ b∈(B a)] sigmaI p q❙
 ❚
 
-theory SimpleProductsExpandZF =
+theory SimpleProductsExpandSet =
   // AS: Propositions and Proofs are part of the fixmeta❙
   include ?Propositions❙
   include ?Proofs❙
-  include ?SimpleProductsZF❙
+  include ?SimpleProductsSet❙
   
   realize ?SimpleProductsExpand❙
   expand = [A,B,u: Elem (A×ͧB)] eq/sym (repr ((why u) prodE))❙
 ❚
 
-theory DependentProductsExpandZF =
+theory DependentProductsExpandSet =
   // AS: Propositions and Proofs are part of the fixmeta❙
   include ?Propositions❙
   include ?Proofs❙
-  include ?DependentProductsZF❙
+  include ?DependentProductsSet❙
   
   realize ?DependentProductsExpand❙
   // AS: dependent products have to be done first❙
   expand = [A,B,u: Elem (A×ͭB)] _❙
 ❚
 
-theory SoftTypedProductsExpandZF =
+theory SoftTypedProductsExpandSet =
   // AS: Propositions, Proofs, Terms and UntypedEquality are part of the fixmeta❙
   include ?Propositions❙
   include ?Proofs❙
   include ?Terms❙
   include ?UntypedEquality❙
   
-  include ?SoftTypedProductsZF❙
+  include ?SoftTypedProductsSet❙
   
   realize ?SoftTypedProductsExpand❙
   // AS: repr cannot be used, since u does not have to be a pair❙
   expand = _❙
 ❚
 
-theory SimpleProductsExtensionalityZF =
+theory SimpleProductsExtensionalitySet =
   // AS: Propositions and Proofs are part of the fixmeta❙
   include ?Propositions❙
   include ?Proofs❙
   
-  include ?SimpleProductsZF❙
+  include ?SimpleProductsSet❙
   
   realize ?SimpleProductsExtensionality❙
   exten = [A,B,u: Elem (A×ͭB),v: Elem (A×ͭB),p,q] ext ((why u) prodE) ((why v) prodE) p q❙
 ❚
 
-theory DependentProductsExtensionalityZF =
+theory DependentProductsExtensionalitySet =
   // AS: Propositions and Proofs are part of the fixmeta❙
   include ?Propositions❙
   include ?Proofs❙
   
-  include ?DependentProductsZF❙
+  include ?DependentProductsSet❙
   
   realize ?DependentProductsExtensionality❙
   // TODO❙
 ❚
 
-theory SoftTypedProductsExtensionalityZF =
+theory SoftTypedProductsExtensionalitySet =
   // AS: Propositions, Proofs, Terms and UntypedEquality are part of the fixmeta❙
   include ?Propositions❙
   include ?Proofs❙
   include ?Terms❙
   include ?UntypedEquality❙
   
-  include ?SoftTypedProductsZF❙
+  include ?SoftTypedProductsSet❙
   
   realize ?SoftTypedProductsExtensionality❙
   // TODO❙

@@ -2,13 +2,14 @@ namespace latin:/❚
 
 fixmeta ?DependentFOLEQDescND❚
 
-theory TypedPredicateSubtypesZF =
+theory TypedPredicateSubtypesSet =
   // AS: Propositions and Proofs are part of the fixmeta❙
   include ?Propositions❙
   include ?Proofs❙
   
-  include ?TypedLogicZF❙
-  include ?TypedEqualityZF❙
+  include ?TypedLogicSet❙
+  include ?TypedEqualitySet❙  
+  include ?Filter❙
 
   realize ?TypedPredicateSubtypes❙
   
@@ -26,13 +27,14 @@ theory TypedPredicateSubtypesZF =
   // AS: Simplify is missing❙
 ❚
 
-theory SoftTypedPredicateSubtypesZF =
+theory SoftTypedPredicateSubtypesSet =
   // AS: Propositions, Terms and Proofs are part of the fixmeta❙
   include ?Propositions❙
   include ?Terms❙
   include ?Proofs❙
   
-  include ?SoftTypedLogicZF❙
+  include ?SoftTypedLogicSet❙
+  include ?Filter❙
   
   realize ?SoftTypedPredicateSubtypes❙
   // AS: not sure, if this is really just filter❙

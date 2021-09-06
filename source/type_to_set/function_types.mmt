@@ -2,28 +2,29 @@ namespace latin:/❚
 
 fixmeta ?DependentFOLEQDescND❚
 
-theory SimpleFunctionTypesZF =
-  include ?TypesZF❙
+theory SimpleFunctionTypesSet =
+  include ?TypesSet❙
+  include ?Functions❙
   
   realize ?SimpleFunctionTypes❙
   simpfun = func❙
 ❚
 
 // AS: I don't think I can do this❚
-theory DependentFunctionTypesZF =
-  include ?TypedTermsZF❙
+theory DependentFunctionTypesSet =
+  include ?TypedTermsSet❙
   
   realize ?DependentFunctionTypes❙
   // TODO❙
 ❚
 
-theory SimpleFunctionsZF =
+theory SimpleFunctionsSet =
   // AS: Propositions and Proofs are part of the fixmeta❙
   include ?Propositions❙
   include ?Proofs❙
   
-  include ?SimpleFunctionTypesZF❙
-  include ?TypedEqualityNDZF❙
+  include ?SimpleFunctionTypesSet❙
+  include ?TypedEqualityNDSet❙
   
   realize ?SimpleFunctions❙
   // TODO❙

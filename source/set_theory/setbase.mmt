@@ -37,8 +37,10 @@ theory SubsetDefinitions =
   subsetE : {A,B} ⊦ A⊆B ⟶ {x} ⊦ x∈A ⟶ ⊦ x∈B❘# 5 subsetE 3❘
     = [A,B,p,x,q] p uforallE x implE q❙
     
-  subset_idem : {A} ⊦ A⊆A❘
+  subset_refl : {A} ⊦ A⊆A❘
     = [A] subsetI ([x,p] p)❙
+  subset_trans : {A,B,C} ⊦ A⊆B ⟶ ⊦ B⊆C ⟶ ⊦ A⊆C❘
+    = [A,B,C,p,q] subsetI ([x,pa] (pa subsetE p) subsetE q)❙
 ❚
 
 // AS: This could be written in SubsetDefinitions, but then subset would be dependent

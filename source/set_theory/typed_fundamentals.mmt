@@ -2,91 +2,91 @@ namespace latin:/❚
 
 fixmeta ?DependentFOLEQDescND❚
 
-theory TypesZF =
-  include ?TypedZFFeatures❙
+theory TypesSet =
+  include ?TypeBase❙
   
   realize ?Types❙
   tp = set❙
 ❚
 
-theory TypedTermsZF =
-  include ?TypesZF❙
+theory TypedTermsSet =
+  include ?TypesSet❙
   
   realize ?TypedTerms❙
   tm = [A] Elem A❙
 ❚
 
-theory SoftTypedTermsZF =
+theory SoftTypedTermsSet =
   // AS: Propositions and Terms are part of the fixmeta❙
   include ?Propositions❙
   include ?Terms❙
-  include ?TypesZF❙
+  include ?TypesSet❙
   
   realize ?SoftTypedTerms❙
   of = in❙
 ❚
 
-theory TypedLogicZF =
+theory TypedLogicSet =
   // AS: Propositions and Proofs are part of the fixmeta❙
   include ?Propositions❙
   include ?Proofs❙
-  include ?TypedTermsZF❙
+  include ?TypedTermsSet❙
   
   realize ?TypedLogic❙
 ❚
 
-theory SoftTypedLogicZF =
+theory SoftTypedLogicSet =
   // AS: Propositions, Terms and Proofs are part of the fixmeta❙
   include ?Propositions❙
   include ?Terms❙
   include ?Proofs❙
-  include ?SoftTypedTermsZF❙
+  include ?SoftTypedTermsSet❙
   
   realize ?SoftTypedLogic❙
 ❚
 
-theory TypedEqualityZF =
+theory TypedEqualitySet =
   // AS: Propositions and Proofs are part of the fixmeta❙
   include ?Propositions❙
   include ?Proofs❙
-  include ?TypedLogicZF❙
+  include ?TypedLogicSet❙
   
   realize ?TypedEquality❙
   tequal = Eq❙ 
 ❚
 
-theory TypedEqualityNDZF =
+theory TypedEqualityNDSet =
   // AS: Propositions and Proofs are part of the fixmeta❙
   include ?Propositions❙
   include ?Proofs❙
-  include ?TypedEqualityZF❙
+  include ?TypedEqualitySet❙
   
   realize ?TypedEqualityND❙
   trefl = [A,e: Elem A] Refl❙
   tcongB = EqcongB❙
 ❚
 
-theory TypeEqualityNDZF =
+theory TypeEqualityNDSet =
   // AS: Propositions and Proofs are part of the fixmeta❙
   include ?Propositions❙
   include ?Proofs❙
-  include ?TypesZF❙
+  include ?TypesSet❙
   
   realize ?TypeEqualityND❙
   // AS: How to realize a structure?❙
 ❚
 
-theory DependentTypeEqualityZF =
-  include ?TypeEqualityNDZF❙
-  include ?TypedEqualityNDZF❙
+theory DependentTypeEqualitySet =
+  include ?TypeEqualityNDSet❙
+  include ?TypedEqualityNDSet❙
   
   realize ?DependentTypeEquality❙
   // TODO:❙
 ❚
 
 // AS: move universal and existential into logic_to_set❙
-theory TypedUniversalQuantificationZF =
-  include ?TypedLogicZF❙
+theory TypedUniversalQuantificationSet =
+  include ?TypedLogicSet❙
   
   realize ?TypedUniversalQuantificationND❙
   
@@ -95,33 +95,15 @@ theory TypedUniversalQuantificationZF =
   tforallE = [A,P,p,e: Elem A] elem_id EqcongEl P ((p uforallE (which e)) dimplE (why e))❙
 ❚
 
-theory TypedExistentialQuantificationZF =
+theory TypedExistentialQuantificationSet =
   // AS: Propositions and Proofs are part of the fixmeta❙
   include ?Propositions❙
   include ?Proofs❙  
-  include ?TypedLogicZF❙
+  include ?TypedLogicSet❙
 	
   realize ?TypedExistentialQuantificationND❙
   
   texists = [A,P: Elem A ⟶ prop] uexists [x] (x∈A) ∧ͩ ([p] P (elem x p))❙
-  texistsI = [A,P: Elem A ⟶ prop,e: Elem A,p] uexistsI (which e) (dandI (why e) (ceq_which EqcongEr P p))❙
+  texistsI = [A,P: Elem A ⟶ prop,e: Elem A,p] uexistsI (which e) (dandI (why e) (EqcongP P p))❙
   texistsE = [A,P,C,p,Q] p uexistsE ([x,px] Q (elem x (px dandEl)) (px dandEr))❙
-❚
-
-theory PowerTypesZF =
-  // AS: Not quite sure if this makes sense at all❙
-  // AS: same as in BascicsZF❙
-  include ?Propositions❙
-  include ?Proofs❙
-  include ?BasicsZF❙
-
-  // AS: EquivalenceND should not have to be realized since it is already in SetFOL❙
-
-  realize powertypes/?PowerTypes❙
-
-  power = [A] powerset A❙
-  in = [A,a: Elem A,b: Elem powerset A] (which a) ∈ (which b)❙
-  filter = [A,P: Elem A ⟶ prop] elem ❙
-
-  // compute = [A,P,a: Elem A] ❙
 ❚

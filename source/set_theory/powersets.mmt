@@ -14,7 +14,7 @@ theory Powersets =
     already a subset❙
   vpowersetI : {A,B} ⊦ B⊆A ⟶ ⊦ B∈ ℘A❘
     = [A,B,p] powersetI ([x,q] q subsetE p)❙
-  vpowersetE : {A,B} ⊦ B∈ ℘A ⟶ ⊦ B⊆A❘
+  vpowersetE : {A,B} ⊦ B∈ ℘A ⟶ ⊦ B⊆A❘# 3 vpowersetE❘
     = [A,B,p] subsetI ([x,q] p powersetE q)❙
   
   powerset_self : {A} ⊦ A ∈ ℘A❘
