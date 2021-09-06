@@ -1,0 +1,121 @@
+namespace latin:/❚
+
+fixmeta ?DependentFOLEQDescND❚
+
+/T   The views currently still need single theories as a domain and codomain, which 
+  forces us to provide spurious named theories. This should be refactored when
+  multi-theory domains and codomains are possible.❚
+  
+// Views for TheRelation❚
+// AS: to keep consistency with ordered pairs, it might be wanted to realize TheRelation instead. 
+  These views can be changed easily into a realize❚
+theory CartFilter =
+  include ?CartesianProduct❙
+  include ?Filter❙
+  include ?RelationDefinitions❙
+❚
+
+view TheCartFilter : ?TheRelation → ?CartFilter =
+  include ?SetBase❙
+  include ?RelationDefinitions❙
+  
+  theRel = [A,B,P] (A ×ͧ B) | ([p] P (p₁ͧ) (p₂ͧ))❙
+  inRel = [R,a,b] (a,ͧb) ∈ R❙
+    
+  isrelAB = [R,A,B] R ⊆ A×ͧB❙
+  
+  compRel = [A,B,P,a,b] equivI
+      ([p] andI (andI (compL ucongP ([x] x∈A) ((p filterEl) prodEl)) 
+      (compR ucongP ([x] x∈B) ((p filterEl) prodEr)))
+      (compL ucongP ([x] P x b) (compR ucongP ([y] P ((a,ͧb)₁ͧ) y) (p filterEr))))
+      ([q] filterI (prodI (q andEl andEl) (q andEl andEr)) 
+      ((eq/sym compL) ucongP ([x] P x ((a,ͧb)₂ͧ)) 
+      ((eq/sym compR) ucongP ([y] P a y) (q andEr))))❙
+  
+  reprRel = [A,B,R,rr] extensionalityI ([x] equivI
+      ([p] filterI (p subsetE rr)
+      (repr (p subsetE rr prodE) ucongP ([y] y∈R) p))
+      ([q] (eq/sym repr (q filterEl prodE)) ucongP ([y] y∈R) (q filterEr)))❙
+  
+  extRel = [A,B,R,S,rr,rs,Q] extensionalityI ([x] equivI
+      ([p] eq/sym repr (p subsetE rr prodE) ucongP ([u] u∈S)
+      (Q (x₁ͧ) (x₂ͧ) equivEl (repr (p subsetE rr prodE) ucongP ([u] u∈R) p)))
+      ([q] eq/sym repr (q subsetE rs prodE) ucongP ([u] u∈R)
+      (Q (x₁ͧ) (x₂ͧ) equivEr (repr (q subsetE rs prodE) ucongP ([u] u∈S) q))))❙
+❚
+
+// Views for Relations❚
+theory CartFilterPower =
+  include ?CartFilter❙
+  include ?Powersets❙
+❚
+
+view RelCartFilter : ?Relations → ?CartFilterPower =
+  include ?TheRelation❘ = ?TheCartFilter❙
+
+  rel = [A,B] ℘ (A ×ͧ B)❙
+  relI = [A,B,P] vpowersetI filter_sub❙
+  relE = [A,B,R,p] p vpowersetE❙
+  
+  rel_sub = [A,B,C,D,pa,pb] subsetI ([x,px] powersetI ([y,py] (px powersetE py)
+      subsetE (prod_sub pa pb)))❙
+❚
+
+// Views for PartialFunctions❚
+theory RelFilter =
+  include ?Relations❙
+  include ?Filter❙
+❚
+
+view PFuncRelFilter : ?PartialFunctions → ?RelFilter =
+  // AS: TheRelation should have the same definition as in relations, but
+    how can this be stated here?❙
+  include ?TheRelation❙
+  
+  pfunc = [A,B] rel A B | ([R] isrightu R)❙
+  pfuncI = [A,B,P,p] filterI (relI P) p❙
+  pfuncE = [A,B,R,p] andI (p filterEl relE) (p filterEr)❙
+❚
+
+view PFuncCartFilter : ?PartialFunctions → ?CartFilterPower =
+  include ?TheRelation❘ = ?TheCartFilter❙
+  
+  pfunc = [A,B] ℘ (A ×ͧ B) | ([R] isrightunique ([a,b] (a,ͧb) ∈ R))❙
+  pfuncI = [A,B,P,p] filterI (vpowersetI filter_sub) p❙
+  pfuncE = [A,B,R,p] andI (p filterEl vpowersetE) (p filterEr)❙
+❚
+
+// Views for Functions❚
+view FuncRelFilter : ?Functions → ?RelFilter =
+  // AS: TheRelation should have the same definition as in relations, 
+    but how can this be stated here?❙
+  include ?TheRelation❙
+
+  func = [A,B] rel A B | ([R] isrightu R ∧ isleftt R A)❙
+  funcI = [A,B,P,p,q] filterI (relI P) (andI p q)❙
+  funcE = [A,B,R,p] andI (p filterEl relE) (p filterEr)❙
+❚
+
+theory PFuncFilter =
+  include ?PartialFunctions❙
+  include ?Filter❙
+❚
+
+view FuncPFuncFilter : ?Functions → ?PFuncFilter =
+  // AS: TheRelation should have the same definition as in partial functions, 
+  but how can this be stated here?❙
+  include ?TheRelation❙
+
+  func = [A,B] pfunc A B | ([R] isleftt R A)❙
+  funcI = [A,B,P,p,q] filterI (pfuncI P p) q❙
+  funcE = [A,B,R,p] andI (p filterEl pfuncE) (p filterEr)❙
+❚
+
+view FuncCartFilter : ?Functions → ?CartFilterPower =
+  include ?TheRelation❘ = ?TheCartFilter❙ 
+  
+  func = [A,B] ℘ (A ×ͧ B) | ([R] isrightunique ([a,b] (a,ͧb) ∈ R) ∧
+    (islefttotal ([a,b] (a,ͧb)∈R) A))❙
+  funcI = [A,B,P,p,q] filterI (vpowersetI filter_sub) (andI p q)❙
+  funcE = [A,B,R,p] andI (p filterEl vpowersetE) (p filterEr)❙
+❚
