@@ -70,29 +70,44 @@ theory TypeEqualityNDSet =
   // AS: Propositions and Proofs are part of the fixmeta❙
   include ?Propositions❙
   include ?Proofs❙
+  
   include ?TypesSet❙
   
   realize ?TypeEqualityND❙
-  // AS: How to realize a structure?❙
+  // AS: a structure mapping untyped equality to types within the 
+    transformation of type theory into untyped set theory :D
+    → term = tp = set = term❙
+  constant tpeq/uequal = [A,B] A =ͧ B❙
+  constant tpeq/urefl = [A] urefl❙
+  constant tpeq/ucongP = [A,B,p,P,q] p ucongP P q❙
 ❚
 
 theory DependentTypeEqualitySet =
+  // AS: Propositions and Proofs are part of the fixmeta❙
+  include ?Propositions❙
+  include ?Proofs❙
+  
   include ?TypeEqualityNDSet❙
   include ?TypedEqualityNDSet❙
   
   realize ?DependentTypeEquality❙
-  // TODO:❙
+  transport = [A,B,p,e: Elem A] elem (which e) (p tpeq/ucongP ([T] which e∈T) (why e))❙
+  transport_refl = [A,e: Elem A] tpeq/urefl❙ 
+  transport_trans = [A,B,C,e: Elem A,p,q] uequal❙ 
 ❚
 
-// AS: move universal and existential into logic_to_set❙
+// AS: move universal and existential into logic_to_set❚
 theory TypedUniversalQuantificationSet =
+  // AS: Propositions and Proofs are part of the fixmeta❙
+  include ?Propositions❙
+  include ?Proofs❙
   include ?TypedLogicSet❙
   
   realize ?TypedUniversalQuantificationND❙
   
   tforall = [A,P: Elem A ⟶ prop] uforall [x] (x∈A) ⇒ͩ ([p] P (elem x p))❙
   tforallI = [A,P,p] uforallI [x] dimplI ([q] p (elem x q))❙
-  tforallE = [A,P,p,e: Elem A] elem_id EqcongEl P ((p uforallE (which e)) dimplE (why e))❙
+  tforallE = [A,P,p,e: Elem A] simpP P equivEr ((p uforallE (which e)) dimplE (why e))❙
 ❚
 
 theory TypedExistentialQuantificationSet =
@@ -104,6 +119,6 @@ theory TypedExistentialQuantificationSet =
   realize ?TypedExistentialQuantificationND❙
   
   texists = [A,P: Elem A ⟶ prop] uexists [x] (x∈A) ∧ͩ ([p] P (elem x p))❙
-  texistsI = [A,P: Elem A ⟶ prop,e: Elem A,p] uexistsI (which e) (dandI (why e) (EqcongP P p))❙
+  texistsI = [A,P: Elem A ⟶ prop,e: Elem A,p] uexistsI (which e) (dandI (why e) (simpP P equivEl p))❙
   texistsE = [A,P,C,p,Q] p uexistsE ([x,px] Q (elem x (px dandEl)) (px dandEr))❙
 ❚

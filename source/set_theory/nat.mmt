@@ -18,6 +18,7 @@ theory NatNums =
   two : set❘ = s one❙
 
   // properties of the numbers❙
+  include ?UnionEmpty❙
   one_prop : ⊦ one =ͧ (singleton ∅)❘
     = union_comm ucongP ([x] x =ͧ (singleton ∅)) union_empty❙
   zero_neq_one : ⊦ z =ͧ one ⟶ ⊦ false❘

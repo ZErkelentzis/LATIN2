@@ -14,8 +14,7 @@ theory DependentProductTypesSet =
   include ?Sigma❙
   
   realize ?DependentProductTypes❙
-  // AS: I need set, but dependent implication needs a prop❙
-  depprod = [A,B: Elem A ⟶ set] Σͧ A ([x] x∈A ⇒ͩ ([p] B (elem x p)))❙
+  depprod = [A,B: (Elem A ⟶ set)] Σͧ A ([x,p] B (elem x p))❙
 ❚
 
 theory SoftDependentProductTypesSet =
@@ -26,7 +25,7 @@ theory SoftDependentProductTypesSet =
   include ?Sigma❙
   
   realize ?SoftDependentProductTypes❙
-  softprod = [A,B] sigma A B❙
+  softprod = [A,B] sigma A ([x,p] B x)❙
 ❚
 
 theory SimpleProductsSet =
@@ -42,14 +41,15 @@ theory SimpleProductsSet =
   simppi1 = [A,B,e: Elem (A×ͧB)] elem ((which e)₁ͧ) ((why e) prodEl)❙
   simppi2 = [A,B,e: Elem (A×ͧB)] elem ((which e)₂ͧ) ((why e) prodEr)❙
   
-  // AS: pretty annoying proof since I need the exact form of simppi1 (simppair a b)❙
   compute1 = [A,B,a: Elem A,b: Elem B] compL❙
+  // AS: without role Simplify❙
   // compute1 = [A,B,a: Elem A,b: Elem B] ((eq_which (prodI (why a) (why b)))
     ucongP ([x] which (elem ((which (elem (which a,ͧwhich b) (prodI (why a) (why b))))₁ͧ)
     ((why elem (which a,ͧwhich b) (prodI (why a) (why b))) prodEl)) =ͧ (x₁ͧ))
     (eq_which (why (elem (which a,ͧwhich b) (prodI (why a) (why b))) prodEl))) eq/trans compL❙
   
   compute2 = [A,B,a: Elem A,b: Elem B] compR❙
+  // AS: without role Simplify❙
   // compute2 = [A,B,a: Elem A,b: Elem B] ((eq_which (prodI (why a) (why b)))
     ucongP ([x] which (elem ((which (elem (which a,ͧwhich b) (prodI (why a) (why b))))₂ͧ)
     ((why elem (which a,ͧwhich b) (prodI (why a) (why b))) prodEr)) =ͧ (x₂ͧ))
@@ -66,8 +66,13 @@ theory DependentProductsSet =
   include ?DependentTypeEqualitySet❙
   
   realize ?DependentProducts❙
-  // AS: dependent product types need to be fixed first❙
-  // deppair = [A,B: (Elem A ⟶ set),a: Elem A,b: Elem (B a)]❙
+  deppair = [A,B: (Elem A ⟶ set),a: Elem A,b: Elem (B a)] elem (which a,ͧ which b)
+    (sigmaI (why a) (in_eq (why b) (simpF B)))❙
+  deppi1 = [A,B: (Elem A ⟶ set),e] elem ((which e)₁ͧ) ((why e) sigmaEl)❙
+  deppi2 = [A,B: (Elem A ⟶ set),e] elem ((which e)₂ͧ) ((why e) sigmaEr)❙
+  
+  compute1 = [A,B,a: Elem A,b] compL❙
+  compute2 = [A,B: (Elem A ⟶ set),a,b] compR❙
 ❚
 
 theory SoftTypedProductsSet =
@@ -76,7 +81,8 @@ theory SoftTypedProductsSet =
   include ?Proofs❙
   include ?Terms❙
   include ?UntypedEquality❙
-  include ?TypedZFFeatures❙
+  
+  include ?CartesianProduct❙
   
   realize ?SoftTypedProducts❙
   pair = [a,b] a,ͧb❙
@@ -161,7 +167,7 @@ theory SimpleProductsExtensionalitySet =
   include ?SimpleProductsSet❙
   
   realize ?SimpleProductsExtensionality❙
-  exten = [A,B,u: Elem (A×ͭB),v: Elem (A×ͭB),p,q] ext ((why u) prodE) ((why v) prodE) p q❙
+  exten = [A,B,u: Elem (A×ͧB),v: Elem (A×ͧB),p,q] ext ((why u) prodE) ((why v) prodE) p q❙
 ❚
 
 theory DependentProductsExtensionalitySet =

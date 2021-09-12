@@ -50,9 +50,9 @@ view ReplaceFromAxiom : ?Replace → ?ReplacementAx =
 view ImageReplace : ?Image → ?Replace =
   include ?SetBase❙
   
-  image = [f,A] replace A f isfun_fun2rel❙
-  imageI = [f,A,x,p] replaceI p❙
-  imageE = [f,A,y,p] p replaceE ([x,pa,pb] uexistsI x (andI pa pb))❙
+  image = [A,f] replace A f isfun_fun2rel❙
+  imageI = [A,f,x,p] replaceI p❙
+  imageE = [A,f,y,p] p replaceE ([x,pa,pb] uexistsI x (andI pa pb))❙
 ❚
 
 // Views for SymmetricDifference❚

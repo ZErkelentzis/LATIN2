@@ -18,7 +18,7 @@ theory Replace =
   include ?SetBase❙  
   include ?RelationDefinitions❙
   
-  // AS: is 1 map 2 really right?❙
+  // AS: would be 1 map 2❙
   replace  : {A:set, f:set ⟶ set} ⊦ (isfunction (fun2rel f) A) ⟶ set❙
   replaceI : {A,f,x} ⊦ x∈A ⟶ ⊦ (f x) ∈ replace A f isfun_fun2rel❙
   replaceE : {A,f,y,C} ⊦ y ∈ replace A f isfun_fun2rel ⟶ ({x} ⊦ x∈A ⟶ ⊦ f x =ͧ y ⟶ ⊦C) ⟶ ⊦C❘ # 5 replaceE 6❙
@@ -28,10 +28,25 @@ theory Image =
   include ?SetBase❙
   
   // image f A = {f(x) : x∈A}❙
-  // AS: think of a shorter notation❙
-  image : (set ⟶ set) ⟶ set ⟶ set❙
-  imageI : {f,A,x} ⊦ x∈A ⟶ ⊦ (f x)∈ image f A❙
-  imageE : {f,A,y} ⊦ y ∈ image f A ⟶ ⊦ ∃ͧ[x] x∈A ∧ f x =ͧ y❘# 4 imageE❙
+  // AS: think of a shorter notation and maybe change prec❙
+  image : {A: set} ({x} ⊦ x∈A ⟶ set) ⟶ set❘# image 2 1 prec 50❙
+  imageI : {A,f,x} {p: ⊦ x∈A} ⊦ (f x p)∈ image f A❙
+  imageE : {A,f,y} ⊦ y ∈ image f A ⟶ ⊦ ∃ͧ[x] x∈A ∧ͩ ([p] f x p =ͧ y)❘# 4 imageE❙
+  
+  image_id : {A} ⊦ image ([x,p: ⊦ x∈A] x) A =ͧ A❘
+    = [A] extensionalityI ([x] equivI 
+      ([p] p imageE uexistsE ([y,py] eq_in (eq/sym (py dandEr)) (py dandEl)))
+      ([q] imageI q))❙
+❚
+
+theory ImageEmpty =
+  include ?Image❙
+  include ?EmptySet❙
+  
+  image_empty : {f} ⊦ image f ∅ =ͧ ∅❘
+    = [f] extensionalityI ([x] equivI
+      ([p] p imageE uexistsE ([y,py] empty_prop notE (uexistsI y (py dandEl)) inconE))
+      ([q] empty_prop notE (uexistsI x q) inconE))❙
 ❚
 
 theory SymmetricDifference =

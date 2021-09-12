@@ -52,10 +52,13 @@ theory TPowersets =
   // thoseI : {A,e: Elem A,F: Elem A ⟶ prop} ⊦ F e ⟶ ⊦ e ∈ͯ (those F)❘
   //  = [A,e,F,p] filterI (why e) (dandI (why e) (EqcongP F p))❙
   
-  Subset : {A} Powerset A ⟶ Powerset A ⟶ prop❘# 2 ⊆ͯ 3❘
-    = [A,a,b] which a ⊆ which b❙
   Equal : {A} Powerset A ⟶ Powerset A ⟶ prop❘# 2 =ͯ 3❘
     = [A,a,b] a Eq b❙
+  
+  Subset : {A} Powerset A ⟶ Powerset A ⟶ prop❘# 2 ⊆ͯ 3❘
+    = [A,a,b] which a ⊆ which b❙
+  SubsetI : {A,B,C} ({x: Elem A} ⊦ x∈ͯB ⟶ ⊦ x∈ͯC) ⟶ B⊆ͯC❙
+   // = [A,B,C,Q] subsetI ([x,p] Q (elem x p)❙
     
   Subset_refl : {A,a: Powerset A} ⊦ a ⊆ͯ a❘
     = [A,a] subset_refl❙

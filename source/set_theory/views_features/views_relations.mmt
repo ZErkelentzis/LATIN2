@@ -93,7 +93,9 @@ view FuncRelFilter : ?Functions → ?RelFilter =
 
   func = [A,B] rel A B | ([R] isrightu R ∧ isleftt R A)❙
   funcI = [A,B,P,p,q] filterI (relI P) (andI p q)❙
-  funcE = [A,B,R,p] andI (p filterEl relE) (p filterEr)❙
+  // AS: MMT acting weird!❙
+  funcE = [A,B,R,p] andI (andI (p filterEl relE) (p filterEr andEl))
+    (p filterEr andEr)❙
 ❚
 
 theory PFuncFilter =
@@ -117,5 +119,7 @@ view FuncCartFilter : ?Functions → ?CartFilterPower =
   func = [A,B] ℘ (A ×ͧ B) | ([R] isrightunique ([a,b] (a,ͧb) ∈ R) ∧
     (islefttotal ([a,b] (a,ͧb)∈R) A))❙
   funcI = [A,B,P,p,q] filterI (vpowersetI filter_sub) (andI p q)❙
-  funcE = [A,B,R,p] andI (p filterEl vpowersetE) (p filterEr)❙
+  // AS: MMT acting weird!❙
+  funcE = [A,B,R,p] andI (andI (p filterEl vpowersetE) (p filterEr andEl))
+    (p filterEr andEr)❙
 ❚

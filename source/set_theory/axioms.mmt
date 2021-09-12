@@ -53,12 +53,6 @@ theory PowersetAx =
     = [A] powerset_axiom uexistsE ([z,pz] uexistsUniqueI pz
       ([y,py] extensionalityI ([B] (pz uforallE B) equiv_equivalence/trans
       (equiv_equivalence/sym (py uforallE B)))))❙
-
-  // AS: This definition is dependent on ⊆. So maybe use the alternative definition.❙
-  // powersetAxI : {A,B,Z} ⊦ B⊆A ⟶ ⊦ B∈Z❙
-  // powersetAxE : {A,B,Z} ⊦ B∈Z ⟶ ⊦ B⊆A❘// # 4 powersetAxE❙
-
-  // Alternative definition❙
   powersetAxI : {A,B,Z} ⊦ ispowerset A Z ⟶ ({x} ⊦ x∈B ⇒ x∈A) ⟶ ⊦ B∈Z❘
     = [A,B,Z,p,q] p uforallE B equivEr (uforallI q)❙
   powersetAxE : {A,B,Z} ⊦ ispowerset A Z ⟶ ⊦ B∈Z ⟶ {x} ⊦ x∈B ⇒ x∈A❘# 5 powersetAxE 4 6❘

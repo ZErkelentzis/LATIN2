@@ -61,11 +61,11 @@ theory CartesianProduct =
 theory CartEmpty =
   include ?CartesianProduct❙
   include ?EmptySet❙
-  cart_empty1 : {A} ⊦ ∅×ͧA =ͧ ∅❘
-    = [A] extensionalityI ([x] equivI
+  cart_emptyA : {B} ⊦ ∅×ͧB =ͧ ∅❘
+    = [B] extensionalityI ([x] equivI
       ([p] empty_prop notE (uexistsI (x₁ͧ) (p prodEl)) inconE)
       ([q] empty_prop notE (uexistsI x q) inconE))❙
-  cart_empty2 : {A} ⊦ A×ͧ∅ =ͧ ∅❘
+  cart_emptyB : {A} ⊦ A×ͧ∅ =ͧ ∅❘
     = [A] extensionalityI ([x] equivI
       ([p] empty_prop notE (uexistsI (x₂ͧ) (p prodEr)) inconE)
       ([q] empty_prop notE (uexistsI x q) inconE))❙
@@ -109,13 +109,31 @@ theory Sigma =
   // AS: sigma function or dependent product. Similar to Isabelle/ZF and Lean and Nuprl❙
   include ?OrderedPairs❙
   
-  sigma : set ⟶ (set ⟶ set) ⟶ set❘# Σͧ 1 2 prec 40❙
+  sigma : {A: set} ({x} ⊦ x∈A ⟶ set) ⟶ set❘# Σͧ 1 2 prec 40❙
   
-  sigmaI : {A,B,a,b} ⊦ a∈A ⟶ ⊦ b∈(B a) ⟶ ⊦ (a,ͧb) ∈ Σͧ A B❙
+  sigmaI : {A,B,a,b} {p: ⊦ a∈A} ⊦ b∈(B a p) ⟶ ⊦ (a,ͧb) ∈ Σͧ A B❙
   sigmaEl : {A,B,p} ⊦ p ∈ Σͧ A B ⟶ ⊦ p₁ͧ∈A❘# 4 sigmaEl❙
-  sigmaEr : {A,B,p} ⊦ p ∈ Σͧ A B ⟶ ⊦ p₂ͧ∈(B (p₁ͧ))❘# 4 sigmaEr❙
+  sigmaEr : {A,B,p} {q: ⊦ p ∈ Σͧ A B} ⊦ p₂ͧ∈(B (p₁ͧ) (q sigmaEl))❘# 4 sigmaEr❙
   
   sigmaE : {A,B,p} ⊦ p ∈ Σͧ A B ⟶ ⊦ ispair p❘# 4 sigmaE❙
   
-  // AS: think about subsets etc❙
+  // AS: sigma_sub hard to proof now, because B(x) would be independent of a proof,
+    but I don't know how to state this❙
+  // sigma_sub : {A,B,C} ⊦ A⊆C ⟶ ⊦ Σͧ A B ⊆ Σͧ C B❘
+    // = [A,B,C,p] subsetI ([x,q] eq_in (repr (q sigmaE))
+      (sigmaI (q sigmaEl subsetE p) (q sigmaEr)))❙
+❚
+
+theory SigmaEmpty =
+  include ?Sigma❙
+  include ?EmptySet❙
+  
+  sigma_emptyA : {B} ⊦ Σͧ ∅ B =ͧ ∅❘
+    = [B] extensionalityI ([x] equivI
+      ([p] empty_prop notE (uexistsI (x₁ͧ) (p sigmaEl)) inconE)
+      ([q] empty_prop notE (uexistsI x q) inconE))❙
+  sigma_emptyB : {A} ⊦ Σͧ A ([x,p] ∅) =ͧ ∅❘
+    = [A] extensionalityI ([x] equivI
+      ([p] empty_prop notE (uexistsI (x₂ͧ) (p sigmaEr)) inconE)
+      ([q] empty_prop notE (uexistsI x q) inconE))❙
 ❚
