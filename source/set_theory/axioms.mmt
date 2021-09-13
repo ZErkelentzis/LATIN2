@@ -121,11 +121,10 @@ theory InfinityAx =
     of x is a member of A as well.❙
   include ?EmptySet❙
 
-  // abstract successor function❙
-  successor : set ⟶ set❙
-  issuccset = [A] ∅∈A ∧ ∀ͧ[x] x∈A ⇒ (successor x)∈A❙
+  // abstract successor function s❙
+  issuccset = [s : set ⟶ set,A] ∅∈A ∧ ∀ͧ[x] x∈A ⇒ (s x)∈A❙
 
-  infinity_axiom : ⊦ ∃ͧ[A] issuccset A❙
+  infinity_axiom : {s} ⊦ ∃ͧ[A] issuccset s A❙
 ❚
 
 theory ChoiceAx =

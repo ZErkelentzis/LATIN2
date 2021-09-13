@@ -1,0 +1,11 @@
+file ../../build_config.msl
+
+// many dependencies. Set theory and origins of folders!
+
+build MMT/LATIN2 mmt-omdoc transformations_to_set/fundamentals_transformed.mmt
+file source/transformations_to_set/type_to_set/build.msl
+
+// fixed order
+build MMT/LATIN2 mmt-omdoc transformations_to_set/logic_to_set/fol_to_set/sfol.mmt
+build MMT/LATIN2 mmt-omdoc transformations_to_set/numbers_to_set/nat.mmt
+build MMT/LATIN2 mmt-omdoc transformations_to_set/logic_to_set/fol_to_set/booleans.mmt

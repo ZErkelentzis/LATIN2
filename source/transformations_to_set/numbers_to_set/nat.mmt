@@ -1,0 +1,32 @@
+namespace latin:/❚
+
+fixmeta ?DependentFOLEQDescND❚
+
+// AS: This theory is dependent on ZF right now, because Nats is done with ZF❚
+theory NatZF =
+  include ?Nats❙
+  include ?TypedUniversalQuantificationNDSet❙
+
+  realize ?Nat❙
+  nat = nats❙
+  Nat = Elem nats❙
+  
+  zero = elem z peano_zero❙
+  succ = [e: Elem nats] elem (s (which e)) (peano_succ uforallE (which e)
+        implE (why e))❙
+        
+  // AS: even and uneven are missing❙
+  
+  // AS: I don't know what to do with rules❙
+  
+  // AS: I don't have lemma to proof this❙
+  peano_induction : {P} ⊦ P z ⟶ ({n} ⊦ n ∈ nat ⟶ ⊦ P n ⟶ ⊦ P (s n)) 
+      ⟶ ⊦ ∀ͭ[n: Elem nats] P (which n)❙
+❚
+
+theory NatPlusZF =
+  include ?NatZF❙
+  
+  realize ?NatPlus❙
+  plus = [e: Elem nats, d: Elem nats] _ ❙
+❚

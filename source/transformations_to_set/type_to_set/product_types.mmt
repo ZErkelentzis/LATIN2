@@ -14,7 +14,7 @@ theory DependentProductTypesSet =
   include ?Sigma❙
   
   realize ?DependentProductTypes❙
-  depprod = [A,B: (Elem A ⟶ set)] Σͧ A ([x,p] B (elem x p))❙
+  depprod = [A,B: (Elem A ⟶ set)] sigma (modify_type (A ([x,p: ⊦ x∈A] B (elem x p))))❙
 ❚
 
 theory SoftDependentProductTypesSet =

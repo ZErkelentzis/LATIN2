@@ -10,7 +10,7 @@ theory NatNums =
   include ?ZFFeatures❙
 	
   // successor function❙
-  succ : set ⟶ set❘# s 1❘ = [X] adjoin X X❙
+  s : set ⟶ set❘ = [X] adjoin X X❙
 
   // some numbers❙
   zero : set❘# z❘ = ∅❙
@@ -34,16 +34,12 @@ theory NatNums =
   has_nats : set ⟶ prop❘
     = [A] z∈A ∧ ∀ͧ[X] X∈A ⇒ (s X) ∈A❙
     
-  // AS: This is basically infinity_axiom. But I don't know how to connect these two for now❙
-  infinity_ax : ⊦ ∃ͧ[X] has_nats X❙
+  exists_infinite : ⊦ ∃ͧ[X] has_nats X❘
+    = infinity_axiom❙
 ❚
 
 theory Nats =
-  include ?TypedZF❙
-  include ?EmptyDefinitions❙
-  // AS: NatNums could be build before typed and be included in ZFC❙
   include ?NatNums❙
-  
   // A is a minimum set with property P❙ 
   is_minimum : set ⟶ (set ⟶ prop) ⟶ prop❘
     = [A,P] P A ∧ ∀ͧ[Z] P Z ⇒ A⊆Z❙
@@ -66,23 +62,22 @@ theory Nats =
   // AS: no proof cause I don't have lemma❙
   minimum_has_nats : ⊦ ∃ͧ[X] is_minimum X has_nats❙
   
-  nat : set❘
+  // set for natural numbers❙
+  nats : set❘
     = the ([X] is_minimum X has_nats) (minimum_unique minimum_has_nats)❙
-  nat_prop : ⊦ is_minimum nat has_nats❘
+  nats_prop : ⊦ is_minimum nats has_nats❘
     = the_ax ([X] is_minimum X has_nats) (minimum_unique minimum_has_nats)❙
-  Nat : type❘ = Elem nat❙
-  
+    
   // Peano axioms❙
-  peano_zero : ⊦ z ∈ nat❘
-    = nat_prop andEl andEl❙
-  peano_succ : ⊦ ∀ͧ[n] n∈ nat ⇒ (s n) ∈ nat❘
-    = nat_prop andEl andEr❙
+  peano_zero : ⊦ z ∈ nats❘
+    = nats_prop andEl andEl❙
+  peano_succ : ⊦ ∀ͧ[n] n∈nats ⇒ (s n) ∈ nats❘
+    = nats_prop andEl andEr❙
   peano_wellfounded : ⊦ ¬ ∃ͧ[n] (s n) =ͧ z❘
     = notI ([pf] pf uexistsE ([n,p] empty_prop notE (uexistsI n (in_eq adjoinIr p)) inconE) falseE)❙
   // uses regularity❙
   peano_linear : {n,m} ⊦ (s n) =ͧ (s m) ⟶ ⊦ n =ͧ m❘
     = [n,m,p] (in_eq adjoinIr p) adjoinE ([pa] (in_eq adjoinIr (eq/sym p)) adjoinE
     ([qa] in_acyclic pa qa falseE inconE) ([qb] eq/sym qb)) ([pb] pb)❙
-  // AS: I don't have lemma to proof this❙
-  peano_induction : {P} ⊦ P z ⟶ ({n} ⊦ n ∈ nat ⟶ ⊦ P n ⟶ ⊦ P (s n)) ⟶ ⊦ ∀ͭ[n: Nat] P (which n)❙
+  // Peano 5 depends on Elem!❙
 ❚

@@ -26,13 +26,11 @@ build MMT/LATIN2 mmt-omdoc set_theory/views_features
 build MMT/LATIN2 mmt-omdoc set_theory/typebase.mmt
 
 // depends on views_features
-// AS: maybe move this to the end
 build MMT/LATIN2 mmt-omdoc set_theory/zfc.mmt
 
-// TODO move/delete these!
-build MMT/LATIN2 mmt-omdoc set_theory/typed_features.mmt
-build MMT/LATIN2 mmt-omdoc set_theory/typed_zfc.mmt
-
-// AS: These two could be moved before zfc
 build MMT/LATIN2 mmt-omdoc set_theory/nat.mmt
 build MMT/LATIN2 mmt-omdoc set_theory/bool.mmt
+
+// TODO move/delete these?
+build MMT/LATIN2 mmt-omdoc set_theory/typed_features.mmt
+build MMT/LATIN2 mmt-omdoc set_theory/typed_zfc.mmt
