@@ -32,8 +32,7 @@ theory TImage =
 
 theory TPowersets =
   include ?TypeBase❙
-  // AS: I decided to use jcombx to modify the symbols here, since jcombp does not exist for now.
-    Of course this can be changed later.❙
+
   include ?Powersets❙
   Powerset : set ⟶ type❘
     = [A] Elem (℘A)❙

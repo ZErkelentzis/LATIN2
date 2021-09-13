@@ -4,21 +4,23 @@ import rules scala://parser.api.mmt.kwarc.info❚
 rule rules:?MMTURILexer❚
 
 fixmeta ur:?LF❚
+// AS: I decided to modify symbols with jcombx, because there is no jcombp.
+  This could be changed later❚ 
 
 theory PowerTypes =
   include ☞latin:/?TypedEqualityND❙
   include ☞latin:/?EquivalenceND❙
   
-  power : tp ⟶ tp❘# ℘ 1 prec 100❙
-  in    : {A} tm A  ⟶ tm ℘A ⟶ prop❘# 2 ∈ 3 prec 30❙
-  filter: {A} (tm A ⟶ prop) ⟶ tm ℘A❘# filter 2 prec 50❙
+  power : tp ⟶ tp❘# ℘ͯ 1 prec 100❙
+  in    : {A} tm A  ⟶ tm ℘ͯA ⟶ prop❘# 2 ∈ͯ 3 prec 30❙
+  filter: {A} (tm A ⟶ prop) ⟶ tm ℘ͯA❘# filter 2 prec 50❙
   
-  compute : {A,P,x: tm A} ⊦ x ∈ filter P ⇔ P x❙
-  expand  : {A,S:tm ℘A} ⊦ S =ͭ filter[x]x∈S❙
+  compute : {A,P,x: tm A} ⊦ x ∈ͯ filter P ⇔ P x❙
+  expand  : {A,S:tm ℘ͯA} ⊦ S =ͭ filter[x]x∈ͯS❙
   
-  filterI : {A,P,x: tm A} ⊦ P x ⟶ ⊦ x ∈ filter P❘
+  filterI : {A,P,x: tm A} ⊦ P x ⟶ ⊦ x ∈ͯ filter P❘
   				= [A,P,x,p] compute equivEr p❙
-  filterE : {A,P,x: tm A} ⊦ x ∈ filter P ⟶ ⊦ P x❘# 4 filterE ❘ 
+  filterE : {A,P,x: tm A} ⊦ x ∈ͯ filter P ⟶ ⊦ P x❘# 4 filterE ❘ 
   				= [A,P,x,p] compute equivEl p❙
 ❚
 
@@ -26,11 +28,11 @@ theory Map =
   include ?PowerTypes❙
   include ☞latin:/?ConjunctionND❙
   include ☞latin:/?TypedExistentialQuantificationND❙
-  map : {A,B} (tm A ⟶ tm B) ⟶ tm ℘A ⟶ tm ℘B❘
-      = [A,B,f,S] filter[b] ∃ͭ[a] a∈S ∧ (b =ͭ f a)❘# 4 map 3 prec 40❙
-  mapI : {A,B,f:tm A ⟶ tm B,S,x} ⊦ x ∈ S ⟶ ⊦ f x ∈ S map f❘
+  map : {A,B} (tm A ⟶ tm B) ⟶ tm ℘ͯA ⟶ tm ℘ͯB❘
+      = [A,B,f,S] filter[b] ∃ͭ[a] a∈ͯS ∧ (b =ͭ f a)❘# 4 map 3 prec 40❙
+  mapI : {A,B,f:tm A ⟶ tm B,S,x} ⊦ x ∈ͯ S ⟶ ⊦ f x ∈ͯ S map f❘
        = [A,B,f,S,x,p] filterI texistsI x andI p trefl❙
-  mapE : {A,B,f:tm A ⟶ tm B,S,x,C} ⊦ x ∈ S map f ⟶ ({a} ⊦ a∈S ⟶ ⊦ x =ͭ f a ⟶ ⊦C) ⟶ ⊦ C❘
+  mapE : {A,B,f:tm A ⟶ tm B,S,x,C} ⊦ x ∈ͯ S map f ⟶ ({a} ⊦ a∈ͯS ⟶ ⊦ x =ͭ f a ⟶ ⊦C) ⟶ ⊦ C❘
        = [A,B,f,S,x,C,p,q] p filterE texistsE [a,r] q a (r andEl) (r andEr)❙
 ❚
 
@@ -38,26 +40,26 @@ theory Extensionality =
   include ?PowerTypes❙
   include ☞latin:/?TypedUniversalQuantificationND❙
 
-  extensionality  : {A,S,T:tm ℘A} ⊦(∀ͭ[x:tm A] x∈S ⇔ x∈T) ⟶ ⊦ S =ͭ T❙
-  extensionalityI : {A,S,T:tm ℘A} ({x}⊦x∈S⟶⊦x∈T) ⟶ ({x}⊦x∈T⟶⊦x∈S) ⟶ ⊦ S =ͭ T❘
+  extensionality  : {A,S,T:tm ℘ͯA} ⊦(∀ͭ[x:tm A] x∈ͯS ⇔ x∈ͯT) ⟶ ⊦ S =ͭ T❙
+  extensionalityI : {A,S,T:tm ℘ͯA} ({x}⊦x∈ͯS⟶⊦x∈ͯT) ⟶ ({x}⊦x∈ͯT⟶⊦x∈ͯS) ⟶ ⊦ S =ͭ T❘
                   = [A,S,T,f,g] extensionality (tforallI [x] equivI ([p] f x p) ([q] g x q))❙
-  eq_in_left : {A,S,T,x:tm A} ⊦ S =ͭ T ⟶ ⊦ x∈S ⟶ ⊦ x∈T❘
-        = [A,S,T,x,p,q] p tcongP ([u]x∈u) q❙
-  eq_in_right : {A,S,T,x:tm A} ⊦ S =ͭ T ⟶ ⊦ x∈T ⟶ ⊦ x∈S❘
-        = [A,S,T,x,p,q] p tsym tcongP ([u]x∈u) q❙
+  eq_in_left : {A,S,T,x:tm A} ⊦ S =ͭ T ⟶ ⊦ x∈ͯS ⟶ ⊦ x∈ͯT❘
+        = [A,S,T,x,p,q] p tcongP ([u]x∈ͯu) q❙
+  eq_in_right : {A,S,T,x:tm A} ⊦ S =ͭ T ⟶ ⊦ x∈ͯT ⟶ ⊦ x∈ͯS❘
+        = [A,S,T,x,p,q] p tsym tcongP ([u]x∈ͯu) q❙
 ❚
 
 theory FiniteSets = 
   include ?PowerTypes❙
   include ☞latin:/?DisjunctionND❙
-  singleton : {A} tm A ⟶ tm ℘A❘= [A,x] filter [u] u =ͭ x❘# % 2 prec 100❙
-  singletonI : {A,x: tm A} ⊦ x ∈ %x❘= [A,x] filterI trefl❙ 
-  singletonE : {A,x,y: tm A} ⊦ x ∈ %y ⟶ ⊦ x =ͭ y❙
+  singleton : {A} tm A ⟶ tm ℘ͯA❘= [A,x] filter [u] u =ͭ x❘# % 2 prec 100❙
+  singletonI : {A,x: tm A} ⊦ x ∈ͯ %x❘= [A,x] filterI trefl❙ 
+  singletonE : {A,x,y: tm A} ⊦ x ∈ͯ %y ⟶ ⊦ x =ͭ y❙
   
-  uopair : {A} tm A ⟶ tm A ⟶ tm ℘A❘= [A,x,y] filter [u]u =ͭ x ∨ u =ͭ y❘# 2 ,, 3 prec 40❙
-  uopairI_left  : {A,x,y: tm A} ⊦ x ∈ x,,y❘= [A,x,y] filterI (trefl orIl)❙
-  uopairI_right : {A,x,y: tm A} ⊦ y ∈ x,,y❘= [A,x,y] filterI (trefl orIr)❙
-  uopairE : {A,x,y,u:tm A,C} ⊦ u ∈ x,,y ⟶ (⊦u =ͭ x ⟶ ⊦ C) ⟶ (⊦u =ͭ y ⟶ ⊦ C) ⟶ ⊦C❘
+  uopair : {A} tm A ⟶ tm A ⟶ tm ℘ͯA❘= [A,x,y] filter [u]u =ͭ x ∨ u =ͭ y❘# 2 ,, 3 prec 40❙
+  uopairI_left  : {A,x,y: tm A} ⊦ x ∈ͯ x,,y❘= [A,x,y] filterI (trefl orIl)❙
+  uopairI_right : {A,x,y: tm A} ⊦ y ∈ͯ x,,y❘= [A,x,y] filterI (trefl orIr)❙
+  uopairE : {A,x,y,u:tm A,C} ⊦ u ∈ͯ x,,y ⟶ (⊦u =ͭ x ⟶ ⊦ C) ⟶ (⊦u =ͭ y ⟶ ⊦ C) ⟶ ⊦C❘
           = [A,x,y,u,C,p,q,r] p filterE orE q r❙
 ❚
 
@@ -66,19 +68,19 @@ theory Subset =
   include ?Extensionality❙
   include ☞latin:/?ImplicationND❙
 
-  subset : {A} tm ℘A ⟶ tm ℘A ⟶ prop❘	
-         = [A,S,T] ∀ͭ[x] x∈S ⇒ x∈T❘
-         # 2 ⊆ 3 prec 30❙
+  subset : {A} tm ℘ͯA ⟶ tm ℘ͯA ⟶ prop❘	
+         = [A,S,T] ∀ͭ[x] x∈ͯS ⇒ x∈ͯT❘
+         # 2 ⊆ͯ 3 prec 30❙
   
-  subsetI: {A,S,T} ({x: tm A} ⊦x∈S ⟶ ⊦ x∈T) ⟶ ⊦ S⊆T❘
+  subsetI: {A,S,T} ({x: tm A} ⊦x∈ͯS ⟶ ⊦ x∈ͯT) ⟶ ⊦ S⊆ͯT❘
          = [A,S,T,f] tforallI [x] implI [p] f x p❙
-  subsetE: {A,S,T,x:tm A} ⊦ S⊆T ⟶ ⊦ x∈S ⟶ ⊦ x∈T❘
+  subsetE: {A,S,T,x:tm A} ⊦ S⊆ͯT ⟶ ⊦ x∈ͯS ⟶ ⊦ x∈ͯT❘
          = [A,S,T,x,p,q] p tforallE x implE q❙
-  subset_refl : {A,S:tm ℘A} ⊦ S⊆S❘
+  subset_refl : {A,S:tm ℘ͯA} ⊦ S⊆ͯS❘
               = [A,S] subsetI [x,p]p❙
-  subset_trans : {A,R,S,T:tm ℘A} ⊦ R⊆S ⟶ ⊦ S⊆T ⟶ ⊦ R⊆T❘
+  subset_trans : {A,R,S,T:tm ℘ͯA} ⊦ R⊆ͯS ⟶ ⊦ S⊆ͯT ⟶ ⊦ R⊆ͯT❘
                = [A,R,S,T,p,q] subsetI [x,r] subsetE q (subsetE p r)❙
-  subset_antisym : {A,S,T:tm ℘A} ⊦ S⊆T ⟶ ⊦ T⊆S ⟶ ⊦ S =ͭ T❘
+  subset_antisym : {A,S,T:tm ℘ͯA} ⊦ S⊆ͯT ⟶ ⊦ T⊆ͯS ⟶ ⊦ S =ͭ T❘
                  = [A,S,T,p,q] extensionalityI ([x,r] subsetE p r) ([x,r] subsetE q r)❙
 ❚
 
@@ -86,10 +88,10 @@ theory FullSet =
   include ?PowerTypes❙
   include ☞latin:/?TruthND❙
 
-  full  : {A} tm ℘A❘
+  full  : {A} tm ℘ͯA❘
         = [A] filter [x] true❘
         # fullset %I1 prec 50❙
-  fullI : {A,x} ⊦ x ∈ full A ❘ 
+  fullI : {A,x} ⊦ x ∈ͯ full A ❘ 
   		  = [A,x] filterI trueI❙
 ❚
 
@@ -97,10 +99,10 @@ theory EmptySet =
   include ?PowerTypes❙
   include ☞latin:/?FalsityND❙
 
-  empty : {A} tm ℘A❘
+  empty : {A} tm ℘ͯA❘
         = [A] filter [x] false❘
-        # ∅ %I1 prec 50❙
-  emptyE : {A,x} ⊦ x ∈ empty A ⟶ ↯❘ 
+        # ∅ͯ %I1 prec 50❙
+  emptyE : {A,x} ⊦ x ∈ͯ empty A ⟶ ↯❘ 
   			 = [A,x,p] p filterE falseE❘
   			 # emptyE 3❙
 ❚
@@ -109,13 +111,13 @@ theory Complement =
   include ?PowerTypes❙
   include ☞latin:/?NegationND❙
 
-  compl : {A} tm ℘A ⟶ tm ℘A ❘
-        = [A,S] filter [x] ¬ x∈S ❘
-        # ∁ 2 prec 50❙
-  complI : {A,S,x:tm A} (⊦x∈S ⟶ ↯) ⟶ ⊦ x∈∁S❘ 
+  compl : {A} tm ℘ͯA ⟶ tm ℘ͯA ❘
+        = [A,S] filter [x] ¬ x∈ͯS ❘
+        # ∁ͯ 2 prec 50❙
+  complI : {A,S,x:tm A} (⊦x∈ͯS ⟶ ↯) ⟶ ⊦ x∈ͯ∁ͯS❘ 
   			 = [A,S,x,p] filterI notI p❘
   			 # complI 4❙
-  complE : {A,S,x:tm A} ⊦ x∈∁S ⟶ ⊦ x∈S ⟶ ↯❘ 
+  complE : {A,S,x:tm A} ⊦ x∈ͯ∁ͯS ⟶ ⊦ x∈ͯS ⟶ ↯❘ 
   			 = [A,S,x,p,q] p filterE notE q ❘# complE 4 5❙
 ❚
 
@@ -123,14 +125,14 @@ theory Intersection =
   include ?PowerTypes❙
   include ☞latin:/?ConjunctionND❙
 
-  inter : {A} tm ℘A ⟶ tm ℘A ⟶ tm ℘A❘ 
-  			= [A,S,T] filter [x] x∈S ∧ x∈T❘
-  			# 2 ∩ 3 prec 40❙
-  interEl : {A,S,T,x:tm A} ⊦ x ∈ S∩T ⟶ ⊦ x∈S❘
+  inter : {A} tm ℘ͯA ⟶ tm ℘ͯA ⟶ tm ℘ͯA❘ 
+  			= [A,S,T] filter [x] x∈ͯS ∧ x∈ͯT❘
+  			# 2 ∩ͯ 3 prec 40❙
+  interEl : {A,S,T,x:tm A} ⊦ x ∈ͯ S∩ͯT ⟶ ⊦ x∈ͯS❘
   				 = [A,S,T, x, p] p filterE andEl❙
-  interEr : {A,S,T,x:tm A} ⊦ x ∈ S∩T ⟶ ⊦ x∈T❘
+  interEr : {A,S,T,x:tm A} ⊦ x ∈ͯ S∩ͯT ⟶ ⊦ x∈ͯT❘
   				 = [A,S,T,x,p] p filterE andEr❙
-  interI  : {A,S,T,x:tm A} ⊦ x∈S ⟶ ⊦ x∈T ⟶ ⊦ x ∈ S∩T❘
+  interI  : {A,S,T,x:tm A} ⊦ x∈ͯS ⟶ ⊦ x∈ͯT ⟶ ⊦ x ∈ͯ S∩ͯT❘
   				 = [A,S,T,x,p,q] filterI andI p q❙
 ❚
 
@@ -138,14 +140,14 @@ theory Union =
   include ?PowerTypes❙
   include ☞latin:/?DisjunctionND❙
 
-  union : {A} tm ℘A ⟶ tm ℘A ⟶ tm ℘A ❘ 
-  				= [A,S,T] filter [x] x∈S ∨ x∈T❘
-  				# 2 ∪ 3 prec 40❙
-  unionIl: {A,S,T,x:tm A} ⊦ x∈S ⟶ ⊦ x ∈ S∪T❘
+  union : {A} tm ℘ͯA ⟶ tm ℘ͯA ⟶ tm ℘ͯA ❘ 
+  				= [A,S,T] filter [x] x∈ͯS ∨ x∈ͯT❘
+  				# 2 ∪ͯ 3 prec 40❙
+  unionIl: {A,S,T,x:tm A} ⊦ x∈ͯS ⟶ ⊦ x ∈ͯ S∪ͯT❘
          = [A,S,T,x,p] filterI (p orIl)❙
-  unionIr: {A,S,T,x:tm A} ⊦ x∈T ⟶ ⊦ x ∈ S∪T❘
+  unionIr: {A,S,T,x:tm A} ⊦ x∈ͯT ⟶ ⊦ x ∈ͯ S∪ͯT❘
          = [A,S,T,x,p] filterI (p orIr)❙
-  unionE : {A,S,T,x:tm A,C} ⊦ x ∈ S∪T ⟶ (⊦x∈S⟶⊦C) ⟶ (⊦x∈T⟶⊦C) ⟶ ⊦ C❘
+  unionE : {A,S,T,x:tm A,C} ⊦ x ∈ͯ S∪ͯT ⟶ (⊦x∈ͯS⟶⊦C) ⟶ (⊦x∈ͯT⟶⊦C) ⟶ ⊦ C❘
   			 = [A,S,T,x,C,p,q,r] p filterE orE q r❙
 ❚
 
@@ -154,12 +156,12 @@ theory BigIntersection =
   include ☞latin:/?ImplicationND❙
   include ☞latin:/?TypedUniversalQuantificationND❙
 
-  biginter : {A} tm ℘℘A ⟶ tm ℘A ❘ 
-    			 = [A,K] filter [x] ∀ͭ[S] S∈K ⇒ x∈S ❘
-    			 # ⋂ 2 prec 45❙
-  biginterI : {A,K,x:tm A} ({S}⊦S∈K⟶⊦x∈S) ⟶ ⊦ x∈⋂K ❘ 
+  biginter : {A} tm ℘ͯ℘ͯA ⟶ tm ℘ͯA ❘ 
+    			 = [A,K] filter [x] ∀ͭ[S] S∈ͯK ⇒ x∈ͯS ❘
+    			 # ⋂ͯ 2 prec 45❙
+  biginterI : {A,K,x:tm A} ({S}⊦S∈ͯK⟶⊦x∈ͯS) ⟶ ⊦ x∈ͯ⋂ͯK ❘ 
   				  = [A,K,x,f] filterI (tforallI [S] implI [p] f S p)❙
-  biginterE : {A,K,x:tm A,S} ⊦ x∈⋂K ⟶ ⊦S∈K ⟶ ⊦x∈S❘ 
+  biginterE : {A,K,x:tm A,S} ⊦ x∈ͯ⋂ͯK ⟶ ⊦S∈ͯK ⟶ ⊦x∈ͯS❘ 
   				  = [A,K,x,S,p,q] p filterE tforallE S implE q❙
 ❚
 
@@ -168,12 +170,12 @@ theory BigUnion =
   include ☞latin:/?ConjunctionND❙
   include ☞latin:/?TypedExistentialQuantificationND❙
 
-  bigunion : {A} tm ℘℘A ⟶ tm ℘A ❘ 
-  				 = [A,K] filter [x] ∃ͭ [S] S∈K ∧ x∈S ❘
-  				 # ⋃ 2 prec 45❙
-  bigunionI : {A,K,S,x:tm A} ⊦ S∈K ⟶ ⊦ x∈S ⟶ ⊦ x∈⋃K ❘ 
+  bigunion : {A} tm ℘ͯ℘ͯA ⟶ tm ℘ͯA ❘ 
+  				 = [A,K] filter [x] ∃ͭ [S] S∈ͯK ∧ x∈ͯS ❘
+  				 # ⋃ͯ 2 prec 45❙
+  bigunionI : {A,K,S,x:tm A} ⊦ S∈ͯK ⟶ ⊦ x∈ͯS ⟶ ⊦ x∈ͯ⋃ͯK ❘ 
   				  = [A,K,S,x,p,q] filterI (texistsI S (andI p q))❙
-  bigunionE : {A,K,x:tm A,C} ⊦ x∈⋃K ⟶ ({S}⊦S∈K⟶⊦x∈S⟶⊦C) ⟶ ⊦ C❘ 
+  bigunionE : {A,K,x:tm A,C} ⊦ x∈ͯ⋃ͯK ⟶ ({S}⊦S∈ͯK⟶⊦x∈ͯS⟶⊦C) ⟶ ⊦ C❘ 
   				  = [A,K,x,C,p,f] p filterE texistsE [S,rs] f S (rs andEl) (rs andEr)❙
 ❚
 
@@ -192,46 +194,46 @@ theory Lattice =
 theory SubsetRules =
   include ?Lattice❙
 
-  subset_full : {A,S} ⊦ S ⊆ full A❘
+  subset_full : {A,S} ⊦ S ⊆ͯ full A❘
               = [A,S] subsetI [x,p] fullI❙
-  subset_empty : {A,S} ⊦ empty A ⊆ S❘
+  subset_empty : {A,S} ⊦ empty A ⊆ͯ S❘
                = [A,S] subsetI [x,p] (emptyE p) inconE❙
 
-  subset_union_left : {A,S,T: tm ℘A} ⊦ S ⊆ S ∪ T❘
+  subset_union_left : {A,S,T: tm ℘ͯA} ⊦ S ⊆ͯ S ∪ͯ T❘
                     = [A,S,T] subsetI [x,p] unionIl p❙
-  subset_union_right : {A,S,T: tm ℘A} ⊦ T ⊆ S ∪ T❘
+  subset_union_right : {A,S,T: tm ℘ͯA} ⊦ T ⊆ͯ S ∪ͯ T❘
                     = [A,S,T] subsetI [x,p] unionIr p❙
-  subset_union_lub : {A,S,T,C: tm ℘A} ⊦ S ⊆ C ⟶ ⊦ T ⊆ C ⟶ ⊦ S ∪ T ⊆ C❘
+  subset_union_lub : {A,S,T,C: tm ℘ͯA} ⊦ S ⊆ͯ C ⟶ ⊦ T ⊆ͯ C ⟶ ⊦ S ∪ͯ T ⊆ͯ C❘
                    = [A,S,T,C,s,t] subsetI [x,st] unionE st ([xs] subsetE s xs) ([xt] subsetE t xt)❙
  
-  subset_inter_left : {A,S,T: tm ℘A} ⊦ S ∩ T ⊆ S❘
+  subset_inter_left : {A,S,T: tm ℘ͯA} ⊦ S ∩ͯ T ⊆ͯ S❘
                     = [A,S,T] subsetI [x,p] interEl p❙
-  subset_inter_right : {A,S,T: tm ℘A} ⊦ S ∩ T ⊆ T❘
+  subset_inter_right : {A,S,T: tm ℘ͯA} ⊦ S ∩ͯ T ⊆ͯ T❘
                     = [A,S,T] subsetI [x,p] interEr p❙
-  subset_inter_glb : {A,S,T,C: tm ℘A} ⊦ C ⊆ S ⟶ ⊦ C ⊆ T ⟶ ⊦ C ⊆ S ∩ T❘
+  subset_inter_glb : {A,S,T,C: tm ℘ͯA} ⊦ C ⊆ͯ S ⟶ ⊦ C ⊆ͯ T ⟶ ⊦ C ⊆ͯ S ∩ͯ T❘
                    = [A,S,T,C,s,t] subsetI [x,xc] interI (subsetE s xc) (subsetE t xc)❙
 
-  subset_bigunion : {A,K,S: tm ℘A} ⊦ S ∈ K ⟶ ⊦ S ⊆ ⋃ K❘
+  subset_bigunion : {A,K,S: tm ℘ͯA} ⊦ S ∈ͯ K ⟶ ⊦ S ⊆ͯ ⋃ͯ K❘
                   = [A,K,S,p] subsetI [x,q] bigunionI p q❙ 
-  subset_bigunion_lub : {A,K,C: tm ℘A} ({S} ⊦ S ∈ K ⟶ ⊦ S ⊆ C) ⟶ ⊦ ⋃ K ⊆ C❘
+  subset_bigunion_lub : {A,K,C: tm ℘ͯA} ({S} ⊦ S ∈ͯ K ⟶ ⊦ S ⊆ͯ C) ⟶ ⊦ ⋃ͯ K ⊆ͯ C❘
                       = [A,K,C,f] subsetI [x,p] bigunionE p [S,q,r] subsetE (f S q) r❙
   
-  subset_biginter : {A,K,S: tm ℘A} ⊦ S ∈ K ⟶ ⊦ ⋂ K ⊆ S❘
+  subset_biginter : {A,K,S: tm ℘ͯA} ⊦ S ∈ͯ K ⟶ ⊦ ⋂ͯ K ⊆ͯ S❘
                   = [A,K,S,p] subsetI [x,q] biginterE q p❙ 
-  subset_biginter_glb : {A,K,C: tm ℘A} ({S} ⊦ S ∈ K ⟶ ⊦ C ⊆ S) ⟶ ⊦ C ⊆ ⋂ K❘
+  subset_biginter_glb : {A,K,C: tm ℘ͯA} ({S} ⊦ S ∈ͯ K ⟶ ⊦ C ⊆ͯ S) ⟶ ⊦ C ⊆ͯ ⋂ͯ K❘
                       = [A,K,C,f] subsetI [x,p] biginterI [S,q] subsetE (f S q) p❙
-  subset_compl : {A,S,T: tm ℘A} ⊦ S⊆T ⟶ ⊦ ∁T⊆∁S❘
+  subset_compl : {A,S,T: tm ℘ͯA} ⊦ S⊆ͯT ⟶ ⊦ ∁ͯT⊆ͯ∁ͯS❘
                = [A,S,T,p] subsetI [x,q] complI [r] complE q (subsetE p r)❙
 ❚
 
 theory ComplementRules =
   include ?Lattice❙
   include ?SubsetRules❙
-  compl_empty : {A} ⊦ ∁(empty A) =ͭ full A❘
+  compl_empty : {A} ⊦ ∁ͯ(empty A) =ͭ full A❘
               = [A] extensionalityI ([x,p] fullI) ([x,p] complI [q] emptyE q)❙
-  compl_full  : {A} ⊦ ∁(full A) =ͭ empty A❘
+  compl_full  : {A} ⊦ ∁ͯ(full A) =ͭ empty A❘
               = [A] extensionalityI ([x,p] (complE p fullI) inconE) ([x,p] (emptyE p) inconE)❙
-  compl_union : {A, S,T: tm ℘A} ⊦ ∁(S∪T) =ͭ ∁S ∩ ∁T❘
+  compl_union : {A, S,T: tm ℘ͯA} ⊦ ∁ͯ(S∪ͯT) =ͭ ∁ͯS ∩ͯ ∁ͯT❘
               = [A,S,T] extensionalityI
                     ([x,p] interI (complI [q] complE p (unionIl q))
                                   (complI [q] complE p (unionIr q))
@@ -240,28 +242,28 @@ theory ComplementRules =
                                                  ([r] complE (interEr p) r inconE)
                     )❙
 
-  inter_compl : {A,S} ⊦ S ∩ ∁S =ͭ empty A❘
+  inter_compl : {A,S} ⊦ S ∩ͯ ∁ͯS =ͭ empty A❘
               = [A,S] extensionalityI ([x,p] (complE (interEr p) (interEl p)) inconE)
                                       ([x,p] (emptyE p) inconE)❙
 
-  compl_not : {A,S,x:tm A} ⊦¬x∈S ⟶ ⊦x∈∁S❘= [A,S,x,p] complI [q] p notE q❙
+  compl_not : {A,S,x:tm A} ⊦¬x∈ͯS ⟶ ⊦x∈ͯ∁ͯS❘= [A,S,x,p] complI [q] p notE q❙
 
   include ☞latin:/?PLND❙
-  union_compl : {A,S} ⊦ S ∪ ∁S =ͭ full A❘
+  union_compl : {A,S} ⊦ S ∪ͯ ∁ͯS =ͭ full A❘
               = [A,S] extensionalityI
                    ([x,p] fullI)
                    ([x,p] tnd orE ([q] unionIl q) ([q] unionIr (compl_not q)))❙
-  compl_tnd   : {A,S,x: tm A} ⊦ x∈S ∨ x∈∁S❘
+  compl_tnd   : {A,S,x: tm A} ⊦ x∈ͯS ∨ x∈ͯ∁ͯS❘
               = [A,S,x] (eq_in_right union_compl fullI) filterE❙
   
-  compl_inter : {A, S,T: tm ℘A} ⊦ ∁(S∩T) =ͭ ∁S ∪ ∁T❘
+  compl_inter : {A, S,T: tm ℘ͯA} ⊦ ∁ͯ(S∩ͯT) =ͭ ∁ͯS ∪ͯ ∁ͯT❘
               = [A,S,T] extensionalityI
                     ([x,p] compl_tnd orE ([q] compl_tnd orE ([r] complE p (interI q r) inconE) ([r] unionIr r)) ([r] unionIl r))
                     ([x,p] unionE p ([q] subsetE (subset_compl subset_inter_left) q)
                                     ([q] subsetE (subset_compl subset_inter_right) q)
                     )❙
   
-  compl_compl : {A, S:tm ℘A} ⊦ ∁∁S =ͭ S❘
+  compl_compl : {A, S:tm ℘ͯA} ⊦ ∁ͯ∁ͯS =ͭ S❘
               = [A,S] extensionalityI ([x,p] compl_tnd orE ([q] q) ([q] complE p q inconE)) ([x,p] complI [q] complE q p)❙
 ❚
 

@@ -1,0 +1,17 @@
+namespace latin:/❚
+
+fixmeta ?DependentFOLEQDescND❚
+
+theory PowerTypesSet =
+  include ?TypedEqualityNDSet❙
+  include ?Powersets❙
+  
+  realize powertypes/?PowerTypes❙
+  power = powerset❙
+  
+  Powerset : set ⟶ type❘
+    = [A] Elem (℘A)❙
+    
+  in = [A,a,b] which a ∈ which b❙
+  filter = [A,P: Elem A ⟶ prop] _❙
+❚

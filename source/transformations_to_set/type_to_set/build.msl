@@ -7,3 +7,4 @@ file ../../build_config.msl
 build MMT/LATIN2 mmt-omdoc type_to_set/function_types.mmt
 build MMT/LATIN2 mmt-omdoc type_to_set/product_types.mmt
 build MMT/LATIN2 mmt-omdoc type_to_set/predicate_subtypes.mmt
+build MMT/LATIN2 mmt-omdoc type_to_set/power_types.mmt
