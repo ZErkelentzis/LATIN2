@@ -3,128 +3,350 @@ namespace latin:/ ❚
 import rules scala://mmtwrapper.newxml.mizar.mmt.kwarc.info ❚
 
 theory MizarPatterns : ?HIDDEN =
-	pattern directPartFuncDef(n:NAT, argTps:(term^n ⟶ tp)^n, ret:tp, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ term)^m, defRes: term^n ⟶ term) ❘ =
-    funct: term^n ⟶ term❙
-		rtype: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ funct x ⦂ ret ❙
-		means: {x:term^n} ⟨' ⊦ (x..i) ⦂ ((argTps..i) x) | i:n '⟩ ⟶ ⊦ 
-						(nary_and m ⟨' ((cases..j) x) ⇒ (funct x ≐ (caseRes..j) x) | j:m '⟩)
-						∧  ((nary_and m ⟨' ¬ ((cases..k) x) | k:m '⟩) ⇒ ((funct x) ≐ defRes x)) ❙
+	/T axiomatization of the claims of various correctness conditions
+     named roughly in the format <correctnessCondition><Pattern>, where <correctnessCondition> is the correctness condition and <Pattern> the pattern used in the definition or registration ❙
+	consistencyDirectFuncDef: {n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ term)^m} type ❘ = [n, argTps, m, cases, caseRes] {x:term^n, p: ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩} ⊦ 
+						nary_and m ⟨' (cases..j) x ⇒ nary_and m ⟨' (cases..k) x ⇒ (caseRes..j) x ≐ (caseRes..k) x | k:m '⟩ | j:m '⟩ ❙
+	consistencyIndirectFuncDef: {n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^(succ n) ⟶ prop)^m} type ❘ = [n, argTps, m, cases, caseRes] {x:term^n, p: ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩} ⊦ 
+						nary_and m ⟨' (cases..j) x ⇒ nary_and m ⟨' (cases..k) x ⇒ forall [y] (caseRes..j) ⟨ x, y ⟩ ⇔ (caseRes..k) ⟨ x, y ⟩ | k:m '⟩ | j:m '⟩ ❙
+	consistencyDirectPredAttrDef: {n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ prop)^m} type ❘ = [n, argTps, m, cases, caseRes] {x:term^n, p: ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩} ⊦ 
+						nary_and m ⟨' (cases..j) x ⇒ nary_and m ⟨' (cases..k) x ⇒ (caseRes..j) x ⇔ (caseRes..k) x | k:m '⟩ | j:m '⟩ ❙
+	consistencyIndirectPredAttrDef: {n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^(succ n) ⟶ prop)^m} type ❘ = [n, argTps, m, cases, caseRes] {x:term^n, p: ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩} ⊦ 
+						nary_and m ⟨' (cases..j) x ⇒ nary_and m ⟨' (cases..k) x ⇒ forall [y] (caseRes..j) ⟨ x, y ⟩ ⇔ (caseRes..k) ⟨ x, y ⟩ | k:m '⟩ | j:m '⟩ ❙
+	consistencyDirectModeDef: {n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ term ⟶ prop)^m} type ❘ = [n, argTps, m, cases, caseRes] {x:term^n, p: ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩} ⊦ 
+						nary_and m ⟨' (cases..j) x ⇒ nary_and m ⟨' (cases..k) x ⇒ forall [s] (caseRes..j) x s ⇔ (caseRes..k) x s | k:m '⟩ | j:m '⟩ ❙
+	consistencyIndirectModeDef: {n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ (term ⟶ prop) ⟶ prop)^m} type ❘ = [n, argTps, m, cases, caseRes] {x:term^n, p: ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩} ⊦ 
+						nary_and m ⟨' (cases..j) x ⇒ nary_and m ⟨' (cases..k) x ⇒ for set [modeElems] (caseRes..j) x ([arg:term] arg in modeElems) ⇔ (caseRes..k) x ([y:term] y in modeElems) | k:m '⟩ | j:m '⟩ ❙
+	
+
+
+	existenceDirectComplModeDef: {n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ term ⟶ prop)^m} type ❘ = [n, argTps, m, cases, caseRes] {x:term^n, p: ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩} ⊦ 
+						nary_and m ⟨' (cases..j) x ⇒ ∃ [y] (caseRes..j) x y | j:m '⟩ ❙
+	existenceDirectPartModeDef: {n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ term ⟶ prop)^m, defRes: term^n ⟶ term ⟶ prop} type ❘ = [n, argTps, m, cases, caseRes, defRes] {x:term^n, p: ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩} ⊦ 
+						nary_and m ⟨' (cases..j) x ⇒ ∃ [y] (caseRes..j) x y | j:m '⟩ ∧ (nary_and m ⟨' ¬ (cases..k) x | k:m '⟩ ⇒ ∃ [y] defRes x y) ❙
+	existenceIndirectComplModeDef: {n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ (term ⟶ prop) ⟶ prop)^m} type ❘ = [n, argTps, m, cases, caseRes] {x:term^n, p: ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩} ⊦ 
+						nary_and m ⟨' (cases..j) x ⇒ ∃ [y] for set [modeElems] (caseRes..j) x ([z:term] z in modeElems) ⇒ y in modeElems | j:m '⟩ ❙
+	existenceIndirectPartModeDef: {n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ (term ⟶ prop) ⟶ prop)^m, defRes: term^n ⟶ (term ⟶ prop) ⟶ prop} type ❘ = [n, argTps, m, cases, caseRes, defRes] {x:term^n, p: ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩} ⊦ 
+						nary_and m ⟨' (cases..j) x ⇒ ∃ [y] for set [modeElems] (caseRes..j) x ([z:term] z in modeElems) ⇒ y in modeElems | j:m '⟩ ∧ (nary_and m ⟨' ¬ (cases..k) x | k:m '⟩ ⇒ ∃ [y] for set [modeElems] defRes x ([arg:term] arg in modeElems) ⇒ y in modeElems) ❙
+
+	coherenceDirectComplFuncDef: {n:NAT, argTps:(term^n ⟶ tp)^n, ret: term^n ⟶ tp, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ term)^m} type ❘ = [n, argTps, ret, m, cases, caseRes] {x:term^n, p: ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩} ⊦ 
+						nary_and m ⟨' (cases..j) x ⇒ (caseRes..j) x ⦂ (ret x) | j:m '⟩ ❙
+	coherenceDirectPartFuncDef: {n:NAT, argTps:(term^n ⟶ tp)^n, ret: term^n ⟶ tp, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ term)^m, defRes: term^n ⟶ term} type ❘ = [n, argTps, ret, m, cases, caseRes, defRes] {x:term^n, p: ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩} ⊦ 
+						nary_and m ⟨' (cases..j) x ⇒ (caseRes..j) x ⦂ ret x | j:m '⟩ ∧ (nary_and m ⟨' ¬ (cases..k) x | k:m '⟩ ⇒ defRes x ⦂ (ret x)) ❙
+  existenceIndirectComplFuncDef: {n:NAT, argTps:(term^n ⟶ tp)^n, ret: term^n ⟶ tp, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^(succ n) ⟶ prop)^m} type ❘ = [n, argTps, ret, m, cases, caseRes] {x:term^n, p: ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩} ⊦ 
+						ex (ret x) [res] (nary_and m ⟨' (cases..j) x ⇒ (caseRes..j) ⟨x, res⟩ | j:m '⟩) ❙
+  existenceIndirectPartFuncDef: {n:NAT, argTps:(term^n ⟶ tp)^n, ret: term^n ⟶ tp, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^(succ n) ⟶ prop)^m, defRes: term^(succ n) ⟶ prop} type ❘ = [n, argTps, ret, m, cases, caseRes, defRes] {x:term^n, p: ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩} ⊦ 
+						ex (ret x) [res] (nary_and m ⟨' (cases..j) x ⇒ (caseRes..j) ⟨x, res⟩ | j:m '⟩ ∧ (nary_and m ⟨' ¬ (cases..k) x | k:m '⟩ ⇒ defRes ⟨x, res⟩)) ❙
+	uniquenessIndirectComplFuncDef: {n:NAT, argTps:(term^n ⟶ tp)^n, ret: term^n ⟶ tp, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^(succ n) ⟶ prop)^m} type ❘ = [n, argTps, ret, m, cases, caseRes] {x:term^n, p: ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩} ⊦ 
+						for (ret x) [a] (nary_and m ⟨' (cases..j) x ⇒ (caseRes..j) ⟨x, a⟩ | j:m '⟩) ⇒ for (ret x) [b] (nary_and m ⟨' (cases..j) x ⇒ (caseRes..j) ⟨x, b⟩ | j:m '⟩) ⇒ a ≐ b ❙
+	uniquenessIndirectPartFuncDef: {n:NAT, argTps:(term^n ⟶ tp)^n, ret: term^n ⟶ tp, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^(succ n) ⟶ prop)^m, defRes: term^(succ n) ⟶ prop} type ❘ = [n, argTps, ret, m, cases, caseRes, defRes] {x:term^n, p: ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩} ⊦ 
+						for (ret x) [a] (nary_and m ⟨' (cases..j) x ⇒ (caseRes..j) ⟨x, a⟩ | j:m '⟩ ∧ (nary_and m ⟨' ¬ (cases..k) x | k:m '⟩ ⇒ defRes ⟨x, a⟩)) ⇒ for (ret x) [b] (nary_and m ⟨' (cases..j) x ⇒ (caseRes..j) ⟨x, b⟩ | j:m '⟩ ∧ (nary_and m ⟨' ¬ (cases..k) x | k:m '⟩ ⇒ defRes ⟨x, b⟩)) ⇒ a ≐ b ❙
+	existenceExistRegistration: {n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, t:term^n ⟶ tp, a: (dep_typed_attr n t)^m} type ❘ = [n, argTps, m, t, a] {x:term^n, p: ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩} ⊦ ∃ [y] y ⦂ (a @ t) ❙
+	coherenceCondRegistration: {n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, t:term^n ⟶ tp, a: (dep_typed_attr n t)^m, q: NAT, b: (dep_typed_attr n t)^q} type ❘ = [n, argTps, m, t, a, q, b] {x:term^n, p: ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩} ⊦ ∀ [y] y ⦂ (a @ t) ⇒ y ⦂ (b @ t) ❙
+	coherenceQualFuncRegistration: {n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, t:term^n ⟶ tp, tm:term^n ⟶ term, a: (dep_typed_attr n t)^m} type ❘ = [n, argTps, m, t, tm, a] {x:term^n, p: ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩} ⊦ (tm x) ⦂ (t x) ⟶ ⊦ tm x ⦂ (a @ t) ❙
+	coherenceUnqualFuncRegistration: {n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, t:term^n ⟶ tp, tm:term^n ⟶ term, a: (dep_typed_attr n t)^m} type ❘ = [n, argTps, m, t, tm, a] {x:term^n, p: ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩} ⊦ tm x ⦂ (a @ t) ❙
+	compatibilityIdentify: {n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, a:(term^n ⟶ term)^m, b: (term^n ⟶ term)^m, c:term^n ⟶ term, d: term^n ⟶ term}type ❘ = [n, argTps, m, a, b, c, d] {x:term^n, p: ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩} ⊦ nary_and m ⟨' ((a..j) x ≐ (b..j) x) | j:m '⟩ ⟶ ⊦ c x ≐ d x ❙
+	reducibilityReduction: {n:NAT, argTps:(term^n ⟶ tp)^n, a: term^n ⟶ term, b: term^n ⟶ term} type ❘ = [n, argTps, a, b] {x:term^n, p: ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩} ⊦ a x ≐ b x ❙
+	schemeDefinitionProof: {n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, assumptions:(term^n ⟶ prop)^m, q: term^n ⟶ prop} type ❘ = [n, argTps, m, assumptions, q] {x:term^n, p: ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩} ⊦ nary_and m ⟨' (assumptions..j) x | j:m '⟩ ⟶ ⊦ (q x) ❙
+
+	/T axiomatise a direct partial functor definition
+    n and argTps correspond to the number and types of the arguments,
+    ret to the return type of the functor, m and cases to the number of cases and cases in the definition,
+    caseRes to the definitions in those cases, consistencyProof is a proof of consistency of the caseRes, 
+    defRes the default case definition and coherenceProof a proof that the definition coheres to the return type ret ❙
+	pattern directPartFuncDef(n:NAT, argTps:(term^n ⟶ tp)^n, ret:term^n ⟶ tp, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ term)^m, consistencyProof: consistencyDirectFuncDef n argTps m cases caseRes, defRes: term^n ⟶ term, coherenceProof: coherenceDirectPartFuncDef n argTps ret m cases caseRes defRes) ❘ =
+    funct: term^n ⟶ term ❘ role mainDecl ❙
+		consistency = consistencyProof ❙
+		coherence = coherenceProof ❙
+		means: {x:term^n, p: ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩} ⊦ 
+						nary_and m ⟨' (cases..j) x ⇒ funct x ≐ (caseRes..j) x | j:m '⟩
+						∧  (nary_and m ⟨' ¬ (cases..k) x | k:m '⟩ ⇒ (funct x) ≐ defRes x) ❙
+		rtype: {x:term^n, p:⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩} ⊦ funct x ⦂ (ret x) ❙
   ❚
-	pattern indirectPartFuncDef(n:NAT, argTps:(term^n ⟶ tp)^n, ret:tp, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^(succ n) ⟶ prop)^m, defRes: term^(succ n) ⟶ prop) ❘ =
-    funct: term^n ⟶ term❙
-		rtype: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ (funct x) ⦂ ret ❙
+	/T axiomatizes an indirect partial functor definition
+    n and argTps correspond to the number and types of the arguments,
+    ret to the return type of the functor, m and cases to the number of cases and cases in the definition,
+    caseRes to the definitions in those cases, consistencyProof is a proof of consistency of the caseRes, 
+    defRes the default case definition and existenceProof and uniquenessProof proofs of texitence and uniqueness of a definition satisfying the indirect specification ❙
+  pattern indirectPartFuncDef(n:NAT, argTps:(term^n ⟶ tp)^n, ret:term^n ⟶ tp, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^(succ n) ⟶ prop)^m, consistencyProof: consistencyIndirectFuncDef n argTps m cases caseRes, defRes: term^(succ n) ⟶ prop, existenceProof: existenceIndirectPartFuncDef n argTps ret m cases caseRes defRes, uniquenessProof: uniquenessIndirectPartFuncDef n argTps ret m cases caseRes defRes) ❘ =
+    funct: term^n ⟶ term ❘ role mainDecl ❙
+		rtype: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ (funct x) ⦂ (ret x) ❙
+		consistency = consistencyProof ❙
+		existence = existenceProof ❙
+		uniqueness = uniquenessProof ❙
 		means: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ 
-						(nary_and m ⟨' ((cases..j) x) ⇒ (caseRes..j) ⟨ x, (funct x) ⟩ | j:m '⟩)
-						∧  ((nary_and m ⟨' ¬ ((cases..k) x) | k:m '⟩) ⇒ (defRes ⟨ x, funct x ⟩)) ❙
+						nary_and m ⟨' (cases..j) x ⇒ (caseRes..j) ⟨ x, (funct x) ⟩ | j:m '⟩
+						∧  nary_and m ⟨' ¬ (cases..k) x | k:m '⟩ ⇒ defRes ⟨ x, funct x ⟩ ❙
   ❚
-	pattern directComplFuncDef(n:NAT, argTps:(term^n ⟶ tp)^n, ret:tp, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ term)^m) ❘ =
-    funct: term^n ⟶ term❙
-		rtype: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ ((funct x) ⦂ ret) ❙
+	/T axiomatise a direct complete functor definition
+    n and argTps correspond to the number and types of the arguments,
+    ret to the return type of the functor, m and cases to the number of cases and cases in the definition,
+    caseRes to the definitions in those cases, consistencyProof is a proof of consistency of the caseRes
+    and coherenceProof a proof that the definition coheres to the return type ret ❙
+	pattern directComplFuncDef(n:NAT, argTps:(term^n ⟶ tp)^n, ret:term^n ⟶ tp, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ term)^m, consistencyProof: consistencyDirectFuncDef n argTps m cases caseRes, coherenceProof: coherenceDirectComplFuncDef n argTps ret m cases caseRes) ❘ =
+    funct: term^n ⟶ term ❘ role mainDecl ❙
+		rtype: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ (funct x) ⦂ (ret x) ❙
+		consistency = consistencyProof ❙
+		coherence = coherenceProof ❙
 		means: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ 
-						(nary_and m ⟨' ((cases..j) x) ⇒ (funct x ≐ (caseRes..j) x) | j:m '⟩) ❙
-		completeness: {x:term^n} ⟨' ⊦ (x..i) ⦂ ((argTps..i) x) | i:n '⟩ ⟶ ⊦
-						(nary_or m ⟨' ((cases..j) x) | j:m '⟩) ❙
+						nary_and m ⟨' (cases..j) x ⇒ funct x ≐ (caseRes..j) x | j:m '⟩ ❙
+		completeness: {x:term^n} ⟨' ⊦ (x..i) ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦
+						nary_or m ⟨' (cases..j) x | j:m '⟩ ❙
   ❚
-	pattern indirectComplFuncDef(n:NAT, argTps:(term^n ⟶ tp)^n, ret:tp, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^(succ n) ⟶ prop)^m) ❘ =
-    funct: term^n ⟶ term❙
-		rtype: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ ((funct x) ⦂ ret) ❙
+	/T axiomatise a indirect complete functor definition
+    n and argTps correspond to the number and types of the arguments,
+    ret to the return type of the functor, m and cases to the number of cases and cases in the definition,
+    caseRes to the definitions in those cases, consistencyProof is a proof of consistency of the caseRes
+    and existenceProof and uniquenessProof proofs of texitence and uniqueness of a definition satisfying the indirect specification ❙
+	pattern indirectComplFuncDef(n:NAT, argTps:(term^n ⟶ tp)^n, ret:term^n ⟶ tp, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^(succ n) ⟶ prop)^m, consistencyProof: consistencyIndirectFuncDef n argTps m cases caseRes, existenceProof: existenceIndirectComplFuncDef n argTps ret m cases caseRes, uniquenessProof: uniquenessIndirectComplFuncDef n argTps ret m cases caseRes) ❘ =
+    funct: term^n ⟶ term ❘ role mainDecl ❙
+		rtype: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ (funct x) ⦂ (ret x) ❙
+		consistency = consistencyProof ❙
+		existence = existenceProof ❙
+		uniqueness = uniquenessProof ❙
 		means: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ 
-						(nary_and m ⟨' ((cases..j) x) ⇒ (caseRes..j) ⟨ x, (funct x) ⟩ | j:m '⟩) ❙
+						nary_and m ⟨' (cases..j) x ⇒ (caseRes..j) ⟨ x, (funct x) ⟩ | j:m '⟩ ❙
 		completeness: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦
-						(nary_or m ⟨' ((cases..j) x) | j:m '⟩) ❙
+						nary_or m ⟨' (cases..j) x | j:m '⟩ ❙
   ❚
-	pattern directParPredDef(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ prop)^m, defRes: term^n ⟶ prop) ❘ =
-    pred: term^n ⟶ prop ❙
+	/T axiomatizes a direct partial predicate definition
+    n and argTps correspond to the number and types of the arguments,
+    m and cases to the number of cases and cases in the definition, caseRes to the definitions in those cases,
+    consistencyProof is a proof of consistency of the caseRes and defRes the default case definition ❙
+	pattern directPartPredDef(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ prop)^m, consistencyProof: consistencyDirectPredAttrDef n argTps m cases caseRes, defRes: term^n ⟶ prop) ❘ =
+    pred: term^n ⟶ prop ❘ role mainDecl ❙
+		consistency = consistencyProof ❙
 		means: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ 
-						(nary_and m ⟨' (((cases..j) x) ⇒ (pred x)) ⇔ ((caseRes..j) x) | j:m '⟩)
-						∧  ((nary_and m ⟨' ¬ ((cases..k) x) | k:m '⟩) ⇒ (pred x ⇔ defRes x)) ❙
+						nary_and m ⟨' (cases..j) x ⇒ (pred x) ⇔ (caseRes..j) x | j:m '⟩
+						∧  nary_and m ⟨' ¬ (cases..k) x | k:m '⟩ ⇒ pred x ⇔ defRes x ❙
   ❚
-	pattern directComplPredDef(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ prop)^m) ❘ =
-    pred: term^n ⟶ prop ❙
+		/T axiomatizes a direct complete predicate definition
+    n and argTps correspond to the number and types of the arguments,
+    m and cases to the number of cases and cases in the definition, caseRes to the definitions in those cases
+    and consistencyProof is a proof of consistency of the caseRes ❙
+	pattern directComplPredDef(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ prop)^m, consistencyProof: consistencyDirectPredAttrDef n argTps m cases caseRes) ❘ =
+    pred: term^n ⟶ prop ❘ role mainDecl ❙
+		consistency = consistencyProof ❙
 		means: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ 
-						(nary_and m ⟨' (((cases..i) x) ⇒ (pred x)) ⇔ (caseRes..i) x | i:m '⟩) ❙
+						nary_and m ⟨' (cases..i) x ⇒ (pred x) ⇔ (caseRes..i) x | i:m '⟩ ❙
 		completeness: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦
-						(nary_or m ⟨' ((cases..i) x) | i:m '⟩) ❙
+						nary_or m ⟨' (cases..i) x | i:m '⟩ ❙
   ❚
-	pattern indirectParAttrDef(n:NAT,
-	    argTps:(term^n ⟶ tp)^n,
-	    motherTp:term^n ⟶ tp,
-	    m:NAT,
-	    cases:(term^n ⟶ prop)^m,
-			caseRes:(term^(succ n) ⟶ prop)^m,
-			defRes: term^(succ n) ⟶ prop) ❘ =
-    attribute: {x: term^n} attr (motherTp x) ❙
+	/T axiomatizes a direct partial attribute definition
+    n and argTps correspond to the number and types of the arguments, motherTp to the type the attribute is defined on
+    m and cases to the number of cases and cases in the definition, caseRes to the definitions in those cases,
+    consistencyProof is a proof of consistency of the caseRes and defRes the default case definition ❙
+  pattern directPartAttrDef(n:NAT, argTps:(term^n ⟶ tp)^n, motherTp:term^n ⟶ tp, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ prop)^m, consistencyProof: consistencyDirectPredAttrDef n argTps m cases caseRes, defRes: term^n ⟶ prop) ❘ =
+    attribute: {x: term^n} attr (motherTp x) ❘ role mainDecl ❙
 		mtype: {x:term^n, p: ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩} ⊦ 
 		   forall [y] y ⦂ adjective (motherTp x) (attribute x) ⇒ y ⦂ motherTp x ❙
+		consistency = consistencyProof ❙
 		means: {x:term^n, p: ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩} ⊦ 
-						(nary_and m ⟨' (((cases..j) x) ⇒ forall [y] y ⦂ (adjective (motherTp x) (attribute x)) ⇔ (caseRes..j) ⟨ x, y ⟩) | j:m '⟩)
-						∧  ((nary_and m ⟨' ¬ ((cases..k) x) | k:m '⟩) ⇒ forall ([y] y ⦂ (adjective (motherTp x) (attribute x)) ⇔ defRes ⟨ x, y ⟩)) ❙
+						nary_and m ⟨' (cases..j) x ⇒ forall [y] attribute x y ⇔ (caseRes..j) ⟨ x, y ⟩ | j:m '⟩
+						∧  nary_and m ⟨' ¬ (cases..k) x | k:m '⟩ ⇒ forall [y] attribute x y ⇔ defRes ⟨ x, y ⟩ ❙
   ❚
-	pattern indirectComplAttrDef(n:NAT, argTps:(term^n ⟶ tp)^n, motherTp:(term^n ⟶ tp), m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^(succ n) ⟶ prop)^m) ❘ =
-    attribute: {x:term^n} term ⟶ prop ❙
+	/T axiomatizes a direct complete attribute definition
+    n and argTps correspond to the number and types of the arguments, motherTp to the type the attribute is defined on
+    m and cases to the number of cases and cases in the definition, caseRes to the definitions in those cases
+    and consistencyProof is a proof of consistency of the caseRes ❙
+  pattern directComplAttrDef(n:NAT, argTps:(term^n ⟶ tp)^n, motherTp:(term^n ⟶ tp), m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ prop)^m, consistencyProof: consistencyDirectPredAttrDef n argTps m cases caseRes) ❘ =
+    attribute: {x:term^n} term ⟶ prop ❘ role mainDecl ❙
+		mtype: {x:term^n} {p: ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩} ⊦ forall [y] y ⦂ adjective (motherTp x) (attribute x) ⇒ y ⦂ (motherTp x) ❙
+		means: {x:term^n} {p: ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩} ⊦ 
+						nary_and m ⟨' (cases..j) x ⇒ forall [y] attribute x y ⇔ (caseRes..j) ⟨ x, y ⟩ | j:m '⟩ ❙
+		consistency = consistencyProof ❙
+		completeness: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦
+						nary_or m ⟨' (cases..j) x | j:m '⟩ ❙
+  ❚
+	/T axiomatizes an indirect partial attribute definition
+    n and argTps correspond to the number and types of the arguments, motherTp to the type the attribute is defined on
+    m and cases to the number of cases and cases in the definition, caseRes to the definitions in those cases,
+    consistencyProof is a proof of consistency of the caseRes and defRes the default case definition ❙
+	pattern indirectPartAttrDef(n:NAT, argTps:(term^n ⟶ tp)^n, motherTp:term^n ⟶ tp, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^(succ n) ⟶ prop)^m, consistencyProof: consistencyIndirectPredAttrDef n argTps m cases caseRes, defRes: term^(succ n) ⟶ prop) ❘ =
+    attribute: {x: term^n} attr (motherTp x) ❘ role mainDecl ❙
+		mtype: {x:term^n, p: ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩} ⊦ 
+		   forall [y] y ⦂ adjective (motherTp x) (attribute x) ⇒ y ⦂ motherTp x ❙
+		consistency = consistencyProof ❙
+		means: {x:term^n, p: ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩} ⊦ 
+						(nary_and m ⟨' (cases..j) x ⇒ forall [y] y ⦂ adjective (motherTp x) (attribute x) ⇔ (caseRes..j) ⟨ x, y ⟩ | j:m '⟩)
+						∧  nary_and m ⟨' ¬ (cases..k) x | k:m '⟩ ⇒ forall [y] y ⦂ adjective (motherTp x) (attribute x) ⇔ defRes ⟨ x, y ⟩ ❙
+  ❚
+	/T axiomatizes an indirect complete attribute definition
+    n and argTps correspond to the number and types of the arguments, motherTp to the type the attribute is defined on
+    m and cases to the number of cases and cases in the definition,
+    consistencyProof is a proof of consistency of the caseRes and defRes the default case definition ❙
+	pattern indirectComplAttrDef(n:NAT, argTps:(term^n ⟶ tp)^n, motherTp:(term^n ⟶ tp), m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^(succ n) ⟶ prop)^m, consistencyProof: consistencyIndirectPredAttrDef n argTps m cases caseRes) ❘ =
+    attribute: {x:term^n} term ⟶ prop ❘ role mainDecl ❙
 		mtype: {x:term^n} {p: ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩} ⊦ forall [y] y ⦂ (adjective (motherTp x) (attribute x)) ⇒ y ⦂ (motherTp x) ❙
 		means: {x:term^n} {p: ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩} ⊦ 
-						(nary_and m ⟨' (cases..j) x ⇒ forall ([y] y ⦂ (adjective (motherTp x) (attribute x)) ⇔ (caseRes..j) ⟨ x, y ⟩) | j:m '⟩) ❙
+						nary_and m ⟨' (cases..j) x ⇒ forall [y] y ⦂ adjective (motherTp x) (attribute x) ⇔ (caseRes..j) ⟨ x, y ⟩ | j:m '⟩ ❙
+		consistency = consistencyProof ❙
 		completeness: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦
-						(nary_or m ⟨' ((cases..j) x) | j:m '⟩) ❙
+						(nary_or m ⟨' (cases..j) x | j:m '⟩) ❙
   ❚
-	pattern directParModeDef(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ term ⟶ prop)^m, defRes: term^n ⟶ term ⟶ prop) ❘ =
-    mode: term^n ⟶ term ⟶ prop ❙
+	/T axiomatizes a direct partial mode definition
+    n and argTps correspond to the number and types of the arguments,
+    m and cases to the number of cases and cases in the definition, caseRes to the definitions in those cases,
+    consistencyProof is a proof of consistency of the caseRes, defRes the default case definition
+    and existenceProof a proof of existence of an element of the mode ❙
+	pattern directPartModeDef(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ term ⟶ prop)^m, consistencyProof: consistencyDirectModeDef n argTps m cases caseRes, defRes: term^n ⟶ term ⟶ prop, existenceProof: existenceDirectPartModeDef n argTps m cases caseRes defRes) ❘ =
+    mode: term^n ⟶ term ⟶ prop ❘ role mainDecl ❙
 		madeMode: term^n ⟶ tp ❘ = [x] makeMode (mode x) ❙
+		consistency = consistencyProof ❙
+		existence = existenceProof ❙
 		means: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ 
-						(nary_and m ⟨' (((cases..j) x) ⇒ forall [y] mode x y ⇔ (caseRes..j) x y) | j:m '⟩)
-						∧  ((nary_and m ⟨' ¬ ((cases..k) x) | k:m '⟩) ⇒ forall [y] mode x y ⇔  defRes x y) ❙
+						nary_and m ⟨' (cases..j) x ⇒ forall [y] mode x y ⇔ (caseRes..j) x y | j:m '⟩
+						∧  nary_and m ⟨' ¬ (cases..k) x | k:m '⟩ ⇒ forall [y] mode x y ⇔  defRes x y ❙
+  ❚
+	/T axiomatizes an indirect partial mode definition
+    n and argTps correspond to the number and types of the arguments,
+    m and cases to the number of cases and cases in the definition, caseRes to the definitions in those cases,
+    consistencyProof is a proof of consistency of the caseRes, defRes the default case definition
+    and existenceProof a proof of existence of an element of the mode ❙
+	pattern indirectPartModeDef(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ (term ⟶ prop) ⟶ prop)^m, consistencyProof: consistencyIndirectModeDef n argTps m cases caseRes, defRes: term^n ⟶ (term ⟶ prop) ⟶ prop, existenceProof: existenceIndirectPartModeDef n argTps m cases caseRes defRes) ❘ =
+    mode: term^n ⟶ term ⟶ prop ❘ role mainDecl ❙
+		madeMode: term^n ⟶ tp ❘ = [x] makeMode (mode x) ❙
+		consistency	= consistencyProof ❙
+		existence = existenceProof ❙
+		means: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ 
+						nary_and m ⟨' (cases .. j) x ⇒ (caseRes..j) x (mode x) | j:m '⟩
+						∧  nary_and m ⟨' ¬ (cases..k) x | k:m '⟩ ⇒ defRes x (mode x) ❙
+  ❚
+	/T axiomatizes a direct complete mode definition
+    n and argTps correspond to the number and types of the arguments,
+    m and cases to the number of cases and cases in the definition, caseRes to the definitions in those cases,
+    consistencyProof is a proof of consistency of the caseRes
+    and existenceProof a proof of existence of an element of the mode ❙
+	pattern directComplModeDef(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ term ⟶ prop)^m, consistencyProof: consistencyDirectModeDef n argTps m cases caseRes, existenceProof: existenceDirectComplModeDef n argTps m cases caseRes) ❘ =
+    mode: term^n ⟶ term ⟶ prop ❘ role mainDecl ❙
+		madeMode: term^n ⟶ tp ❘ = [x] makeMode (mode x) ❙
+		consistency	= consistencyProof ❙
+		existence = existenceProof ❙
+		means: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ 
+						nary_and m ⟨' (cases..j) x ⇒ forall [y] mode x y ⇔ (caseRes..j) x y | j:m '⟩ ❙
+		completeness: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦
+						nary_or m ⟨' (cases..j) x | j:m '⟩ ❙
+  ❚
+	/T axiomatizes an indirect complete mode definition
+    n and argTps correspond to the number and types of the arguments,
+    m and cases to the number of cases and cases in the definition, caseRes to the definitions in those cases,
+    consistencyProof is a proof of consistency of the caseRes
+    and existenceProof a proof of existence of an element of the mode ❙
+	pattern indirectComplModeDef(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ (term ⟶ prop) ⟶ prop)^m, consistencyProof: consistencyIndirectModeDef n argTps m cases caseRes, existenceProof: existenceIndirectComplModeDef n argTps m cases caseRes) ❘ =
+    mode: term^n ⟶ term ⟶ prop ❘ role mainDecl ❙
+		madeMode: term^n ⟶ tp ❘ = [x] makeMode (mode x) ❙
+		consistency	= consistencyProof ❙
+		existence = existenceProof ❙
+		means: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ 
+						nary_and m ⟨' (cases..j) x ⇒ (caseRes..j) x (mode x) | j:m '⟩ ❙
+		completeness: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦
+						nary_or m ⟨' (cases..j) x | j:m '⟩ ❙
+  ❚
+	/T axiomatizes a scheme definition
+    n and argTps correspond to the number and types of the arguments,
+    m and assumptions to the number of assumptions and assumptions to the scheme, 
+    q to the scheme sentence and prf to the proof of the scheme ❙
+  pattern schemeDef(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, assumptions:(term^n ⟶ prop)^m, q: term^n ⟶ prop, prf: schemeDefinitionProof n argTps m assumptions q) ❘ =
+  	scheme: {x:term^n, p: ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩} ⊦ nary_and m ⟨' (assumptions..j) x | j:m '⟩ ⟶ ⊦ (q x) ❘ = prf ❘ role mainDecl ❙
+  ❚
+	/T axiomatizes a functor synonym declaration
+    n and argTps correspond to the number and types of the arguments and
+    v to the definition (applied to its arguments) to define a synonym for ❙
+  pattern synonymicFunctNotation(n:NAT, argTps:(term^n ⟶ tp)^n, v: term^n ⟶ term) ❘ =
+  	funct: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ term ❘ = [x] [p] v x ❘ role mainDecl ❙
+  ❚
+	/T axiomatizes a predicate synonym declaration
+    n and argTps correspond to the number and types of the arguments and
+    v to the definition (applied to its arguments) to define a synonym for ❙
+  pattern synonymicPredNotation(n:NAT, argTps:(term^n ⟶ tp)^n, v: term^n ⟶ prop) ❘ =
+  	pred: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ prop ❘ = [x] [p] v x ❘ role mainDecl ❙
+  ❚
+	/T axiomatizes a predicate antonym declaration
+    n and argTps correspond to the number and types of the arguments and
+    v to the definition (applied to its arguments) to define an antonym for ❙
+  pattern antonymicPredNotation(n:NAT, argTps:(term^n ⟶ tp)^n, v: term^n ⟶ prop) ❘ =
+  	pred: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ prop ❘ = [x] [p] ¬ (v x) ❘ role mainDecl ❙
+  ❚
+	/T axiomatizes an attribute synonym declaration
+    n and argTps correspond to the number and types of the arguments and
+    v to the definition (applied to its arguments) to define a synonym for ❙
+  pattern synonymicAttributeNotation(n:NAT, argTps:(term^n ⟶ tp)^n, v: term^n ⟶ term ⟶ prop) ❘ =
+  	attribute: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ term ⟶ prop ❘ = [x] [p] v x ❘ role mainDecl ❙
+  ❚
+	/T axiomatizes an attribute antonym declaration
+    n and argTps correspond to the number and types of the arguments and
+    v to the definition (applied to its arguments) to define an antonym for ❙
+  pattern antonymicAttributeNotation(n:NAT, argTps:(term^n ⟶ tp)^n, v: term^n ⟶ term ⟶ prop) ❘ =
+  	attribute: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ term ⟶ prop ❘ = [x] [p] ([arg] ¬ (v x) arg) ❘ role mainDecl ❙
+  ❚
+	/T axiomatizes a mode synonym declaration
+    n and argTps correspond to the number and types of the arguments and
+    v to the definition (applied to its arguments) to define a synonym for ❙
+  pattern synonymicModeNotation(n:NAT, argTps:(term^n ⟶ tp)^n, v: term^n ⟶ term ⟶ prop) ❘ =
+  	mode: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ term ⟶ prop ❘ = [x] [p] v x ❘ role mainDecl ❙
+  ❚
+	/T axiomatizes a mode antonym declaration
+    n and argTps correspond to the number and types of the arguments and
+    v to the definition (applied to its arguments) to define an antonym for ❙
+  pattern antonymicModeNotation(n:NAT, argTps:(term^n ⟶ tp)^n, v: term^n ⟶ term ⟶ prop) ❘ =
+  	mode: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ term ⟶ prop ❘ = [x] [p] ([arg] ¬ (v x) arg) ❘ role mainDecl ❙
+  ❚
+	/T axiomatizes an existential registration
+    n and argTps correspond to the number and types of the arguments,
+    m and a to the number of attributes and a sequence with the attributes, t to the type they are defined on
+    and existenceProof a proof of an element of the predicate subtype ❙
+  pattern existRegistration(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, t:term^n ⟶ tp, a: (dep_typed_attr n t)^m, existenceProof: existenceExistRegistration n argTps m t a) ❘ =
+  	registration: {x:term^n, p: ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩} ⊦ ∃ [y] y ⦂ (a @ t) ❘ = existenceProof ❙
+  ❚
+	/T axiomatizes a conditional registration
+    n and argTps correspond to the number and types of the arguments,
+    m and p to the number of assumed and implied attributes, t to the type they are defined on,
+    a and b to the corresponding assumed and implied attributes and coherenceProof a subtyping proof of the predicate subtypes ❙
+  pattern condRegistration(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, t:term^n ⟶ tp, a: (dep_typed_attr n t)^m, p: NAT, b: (dep_typed_attr n t)^p, coherenceProof: coherenceCondRegistration n argTps m t a p b) ❘ =
+  	registration: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ ∀ [y] y ⦂ (a @ t) ⇒ y ⦂ (b @ t) ❘ = coherenceProof ❙
+	❚
+	/T axiomatizes an unqualified functor registration
+    n and argTps correspond to the number and types of the arguments,
+    m and a to the number of attributes and the sequence of the attributes, t to the type they are defined on,
+    tm a term and coherenceProof a proof of the coherence of tm to said predicate subtype ❙
+  pattern unqualFuncRegistration(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, t: term^n ⟶ tp, tm:term^n ⟶ term, a: (dep_typed_attr n t)^m, coherenceProof: coherenceUnqualFuncRegistration n argTps m t tm a) ❘ =
+  	registration: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ tm x ⦂ (a @ t) ❘ = coherenceProof ❙
+  ❚
+	/T axiomatizes a qualified functor registration
+    n and argTps correspond to the number and types of the arguments,
+    m and a to the number of attributes and the sequence of the attributes, t to the type they are defined on,
+    tm to an element of t and coherenceProof a proof of the coherence of tm to said predicate subtype ❙
+  pattern qualFuncRegistration(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, t:term^n ⟶ tp, tm:term^n ⟶ term, a: (dep_typed_attr n t)^m, coherenceProof: coherenceQualFuncRegistration n argTps m t tm a) ❘ =
+  	registration: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ tm x ⦂ t x ⟶ ⊦ tm x ⦂ (a @ t) ❘ = coherenceProof ❙
+  ❚
+	/T axiomatizes an identify registration
+    n and argTps correspond to the number and types of the arguments,
+    m to the number of assumed equalities of arguments, a and b to the arguments to be identified,
+    c and d to the terms whose equality is implied and compatibilityProof a proof of said equality ❙
+  pattern identify(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, a:(term^n ⟶ term)^m, b: (term^n ⟶ term)^m, c:term^n ⟶ term, d: term^n ⟶ term, compatibilityProof: compatibilityIdentify n argTps m a b c d) ❘ =
+  	registration: {x:term^n, p: ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩} ⊦ nary_and m ⟨' ((a..j) x ≐ (b..j) x) | j:m '⟩ ⟶ ⊦ c x ≐ d x  ❘ = compatibilityProof ❙// ❘ role Simplify ❙
+  ❚
+	/T axiomatizes a reduce registration
+    n and argTps correspond to the number and types of the arguments,
+    a and b to the terms claimed to be equal and reducibilityProof a proof of said equality ❙
+  pattern reduce(n:NAT, argTps:(term^n ⟶ tp)^n, a:term^n ⟶ term, b: term^n ⟶ term, reducibilityProof: reducibilityReduction n argTps a b) ❘ =
+  	registration: {x:term^n, p: ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩} ⊦ a x ≐ b x  ❘ = reducibilityProof ❙// ❘ role Simplify ❙
   ❚
 
-	pattern indirectParModeDef(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ (term ⟶ prop) ⟶ prop)^m, defRes: term^n ⟶ (term ⟶ prop) ⟶ prop) ❘ =
-    mode: term^n ⟶ term ⟶ prop ❙
-		madeMode: term^n ⟶ tp ❘ = [x] makeMode (mode x) ❙
-		means: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ 
-						(nary_and m ⟨' (((cases .. j) x) ⇒ ((caseRes..j) x (mode x))) | j:m '⟩)
-						∧  ((nary_and m ⟨' ¬ ((cases..k) x) | k:m '⟩) ⇒ (defRes x (mode x))) ❙
-  ❚
-	pattern directComplModeDef(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ term ⟶ prop)^m) ❘ =
-    mode: term^n ⟶ term ⟶ prop ❙
-		madeMode: term^n ⟶ tp ❘ = [x] makeMode (mode x) ❙
-		means: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ 
-						(nary_and m ⟨' (((cases..j) x) ⇒ forall [y] (mode x y ⇔ (caseRes..j) x y)) | j:m '⟩) ❙
-		completeness: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦
-						(nary_or m ⟨' ((cases..j) x) | j:m '⟩) ❙
-  ❚
-	pattern indirectComplModeDef(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, cases:(term^n ⟶ prop)^m, caseRes:(term^n ⟶ (term ⟶ prop) ⟶ prop)^m) ❘ =
-    mode: term^n ⟶ term ⟶ prop ❙
-		madeMode: term^n ⟶ tp ❘ = [x] makeMode (mode x) ❙
-		means: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ 
-						(nary_and m ⟨' (cases..j) x ⇒ (caseRes..j) x (mode x) | j:m '⟩) ❙
-		completeness: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦
-						(nary_or m ⟨' ((cases..j) x) | j:m '⟩) ❙
-  ❚
-	pattern schemeDef(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, assumptions:(term^n ⟶ prop)^m, p: term^n ⟶ prop) ❘ =
-  	scheme: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ nary_and m ⟨' ((assumptions..j) x) | j:m '⟩ ⟶ ⊦ (p x) ❙
-  ❚
-	pattern synonymicNotation(n:NAT, argTps:(term^n ⟶ tp)^n, v: term^n ⟶ prop) ❘ =
-  	notation: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ prop ❘ = [x] [p] v x ❙
-  ❚
-	pattern antonymicNotation(n:NAT, argTps:(term^n ⟶ tp)^n, v: term^n ⟶ prop) ❘ =
-  	notation: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ prop ❘ = [x] [p] ¬ (v x) ❙
-  ❚
-	pattern attrRegistration(n:NAT, argTps:(term^n ⟶ tp)^n, m:NAT, t:term^n ⟶ tp, a: (dep_typed_attr n t)^m) ❘ =
-  	registration: {x:term^n} ⟨' ⊦ x..i ⦂ (argTps..i) x | i:n '⟩ ⟶ ⊦ ∃ [y] (y ⦂ (a @ t)) ❙
-  ❚
 	rule rules?MizarStructure ❙
 ❚
 
 theory patternTests : ☞latin:/?MizarPatterns =
 	/T This structure is from struct_0 ❙
-	mizarStructure oneSorted(:) ❘ =
+	mizarStructure oneSorted() ❘ =
 		carrier: tp ❙
 	❚
 
 	/T The following example is from algstr_0 ❙
 	binOp: {t: tp} tp ❙
-	/T Unfortunatley still doesn't typecheck yet ❙
-	/T mizarStructure addMagma(:oneSorted) ❘ = 
-	/T	carrier: tp ❙
-	/T	addF: binOp carrier ❙
-	/T ❚
+	mizarStructure addMagma() ❘ = 
+		include ?patternTests/oneSorted ❙
+		carrier: tp ❙
+		addF: tp ❘ = binOp carrier ❙
+	❚
 ❚

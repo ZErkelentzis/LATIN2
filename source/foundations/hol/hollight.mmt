@@ -1,0 +1,86 @@
+namespace http://latin.omdoc.org/foundations/hollight❚
+
+//   Representation of HOL Light following http://hol-light.googlecode.com/svn/trunk/fusion.ml
+     @author Cezary Kaliszyk, Florian Rabe
+❚
+
+import rules scala://lf.mmt.kwarc.info❚
+     
+theory Kernel : http://cds.omdoc.org/urtheories?LF =   
+  // types ❙
+  holtype  : type❙
+  // function type ❙
+  fun  : holtype ⟶ holtype ⟶ holtype ❘# 1 ⇒ 2 prec 0❙
+
+  // terms❙
+  term : holtype ⟶ type❘ # term 1 prec -1 ❘## 1 prec -1❙
+  // lambda❙
+  Abs  : {A,B} (term A ⟶ term B) ⟶ term (A ⇒ B) ❘# λ 3 prec 0❘## λ V3T . 4 prec 0❙
+  // application❙
+  Comb : {A,B} term (A ⇒ B) ⟶ term A ⟶ term B ❘# 3 ' 4 prec 1000 ❘## 3 %w 4 prec 1000❙
+
+  // higher-order abstract syntax for notations❙
+  rule rules/hollight?HOLLightHOAS❙
+   
+  // type of propositions/formulas  ❙
+  bool  : holtype❙
+  equal : {A} term A ⇒ (A ⇒ bool)❘# meta ?Kernel 2 = 3 prec 12❘## meta ?Kernel 2 = _ %I1 3 prec 12❙
+  
+  // truth of propositions❙
+  thm   : term bool ⟶ type ❘# ⊦ 1 prec -1 ❘ role Judgment❙
+  
+  // proof rules❙
+  REFL  : {A}{X: term A} ⊦ X = X❙
+  TRANS : {A}{X,Y,Z:term A} ⊦ X = Y ⟶ ⊦ Y = Z ⟶ ⊦ X = Z❙
+  BETA  : {A,B,F: term A ⟶ term B,X: term A} ⊦ (λ F)'X = (F X)❙
+  MK_COMB : {A,B, F,G: term A ⇒ B, X,Y: term A} ⊦ F = G ⟶ ⊦ X = Y ⟶ ⊦ F'X = G'Y❙
+  ABS   : {A,B, t1,t2: term A ⟶ term B} ({x: term A} ⊦ (t1 x) = (t2 x)) ⟶ ⊦ (λ t1) = (λ t2)❙
+  
+  MP    : {p,q} ⊦ p = q ⟶ ⊦ p ⟶ ⊦ q❙
+  DEDUCT_ANTISYM_RULE : {p,q} (⊦ p ⟶ ⊦ q) ⟶ (⊦ q ⟶ ⊦ p) ⟶ ⊦ p = q❙
+  // INST_TYPE, INST, ASSUME rule inherent in LF
+  
+  // pattern new_basic_definition (A: holtype ^ n ⟶ holtype, a: {T: holtype ^ n} term (A T))
+  ) {
+     c : {T} term (A T)
+     DEF : {T} ⊦ (c T) = (a T)
+  }
+  
+  for example, id : {a: holtype} term a ⇒ a = [a] λ [x: term a] x ❙
+
+  // type definitions not used, but inherent in LF
+     for example, binfun : holtype ⟶ holtype = [a] (a ⇒ a ⇒ a)
+  ❙
+
+  // pattern new_basic_type_definition : (
+       A: holtype ^ n ⟶ holtype, P: {T: holtype ^ n} fun (A T) ⇒ bool,
+       t: {T: holtype ^ n} <term T_i>i ⟶ term (A T), nonempty: {T: holtype ^ n} ⊦ (P T) ' t
+     ) {
+       B : holtype ^ n ⟶ holtype
+       abs : {T} term (B T) ⇒ (A T)  
+       rep : {T} term (A T) ⇒ (B T)
+       {T} ⊦ {a} (abs T) ' ((rep T) ' a) = a
+       {T} ⊦ {r} ⊦ (P T) ' r = ((rep T) ' ((abs T) ' r) = r)
+     }
+  actually toplevel names of B, abs, rep chosen by user
+  ❙
+❚
+
+//   The foundation HOL as a theory of HOL Light, see class.ml and nums.ml
+❚
+  
+theory HOL : http://cds.omdoc.org/urtheories?LF =
+  include ?Kernel❙
+  
+  ind : holtype❙
+  
+  select : {A} term (A ⇒ bool) ⇒ A ❘# @ 1❘## ε V2T . 3 ❙
+  SELECT_AX : {A, P: term A ⇒ bool, x: term A} ⊦ P ' x ⟶ ⊦ P ' ((@ A)' P)❙
+
+  ETA_AX : {A,B, F: term A ⇒ B} ⊦ (λ [x] (F ' x)) = F❙
+ 
+  // actually in much later theory (natural numbers)❙
+  // definition of ONE_ONE,  ONTO 
+  // INFINITY_AX  ❙
+❚
+

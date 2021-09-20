@@ -1,0 +1,67 @@
+// LOGICAL FEATURES (Section 5)
+   ========================================== ❚
+
+namespace latin:/casestudies/itp2021 ❚
+rule scala://parser.api.mmt.kwarc.info?MMTURILexer ❚
+fixmeta ?Meta ❚
+
+theory UEqual =
+  include ?UTyped ❙
+  eq: term ⟶ term ⟶ prop ❘# 1 ≐ 2 prec 25 ❙
+  refl: {x} ⊦ x ≐ x ❙
+  eqsub: {x, y} ⊦ x ≐ y ⟶ {P: term ⟶ prop} ⊦ P x ⟶ ⊦ P y ❙
+❚
+
+theory UNonempty =
+  include ?UTyped ❙
+  nonempty: {P} (term ⟶ ⊦ P) ⟶ ⊦ P ❙
+❚
+
+theory Conj =
+  include ?Proofs ❙
+  conj: prop ⟶ prop ⟶ prop ❘# 1 ∧ 2 prec 20 ❙
+  conjIntro: {F, G} ⊦ F ⟶ ⊦ G ⟶ ⊦ F ∧ G ❙
+❚
+
+theory Impl =
+  include ?Proofs ❙
+  impl: prop ⟶ prop ⟶ prop ❘# 1 ⇒ 2 prec 10 ❙
+  // TODO(NR@FR): implIntro, introElim ❙
+❚
+
+theory UUniv =
+  include ?UTyped ❙
+  univ: (term ⟶ prop) ⟶ prop ❘# ∀ 1 ❙
+  univIntro: {P} ({x} ⊦ (P x)) ⟶ ⊦ ∀ P ❙
+  univElim: {P} ⊦ ∀ P ⟶ {x} ⊦ P x ❘# 3 univE 2 ❙
+❚
+
+theory UExist =
+  include ?UTyped❙
+  exists: (term ⟶ prop) ⟶ prop ❘# ∃ 1 ❙
+  existsIntro: {P, x} ⊦ P x ⟶ ⊦ ∃ P ❘# existsI 2 3 ❙
+  existsElim: {P} ⊦ ∃ P ⟶ {Q} ({x} ⊦ (P x) ⟶ ⊦ Q) ⟶ ⊦ Q ❘# 3 existsE 4 ❙
+❚
+
+theory UExistUnique =
+  include ?UEqual❙
+  include ?Conj ❙
+  include ?Impl ❙
+  include ?UUniv ❙
+  include ?UExist ❙
+
+  existsUnique: (term ⟶ prop) ⟶ prop ❘= [P] ∃[x] (P x) ∧ ∀[y] P y ⇒ x ≐ y ❘# ∃¹ 1 ❙
+  existsIntro: {P, x} ⊦ P x ⟶ ⊦ ∃ P ❘# existsI 2 3 ❙
+  existsElim: {P} ⊦ ∃ P ⟶ {Q} ({x} ⊦ (P x) ⟶ ⊦ Q) ⟶ ⊦ Q ❘# 3 existsE 4 ❙
+❚
+
+theory UDefChoice =
+  include ?UExistUnique ❙
+  the: (term ⟶ prop) ⟶ term ❙
+  theAx: {P} ⊦ ∃¹ P ⟶ ⊦ P (the P) ❙
+❚
+theory UDefChoiceGuarded =
+  include ?UExistUnique ❙
+  the: {P} ⊦ ∃¹ P ⟶ term ❙
+  theAx: {P, pf: ⊦ ∃¹ P} ⊦ P (the P pf) ❙
+❚

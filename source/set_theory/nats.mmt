@@ -1,0 +1,83 @@
+namespace latin:/❚
+
+fixmeta ?DependentFOLEQDescND❚
+
+theory NatNums =
+  // AS: The include of the view should not be needed. But for performance
+    reasons I had to remove it from ZFFeatures❙
+  include ?UnionSingleton❙
+  include ?Adjoin❘ = ?AdjoinUnion❙
+  include ?ZFFeatures❙
+	
+  // successor function❙
+  s : set ⟶ set❘ = [X] adjoin X X❙
+
+  // some numbers❙
+  zero : set❘# z❘ = ∅❙
+  one : set❘ = s z❙
+  two : set❘ = s one❙
+
+  // properties of the numbers❙
+  include ?UnionEmpty❙
+  one_prop : ⊦ one =ͧ (singleton ∅)❘
+    = union_comm ucongP ([x] x =ͧ (singleton ∅)) union_empty❙
+  zero_neq_one : ⊦ z =ͧ one ⟶ ⊦ false❘
+    = [p] empty_prop isemptyE (in_eq adjoinIr (eq/sym p)) inconE❙
+  two_eq : ⊦ two =ͧ uopair z one❘
+    = extensionalityI ([x] equivI ([p] p adjoinE 
+      ([pa] eq_in ((in_eq pa one_prop) singletonE) uopairIl) 
+      ([pb] eq_in pb uopairIr))
+      ([q] q uopairE ([qa] eq_in qa (adjoinIl adjoinIr))
+      ([qb] eq_in qb adjoinIr)))❙
+  
+  // A contains the (intended) natural numbers❙
+  has_nats : set ⟶ prop❘
+    = [A] z∈A ∧ ∀ͧ[X] X∈A ⇒ (s X) ∈A❙
+    
+  exists_infinite : ⊦ ∃ͧ[X] has_nats X❘
+    = infinity_axiom❙
+❚
+
+theory Nats =
+  include ?NatNums❙
+  // A is a minimum set with property P❙ 
+  is_minimum : set ⟶ (set ⟶ prop) ⟶ prop❘
+    = [A,P] P A ∧ ∀ͧ[Z] P Z ⇒ A⊆Z❙
+  // a minimum set is unique❙
+  minimum_unique : {P} ⊦ (∃ͧ[A] is_minimum A P) ⟶ ⊦ ∃ꜝͧ[A] is_minimum A P❘
+    = [P,p] p uexistsE ([x,px] uexistsUniqueI px ([y,py] extensionalityI
+      ([z] equivI ([pa] pa subsetE (px andEr uforallE y implE (py andEl)))
+      ([pb] pb subsetE (py andEr uforallE x implE (px andEl))))))❙
+  
+  // intersect_all is the intersection of all subsets of A containing the natural numbers❙
+  intersect_all : set ⟶ set❘
+    = [A] ⋂(℘A | has_nats)❙
+  // the property of having zero and all successors is closed under intersection❙
+  intersect_has_nats : {A} ⊦ nonempty A ⟶ ({X} ⊦ X∈A ⟶ ⊦ has_nats X) ⟶ ⊦ has_nats (⋂A)❘
+    = [A,ne,Q] andI (biginterI ne ([X,p] Q X p andEl))
+      (uforallI ([X] implI ([p] biginterI ne ([Y,q] (Q Y q andEr) uforallE X implE 
+      (p biginterE q)))))❙
+  
+  // there is a smallest set containing zero and all successors❙
+  // AS: no proof cause I don't have lemma❙
+  minimum_has_nats : ⊦ ∃ͧ[X] is_minimum X has_nats❙
+  
+  // set for natural numbers❙
+  nats : set❘
+    = the ([X] is_minimum X has_nats) (minimum_unique minimum_has_nats)❙
+  nats_prop : ⊦ is_minimum nats has_nats❘
+    = the_ax ([X] is_minimum X has_nats) (minimum_unique minimum_has_nats)❙
+    
+  // Peano axioms❙
+  peano_zero : ⊦ z ∈ nats❘
+    = nats_prop andEl andEl❙
+  peano_succ : ⊦ ∀ͧ[n] n∈nats ⇒ (s n) ∈ nats❘
+    = nats_prop andEl andEr❙
+  peano_wellfounded : ⊦ ¬ ∃ͧ[n] (s n) =ͧ z❘
+    = notI ([pf] pf uexistsE ([n,p] empty_prop notE (uexistsI n (in_eq adjoinIr p)) inconE) falseE)❙
+  // uses regularity❙
+  peano_linear : {n,m} ⊦ (s n) =ͧ (s m) ⟶ ⊦ n =ͧ m❘
+    = [n,m,p] (in_eq adjoinIr p) adjoinE ([pa] (in_eq adjoinIr (eq/sym p)) adjoinE
+    ([qa] in_acyclic pa qa falseE inconE) ([qb] eq/sym qb)) ([pb] pb)❙
+  // Peano 5 depends on Elem!❙
+❚

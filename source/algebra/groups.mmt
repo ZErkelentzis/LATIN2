@@ -1,0 +1,73 @@
+namespace latin:/algebraic❚
+
+fixmeta latin:/?SFOLEQ ❚
+
+theory Quasigroup = 
+  include ?Magma ❙
+  div_left : ⊦ ∀ͭ[x] ∀ͭ[y] ∃ͭ[a] (a∘x =ͭ y) ❙
+  div_right: ⊦ ∀ͭ[x] ∀ͭ[y] ∃ͭ[b] (x∘b =ͭ y) ❙ 
+❚
+
+theory Loop = 
+  include ?Quasigroup ❙
+  include ?Monoid❙
+❚
+
+theory InverseOperator = 
+  include ?Semigroup❙
+  inv : U ⟶ U❘# 1 ⁻ prec 60❙
+  is_weak_inverse : U ⟶ U ⟶ prop❘
+                  = [x,y] x∘y∘x =ͭ x ∧ y∘x∘y =ͭ y❘# %n 1 2 prec 30❙
+❚
+
+/T weaker variant of unique inverse element, formulated without neutral element
+   usually union of X and WeakInverse usually called InverseX in the literature❚
+theory WeakInverse = 
+  include ?InverseOperator❙
+  weak_inverse : ⊦ ∀ͭ[x] is_weak_inverse x (x⁻)❙
+❚
+
+theory InverseFun = 
+  include ?Monoid❙
+  include ?InverseOperator❙
+
+  inverseLeft:  ⊦ ∀ͭ[x] x⁻∘x =ͭ e❙
+  inverseRight: ⊦ ∀ͭ[x] x∘x⁻ =ͭ e❙
+  
+  div : U ⟶ U ⟶ U❘= [x,y]x∘y⁻❙
+  
+  invL : {x} ⊦ x⁻∘x =ͭ e❘= [x] inverseLeft tforallE x❙
+  invR : {x} ⊦ x∘x⁻ =ͭ e❘= [x] inverseRight tforallE x❙
+  
+  inverse_inv : {x} ⊦ inverse x (x⁻)❘= [x] andI invR invL❙
+  inv_unit : ⊦ e⁻ =ͭ e❘ = inverse_unique inverse_inv inverse_neutral❙
+  inv_op : {x,y} ⊦ (x∘y)⁻ =ͭ y⁻∘x⁻❘
+         = [x,y] inverse_unique inverse_inv (inverse_op inverse_inv inverse_inv)❙
+❚
+
+theory InverseExistence = 
+  include ?Monoid ❙
+  inverseLeft:  ⊦ ∀ͭ[x]∃ͭ[i] i∘x =ͭ e ❙
+  inverseRight: ⊦ ∀ͭ[x]∃ͭ[i] x∘i =ͭ e ❙
+❚
+
+theory Group = 
+  include ?Monoid ❙
+  include ?InverseFun ❙
+❚
+
+theory CommGroup = 
+  include ?Group❙
+  include ?CommMonoid❙
+❚
+
+theory GroupHom = 
+  include ?MagmaHom ❙
+  structure domain : ?Group =
+    U = domain/U ❙
+  ❚
+  structure codoamin : ?Group = 
+    U = codomain/U ❙
+  ❚
+  // e: ⊦ U domain/e ≐ codomain/e ❙
+❚

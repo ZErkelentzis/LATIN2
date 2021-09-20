@@ -1,0 +1,135 @@
+// HARD-TYPED LOGICAL FEATURES (Section 5.3):
+     GENERATED OUTPUT
+   ===================================================== ❚
+
+theory UEqual_poly : latin:/casestudies/itp2021?Meta  =
+	include ☞latin:/casestudies/itp2021?HTyped ❙
+	eq
+		: {u:tp}term⟶term⟶prop
+		❘ # 2 ≐ 3 prec 25
+		❘ ## 2 ≐ 3 prec 25
+	❙
+	refl
+		: {u:tp}{x}⊦x≐x
+	❙
+	eqsub
+		: {u:tp}{x,y}⊦x≐y⟶{P:term⟶prop}⊦(P x)⟶⊦(P y)
+	❙
+
+❚
+
+theory UNonempty_poly : latin:/casestudies/itp2021?Meta  =
+	include ☞latin:/casestudies/itp2021?HTyped ❙
+	nonempty
+		: {u:tp}{P}(term⟶⊦P)⟶⊦P
+	❙
+
+❚
+
+theory Conj_poly : latin:/casestudies/itp2021?Meta  =
+	include ☞latin:/casestudies/itp2021?HTyped ❙
+	conj
+		: {u:tp}prop⟶prop⟶prop
+		❘ # 2 ∧ 3 prec 20
+		❘ ## 2 ∧ 3 prec 20
+	❙
+	conjIntro
+		: {u:tp}{F,G}⊦F⟶⊦G⟶⊦F∧G
+	❙
+
+❚
+
+theory Impl_poly : latin:/casestudies/itp2021?Meta  =
+	include ☞latin:/casestudies/itp2021?HTyped ❙
+	impl
+		: {u:tp}prop⟶prop⟶prop
+		❘ # 2 ⇒ 3 prec 10
+		❘ ## 2 ⇒ 3 prec 10
+	❙
+
+❚
+
+theory UUniv_poly : latin:/casestudies/itp2021?Meta  =
+	include ☞latin:/casestudies/itp2021?HTyped ❙
+	univ
+		: {u:tp}(term⟶prop)⟶prop
+		❘ # ∀ 2
+		❘ ## ∀ 2
+	❙
+	univIntro
+		: {u:tp}{P}({x}⊦(P x))⟶⊦∀P
+	❙
+	univElim
+		: {u:tp}{P}⊦∀P⟶{x}⊦(P x)
+		❘ # 4 univE 3
+		❘ ## 4 univE 3
+	❙
+
+❚
+
+theory UExist_poly : latin:/casestudies/itp2021?Meta  =
+	include ☞latin:/casestudies/itp2021?HTyped ❙
+	exists
+		: {u:tp}(term⟶prop)⟶prop
+		❘ # ∃ 2
+		❘ ## ∃ 2
+	❙
+	existsIntro
+		: {u:tp}{P,x}⊦(P x)⟶⊦∃P
+		❘ # existsI 3 4
+		❘ ## existsI 3 4
+	❙
+	existsElim
+		: {u:tp}{P}⊦∃P⟶{Q}({x}⊦(P x)⟶⊦Q)⟶⊦Q
+		❘ # 4 existsE 5
+		❘ ## 4 existsE 5
+	❙
+
+❚
+
+theory UExistUnique_poly : latin:/casestudies/itp2021?Meta  =
+	include ☞latin:/casestudies/itp2021?UEqual_poly ❙
+	include ☞latin:/casestudies/itp2021?Conj_poly ❙
+	include ☞latin:/casestudies/itp2021?Impl_poly ❙
+	include ☞latin:/casestudies/itp2021?UUniv_poly ❙
+	include ☞latin:/casestudies/itp2021?UExist_poly ❙
+	existsUnique
+		: {u:tp}(term⟶prop)⟶prop
+		❘ = [u:tp][P]∃[x](P x)∧∀[y](P y)⇒x≐y
+		❘ # ∃¹ 2
+		❘ ## ∃¹ 2
+	❙
+	existsIntro
+		: {u:tp}{P,x}⊦(P x)⟶⊦∃P
+		❘ # existsI 3 4
+		❘ ## existsI 3 4
+	❙
+	existsElim
+		: {u:tp}{P}⊦∃P⟶{Q}({x}⊦(P x)⟶⊦Q)⟶⊦Q
+		❘ # 4 existsE 5
+		❘ ## 4 existsE 5
+	❙
+
+❚
+
+theory UDefChoice_poly : latin:/casestudies/itp2021?Meta  =
+	include ☞latin:/casestudies/itp2021?UExistUnique_poly ❙
+	the
+		: {u:tp}(term⟶prop)⟶term
+	❙
+	theAx
+		: {u:tp}{P}⊦∃¹P⟶⊦(P ((the u) P))
+	❙
+
+❚
+
+theory UDefChoiceGuarded_poly : latin:/casestudies/itp2021?Meta  =
+	include ☞latin:/casestudies/itp2021?UExistUnique_poly ❙
+	the
+		: {u:tp}{P}⊦∃¹P⟶term
+	❙
+	theAx
+		: {u:tp}{P,pf:⊦∃¹P}⊦(P ((the u) P pf))
+	❙
+
+❚

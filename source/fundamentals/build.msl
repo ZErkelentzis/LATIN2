@@ -1,0 +1,25 @@
+file ../../build_config.msl
+
+// fundamentals
+// no dependency
+build MMT/LATIN2 mmt-omdoc fundamentals/concepts.mmt
+build MMT/LATIN2 mmt-omdoc fundamentals/relations.mmt
+
+// dependent on concepts
+// AS: this is also dependent on ur:?DiagramOperators which yields an error for me! -> LOIF
+// build MMT/LATIN2 mmt-omdoc fundamentals/base_language_translations.mmt
+build MMT/LATIN2 mmt-omdoc fundamentals/base_languages.mmt
+// AS: this is also dependent on ur?Strings -> no error
+build MMT/LATIN2 mmt-omdoc fundamentals/informal.mmt
+
+// dependent on relations
+build MMT/LATIN2 mmt-omdoc fundamentals/algebra/magmas.mmt
+
+// dependent on concepts, relations and base_languages
+build MMT/LATIN2 mmt-omdoc fundamentals/equality.mmt
+
+// dependent on concepts and equality
+build MMT/LATIN2 mmt-omdoc fundamentals/type_equality.mmt
+
+// dependent on concepts, relations and equality
+build MMT/LATIN2 mmt-omdoc fundamentals/subtyping.mmt

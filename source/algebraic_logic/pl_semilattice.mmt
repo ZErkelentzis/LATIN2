@@ -1,0 +1,25 @@
+namespace latin:/❚
+
+fixmeta ur:?LF❚
+
+theory DisjunctionSL =
+  include ?Lindenbaum❙
+  include ?DisjunctionND❙
+  realize ☞latin:/algebraic?Semilattice❙
+  op = or❙
+  idempotent = [F] equivI ([p] p orE ([q]q) ([q]q)) ([p] p orIl)❙
+  comm = [F,G] equivI ([p] or_swap p) ([p] or_swap p)❙
+  assoc = [F,G,H] equivI ([p] p orE ([q] q orE ([r] r orIl) ([r] r orIl orIr)) ([q] q orIr orIr))
+                         ([p] p orE ([q] q orIl orIl) ([q] q orE ([r] r orIr orIl) ([r] r orIr)))❙ 
+❚
+
+theory ConjunctionSL =
+  include ?Lindenbaum❙
+  include ?ConjunctionND❙
+  realize ☞latin:/algebraic?Semilattice❙
+  op = and❙
+  idempotent = [F] equivI ([p] p andEl) ([p] andI p p)❙
+  comm = [F,G] equivI ([p] and_swap p) ([p] and_swap p)❙
+  assoc = [F,G,H] equivI ([p] andI (p andEl andEl) (andI (p andEl andEr) (p andEr)))
+                         ([p] andI (andI (p andEl) (p andEr andEl)) (p andEr andEr))❙ 
+❚

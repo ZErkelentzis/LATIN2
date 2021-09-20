@@ -9,19 +9,19 @@ theory TypeEqualityND =
   structure tpeq : ?UntypedEqualityND =
      include ?Logic❙     
      term = tp❙
-     equal # 1 ≛ 2 prec 50❘role Eq❙
-  ❚    
+     uequal # 1 ≛ 2 prec 50❘role Eq❙
+  ❚
 ❚
 
 theory DependentTypeEquality =
   include ?TypeEqualityND❙
   include ?TypedEqualityND❙
   
-  congType: {A,x,y} ⊦ x≐y ⟶ {B:tm A ⟶ tp} ⊦ B x ≛ B y❘
-          = [A,x,y,p,B] p congP ([u] B x ≛ B u) tpeq/refl❘
+  congType: {A,x,y} ⊦ x =ͭ y ⟶ {B:tm A ⟶ tp} ⊦ B x ≛ B y❘
+          = [A,x,y,p,B] p tcongP ([u] B x ≛ B u) tpeq/urefl❘
           # 4 congType 5❙
   transport: {A,B} ⊦ A ≛ B ⟶ tm A ⟶ tm B❘ # 4 ↑ 3 prec 70❙ 
   
-  transport_refl: {A,x: tm A} ⊦ x↑tpeq/refl ≐ x❙
-  transport_trans: {A,B,C, x, p:⊦ A ≛ B, q: ⊦ B ≛ C} ⊦ x↑p↑q ≐ x↑(p tpeq/eq/trans q)❙
+  transport_refl: {A,x: tm A} ⊦ x↑tpeq/urefl =ͭ x❙
+  transport_trans: {A,B,C, x, p:⊦ A ≛ B, q: ⊦ B ≛ C} ⊦ x↑p↑q =ͭ x↑(p tpeq/eq/trans q)❙
 ❚

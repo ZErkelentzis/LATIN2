@@ -1,0 +1,60 @@
+namespace latin:/❚
+
+fixmeta ur:/?LF ❚
+
+theory Magma =
+  include ?EqualityType❙
+  op : carrier ⟶ carrier ⟶ carrier ❘# 1 ∘ 2 prec 50❙
+❚
+
+theory Semigroup =
+  include ?Magma❙
+  assoc: {x,y,z} (x∘y)∘z = x∘(y∘z)❙
+❚
+
+theory Commutative =
+  include ?Magma❙
+  comm: {x,y} x∘y = y∘x❙
+❚
+
+theory Neutral =
+  include ?Magma❙
+  e  : carrier ❙  
+  neutLeft: {x} e∘x = x❙
+  neutRight: {x} x∘e = x❙
+❚
+
+theory Idempotent =
+  include ?Magma❙
+  idempotent: {x} x∘x = x❙
+❚
+
+theory Monoid =
+  include ?Semigroup❙
+  include ?Neutral❙
+❚
+
+theory CommSemigroup =
+  include ?Semigroup❙
+  include ?Commutative❙
+❚
+
+theory Band =
+  include ?Semigroup❙
+  include ?Idempotent❙
+❚
+
+theory CommMonoid =
+  include ?Monoid❙
+  include ?CommSemigroup❙
+❚
+
+theory Semilattice =
+  include ?Band❙
+  include ?CommSemigroup❙
+❚
+
+theory BoundedSemilattice =
+  include ?Semilattice❙
+  include ?CommMonoid❙
+❚

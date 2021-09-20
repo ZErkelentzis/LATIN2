@@ -1,0 +1,29 @@
+namespace latin:/❚
+
+fixmeta ur:?LF❚
+
+theory MultiModal =
+  include ?Logic❙
+  modality: type❙
+❚
+
+theory MultiBox =
+  include ?MultiModal❙
+  box: modality ⟶ prop ⟶ prop❘# ⟬ 1 ⟭  2❙
+❚
+
+theory MultiDiamond =
+  include ?MultiModal❙
+  diamond: modality ⟶ prop ⟶ prop❘# ⦉ 1 ⦊ 2❙
+❚
+
+theory MML =
+  include ?MultiModal❙
+  include ?MultiBox❙
+  include ?MultiDiamond❙
+❚
+
+theory SMML = 
+  include ?MML❙
+  include ?SFOLEQ❙
+❚

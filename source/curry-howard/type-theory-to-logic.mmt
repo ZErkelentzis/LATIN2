@@ -1,0 +1,58 @@
+/T One direction of the Curry-Howard correspondence, namely the one interpreting (simple, dependent) type theory
+   in terms of (propositional, first-order) logic.
+❚
+
+namespace latin:/❚
+fixmeta ur:?LF❚
+
+view TypesAsPropositions : ?Types -> ?Propositions =
+  tp = prop❙
+❚
+
+view TermsAsProofs : ?TypedTerms -> ?Proofs =
+  include ?TypesAsPropositions ❙
+  tm = ded❙
+❚
+
+// DOES NOT TYPECHECK
+
+view TypeTheoryToLogic : ?TypedEquality -> ?ProofEquality =
+  include ?TermsAsProofs ❙
+  prop = type ❙
+  equal = [F,pf1,pf2] pf1 ⇝ pf2 ❙
+❚
+
+// view SimpleFunctionCH : ?SimpleFunctions -> ?ImplicationNDS =
+  include ?TypeTheoryToLogic ❙
+  simpfun = impl ❙
+  simplambda = implI ❙
+  simpapply = implE ❙
+  simpbeta = implS ❙
+❚
+
+// view SimpleProductCH : ?SimpleProducts -> ?ConjunctionNDs =
+  include ?TypeTheoryToLogic ❙
+  simpprod = and ❙
+  simppair = andI ❙
+  simppi1 = andEl ❙
+  simppi2 = andEr ❙
+  compute1 = andSl ❙
+  compute2 = andSr ❙
+❚
+
+// view TypesAsPropositions_depfun : ?DependentFunctions -> ?IFOLND =
+  include ?TypesAsPropositions ❙
+  include ?TypesAsPropositions_proof_irrelevance ❙
+  /T The type of `depprod` is                 `{A: tp} (tm A ⟶ tp) ⟶ tp`       (*)
+     The expected type of the assignment is:  `{p: prop} (⊦ p ⟶ prop) ⟶ prop` (**)
+
+     If we could start with (*), one would be inclined to map it to
+       `[A: tp, P: tm A ⟶ tp] ∀[x: tm A] curry_howard (P x)`.
+
+     But that wouldn't be compositionally and thus go against (**).
+     With (**) we can only map dependent function types to dependent implications. ❙
+  depfun = dimpl ❙
+  deplambda = dimplI ❙
+  depapply = dimplE ❙
+  depbeta = [p,q,P,x,y] trueI ❙
+❚

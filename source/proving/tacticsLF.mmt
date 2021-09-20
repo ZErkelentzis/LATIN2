@@ -4,19 +4,51 @@ import proving scala://latin2/proving❚
 
 theory TacticsLF =
 
-    assumelfx # %n L1❙
-    rule proving?AssumelfxTactic❙
+    assume # %n L1❙
+    rule proving?AssumelfTactic❙
 
-    theoremLF # theoremLF 1 2 ❙
-    rule proving?theoremLFTactic ❙
+    theorem # theorem 1 2 ❙
+    rule proving?theoremTactic ❙
 
-    fixlfx    # %n L1❙
-    rule proving?FixlfxTactic❙
+    fix    # %n L1❙
+    rule proving?FixlfTactic❙
+
+    use # use 1❙
+    rule proving?UselfTactic❙
 
     build # build 1 ❙
     rule proving?BuildTactic ❙
 
-    leth # leth L2 1 ❙
-    rule proving?LethTactic ❙
+    let # let L2 1 ❙
+    rule proving?LetTactic ❙
+
+    fwd # fwd L1 with 2,…  ❙
+    rule proving?FwdlfTactic ❙
+
+  //  loch ❙
+
+
+  //  rewrite # rw 1 ❙
+  //  rule proving?RewriteTactic ❙
+
+    stub ❙
+
+    dummy ❙
+
+    infererhole ❙
+
+    iproof # block iproof 1;… ❙
+    rule proving?InteractiveProof ❙
+
+    bwd # bwd 1 ❙
+    rule proving?BwdlfTactic ❙
+
+ //   proofme # proofme 1 ❙
+//    rule proving?Proofmerule ❙
+
+    rewrite # rw 1 2❙
+    rule proving?RewritlfTactic ❙
+
+
 
 ❚

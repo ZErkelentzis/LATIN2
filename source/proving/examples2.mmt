@@ -6,8 +6,8 @@ import lfx http://gl.mathhub.info/MMT/LFX/TypedHierarchy ❚
 
 theory ExMeta   =
     include ?SFOLEQND ❙
-    include ?NewTactics ❙
     include ?TacticsLF ❙
+    include ?PropositionsITP ❙
     include ☞lfx:?LFHierarchy ❙
 ❚
 
@@ -30,15 +30,15 @@ theory Examples : ?ExMeta =
 
   //  test : ⊦  A ⇒ ?? ❙
 
-    A : prop ❙
-    C : prop ❙
-    B : prop ❙
+  //  A : prop ❙
+ //   C : prop ❙
+  //  B : prop ❙
 //    T : tp ❙
 //    D : tm T ⟶ prop ❙
-    testh : ⊦  (C ⇒ C) ⇒(B ⇒ B)  ⇒ A ❙
+ //   testh : ⊦  (C ⇒ C) ⇒(B ⇒ B)  ⇒ A ❙
 
   //  errortest : ⊦ A ⇒ B ⇒ A ❘= iproof assume ha ; use ha  ❙
-    test1 : ⊦  A ⇒ A  ❘ = iproof  assume hhh   ;  leth hh testh ; subgoal hc (⊦ C ⇒ C) ; subproof assume hc ; use hc done ; fwd hh with hc ; bwd hh; assume hb ; use hb  ❙
+  //  test1 : ⊦  A ⇒ A  ❘ = iproof  assume hhh   ;  leth hh testh ; subgoal hc (⊦ C ⇒ C) ; subproof assume hc ; use hc done ; fwd hh with hc ; bwd hh; assume hb ; use hb  ❙
  //   simpletest = theoremLF (⊦ A ⟶  ⊦ A) (proof assumelfx hh ; use hh)   ❙
  //   simpletest2   = theoremLF (⊦ A ⟶  ⊦ A) (proof build ([h] h)) ❙
     // simpletest7  = theoremLF (⊦ A ⟶ ⊦ A) (proof build ([h:⊦A] h) ) ❙
@@ -49,15 +49,40 @@ theory Examples : ?ExMeta =
  //       testest0 = theoremLF (⊦ A ⟶ ⊦ A) (proof  build ([ hh : ⊦ A ]([hh: ⊦ A]hh) hh)) ❙
    // pierce : {p , q} ⊦  ((p ⇒ q) ⇒ p) ⇒ p ❘ = [p , q] iproof assume h ; addh hfe (notElimination)   ❙
 
-  //  TT : type ❙
-    test = theoremLF ({TT : type , BB  : type} TT ⟶ BB ⟶ {TT : type} TT ⟶ TT) (proof  fixlfx TT ; fixlfx BB ; assumelfx tt ; assumelfx bb ; fixlfx TT0; assumelfx tt0  ; use tt)❙
-
-  //  D : type ❙
+ //   TT : type ❙
+   // test = theoremLF ({TT : type , BB  : type} TT ⟶ BB ⟶ {TT : type} TT ⟶ TT) (proof  fixlfx TT ; fixlfx BB ; assumelfx tt ; assumelfx bb ; fixlfx TT0; assumelfx tt0  ; use tt)❙
+  //  test = theoremLF (TT ⟶ TT ⟶ TT) (proof assumelfx hh ; assumelfx hh0 ; use hh) ❙
+ //   D : type ❙
  //   E : type ❙
 
- //   testhh : D ⟶ E ❙
- //   test0 = theoremLF (E ⟶ D ⟶ E) (proof  assumelfx hb ; assumelfx ha ; leth th testhh ; use hb) ❙
+
+//    test = theoremLF ({TT : type} TT ⟶ ({U : type , V : type} U ⟶ V) ⟶ TT) (proof fixlfx TT ; assumelfx htt; assumelfx hh ; fwdlfx hh with TT,TT,htt ; use hh ) ❙
+  //  test = theoremLF ({TT : type} TT ⟶ TT) (proof fixlfx TT ; assumelfx htt ; use htt) ❙
 
 
+//    testhh : E ⟶ E ❙
+//    test0 = theoremLF (E ⟶ E) (proof  let hhh testhh ;   assumelfx hb  ; fwdlfx hhh with hb ; use hhh) ❙
+
+// andel : {A , B} ⊦ A ∧ B ⟶ ⊦  A ❙
+// ander : {A , B} ⊦ A ∧ B ⟶ ⊦  B ❙
+// andi : {A , B} ⊦ A ⟶ ⊦ B ⟶ ⊦ A ∧ B ❙
+
+// andswapA = theorem ({A : prop , B : prop} ⊦ A ∧ B ⟶ ⊦ B ∧ A) (proof fix hA ; fix hB ;  assume h  ; let hh h ; let hal (andel) ; let har (ander) ; let hi (andi) ; fwd hal with hA , hB , h  ; fwd har  with hA , hB , h ; fwd hi with hB , hA , har , hal ; use hi ) ❙
+
+// simpletest  =  theorem ({A : type } A ⟶ (A ⟶ A) ⟶ A) (proof  fix A  ; assume haa ; assume hhh ; fwd hhh with haa ; use hhh) ❙
+// simpletest  : {A : type } A ⟶ (A ⟶ A) ⟶ A ❘ = [A , ha , himp] iproof  fwd himp with ha ; use himp ❙
+// simpletest = theorem ({A : type } A ⟶ (A ⟶ A) ⟶ A) (proof build ([AA:type][ha:AA][hh:AA⟶AA]([hh:AA]hh) (hh ha)) ) ❙
+
+// simpletesti : {A : type } A ⟶ (A ⟶ A) ⟶ A ❘= iproof fix A ; assume ha ; assume hh ; fwd hh with  ha ; use hh ❙
+
+// simpletest : {A : type} A ⟶ (A ⟶ A) ⟶ A ❘= [A:type][ha:A][hh:A⟶A]([hh:A]hh) (hh ha) ❙
+// simpletest = theorem ({A : type , B : type} A ⟶ B ⟶ A)  (proof fix ha ; fix hB ; assume h ; assume h0 ; use h) ❙
+// simpletest = theorem ({A : type , B : type} A ⟶ B ⟶ A)  (proof fix ha ; let hh (andel) ; fix hB ; assume h ; assume h0 ; use h) ❙
+// simpletest2 = theoremLF ({A : type , B : type} A ⟶ B ⟶ A) (proof build ([A , B , ha , hb] ha))  ❙
+
+
+test : {A : type} ((A ⟶ A ⟶ A) ⟶ A) ⟶ A ❘ = [A , h] proof bwd h ; assume ha ; assume ha0 ; use ha  ❙
+
+// testme = proofme ({A : type} A ⟶ A) ❙
 
 ❚

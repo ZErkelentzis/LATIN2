@@ -1,0 +1,13 @@
+file ../../../build_config.msl
+
+// model_theory
+// depends in general on fundamentals and big parts of logic (these dependencies are not mentioned here)!
+
+// no dependencies
+build MMT/LATIN2 mmt-omdoc logic/model_theory/kripke.mmt
+
+// dependent on kripke
+build MMT/LATIN2 mmt-omdoc logic/model_theory/kripke_multimodal.mmt
+
+// dependent on kripke and kripke_multimodal
+build MMT/LATIN2 mmt-omdoc logic/model_theory/kripke_dynamic.mmt

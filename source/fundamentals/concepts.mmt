@@ -14,7 +14,7 @@ theory Propositions =
 theory Proofs =
   include ?Propositions❙
   /T Judgement as types (enter notation by "jder", not "jvdash") ❙
-  ded   : prop ⟶ type❘# ⊦ 1  prec -5❘role Judgment ❙
+  ded   : prop ⟶ type❘# ⊦ 1 prec -5❘role Judgment ❙
 ❚
 
 /T base theory for any logic, i.e., a language with propositions and proofs❚
@@ -55,11 +55,11 @@ theory TypedTerms =
 /T base theory for any language that has typed terms whose type depends on the environment
 
    These are also called Curry-style, extrinsically typed, or soft-typed.
-   Their key quality is that typing is a relation terms and types, i.e.,
-   terms may have no or multiple types, and type infering may be ambiguous.
+   Their key quality is that typing is a relation on terms and types, i.e.,
+   terms may have no or multiple types, and type inference may be ambiguous.
    This is more general than hard-typed terms but requires deep representations:
-   The typing of the object language is represented via inhabitation of the logica framework.
-   The latter is unusually undecidable, which complicated the treatment if the former is decidable.
+   The typing of the object language is represented via inhabitation of the logical framework.
+   The latter is unusually undecidable, which complicates the treatment if the former is decidable.
 ❚
 theory SoftTypedTerms =
   include ?Terms❙
@@ -127,8 +127,9 @@ theory TypesAsPredicates =
 theory InternalTypes =
   include ?Terms❙
   include ?Propositions❙
-  in : term ⟶ term ⟶ prop❘# 1 ∈ 2 prec 30❙
+  // AS: I changed this, because otherwise I would have to change it every time in set theory❙
+  cin : term ⟶ term ⟶ prop❘# 1 ∈ͨ 2 prec 30❙
   realize ?SoftTypedTerms❙
   tp = term❙
-  of = in❙
+  of = cin❙
 ❚

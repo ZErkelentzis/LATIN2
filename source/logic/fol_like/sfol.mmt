@@ -1,0 +1,96 @@
+namespace latin:/❚
+fixmeta ur:?LF❚
+
+// See README.md for naming conventions ❚
+
+theory TypedUniversalQuantification =
+  include ?TypedLogic❙
+  tforall : {A} (tm A ⟶ prop) ⟶ prop❘# ∀ͭ 2❙
+❚
+
+theory TypedUniversalQuantificationND =
+  include ?TypedUniversalQuantification❙
+  tforallI  : {A,P} ({x: tm A} ⊦ P x) ⟶ ⊦ ∀ͭ [x] P x❙
+  tforallE  : {A,P} ⊦ ∀ͭ P ⟶ {x: tm A} ⊦ P x❘# 3 tforallE 4❘role ForwardRule❙
+❚
+
+theory TypedExistentialQuantification =
+  include ?TypedLogic❙
+  texists : {A} (tm A ⟶ prop) ⟶ prop❘# ∃ͭ 2❙
+❚
+
+theory TypedExistentialQuantificationND =
+  include ?TypedExistentialQuantification❙
+  texistsI  : {A,P} {x: tm A} ⊦ P x ⟶ ⊦ ∃ͭ P❘# texistsI 3 4❙
+  texistsE  : {A,P,C} ⊦ ∃ͭ P ⟶ ({x: tm A} ⊦ P x ⟶ ⊦ C) ⟶ ⊦ C❘# 4 texistsE 5❙
+❚
+
+theory ISFOL =
+  include ?TypedTerms❙
+  include ?IPL❙
+  include ?TypedUniversalQuantification❙
+  include ?TypedExistentialQuantification❙
+❚
+
+theory ISFOLND =
+  include ?ISFOL❙
+  include ?IPLND❙
+  include ?TypedUniversalQuantificationND❙
+  include ?TypedExistentialQuantificationND❙
+❚
+
+theory SFOL =
+  include ?PL❙
+  include ?ISFOL❙
+❚
+
+theory SFOLND =
+  include ?SFOL❙
+  include ?PLND❙
+  include ?ISFOLND❙
+❚
+
+theory SFOLEQ =
+  include ?SFOL❙
+  include ?TypedEquality❙
+  notequal : {A} tm A ⟶ tm A ⟶ prop❘# 2 ≠ 3 prec 30❘
+  	= [A,x,y] ¬x =ͭ y❙
+❚
+
+theory SFOLEQND =
+  include ?SFOLEQ❙
+  include ?SFOLND❙
+  include ?TypedEqualityND❙
+❚
+
+theory ISFOLEQND =
+  include ?SFOLEQ ❙
+  include ?ISFOLND ❙
+  include ?TypedEqualityND❙
+❚
+
+theory TypedUniqueExistentialQuantification =
+  include ?TypedExistentialQuantification❙
+  include ?TypedEquality❙
+  texistsUnique  : {A} (tm A ⟶ prop) ⟶ prop❘# ∃ꜝͭ 2❙
+❚
+
+theory TypedUniqueExistentialQuantificationND =
+  include ?TypedUniqueExistentialQuantification❙
+  texistsUniqueI : {A,P} {x: tm A} ⊦ P x ⟶ ({y} ⊦ P y ⟶ ⊦ x =ͭ y) ⟶ ⊦ ∃ꜝͭ P❘# texistsUniqueI 3 4 5❙
+  texistsUniqueE : {A,P,C} ⊦ ∃ꜝͭ P ⟶ ({x: tm A} ⊦ P x ⟶ ({y} ⊦ P y ⟶ ⊦ x =ͭ y) ⟶ ⊦ C) ⟶ ⊦ C❘# 4 texistsUniqueE 5❙
+❚
+
+theory TypedDescription =
+  include ?TypedLogic❙
+  include ?TypedUniqueExistentialQuantification❙
+  tthe : {A} {P:tm A ⟶ prop} ⊦ ∃ꜝͭ P ⟶ tm A❘# tthe 2 3❙
+  tthe_ax : {A,P: tm A ⟶ prop,p} ⊦ P (tthe P p)❘# tthe_ax 2 3❙
+❚
+
+theory TypedChoice =
+  include ?TypedLogic❙
+  include ?TypedExistentialQuantification❙
+  tsome : {A} {P:tm A ⟶ prop} ⊦ ∃ͭ P ⟶ tm A❘# tsome 2 3❙
+  tsome_ax : {A,P: tm A ⟶ prop,p} ⊦ P (tsome P p)❘# tsome_ax 2 3❙
+❚

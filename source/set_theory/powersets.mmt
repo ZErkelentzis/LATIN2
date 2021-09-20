@@ -1,0 +1,30 @@
+namespace latin:/❚
+
+fixmeta ?DependentFOLEQDescND❚
+
+theory Powersets =
+  include ?SetBase❙
+  
+  // symbol: jpow❙
+  powerset : set ⟶ set❘# ℘ 1 prec 60❙
+  powersetI : {A,B} ({x} ⊦ x∈B ⟶ ⊦ x∈A) ⟶ ⊦ B∈ ℘A❙
+  powersetE : {A,B} ⊦ B∈ ℘A ⟶ {x} ⊦ x∈B ⟶ ⊦ x∈A❘# 3 powersetE 5❙
+  
+  // variant of powerset using subsets, which might be practical if the input is
+    already a subset❙
+  vpowersetI : {A,B} ⊦ B⊆A ⟶ ⊦ B∈ ℘A❘
+    = [A,B,p] powersetI ([x,q] q subsetE p)❙
+  vpowersetE : {A,B} ⊦ B∈ ℘A ⟶ ⊦ B⊆A❘# 3 vpowersetE❘
+    = [A,B,p] subsetI ([x,q] p powersetE q)❙
+  
+  powerset_self : {A} ⊦ A ∈ ℘A❘
+    = [A] vpowersetI subset_refl❙
+❚
+
+theory PowersetsEmpty =
+  include ?Powersets❙
+  include ?EmptySet❙
+  
+  powerset_empty : {A} ⊦ ∅∈ ℘A❘
+    = [A] vpowersetI empty_sub❙
+❚

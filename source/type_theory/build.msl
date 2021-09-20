@@ -1,0 +1,8 @@
+file ../../build_config.msl
+
+// type_theory
+// depends in general on fundamentals (these dependencies are not mentioned here)!
+
+file source/type_theory/buildNoEndo.msl
+file source/type_theory/endofunctors/build.msl
+

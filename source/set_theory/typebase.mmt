@@ -1,0 +1,45 @@
+namespace latin:/❚
+
+fixmeta ?DependentFOLEQDescND❚
+
+theory TypeBase =
+  include ?SetBase❙
+  
+  // Class P is the class of all sets satisfying P❙
+  Class : (set ⟶ prop) ⟶ type❙
+  celem : {P,x} ⊦ P x ⟶ Class P❙
+  cwhich : {P} Class P ⟶ set❙
+  cwhy : {P,c:Class P} ⊦ (P (cwhich P c))❘# cwhy 1 2❙ 
+
+  // rules for Classes❙
+  // A term with a proof is equal to the original term❙
+  ceq_which : {P,x,p} ⊦ (cwhich P (celem P x p)) =ͧ x❙
+  // Elements of classes are equal if their first components are (proof irrelevance)❙
+  EqcongEl : {P,c,d,F: Class P ⟶ prop} ⊦ (cwhich P c =ͧ cwhich P d) ⟶ ⊦ F c ⟶ ⊦ F d❘# 5 EqcongEl 4 6❙
+  
+  // Elem❙
+  Elem : set ⟶ type❘ = [A] Class [x] x∈A❙
+  elem : {A,x} ⊦ x∈A ⟶ Elem A❘
+    = [A,x,p] celem ([u] u∈A) x p❘# elem 2 3❙
+  which : {A} Elem A ⟶ set❘
+    = [A,e] cwhich ([x] x∈A) e❘# which 2 prec 50❙
+  why : {A,e:Elem A} ⊦ which e ∈ A❘
+    = [A,e] cwhy ([x] x∈A) e❘# why 2❙
+  eq_which : {A,x,p: ⊦ x∈A} ⊦ which (elem x p) =ͧ x❘
+    = [A,x,p] ceq_which❘ role Simplify❙
+  
+  // AS: some proofs are missing here❙  
+  Eq : {A} Elem A ⟶ Elem A ⟶ prop❘# 2 Eq 3❘
+    = [A,e,d] which e =ͧ which d❙
+  EqcongEr : {P,c,d,F: Class P ⟶ prop} ⊦ (cwhich P c =ͧ cwhich P d) ⟶ ⊦ F d ⟶ ⊦ F c❘# 5 EqcongEr 4 6❘
+    = [P,c,d,F,p,q] (eq/sym p) EqcongEl F q❙
+  EqcongF : {P,c,d,F: Class P ⟶ set} ⊦ (cwhich P c =ͧ cwhich P d) ⟶ ⊦ (F c) =ͧ (F d)❙
+  EqCongF : {P,Q,c,d,F: Class P ⟶ Class Q} ⊦ (cwhich P c =ͧ cwhich P d) ⟶ ⊦ (cwhich Q (F c) =ͧ cwhich Q (F d))❙
+  
+  Refl : {A,e} ⊦ Eq A e e❘ = [A,e] urefl❙
+  EqcongB : {A,B,F: Elem A ⟶ Elem B,G: Elem A ⟶ Elem B} ({e} ⊦ (F e) Eq (G e)) ⟶ {P: (Elem A ⟶ Elem B) ⟶ prop} ⊦ P F ⟶ ⊦ P G❙
+  
+  // AS: trying to solve the simplify problem❙
+  simpP : {A,e: Elem A, P: Elem A ⟶ prop} ⊦ P e ⇔ P (elem (which e) (why e))❘# simpP 3❙
+  simpF : {A,e: Elem A, F: Elem A ⟶ set} ⊦ F e =ͧ F (elem (which e) (why e))❘# simpF 3❙
+❚
