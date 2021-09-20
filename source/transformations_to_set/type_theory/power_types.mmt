@@ -30,7 +30,7 @@ theory PowerTypesSet =
     ([p] simpP P equivEr (p filterEr dandEr))
     ([q] filterI (why e) (dandI (why e) (simpP P equivEl q)))❙
     
-  expand = [A,S: Powerset A] _❙
+  // expand = [A,S: Powerset A] _❙
 ❚
 
 // AS: powertypes/?Map is defined already. Therefore I skipped it❚
@@ -48,4 +48,4 @@ theory ExtensionalitySet =
   include ?TypedUniversalQuantificationNDSet❙
   
   realize powertypes/?Extensionality❙
-  extensionality = [A,S,T: Elem Powerset A,p] extensionality_axiom equivEl ❙
+  // extensionality = [A,S,T: Elem Powerset A,p] extensionality_axiom equivEl ❙

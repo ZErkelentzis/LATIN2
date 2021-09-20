@@ -2,11 +2,6 @@ namespace latin:/❚
 
 fixmeta ?DependentFOLEQDescND❚
 
-// TODO:
-  - TODOs in theories
-  - check whether everything is right
-❚
-
 // AS: I commented the definitions, cause it ruins the performance❚
 
 // ZFBase now contains all standard axioms of ZF instead of just Extensionality
@@ -79,8 +74,16 @@ theory ZFFeatures =
   include ?CartesianProduct❙// = ?CartImage❙
   include ?Sigma❙// = ?SigmaUnion❙
   
-  // AS: functions already include relations and partial functions❙
-  include ?Functions❙
+  // include ?CartFilter❙
+  include ?TheRelation❙// = ?TheCartFilter❙
+  
+  // include ?CartFilterPower❙
+  include ?Relations❙// = ?RelCartFilter❙
+  include ?PartialFunctions❙// = ?RelFilter❙
+  include ?Functions❙// = ?FuncCartFilter❙
+  
+  // include ?TheBigCartFilterImage❙
+  include ?LambdaFunction❙// = ?LambdaCartFilter❙
 ❚
 
 theory ZFC = 

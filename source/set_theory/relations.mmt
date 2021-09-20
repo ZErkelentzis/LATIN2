@@ -99,8 +99,6 @@ theory LambdaImage =
   include ?Image❙
   // Lambda is just a relation❙
   lambda_rel : {A,f} ⊦ λͧ A f =ͧ theRel A (image f A) (fun2rel f)❙
-  // AS: just some ideas. The first is basically the view in views_relations.mmt just with extra steps❙ 
-  // apply_inrel : {F,a} ⊦ F@ͧa =ͧ ⋃((img F a)|([b] inRel F a b))❙
   // AS: maybe use the fact that F is a function and therefore there has to be a unique b❙
   // apply_inrel : {F,a} ⊦ isfuncAB F A B ⟶ ⊦ F@ͧa =ͧ the ([b] inRel F a b) (right_unique)❙
   // This has to be correct, but is it useful?

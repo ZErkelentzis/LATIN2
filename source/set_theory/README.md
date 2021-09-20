@@ -2,17 +2,23 @@
 
 Formalizations of typical set_theoretic features as well as set theories like ZFC.
 
-## File Overview (to be changed)
-setfol.mmt: extensionality, subset and other definitions and features that are needed for set_theory.
-basic_sets.mmt: EmptySet, Singleton and UnorderedPair. Every set that consists of exactly x known members.
-basic_operations.mmt: (Big)Union, (Big)Intersection, Difference, Complement, SymmetricDifference, Adjoin and Remove.
-basic_features.mmt: Powersets, Image, Filter and Replace.
-features.mmt: OrderedPairs, CartesianProducts, Relations and (Partial)Functions.
-axioms.mmt: Axioms (excluding extensionality and existence)
-views_features.mmt: nearly all views to define previously stated features.
-views_basic_sets.mmt: all views to define basic_sets.
-zfc.mmt: building up zfc from axioms and previously defined features.
-typed.mmt: Class, Elem and their operations to be able to mimic types with set theory.
-typed_features.mmt: TypedBigUnion and TypedBigIntersection.
-views_typed.mmt: type_theory features defined with TypedZFC.
-nat.mmt: natural numbers.
+## File Overview
+setfol.mmt: extensionality, subset and other definitions and features that are needed for set_theory. This file is the basis of all formalizations in set theory.
+
+finite_sets.mmt: EmptySet, Singleton and UnorderedPair. Every set that consists of exactly x known members.
+lattice_operations.mmt: (Big)Union, (Big)Intersection, Difference and Complement.
+powersets.mmt: Powersets.
+operations.mmt: Filter, Replace, Image, SymmetricDifference, Adjoin and Remove.
+cartesian_product.mmt: OrderedPairs, CartesianProducts, Sigma and SigmaMod.
+relations.mmt: TheRelation, Relations, (Partial)Functions and LambdaFunction.
+
+views_features: views for the features above (except setfol.mmt of course).
+pair_definitions: definitions for OrderedPairs.
+
+axioms.mmt: Axioms (excluding extensionality and existence).
+typebase.mmt: Class, Elem and Eq definitions.
+
+zfc.mmt: building up zfc from axioms, features and views. Also contains a theory typed_zfc.
+nats.mmt: natural numbers and Peano axioms.
+
+typed_features.mmt: Some LATIN expressions in MMT. This can be ignored.

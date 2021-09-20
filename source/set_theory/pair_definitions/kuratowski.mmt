@@ -13,8 +13,6 @@ theory KuratowskiPairs =
   realize ?OrderedPairs❙
   pair = [a,b] uopair (singleton a) (uopair a b)❙
   pi1 = [p] ⋃(⋂p)❙
-  // AS: This definition does not work, if a ≐ b❙
-  // pi2 = [p] ⋃((⋃p)∖(⋂p))❙
   pi2 = [p] ⋃(⋃p | ([b] ∃ͧ[a] uopair (singleton  a) (uopair a b) =ͧ p))❙
   
   // computation rules❙
@@ -51,18 +49,4 @@ theory KuratowskiPairs =
     ([vb: ⊦ b =ͧ X] in_eq pb (eq/sym vb))))))
     ([sb: ⊦ X =ͧ b] in_eq pb sb)))))
     ([q] bigunionI (filterI (bigunionI uopairIr uopairIr) (uexistsI a urefl)) q))❙
-
-	// AS: This did not work❙
-	// compR = [A,B] extensionalityI ([x] equivI
-		([p] p bigunionE ([X,pa,pb: ⊦ x∈X] (pa difEl) bigunionE ([Y,qa,qb: ⊦ X∈Y] qa uopairE
-		([ra: ⊦ Y ≐ singleton a] (pa difEr) notE (biginterI (existsI (singleton a) uopairIl)
-		([Z,q] q uopairE ([sa] in_eq (in_eq qb ra) sa) 
-		([sb] in_eq (eq_in ((in_eq qb ra) singletonE) uopairIl) sb))) inconE)
-		([rb: ⊦ Y ≐ uopair a b] (in_eq qb rb) uopairE ([sa: ⊦ X ≐ a] (pa difEr) notE
-		(biginterI (existsI (singleton a) uopairIl) ([Z,q] q uopairE 
-		([ta] eq_in sa (in_eq singletonI (eq/sym ta))) 
-		([tb] eq_in sa (in_eq uopairIl (eq/sym tb))))) inconE)
-		([sb: ⊦ X ≐ b] in_eq pb sb)))))
-		([q] bigunionI (difI (bigunionI uopairIr uopairIr) notI 
-		([pf] )) q))❙
 ❚

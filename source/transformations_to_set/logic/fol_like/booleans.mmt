@@ -21,8 +21,8 @@ theory CBooleanExtensionalityZF =
   include ?CBooleansZF❙
 
   realize ?BooleanExtensionality❙
-  boolext = [P: Elem bool ⟶ prop,pt,pf,b: Elem bool] (ctnd b) orE
+  // boolext = [P: Elem bool ⟶ prop,pt,pf,b: Elem bool] (ctnd b) orE
     ([p] p EqcongEr P pf) ([q] q EqcongEr P pt)❙
     
-  if = [S,b: Elem bool,t: Elem S, e: Elem S] _❙
+  // if = [S,b: Elem bool,t: Elem S, e: Elem S] _❙
 ❚

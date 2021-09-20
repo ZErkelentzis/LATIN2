@@ -18,7 +18,7 @@ theory Powersets =
     = [A,B,p] subsetI ([x,q] p powersetE q)❙
   
   powerset_self : {A} ⊦ A ∈ ℘A❘
-    = [A] vpowersetI subset_idem❙
+    = [A] vpowersetI subset_refl❙
 ❚
 
 theory PowersetsEmpty =
