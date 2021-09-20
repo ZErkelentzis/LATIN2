@@ -5,7 +5,24 @@ fixmeta ?DependentFOLEQDescND❚
 /T   The views currently still need single theories as a domain and codomain, which 
   forces us to provide spurious named theories. This should be refactored when
   multi-theory domains and codomains are possible.❚
-  
+
+// Views for Img❚
+theory OrderedImageFilter =
+  include ?OrderedPairs❙
+  include ?Image❙
+  include ?Filter❙
+❚
+
+view ImgOrderedImageFilter : ?Img → ?OrderedImageFilter =
+  include ?OrderedPairs❙
+  img = [R,a] image ([p] p₂ͧ) (R|([x] ispair x ∧ (x₁ͧ)=ͧa))❙
+  imgI = [R,a,b,p] compR ucongP ([x] x∈(image ([p] p₂ͧ) (R|([z] ispair z ∧ (z₁ͧ)=ͧa)))) 
+      (imageI (filterI p (andI pair_is_pair compL)))❙
+  imgE = [R,a,b,p] p imageE uexistsE ([x,px] (px andEr) ucongP ([z] (a,ͧz)∈R)
+      ((px andEl filterEr andEr) ucongP ([y] (y,ͧ(x₂ͧ))∈R) 
+      (eq_in (eq/sym repr (px andEl filterEr andEl)) (px andEl filterEl))))❙
+❚
+
 // Views for CartesianProduct❚
 theory OrderedBigUnionImage =
   include ?OrderedPairs❙
@@ -15,22 +32,22 @@ theory OrderedBigUnionImage =
 
 view CartImage : ?CartesianProduct → ?OrderedBigUnionImage =
   include ?OrderedPairs❙
-  prod = [A,B] ⋃(image ([x,p: ⊦ x∈A] image ([y,q: ⊦ y∈B] x,ͧy) B) A)❙
+  prod = [A,B] ⋃(image ([x] image ([y] x,ͧy) B) A)❙
   prodI = [A,B,a,b,pa,pb] bigunionI (imageI pa) (imageI pb)❙
   prodEl = [A,B,p,pp] pp bigunionE ([X,qa,qb] qa imageE uexistsE 
-    ([x,px] in_eq qb (eq/sym (px dandEr)) imageE uexistsE
-    ([y,py] eq_in ((py dandEr) ucongP ([z] z₁ͧ =ͧ x) compL) (px dandEl))))❙
+    ([x,px] in_eq qb (eq/sym (px andEr)) imageE uexistsE
+    ([y,py] eq_in ((py andEr) ucongP ([z] z₁ͧ =ͧ x) compL) (px andEl))))❙
   prodEr = [A,B,p,pp] pp bigunionE ([X,qa,qb] qa imageE uexistsE 
-    ([x,px] in_eq qb (eq/sym (px dandEr)) imageE uexistsE
-    ([y,py] eq_in ((py dandEr) ucongP ([z] z₂ͧ =ͧ y) compR) (py dandEl))))❙
+    ([x,px] in_eq qb (eq/sym (px andEr)) imageE uexistsE
+    ([y,py] eq_in ((py andEr) ucongP ([z] z₂ͧ =ͧ y) compR) (py andEl))))❙
   prodE = [A,B,p,pp] pp bigunionE ([X,qa,qb] qa imageE uexistsE 
-    ([x,px] in_eq qb (eq/sym (px dandEr)) imageE uexistsE
-    ([y,py] uexistsI x (uexistsI y (eq/sym (py dandEr))))))❙
+    ([x,px] in_eq qb (eq/sym (px andEr)) imageE uexistsE
+    ([y,py] uexistsI x (uexistsI y (eq/sym (py andEr))))))❙
 ❚
 
 view SigmaCart : ?CartesianProduct → ?Sigma =
   include ?OrderedPairs❙
-  prod = [A,B] Σͧ A ([x,p] B)❙
+  prod = [A,B] Σͧ A ([x] B)❙
   prodI = [A,B,a,b,pa,pb] sigmaI pa pb❙
   prodEl = [A,B,p,pp] pp sigmaEl❙
   prodEr = [A,B,p,pp] pp sigmaEr❙
@@ -41,17 +58,27 @@ view SigmaCart : ?CartesianProduct → ?Sigma =
 view SigmaUnion : ?Sigma → ?OrderedBigUnionImage =
   include ?OrderedPairs❙
   // AS: This is nearly the same as for the CartesianProduct❙
-  sigma = [A,B] ⋃(image ([x,p: ⊦ x∈A] image ([y,q: ⊦ y∈(B x p)] x,ͧy) (B x p)) A)❙
+  sigma = [A,B] ⋃(image ([x] image ([y] x,ͧy) (B x)) A)❙
   sigmaI = [A,B,a,b,pa,pb] bigunionI (imageI pa) (imageI pb)❙
   sigmaEl = [A,B,p,pp] pp bigunionE ([X,qa,qb] qa imageE uexistsE 
-    ([x,px] in_eq qb (eq/sym (px dandEr)) imageE uexistsE
-    ([y,py] eq_in ((py dandEr) ucongP ([z] z₁ͧ =ͧ x) compL) (px dandEl))))❙
-  // AS: sigmaEl is expected as proof, but I can offer px dandEl here. Probably this can be solved❙ 
-  sigmaEr = [A,B,p,pp] pp bigunionE ([X,qa,qb] qa imageE uexistsE
-    ([x,px] in_eq qb (eq/sym (px dandEr)) imageE uexistsE
-    ([y,py] (eq/sym ((py dandEr) ucongP ([v] v₁ͧ =ͧ x) compL)) ucongP ([w] p₂ͧ∈ (B w (px dandEl)))
-    (eq_in ((py dandEr) ucongP ([z] z₂ͧ =ͧ y) compR) (py dandEl)))))❙
+    ([x,px] in_eq qb (eq/sym (px andEr)) imageE uexistsE
+    ([y,py] eq_in ((py andEr) ucongP ([z] z₁ͧ =ͧ x) compL) (px andEl))))❙
+  sigmaEr = [A,B,p,pp] pp bigunionE ([X,qa,qb] qa imageE uexistsE 
+    ([x,px] in_eq qb (eq/sym (px andEr)) imageE uexistsE
+    ([y,py] (eq/sym ((py andEr) ucongP ([v] v₁ͧ =ͧ x) compL)) ucongP ([w] p₂ͧ∈ (B w))
+    (eq_in ((py andEr) ucongP ([z] z₂ͧ =ͧ y) compR) (py andEl)))))❙
   sigmaE = [A,B,p,pp] pp bigunionE ([X,qa,qb] qa imageE uexistsE 
-    ([x,px] in_eq qb (eq/sym (px dandEr)) imageE uexistsE
-    ([y,py] uexistsI x (uexistsI y (eq/sym (py dandEr))))))❙    
+    ([x,px] in_eq qb (eq/sym (px andEr)) imageE uexistsE
+    ([y,py] uexistsI x (uexistsI y (eq/sym (py andEr))))))❙    
+❚
+
+view SigmaFromMod : ?Sigma → ?SigmaMod =
+  include ?OrderedPairs❙
+  
+  sigma = [A,B] sigmaMod A ([x,p] B x)❙
+  sigmaI = [A,B,a,b,pa,pb] sigmaModI pa pb❙
+  sigmaEl = [A,B,p,pp] pp sigmaModEl❙
+  sigmaEr = [A,B,p,pp] pp sigmaModEr❙
+  
+  sigmaE = [A,B,p,pp] pp sigmaModE❙
 ❚

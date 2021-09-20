@@ -123,3 +123,43 @@ view FuncCartFilter : ?Functions → ?CartFilterPower =
   funcE = [A,B,R,p] andI (andI (p filterEl vpowersetE) (p filterEr andEl))
     (p filterEr andEr)❙
 ❚
+
+// Views for LambdaFunction❚
+theory TheBigCartFilterImage =
+  include ?CartFilter❙
+  include ?BigUnion❙
+  include ?Image❙
+  include ?Img❙
+❚
+
+view LambdaCartFilter : ?LambdaFunction → ?TheBigCartFilterImage =
+  include ?TheRelation❘ = ?TheCartFilter❙
+  
+  lambda = [A,f] image ([x] x,ͧ f x) A❙
+  apply = [F,a] ⋃(img F a)❙
+  
+  beta = [A,f,y,py] extensionalityI ([x] equivI
+    ([p] p bigunionE ([X,pa,pb] pa imgE imageE uexistsE 
+    ([z,pz] (pair_inj (pz andEr) andEl) ucongP ([u] x∈(f u))
+    (in_eq pb (eq/sym (pair_inj (pz andEr) andEr))))))
+    ([q] bigunionI (imgI (imageI py)) q))❙
+    
+  // eta and ext❙
+❚
+
+theory BigLambda =
+  include ?TheBigCartFilterImage❙
+  include ?LambdaFunction❙
+❚
+
+view TheLambda : ?LambdaImage → ?BigLambda =
+  include ?LambdaFunction❘ = ?LambdaCartFilter❙
+  include ?Image❙
+  
+  lambda_rel = [A,f] extensionalityI ([x] equivI
+    ([p] p imageE uexistsE ([y,py] eq_in (eq/sym (py andEr))
+    (filterI (prodI (py andEl) (imageI (py andEl))) 
+    (((eq/sym compL) ucongP ([u] f u =ͧ f y) urefl) eq/trans (eq/sym compR)))))
+    ([q] eq_in (repr (q filterEl prodE)) ((q filterEr) ucongP
+    ([z] (x₁ͧ,ͧz)∈image([u] u,ͧf u) A) (imageI (q filterEl prodEl)))))❙
+❚

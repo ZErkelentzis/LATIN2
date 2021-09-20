@@ -13,6 +13,8 @@ theory OrderedPairs =
 
   ispair : set ⟶ prop❘
     = [p] ∃ͧ[a] ∃ͧ[b] p =ͧ (a,ͧb)❙
+  pair_is_pair : {a,b} ⊦ ispair (a,ͧb)❘
+    = [a,b] uexistsI a (uexistsI b urefl)❙
 
   // computation rules❙
   // AS: add role Simplify here if wanted. I made the proofs before I knew of Simplify
@@ -35,6 +37,14 @@ theory OrderedPairs =
   pair_inj : {A,B,C,D} ⊦ (A,ͧB) =ͧ (C,ͧD) ⟶ ⊦ A =ͧ C ∧ B =ͧ D❘
     = [A,B,C,D,p] andI ((eq/sym compL) eq/trans ((eq/sym p) ucongP ([X] (X₁ͧ) =ͧ C) compL))
       ((eq/sym compR) eq/trans ((eq/sym p) ucongP ([X] (X₂ͧ) =ͧ D) compR))❙
+❚
+
+theory Img =
+  include ?OrderedPairs❙
+  // img R a = {b | (a,ͧb)∈R}❙
+  img : set ⟶ set ⟶ set❙
+  imgI : {R,a,b} ⊦ (a,ͧb)∈R ⟶ ⊦ b ∈ img R a❙
+  imgE : {R,a,b} ⊦ b ∈ img R a ⟶ ⊦ (a,ͧb)∈R❘# 4 imgE❙
 ❚
 
 theory CartesianProduct =
@@ -106,21 +116,19 @@ theory CartUnion =
 ❚
 
 theory Sigma =
-  // AS: sigma function or dependent product. Similar to Isabelle/ZF and Lean and Nuprl❙
+  // sigma or dependent product❙
   include ?OrderedPairs❙
   
-  sigma : {A: set} ({x} ⊦ x∈A ⟶ set) ⟶ set❘# Σͧ 1 2 prec 40❙
+  sigma : set ⟶ (set ⟶ set) ⟶ set❘# Σͧ 1 2 prec 40❙
   
-  sigmaI : {A,B,a,b} {p: ⊦ a∈A} ⊦ b∈(B a p) ⟶ ⊦ (a,ͧb) ∈ Σͧ A B❙
+  sigmaI : {A,B,a,b} ⊦ a∈A ⟶ ⊦ b∈(B a) ⟶ ⊦ (a,ͧb) ∈ Σͧ A B❙
   sigmaEl : {A,B,p} ⊦ p ∈ Σͧ A B ⟶ ⊦ p₁ͧ∈A❘# 4 sigmaEl❙
-  sigmaEr : {A,B,p} {q: ⊦ p ∈ Σͧ A B} ⊦ p₂ͧ∈(B (p₁ͧ) (q sigmaEl))❘# 4 sigmaEr❙
+  sigmaEr : {A,B,p} ⊦ p ∈ Σͧ A B ⟶ ⊦ p₂ͧ∈(B (p₁ͧ))❘# 4 sigmaEr❙
   
   sigmaE : {A,B,p} ⊦ p ∈ Σͧ A B ⟶ ⊦ ispair p❘# 4 sigmaE❙
   
-  // AS: sigma_sub hard to proof now, because B(x) would be independent of a proof,
-    but I don't know how to state this❙
-  // sigma_sub : {A,B,C} ⊦ A⊆C ⟶ ⊦ Σͧ A B ⊆ Σͧ C B❘
-    // = [A,B,C,p] subsetI ([x,q] eq_in (repr (q sigmaE))
+  sigma_sub : {A,B,C} ⊦ A⊆C ⟶ ⊦ Σͧ A B ⊆ Σͧ C B❘
+    = [A,B,C,p] subsetI ([x,q] eq_in (repr (q sigmaE))
       (sigmaI (q sigmaEl subsetE p) (q sigmaEr)))❙
 ❚
 
@@ -132,8 +140,21 @@ theory SigmaEmpty =
     = [B] extensionalityI ([x] equivI
       ([p] empty_prop notE (uexistsI (x₁ͧ) (p sigmaEl)) inconE)
       ([q] empty_prop notE (uexistsI x q) inconE))❙
-  sigma_emptyB : {A} ⊦ Σͧ A ([x,p] ∅) =ͧ ∅❘
+  sigma_emptyB : {A} ⊦ Σͧ A ([x] ∅) =ͧ ∅❘
     = [A] extensionalityI ([x] equivI
       ([p] empty_prop notE (uexistsI (x₂ͧ) (p sigmaEr)) inconE)
       ([q] empty_prop notE (uexistsI x q) inconE))❙
+❚
+
+theory SigmaMod =
+  // modified version of sigma that contains an additional proof❙
+  include ?OrderedPairs❙
+  
+  sigmaMod : {A: set} ({x} ⊦ x∈A ⟶ set) ⟶ set❘# Σͧ 1 2 prec 40❙
+  
+  sigmaModI : {A,B,a,b} {p: ⊦ a∈A} ⊦ b∈(B a p) ⟶ ⊦ (a,ͧb) ∈ Σͧ A B❙
+  sigmaModEl : {A,B,p} ⊦ p ∈ Σͧ A B ⟶ ⊦ p₁ͧ∈A❘# 4 sigmaModEl❙
+  sigmaModEr : {A,B,p} {q: ⊦ p ∈ Σͧ A B} ⊦ p₂ͧ∈(B (p₁ͧ) (q sigmaModEl))❘# 4 sigmaModEr❙
+  
+  sigmaModE : {A,B,p} ⊦ p ∈ Σͧ A B ⟶ ⊦ ispair p❘# 4 sigmaModE❙
 ❚

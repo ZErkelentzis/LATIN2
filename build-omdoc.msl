@@ -40,7 +40,7 @@ file source/algebra/build.msl
 
 build MMT/LATIN2 mmt-omdoc algebraic_logic/pl_semilattice.mmt
 
-file MMT/LATIN2 mmt-omdoc transformations_to_set/build.msl
+file source/transformations_to_set/build.msl
 
 // TODO:
 // build MMT/LATIN2 lf-scala

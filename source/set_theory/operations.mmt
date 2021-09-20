@@ -29,13 +29,13 @@ theory Image =
   
   // image f A = {f(x) : x∈A}❙
   // AS: think of a shorter notation and maybe change prec❙
-  image : {A: set} ({x} ⊦ x∈A ⟶ set) ⟶ set❘# image 2 1 prec 50❙
-  imageI : {A,f,x} {p: ⊦ x∈A} ⊦ (f x p)∈ image f A❙
-  imageE : {A,f,y} ⊦ y ∈ image f A ⟶ ⊦ ∃ͧ[x] x∈A ∧ͩ ([p] f x p =ͧ y)❘# 4 imageE❙
+  image : set ⟶ (set ⟶ set) ⟶ set❘# image 2 1 prec 50❙
+  imageI : {A,f,x} ⊦ x∈A ⟶ ⊦ (f x)∈ image f A❙
+  imageE : {A,f,y} ⊦ y ∈ image f A ⟶ ⊦ ∃ͧ[x] x∈A ∧ f x =ͧ y❘# 4 imageE❙
   
-  image_id : {A} ⊦ image ([x,p: ⊦ x∈A] x) A =ͧ A❘
+  image_id : {A} ⊦ image ([x] x) A =ͧ A❘
     = [A] extensionalityI ([x] equivI 
-      ([p] p imageE uexistsE ([y,py] eq_in (eq/sym (py dandEr)) (py dandEl)))
+      ([p] p imageE uexistsE ([y,py] eq_in (eq/sym (py andEr)) (py andEl)))
       ([q] imageI q))❙
 ❚
 
@@ -45,7 +45,7 @@ theory ImageEmpty =
   
   image_empty : {f} ⊦ image f ∅ =ͧ ∅❘
     = [f] extensionalityI ([x] equivI
-      ([p] p imageE uexistsE ([y,py] empty_prop notE (uexistsI y (py dandEl)) inconE))
+      ([p] p imageE uexistsE ([y,py] empty_prop notE (uexistsI y (py andEl)) inconE))
       ([q] empty_prop notE (uexistsI x q) inconE))❙
 ❚
 

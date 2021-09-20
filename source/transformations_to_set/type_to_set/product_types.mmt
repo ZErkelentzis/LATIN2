@@ -11,10 +11,10 @@ theory SimpleProductTypesSet =
 
 theory DependentProductTypesSet =
   include ?TypedTermsSet❙
-  include ?Sigma❙
+  include ?SigmaMod❙
   
   realize ?DependentProductTypes❙
-  depprod = [A,B: (Elem A ⟶ set)] sigma (modify_type (A ([x,p: ⊦ x∈A] B (elem x p))))❙
+  depprod = [A,B: (Elem A ⟶ set)] sigmaMod A ([x,p: ⊦ x∈A] B (elem x p))❙
 ❚
 
 theory SoftDependentProductTypesSet =
@@ -25,7 +25,7 @@ theory SoftDependentProductTypesSet =
   include ?Sigma❙
   
   realize ?SoftDependentProductTypes❙
-  softprod = [A,B] sigma A ([x,p] B x)❙
+  softprod = [A,B] sigma A B❙
 ❚
 
 theory SimpleProductsSet =
@@ -67,12 +67,13 @@ theory DependentProductsSet =
   
   realize ?DependentProducts❙
   deppair = [A,B: (Elem A ⟶ set),a: Elem A,b: Elem (B a)] elem (which a,ͧ which b)
-    (sigmaI (why a) (in_eq (why b) (simpF B)))❙
-  deppi1 = [A,B: (Elem A ⟶ set),e] elem ((which e)₁ͧ) ((why e) sigmaEl)❙
-  deppi2 = [A,B: (Elem A ⟶ set),e] elem ((which e)₂ͧ) ((why e) sigmaEr)❙
+    (sigmaModI (why a) (in_eq (why b) (simpF B)))❙
+  deppi1 = [A,B: (Elem A ⟶ set),e] elem ((which e)₁ͧ) ((why e) sigmaModEl)❙
+  deppi2 = [A,B: (Elem A ⟶ set),e] elem ((which e)₂ͧ) ((why e) sigmaModEr)❙
   
   compute1 = [A,B,a: Elem A,b] compL❙
-  compute2 = [A,B: (Elem A ⟶ set),a,b] compR❙
+  // AS: probably this error is related to DependentTypeEqualitySet❙
+  // compute2 = [A,B: (Elem A ⟶ set),a,b] compR❙
 ❚
 
 theory SoftTypedProductsSet =
@@ -141,8 +142,7 @@ theory DependentProductsExpandSet =
   include ?DependentProductsSet❙
   
   realize ?DependentProductsExpand❙
-  // AS: dependent products have to be done first❙
-  expand = [A,B,u: Elem (A×ͭB)] _❙
+  expand = [A,B,u] eq/sym (repr ((why u) sigmaModE))❙
 ❚
 
 theory SoftTypedProductsExpandSet =
@@ -156,7 +156,7 @@ theory SoftTypedProductsExpandSet =
   
   realize ?SoftTypedProductsExpand❙
   // AS: repr cannot be used, since u does not have to be a pair❙
-  expand = _❙
+  // expand = [u] _❙
 ❚
 
 theory SimpleProductsExtensionalitySet =
@@ -178,7 +178,8 @@ theory DependentProductsExtensionalitySet =
   include ?DependentProductsSet❙
   
   realize ?DependentProductsExtensionality❙
-  // TODO❙
+  // AS: probably this error is related to DependentTypeEqualitySet❙
+  // exten = [A,B,u,v,p,q] ext ((why u) sigmaE) ((why v) sigmaE) p q❙ 
 ❚
 
 theory SoftTypedProductsExtensionalitySet =
@@ -191,5 +192,5 @@ theory SoftTypedProductsExtensionalitySet =
   include ?SoftTypedProductsSet❙
   
   realize ?SoftTypedProductsExtensionality❙
-  // TODO❙
+  // AS: u and v do not have to be pairs❙
 ❚

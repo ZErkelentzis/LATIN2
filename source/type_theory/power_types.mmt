@@ -13,14 +13,14 @@ theory PowerTypes =
   
   power : tp ⟶ tp❘# ℘ͯ 1 prec 100❙
   in    : {A} tm A  ⟶ tm ℘ͯA ⟶ prop❘# 2 ∈ͯ 3 prec 30❙
-  filter: {A} (tm A ⟶ prop) ⟶ tm ℘ͯA❘# filter 2 prec 50❙
+  pfilter: {A} (tm A ⟶ prop) ⟶ tm ℘ͯA❘# pfilter 2 prec 50❙
   
-  compute : {A,P,x: tm A} ⊦ x ∈ͯ filter P ⇔ P x❙
-  expand  : {A,S:tm ℘ͯA} ⊦ S =ͭ filter[x]x∈ͯS❙
+  compute : {A,P,x: tm A} ⊦ x ∈ͯ pfilter P ⇔ P x❙
+  expand  : {A,S:tm ℘ͯA} ⊦ S =ͭ pfilter[x]x∈ͯS❙
   
-  filterI : {A,P,x: tm A} ⊦ P x ⟶ ⊦ x ∈ͯ filter P❘
+  pfilterI : {A,P,x: tm A} ⊦ P x ⟶ ⊦ x ∈ͯ pfilter P❘
   				= [A,P,x,p] compute equivEr p❙
-  filterE : {A,P,x: tm A} ⊦ x ∈ͯ filter P ⟶ ⊦ P x❘# 4 filterE ❘ 
+  pfilterE : {A,P,x: tm A} ⊦ x ∈ͯ pfilter P ⟶ ⊦ P x❘# 4 pfilterE ❘ 
   				= [A,P,x,p] compute equivEl p❙
 ❚
 
@@ -29,11 +29,11 @@ theory Map =
   include ☞latin:/?ConjunctionND❙
   include ☞latin:/?TypedExistentialQuantificationND❙
   map : {A,B} (tm A ⟶ tm B) ⟶ tm ℘ͯA ⟶ tm ℘ͯB❘
-      = [A,B,f,S] filter[b] ∃ͭ[a] a∈ͯS ∧ (b =ͭ f a)❘# 4 map 3 prec 40❙
+      = [A,B,f,S] pfilter[b] ∃ͭ[a] a∈ͯS ∧ (b =ͭ f a)❘# 4 map 3 prec 40❙
   mapI : {A,B,f:tm A ⟶ tm B,S,x} ⊦ x ∈ͯ S ⟶ ⊦ f x ∈ͯ S map f❘
-       = [A,B,f,S,x,p] filterI texistsI x andI p trefl❙
+       = [A,B,f,S,x,p] pfilterI texistsI x andI p trefl❙
   mapE : {A,B,f:tm A ⟶ tm B,S,x,C} ⊦ x ∈ͯ S map f ⟶ ({a} ⊦ a∈ͯS ⟶ ⊦ x =ͭ f a ⟶ ⊦C) ⟶ ⊦ C❘
-       = [A,B,f,S,x,C,p,q] p filterE texistsE [a,r] q a (r andEl) (r andEr)❙
+       = [A,B,f,S,x,C,p,q] p pfilterE texistsE [a,r] q a (r andEl) (r andEr)❙
 ❚
 
 theory Extensionality =
@@ -52,15 +52,15 @@ theory Extensionality =
 theory FiniteSets = 
   include ?PowerTypes❙
   include ☞latin:/?DisjunctionND❙
-  singleton : {A} tm A ⟶ tm ℘ͯA❘= [A,x] filter [u] u =ͭ x❘# % 2 prec 100❙
-  singletonI : {A,x: tm A} ⊦ x ∈ͯ %x❘= [A,x] filterI trefl❙ 
+  singleton : {A} tm A ⟶ tm ℘ͯA❘= [A,x] pfilter [u] u =ͭ x❘# % 2 prec 100❙
+  singletonI : {A,x: tm A} ⊦ x ∈ͯ %x❘= [A,x] pfilterI trefl❙ 
   singletonE : {A,x,y: tm A} ⊦ x ∈ͯ %y ⟶ ⊦ x =ͭ y❙
   
-  uopair : {A} tm A ⟶ tm A ⟶ tm ℘ͯA❘= [A,x,y] filter [u]u =ͭ x ∨ u =ͭ y❘# 2 ,, 3 prec 40❙
-  uopairI_left  : {A,x,y: tm A} ⊦ x ∈ͯ x,,y❘= [A,x,y] filterI (trefl orIl)❙
-  uopairI_right : {A,x,y: tm A} ⊦ y ∈ͯ x,,y❘= [A,x,y] filterI (trefl orIr)❙
+  uopair : {A} tm A ⟶ tm A ⟶ tm ℘ͯA❘= [A,x,y] pfilter [u]u =ͭ x ∨ u =ͭ y❘# 2 ,, 3 prec 40❙
+  uopairI_left  : {A,x,y: tm A} ⊦ x ∈ͯ x,,y❘= [A,x,y] pfilterI (trefl orIl)❙
+  uopairI_right : {A,x,y: tm A} ⊦ y ∈ͯ x,,y❘= [A,x,y] pfilterI (trefl orIr)❙
   uopairE : {A,x,y,u:tm A,C} ⊦ u ∈ͯ x,,y ⟶ (⊦u =ͭ x ⟶ ⊦ C) ⟶ (⊦u =ͭ y ⟶ ⊦ C) ⟶ ⊦C❘
-          = [A,x,y,u,C,p,q,r] p filterE orE q r❙
+          = [A,x,y,u,C,p,q,r] p pfilterE orE q r❙
 ❚
 
 theory Subset =
@@ -89,10 +89,10 @@ theory FullSet =
   include ☞latin:/?TruthND❙
 
   full  : {A} tm ℘ͯA❘
-        = [A] filter [x] true❘
+        = [A] pfilter [x] true❘
         # fullset %I1 prec 50❙
   fullI : {A,x} ⊦ x ∈ͯ full A ❘ 
-  		  = [A,x] filterI trueI❙
+  		  = [A,x] pfilterI trueI❙
 ❚
 
 theory EmptySet =
@@ -100,10 +100,10 @@ theory EmptySet =
   include ☞latin:/?FalsityND❙
 
   empty : {A} tm ℘ͯA❘
-        = [A] filter [x] false❘
+        = [A] pfilter [x] false❘
         # ∅ͯ %I1 prec 50❙
   emptyE : {A,x} ⊦ x ∈ͯ empty A ⟶ ↯❘ 
-  			 = [A,x,p] p filterE falseE❘
+  			 = [A,x,p] p pfilterE falseE❘
   			 # emptyE 3❙
 ❚
 
@@ -112,13 +112,13 @@ theory Complement =
   include ☞latin:/?NegationND❙
 
   compl : {A} tm ℘ͯA ⟶ tm ℘ͯA ❘
-        = [A,S] filter [x] ¬ x∈ͯS ❘
+        = [A,S] pfilter [x] ¬ x∈ͯS ❘
         # ∁ͯ 2 prec 50❙
   complI : {A,S,x:tm A} (⊦x∈ͯS ⟶ ↯) ⟶ ⊦ x∈ͯ∁ͯS❘ 
-  			 = [A,S,x,p] filterI notI p❘
+  			 = [A,S,x,p] pfilterI notI p❘
   			 # complI 4❙
   complE : {A,S,x:tm A} ⊦ x∈ͯ∁ͯS ⟶ ⊦ x∈ͯS ⟶ ↯❘ 
-  			 = [A,S,x,p,q] p filterE notE q ❘# complE 4 5❙
+  			 = [A,S,x,p,q] p pfilterE notE q ❘# complE 4 5❙
 ❚
 
 theory Intersection =
@@ -126,14 +126,14 @@ theory Intersection =
   include ☞latin:/?ConjunctionND❙
 
   inter : {A} tm ℘ͯA ⟶ tm ℘ͯA ⟶ tm ℘ͯA❘ 
-  			= [A,S,T] filter [x] x∈ͯS ∧ x∈ͯT❘
+  			= [A,S,T] pfilter [x] x∈ͯS ∧ x∈ͯT❘
   			# 2 ∩ͯ 3 prec 40❙
   interEl : {A,S,T,x:tm A} ⊦ x ∈ͯ S∩ͯT ⟶ ⊦ x∈ͯS❘
-  				 = [A,S,T, x, p] p filterE andEl❙
+  				 = [A,S,T, x, p] p pfilterE andEl❙
   interEr : {A,S,T,x:tm A} ⊦ x ∈ͯ S∩ͯT ⟶ ⊦ x∈ͯT❘
-  				 = [A,S,T,x,p] p filterE andEr❙
+  				 = [A,S,T,x,p] p pfilterE andEr❙
   interI  : {A,S,T,x:tm A} ⊦ x∈ͯS ⟶ ⊦ x∈ͯT ⟶ ⊦ x ∈ͯ S∩ͯT❘
-  				 = [A,S,T,x,p,q] filterI andI p q❙
+  				 = [A,S,T,x,p,q] pfilterI andI p q❙
 ❚
 
 theory Union =
@@ -141,14 +141,14 @@ theory Union =
   include ☞latin:/?DisjunctionND❙
 
   union : {A} tm ℘ͯA ⟶ tm ℘ͯA ⟶ tm ℘ͯA ❘ 
-  				= [A,S,T] filter [x] x∈ͯS ∨ x∈ͯT❘
+  				= [A,S,T] pfilter [x] x∈ͯS ∨ x∈ͯT❘
   				# 2 ∪ͯ 3 prec 40❙
   unionIl: {A,S,T,x:tm A} ⊦ x∈ͯS ⟶ ⊦ x ∈ͯ S∪ͯT❘
-         = [A,S,T,x,p] filterI (p orIl)❙
+         = [A,S,T,x,p] pfilterI (p orIl)❙
   unionIr: {A,S,T,x:tm A} ⊦ x∈ͯT ⟶ ⊦ x ∈ͯ S∪ͯT❘
-         = [A,S,T,x,p] filterI (p orIr)❙
+         = [A,S,T,x,p] pfilterI (p orIr)❙
   unionE : {A,S,T,x:tm A,C} ⊦ x ∈ͯ S∪ͯT ⟶ (⊦x∈ͯS⟶⊦C) ⟶ (⊦x∈ͯT⟶⊦C) ⟶ ⊦ C❘
-  			 = [A,S,T,x,C,p,q,r] p filterE orE q r❙
+  			 = [A,S,T,x,C,p,q,r] p pfilterE orE q r❙
 ❚
 
 theory BigIntersection =
@@ -157,12 +157,12 @@ theory BigIntersection =
   include ☞latin:/?TypedUniversalQuantificationND❙
 
   biginter : {A} tm ℘ͯ℘ͯA ⟶ tm ℘ͯA ❘ 
-    			 = [A,K] filter [x] ∀ͭ[S] S∈ͯK ⇒ x∈ͯS ❘
+    			 = [A,K] pfilter [x] ∀ͭ[S] S∈ͯK ⇒ x∈ͯS ❘
     			 # ⋂ͯ 2 prec 45❙
   biginterI : {A,K,x:tm A} ({S}⊦S∈ͯK⟶⊦x∈ͯS) ⟶ ⊦ x∈ͯ⋂ͯK ❘ 
-  				  = [A,K,x,f] filterI (tforallI [S] implI [p] f S p)❙
+  				  = [A,K,x,f] pfilterI (tforallI [S] implI [p] f S p)❙
   biginterE : {A,K,x:tm A,S} ⊦ x∈ͯ⋂ͯK ⟶ ⊦S∈ͯK ⟶ ⊦x∈ͯS❘ 
-  				  = [A,K,x,S,p,q] p filterE tforallE S implE q❙
+  				  = [A,K,x,S,p,q] p pfilterE tforallE S implE q❙
 ❚
 
 theory BigUnion =
@@ -171,12 +171,12 @@ theory BigUnion =
   include ☞latin:/?TypedExistentialQuantificationND❙
 
   bigunion : {A} tm ℘ͯ℘ͯA ⟶ tm ℘ͯA ❘ 
-  				 = [A,K] filter [x] ∃ͭ [S] S∈ͯK ∧ x∈ͯS ❘
+  				 = [A,K] pfilter [x] ∃ͭ [S] S∈ͯK ∧ x∈ͯS ❘
   				 # ⋃ͯ 2 prec 45❙
   bigunionI : {A,K,S,x:tm A} ⊦ S∈ͯK ⟶ ⊦ x∈ͯS ⟶ ⊦ x∈ͯ⋃ͯK ❘ 
-  				  = [A,K,S,x,p,q] filterI (texistsI S (andI p q))❙
+  				  = [A,K,S,x,p,q] pfilterI (texistsI S (andI p q))❙
   bigunionE : {A,K,x:tm A,C} ⊦ x∈ͯ⋃ͯK ⟶ ({S}⊦S∈ͯK⟶⊦x∈ͯS⟶⊦C) ⟶ ⊦ C❘ 
-  				  = [A,K,x,C,p,f] p filterE texistsE [S,rs] f S (rs andEl) (rs andEr)❙
+  				  = [A,K,x,C,p,f] p pfilterE texistsE [S,rs] f S (rs andEl) (rs andEr)❙
 ❚
 
 theory Lattice =
@@ -254,7 +254,7 @@ theory ComplementRules =
                    ([x,p] fullI)
                    ([x,p] tnd orE ([q] unionIl q) ([q] unionIr (compl_not q)))❙
   compl_tnd   : {A,S,x: tm A} ⊦ x∈ͯS ∨ x∈ͯ∁ͯS❘
-              = [A,S,x] (eq_in_right union_compl fullI) filterE❙
+              = [A,S,x] (eq_in_right union_compl fullI) pfilterE❙
   
   compl_inter : {A, S,T: tm ℘ͯA} ⊦ ∁ͯ(S∩ͯT) =ͭ ∁ͯS ∪ͯ ∁ͯT❘
               = [A,S,T] extensionalityI

@@ -11,15 +11,6 @@ theory SetDefinitions =
     = [x,y,A,p,q] (eq/sym p) ucongP ([u] u∈A) q❙
   in_eq : {x,A,B} ⊦ x∈A ⟶ ⊦ A =ͧ B ⟶ ⊦ x∈B❘
     = [x,A,B,p,q] q ucongP ([U] x∈U) p❙
-    
-  // For transformations it sometimes is necessary to modify the type of
-    a feature to accept a proof. However, a general change to this creates
-    additional workload and makes it harder to use set theoretic features as 
-    intended. This could be a smart work around.❙
-  // add_proof : {A} (set ⟶ set) ⟶ ({x:set} ⊦ x∈A ⟶ set)❘
-    // = [A,f] ([x,p] f x)❙
-  // modify_type : ({A:set} ({x:set} ⊦ x∈A ⟶ set) ⟶ set) ⟶ (set ⟶ (set ⟶ set) ⟶ set)❘
-    // = [F] [A,f] F A (add_proof A f)❙
 ❚
 
 theory ExtensionalityAx =

@@ -7,7 +7,7 @@ theory TheRelation =
   include ?RelationDefinitions❙
   
   // A specific relation on the sets A and B which fulfills some predicate P❙
-  theRel: {A:set,B:set} (set ⟶ set ⟶ prop) ⟶ set❙
+  theRel: set ⟶ set ⟶ (set ⟶ set ⟶ prop) ⟶ set❙
   inRel : set ⟶ set ⟶ set ⟶ prop❙
     
   // auxiliary function to check whether a set is a relation of A B❙
@@ -31,6 +31,13 @@ theory TheRelation =
   // just a helper to specify islefttotal❙
   isleftt : set ⟶ set ⟶ prop❘
     = [R,A] islefttotal (inRel R) A❙
+    
+  // auxiliary function to check, whether a set is a pfunc❙
+  ispfuncAB : set ⟶ set ⟶ set ⟶ prop❘
+    = [R,A,B] isrelAB R A B ∧ isrightu R❙
+    
+  isfuncAB : set ⟶ set ⟶ set ⟶ prop❘
+    = [R,A,B] isrelAB R A B ∧ isrightu R ∧ isleftt R A❙
 ❚
 
 theory Relations =
@@ -48,10 +55,6 @@ theory Relations =
 
 theory PartialFunctions =
   include ?TheRelation❙
-  
-  // auxiliary function to check, whether a set is a pfunc❙
-  ispfuncAB : set ⟶ set ⟶ set ⟶ prop❘
-    = [R,A,B] isrelAB R A B ∧ isrightu R❙
 
   // The set of all partial functions of A and B. Partial functions are 
     relations that are right unique.❙
@@ -64,9 +67,6 @@ theory PartialFunctions =
 
 theory Functions =
   include ?TheRelation❙
-    
-  isfuncAB : set ⟶ set ⟶ set ⟶ prop❘
-    = [R,A,B] isrelAB R A B ∧ isrightu R ∧ isleftt R A❙
 
   // The set of all functions of X and Y. Functions are partial functions that
    are left total.❙
@@ -75,4 +75,34 @@ theory Functions =
   // introduction and elimination rule for the set of all functions of X and Y❙
   funcI : {A,B,P} ⊦ isrightu (theRel A B P) ⟶ ⊦ isleftt (theRel A B P) A ⟶ ⊦ theRel A B P ∈ func A B❘# funcI 3 4❙
   funcE : {A,B,R} ⊦ R ∈ func A B ⟶ ⊦ isfuncAB R A B❘# 4 funcE❙
+❚
+
+// AS: Lambda shall later be used to formalize function_types. However, the defintion of 
+  lambda s.t. it is usable for function_types is harder than expected❚
+theory LambdaFunction =
+  // Formalization of lambda function❙
+  include ?TheRelation❙
+  // lambda A f = {(x,ͧf(x)) : x∈A}❙
+  lambda : set ⟶ (set ⟶ set) ⟶ set❘# λͧ 1 2 prec 40❙
+  apply : set ⟶ set ⟶ set❘# 1 @ͧ 2 prec 50❙
+  
+  // computation rule❙
+  beta : {A,f,x} ⊦ x∈A ⟶ ⊦ (λͧ A f)@ͧx =ͧ f x❙
+  // representation rule❙
+  eta : {A,B,F} ⊦ isfuncAB F A B ⟶ ⊦ F =ͧ λͧ A ([x] F@ͧx)❙
+  // extensionality rule❙
+  ext : {A,B,F,G} ⊦ isfuncAB F A B ⟶ ⊦ isfuncAB G A B ⟶ ([x] ⊦ x∈A ⟶ ⊦ F@ͧx =ͧ G@ͧx) ⟶ ⊦ F=ͧG❙
+❚
+
+theory LambdaImage =
+  include ?LambdaFunction❙
+  include ?Image❙
+  // Lambda is just a relation❙
+  lambda_rel : {A,f} ⊦ λͧ A f =ͧ theRel A (image f A) (fun2rel f)❙
+  // AS: just some ideas. The first is basically the view in views_relations.mmt just with extra steps❙ 
+  // apply_inrel : {F,a} ⊦ F@ͧa =ͧ ⋃((img F a)|([b] inRel F a b))❙
+  // AS: maybe use the fact that F is a function and therefore there has to be a unique b❙
+  // apply_inrel : {F,a} ⊦ isfuncAB F A B ⟶ ⊦ F@ͧa =ͧ the ([b] inRel F a b) (right_unique)❙
+  // This has to be correct, but is it useful?
+  // apply_inrel : {F,a,b} ⊦ F@ͧa =ͧ b ⇔ inRel F a b❙
 ❚
