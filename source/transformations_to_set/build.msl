@@ -5,8 +5,8 @@ file ../../build_config.msl
 build MMT/LATIN2 mmt-omdoc transformations_to_set/fundamentals_transformed.mmt
 
 // fixed order
-build MMT/LATIN2 mmt-omdoc transformations_to_set/logic_to_set/fol_to_set/sfol.mmt
-build MMT/LATIN2 mmt-omdoc transformations_to_set/numbers_to_set/nat.mmt
-build MMT/LATIN2 mmt-omdoc transformations_to_set/logic_to_set/fol_to_set/booleans.mmt
+build MMT/LATIN2 mmt-omdoc transformations_to_set/logic/fol_like/sfol.mmt
+build MMT/LATIN2 mmt-omdoc transformations_to_set/numbers/nat.mmt
+build MMT/LATIN2 mmt-omdoc transformations_to_set/logic/fol_like/booleans.mmt
 
-file type_to_set/build.msl
+file type_theory/build.msl
