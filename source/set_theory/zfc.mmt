@@ -92,3 +92,15 @@ theory ZFCFeatures =
   include ?ZFC❙
   include ?ZFFeatures❙
 ❚
+
+// AS: maybe typed versions of ZFC have to be moved into a different file
+  or they are unnecessary❚
+theory TypedZF =
+  include ?TypeBase❙
+  include ?ZF❙
+❚
+
+theory TypedZFFeatures =
+  include ?TypedZF❙
+  include ?ZFFeatures❙
+❚
