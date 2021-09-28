@@ -17,7 +17,7 @@ theory ClosureOperator =
   
   extensive    : {A} ⊦ A ⊆ cl A❙
   monotone     : {A,B} ⊦ A ⊆ B ⟶ ⊦ cl A ⊆ cl B❙
-  idempotent   : {A} ⊦ cl (cl A) ≐ cl A❙
+  idempotent   : {A} ⊦ cl (cl A) =ͭ cl A❙
 ❚
 
 theory InteriorTopology = 
@@ -25,17 +25,17 @@ theory InteriorTopology =
 	interior : tm ℘X ⟶ tm ℘X❙
 
 	int_extensivity : {A} ⊦ ( subset X (interior A) A)❙
-	idempotence : {A} ⊦ ((interior A) ≐  (interior (interior A)))❙
-	bin_inters : {A, B} ⊦ ((interior (A ∩ B)) ≐ ((interior A) ∩ (interior B)))❙
-	preservation : ⊦ ((interior (full X)) ≐ (full X))❙
+	idempotence : {A} ⊦ ((interior A) =ͭ  (interior (interior A)))❙
+	bin_inters : {A, B} ⊦ ((interior (A ∩ B)) =ͭ ((interior A) ∩ (interior B)))❙
+	preservation : ⊦ ((interior (full X)) =ͭ (full X))❙
 	
 ❚
 
 theory ClosureTopology =
   include ?ClosureOperator❙
 
-  closure_empty  : ⊦ cl (empty X) ≐ (empty X)❙
-  closure_union  : {A,B} ⊦ cl (A ∪ B) ≐ cl A ∪ cl B❙
+  closure_empty  : ⊦ cl (empty X) =ͭ (empty X)❙
+  closure_union  : {A,B} ⊦ cl (A ∪ B) =ͭ cl A ∪ cl B❙
   
   // monotone provable from union❙ 
 ❚
@@ -47,7 +47,7 @@ theory Closeness =
 
   in_close     : {x,A} ⊦ x ∈ A ⟶ ⊦ x|A❙
   bigger_close : {x,A,B} ⊦ x|A ⟶ ⊦ A ⊆ B ⟶ ⊦ x|B❙
-  transitive   : {A,B,x} ⊦ x|B ⟶ ⊦ (∀ [y] y ∈ B ⇒ y|A) ⟶ ⊦ x|A❙
+  transitive   : {A,B,x} ⊦ x|B ⟶ ⊦ (∀ͭ [y] y ∈ B ⇒ y|A) ⟶ ⊦ x|A❙
 ❚
   
 theory ClosenessTopology =
@@ -83,9 +83,9 @@ theory NeighborhoodTopology =
   neighborhood: tm X ⟶ tm ℘X ⟶ prop❘
               = [x,N] N ∈ (NN x)❘# 1 ∘ 2 prec 30❙
   
-  nonempty : {x} ⊦ ¬ (NN x) ≐ ∅❙
+  nonempty : {x} ⊦ ¬ (NN x) =ͭ ∅❙
   inneighborhood : {x: tm X,N} ⊦ x ∘ N ⟶ ⊦ x ∈ N❙
   superset_closed   : {M,N,x} ⊦ x ∘ M ⟶ ⊦ M ⊆ N ⟶ ⊦ x ∘ N❙
   intersection_closed : {M,N,x} ⊦ x ∘ M ⟶ ⊦ x ∘ N ⟶ ⊦ x ∘ M ∩ N❙
-  openness       : {N,x} ⊦ x ∘ N ⟶ ⊦ ∃[M]∀[y] x ∘ M ∧ (y∈M ⇒ y∘N)❙
+  openness       : {N,x} ⊦ x ∘ N ⟶ ⊦ ∃ͭ[M]∀ͭ[y] x ∘ M ∧ (y∈M ⇒ y∘N)❙
 ❚

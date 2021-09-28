@@ -1,0 +1,210 @@
+theory Proofs_comptrans : latin:/casestudies/softening2021?Meta  =
+	prop/m
+		: type
+		❘ meta sourceRef uri"latin:/casestudies/softening2021/1-basics.mmt#479.21.2:490.21.13"
+		❘ meta TypeLevel kind
+	❙
+	ded/r
+		: {x⁰/m:prop/m}type
+		❘ meta drop_args_keep drop_args_keep_all
+	❙
+
+❚
+
+theory HTyped_comptrans : latin:/casestudies/softening2021?Meta  =
+	include ☞latin:/casestudies/softening2021?Proofs_comptrans ❙
+	tp/m
+		: type
+		❘ meta sourceRef uri"latin:/casestudies/softening2021/1-basics.mmt#570.27.2:579.27.11"
+		❘ meta TypeLevel kind
+	❙
+	tm/m
+		: tp/m⟶type
+		❘ meta sourceRef uri"latin:/casestudies/softening2021/1-basics.mmt#583.28.2:614.28.33"
+		❘ meta TypeLevel kind
+	❙
+	tm/r
+		: {x⁰/m:tp/m}tm/m x⁰/m⟶type
+		❘ meta drop_args_keep drop_args_keep_all
+	❙
+
+❚
+
+theory HProd_comptrans : latin:/casestudies/softening2021?Meta  =
+	include ☞latin:/casestudies/softening2021?Proofs_comptrans ❙
+	include ☞latin:/casestudies/softening2021?HTyped_comptrans ❙
+	prod/m
+		: tp/m⟶(tp/m⟶tp/m)
+		❘ meta sourceRef uri"latin:/casestudies/softening2021/2-hardtyped-library.mmt#182.8.2:211.8.31"
+		❘ meta TypeLevel type
+	❙
+	pair/m
+		: {A/m:tp/m,B/m:tp/m}tm/m A/m⟶(tm/m B/m⟶tm/m (prod/m A/m B/m))
+		❘ meta sourceRef uri"latin:/casestudies/softening2021/2-hardtyped-library.mmt#215.9.2:262.9.49"
+		❘ meta TypeLevel type
+	❙
+	pair/r
+		: {A/m:tp/m,B/m:tp/m}{x⁰/m:tm/m A/m,x⁰/r:(tm/r A/m) x⁰/m,x¹/m:tm/m B/m,x¹/r:(tm/r B/m) x¹/m}(tm/r (prod/m A/m B/m)) ((pair/m A/m B/m) x⁰/m x¹/m)
+		❘ meta drop_args_keep drop_args_keep_all
+	❙
+	projL/m
+		: {A/m:tp/m,B/m:tp/m}tm/m (prod/m A/m B/m)⟶tm/m A/m
+		❘ meta sourceRef uri"latin:/casestudies/softening2021/2-hardtyped-library.mmt#266.10.2:302.10.38"
+		❘ meta TypeLevel type
+	❙
+	projL/r
+		: {A/m:tp/m,B/m:tp/m}{x⁰/m:tm/m (prod/m A/m B/m),x⁰/r:(tm/r (prod/m A/m B/m)) x⁰/m}(tm/r A/m) ((projL/m A/m B/m) x⁰/m)
+		❘ meta drop_args_keep drop_args_keep_all
+	❙
+	projR/m
+		: {A/m:tp/m,B/m:tp/m}tm/m (prod/m A/m B/m)⟶tm/m B/m
+		❘ meta sourceRef uri"latin:/casestudies/softening2021/2-hardtyped-library.mmt#306.11.2:342.11.38"
+		❘ meta TypeLevel type
+	❙
+	projR/r
+		: {A/m:tp/m,B/m:tp/m}{x⁰/m:tm/m (prod/m A/m B/m),x⁰/r:(tm/r (prod/m A/m B/m)) x⁰/m}(tm/r B/m) ((projR/m A/m B/m) x⁰/m)
+		❘ meta drop_args_keep drop_args_keep_all
+	❙
+
+❚
+
+theory HEqual_comptrans : latin:/casestudies/softening2021?Meta  =
+	include ☞latin:/casestudies/softening2021?Proofs_comptrans ❙
+	include ☞latin:/casestudies/softening2021?HTyped_comptrans ❙
+	eq/m
+		: {A/m:tp/m}tm/m A/m⟶(tm/m A/m⟶prop/m)
+		❘ meta drop_args_keep drop_args_keep_specific 1
+		❘ meta sourceRef uri"latin:/casestudies/softening2021/2-hardtyped-library.mmt#386.17.2:538.20.2"
+		❘ meta TypeLevel type
+	❙
+	refl/r
+		: {A/m:tp/m,x/m:tm/m A/m,x/r:(tm/r A/m) x/m}ded/r (eq/m A/m x/m x/m)
+		❘ meta drop_args_keep drop_args_keep_all
+	❙
+	eqsub/r
+		: {A/m:tp/m,x/m:tm/m A/m,x/r:(tm/r A/m) x/m,y/m:tm/m A/m,y/r:(tm/r A/m) y/m}{x⁰/r:ded/r (eq/m A/m x/m y/m),F/m:tm/m A/m⟶prop/m,x²/r:ded/r (F/m x/m)}ded/r (F/m y/m)
+		❘ meta drop_args_keep drop_args_keep_all
+	❙
+	sym/r
+		: {A/m:tp/m,x/m:tm/m A/m,x/r:(tm/r A/m) x/m,y/m:tm/m A/m,y/r:(tm/r A/m) y/m}{x⁰/r:ded/r (eq/m A/m x/m y/m)}ded/r (eq/m A/m y/m x/m)
+		❘ = [A/m:tp/m,x/m:tm/m A/m,x/r:(tm/r A/m) x/m,y/m:tm/m A/m,y/r:(tm/r A/m) y/m,p/r:ded/r (eq/m A/m x/m y/m)](eqsub/r A/m) x/m x/r y/m y/r p/r ([u/m:tm/m A/m]eq/m A/m u/m x/m) ((refl/r A/m) x/m x/r)
+		❘ meta drop_args_keep drop_args_keep_all
+	❙
+	trans/r
+		: {A/m:tp/m,x/m:tm/m A/m,x/r:(tm/r A/m) x/m,y/m:tm/m A/m,y/r:(tm/r A/m) y/m,z/m:tm/m A/m,z/r:(tm/r A/m) z/m}{x⁰/r:ded/r (eq/m A/m x/m y/m),x¹/r:ded/r (eq/m A/m y/m z/m)}ded/r (eq/m A/m x/m z/m)
+		❘ = [A/m:tp/m,x/m:tm/m A/m,x/r:(tm/r A/m) x/m,y/m:tm/m A/m,y/r:(tm/r A/m) y/m,z/m:tm/m A/m,z/r:(tm/r A/m) z/m,p/r:ded/r (eq/m A/m x/m y/m),q/r:ded/r (eq/m A/m y/m z/m)](eqsub/r A/m) y/m y/r z/m z/r q/r ([u/m:tm/m A/m]eq/m A/m x/m u/m) p/r
+		❘ meta drop_args_keep drop_args_keep_all
+	❙
+
+❚
+
+theory HFun_comptrans : latin:/casestudies/softening2021?Meta  =
+	include ☞latin:/casestudies/softening2021?Proofs_comptrans ❙
+	include ☞latin:/casestudies/softening2021?HTyped_comptrans ❙
+	include ☞latin:/casestudies/softening2021?HEqual_comptrans ❙
+	fun/m
+		: tp/m⟶(tp/m⟶tp/m)
+		❘ meta sourceRef uri"latin:/casestudies/softening2021/2-hardtyped-library.mmt#925.32.2:952.32.29"
+		❘ meta TypeLevel type
+	❙
+	lam/m
+		: {A/m:tp/m,B/m:tp/m}(tm/m A/m⟶tm/m B/m)⟶tm/m (fun/m A/m B/m)
+		❘ meta drop_args_keep drop_args_keep_specific 1
+		❘ meta sourceRef uri"latin:/casestudies/softening2021/2-hardtyped-library.mmt#956.33.2:1115.36.2"
+		❘ meta TypeLevel type
+	❙
+	lam/r
+		: {A/m:tp/m,B/m:tp/m}{x⁰/m:tm/m A/m⟶tm/m B/m,x⁰/r:{x⁰/m:tm/m A/m,x⁰/r:(tm/r A/m) x⁰/m}(tm/r B/m) (x⁰/m x⁰/m)}(tm/r (fun/m A/m B/m)) ((lam/m A/m B/m) x⁰/m)
+		❘ meta drop_args_keep drop_args_keep_all
+	❙
+	app/m
+		: {A/m:tp/m,B/m:tp/m}tm/m (fun/m A/m B/m)⟶(tm/m A/m⟶tm/m B/m)
+		❘ meta sourceRef uri"latin:/casestudies/softening2021/2-hardtyped-library.mmt#1119.37.2:1169.37.52"
+		❘ meta TypeLevel type
+	❙
+	app/r
+		: {A/m:tp/m,B/m:tp/m}{x⁰/m:tm/m (fun/m A/m B/m),x⁰/r:(tm/r (fun/m A/m B/m)) x⁰/m,x¹/m:tm/m A/m,x¹/r:(tm/r A/m) x¹/m}(tm/r B/m) ((app/m A/m B/m) x⁰/m x¹/m)
+		❘ meta drop_args_keep drop_args_keep_all
+	❙
+
+❚
+
+theory HDepFun_comptrans : latin:/casestudies/softening2021?Meta  =
+	include ☞latin:/casestudies/softening2021?Proofs_comptrans ❙
+	include ☞latin:/casestudies/softening2021?HTyped_comptrans ❙
+	include ☞latin:/casestudies/softening2021?HEqual_comptrans ❙
+	dfun/m
+		: {A/m:tp/m}(tm/m A/m⟶tp/m)⟶tp/m
+		❘ meta drop_args_keep drop_args_keep_specific 1
+		❘ meta sourceRef uri"latin:/casestudies/softening2021/2-hardtyped-library.mmt#1213.42.2:1357.45.2"
+		❘ meta TypeLevel type
+	❙
+	dlam/m
+		: {A/m:tp/m,B/m:tm/m A/m⟶tp/m}({x/m:tm/m A/m}tm/m (B/m x/m))⟶tm/m (dfun/m A/m B/m)
+		❘ meta drop_args_keep drop_args_keep_specific 1
+		❘ meta sourceRef uri"latin:/casestudies/softening2021/2-hardtyped-library.mmt#1361.46.2:1542.49.2"
+		❘ meta TypeLevel type
+	❙
+	dlam/r
+		: {A/m:tp/m,B/m:tm/m A/m⟶tp/m}{x⁰/m:{x/m:tm/m A/m}tm/m (B/m x/m),x⁰/r:{x/m:tm/m A/m,x/r:(tm/r A/m) x/m}(tm/r (B/m x/m)) (x⁰/m x/m)}(tm/r (dfun/m A/m B/m)) ((dlam/m A/m B/m) x⁰/m)
+		❘ meta drop_args_keep drop_args_keep_all
+	❙
+	dapp/m
+		: {A/m:tp/m,B/m:tm/m A/m⟶tp/m}tm/m (dfun/m A/m B/m)⟶{x/m:tm/m A/m}tm/m (B/m x/m)
+		❘ meta sourceRef uri"latin:/casestudies/softening2021/2-hardtyped-library.mmt#1546.50.2:1615.50.71"
+		❘ meta TypeLevel type
+	❙
+	dapp/r
+		: {A/m:tp/m,B/m:tm/m A/m⟶tp/m}{x⁰/m:tm/m (dfun/m A/m B/m),x⁰/r:(tm/r (dfun/m A/m B/m)) x⁰/m,x/m:tm/m A/m,x/r:(tm/r A/m) x/m}(tm/r (B/m x/m)) ((dapp/m A/m B/m) x⁰/m x/m)
+		❘ meta drop_args_keep drop_args_keep_all
+	❙
+
+❚
+
+theory HBeta_comptrans : latin:/casestudies/softening2021?Meta  =
+	include ☞latin:/casestudies/softening2021?Proofs_comptrans ❙
+	include ☞latin:/casestudies/softening2021?HTyped_comptrans ❙
+	include ☞latin:/casestudies/softening2021?HEqual_comptrans ❙
+	include ☞latin:/casestudies/softening2021?HFun_comptrans ❙
+	beta/r
+		: {A/m:tp/m,B/m:tp/m,F/m:tm/m A/m⟶tm/m B/m,F/r:{x⁰/m:tm/m A/m,x⁰/r:(tm/r A/m) x⁰/m}(tm/r B/m) (F/m x⁰/m),x/m:tm/m A/m,x/r:(tm/r A/m) x/m}ded/r (eq/m B/m (app/m A/m B/m (lam/m A/m B/m F/m) x/m) (F/m x/m))
+		❘ meta drop_args_keep drop_args_keep_all
+	❙
+
+❚
+
+theory HEta_comptrans : latin:/casestudies/softening2021?Meta  =
+	include ☞latin:/casestudies/softening2021?Proofs_comptrans ❙
+	include ☞latin:/casestudies/softening2021?HTyped_comptrans ❙
+	include ☞latin:/casestudies/softening2021?HEqual_comptrans ❙
+	include ☞latin:/casestudies/softening2021?HFun_comptrans ❙
+	eta/r
+		: {A/m:tp/m,B/m:tp/m,f/m:tm/m (fun/m A/m B/m),f/r:(tm/r (fun/m A/m B/m)) f/m}ded/r (eq/m (fun/m A/m B/m) (lam/m A/m B/m [x/m:tm/m A/m]app/m A/m B/m f/m x/m) f/m)
+		❘ meta drop_args_keep drop_args_keep_all
+	❙
+
+❚
+
+theory HExten_comptrans : latin:/casestudies/softening2021?Meta  =
+	include ☞latin:/casestudies/softening2021?Proofs_comptrans ❙
+	include ☞latin:/casestudies/softening2021?HTyped_comptrans ❙
+	include ☞latin:/casestudies/softening2021?HEqual_comptrans ❙
+	include ☞latin:/casestudies/softening2021?HFun_comptrans ❙
+	exten/r
+		: {A/m:tp/m,B/m:tp/m,F/m:tm/m A/m⟶tm/m B/m,F/r:{x⁰/m:tm/m A/m,x⁰/r:(tm/r A/m) x⁰/m}(tm/r B/m) (F/m x⁰/m),G/m:tm/m A/m⟶tm/m B/m,G/r:{x⁰/m:tm/m A/m,x⁰/r:(tm/r A/m) x⁰/m}(tm/r B/m) (G/m x⁰/m)}{x⁰/r:{x/m:tm/m A/m,x/r:(tm/r A/m) x/m}ded/r (eq/m B/m (F/m x/m) (G/m x/m))}ded/r (eq/m (fun/m A/m B/m) (lam/m A/m B/m F/m) (lam/m A/m B/m G/m))
+		❘ meta drop_args_keep drop_args_keep_all
+	❙
+
+❚
+
+theory HDepBeta_comptrans : latin:/casestudies/softening2021?Meta  =
+	include ☞latin:/casestudies/softening2021?Proofs_comptrans ❙
+	include ☞latin:/casestudies/softening2021?HTyped_comptrans ❙
+	include ☞latin:/casestudies/softening2021?HEqual_comptrans ❙
+	include ☞latin:/casestudies/softening2021?HDepFun_comptrans ❙
+	beta/r
+		: {A/m:tp/m,B/m:{B/1/v/m:tm/m A/m}tp/m,F/m:{x/m:tm/m A/m}tm/m (B/m x/m),F/r:{x/m:tm/m A/m,x/r:(tm/r A/m) x/m}(tm/r (B/m x/m)) (F/m x/m),x/m:tm/m A/m,x/r:(tm/r A/m) x/m}ded/r (eq/m (B/m x/m) (dapp/m A/m ([x/r/m:tm/m A/m]B/m x/r/m) (dlam/m A/m ([x/r/m:tm/m A/m]B/m x/r/m) F/m) x/m) (F/m x/m))
+		❘ meta drop_args_keep drop_args_keep_all
+	❙
+
+❚

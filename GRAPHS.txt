@@ -1,0 +1,17 @@
+Nodes:
+Rectangles with rounded edges: theories
+Normal rectangles: Collections of theories.
+
+Colours (for theories):
+Orange: untyped
+Green: typed
+Pink: soft-typed
+Purple: set theory
+Blue: transformations
+
+Arrows:
+____> (normal arrows): include (or fixmeta import), points towards the theory that includes. In dependency graph a dependency.
+----> (dashed arrows): realize, points towards the theory that realizes.
+|____> (thick arrow): views, points towards the theory that is realized with the view.
+|----> (thick dashed arrows): structure or total structure, points towards the theory formalizing the structure.
+|_-_-> (thick black arrow): structure view is used.

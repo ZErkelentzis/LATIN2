@@ -1,0 +1,17 @@
+namespace latin:/❚
+
+fixmeta ur:?LF❚
+
+theory UniversalQuantificationTab =
+  include ?UniversalQuantification ❙
+  include ?Tableaux ❙
+  forallT : {P, X} ∀ͧ P ¹ ⟶ (P X ¹ ⟶ ⊥) ⟶ ⊥ ❘ role ApplyRepeatedly ❙
+  forallF : {P} ∀ͧ P ⁰ ⟶ ({x} P x ⁰ ⟶ ⊥) ⟶ ⊥ ❙
+❚
+
+theory ExistentialQuantificationTab =
+  include ?ExistentialQuantification ❙
+  include ?Tableaux ❙
+  existsT : {P} ∃ͧ P ¹ ⟶ ({x} P x ¹ ⟶ ⊥) ⟶ ⊥ ❙
+  existsF : {P, X} ∃ͧ P ⁰ ⟶ (P X ⁰ ⟶ ⊥) ⟶ ⊥ ❘ role ApplyRepeatedly ❙
+❚

@@ -1,0 +1,15 @@
+namespace latin:/❚
+
+theory UniversalQuantificationHilbert = 
+  include ?UniversalQuantificationNDE❙
+  include ?ImplicationHilbert ❙
+  UQ_ax : {P} ⊦ ∀ͧ [x] P x ⇒ ∀ͧ P❙
+❚
+
+// The following views need to be built ❚
+// view HilbertNDEquivalence : ?EquivalenceHilbert → ?EquivalenceNDI =
+  UQ_ax = ❙
+❚
+
+// view NDHilbertEquivalence : ?EquivalenceNDI → ?EquivalenceHilbert =
+❚

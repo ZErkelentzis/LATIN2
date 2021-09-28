@@ -1,0 +1,49 @@
+namespace latin:/❚
+
+fixmeta ur:?LF❚
+
+/T Andrews-style HOL developed from only equality❚
+theory HOLAndrews =
+  include ?InternalEquality❙
+  include ?TypedEqualityND❙
+  include ?PropositionalExtensionality❙
+  
+  realize ?IHOLND❙
+  
+  true = (λ[x:tm bool]x) =ͭ λ[x]x❙
+  trueI = trefl❙
+  
+  false = (λ[x]x) =ͭ λ[x]true❙
+  falseE = [p,H] eq_thm ((p tcongT ([u]u@H)) tsym) trueI❙
+
+  not = [F]F =ͭ false❙
+  notI = [F,P] propext ([q] P q false) [q] q falseE F❙
+  notE = [F,p,q] (eq_thm p q) falseE❙
+  
+  tforall = [A,F] (λ[x]F x) =ͭ λ[x]true❙
+  tforallI = [A,F,q] simpxi [x] thm_true (q x)❙
+  tforallE = [A,F,q,x] true_thm (apply_eq_l q x)❙
+  
+  and = [F,G] ∀ͭ[h:tm bool→bool→bool] h@F@G =ͭ h@true@true❙
+  andI = [F,G,p,q] tforallI [h] (thm_true p) (thm_true q) tcongT2 [u,v] h@u@v❙
+  andEl = [F,G,p] true_thm (p tforallE λ[x]λ[y]x)❙
+  andEr = [F,G,p] true_thm (p tforallE λ[x]λ[y]y)❙
+  
+  impl = [F,G] (F∧G) =ͭ F❙
+  implI = [F,G,P] propext ([q] q andEl) ([q] andI q (P q))❙
+  implE = [F,G,p,q] (eq_thm (p tsym) q) andEr❙
+  
+  or = [F,G] ∀ͭ[H] (F⇒H) ⇒ (G⇒H) ⇒ H❙
+  orIl = [F,G,p] tforallI [H] implI[q] implI[r] q implE p❙
+  orIr = [F,G,p] tforallI [H] implI[q] implI[r] r implE p❙
+  orE = [F,G,C,p,Q,R] (p tforallE C) implE (implI Q) implE (implI R)❙ 
+  
+  equiv = [F,G] (F⇒G) ∧ (G⇒F)❙
+  equivI = [F,G,P,Q] eq_equiv (propext P Q)❙
+  equivEl = [F,G,p,q] p andEl implE q❙
+  equivEr = [F,G,p,q] p andEr implE q❙
+  
+  texists = [A,F] ∀ͭ[H] (∀ͭ[x]F x ⇒ H) ⇒ H❙
+  texistsI = [A,F,x,p] tforallI [H] implI [q] q tforallE x implE p❙
+  texistsE = [A,F,H,p,Q] p tforallE H implE (tforallI [x] implI [r] Q x r)❙ 
+❚

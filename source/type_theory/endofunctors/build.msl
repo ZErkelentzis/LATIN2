@@ -1,0 +1,17 @@
+file ../../../build_config.msl
+
+// type_theory
+// depends in general on fundamentals, type_theory and category_theory (these dependencies are not mentioned here)!
+
+// no dependency
+build MMT/LATIN2 mmt-omdoc type_theory/endofunctors/endofunctors.mmt
+
+// dependent on endofunctors
+build MMT/LATIN2 mmt-omdoc type_theory/endofunctors/endomagmas.mmt
+
+// dependent on endomagmas
+build MMT/LATIN2 mmt-omdoc type_theory/endofunctors/collection_types.mmt
+
+// dependent on endofunctors and hol
+build MMT/LATIN2 mmt-omdoc type_theory/endofunctors/monads.mmt
+

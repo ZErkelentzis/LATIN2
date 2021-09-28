@@ -1,0 +1,158 @@
+namespace latin:/❚
+
+fixmeta ?DependentFOLEQDescND❚
+
+theory OrderedPairs =
+  include ?SetBase❙
+  
+  // (a,b)❙
+  pair : set ⟶ set ⟶ set❘# 1 ,ͧ 2 prec 50❙
+  // first projection of a pair❙
+  pi1 : set ⟶ set❘# 1 ₁ͧ prec 60❙
+  pi2 : set ⟶ set❘# 1 ₂ͧ prec 60❙
+
+  ispair : set ⟶ prop❘
+    = [p] ∃ͧ[a] ∃ͧ[b] p =ͧ (a,ͧb)❙
+  pair_is_pair : {a,b} ⊦ ispair (a,ͧb)❘
+    = [a,b] uexistsI a (uexistsI b urefl)❙
+
+  // computation rules❙
+  // AS: add role Simplify here if wanted. I made the proofs before I knew of Simplify
+    and didn't want to change them later.❙
+  compL : {a,b} ⊦ (a,ͧb)₁ͧ =ͧ a❙
+  compR : {a,b} ⊦ (a,ͧb)₂ͧ =ͧ b❙
+
+  // representation rule❙
+  repr : {p} ⊦ ispair p ⟶ ⊦ p =ͧ (p₁ͧ,ͧp₂ͧ)❘
+    = [p,pp] pp uexistsE ([a,pa] pa uexistsE ([b,pb] pb eq/trans
+      (((eq/sym pb) ucongP ([C] (C₁ͧ) =ͧ a) compL) ucongP ([C] (C,ͧb) =ͧ (p₁ͧ,ͧp₂ͧ))
+      (((eq/sym pb) ucongP ([C] (C₂ͧ) =ͧ b) compR) ucongP ([C] (p₁ͧ,ͧC) =ͧ (p₁ͧ,ͧp₂ͧ)) urefl))))❙
+
+  // extensionality rule❙
+  ext : {p,q} ⊦ ispair p ⟶ ⊦ ispair q ⟶ ⊦ p₁ͧ =ͧ q₁ͧ ⟶ ⊦ p₂ͧ =ͧ q₂ͧ ⟶ ⊦ p =ͧ q❘
+    = [p,q,pp,qq,pa,pb] (pa ucongP ([C] p =ͧ (C,ͧq₂ͧ)) (pb ucongP ([C] p =ͧ (p₁ͧ,ͧC)) (repr pp)))
+      eq/trans (eq/sym repr qq)❙
+
+  // injective❙
+  pair_inj : {A,B,C,D} ⊦ (A,ͧB) =ͧ (C,ͧD) ⟶ ⊦ A =ͧ C ∧ B =ͧ D❘
+    = [A,B,C,D,p] andI ((eq/sym compL) eq/trans ((eq/sym p) ucongP ([X] (X₁ͧ) =ͧ C) compL))
+      ((eq/sym compR) eq/trans ((eq/sym p) ucongP ([X] (X₂ͧ) =ͧ D) compR))❙
+❚
+
+theory Img =
+  include ?OrderedPairs❙
+  // img R a = {b | (a,ͧb)∈R}❙
+  img : set ⟶ set ⟶ set❙
+  imgI : {R,a,b} ⊦ (a,ͧb)∈R ⟶ ⊦ b ∈ img R a❙
+  imgE : {R,a,b} ⊦ b ∈ img R a ⟶ ⊦ (a,ͧb)∈R❘# 4 imgE❙
+❚
+
+theory CartesianProduct =
+  include ?OrderedPairs❙
+
+  // symbol: jtimes❙
+  prod : set ⟶ set ⟶ set❘# 1 ×ͧ 2 prec 50❙
+
+  // introduction and elimination rules❙
+  prodI : {A,B,a,b} ⊦ a∈A ⟶ ⊦ b∈B ⟶ ⊦ (a,ͧb) ∈ A×ͧB❙
+  prodEl : {A,B,p} ⊦ p ∈ A×ͧB ⟶ ⊦ p₁ͧ∈A❘# 4 prodEl❙
+  prodEr : {A,B,p} ⊦ p ∈ A×ͧB ⟶ ⊦ p₂ͧ∈B❘# 4 prodEr❙
+
+  prodE : {A,B,p} ⊦ p ∈ A×ͧB ⟶ ⊦ ispair p❘# 4 prodE❙
+  
+  prod_sub : {A,B,C,D} ⊦ A⊆C ⟶ ⊦ B⊆D ⟶ ⊦ A×ͧB ⊆ C×ͧD❘
+    = [A,B,C,D,pa,pb] subsetI ([x,p] eq_in (repr (p prodE)) 
+      prodI (p prodEl subsetE pa) (p prodEr subsetE pb))❙
+❚
+
+// The Cartesian product with an empty set results in the empty set❚
+theory CartEmpty =
+  include ?CartesianProduct❙
+  include ?EmptySet❙
+  cart_emptyA : {B} ⊦ ∅×ͧB =ͧ ∅❘
+    = [B] extensionalityI ([x] equivI
+      ([p] empty_prop notE (uexistsI (x₁ͧ) (p prodEl)) inconE)
+      ([q] empty_prop notE (uexistsI x q) inconE))❙
+  cart_emptyB : {A} ⊦ A×ͧ∅ =ͧ ∅❘
+    = [A] extensionalityI ([x] equivI
+      ([p] empty_prop notE (uexistsI (x₂ͧ) (p prodEr)) inconE)
+      ([q] empty_prop notE (uexistsI x q) inconE))❙
+❚
+
+theory CartInter =
+  include ?CartesianProduct❙
+  include ?Intersection❙
+  
+  cart_interBC : {A,B,C} ⊦ A×ͧ(B∩C) =ͧ (A×ͧB)∩(A×ͧC)❘
+    = [A,B,C] extensionalityI ([x] equivI
+      ([p] eq_in (repr (p prodE)) (interI (prodI (p prodEl) ((p prodEr) interEl))
+      (prodI (p prodEl) ((p prodEr) interEr))))
+      ([q] eq_in (repr (q interEl prodE)) (prodI (q interEl prodEl)
+      (interI (q interEl prodEr) (q interEr prodEr)))))❙
+      
+  cart_inter : {A,B,C,D} ⊦ (A×ͧB)∩(C×ͧD) =ͧ (A∩C)×ͧ(B∩D)❘
+    = [A,B,C,D] extensionalityI ([x] equivI
+      ([p] eq_in (repr (p interEl prodE)) (prodI (interI (p interEl prodEl)
+      (p interEr prodEl)) (interI (p interEl prodEr) (p interEr prodEr))))
+      ([q] eq_in (repr (q prodE)) (interI (prodI (q prodEl interEl)
+      (q prodEr interEl)) (prodI (q prodEl interEr) (q prodEr interEr)))))❙
+❚
+
+theory CartUnion =
+  include ?CartesianProduct❙
+  include ?Union❙
+  
+  cart_unionBC : {A,B,C} ⊦ A×ͧ(B∪C) =ͧ (A×ͧB)∪(A×ͧC)❘
+    = [A,B,C] extensionalityI ([x] equivI
+      ([p] eq_in (repr (p prodE)) (p prodEr unionE 
+      ([pa] unionIl (A×ͧC) (prodI (p prodEl) pa))
+      ([pb] unionIr (A×ͧB) (prodI (p prodEl) pb))))
+      ([q] q unionE ([qa] eq_in (repr (qa prodE))
+      (prodI (qa prodEl) (unionIl C (qa prodEr))))
+      ([qb] eq_in (repr (qb prodE)) 
+      (prodI (qb prodEl) (unionIr B (qb prodEr))))))❙
+❚
+
+theory Sigma =
+  // sigma or dependent product❙
+  include ?OrderedPairs❙
+  
+  sigma : set ⟶ (set ⟶ set) ⟶ set❘# Σͧ 1 2 prec 40❙
+  
+  sigmaI : {A,B,a,b} ⊦ a∈A ⟶ ⊦ b∈(B a) ⟶ ⊦ (a,ͧb) ∈ Σͧ A B❙
+  sigmaEl : {A,B,p} ⊦ p ∈ Σͧ A B ⟶ ⊦ p₁ͧ∈A❘# 4 sigmaEl❙
+  sigmaEr : {A,B,p} ⊦ p ∈ Σͧ A B ⟶ ⊦ p₂ͧ∈(B (p₁ͧ))❘# 4 sigmaEr❙
+  
+  sigmaE : {A,B,p} ⊦ p ∈ Σͧ A B ⟶ ⊦ ispair p❘# 4 sigmaE❙
+  
+  sigma_sub : {A,B,C} ⊦ A⊆C ⟶ ⊦ Σͧ A B ⊆ Σͧ C B❘
+    = [A,B,C,p] subsetI ([x,q] eq_in (repr (q sigmaE))
+      (sigmaI (q sigmaEl subsetE p) (q sigmaEr)))❙
+❚
+
+theory SigmaEmpty =
+  include ?Sigma❙
+  include ?EmptySet❙
+  
+  sigma_emptyA : {B} ⊦ Σͧ ∅ B =ͧ ∅❘
+    = [B] extensionalityI ([x] equivI
+      ([p] empty_prop notE (uexistsI (x₁ͧ) (p sigmaEl)) inconE)
+      ([q] empty_prop notE (uexistsI x q) inconE))❙
+  sigma_emptyB : {A} ⊦ Σͧ A ([x] ∅) =ͧ ∅❘
+    = [A] extensionalityI ([x] equivI
+      ([p] empty_prop notE (uexistsI (x₂ͧ) (p sigmaEr)) inconE)
+      ([q] empty_prop notE (uexistsI x q) inconE))❙
+❚
+
+theory SigmaMod =
+  // modified version of sigma that contains an additional proof❙
+  include ?OrderedPairs❙
+  
+  sigmaMod : {A: set} ({x} ⊦ x∈A ⟶ set) ⟶ set❘# Σͧ 1 2 prec 40❙
+  
+  sigmaModI : {A,B,a,b} {p: ⊦ a∈A} ⊦ b∈(B a p) ⟶ ⊦ (a,ͧb) ∈ Σͧ A B❙
+  sigmaModEl : {A,B,p} ⊦ p ∈ Σͧ A B ⟶ ⊦ p₁ͧ∈A❘# 4 sigmaModEl❙
+  sigmaModEr : {A,B,p} {q: ⊦ p ∈ Σͧ A B} ⊦ p₂ͧ∈(B (p₁ͧ) (q sigmaModEl))❘# 4 sigmaModEr❙
+  
+  sigmaModE : {A,B,p} ⊦ p ∈ Σͧ A B ⟶ ⊦ ispair p❘# 4 sigmaModE❙
+❚

@@ -1,116 +1,109 @@
 namespace latin:/❚
 
-fixmeta ?SetFOL❚
+fixmeta ?DependentFOLEQDescND❚
 
-// TODO:
-	- TODOs in theories
-	- check whether everything is right
-	- maybe some theories need to be rewritten after changes in axioms
-❚
+// AS: I commented the definitions, cause it ruins the performance❚
 
+// ZFBase now contains all standard axioms of ZF instead of just Extensionality
+  and Existence.❚
 theory ZFBase =
-	// AS: should I use UniverseNonEmpty or ExistenceAx here?❙
-  include ?UniverseNonEmpty❙
-  include ?ExtensionalityAx❙
-❚
-
-theory ZFEmptySet =
-  include ?ZFBase❙
-  include ?EmptySetDefinitions❙
-  realize ?EmptySet❙
-  
-  empty_unique : ⊦ ∃¹ isempty❘ // = ❙
-  empty = the isempty empty_unique❙
-  empty_prop = the_ax isempty empty_unique❙
-  
-  // realize empty_sub❙
-❚
-
-theory ZFPairing =
-  include ?ZFBase❙
+  include ?SetBase❙
   include ?PairingAx❙
-  
-  realize ?UnorderedPairs❙
-  
-  uopair : set ⟶ set ⟶ set❘ # uopair 1 2❘
-          = [X,Y] the ([M] isuopair X Y M) pairing_unique❙
-  // AS: the introduction and elimination rules should be defined❙
-  // uopairIL, uopairIR, uopairE❙ 
-❚
-
-theory ZFUnion =
-  include ?ZFBase❙
   include ?UnionAx❙
-	
-	realize ?BigUnion❙
-	
-	bigunion : set ⟶ set❘# ⋃ 1❘
-					= [M] the ([Z] isbigunion M Z) union_unique❙
-	// AS: the introduction and elimination rules should be defined❙
-  // bigunionI, bigunionE❙ 
-❚
-
-theory ZFPowerSet =
-  include ?ZFBase❙
   include ?PowersetAx❙
-  
-	realize ?PowerSets❙
-	
-	powerset : set ⟶ set❘# ℘ 1 prec 60❘
-					= [X] the ([M] ispowerset X M) powerset_unique❙
-	// AS: the introduction and elimination rules should be defined❙
-  // powersetI, powersetE❙ 
-❚
-
-theory ZFComprehension =
-  include ?ZFBase❙
   include ?ComprehensionAx❙
-	
-	realize ?Comprehension❙
-	
-	comprehend  : set ⟶ (set ⟶ prop) ⟶ set❘# 1 | 2 prec 40❘
-					= [X,P] the ([Z] iscomprehension X P Z) comprehension_unique❙
-	// AS: the introduction and elimination rules should be defined❙
-  // comprehendI, comprehend_sub, comprehendE❙ 
-❚
-
-theory ZFReplacement =
-  include ?ZFBase❙
   include ?ReplacementAx❙
-	
-	realize ?Replacement❙
-	
-	replace  : set ⟶ (set ⟶ set) ⟶ set❘# 1 map 2 prec 40❘
-					= [X,F] the ([Z] isreplacement X F Z) replacement_unique❙
-	// AS: the introduction and elimination rules should be defined❙
-  // replaceI, replaceE❙ 
-❚
-
-theory ZFInfinity =
-  include ?ZFBase❙
-  include ?Infinity❙
+  include ?RegularityAx❙
+  // InfinityAx relies on Empty Set and should be added after defining Empty Set❙
 ❚
 
 theory ZF =
   include ?ZFBase❙
-  include ?ZFEmptySet❙
-  include ?ZFPairing❙
-  include ?ZFBigUnion❙
-  include ?ZFPowerSet❙
-  include ?ZFComprehension❙
-  include ?ZFReplacement❙
-  include ?Regularity❙
-  include ?ZFInfinity❙
+  
+  include ?UnorderedPairs❙// = ?UopairFromAxiom❙
+  include ?BigUnion❙// = ?BigUnionFromAxiom❙
+  include ?Powersets❙// = ?PowersetFromAxiom❙
+  include ?Filter❙// = ?FilterFromAxiom❙
+  include ?Replace❙// = ?ReplaceFromAxiom❙
+  
+  // Acyclic is a special case of RegularityAx❙
+  // include ?RegularityUopair❙
+  include ?Acyclic❙// = ?AcyclicUopair❙
+  
+  // AS: Since empty is necessary for InfinityAx, this is added here❙
+  // include ?ExistFilter❙
+  include ?EmptySet❙// = ?EmptyExistFilter❙
+  
+  include ?InfinityAx❙
 ❚
 
-// FR: maybe this is not needed - can just be included from ZF-independent feature Choice❚
-theory ZFChoice =
-  include ?ZFBase❙
-  include ?ChoiceAx❙
-  // realize ?SetChoice❙
+// ZF and features that can be built from ZF❚
+theory ZFFeatures =
+  include ?ZF❙
+
+  // AS: There are many includes that I wish would not be necessary❙  
+  // include ?BigUnionUnorderedPairs❙
+  include ?Union❙// = ?UnionAsBigUnion❙
+  
+  // include ?BigUnionFilterEmptyDefinition❙
+  include ?BigIntersection❙// = ?BigIntersectionFilter❙
+  
+  // include ?BigIntersectionUnorderedPairs❙
+  include ?Intersection❙// = ?IntersectionAsBigIntersection❙
+  
+  include ?Difference❙// = ?DifFilter❙
+  
+  include ?Complement❙// = ?ComplementFilter❙
+  
+  // include ?UnionDifference❙
+  include ?SymmetricDifference❙// = ?SymUnion❙
+
+  include ?Singletons❙// = ?SelfPair❙
+  
+  // include ?UnionSingleton❙
+  include ?Adjoin❙// = ?AdjoinUnion❙
+  
+  include ?Remove❙// = ?RemoveFilter❙
+  
+  include ?Image❙// = ?ImageReplace❙ 
+  
+  // AS: pairs and so on. KuratowskiPairs lead to errors❙
+  // include ?KuratowskiPairs❙
+  
+  // include ?OrderedBigUnionImage❙
+  include ?CartesianProduct❙// = ?CartImage❙
+  include ?Sigma❙// = ?SigmaUnion❙
+  
+  // include ?CartFilter❙
+  include ?TheRelation❙// = ?TheCartFilter❙
+  
+  // include ?CartFilterPower❙
+  include ?Relations❙// = ?RelCartFilter❙
+  include ?PartialFunctions❙// = ?RelFilter❙
+  include ?Functions❙// = ?FuncCartFilter❙
+  
+  // include ?TheBigCartFilterImage❙
+  include ?LambdaFunction❙// = ?LambdaCartFilter❙
 ❚
 
 theory ZFC = 
   include ?ZF❙
-  include ?ZFChoice❙
+  include ?ChoiceAx❙
+❚
+
+theory ZFCFeatures =
+  include ?ZFC❙
+  include ?ZFFeatures❙
+❚
+
+// AS: maybe typed versions of ZFC have to be moved into a different file
+  or they are unnecessary❚
+theory TypedZF =
+  include ?TypeBase❙
+  include ?ZF❙
+❚
+
+theory TypedZFFeatures =
+  include ?TypedZF❙
+  include ?ZFFeatures❙
 ❚
