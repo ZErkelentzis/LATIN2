@@ -1,0 +1,136 @@
+namespace latin:/❚
+
+fixmeta ?DependentFOLEQDescND❚
+
+// AS: care, UnionFilter got defined in views_lattice_operations. So if this file gets renamed,
+  the dependency might fail!❙
+
+/T   The views currently still need single theories as a domain and codomain, which 
+  forces us to provide spurious named theories. This should be refactored when
+  multi-theory domains and codomains are possible.❚
+
+// AS: This would belong in another file, but I cannot move it now❚
+theory RegularityUopair =
+  include ?RegularityAx❙
+  include ?UnorderedPairs❙
+❚
+
+view AcyclicUopair : ?Acyclic → ?RegularityUopair =
+  include ?SetBase❙
+  
+  in_acyclic = [A,B,p,q] regularity_axiom uforallE (uopair A B) implE (uexistsI A uopairIl)
+      uexistsE ([Z,pz] pz andEl uopairE
+      ([pa] (pz andEr) notE (uexistsI B (andI uopairIr (in_eq q (eq/sym pa)))) inconE)
+      ([pb] (pz andEr) notE (uexistsI A (andI uopairIl (in_eq p (eq/sym pb)))) inconE))❙
+❚
+
+// Views for Filter❚
+view FilterFromAxiom : ?Filter → ?ComprehensionAx =
+  include ?SetBase❙
+  
+  filter = [A,P] the ([Z] iscomprehension A P Z) comprehension_unique❙	
+  filterI = [A,P,x,p,q] comprehensionAxI (the_ax ([Z] iscomprehension A P Z) comprehension_unique) p q❙
+  filterEl = [A,P,x,p] p comprehensionAxEl (the_ax ([Z] iscomprehension A P Z) comprehension_unique)❙
+  filterEr = [A,P,x,p] p comprehensionAxEr (the_ax ([Z] iscomprehension A P Z) comprehension_unique)❙
+❚
+
+// Views for Replace❚
+view ReplaceFromAxiom : ?Replace → ?ReplacementAx =
+  include ?SetBase❙
+  include ?RelationDefinitions❙
+  
+  replace = [A,f,p] the ([Z] isreplacement (fun2rel f) A Z) replacement_unique p❙
+  replaceI = [A,f,x,p] replacementAxI isfun_fun2rel (the_ax ([Z] isreplacement (fun2rel f) A Z) 
+    replacement_unique isfun_fun2rel) (uexistsI x (andI p urefl))❙
+  replaceE = [A,f,y,C,p,Q] p replacementAxE isfun_fun2rel (the_ax ([Z] isreplacement (fun2rel f) A Z)
+    replacement_unique isfun_fun2rel) Q❙
+❚
+
+// Views for Image❚
+view ImageReplace : ?Image → ?Replace =
+  include ?SetBase❙
+  
+  image = [A,f] replace A f isfun_fun2rel❙
+  imageI = [A,f,x,p] replaceI p❙
+  imageE = [A,f,y,p] p replaceE ([x,pa,pb] uexistsI x (andI pa pb))❙
+❚
+
+// Views for SymmetricDifference❚
+theory UnionDifference =
+  include ?Difference❙
+  include ?Union❙
+❚
+
+view SymUnion : ?SymmetricDifference → ?UnionDifference =	
+  include ?SetBase❙
+  
+  symdif = [A,B] (A∖B) ∪ (B∖A)❙
+  symdifIl = [A,B,x,p,q] unionIl (B∖A) (difI p q)❙
+  symdifIr = [A,B,x,p,q] unionIr (A∖B) (difI q p)❙
+  symdifE = [A,B,x,C,p,pa,pb] p unionE 
+    ([qa] pa (andI (qa difEl) (qa difEr)))
+    ([qb] pb (andI (qb difEr) (qb difEl)))❙
+❚
+
+theory UnionIntersectionDifference =
+  include ?UnionDifference❙
+  include ?Intersection❙
+❚
+
+view SymDifference : ?SymmetricDifference → ?UnionIntersectionDifference =
+  // AS: this might not be needed since Intersection could be left out❙
+  include ?SetBase❙
+  
+  symdif = [A,B] (A∪B) ∖ (A∩B)❙
+  symdifIl = [A,B,x,p,q] difI (unionIl B p) (notI ([pf] q notE (pf interEr)))❙
+  symdifIr = [A,B,x,p,q] difI (unionIr A q) (notI ([pf] p notE (pf interEl)))❙
+  symdifE = [A,B,x,C,p,pa,pb] p difEl unionE 
+    ([qa] pa andI qa (notI ([pf] (p difEr) notE (interI qa pf))))
+    ([qb] pb andI (notI ([pf] (p difEr) notE (interI pf qb))) qb)❙
+❚
+
+view SymFilter : ?SymmetricDifference → ?UnionFilter =
+  include ?SetBase❙
+  
+  symdif = [A,B] (A∪B) | ([x] (x∈A ∧ ¬ x∈B) ∨ (¬ x∈A ∧ x∈B))❙
+  symdifIl = [A,B,x,p,q] filterI (unionIl B p) ((andI p q) orIl)❙
+  symdifIr = [A,B,x,p,q] filterI (unionIr A q) ((andI p q) orIr)❙
+  symdifE = [A,B,x,C,p,pa,pb] p filterEr orE ([qa] pa qa) ([qb] pb qb)❙
+❚
+
+// Views for Adjoin❚
+theory UnionSingleton =
+  include ?Union❙
+  include ?Singletons❙
+❚
+
+view AdjoinUnion : ?Adjoin → ?UnionSingleton =
+  include ?SetBase❙
+  
+  adjoin = [A,b] A ∪ (singleton b)❙
+  adjoinIl = [A,b,x,p] unionIl (singleton b) p❙
+  adjoinIr = [A,b] unionIr A singletonI❙
+  adjoinE = [A,b,x,C,p,pa,pb] p unionE pa ([q] pb (q singletonE))❙
+❚
+
+// Views for Remove❚
+view RemoveFilter : ?Remove → ?Filter =
+  include ?SetBase❙
+  
+  remove = [A,b] A | ([x] ¬ x =ͧ b)❙
+  removeI = [A,b,x,p,q] filterI p q❙
+  removeE = [A,b,x,p] andI (p filterEl) (p filterEr)❙
+❚
+
+theory SingletonDifference =
+  include ?Difference❙
+  include ?Singletons❙
+❚
+
+view RemoveDifference : ?Remove → ?SingletonDifference =
+  include ?SetBase❙
+  
+  remove = [A,b] A∖(singleton b)❙
+  removeI = [A,b,x,p,q] difI p (notI ([pf] q notE (pf singletonE)))❙
+  removeE = [A,b,x,p] andI (p difEl) (notI ([pf] (p difEr) notE (eq_in pf singletonI)))❙
+❚

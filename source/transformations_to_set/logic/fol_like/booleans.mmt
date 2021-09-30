@@ -1,0 +1,28 @@
+namespace latin:/❚
+
+fixmeta ?DependentFOLEQDescND❚
+
+// Classical booleans❚
+theory CBooleansZF =
+  include ?TypedEqualitySet❙
+  include ?NatZF❙
+  
+  realize ?Booleans❙
+  bool = uopair z one❙
+  tt = elem one uopairIr❘# ⊤ͨ❙
+  ff = elem z uopairIl❘# ⊥ͨ❙
+  bool_nontrivial = notI ([pf] zero_neq_one pf falseE)❙
+  
+  cbool_tnd : {b: Elem bool} ⊦ (b Eq (elem z uopairIl)) ∨ (b Eq (elem one uopairIr))❘# ctnd 1❘
+    = [b] (why b) uopairE ([p] p orIl) ([q] q orIr)❙
+❚
+
+theory CBooleanExtensionalityZF =
+  include ?CBooleansZF❙
+
+  realize ?BooleanExtensionality❙
+  // boolext = [P: Elem bool ⟶ prop,pt,pf,b: Elem bool] (ctnd b) orE
+    ([p] p EqcongEr P pf) ([q] q EqcongEr P pt)❙
+    
+  // if = [S,b: Elem bool,t: Elem S, e: Elem S] _❙
+❚

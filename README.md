@@ -5,6 +5,8 @@ This is the second generation of the LATIN atlas, an effort to "develop[...] met
 
 ## Building
 
+First issue `git submodule init` and `git submodule update` in order for the submodule `lib/tptp-parser` to be cloned.
+
 ### Building individual files for endusers
 
 The master branch is supposed to already contain all build artifacts, hence there should be no need to build everything from scratch for end users.
@@ -14,6 +16,8 @@ However, if you modify large portions or face peculiar build errors (like ["no b
 )), you might want to try rebuilding as follows.
 
 ### Complete Rebuilding for elaborate endusers / developers
+
+**also see individual READMEs in folders for specific build orders.**
 
 > **A note on build order:** The formalizations as well as Scala files in this archive require a specific build order. In particular, there are many circular dependencies between `.mmt` files themselves as well as between them and Scala files.
 > Unfortunately, the MMT build system cannot deal with such complex dependency management at time of writing, hence the build order has to be manually prescribed.

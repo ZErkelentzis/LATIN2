@@ -1,0 +1,34 @@
+file ../../build_config.msl
+
+// set_theory
+// depends in general on fundamentals and logic (these dependencies are not mentioned here)!
+// foundation of set theory
+build MMT/LATIN2 mmt-omdoc set_theory/setbase.mmt
+// features
+build MMT/LATIN2 mmt-omdoc set_theory/finite_sets.mmt
+build MMT/LATIN2 mmt-omdoc set_theory/lattice_operations.mmt
+build MMT/LATIN2 mmt-omdoc set_theory/operations.mmt
+build MMT/LATIN2 mmt-omdoc set_theory/powersets.mmt
+build MMT/LATIN2 mmt-omdoc set_theory/cartesian_product.mmt
+build MMT/LATIN2 mmt-omdoc set_theory/relations.mmt
+
+// realizations of ordered pairs
+build MMT/LATIN2 mmt-omdoc set_theory/pair_definitions
+
+// axioms. Infinity axioms depends on empty set in finite_sets.mmt
+build MMT/LATIN2 mmt-omdoc set_theory/axioms.mmt
+
+// all views for features. There might occur dependencies within this folder,
+// because of additional theories for views.
+build MMT/LATIN2 mmt-omdoc set_theory/views_features
+
+// additional definitions for set theory to imitate types
+build MMT/LATIN2 mmt-omdoc set_theory/typebase.mmt
+
+// depends on views_features
+build MMT/LATIN2 mmt-omdoc set_theory/zfc.mmt
+
+build MMT/LATIN2 mmt-omdoc set_theory/nats.mmt
+
+// AS: ignore typed_features and delete it later
+// build MMT/LATIN2 mmt-omdoc set_theory/typed_features.mmt

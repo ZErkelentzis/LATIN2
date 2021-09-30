@@ -1,0 +1,164 @@
+namespace latin:/casestudies/comptrans/aritypoly ❚
+fixmeta ur:?LF ❚
+rule scala://parser.api.mmt.kwarc.info?MMTURILexer ❚
+
+/T Nat on meta-level instead of object-level makes it easier to use in Types theory below ❚
+theory Nat =
+  nat: type ❘ # ℕ ❙
+  z: ℕ ❙
+  s: ℕ ⟶ ℕ ❙
+  plus: ℕ ⟶ ℕ ⟶ ℕ ❘ # 1 + 2 ❙
+❚
+
+// theory Tree =
+  tree: {A: type} type ❘ # 𝕋 1 ❙
+  leaf: {A} A ⟶ 𝕋 A ❘ # leaf 2 ❙
+  bin: {A} 𝕋 A ⟶ 𝕋 A ⟶ 𝕋 A ❘ # bin 2 3 ❙
+❚
+
+/T Theory of cumulative hard-typed type theories ❚
+theory CumTypes =
+  include ?Nat ❙
+  univ: ℕ ⟶ type ❙
+  tm: {n: ℕ} univ n ⟶ type ❘ # tm 2 prec 10 ❙
+
+  /T _cast_ ty_p_es .❙
+  castp: {n} univ n ⟶ univ (s n) ❘ # 2 ↑ prec 20 ❙
+  /T _cast_ ter_m_s . ❙
+  castm: {n,U: univ n} tm U ⟶ tm U↑ ❘ # 3 ⇑ ❙
+
+  // missing: assert that `univ n` is term of universe `n+1` ❙
+
+  /T usually called "type" ❙
+  base: univ z ❙
+❚
+
+// id_{CumTypes}: identity morphism, comptrans on empty list
+   built-in in MMT, hence not given
+
+   Basic Lemma yields:
+      true       ===> |- base : univ z
+❚
+
+/T comptrans on <incl. morphism Nat -> CumTypes>
+
+   Basic Lemma yields:
+      |- n : nat ===> |- base↑…↑ : univ n   (n type casts)
+❚
+theory CumTypes_TypeCasts =
+  include ?Types ❙
+
+  _N: ℕ ⟶ type ❘ = [n: ℕ] univ n ❙
+  _z: univ z ❘ = base ❙
+  _s: {n: ℕ, U: univ n} univ (s n) ❘ = [n,U] U↑ ❙
+❚
+
+// excursion:
+
+  in LF:
+  zero : nat : type
+  nat : type : kind
+
+  with pure type systems, do not really distinguish between terms, types, and universes anymore
+
+  t : T : U (term, type, universe)
+  T : U : U' (type, universe, higher universe)
+  U : U' : U'' (three universes)
+
+  Terms are only allowed to occur in first place.
+  Types are only allowed to occur in first and second place.
+  Universes are the only thing allowed to occur in third place.
+❚
+
+//
+  write Monoid in LF
+  write Monoid in SFOL - straightforward, transform `U: type` to `U: tp`
+
+  but now with CumTypes: would like to transform `U: type` to `U: univ n` for every n
+  ohne sich auf ein bestimmtes n festzulegen.
+  Konventionell entsteht dadurch ein Formalisierungsartefakt, `n: nat` zieht sich als Parameter überall durch
+❚
+
+// any more complex theory than Nat? maybe Poset? ❚
+
+/T comptrans on <CumTypes_TypeCasts>
+
+   Basic Lemma yields:
+          |- n : nat  /\ |- _z : tm base
+     ===> |- _z⇑…⇑ : tm base↑…↑      (n term and type casts)
+❚
+theory CumTypes_TermCasts =
+  include ?Types ❙
+
+  _N: {n: ℕ} univ n ⟶ type ❘ = [n, U] tm U ❙
+
+  /T not defined since this comptrans (and the resulting Basic Lemma) are polymorphic in MMT terms of type `tm base` ❙
+  _z: tm base ❙
+  _s: {n: ℕ, U: univ n} tm U ⟶ tm U↑ ❘ = [n,U,t] t⇑ ❙
+
+  // further idea: generalize from `base: univ z` to `base: Σn: univ n`. ❙
+❚
+
+/T Theory of soft-typed type theories with cumulative type hierarchy
+
+   hard-typed for colon between types and universes, soft-typed for terms❚
+theory InternalCumTypes =
+  include ?Nat ❙
+  include ☞latin:/?IPLND ❙
+  include ☞latin:/?Proofs ❙
+  include ☞latin:/?InformalProofs ❙
+  include ☞latin:/?SoftTypedTerms ❙
+  include ☞latin:/?SoftTypedPredicateSubtypes ❙
+
+  univ: nat ⟶ type ❙
+  inj: {n: nat} univ n ⟶ tp ❘ # τ 2 ❙
+  has_type : {n: nat} univ n ⟶ term ⟶ prop ❘ = [n,U,t] t ⦂ τ U ❘# 3 ∈ 2 ❙
+
+  castp: {n,U: univ n} univ (s n) ❘ # 2 ↑ prec 20 ❙
+  castm: {n,U: univ n,t: term} ⊦ (t ∈ U) ⇒ (t ∈ U↑) ❘# 3 ⇑ 2 ❙
+
+  base: univ z ❙
+  // can_cast_to_all: {n,m,U: univ n,t: term} ⊦ (t ⦂ τ U) ⇒ (t ⦂ τ (n + m))
+               ❘ = [n,m,t] sketch "provable via induction on m (ignoring the issue that Nat is an LF-level formalization)" ❙
+❚
+
+/T Erase types. Concretely, starting with CumTypes
+
+   - on type-level: do nothing (identity on `univ`, `castp`, and `base`)
+   - on term-level: erase types in hard-typed terms (assignments to `tm` and `castm`)
+
+   Abbreviated as TE in comments below.
+❚
+view TypeEras : ?CumTypes -> ?InternalCumTypes =
+  include ?Nat ❙
+  univ = univ ❙
+  tm = [n,U] term ❙
+  castp = castp ❙
+  castm = [n,U,t] t ❙
+  base = base ❙
+❚
+
+/T comptrans on <TypeEras>
+
+   Basic Lemma yields:
+          |- U : univ n  /\  |- t : tm U
+     ===> |- TE(t) : ⊦ t ⦂ (τ U)
+❚
+theory TypePres =
+  include ?InternalCumTypes ❙
+  include ?Nat ❙
+  // partial on univ and Nat ❙
+  _tm: {n,U: univ n} term ⟶ type ❘ = [n,U,t] ⊦ t ∈ U ❙
+  // partial on castp ❙
+
+  // does partiality on castp (unfortunately) enforce partiality on castm, too? ❙
+  _castm: {n,U: univ n,t: term, tt: ⊦ t ∈ U} ⊦ t ∈ U↑
+        ❘ = [n,U,t,tt] (t ⇑ U) implE tt ❙
+❚
+
+/T comptrans InternalCumTypes_TermCasts := TE ∘ CumTypes_TermCasts.
+
+   Basic Lemma yields:
+          |- n : nat  /\ |- _z : tm base
+     ===> ⊦ TE(_z⇑…⇑) ∈ base↑…↑  provable         (n term and type casts)
+❚

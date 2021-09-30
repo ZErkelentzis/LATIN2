@@ -1,0 +1,17 @@
+// LOGICAL FEATURES (Section 5.3)
+      HARDENING
+   ========================================== ❚
+
+namespace latin:/casestudies/itp2021 ❚
+rule scala://parser.api.mmt.kwarc.info?MMTURILexer ❚
+fixmeta ?Meta ❚
+
+/T Step 1: generate the interface of all partial logical relations over
+           the type erasure morphism ?TEEqual ❚
+diagram UTypedFeatures : ?DiagOpsMeta :=
+    BDIAG (RAWDIAG ?UTyped) ! ?UEqual ! ?UNonempty ! ?Conj ! ?Impl ! ?UUniv ! ?UExist ! ?UExistUnique ! ?UDefChoice ! ?UDefChoiceGuarded ❚
+
+/T Step 2: apply the polymorphify operator ❚
+diagram HTypedFeatures_poly : ?DiagOpsMeta := POLYMORPHIFY ?UTypedFeatures ❚
+
+/T Step 3: inspect the output in `f-hard_logical_features-ouptut.mmtx`. ❚

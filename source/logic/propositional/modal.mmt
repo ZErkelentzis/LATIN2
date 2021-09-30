@@ -1,0 +1,26 @@
+namespace latin:/❚
+
+fixmeta ur:?LF❚
+
+theory Box =
+  include ?Propositions❙
+  box: prop ⟶ prop❘# □ 1 prec 20❙
+❚
+
+theory Diamond =
+  include ?Propositions❙
+  diamond: prop ⟶ prop❘# ◇ 1 prec 20❙
+❚
+
+theory ML =
+  include ?PL❙
+  include ?Logic ❙
+  include ?Box❙
+  include ?Diamond❙
+❚
+
+theory MLHilbert =
+  include ?ML❙
+  // Rules with hypothetical premises are not sound in Kripke models; so we need to use a Hilbert calculus.❙
+  include ?PLHilbert❙
+❚

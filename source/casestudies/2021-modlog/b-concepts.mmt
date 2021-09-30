@@ -1,0 +1,72 @@
+// FUNDAMENTAL CONCEPTS (Section 3)
+   ========================================== ❚
+
+namespace latin:/casestudies/itp2021 ❚
+rule scala://parser.api.mmt.kwarc.info?MMTURILexer ❚
+fixmeta ?Meta ❚
+
+// PROVING ❚
+theory Classical =
+  include ?Proofs ❙
+  classical: {a} ((⊦ a ⟶ incon) ⟶ incon) ⟶ ⊦ a ❙
+❚
+
+theory ProofIrrel =
+  include ?Proofs ❙
+  rule ☞scala://lf.mmt.kwarc.info?TermIrrelevanceRule ded ❙
+❚
+
+// CONCEPT MERGERS (Section 3.2) ❚
+
+/T Propositions as types: every proposition `p: prop` is identified with an object type `t_p: tp` (one for every `p`).
+   Below, PrAsTy_HTypedProofs extends this by identifying proofs of `p` with object terms of object type `t_p` ❚
+theory PrAsTy =
+  include ?Types ❙
+
+  realize ?Props ❙
+  prop = tp ❙
+❚
+
+/T Propositions as types (extended): every proof `pf: ⊦ p` of `p: prop` is identified with an object term of the object
+   type `t_p: tp`.
+❚
+theory PrAsTy_HTypedProofs =
+  include ?PrAsTy ❙
+  include ?HTyped ❙
+
+  realize ?Proofs ❙
+  ded = [p: prop] tm p ❙
+❚
+
+/T Propositions as terms ❚
+theory PrAsTe =
+  include ?HTyped ❙
+  bool: tp ❙
+
+  realize ?Props ❙
+  prop = tm bool ❙
+❚
+
+/T Types as propositions (predicates): in a soft-typed language, every object type is identified with a predicate
+   `term ⟶ prop` and the object typing judgement `of t a` is identified with the "truth value" of the predicate
+   associated to `a` applied to `t`. ❚
+theory TyAsPr =
+  include ?Terms ❙
+  include ?Props ❙
+
+  realize ?STyped ❙
+  tp = term ⟶ prop ❙
+  of = [t: term, a: term ⟶ prop] a t ❙
+❚
+
+/T Types as terms: in a soft-typed language, every object type is identified with an object term. Thus, the object
+   typing judgement `of: term ⟶ term ⟶ prop` is a relation between terms. ❚
+theory TyAsTe =
+  include ?Terms ❙
+  include ?Props ❙
+
+  realize ?Types ❙
+  tp = term ❙
+
+  include ?STyped ❙
+❚

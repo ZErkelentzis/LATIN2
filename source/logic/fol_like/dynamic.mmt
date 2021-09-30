@@ -1,0 +1,90 @@
+namespace latin:/❚
+
+/T Dynamic Logic is a Multi-Modal Logic originally introduced by
+  Vaugham Pratt in 1996 for reasoning about imperative programs
+  and later extended to more general uses in linguistics and philosophy.
+  See https://en.wikipedia.org/wiki/Dynamic_logic_(modal_logic) for details.
+  
+  Dynamic Logic comes with a very simple non-deterministic programming
+  language Π that only features composition, distribution, iteration, test, and assignment.
+  
+  The main idea is to have a modality for every program α and proposition A:prop
+  - ⟬α⟭A means that "if α terminates, then $A$ holds afterwards"
+  - ⦉α⦊A means that "α terminates and $A$ holds afterwards".
+  The possible worlds are "states", i.e. variable assignments for program
+  variables, and a state w:world is accessible from state v:state for program α,
+  if a run of program α in v yields state w.
+  
+  Dynamic logic comes in three levels of modeling: 
+  - Proposititional Dynamic Logic: programs are built up from program opaque variables,
+    states are unspecified, and tests are over propositional formulae.
+  - First-Order Dynamic Logics: program contain (program) variables and assignment,
+    possible worlds are states, accessibility is state change.
+  ❚
+
+fixmeta ur:?LF❚
+
+theory Programs =
+  prog : type❘# Π❙
+❚
+
+/T Dynamic Logic is just the multimodal logic 
+   where the modality is given by Π programs. ❚
+theory DynamicLogic =
+  include ?MML❙
+  realize ?Programs❙
+  prog = modality ❙
+❚
+
+/T A simple non-deterministic programming language ❚
+theory NonDetProg =
+  include ?PL❙
+  include ?Programs❙
+
+  /T the programming language primitives of a non-deterministic programming
+    language Π whose semantics is easy to specify.❙
+  comp : Π ⟶ Π ⟶ Π❘# 1 ; 2 prec 5❙
+  distrib : Π ⟶ Π ⟶ Π❘# 1 ∪ 2 prec 30❙
+  iteration : Π ⟶ Π❘# * 1 prec 60❙
+  test : prop ⟶ Π❘# 1 ? prec 10❙
+
+  /T in Π, we can define the usual program combinators we know and love ❙
+  skip : Π❘ = true ?❙
+  ifte : prop ⟶ Π ⟶ Π ⟶ Π❘ # if 1 then 2 else 3❘
+       = [F,P,Q] (F ? ; P) ∪ (¬F ? ; Q)❙
+  while : prop ⟶ Π ⟶ Π❘ # while 1 do 2❘
+        = [F,P] *(F ?;P) ; ¬F ?❙
+  until : prop ⟶ Π ⟶ Π❘ # repeat 2 until 1❘
+        = [F,P] *(P; ¬F ?) ; F ?❙
+❚
+
+theory PropDynamicLogic =
+  include ?DynamicLogic❙
+  include ?NonDetProg❙
+❚
+
+/T A theory of (first-order) program variables and for Π; we also extend the language of
+tests ot sorted first-order logic ❚
+theory TypedDynamicLogic =
+  include ?PropDynamicLogic❙
+  include ?SFOLEQ❙
+  
+  var : tp ⟶ type❙
+  
+  retrieve : {S} var S ⟶ tm S❘# ` 2 prec 60❙
+  
+  assign  : {S} var S ⟶ tm S ⟶ Π❘# 2 ≔ 3 prec 35❙
+  random_assign : {S} var S ⟶ Π❘# randomize 2 prec 35❙
+❚
+
+/T A simple example to test what we have done above ❚
+theory Example : ?TypedDynamicLogic =
+  include ?Booleans❙
+  int: tp❙
+  1:tm int❙
+  5:tm int❙
+  plus: tm int ⟶ tm int ⟶ tm int❘# 1 + 2 prec 50❙
+  
+  test: {b: var bool,x:var int}prog❘
+      = [b,x] x≔1; b≔tt; while `b =ͭ tt do (x ≔ `x+1; if `x =ͭ 5 then b≔ff else skip); x≔`x+1❙
+❚

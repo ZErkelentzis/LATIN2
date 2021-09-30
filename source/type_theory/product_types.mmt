@@ -4,95 +4,99 @@ fixmeta ur:?LF❚
 
 theory SimpleProductTypes =
   include ?Types❙
-  simpprod : tp ⟶ tp ⟶ tp❘# 1 × 2 prec 50❙
+  simpprod : tp ⟶ tp ⟶ tp❘# 1 ×ͭ 2 prec 50❙
 ❚
 
 theory DependentProductTypes =
   include ?TypedTerms❙
-  depprod : {A} (tm A ⟶ tp) ⟶ tp❘# Σ 2 prec 40❙
+  depprod : {A} (tm A ⟶ tp) ⟶ tp❘# Σͭ 2 prec 40❙
+  
+  // AS: maybe do a total structure here❙
   realize ?SimpleProductTypes❙
-  simpprod = [A,B] Σ [x: tm A] B❙
+  simpprod = [A,B] Σͭ [x: tm A] B❙
 ❚
 
 theory SoftDependentProductTypes =
   include ?SoftTypedTerms❙
-  softprod : tp ⟶ (term ⟶ tp) ⟶ tp❘# Σ 1 2 prec 40❙
+  softprod : tp ⟶ (term ⟶ tp) ⟶ tp❘# Σͬ 1 2 prec 40❙
 ❚
 
 theory SimpleProducts =
   include ?SimpleProductTypes❙
   include ?TypedEquality❙
-  simppair: {A,B} tm A ⟶ tm B ⟶ tm A × B❘# 3 , 4 prec 50❙
-  simppi1 : {A,B} tm A × B ⟶ tm A❘# 3 ₁ prec 60❙
-  simppi2 : {A,B} tm A × B ⟶ tm B❘# 3 ₂ prec 60❙
+  simppair: {A,B} tm A ⟶ tm B ⟶ tm A ×ͭ B❘# 3 ,ͭ 4 prec 50❙
+  simppi1 : {A,B} tm A ×ͭ B ⟶ tm A❘# 3 ₁ͭ prec 60❙
+  simppi2 : {A,B} tm A ×ͭ B ⟶ tm B❘# 3 ₂ͭ prec 60❙
   
-  compute1 : {A,B,a:tm A,b:tm B} ⊦ (a,b)₁ ≐ a❘role Simplify❙
-  compute2 : {A,B,a:tm A,b:tm B} ⊦ (a,b)₂ ≐ b❘role Simplify❙
+  compute1 : {A,B,a:tm A,b:tm B} ⊦ (a,ͭb)₁ͭ =ͭ a❘role Simplify❙
+  compute2 : {A,B,a:tm A,b:tm B} ⊦ (a,ͭb)₂ͭ =ͭ b❘role Simplify❙
 ❚
 
 theory DependentProducts =
   include ?DependentProductTypes❙
   include ?TypedEquality❙
   include ?DependentTypeEquality❙
-  deppair: {A,B, a: tm A} tm B a ⟶ tm Σ B❘# 3 , 4 prec 50❙
-  deppi1 : {A,B: tm A ⟶ tp} tm Σ B ⟶ tm A ❘# 3 ₁ prec 60❙
-  deppi2 : {A,B, u: tm Σ [x: tm A] B x} tm B (u₁)❘# 3 ₂ prec 60❙
+  // AS: probably give these ͩͭ. However, this would look pretty bad.❙
+  deppair: {A,B, a: tm A} tm B a ⟶ tm Σͭ B❘# 3 , 4 prec 50❙
+  deppi1 : {A,B: tm A ⟶ tp} tm Σͭ B ⟶ tm A ❘# 3 ₁ prec 60❙
+  deppi2 : {A,B, u: tm Σͭ [x: tm A] B x} tm B (u₁)❘# 3 ₂ prec 60❙
 
-  compute1 : {A, B, a: tm A, b} ⊦ ((a,b):tm Σ B)₁ ≐ a❘role Simplify❙
-  // compute2 : {A, B: tm A ⟶ tp, a, b} ⊦ (a,b: tm Σ B)₂↑(compute1 congType B) ≐ b❘role Simplify❙
+  compute1 : {A, B, a: tm A, b} ⊦ ((a,b):tm Σͭ B)₁ =ͭ a❘role Simplify❙
+  compute2 : {A, B: tm A ⟶ tp, a, b} ⊦ (a,b: tm Σͭ B)₂↑(compute1 congType B) =ͭ b❘role Simplify❙
 ❚
 
 theory SoftTypedProducts =
   include ?Terms❙
+  // AS: why is UntypedEquality used and not SoftTypedEquality?❙
   include ?UntypedEquality❙
-  pair: term ⟶ term ⟶ term❘# 1 , 2 prec 50❙
-  pi1 : term ⟶ term❘# 1 ₁ prec 60❙
-  pi2 : term ⟶ term❘# 1 ₂ prec 60❙
+  pair: term ⟶ term ⟶ term❘# 1 ,ͬ 2 prec 50❙
+  pi1 : term ⟶ term❘# 1 ₁ͬ prec 60❙
+  pi2 : term ⟶ term❘# 1 ₂ͬ prec 60❙
 
-  compute1 : {a,b} ⊦ (a,b)₁ ≐ a❘role Simplify❙
-  compute2 : {a,b} ⊦ (a,b)₂ ≐ b❘role Simplify❙
+  compute1 : {a,b} ⊦ (a,ͬb)₁ͬ =ͧ a❘role Simplify❙
+  compute2 : {a,b} ⊦ (a,ͬb)₂ͬ =ͧ b❘role Simplify❙
 ❚
 
 theory SoftTypedSimpleProducts =
   include ?SoftTypedTerms❙
   include ?SoftTypedProducts❙
   include ?SimpleProductTypes❙
-  fun_typing : {A,B,a,b} ⊦ a⦂A ⟶ ⊦ b⦂B ⟶ ⊦ (a,b) ⦂ A × B❙
+  fun_typing : {A,B,a,b} ⊦ a⦂A ⟶ ⊦ b⦂B ⟶ ⊦ (a,ͬb) ⦂ A ×ͭ B❙
 ❚
 
 theory SoftTypedDependentProducts =
   include ?SoftTypedTerms❙
   include ?SoftTypedProducts❙
   include ?SoftDependentProductTypes❙
-  fun_typing : {A,B,a,b} ⊦ a⦂A ⟶ ⊦ b⦂(B a) ⟶ ⊦ (a,b) ⦂ Σ A B❙
+  fun_typing : {A,B,a,b} ⊦ a⦂A ⟶ ⊦ b⦂(B a) ⟶ ⊦ (a,ͬb) ⦂ Σͬ A B❙
 ❚
 
 theory SimpleProductsExpand =
   include ?SimpleProducts❙
-  expand: {A,B,u:tm A × B} ⊦ (u₁,u₂) ≐ u❙
+  expand: {A,B,u:tm A ×ͭ B} ⊦ (u₁ͭ,ͭu₂ͭ) =ͭ u❙
 ❚
 
 theory DependentProductsExpand =
   include ?DependentProducts❙
-  expand: {A,B, u:tm Σ[x:tm A] B x} ⊦ (u₁,u₂) ≐ u❙
+  expand: {A,B, u:tm Σͭ[x:tm A] B x} ⊦ (u₁,u₂) =ͭ u❙
 ❚
 
 theory SoftTypedProductsExpand =
   include ?SoftTypedProducts❙
-  expand: {u} ⊦ (u₁,u₂) ≐ u❙
+  expand: {u} ⊦ (u₁ͬ,ͬu₂ͬ) =ͧ u❙
 ❚
 
 theory SimpleProductsExtensionality =
   include ?SimpleProducts❙
-  exten: {A,B,u,v:tm A × B} ⊦ u₁≐v₁ ⟶ ⊦ u₂≐v₂ ⟶ ⊦ u≐v❙
+  exten: {A,B,u,v:tm A ×ͭ B} ⊦ u₁ͭ =ͭ v₁ͭ ⟶ ⊦ u₂ͭ =ͭ v₂ͭ ⟶ ⊦ u =ͭ v❙
 ❚
 
 theory DependentProductsExtensionality =
   include ?DependentProducts❙
-  exten: {A,B,u,v:tm Σ[x:tm A] B x} {p: ⊦ u₁≐v₁} ⊦ u₂↑(p congType B)≐v₂ ⟶ ⊦ u≐v❙
+  exten: {A,B,u,v:tm Σͭ[x:tm A] B x} {p: ⊦ u₁ =ͭ v₁} ⊦ u₂↑(p congType B) =ͭ v₂ ⟶ ⊦ u =ͭ v❙
 ❚
 
 theory SoftTypedProductsExtensionality =
   include ?SoftTypedProducts❙
-  exten: {u,v} ⊦ u₁ ≐ v₁ ⟶ ⊦ u₂≐v₂ ⟶ ⊦ u≐v❙
+  exten: {u,v} ⊦ u₁ͬ =ͧ v₁ͬ ⟶ ⊦ u₂ͬ =ͧ v₂ͬ ⟶ ⊦ u =ͧ v❙
 ❚
