@@ -45,6 +45,43 @@ theory AllDifferent =
 
         swap19 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T }
                ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (⋖ d9 d2 d3 d4 d5 d6 d7 d8 d1 ⋗)❙
+
+        proj_uneq_12 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d1 ≠ d2)❙
+        proj_uneq_13 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d1 ≠ d3)❙
+        proj_uneq_14 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d1 ≠ d4)❙
+        proj_uneq_15 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d1 ≠ d5)❙
+        proj_uneq_16 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d1 ≠ d6)❙
+        proj_uneq_17 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d1 ≠ d7)❙
+        proj_uneq_18 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d1 ≠ d8)❙
+        proj_uneq_19 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d1 ≠ d9)❙
+        proj_uneq_23 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d2 ≠ d3)❙
+        proj_uneq_24 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d2 ≠ d4)❙
+        proj_uneq_25 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d2 ≠ d5)❙
+        proj_uneq_26 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d2 ≠ d6)❙
+        proj_uneq_27 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d2 ≠ d7)❙
+        proj_uneq_28 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d2 ≠ d8)❙
+        proj_uneq_29 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d2 ≠ d9)❙
+        proj_uneq_34 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d3 ≠ d4)❙
+        proj_uneq_35 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d3 ≠ d5)❙
+        proj_uneq_36 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d3 ≠ d6)❙
+        proj_uneq_37 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d3 ≠ d7)❙
+        proj_uneq_38 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d3 ≠ d8)❙
+        proj_uneq_39 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d3 ≠ d9)❙
+        proj_uneq_45 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d4 ≠ d5)❙
+        proj_uneq_46 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d4 ≠ d6)❙
+        proj_uneq_47 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d4 ≠ d7)❙
+        proj_uneq_48 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d4 ≠ d8)❙
+        proj_uneq_49 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d4 ≠ d9)❙
+        proj_uneq_56 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d5 ≠ d6)❙
+        proj_uneq_57 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d5 ≠ d7)❙
+        proj_uneq_58 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d5 ≠ d8)❙
+        proj_uneq_59 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d5 ≠ d9)❙
+        proj_uneq_67 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T }⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d6 ≠ d7)❙
+        proj_uneq_68 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d6 ≠ d8)❙
+        proj_uneq_69 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d6 ≠ d9)❙
+        proj_uneq_78 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d7 ≠ d8)❙
+        proj_uneq_79 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d7 ≠ d9)❙
+        proj_uneq_89 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d8 ≠ d9)❙
 ❚
 
 theory SudokuBoard =
@@ -166,7 +203,6 @@ theory SudokuBoard =
     alldiff_column_7 : ⊦ (⋖ c07 c16 c25 c34 c43 c52 c61 c70 c79⋗)❙
     alldiff_column_8 : ⊦ (⋖ c08 c17 c26 c35 c44 c53 c62 c71 c80⋗)❙
     alldiff_column_9 : ⊦ (⋖ c09 c18 c27 c36 c45 c54 c63 c72 c81⋗)❙
-
 
     // If two cells are in one of these relations to each other, they're not equal. ❙
     uneq_H : { c1 : tm cell, c2 : tm cell } (⊦ (c1 ℋ c2)) ⟶ (⊦ (c1 ≠ c2))❙
@@ -300,14 +336,38 @@ theory SudokuStrategyLRC =
 // ”If in none of the three houses of a cell another cell must contain a digit, this cell can possibly contain this digit”❚
 theory SudokuStrategyPMI =
     include ?Sudoku❙
+
+    allH : { c1 : tm cell, c2 : tm cell, c3 : tm cell, c4 : tm cell, c5 : tm cell, c6 : tm cell, c7 : tm cell, c8 : tm cell, c9 : tm cell } prop❘
+         = [c1,c2,c3,c4,c5,c6,c7,c8,c9] (c1 ℋ c2) ∧ (c2 ℋ c3) ∧ (c3 ℋ c4) ∧ (c4 ℋ c5) ∧ (c5 ℋ c6) ∧ (c6 ℋ c7) ∧ (c7 ℋ c8) ∧ (c8 ℋ c9)❙
+
+    allV : { c1 : tm cell, c2 : tm cell, c3 : tm cell, c4 : tm cell, c5 : tm cell, c6 : tm cell, c7 : tm cell, c8 : tm cell, c9 : tm cell } prop❘
+         = [c1,c2,c3,c4,c5,c6,c7,c8,c9] (c1 𝒱 c2) ∧ (c2 𝒱 c3) ∧ (c3 𝒱 c4) ∧ (c4 𝒱 c5) ∧ (c5 𝒱 c6) ∧ (c6 𝒱 c7) ∧ (c7 𝒱 c8) ∧ (c8 𝒱 c9)❙
+
+    allB : { c1 : tm cell, c2 : tm cell, c3 : tm cell, c4 : tm cell, c5 : tm cell, c6 : tm cell, c7 : tm cell, c8 : tm cell, c9 : tm cell } prop❘
+         = [c1,c2,c3,c4,c5,c6,c7,c8,c9] (c1 ℬ c2) ∧ (c2 ℬ c3) ∧ (c3 ℬ c4) ∧ (c4 ℬ c5) ∧ (c5 ℬ c6) ∧ (c6 ℬ c7) ∧ (c7 ℬ c8) ∧ (c8 ℬ c9)❙
+
+    house : { c1 : tm cell, c2 : tm cell, c3 : tm cell, c4 : tm cell, c5 : tm cell, c6 : tm cell, c7 : tm cell, c8 : tm cell, c9 : tm cell, p : tm PM } prop❘
+           = [c1,c2,c3,c4,c5,c6,c7,c8,c9,p] (¬(□(c2 Π p))) ∧ (¬(□(c3 Π p))) ∧ (¬(□(c4 Π p)))
+           ∧ (¬(□(c5 Π p))) ∧ (¬(□(c6 Π p))) ∧ (¬(□(c7 Π p))) ∧ (¬(□(c8 Π p))) ∧ (¬(□(c9 Π p)))❙
+
+    pmi : { pivot : tm cell, p : tm PM,
+            c12 : tm cell, c13 : tm cell, c14 : tm cell, c15 : tm cell, c16 : tm cell, c17 : tm cell, c18 : tm cell, c19 : tm cell,
+            c22 : tm cell, c23 : tm cell, c24 : tm cell, c25 : tm cell, c26 : tm cell, c27 : tm cell, c28 : tm cell, c29 : tm cell,
+            c32 : tm cell, c33 : tm cell, c34 : tm cell, c35 : tm cell, c36 : tm cell, c37 : tm cell, c38 : tm cell, c39 : tm cell }
+          (⊦ (⋖ pivot c12 c13 c14 c15 c16 c17 c18 c19 ⋗)) ⟶ ⊦ (allV pivot c12 c13 c14 c15 c16 c17 c18 c19) ⟶ ⊦ (house pivot c12 c13 c14 c15 c16 c17 c18 c19 p)
+        ⟶ (⊦ (⋖ pivot c22 c23 c24 c25 c26 c27 c28 c29 ⋗)) ⟶ ⊦ (allH pivot c12 c13 c14 c15 c16 c17 c18 c19) ⟶ ⊦ (house pivot c22 c23 c24 c25 c26 c27 c28 c29 p)
+        ⟶ (⊦ (⋖ pivot c32 c33 c34 c35 c36 c37 c38 c39 ⋗)) ⟶ ⊦ (allB pivot c12 c13 c14 c15 c16 c17 c18 c19) ⟶ ⊦ (house pivot c32 c33 c34 c35 c36 c37 c38 c39 p)
+        ⟶ ⊦ (◇ (pivot Π p))❙
 ❚
 
 theory SudokuSolve =
     // General❙
 
-    // Beginner Strategies❙
+    // Implicit Strategies❙
     include ?SudokuStrategyCBE❙
     include ?SudokuStrategyPMD❙
+
+    // Beginner Strategies❙
     include ?SudokuStrategyHBE❙
     include ?SudokuStrategyLRC❙
     include ?SudokuStrategyPMI❙

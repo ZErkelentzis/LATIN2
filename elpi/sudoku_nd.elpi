@@ -1,23 +1,31 @@
 accumulate "generic/bc".
-accumulate "generated/plnd".
+%accumulate "generated/plnd".
 
 %id_prove_run N Res F :- ded (bccert N) F, print X, Res is "Success".
 id_prove_run N Res F :- ded (bccert N) F, Res is "Success".
 
 accumulate "generic/idprove".
-
-
 accumulate "/home/totoro/Development/KWARC/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Sudoku$Test$Trivial".
 
+diamond (pencil c81 pm8).
+
 mytest P :- P (box (pencil c01 X)).
-mytest P :- P (box (pencil c10 X)).
-mytest P :- P (box (pencil c19 X)).
-mytest P :- P (box (pencil c27 X)).
-mytest P :- P (box (pencil c36 X)).
-mytest P :- P (box (pencil c45 X)).
-mytest P :- P (box (pencil c54 X)).
-mytest P :- P (box (pencil c63 X)).
-mytest P :- P (box (pencil c72 X)).
+mytest P :- P (all_different PM pm1 pm2 pm3 pm4 pm5 pm6 pm7 pm8 pm9).
+mytest P :- P (all_different cell c09 c18 c27 c36 c45 c54 c63 c72 c81).
+
+mytest P :- P (vrtcl c81 c09).
+mytest P :- P (not (equal c81 c09)).
+mytest P :- P (not (diamond (pencil c09 pm8))).
+mytest P :- P (hV c81 c09 pm8).
+
+mytest P :- P (hV c81 c18 pm8).
+mytest P :- P (hV c81 c27 pm8).
+mytest P :- P (hV c81 c36 pm8).
+mytest P :- P (hV c81 c45 pm8).
+mytest P :- P (hV c81 c54 pm8).
+mytest P :- P (hV c81 c63 pm8).
+mytest P :- P (hV c81 c72 pm8).
+
 mytest P :- P (box (pencil c81 X)).
 
 main :- mytest id_prove.
