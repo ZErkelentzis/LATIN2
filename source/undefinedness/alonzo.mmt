@@ -1,0 +1,32 @@
+namespace latin:/❚
+fixmeta ur:?LF❚
+
+theory Alonzo =
+
+    include ?UndefinedND❙
+    include ?TypedEqualityND❙
+    include ?Booleans❙
+    include ?SimpleFunctions❙
+    include ?SimpleProducts❙
+
+    /T Types ❙
+    boolTy : tp ❘= bool❘# ο❙
+    funTy  : tp ⟶ tp ⟶ tp ❘= simpfun  ❘# 1 ⇒ 2❙
+    prodTy : tp ⟶ tp ⟶ tp ❘= simpprod ❘# 1 × 2❙
+
+    /T Expressions ❙
+
+    /T FIXME: Factor this out later❙
+    tpNotEquals : tp ⟶ tp ⟶ prop❘# 1 ≠ 2❙
+
+    alonzoDed : tm ο ⟶ type ❘# ⊢ 1 prec -5❘ role Judgment❙
+
+    equals : { α : tp } tm α ⟶ tm α ⟶ tm ο❘# 2 == 3 ❘ role Eq ❙
+    defdes : { α : tp } ⊦ (α ≠ ο) ⟶ (tm α ⟶ tm ο) ⟶ tm α ❘# I 3 ❙
+
+    /T undefinedness ❙
+
+    undef_pred_is_false : { α : tp, p : tm (α ⇒ ο), A : tm α } ⊦ p ↑ ⟶ ⊢ (p @ A) == ff ❘ role Simplify ❙
+    undef_term_is_false : { α : tp, p : tm (α ⇒ ο), A : tm α } ⊦ A ↑ ⟶ ⊢ (p @ A) == ff ❘ role Simplify ❙
+
+❚

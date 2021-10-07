@@ -18,16 +18,16 @@ theory NonDenotingND =
 ❚
 
 theory Undefined =
-    include ?UntypedLogic❙
+    include ?TypedLogic❙
 
-    defined   : term ⟶ prop❘# 1 ↓❙
-    undefined : term ⟶ prop❘# 1 ↑❙
+    defined   : { α : tp } tm α ⟶ prop❘# 2 ↓❙
+    undefined : { α : tp } tm α ⟶ prop❘# 2 ↑❙
 ❚
 
 theory UndefinedND =
     include ?Undefined❙
     include ?NegationND❙
 
-    def_not_undef : { A } (⊦ (A ↓)) ⟶ (⊦ (¬ (A ↑)))❙
-    undef_not_def : { A } (⊦ (A ↑)) ⟶ (⊦ (¬ (A ↓)))❙
+    def_not_undef : { α : tp, A : tm α } (⊦ (A ↓)) ⟶ (⊦ (¬ (A ↑)))❙
+    undef_not_def : { α : tp, A : tm α } (⊦ (A ↑)) ⟶ (⊦ (¬ (A ↓)))❙
 ❚
