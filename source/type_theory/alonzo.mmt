@@ -1,0 +1,72 @@
+namespace latin:/❚
+fixmeta ur:?LF❚
+
+theory tpEquality =
+    /T FIXME: Factor this out later❙
+    include ?TypedLogic ❙
+    tpNotEquals : tp ⟶ tp ⟶ prop❘# 1 ≠τ 2❙
+❚
+
+
+theory Alonzo =
+
+    include ?UndefinedND❙
+    include ?TypedEqualityND❙
+    include ?Booleans❙
+    include ?SimpleFunctions❙
+    include ?SimpleProducts❙
+    include ?tpEquality❙
+
+    /T Types ❙
+    boolTy : tp ❘= bool❘# ο❙
+    funTy  : tp ⟶ tp ⟶ tp ❘= simpfun  ❘# 1 → 2❙
+    prodTy : tp ⟶ tp ⟶ tp ❘= simpprod ❘# 1 × 2❙
+
+    /T Expressions ❙
+
+    alonzoDed : tm ο ⟶ type ❘# ⊢ 1 prec -5❘ role Judgment❙
+
+    equals : { α : tp } tm α ⟶ tm α ⟶ tm ο❘# 2 == 3 ❘ role Eq ❙
+
+    /T FIXME: Needs to make sure that ⊦ (α ≠τ ο). Maybe make undefined when it's equal? ❙
+    defdes : { α : tp } (tm α ⟶ tm ο) ⟶ tm α ❘# I 2 ❙
+
+    /T undefinedness ❙
+
+    undef_pred_is_false : { α : tp, p : tm (α → ο), A : tm α } ⊦ p ↑ ⟶ ⊢ (p @ A) == ff ❘ role Simplify ❙
+    undef_term_is_false : { α : tp, p : tm (α → ο), A : tm α } ⊦ A ↑ ⟶ ⊢ (p @ A) == ff ❘ role Simplify ❙
+
+    /T Junktoren, Quantoren etc... ❙
+
+    t_omicron : tm ο ❘# T₀ ❘= λ ([x : tm ο] x) == λ ([x : tm ο] x)❙
+    f_omicron : tm ο ❘# F₀ ❘= λ ([x : tm ο] T₀) == λ ([x : tm ο] x)❙
+
+    wedge : tm (ο → (ο → ο)) ❘= λ ([x : tm ο] (λ [y : tm ο] ((λ [g : tm (ο → (ο → ο))] ((g @ T₀) @ T₀))) == (λ [g : tm (ο → (ο → ο))] ((g @ x) @ y)))) ❙
+    wedge_apply : tm ο ⟶ tm ο ⟶ tm ο ❘= [a : tm ο, b : tm ο] ((wedge @ a) @ b) ❘# 1 ∧ 2❙
+    
+    implic : tm (ο → (ο → ο)) ❘= λ [x : tm ο] (λ [y : tm ο] ( x == (x ∧ y) ))❙
+    implic_apply : tm ο ⟶ tm ο ⟶ tm ο ❘= [a : tm ο, b : tm ο] ((implic @ a) @ b) ❘# 1 ⇒ 2❙
+
+    negation : tm (ο → ο) ❘= λ ([x : tm ο] x == F₀)❙
+    negation_apply : tm ο ⟶ tm ο ❘= [a : tm ο] negation @ a ❘# ¬ 1 prec -1❙
+
+    vee : tm (ο → (ο → ο)) ❘= λ [x : tm ο] (λ [y : tm ο] (¬ ( ¬x ∧ ¬y ))) ❙
+    vee_apply : tm ο ⟶ tm ο ⟶ tm ο ❘= [a : tm ο, b : tm ο] ((vee @ a) @ b) ❘# 1 ∨ 2❙
+
+    ifa : {α : tp} tm (ο → (α → (α → α))) ❘= [α] (λ [b : tm ο] (λ [x : tm α] (λ [y : tm α] (I ([z : tm α] (b ⇒ (z == x)) ∧ ((¬b) ⇒ (z == y)))))))❙
+    ifa_apply : { α : tp } tm ο ⟶ tm α ⟶ tm α ⟶ tm α ❘= [α : tp, b : tm ο, x : tm α, y : tm α] ((((ifa α) @ b) @ x) @ y)❘# 2 ↦ 3 | 4 ❙
+
+    equivalence : tm (ο → (ο → ο)) ❘= λ [x : tm ο] (λ [y : tm ο] ( x == y ))❙
+    equivalence_apply : tm ο ⟶ tm ο ⟶ tm ο ❘= [a : tm ο, b : tm ο] ((equivalence @ a) @ b) ❘# 1 ⇔ 2 ❙
+
+    unequals : { α : tp } tm (α → (α → ο)) ❘= [α : tp] (λ [x : tm α] (λ [y : tm α] ¬ ( x == y )))❙
+    unequals_apply : { α : tp } tm α ⟶ tm α ⟶ tm ο ❘= [α : tp, a : tm α, b : tm α] (((unequals α) @ a) @ b) ❘# 2 ≠ 3 ❙
+
+    tripequals : { α : tp } tm (α → (α → (α → ο))) ❘= [α : tp] (λ [x : tm α] (λ [y : tm α] (λ [z : tm α] ((x == y) ∧ (y == z)))))❙
+    tripequals_apply : { α : tp } tm α ⟶ tm α ⟶ tm α ⟶ tm ο ❘= [α,x,y,z] ((((tripequals α) @ x) @ y) @ z) ❘# 2 === 3 === 4❙
+
+    foralla : { α : tp, A : tm ο} tm ο❘= [α : tp, A : tm ο] ((λ [x : tm α] T₀) == (λ [x : tm α] A)) ❙
+
+    /T Sind dom, definedness etc. meta or object-level? ❙
+
+❚
