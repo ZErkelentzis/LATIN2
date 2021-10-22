@@ -129,5 +129,20 @@ theory Alonzo =
 
     /T Misc ❙
 
+    total_alonzo  : { α : tp, β : tp } tm (α → β) ⟶ tm ο ❘= [α,β,F] FORALL [x : tm α] ((F@x)⇩) ❘# TOTAL 3 ❙
+    total2_alonzo : { α : tp, β : tp, γ : tp } tm (α → (β → γ)) ⟶ tm ο ❘= [α,β,γ,F] FORALL [x : tm α] (FORALL [y : tm β] (((F@x)@y)⇩)) ❘# TOTAL2 3 ❙
+
+    surj_alonzo  : { α : tp, β : tp } tm (α → β) ⟶ tm ο ❘= [α,β,F] FORALL [y : tm β] (EXISTS [x : tm α] ((F@x) == y)) ❘# SURJ 3 ❙
+    surj2_alonzo : { α : tp, β : tp, γ : tp } tm (α → (β → γ)) ⟶ tm ο ❘= [α,β,γ,F] FORALL [z : tm γ] (EXISTS [x : tm α] (EXISTS [y : tm β] (((F@x)@y) == z))) ❘# SURJ2 3 ❙
+
+    inj_alonzo : { α : tp, β : tp } tm (α → β) ⟶ tm ο ❘= [α,β,F] FORALL [x : tm α] (FORALL [xp : tm α] (((F@x) == (F@xp)) ⇒ (x == xp))) ❘# INJ 3 ❙
+    bij_alonzo : { α : tp, β : tp } tm (α → β) ⟶ tm ο ❘= [α,β,F] (TOTAL F) ∧ (SURJ F) ∧ (INJ F) ❘# BIJ 3❙
+
+    /T Add as many of these as you like ...❙
+    distinct2 : { α : tp } tm α ⟶ tm α ⟶ tm ο❘= [α,F1,F2] F1 ≠ F2 ❘# DISTINCT_2 2 3 ❙
+    distinct3 : { α : tp } tm α ⟶ tm α ⟶ tm α ⟶ tm ο❘= [α,F1,F2,F3] (F1 ≠ F2) ∧ (F1 ≠ F3) ∧ (DISTINCT_2 F2 F3) ❘# DISTINCT_3 2 3 4 ❙
+    distinct4 : { α : tp } tm α ⟶ tm α ⟶ tm α ⟶ tm α ⟶ tm ο❘= [α,F1,F2,F3,F4] (F1 ≠ F2) ∧ (F1 ≠ F3) ∧ (F1 ≠ F4) ∧ (DISTINCT_3 F2 F3 F4) ❘# DISTINCT_4 2 3 4 5 ❙
+    distinct5 : { α : tp } tm α ⟶ tm α ⟶ tm α ⟶ tm α ⟶ tm α ⟶ tm ο❘= [α,F1,F2,F3,F4,F5] (F1 ≠ F2) ∧ (F1 ≠ F3) ∧ (F1 ≠ F4) ∧ (F1 ≠ F5) ∧ (DISTINCT_4 F2 F3 F4 F5) ❘# DISTINCT_5 2 3 4 5 6 ❙
+
     /T Quasitypes ❙
 ❚
