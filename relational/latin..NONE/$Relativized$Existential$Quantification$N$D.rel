@@ -12,11 +12,11 @@ DependsOn latin:/?RelativizedExistentialQuantificationND?rexistsI?type latin:/?R
 DependsOn latin:/?RelativizedExistentialQuantificationND?rexistsI?type latin:/?Proofs?ded?type
 DependsOn latin:/?RelativizedExistentialQuantificationND?rexistsI?type latin:/?Terms?term?type
 DependsOn latin:/?RelativizedExistentialQuantificationND?rexistsI?type latin:/?Types?tp?type
+DependsOn latin:/?RelativizedExistentialQuantificationND?rexistsI?definition latin:/?ExistentialQuantificationNDI?uexistsI?type
 DependsOn latin:/?RelativizedExistentialQuantificationND?rexistsI?definition latin:/?SoftTypedTerms?of?type
 DependsOn latin:/?RelativizedExistentialQuantificationND?rexistsI?definition latin:/?Propositions?prop?type
 DependsOn latin:/?RelativizedExistentialQuantificationND?rexistsI?definition latin:/?Conjunction?and?type
-DependsOn latin:/?RelativizedExistentialQuantificationND?rexistsI?definition latin:/?ExistentialQuantification?exists?type
-DependsOn latin:/?RelativizedExistentialQuantificationND?rexistsI?definition latin:/?ExistentialQuantificationNDI?existsI?type
+DependsOn latin:/?RelativizedExistentialQuantificationND?rexistsI?definition latin:/?ExistentialQuantification?uexists?type
 DependsOn latin:/?RelativizedExistentialQuantificationND?rexistsI?definition latin:/?Proofs?ded?type
 DependsOn latin:/?RelativizedExistentialQuantificationND?rexistsI?definition latin:/?Terms?term?type
 DependsOn latin:/?RelativizedExistentialQuantificationND?rexistsI?definition latin:/?ConjunctionNDI?andI?type
@@ -33,10 +33,10 @@ DependsOn latin:/?RelativizedExistentialQuantificationND?rexistsE?definition lat
 DependsOn latin:/?RelativizedExistentialQuantificationND?rexistsE?definition latin:/?Propositions?prop?type
 DependsOn latin:/?RelativizedExistentialQuantificationND?rexistsE?definition latin:/?RelativizedExistentialQuantification?rexists?type
 DependsOn latin:/?RelativizedExistentialQuantificationND?rexistsE?definition latin:/?Conjunction?and?type
-DependsOn latin:/?RelativizedExistentialQuantificationND?rexistsE?definition latin:/?ExistentialQuantification?exists?type
-DependsOn latin:/?RelativizedExistentialQuantificationND?rexistsE?definition latin:/?ExistentialQuantificationNDE?existsE?type
+DependsOn latin:/?RelativizedExistentialQuantificationND?rexistsE?definition latin:/?ExistentialQuantification?uexists?type
 DependsOn latin:/?RelativizedExistentialQuantificationND?rexistsE?definition latin:/?ConjunctionNDE?andEr?type
 DependsOn latin:/?RelativizedExistentialQuantificationND?rexistsE?definition latin:/?Proofs?ded?type
+DependsOn latin:/?RelativizedExistentialQuantificationND?rexistsE?definition latin:/?ExistentialQuantificationNDE?uexistsE?type
 DependsOn latin:/?RelativizedExistentialQuantificationND?rexistsE?definition latin:/?Terms?term?type
 DependsOn latin:/?RelativizedExistentialQuantificationND?rexistsE?definition latin:/?ConjunctionNDE?andEl?type
 DependsOn latin:/?RelativizedExistentialQuantificationND?rexistsE?definition latin:/?Types?tp?type

@@ -1,10 +1,10 @@
-dataconstructor latin:/?UniversalQuantificationNDI?forallI
+dataconstructor latin:/?UniversalQuantificationNDI?uforallI
 theory latin:/?UniversalQuantificationNDI
 HasMeta latin:/?UniversalQuantificationNDI http://cds.omdoc.org/urtheories?LF
 Includes latin:/?UniversalQuantificationNDI latin:/?UniversalQuantification
-Declares latin:/?UniversalQuantificationNDI latin:/?UniversalQuantificationNDI?forallI
-constant latin:/?UniversalQuantificationNDI?forallI
-DependsOn latin:/?UniversalQuantificationNDI?forallI?type latin:/?Propositions?prop?type
-DependsOn latin:/?UniversalQuantificationNDI?forallI?type latin:/?Proofs?ded?type
-DependsOn latin:/?UniversalQuantificationNDI?forallI?type latin:/?Terms?term?type
-DependsOn latin:/?UniversalQuantificationNDI?forallI?type latin:/?UniversalQuantification?forall?type
+Declares latin:/?UniversalQuantificationNDI latin:/?UniversalQuantificationNDI?uforallI
+constant latin:/?UniversalQuantificationNDI?uforallI
+DependsOn latin:/?UniversalQuantificationNDI?uforallI?type latin:/?Propositions?prop?type
+DependsOn latin:/?UniversalQuantificationNDI?uforallI?type latin:/?UniversalQuantification?uforall?type
+DependsOn latin:/?UniversalQuantificationNDI?uforallI?type latin:/?Proofs?ded?type
+DependsOn latin:/?UniversalQuantificationNDI?uforallI?type latin:/?Terms?term?type

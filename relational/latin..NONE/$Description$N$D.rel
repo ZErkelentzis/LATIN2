@@ -5,8 +5,3 @@ Includes latin:/?DescriptionND latin:/?Description
 Includes latin:/?DescriptionND latin:/?UniqueExistentialQuantificationND
 Declares latin:/?DescriptionND latin:/?DescriptionND?the_ax
 constant latin:/?DescriptionND?the_ax
-DependsOn latin:/?DescriptionND?the_ax?type latin:/?Propositions?prop?type
-DependsOn latin:/?DescriptionND?the_ax?type latin:/?Description?the?type
-DependsOn latin:/?DescriptionND?the_ax?type latin:/?Proofs?ded?type
-DependsOn latin:/?DescriptionND?the_ax?type latin:/?Terms?term?type
-DependsOn latin:/?DescriptionND?the_ax?type latin:/?UniqueExistentialQuantification?existsUnique?type

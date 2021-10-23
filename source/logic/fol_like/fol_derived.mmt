@@ -1,0 +1,288 @@
+namespace latin:/❚
+
+
+fixmeta ur:?LF❚
+
+theory Forall2 =
+	include ?FOLND❙
+	
+
+		forall2 : (term ⟶term ⟶ prop) ⟶ prop❘
+				= [P] ∀ͧ[x] ∀ͧ[y] P x y❙
+
+		
+		forall2E : {P,X,Y}  ⊦forall2 P ⟶ ⊦ (P X Y)❘
+				= [P,X,Y,q]  (q uforallE X) uforallE Y❙
+		
+		forall2I : {P} ({x,y} ⊦ (P x y))  ⟶ ⊦ forall2 P❘
+				= [P,q] uforallI [x] (uforallI [y] q x y )❙
+
+❚
+
+theory Flexary_forall : ur:?LFS =
+		include ?FOLND❙
+		
+		forallF : {n} (term^n ⟶ prop)⟶ prop❙
+
+		forallFE : {n,A:term^n, P} ⊦ forallF n P	⟶ ⊦ (P A)❙
+
+		
+		forallFI : {n,P}  ({A:term^n}⊦ P A) ⟶ ⊦ forallF n P❙
+
+❚
+
+theory Exists2 =
+		include ?FOLND❙
+		
+		exists2 : (term ⟶ term ⟶ prop) ⟶ prop ❘
+			= [P] ∃ͧ[x] ∃ͧ[y] P x y❙ 
+			
+		exists2I : {P,X,Y} ⊦ P X Y ⟶ ⊦ exists2 P❘
+			= [P,X,Y,q] uexistsI X uexistsI Y q ❙
+
+		exists2E : {P,C} ⊦ exists2 P ⟶  ({x,y} ⊦ (P x y) ⟶ ⊦ C) ⟶ ⊦ C❘
+			= [P,C,q,T] q uexistsE [x,k] k uexistsE [y,z]  T x y z❙
+
+
+❚
+theory Flexary_exists : ur:?LFS =
+		include ?FOLND❙
+		
+		existsF : {n} (term^n ⟶ prop) ⟶ prop❙
+
+		existsFE : {n, P:term^n ⟶ prop,C} ⊦ existsF n P  ⟶  ({A:term^n}⊦ P A ⟶ ⊦ C)	⟶ ⊦ C❙
+
+		
+		existsFI : {n,A:term^n,P}  ⊦  P A ⟶ ⊦ existsF n P❙
+
+❚
+
+theory Flexary_FOL =
+		include ?FOLND❙
+		include ?Flexary_PL❙
+		include ?Flexary_exists❙
+		include ?Flexary_forall❙
+❚
+
+theory Derived_forall =
+		include ?Forall2❙
+		include ?IFOLND❙
+
+		forall_modes_ponens : {P,Q,Y}  ⊦ (∀ͧ[x] P x ⇒ Q x ) ⟶ ⊦ P Y ⟶ ⊦ Q Y ❘
+				= [P,Q,Y,q,k] (q uforallE Y) implE k❙
+	
+❚
+
+theory Derived_exists =
+		include ?Exists2❙
+❚
+
+theory Derived_forall_and =
+		include ?IFOLND❙
+	
+		distrib_forall_and_in: {P,B} (⊦ ∀ͧ[x] (P x  ∧ B x ) ) ⟶ (⊦(∀ͧ[x] (P x) ) ∧ (∀ͧ[x] B x))❘
+				= [P,B] ([q] andI (uforallI [x] ((q uforallE x) andEl))(uforallI [x] ((q uforallE x) andEr)) )❙
+	
+		distrib_forall_and_out: {P,B}  (⊦(∀ͧ[x] (P x) ) ∧ (∀ͧ[x] B x)) ⟶ (⊦ ∀ͧ[x] (P x  ∧ B x ) ) ❘
+				= [P,B] ([q] uforallI [x] andI ((q andEl)  uforallE x)((q andEr)  uforallE x)  )❙
+				
+		distrib_forall_and : {P,B} ⊦  (∀ͧ[x] (P x  ∧ B x ) )⇔ ((∀ͧ[x] (P x) ) ∧ (∀ͧ[x] B x))	❘
+			= [P,B] equivI ([q] distrib_forall_and_in q) ([q] distrib_forall_and_out q)❙	
+		
+		distrib_and_forall_out : {P,B} (⊦  (∀ͧ[x] P x ) ∧ B ) ⟶ (⊦ ∀ͧ[x](P x ∧ B ))❘role prenexnf❘
+				= [P,B,q] uforallI [x]  andI (q andEl uforallE x) (q andEr)❙
+
+  
+❚
+
+theory Derived_exists_and =
+		include ?IFOLND❙
+
+		distrib_exists_and_in :  {P,B} ⊦ (∃ͧ[x] (P x  ∧ B x )) ⟶ ⊦ ((∃ͧ[x] (P x) ) ∧ (∃ͧ[x] B x))❘
+			= [P,B] ([q] andI(q uexistsE [x,p] uexistsI x (p andEl))((q uexistsE[x,p] uexistsI x (p andEr))))❙
+		
+		distrib_and_exists_out : {P,B} ⊦ (∃ͧ[x] P x) ∧ B ⟶ ⊦ ∃ͧ[x]P x ∧ B ❘role prenexnf❘
+				= [P,B,q] q andEl uexistsE [x,p] uexistsI x (andI p (q andEr))❙
+❚                                 
+
+
+theory Derived_forall_or =
+		include ?IFOLND❙
+
+			distrib_forall_or_out: {P,B} ⊦ ((∀ͧ[x] P x ) ∨ (∀ͧ[x] B x)) ⟶ ⊦(∀ͧ[x] (P x  ∨ B x ))❘
+			= [P,B]([q] q orE ([p] uforallI [x] (p uforallE x) orIl )([p]uforallI [x] (p uforallE x) orIr)  )  ❙
+			
+			distrib_or_forall_out : {P,B} (⊦  (∀ͧ[x] P x ) ∨  B )⟶(⊦ ∀ͧ[x](  P x  ∨  B ))❘role prenexnf❘
+				= [P,B,q] q orE ([p] uforallI [x] (p uforallE x) orIl)([p] uforallI [x] p orIr) ❙
+ 
+❚
+
+
+theory Derived_exists_or =
+		include ?IFOLND❙
+		
+		distrib_exists_or_in: {P,B} ⊦ (∃ͧ[x] (P x  ∨ B x)) ⟶ ⊦(∃ͧ [x] (P x)) ∨ (∃ͧ [x] B x) ❘
+			= [P,B] ([q] q uexistsE [x,p] (p orE ([k] (uexistsI x k)  orIl)([k] (uexistsI x k) orIr))  )❙
+		
+		distrib_exists_or_out : {P,B} ⊦ (∃ͧ [x] (P x)) ∨ (∃ͧ [x] B x) ⟶ ⊦(∃ͧ[x] (P x  ∨ B x)) ❘
+				= [P,B] ([q] q orE ([p] p uexistsE[x,k] (uexistsI x (k orIl))   ) ([p] p uexistsE[x,k] (uexistsI x (k orIr)) )) ❙
+
+		distrib_exists_or : {P,B} ⊦ (∃ͧ[x] (P x  ∨ B x)) ⇔ (∃ͧ [x] (P x)) ∨ (∃ͧ [x] B x)❘
+				= [P,B] equivI ([q] distrib_exists_or_in q) ([q] distrib_exists_or_out q )❙
+		
+		distrib_or_exists_out : {P,B} (⊦ ( ∃ͧ[x] P x) ∨ B) ⟶ (⊦ ∃ͧ[x](P x  ∨ B ))❘role prenexnf❙
+❚
+
+
+theory Derived_IFOL =
+		include ?IFOLND❙
+		include ?Derived_forall❙
+		include ?Derived_exists❙
+		include ?Derived_forall_and❙
+		include ?Derived_exists_and❙
+		include ?Derived_forall_or❙
+		include ?Derived_exists_or❙
+		
+		exists_forall_flip : {P}⊦ (∃ͧ[x] ∀ͧ[y] P x y) ⟶ ⊦ (∀ͧ[y] ∃ͧ[x] P x y)❘
+			= [P,q] uforallI [y] q uexistsE [x,t] uexistsI x (t uforallE y)     ❙
+
+	
+		forall_flip : {P} ⊦ (∀ͧ[x] ∀ͧ[y] P x y) ⟶ ⊦ (∀ͧ[y] ∀ͧ[x] P x y) ❘
+			= [P]([q] uforallI [y] uforallI [x] q uforallE x uforallE y)❙
+
+		equal_forall_flip: {P} ⊦  (∀ͧ[x] ∀ͧ[y] P x y) ⇔ (∀ͧ[y] ∀ͧ[x] P x y) ❘
+				= [P] equivI  ([q] forall_flip q)([q] forall_flip q)❙
+		
+		exists_flip : {P} ⊦ (∃ͧ[x] ∃ͧ[y] P x y) ⟶ ⊦ (∃ͧ[y] ∃ͧ[x] P x y) ❘
+			= [P] ([q] q uexistsE [x,p] (p uexistsE [y,k] (uexistsI y (uexistsI x k)) )  )❙
+
+		equal_exists_flip: {P} ⊦  (∃ͧ[x] ∃ͧ[y] P x y) ⇔ (∃ͧ[y] ∃ͧ[x] P x y) ❘
+				= [P] equivI ([q] exists_flip q )([q] exists_flip q)❙
+		
+❚
+
+theory Derived_FOL =
+		include ?FOLND❙
+		include ?Derived_IFOL❙
+
+❚
+
+
+theory Nnf_exists =
+	include ?IFOLND❙
+	
+	nnf_exists_out: {P} ⊦ (∀ͧ[x] ¬(P x)) ⟶  ⊦ (¬∃ͧ[x](P x)  ) ❘
+				= [P,q] notI [p] (p uexistsE [x,k] (notI [t]( (q uforallE x) notE k))) notE p❙	
+
+	nnf_exists_in: {P} ⊦ (¬∃ͧ[x](P x)) ⟶  ⊦ (∀ͧ[x] ¬(P x))   ❘
+				= [P,q] uforallI [x] (notI [p] (q notE (uexistsI x p)) )❙
+
+	nnf_exists : {P}  ⊦ (¬∃ͧ[x](P x)) ⇔ (∀ͧ[x] ¬(P x))❘role nnf❘
+			= [P] equivI ([q] nnf_exists_in q) ([q] nnf_exists_out q) ❙	
+❚
+
+theory Nnf_forall =
+	include ?IFOLND❙
+	
+	nnf_forall_out: {P} ⊦ (∃ͧ [x] ¬(P x) ) ⟶  ⊦ (¬∀ͧ[x](P x) ) ❘
+				= [P,q] q uexistsE[x,p]  notI [k]  p notE (k uforallE x)❙
+
+❚
+
+theory Nnf_IFOL =
+		include ?IFOLND❙
+		include ?Nnf_PL❙
+		include ?Nnf_exists❙
+		include ?Nnf_forall❙
+
+❚
+
+
+theory Nnf_forall_classic =
+		include ?FOLND❙
+		include ?Nnf_forall❙
+		include ?Nnf_exists❙
+		
+		nnf_forall_in: {P}  ⊦ (¬∀ͧ[x](P x) ) ⟶   ⊦ (∃ͧ [x] ¬(P x) )❘
+			= [P] [q] dne notI [p] q notE  uforallI [x] dne ((nnf_exists_in p) uforallE x)   ❙
+
+		nnf_forall : {P}  ⊦ (¬∀ͧ[x](P x) )⇔ (∃ͧ [x] ¬(P x) )❘role nnf❘
+			= [P] equivI  ([q] nnf_forall_in q)( [q] nnf_forall_out q)❙
+
+❚
+
+theory Nnf_FOL =
+		include ?FOLND❙
+		include ?Nnf_IFOL❙
+		include ?Nnf_forall_classic❙
+
+❚
+
+theory Tnd_inductive =
+	include ?IFOLND❙
+	include ?Nnf_or❙
+	
+	tnd_true : ⊦  true ∨ ¬true❘
+		=  trueI orIl❙
+		
+	tnd_false : ⊦  false ∨ ¬false❘
+		= (notI [p] (p falseE))orIr❙
+		
+	tnd_neg: {F} ⊦ F ∨ ¬F ⟶ ⊦ ¬F ∨ ¬¬F❘
+			= [F,p] p orE ([q] (notI [k] (k notE q))orIr)([q] q orIl) ❙
+			
+	tnd_and : {F,G} ⊦ F ∨ ¬ F ⟶ ⊦ G ∨ ¬ G ⟶ ⊦ (F ∧ G) ∨ ¬ (F ∧ G)❘
+			= [F,G,p,q] p orE ([p1] q orE ([q1] (andI p1 q1)orIl )([q2] (notI [k] q2 notE (k andEr) ) orIr)   )([p2] q orE ([q1] (notI [k] p2 notE (k andEl))orIr )([q2] (notI [k] q2 notE (k andEr) ) orIr) )❙
+	
+	tnd_or : {F,G}   ⊦ F ∨ ¬ F ⟶ ⊦ G ∨ ¬G ⟶ ⊦ (F ∨ G) ∨ ¬ (F∨G)❘
+			= [F,G,p,q] p orE ([k] k orIl orIl) ([k] q orE ([t] t orIr orIl)([t] (nnf_or_out (andI k t) ) orIr)  )❙
+
+
+❚
+theory Equiv_Subs_inductive =
+	include ?IFOLND❙
+	
+	equiv_subs_true : ⊦ true ⇔ true❘
+		=  equivI ([p] p)([p] p)❙
+
+	equiv_subs_false : ⊦ false ⇔ false❘
+		= equivI ([p] p)([p] p)❙
+		
+	equiv_subs_neg : {F,Fˈ} ⊦ F ⇔ Fˈ ⟶ ⊦(¬F)⇔ (¬Fˈ)❘
+		= [F,Fˈ,p] equivI ([q] notI [k] q notE (p equivEr k))([q] notI [k] q notE (p equivEl k) )❙
+		
+	equiv_subs_and : {F,Fˈ,G,Gˈ} ⊦ F ⇔ Fˈ ⟶ ⊦ G ⇔ Gˈ ⟶ ⊦ (F ∧ G) ⇔ (Fˈ ∧ Gˈ)❘
+		= [F,Fˈ,G,Gˈ,p,q] equivI ([k] andI (p equivEl (k andEl)) (q equivEl(k andEr) ))([k] andI (p equivEr(k andEl)) (q equivEr(k andEr) ))❙
+		
+	equiv_subs_or: {F,Fˈ,G,Gˈ} ⊦F ⇔ Fˈ⟶ ⊦ G ⇔ Gˈ ⟶ ⊦(F ∨ G) ⇔ (Fˈ ∨ Gˈ)❘
+  	= [F,Fˈ,G,Gˈ,p,q] equivI ([k] k orE ([t] (p equivEl t)orIl)([t]  (q equivEl t)orIr))([k] k orE ([t] (p equivEr t)orIl)([t]  (q equivEr t)orIr))❙
+	
+	equiv_subs_impl: {F,Fˈ,G,Gˈ} ⊦ F ⇔ Fˈ⟶ ⊦ G ⇔ Gˈ ⟶ ⊦(F ⇒ G)⇔ (Fˈ ⇒ Gˈ)❘
+		= [F,Fˈ,G,Gˈ,p,q] equivI ([k] implI [t] q equivEl (k implE (p equivEr t)))([k] implI [t] q equivEr (k implE (p equivEl t)))❙	
+
+	equiv_subs_forall : {F,Fˈ} ({x} ⊦ (F x) ⇔  (Fˈ x )) ⟶ ⊦ (∀ͧ[x] F x )⇔  (∀ͧ[x] Fˈ x )❘
+		= [F,Fˈ,q] equivI ([p] uforallI [x] (q x)equivEl (p uforallE x) )([p]uforallI [x] (q x)equivEr (p uforallE x))❙
+		
+	equiv_subs_exists : {F,Fˈ}({x} ⊦ (F x) ⇔  (Fˈ x ))  ⟶ ⊦ (∃ͧ[x] F x) ⇔ (∃ͧ[x] Fˈ x)❘
+		= [F,Fˈ,q] equivI ([p]  p uexistsE [x,k] uexistsI x ((q x) equivEl k))([p] p uexistsE [x,k] (uexistsI x ((q x) equivEr k)))❙
+	
+	
+❚
+
+
+theory Forall_functor =
+	include ?IFOLND❙
+
+	forall_functor: {P,F} ⊦ (∀ͧ[x] P x) ⟶ ({y}⊦ P y ⟶ ⊦ F y) ⟶ ⊦ ∀ͧ[x] F x ❘
+		= [P,F,p,q] uforallI [x] ((q x) (p uforallE x))❙
+
+❚
+
+
+theory Exists_functor =
+	include ?IFOLND❙
+
+	exists_functor: {P,F} ⊦ (∃ͧ [x] (P x)) ⟶ ({y}⊦ P y ⟶ ⊦ F y) ⟶ ⊦ ∃ͧ [x] F x ❘
+		= [P,F,p,q] p uexistsE [x,k] (uexistsI x (q x k)) ❙
+
+❚

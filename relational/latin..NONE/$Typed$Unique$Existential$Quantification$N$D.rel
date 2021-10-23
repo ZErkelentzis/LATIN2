@@ -1,21 +1,9 @@
-dataconstructor latin:/?TypedUniqueExistentialQuantificationND?existsUniqueI
-dataconstructor latin:/?TypedUniqueExistentialQuantificationND?existsUniqueE
+dataconstructor latin:/?TypedUniqueExistentialQuantificationND?texistsUniqueI
+dataconstructor latin:/?TypedUniqueExistentialQuantificationND?texistsUniqueE
 theory latin:/?TypedUniqueExistentialQuantificationND
 HasMeta latin:/?TypedUniqueExistentialQuantificationND http://cds.omdoc.org/urtheories?LF
 Includes latin:/?TypedUniqueExistentialQuantificationND latin:/?TypedUniqueExistentialQuantification
-Declares latin:/?TypedUniqueExistentialQuantificationND latin:/?TypedUniqueExistentialQuantificationND?existsUniqueI
-constant latin:/?TypedUniqueExistentialQuantificationND?existsUniqueI
-DependsOn latin:/?TypedUniqueExistentialQuantificationND?existsUniqueI?type latin:/?TypedTerms?tm?type
-DependsOn latin:/?TypedUniqueExistentialQuantificationND?existsUniqueI?type latin:/?Propositions?prop?type
-DependsOn latin:/?TypedUniqueExistentialQuantificationND?existsUniqueI?type latin:/?TypedEquality?equal?type
-DependsOn latin:/?TypedUniqueExistentialQuantificationND?existsUniqueI?type latin:/?TypedUniqueExistentialQuantification?existsUnique?type
-DependsOn latin:/?TypedUniqueExistentialQuantificationND?existsUniqueI?type latin:/?Proofs?ded?type
-DependsOn latin:/?TypedUniqueExistentialQuantificationND?existsUniqueI?type latin:/?Types?tp?type
-Declares latin:/?TypedUniqueExistentialQuantificationND latin:/?TypedUniqueExistentialQuantificationND?existsUniqueE
-constant latin:/?TypedUniqueExistentialQuantificationND?existsUniqueE
-DependsOn latin:/?TypedUniqueExistentialQuantificationND?existsUniqueE?type latin:/?TypedTerms?tm?type
-DependsOn latin:/?TypedUniqueExistentialQuantificationND?existsUniqueE?type latin:/?Propositions?prop?type
-DependsOn latin:/?TypedUniqueExistentialQuantificationND?existsUniqueE?type latin:/?TypedEquality?equal?type
-DependsOn latin:/?TypedUniqueExistentialQuantificationND?existsUniqueE?type latin:/?TypedUniqueExistentialQuantification?existsUnique?type
-DependsOn latin:/?TypedUniqueExistentialQuantificationND?existsUniqueE?type latin:/?Proofs?ded?type
-DependsOn latin:/?TypedUniqueExistentialQuantificationND?existsUniqueE?type latin:/?Types?tp?type
+Declares latin:/?TypedUniqueExistentialQuantificationND latin:/?TypedUniqueExistentialQuantificationND?texistsUniqueI
+constant latin:/?TypedUniqueExistentialQuantificationND?texistsUniqueI
+Declares latin:/?TypedUniqueExistentialQuantificationND latin:/?TypedUniqueExistentialQuantificationND?texistsUniqueE
+constant latin:/?TypedUniqueExistentialQuantificationND?texistsUniqueE

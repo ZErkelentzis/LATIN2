@@ -1,21 +1,10 @@
-dataconstructor latin:/?TypedDescription?the
-dataconstructor latin:/?TypedDescription?the_ax
+dataconstructor latin:/?TypedDescription?tthe
+dataconstructor latin:/?TypedDescription?tthe_ax
 theory latin:/?TypedDescription
 HasMeta latin:/?TypedDescription http://cds.omdoc.org/urtheories?LF
 Includes latin:/?TypedDescription latin:/?TypedLogic
 Includes latin:/?TypedDescription latin:/?TypedUniqueExistentialQuantification
-Declares latin:/?TypedDescription latin:/?TypedDescription?the
-constant latin:/?TypedDescription?the
-DependsOn latin:/?TypedDescription?the?type latin:/?TypedTerms?tm?type
-DependsOn latin:/?TypedDescription?the?type latin:/?Propositions?prop?type
-DependsOn latin:/?TypedDescription?the?type latin:/?TypedUniqueExistentialQuantification?existsUnique?type
-DependsOn latin:/?TypedDescription?the?type latin:/?Proofs?ded?type
-DependsOn latin:/?TypedDescription?the?type latin:/?Types?tp?type
-Declares latin:/?TypedDescription latin:/?TypedDescription?the_ax
-constant latin:/?TypedDescription?the_ax
-DependsOn latin:/?TypedDescription?the_ax?type latin:/?TypedTerms?tm?type
-DependsOn latin:/?TypedDescription?the_ax?type latin:/?Propositions?prop?type
-DependsOn latin:/?TypedDescription?the_ax?type latin:/?TypedDescription?the?type
-DependsOn latin:/?TypedDescription?the_ax?type latin:/?TypedUniqueExistentialQuantification?existsUnique?type
-DependsOn latin:/?TypedDescription?the_ax?type latin:/?Proofs?ded?type
-DependsOn latin:/?TypedDescription?the_ax?type latin:/?Types?tp?type
+Declares latin:/?TypedDescription latin:/?TypedDescription?tthe
+constant latin:/?TypedDescription?tthe
+Declares latin:/?TypedDescription latin:/?TypedDescription?tthe_ax
+constant latin:/?TypedDescription?tthe_ax

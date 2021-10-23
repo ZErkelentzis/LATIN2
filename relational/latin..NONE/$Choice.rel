@@ -6,6 +6,6 @@ Includes latin:/?Choice latin:/?ExistentialQuantification
 Declares latin:/?Choice latin:/?Choice?some
 constant latin:/?Choice?some
 DependsOn latin:/?Choice?some?type latin:/?Propositions?prop?type
-DependsOn latin:/?Choice?some?type latin:/?ExistentialQuantification?exists?type
+DependsOn latin:/?Choice?some?type latin:/?ExistentialQuantification?uexists?type
 DependsOn latin:/?Choice?some?type latin:/?Proofs?ded?type
 DependsOn latin:/?Choice?some?type latin:/?Terms?term?type
