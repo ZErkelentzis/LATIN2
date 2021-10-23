@@ -14,12 +14,12 @@ DependsOn latin:/?RelativizedUniversalQuantificationND?rforallI?type latin:/?Rel
 DependsOn latin:/?RelativizedUniversalQuantificationND?rforallI?type latin:/?Types?tp?type
 DependsOn latin:/?RelativizedUniversalQuantificationND?rforallI?definition latin:/?SoftTypedTerms?of?type
 DependsOn latin:/?RelativizedUniversalQuantificationND?rforallI?definition latin:/?Propositions?prop?type
+DependsOn latin:/?RelativizedUniversalQuantificationND?rforallI?definition latin:/?UniversalQuantification?uforall?type
 DependsOn latin:/?RelativizedUniversalQuantificationND?rforallI?definition latin:/?ImplicationNDI?implI?type
-DependsOn latin:/?RelativizedUniversalQuantificationND?rforallI?definition latin:/?UniversalQuantificationNDI?forallI?type
 DependsOn latin:/?RelativizedUniversalQuantificationND?rforallI?definition latin:/?Proofs?ded?type
 DependsOn latin:/?RelativizedUniversalQuantificationND?rforallI?definition latin:/?Terms?term?type
+DependsOn latin:/?RelativizedUniversalQuantificationND?rforallI?definition latin:/?UniversalQuantificationNDI?uforallI?type
 DependsOn latin:/?RelativizedUniversalQuantificationND?rforallI?definition latin:/?Types?tp?type
-DependsOn latin:/?RelativizedUniversalQuantificationND?rforallI?definition latin:/?UniversalQuantification?forall?type
 DependsOn latin:/?RelativizedUniversalQuantificationND?rforallI?definition latin:/?Implication?impl?type
 Declares latin:/?RelativizedUniversalQuantificationND latin:/?RelativizedUniversalQuantificationND?rforallE
 constant latin:/?RelativizedUniversalQuantificationND?rforallE
@@ -31,11 +31,11 @@ DependsOn latin:/?RelativizedUniversalQuantificationND?rforallE?type latin:/?Rel
 DependsOn latin:/?RelativizedUniversalQuantificationND?rforallE?type latin:/?Types?tp?type
 DependsOn latin:/?RelativizedUniversalQuantificationND?rforallE?definition latin:/?SoftTypedTerms?of?type
 DependsOn latin:/?RelativizedUniversalQuantificationND?rforallE?definition latin:/?Propositions?prop?type
+DependsOn latin:/?RelativizedUniversalQuantificationND?rforallE?definition latin:/?UniversalQuantification?uforall?type
 DependsOn latin:/?RelativizedUniversalQuantificationND?rforallE?definition latin:/?ImplicationNDE?implE?type
 DependsOn latin:/?RelativizedUniversalQuantificationND?rforallE?definition latin:/?Proofs?ded?type
 DependsOn latin:/?RelativizedUniversalQuantificationND?rforallE?definition latin:/?Terms?term?type
 DependsOn latin:/?RelativizedUniversalQuantificationND?rforallE?definition latin:/?RelativizedUniversalQuantification?rforall?type
-DependsOn latin:/?RelativizedUniversalQuantificationND?rforallE?definition latin:/?UniversalQuantificationNDE?forallE?type
+DependsOn latin:/?RelativizedUniversalQuantificationND?rforallE?definition latin:/?UniversalQuantificationNDE?uforallE?type
 DependsOn latin:/?RelativizedUniversalQuantificationND?rforallE?definition latin:/?Types?tp?type
-DependsOn latin:/?RelativizedUniversalQuantificationND?rforallE?definition latin:/?UniversalQuantification?forall?type
 DependsOn latin:/?RelativizedUniversalQuantificationND?rforallE?definition latin:/?Implication?impl?type

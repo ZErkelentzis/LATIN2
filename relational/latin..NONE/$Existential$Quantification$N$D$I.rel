@@ -1,10 +1,10 @@
-dataconstructor latin:/?ExistentialQuantificationNDI?existsI
+dataconstructor latin:/?ExistentialQuantificationNDI?uexistsI
 theory latin:/?ExistentialQuantificationNDI
 HasMeta latin:/?ExistentialQuantificationNDI http://cds.omdoc.org/urtheories?LF
 Includes latin:/?ExistentialQuantificationNDI latin:/?ExistentialQuantification
-Declares latin:/?ExistentialQuantificationNDI latin:/?ExistentialQuantificationNDI?existsI
-constant latin:/?ExistentialQuantificationNDI?existsI
-DependsOn latin:/?ExistentialQuantificationNDI?existsI?type latin:/?Propositions?prop?type
-DependsOn latin:/?ExistentialQuantificationNDI?existsI?type latin:/?ExistentialQuantification?exists?type
-DependsOn latin:/?ExistentialQuantificationNDI?existsI?type latin:/?Proofs?ded?type
-DependsOn latin:/?ExistentialQuantificationNDI?existsI?type latin:/?Terms?term?type
+Declares latin:/?ExistentialQuantificationNDI latin:/?ExistentialQuantificationNDI?uexistsI
+constant latin:/?ExistentialQuantificationNDI?uexistsI
+DependsOn latin:/?ExistentialQuantificationNDI?uexistsI?type latin:/?Propositions?prop?type
+DependsOn latin:/?ExistentialQuantificationNDI?uexistsI?type latin:/?ExistentialQuantification?uexists?type
+DependsOn latin:/?ExistentialQuantificationNDI?uexistsI?type latin:/?Proofs?ded?type
+DependsOn latin:/?ExistentialQuantificationNDI?uexistsI?type latin:/?Terms?term?type

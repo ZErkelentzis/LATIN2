@@ -1,3 +1,4 @@
+dataconstructor latin:/?PLND?impl_flip
 dataconstructor latin:/?PLND?indirect
 dataconstructor latin:/?PLND?dne
 dataconstructor latin:/?PLND?tnd
@@ -7,6 +8,21 @@ Includes latin:/?PLND latin:/?PL
 Includes latin:/?PLND latin:/?IPLND
 Includes latin:/?PLND latin:/?ProofIrrelevance
 Includes latin:/?PLND latin:/?Classical
+Declares latin:/?PLND latin:/?PLND?impl_flip
+constant latin:/?PLND?impl_flip
+DependsOn latin:/?PLND?impl_flip?type latin:/?Propositions?prop?type
+DependsOn latin:/?PLND?impl_flip?type latin:/?Proofs?ded?type
+DependsOn latin:/?PLND?impl_flip?type latin:/?Negation?not?type
+DependsOn latin:/?PLND?impl_flip?type latin:/?Implication?impl?type
+DependsOn latin:/?PLND?impl_flip?definition latin:/?Logic?inconsistent?definition
+DependsOn latin:/?PLND?impl_flip?definition latin:/?Propositions?prop?type
+DependsOn latin:/?PLND?impl_flip?definition latin:/?ImplicationNDI?implI?type
+DependsOn latin:/?PLND?impl_flip?definition latin:/?NegationNDE?notE?type
+DependsOn latin:/?PLND?impl_flip?definition latin:/?ImplicationNDE?implE?type
+DependsOn latin:/?PLND?impl_flip?definition latin:/?Proofs?ded?type
+DependsOn latin:/?PLND?impl_flip?definition latin:/?Negation?not?type
+DependsOn latin:/?PLND?impl_flip?definition latin:/?NegationNDI?notI?type
+DependsOn latin:/?PLND?impl_flip?definition latin:/?Implication?impl?type
 Declares latin:/?PLND latin:/?PLND?indirect
 constant latin:/?PLND?indirect
 DependsOn latin:/?PLND?indirect?type latin:/?Propositions?prop?type
