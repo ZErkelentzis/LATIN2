@@ -1,0 +1,319 @@
+namespace latin:/❚
+
+fixmeta ur:?LF❚
+
+
+theory Flexary_and : ur:?LFS =
+			include ?IPLND ❙
+
+	
+			andF : {n} prop^n ⟶ prop❘# andF 1 2❙
+
+			
+			andFI : {n,A:prop^n} ⟨'(⊦A..i)| i:n'⟩ ⟶ ⊦ andF n A❘# andFI 1 2❙
+			
+			andFE:  {n:NAT ,A:prop^n,i:NAT} ⊦ andF n A ⟶  DED (succ i) LEQ n ⟶ ⊦A..i❘# 2 andFE 1❙
+
+❚
+
+
+
+theory Flexary_or : ur:?LFS =
+	include ?IPLND ❙
+	
+		orF : {n} prop^n ⟶ prop❘# orF 1 2❙
+		
+		orFI : {n,i,A:prop^n} DED (succ i) LEQ n ⟶ ⊦ A..i ⟶ ⊦ orF n A❙
+		
+		orFE: {n,A:prop^n,B} ⊦ orF n A ⟶ ⟨'(⊦A..i ⟶ ⊦B )| i:n'⟩ ⟶ ⊦ B❙
+
+❚
+
+
+
+theory Flexary_impl : ur:?LFS =
+	include ?IPLND ❙
+		implF : {n} prop^n ⟶ prop⟶ prop❘# implF 1 2❙
+		
+		implFI : {n,A:prop^n,C} (⊦ A ⟶ ⊦ C) ⟶ ⊦ implF n A C❙
+		
+		implFE : {n,A:prop^n,C} ⊦ implF n A C ⟶ ⟨'(⊦A..i)| i:n'⟩⟶ ⊦C❙
+
+❚
+
+theory Flexary_PL =
+		include ?PLND❙
+		include ?Flexary_and❙
+		include ?Flexary_or❙
+		include ?Flexary_impl❙
+❚
+
+theory And3 =
+		include ?IPLND❙
+	
+			and3 : prop ⟶ prop ⟶ prop ⟶ prop❘#and3 1 2 3❘
+					= [A,B,C] A ∧ B ∧ C❙
+
+			and3E1 : {A,B,C} ⊦  and3 A B C ⟶ ⊦ A ❘
+				= [A,B,C,q] q andEl andEl ❙
+			
+			and3E2 : {A,B,C} ⊦  and3 A B C ⟶ ⊦ B ❘
+				= [A,B,C,q] q andEl  andEr ❙
+				
+			and3E3 : {A,B,C} ⊦  and3 A B C ⟶ ⊦ C ❘
+				= [A,B,C,q] q andEr ❙
+			and3I : {A,B,C} ⊦ A ⟶ ⊦ B ⟶ ⊦ C ⟶ ⊦ and3 A B C❘
+				= [A,B,C,q,p,k] andI (andI q p) k❙
+❚
+			
+theory Or3 =
+		include ?IPLND❙
+
+			or3 : prop ⟶ prop ⟶ prop ⟶ prop❘#or3 1 2 3❘
+					= [A,B,C] A ∨ B ∨ C❙
+
+			or3E : {A,B,C,D} ⊦ or3 A B C ⟶ (⊦A ⟶ ⊦ D) ⟶ (⊦B ⟶ ⊦ D) ⟶ (⊦C ⟶ ⊦ D) ⟶ ⊦ D❘
+				= [A,B,C,D,q,p,k,t] q orE ([e] e orE p k) t ❙
+			
+			or3I1 : {A,B,C} ⊦ A ⟶ ⊦ or3 A B C❘
+				= [A,B,C,q]  q orIl orIl❙
+				
+			or3I2 : {A,B,C} ⊦ B ⟶ ⊦ or3 A B C❘
+				= [A,B,C,q]  q orIr orIl❙
+			or3I3 : {A,B,C}  ⊦ C ⟶ ⊦ or3 A B C❘
+				= [A,B,C,q] q orIr❙
+❚
+
+theory Impl2 =
+		include ?IPLND❙
+
+		impl2 : prop ⟶ prop ⟶ prop ⟶ prop❘# impl2 1 2 3❘
+			= [A,B,C] A ⇒ B ⇒ C❙
+		
+		impl2E :  {A,B,C} ⊦ impl2 A B C ⟶ ⊦ A ⟶ ⊦ B  ⟶ ⊦ C❘
+			= [A,B,C,q,p,k] (q implE p)implE k ❙
+
+		impl2I : {A,B,C} (⊦ A ⟶ (⊦ B ⟶ ⊦ C)) ⟶ ⊦ impl2 A B C❘
+			= [A,B,C,q] implI [p] implI [k] q p k❙
+❚
+
+
+
+theory Derived_and =
+			include ?IPLND❙
+			include ?And3❙
+			
+			asssoc_and : {A,B,C} ⊦ (A ∧ (B ∧ C)) ⇔ ((A ∧ B) ∧ C)❘ 
+					= [A,B,C] equivI ([q] andI (andI (q andEl)(q andEr andEl))(q andEr andEr)) 
+										 ([q] andI (q andEl andEl)(andI (q andEl andEr)(q andEr)))❙
+												 
+❚
+
+
+theory Derived_or =
+			include ?IPLND❙
+			include ?Or3❙
+
+			assoc_or : {A,B,C} ⊦ (A ∨ (B ∨ C)) ⇔ ((A ∨ B) ∨ C)❘  
+					= [A,B,C] equivI ([q] q orE ([p] (p orIl) orIl) ([p] p orE ([k] k orIr orIl)([k] k orIr))) 
+										 ([q] q orE ([p] p orE ([k] k orIl)([k] k orIl orIr) )([p] p orIr orIr))❙
+❚
+
+theory Derived_impl =
+		include ?Impl2❙
+
+❚
+
+theory Derived_and_or =
+		include ?IPLND❙
+
+		distrib_and_or_right_in : {A,B,C} ⊦ (A ∧ (B ∨ C)) ⟶ ⊦ ((A  ∧ B ) ∨ (A ∧ C))❘
+		= [A,B,C] ([p] ((p andEr) orE ([q] ((andI (p andEl) q) orIl))([q]((andI (p andEl) q) orIr))))❙
+		
+		distrib_and_or_right_out : {A,B,C} ⊦ ((A ∧ B ) ∨ (A ∧ C)) ⟶ ⊦ (A ∧ (B ∨ C))❘
+		= [A,B,C] (([p](p orE ([q](andI (q andEl) ((q andEr)orIl))) ([q](andI (q andEl) ((q andEr)orIr))))))❙
+		
+		distrib_and_or_right : {A,B,C} ⊦ (A ∧ (B ∨ C)) ⇔ ((A  ∧ B ) ∨ (A ∧ C)) ❘role dnf❘
+		= [A,B,C] equivI ([p] distrib_and_or_right_in p)
+						 				 ([p] distrib_and_or_right_out p)❙
+						 				 
+						 				 
+		distrib_or_and_right_in : {A,B,C} ⊦ (A ∨ (B ∧ C)) ⟶ ⊦ ((A ∨ B ) ∧ (A ∨ C)) ❘
+		= [A,B,C] ([p] p orE ([q] andI (q orIl) (q orIl)) ([q] andI (q andEl orIr )(q andEr orIr))) ❙
+		
+		distrib_or_and_right_out : {A,B,C} ⊦ ((A ∨ B) ∧ (A ∨ C)) ⟶ ⊦ (A ∨ (B ∧ C)) ❘
+		= [A,B,C] ([p] (p andEl) orE ([q] q orIl)([q] (p andEr) orE ([k] k orIl)([k](andI q k) orIr)))❙
+		
+		distrib_or_and_right: {A,B,C} ⊦ (A ∨ (B ∧ C)) ⇔ ((A ∨ B) ∧ (A ∨ C))❘role cnf❘
+		= [A,B,C] equivI ([p] distrib_or_and_right_in p) 
+										 ([p] distrib_or_and_right_out p)❙
+❚
+
+
+
+theory Derived_impl_or =
+		include ?IPLND❙
+	
+		distrib_impl_or_left_in:	{A,B,C} ⊦  ((A ∨ B)  ⇒ C) ⟶ ⊦  ((A ⇒ C )∧ (B ⇒ C)) ❘
+		= [A,B,C] ([q] andI (implI [p] (q implE (p orIl) )) (implI [p] (q implE (p orIr)))) ❙
+
+		distrib_impl_or_left_out:	{A,B,C} ⊦  ((A ⇒ C )∧ ( B ⇒ C)) ⟶ ⊦  ((A ∨ B) ⇒ C) ❘			
+		= [A,B,C] ([q] implI [p] (p orE ([k] (q andEl implE k))([k] (q andEr implE k)))) ❙
+		
+		distrib_impl_or_left : {A,B,C} ⊦ ((A ∨ B) ⇒ C) ⇔ ((A ⇒ C ) ∧ (B ⇒ C))❘
+		= [A,B,C] equivI ([q] distrib_impl_or_left_in q) 
+										 ([q] distrib_impl_or_left_out q)❙									 
+										 
+		distrib_or_impl_left_in: {A,B,C} ⊦ ((A ⇒ B) ∨ (A ⇒ C)) ⟶ ⊦ A ⇒ (B ∨ C)❘
+		= [A,B,C]  ([q] q orE ([k] implI([t] (k implE t) orIl))([k] implI([t] (k implE t) orIr)))❙
+❚
+
+
+
+theory Derived_impl_and =
+		include ?IPLND❙
+		
+		distrib_impl_and_right_in : {A,B,C} ⊦ A ⇒(B ∧ C) ⟶ ⊦ ((A ⇒ B) ∧ (A ⇒ C))❘
+		= [A,B,C]  ([q] andI (implI [p] (q implE p)  andEl) (implI [p] (q implE p) andEr)) ❙	
+		
+		distrib_impl_and_right_out : {A,B,C} ⊦ ((A ⇒ B) ∧ (A ⇒ C))  ⟶  ⊦A ⇒ (B ∧ C)❘
+		= [A,B,C]  ([q] implI [p] andI ((q andEl) implE p)((q andEr) implE p))❙				
+
+		distrib_impl_and_right: {A,B,C} ⊦ A ⇒ (B ∧ C) ⇔ ((A ⇒ B) ∧ (A ⇒ C))❘
+		= [A,B,C] equivI ([q] distrib_impl_and_right_in q) 
+										 ([q] distrib_impl_and_right_out q)❙	
+										 
+❚
+		
+		
+theory Derived_IPL =
+	include ?IPLND❙	
+	include ?Derived_and❙
+	include ?Derived_or❙
+	include ?Derived_impl❙
+  include ?Derived_and_or❙
+  include ?Derived_impl_or❙
+  include ?Derived_impl_and❙
+
+❚
+
+theory Derived_impl_classical =
+		include ?PLND❙
+		
+		impl_via_or_not_in: {A,B} ⊦ B ⇒ A ⟶ ⊦ A ∨ ¬ B ❘
+			= [A,B] ([q] (tnd orE ([k] (q implE k) orIl) ([k] k orIr)))❙
+			
+		impl_via_or_not_out: {A,B} ⊦ A ∨ ¬ B ⟶ ⊦ B ⇒ A❘
+			= [A,B] ([q] implI [p] (q orE ([k] k )([k] dne notI ([t] k notE p))))❙
+			
+		impl_via_or_not: {A,B} ⊦ B ⇒ A ⇔ A ∨ ¬ B❘role nnf❘
+			= [A,B] equivI ([q] impl_via_or_not_in q) 
+										([q] impl_via_or_not_out q)❙
+		
+❚
+
+
+theory Derived_impl_and_classical =
+		include ?PLND❙
+		
+		distrib_impl_and_left_in: {A,B,C}	 ⊦ ((A ∧ B) ⇒ C) ⟶ ⊦ ((A ⇒ C) ∨ (B ⇒ C))❘ 
+		= [A,B,C] ([q]  tnd orE ([p] (implI ([k] q implE (andI p k)))orIr)([p](((implI ([k] tnd orE ([t] t)([t] dne notI ([e] (p notE k)))))) orIl)))❙
+		
+		distrib_impl_and_left_out: {A,B,C} ⊦ ((A ⇒ C) ∨ (B ⇒ C)) ⟶ ⊦ ((A ∧ B) ⇒ C)	❘ 
+		= [A,B,C]  ([q] implI ([p](q orE ([k] k implE (p andEl)) ([k] k implE (p andEr)))))❙
+		
+		distrib_impl_and_left : {A,B,C} ⊦ ((A ∧ B) ⇒ C) ⇔ ((A ⇒ C) ∨ (B ⇒ C))❘
+		= [A,B,C] equivI   ([q] distrib_impl_and_left_in q)
+											 ([q] distrib_impl_and_left_out q)❙
+❚
+
+
+theory Derived_PL =
+		include ?PLND❙
+		include ?Derived_IPL❙		
+		include ?Derived_impl_classical❙		
+		include ?Derived_impl_and_classical❙
+			
+❚
+
+
+theory Nnf_or =
+		include ?IPLND❙
+		
+		nnf_or_in: {A,B} ⊦ ¬(A ∨ B) ⟶  ⊦ (¬A  ∧ ¬ B)❘
+			= [A,B]  ([q] andI (notI [p] q notE (p orIl))(notI [p] q notE (p orIr)))❙
+		
+		nnf_or_out : {A,B} ⊦ ((¬A) ∧ (¬ B)) ⟶ ⊦ ¬ (A ∨ B) ❘
+			= [A,B] ([q] notI ([p] (p orE ([k] notI ([t] q andEl notE k))([k] notI ([t] q andEr notE k))) notE p))❙
+		
+		nnf_or: {A,B} ⊦ ¬ (A ∨ B) ⇔ (¬A ∧ ¬B)❘role nnf❘
+			= [A,B] equivI  ([q] nnf_or_in q)
+										([q] nnf_or_out q)❙
+		
+❚
+
+theory Nnf_and =
+		include ?IPLND❙
+		
+		nnf_and_out : {A,B}  ⊦ ¬A  ∨ ¬B  ⟶ ⊦ ¬(A ∧ B)❘
+			= [A,B] [q]  q orE ([k] notI [p] k notE (p andEl)) ([k] notI [p]  k notE (p andEr))❙
+❚
+
+theory Nnf_IPL =
+		include ?IPLND❙
+		include ?Nnf_or❙
+		include ?Nnf_and❙
+
+❚
+
+
+theory Nnf_and_classic =
+		include ?PLND❙
+		include ?Nnf_and❙
+
+		
+		nnf_and_in: {A,B} ⊦ ¬ (A ∧ B) ⟶ ⊦ ¬A  ∨ ¬ B❘
+			= [A,B] ([q] dne (notI ([p] (q notE andI(dne notI ([k] p notE (k orIl)) )(dne notI ([k] p notE (k orIr)))))))❙
+		
+		nnf_and: {A,B} ⊦ ¬ (A ∧ B) ⇔ ¬A  ∨ ¬ B❘role nnf❘
+			= [A,B] equivI ([q] nnf_and_in q)   
+									 ([q] nnf_and_out q)❙
+❚
+
+theory Nnf_PL =
+		include ?PLND❙
+		include ?Nnf_IPL❙
+		include ?Nnf_and_classic❙
+❚
+
+theory And_functor =
+		include ?IPLND❙
+		
+		and_functor_right : {A,B,C} ⊦ A ∧ B ⟶ (⊦ B ⟶ ⊦ C) ⟶ ⊦ A ∧  C❘
+			= [A,B,C,p,q] andI (p andEl ) (q(p andEr))❙
+
+		and_functor_left : {A,B,C} ⊦ A ∧ B ⟶ (⊦ A ⟶ ⊦ C) ⟶ ⊦ C ∧  B❘
+			= [A,B,C,p,q] andI (q (p andEl)) (p andEr )❙
+❚
+	
+
+theory Or_functor =
+		include ?IPLND❙
+		
+		or_functor_right : {A,B,C} ⊦ A ∨ B ⟶ (⊦B ⟶ ⊦C) ⟶ ⊦ A ∨ C ❘
+				= [A,B,C,q,p] q orE ([k] k orIl) ([k] (p k) orIr) ❙
+		
+		or_functor_left : {A,B,C} ⊦ A ∨ B ⟶ (⊦A ⟶ ⊦C) ⟶ ⊦ C ∨ B ❘
+				= [A,B,C,q,p] q orE ([k]  (p k) orIl) ([k] k orIr) ❙
+		
+❚
+
+theory Implication_functor =
+	include ?IPLND❙
+	
+	implication_functor_right : {A,B,C} ⊦ A ⇒ B ⟶ (⊦B ⟶ ⊦C) ⟶ ⊦ A ⇒ C ❘
+				= [A,B,C,p,q] implI [k] (q (p implE k))❙
+❚
+
+
+
