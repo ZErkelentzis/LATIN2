@@ -37,19 +37,19 @@ constant latin:/?SoftTypedDefinedFOL?exists
 DependsOn latin:/?SoftTypedDefinedFOL?exists?type latin:/?Propositions?prop?type
 DependsOn latin:/?SoftTypedDefinedFOL?exists?type latin:/?Terms?term?type
 DependsOn latin:/?SoftTypedDefinedFOL?exists?definition latin:/?Propositions?prop?type
+DependsOn latin:/?SoftTypedDefinedFOL?exists?definition latin:/?UniversalQuantification?uforall?type
 DependsOn latin:/?SoftTypedDefinedFOL?exists?definition latin:/?Negation?not?type
 DependsOn latin:/?SoftTypedDefinedFOL?exists?definition latin:/?Terms?term?type
-DependsOn latin:/?SoftTypedDefinedFOL?exists?definition latin:/?UniversalQuantification?forall?type
 Declares latin:/?SoftTypedDefinedFOL latin:/?SoftTypedDefinedFOL?existsUnique
 constant latin:/?SoftTypedDefinedFOL?existsUnique
 DependsOn latin:/?SoftTypedDefinedFOL?existsUnique?type latin:/?Propositions?prop?type
 DependsOn latin:/?SoftTypedDefinedFOL?existsUnique?type latin:/?Terms?term?type
 DependsOn latin:/?SoftTypedDefinedFOL?existsUnique?definition latin:/?Propositions?prop?type
+DependsOn latin:/?SoftTypedDefinedFOL?existsUnique?definition latin:/?UniversalQuantification?uforall?type
 DependsOn latin:/?SoftTypedDefinedFOL?existsUnique?definition latin:/?Conjunction?and?type
 DependsOn latin:/?SoftTypedDefinedFOL?existsUnique?definition latin:/?SoftTypedDefinedFOL?implies?type
 DependsOn latin:/?SoftTypedDefinedFOL?existsUnique?definition latin:/?Terms?term?type
-DependsOn latin:/?SoftTypedDefinedFOL?existsUnique?definition latin:/?UniversalQuantification?forall?type
-DependsOn latin:/?SoftTypedDefinedFOL?existsUnique?definition latin:/?UntypedEquality?equal?type
+DependsOn latin:/?SoftTypedDefinedFOL?existsUnique?definition latin:/?UntypedEquality?uequal?type
 DependsOn latin:/?SoftTypedDefinedFOL?existsUnique?definition latin:/?SoftTypedDefinedFOL?exists?type
 Declares latin:/?SoftTypedDefinedFOL latin:/?SoftTypedDefinedFOL?for
 constant latin:/?SoftTypedDefinedFOL?for
@@ -58,10 +58,10 @@ DependsOn latin:/?SoftTypedDefinedFOL?for?type latin:/?Terms?term?type
 DependsOn latin:/?SoftTypedDefinedFOL?for?type latin:/?Types?tp?type
 DependsOn latin:/?SoftTypedDefinedFOL?for?definition latin:/?SoftTypedTerms?of?type
 DependsOn latin:/?SoftTypedDefinedFOL?for?definition latin:/?Propositions?prop?type
+DependsOn latin:/?SoftTypedDefinedFOL?for?definition latin:/?UniversalQuantification?uforall?type
 DependsOn latin:/?SoftTypedDefinedFOL?for?definition latin:/?SoftTypedDefinedFOL?implies?type
 DependsOn latin:/?SoftTypedDefinedFOL?for?definition latin:/?Terms?term?type
 DependsOn latin:/?SoftTypedDefinedFOL?for?definition latin:/?Types?tp?type
-DependsOn latin:/?SoftTypedDefinedFOL?for?definition latin:/?UniversalQuantification?forall?type
 Declares latin:/?SoftTypedDefinedFOL latin:/?SoftTypedDefinedFOL?ex
 constant latin:/?SoftTypedDefinedFOL?ex
 DependsOn latin:/?SoftTypedDefinedFOL?ex?type latin:/?Propositions?prop?type

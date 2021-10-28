@@ -58,8 +58,8 @@ DependsOn latin:/algebraic?SubMagma?op?type latin:/?Propositions?prop?type
 DependsOn latin:/algebraic?SubMagma?op?type latin:/algebraic?SubSet?universe?type
 DependsOn latin:/algebraic?SubMagma?op?type latin:/algebraic?SubSet?parent/U?type
 DependsOn latin:/algebraic?SubMagma?op?type latin:/?Proofs?ded?type
-DependsOn latin:/algebraic?SubMagma?op?type latin:/?TypedUniversalQuantification?forall?type
 DependsOn latin:/algebraic?SubMagma?op?type latin:/algebraic?SubMagma?parent/op?type
+DependsOn latin:/algebraic?SubMagma?op?type latin:/?TypedUniversalQuantification?tforall?type
 DependsOn latin:/algebraic?SubMagma?op?type latin:/?Types?tp?type
 DependsOn latin:/algebraic?SubMagma?op?type latin:/?Implication?impl?type
 DependsOn latin:/algebraic?SubMagma?op?type latin:/algebraic?SubSet?parent/U?definition

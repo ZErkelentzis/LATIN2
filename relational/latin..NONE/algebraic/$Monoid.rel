@@ -16,7 +16,7 @@ DependsOn latin:/algebraic?Monoid?inverse?definition latin:/?TypedTerms?tm?type
 DependsOn latin:/algebraic?Monoid?inverse?definition latin:/?Propositions?prop?type
 DependsOn latin:/algebraic?Monoid?inverse?definition latin:/algebraic?Set?U?type
 DependsOn latin:/algebraic?Monoid?inverse?definition latin:/?Conjunction?and?type
-DependsOn latin:/algebraic?Monoid?inverse?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/algebraic?Monoid?inverse?definition latin:/?TypedEquality?tequal?type
 DependsOn latin:/algebraic?Monoid?inverse?definition latin:/algebraic?Magma?op?type
 DependsOn latin:/algebraic?Monoid?inverse?definition latin:/?Types?tp?type
 DependsOn latin:/algebraic?Monoid?inverse?definition latin:/algebraic?Set?universe?type
@@ -32,7 +32,7 @@ DependsOn latin:/algebraic?Monoid?inverse_sym?type latin:/?Types?tp?type
 DependsOn latin:/algebraic?Monoid?inverse_sym?type latin:/algebraic?Set?universe?type
 DependsOn latin:/algebraic?Monoid?inverse_sym?definition latin:/?TypedTerms?tm?type
 DependsOn latin:/algebraic?Monoid?inverse_sym?definition latin:/?Propositions?prop?type
-DependsOn latin:/algebraic?Monoid?inverse_sym?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/algebraic?Monoid?inverse_sym?definition latin:/?TypedEquality?tequal?type
 DependsOn latin:/algebraic?Monoid?inverse_sym?definition latin:/?ConjunctionNDE?andEr?type
 DependsOn latin:/algebraic?Monoid?inverse_sym?definition latin:/algebraic?Set?universe?type
 DependsOn latin:/algebraic?Monoid?inverse_sym?definition latin:/algebraic?Set?U?type
@@ -49,7 +49,7 @@ constant latin:/algebraic?Monoid?inverse_unique
 DependsOn latin:/algebraic?Monoid?inverse_unique?type latin:/?TypedTerms?tm?type
 DependsOn latin:/algebraic?Monoid?inverse_unique?type latin:/?Propositions?prop?type
 DependsOn latin:/algebraic?Monoid?inverse_unique?type latin:/algebraic?Set?U?type
-DependsOn latin:/algebraic?Monoid?inverse_unique?type latin:/?TypedEquality?equal?type
+DependsOn latin:/algebraic?Monoid?inverse_unique?type latin:/?TypedEquality?tequal?type
 DependsOn latin:/algebraic?Monoid?inverse_unique?type latin:/?Proofs?ded?type
 DependsOn latin:/algebraic?Monoid?inverse_unique?type latin:/algebraic?Monoid?inverse?type
 DependsOn latin:/algebraic?Monoid?inverse_unique?type latin:/?Types?tp?type
@@ -57,10 +57,11 @@ DependsOn latin:/algebraic?Monoid?inverse_unique?type latin:/algebraic?Set?unive
 DependsOn latin:/algebraic?Monoid?inverse_unique?definition latin:/algebraic?RightUnital?neutR?type
 DependsOn latin:/algebraic?Monoid?inverse_unique?definition latin:/?TypedTerms?tm?type
 DependsOn latin:/algebraic?Monoid?inverse_unique?definition latin:/?Propositions?prop?type
-DependsOn latin:/algebraic?Monoid?inverse_unique?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/algebraic?Monoid?inverse_unique?definition latin:/?TypedEquality?tequal?type
+DependsOn latin:/algebraic?Monoid?inverse_unique?definition latin:/?TypedEqualityND?ttrans?type
 DependsOn latin:/algebraic?Monoid?inverse_unique?definition latin:/?ConjunctionNDE?andEr?type
-DependsOn latin:/algebraic?Monoid?inverse_unique?definition latin:/?TypedEqualityND?trans3?type
 DependsOn latin:/algebraic?Monoid?inverse_unique?definition latin:/algebraic?Set?universe?type
+DependsOn latin:/algebraic?Monoid?inverse_unique?definition latin:/?TypedEqualityND?tcongT?type
 DependsOn latin:/algebraic?Monoid?inverse_unique?definition latin:/algebraic?Set?U?type
 DependsOn latin:/algebraic?Monoid?inverse_unique?definition latin:/algebraic?Semigroup?assocR?type
 DependsOn latin:/algebraic?Monoid?inverse_unique?definition latin:/?Conjunction?and?type
@@ -68,13 +69,12 @@ DependsOn latin:/algebraic?Monoid?inverse_unique?definition latin:/algebraic?Set
 DependsOn latin:/algebraic?Monoid?inverse_unique?definition latin:/algebraic?Magma?op?type
 DependsOn latin:/algebraic?Monoid?inverse_unique?definition latin:/?Proofs?ded?type
 DependsOn latin:/algebraic?Monoid?inverse_unique?definition latin:/algebraic?LeftUnital?neutL?type
-DependsOn latin:/algebraic?Monoid?inverse_unique?definition latin:/?TypedEqualityND?sym?type
+DependsOn latin:/algebraic?Monoid?inverse_unique?definition latin:/?TypedEqualityND?tsym?type
 DependsOn latin:/algebraic?Monoid?inverse_unique?definition latin:/algebraic?Monoid?inverse?type
-DependsOn latin:/algebraic?Monoid?inverse_unique?definition latin:/?TypedEqualityND?trans?type
 DependsOn latin:/algebraic?Monoid?inverse_unique?definition latin:/?ConjunctionNDE?andEl?type
+DependsOn latin:/algebraic?Monoid?inverse_unique?definition latin:/?TypedEqualityND?ttrans3?type
 DependsOn latin:/algebraic?Monoid?inverse_unique?definition latin:/?Types?tp?type
 DependsOn latin:/algebraic?Monoid?inverse_unique?definition latin:/algebraic?UnitElement?unitelem/elem?type
-DependsOn latin:/algebraic?Monoid?inverse_unique?definition latin:/?TypedEqualityND?congT?type
 Declares latin:/algebraic?Monoid latin:/algebraic?Monoid?inverse_neutral
 constant latin:/algebraic?Monoid?inverse_neutral
 DependsOn latin:/algebraic?Monoid?inverse_neutral?type latin:/?Propositions?prop?type
@@ -86,7 +86,7 @@ DependsOn latin:/algebraic?Monoid?inverse_neutral?definition latin:/?TypedTerms?
 DependsOn latin:/algebraic?Monoid?inverse_neutral?definition latin:/?Propositions?prop?type
 DependsOn latin:/algebraic?Monoid?inverse_neutral?definition latin:/algebraic?Set?U?type
 DependsOn latin:/algebraic?Monoid?inverse_neutral?definition latin:/?Conjunction?and?type
-DependsOn latin:/algebraic?Monoid?inverse_neutral?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/algebraic?Monoid?inverse_neutral?definition latin:/?TypedEquality?tequal?type
 DependsOn latin:/algebraic?Monoid?inverse_neutral?definition latin:/?Proofs?ded?type
 DependsOn latin:/algebraic?Monoid?inverse_neutral?definition latin:/algebraic?LeftUnital?neutL?type
 DependsOn latin:/algebraic?Monoid?inverse_neutral?definition latin:/?ConjunctionNDI?andI?type
@@ -106,10 +106,10 @@ DependsOn latin:/algebraic?Monoid?inverse_op?type latin:/?Types?tp?type
 DependsOn latin:/algebraic?Monoid?inverse_op?type latin:/algebraic?Set?universe?type
 DependsOn latin:/algebraic?Monoid?inverse_op?definition latin:/?TypedTerms?tm?type
 DependsOn latin:/algebraic?Monoid?inverse_op?definition latin:/?Propositions?prop?type
-DependsOn latin:/algebraic?Monoid?inverse_op?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/algebraic?Monoid?inverse_op?definition latin:/?TypedEquality?tequal?type
 DependsOn latin:/algebraic?Monoid?inverse_op?definition latin:/?ConjunctionNDE?andEr?type
-DependsOn latin:/algebraic?Monoid?inverse_op?definition latin:/?TypedEqualityND?trans3?type
 DependsOn latin:/algebraic?Monoid?inverse_op?definition latin:/algebraic?Set?universe?type
+DependsOn latin:/algebraic?Monoid?inverse_op?definition latin:/?TypedEqualityND?tcongT?type
 DependsOn latin:/algebraic?Monoid?inverse_op?definition latin:/algebraic?Set?U?type
 DependsOn latin:/algebraic?Monoid?inverse_op?definition latin:/algebraic?Semigroup?assocR?type
 DependsOn latin:/algebraic?Monoid?inverse_op?definition latin:/?Conjunction?and?type
@@ -120,10 +120,10 @@ DependsOn latin:/algebraic?Monoid?inverse_op?definition latin:/algebraic?LeftUni
 DependsOn latin:/algebraic?Monoid?inverse_op?definition latin:/algebraic?Monoid?inverse?type
 DependsOn latin:/algebraic?Monoid?inverse_op?definition latin:/?ConjunctionNDE?andEl?type
 DependsOn latin:/algebraic?Monoid?inverse_op?definition latin:/algebraic?Semigroup?assoc?type
+DependsOn latin:/algebraic?Monoid?inverse_op?definition latin:/?TypedEqualityND?ttrans3?type
 DependsOn latin:/algebraic?Monoid?inverse_op?definition latin:/?ConjunctionNDI?andI?type
 DependsOn latin:/algebraic?Monoid?inverse_op?definition latin:/?Types?tp?type
 DependsOn latin:/algebraic?Monoid?inverse_op?definition latin:/algebraic?UnitElement?unitelem/elem?type
-DependsOn latin:/algebraic?Monoid?inverse_op?definition latin:/?TypedEqualityND?congT?type
 Declares latin:/algebraic?Monoid latin:/algebraic?Monoid?involution_inverse
 constant latin:/algebraic?Monoid?involution_inverse
 DependsOn latin:/algebraic?Monoid?involution_inverse?type latin:/?TypedTerms?tm?type
@@ -137,7 +137,7 @@ DependsOn latin:/algebraic?Monoid?involution_inverse?type latin:/?Types?tp?type
 DependsOn latin:/algebraic?Monoid?involution_inverse?type latin:/algebraic?Set?universe?type
 DependsOn latin:/algebraic?Monoid?involution_inverse?definition latin:/?TypedTerms?tm?type
 DependsOn latin:/algebraic?Monoid?involution_inverse?definition latin:/?Propositions?prop?type
-DependsOn latin:/algebraic?Monoid?involution_inverse?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/algebraic?Monoid?involution_inverse?definition latin:/?TypedEquality?tequal?type
 DependsOn latin:/algebraic?Monoid?involution_inverse?definition latin:/?EquivalenceNDI?equivI?type
 DependsOn latin:/algebraic?Monoid?involution_inverse?definition latin:/algebraic?Set?universe?type
 DependsOn latin:/algebraic?Monoid?involution_inverse?definition latin:/algebraic?Set?U?type

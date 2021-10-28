@@ -22,7 +22,7 @@ Declares latin:/?Applicative latin:/?Applicative?identity
 constant latin:/?Applicative?identity
 DependsOn latin:/?Applicative?identity?type latin:/?TypedTerms?tm?type
 DependsOn latin:/?Applicative?identity?type latin:/?Propositions?prop?type
-DependsOn latin:/?Applicative?identity?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?Applicative?identity?type latin:/?TypedEquality?tequal?type
 DependsOn latin:/?Applicative?identity?type latin:/?Category?ident?type
 DependsOn latin:/?Applicative?identity?type latin:/?SimpleFunctionTypes?simpfun?type
 DependsOn latin:/?Applicative?identity?type latin:/?Applicative?pure?type
@@ -35,7 +35,7 @@ Declares latin:/?Applicative latin:/?Applicative?homomorphism
 constant latin:/?Applicative?homomorphism
 DependsOn latin:/?Applicative?homomorphism?type latin:/?TypedTerms?tm?type
 DependsOn latin:/?Applicative?homomorphism?type latin:/?Propositions?prop?type
-DependsOn latin:/?Applicative?homomorphism?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?Applicative?homomorphism?type latin:/?TypedEquality?tequal?type
 DependsOn latin:/?Applicative?homomorphism?type latin:/?SimpleFunctionTypes?simpfun?type
 DependsOn latin:/?Applicative?homomorphism?type latin:/?SimpleFunctions?simpapply?type
 DependsOn latin:/?Applicative?homomorphism?type latin:/?Applicative?pure?type
@@ -48,7 +48,7 @@ Declares latin:/?Applicative latin:/?Applicative?interchange
 constant latin:/?Applicative?interchange
 DependsOn latin:/?Applicative?interchange?type latin:/?TypedTerms?tm?type
 DependsOn latin:/?Applicative?interchange?type latin:/?Propositions?prop?type
-DependsOn latin:/?Applicative?interchange?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?Applicative?interchange?type latin:/?TypedEquality?tequal?type
 DependsOn latin:/?Applicative?interchange?type latin:/?SimpleFunctionTypes?simpfun?type
 DependsOn latin:/?Applicative?interchange?type latin:/?Applicative?pure?type
 DependsOn latin:/?Applicative?interchange?type latin:/?Applicative?splat?type
@@ -61,7 +61,7 @@ Declares latin:/?Applicative latin:/?Applicative?composition
 constant latin:/?Applicative?composition
 DependsOn latin:/?Applicative?composition?type latin:/?TypedTerms?tm?type
 DependsOn latin:/?Applicative?composition?type latin:/?Propositions?prop?type
-DependsOn latin:/?Applicative?composition?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?Applicative?composition?type latin:/?TypedEquality?tequal?type
 DependsOn latin:/?Applicative?composition?type latin:/?SimpleFunctionTypes?simpfun?type
 DependsOn latin:/?Applicative?composition?type latin:/?Applicative?pure?type
 DependsOn latin:/?Applicative?composition?type latin:/?Applicative?splat?type

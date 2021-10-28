@@ -6,5 +6,16 @@ Includes latin:/?TypedDescription latin:/?TypedLogic
 Includes latin:/?TypedDescription latin:/?TypedUniqueExistentialQuantification
 Declares latin:/?TypedDescription latin:/?TypedDescription?tthe
 constant latin:/?TypedDescription?tthe
+DependsOn latin:/?TypedDescription?tthe?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?TypedDescription?tthe?type latin:/?Propositions?prop?type
+DependsOn latin:/?TypedDescription?tthe?type latin:/?TypedUniqueExistentialQuantification?texistsUnique?type
+DependsOn latin:/?TypedDescription?tthe?type latin:/?Proofs?ded?type
+DependsOn latin:/?TypedDescription?tthe?type latin:/?Types?tp?type
 Declares latin:/?TypedDescription latin:/?TypedDescription?tthe_ax
 constant latin:/?TypedDescription?tthe_ax
+DependsOn latin:/?TypedDescription?tthe_ax?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?TypedDescription?tthe_ax?type latin:/?Propositions?prop?type
+DependsOn latin:/?TypedDescription?tthe_ax?type latin:/?TypedDescription?tthe?type
+DependsOn latin:/?TypedDescription?tthe_ax?type latin:/?TypedUniqueExistentialQuantification?texistsUnique?type
+DependsOn latin:/?TypedDescription?tthe_ax?type latin:/?Proofs?ded?type
+DependsOn latin:/?TypedDescription?tthe_ax?type latin:/?Types?tp?type

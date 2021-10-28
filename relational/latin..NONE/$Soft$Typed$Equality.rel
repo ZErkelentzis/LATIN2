@@ -1,13 +1,13 @@
-dataconstructor latin:/?SoftTypedEquality?equal
+dataconstructor latin:/?SoftTypedEquality?requal
 dataconstructor latin:/?SoftTypedEquality?as
 theory latin:/?SoftTypedEquality
-HasMeta latin:/?SoftTypedEquality http://cds.omdoc.org/urtheories?LF
+HasMeta latin:/?SoftTypedEquality http://cds.omdoc.org/urtheories/?LF
 Includes latin:/?SoftTypedEquality latin:/?SoftTypedLogic
-Declares latin:/?SoftTypedEquality latin:/?SoftTypedEquality?equal
-constant latin:/?SoftTypedEquality?equal
-DependsOn latin:/?SoftTypedEquality?equal?type latin:/?Propositions?prop?type
-DependsOn latin:/?SoftTypedEquality?equal?type latin:/?Terms?term?type
-DependsOn latin:/?SoftTypedEquality?equal?type latin:/?Types?tp?type
+Declares latin:/?SoftTypedEquality latin:/?SoftTypedEquality?requal
+constant latin:/?SoftTypedEquality?requal
+DependsOn latin:/?SoftTypedEquality?requal?type latin:/?Propositions?prop?type
+DependsOn latin:/?SoftTypedEquality?requal?type latin:/?Terms?term?type
+DependsOn latin:/?SoftTypedEquality?requal?type latin:/?Types?tp?type
 Declares latin:/?SoftTypedEquality latin:/?SoftTypedEquality?as
 constant latin:/?SoftTypedEquality?as
 DependsOn latin:/?SoftTypedEquality?as?type latin:/?SoftTypedTerms?of?type

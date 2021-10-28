@@ -1,4 +1,4 @@
 theory latin:/?Monoid
-HasMeta latin:/?Monoid http://cds.omdoc.org/urtheories?LF
+HasMeta latin:/?Monoid http://cds.omdoc.org/urtheories/?LF
 Includes latin:/?Monoid latin:/?Semigroup
 Includes latin:/?Monoid latin:/?Neutral

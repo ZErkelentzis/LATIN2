@@ -26,12 +26,12 @@ DependsOn latin:/?InternallyTypedQuotients?equiv?type latin:/?Propositions?prop?
 DependsOn latin:/?InternallyTypedQuotients?equiv?type latin:/?InternallyTypedQuotients?class?type
 DependsOn latin:/?InternallyTypedQuotients?equiv?type latin:/?Proofs?ded?type
 DependsOn latin:/?InternallyTypedQuotients?equiv?type latin:/?Terms?term?type
-DependsOn latin:/?InternallyTypedQuotients?equiv?type latin:/?UntypedEquality?equal?type
+DependsOn latin:/?InternallyTypedQuotients?equiv?type latin:/?UntypedEquality?uequal?type
 Declares latin:/?InternallyTypedQuotients latin:/?InternallyTypedQuotients?quotientI
 constant latin:/?InternallyTypedQuotients?quotientI
 DependsOn latin:/?InternallyTypedQuotients?quotientI?type latin:/?InternallyTypedQuotients?quotient?type
 DependsOn latin:/?InternallyTypedQuotients?quotientI?type latin:/?Propositions?prop?type
-DependsOn latin:/?InternallyTypedQuotients?quotientI?type latin:/?InternalTypes?in?type
+DependsOn latin:/?InternallyTypedQuotients?quotientI?type latin:/?InternalTypes?cin?type
 DependsOn latin:/?InternallyTypedQuotients?quotientI?type latin:/?InternallyTypedQuotients?class?type
 DependsOn latin:/?InternallyTypedQuotients?quotientI?type latin:/?Proofs?ded?type
 DependsOn latin:/?InternallyTypedQuotients?quotientI?type latin:/?Terms?term?type
@@ -39,8 +39,8 @@ Declares latin:/?InternallyTypedQuotients latin:/?InternallyTypedQuotients?quoti
 constant latin:/?InternallyTypedQuotients?quotientE
 DependsOn latin:/?InternallyTypedQuotients?quotientE?type latin:/?InternallyTypedQuotients?quotient?type
 DependsOn latin:/?InternallyTypedQuotients?quotientE?type latin:/?Propositions?prop?type
-DependsOn latin:/?InternallyTypedQuotients?quotientE?type latin:/?InternalTypes?in?type
+DependsOn latin:/?InternallyTypedQuotients?quotientE?type latin:/?InternalTypes?cin?type
 DependsOn latin:/?InternallyTypedQuotients?quotientE?type latin:/?Proofs?ded?type
 DependsOn latin:/?InternallyTypedQuotients?quotientE?type latin:/?Terms?term?type
+DependsOn latin:/?InternallyTypedQuotients?quotientE?type latin:/?UntypedEquality?uequal?type
 DependsOn latin:/?InternallyTypedQuotients?quotientE?type latin:/?InternallyTypedQuotients?welldefined?type
-DependsOn latin:/?InternallyTypedQuotients?quotientE?type latin:/?UntypedEquality?equal?type

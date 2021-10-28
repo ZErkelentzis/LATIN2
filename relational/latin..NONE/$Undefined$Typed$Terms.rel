@@ -1,15 +1,15 @@
-dataconstructor latin:/?UndefinedTypedTerms?defined
-dataconstructor latin:/?UndefinedTypedTerms?strict_equal
+dataconstructor latin:/?UndefinedTypedTerms?tdefined
+dataconstructor latin:/?UndefinedTypedTerms?tstrict_equal
 theory latin:/?UndefinedTypedTerms
 HasMeta latin:/?UndefinedTypedTerms http://cds.omdoc.org/urtheories?LF
 Includes latin:/?UndefinedTypedTerms latin:/?TypedLogic
-Declares latin:/?UndefinedTypedTerms latin:/?UndefinedTypedTerms?defined
-constant latin:/?UndefinedTypedTerms?defined
-DependsOn latin:/?UndefinedTypedTerms?defined?type latin:/?TypedTerms?tm?type
-DependsOn latin:/?UndefinedTypedTerms?defined?type latin:/?Propositions?prop?type
-DependsOn latin:/?UndefinedTypedTerms?defined?type latin:/?Types?tp?type
-Declares latin:/?UndefinedTypedTerms latin:/?UndefinedTypedTerms?strict_equal
-constant latin:/?UndefinedTypedTerms?strict_equal
-DependsOn latin:/?UndefinedTypedTerms?strict_equal?type latin:/?TypedTerms?tm?type
-DependsOn latin:/?UndefinedTypedTerms?strict_equal?type latin:/?Propositions?prop?type
-DependsOn latin:/?UndefinedTypedTerms?strict_equal?type latin:/?Types?tp?type
+Declares latin:/?UndefinedTypedTerms latin:/?UndefinedTypedTerms?tdefined
+constant latin:/?UndefinedTypedTerms?tdefined
+DependsOn latin:/?UndefinedTypedTerms?tdefined?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?UndefinedTypedTerms?tdefined?type latin:/?Propositions?prop?type
+DependsOn latin:/?UndefinedTypedTerms?tdefined?type latin:/?Types?tp?type
+Declares latin:/?UndefinedTypedTerms latin:/?UndefinedTypedTerms?tstrict_equal
+constant latin:/?UndefinedTypedTerms?tstrict_equal
+DependsOn latin:/?UndefinedTypedTerms?tstrict_equal?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?UndefinedTypedTerms?tstrict_equal?type latin:/?Propositions?prop?type
+DependsOn latin:/?UndefinedTypedTerms?tstrict_equal?type latin:/?Types?tp?type

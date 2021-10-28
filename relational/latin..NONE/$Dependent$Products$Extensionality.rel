@@ -4,11 +4,11 @@ HasMeta latin:/?DependentProductsExtensionality http://cds.omdoc.org/urtheories?
 Includes latin:/?DependentProductsExtensionality latin:/?DependentProducts
 Declares latin:/?DependentProductsExtensionality latin:/?DependentProductsExtensionality?exten
 constant latin:/?DependentProductsExtensionality?exten
-DependsOn latin:/?DependentProductsExtensionality?exten?type latin:/?TypeEqualityND?tpeq/[latin:/?UntypedEquality]/equal?type
 DependsOn latin:/?DependentProductsExtensionality?exten?type latin:/?TypedTerms?tm?type
 DependsOn latin:/?DependentProductsExtensionality?exten?type latin:/?Propositions?prop?type
+DependsOn latin:/?DependentProductsExtensionality?exten?type latin:/?TypeEqualityND?tpeq/[latin:/?UntypedEquality]/uequal?type
 DependsOn latin:/?DependentProductsExtensionality?exten?type latin:/?DependentProductTypes?depprod?type
-DependsOn latin:/?DependentProductsExtensionality?exten?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?DependentProductsExtensionality?exten?type latin:/?TypedEquality?tequal?type
 DependsOn latin:/?DependentProductsExtensionality?exten?type latin:/?DependentTypeEquality?transport?type
 DependsOn latin:/?DependentProductsExtensionality?exten?type latin:/?DependentProducts?deppi2?type
 DependsOn latin:/?DependentProductsExtensionality?exten?type latin:/?DependentProducts?deppi1?type

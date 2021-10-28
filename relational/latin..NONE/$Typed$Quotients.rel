@@ -21,7 +21,7 @@ Declares latin:/?TypedQuotients latin:/?TypedQuotients?equiv
 constant latin:/?TypedQuotients?equiv
 DependsOn latin:/?TypedQuotients?equiv?type latin:/?TypedTerms?tm?type
 DependsOn latin:/?TypedQuotients?equiv?type latin:/?Propositions?prop?type
-DependsOn latin:/?TypedQuotients?equiv?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?TypedQuotients?equiv?type latin:/?TypedEquality?tequal?type
 DependsOn latin:/?TypedQuotients?equiv?type latin:/?TypedQuotients?class?type
 DependsOn latin:/?TypedQuotients?equiv?type latin:/?TypedQuotients?quotient?type
 DependsOn latin:/?TypedQuotients?equiv?type latin:/?Proofs?ded?type
@@ -30,7 +30,7 @@ Declares latin:/?TypedQuotients latin:/?TypedQuotients?welldefined
 constant latin:/?TypedQuotients?welldefined
 DependsOn latin:/?TypedQuotients?welldefined?type latin:/?TypedTerms?tm?type
 DependsOn latin:/?TypedQuotients?welldefined?type latin:/?Propositions?prop?type
-DependsOn latin:/?TypedQuotients?welldefined?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?TypedQuotients?welldefined?type latin:/?TypedEquality?tequal?type
 DependsOn latin:/?TypedQuotients?welldefined?type latin:/?TypedQuotients?quotient?type
 DependsOn latin:/?TypedQuotients?welldefined?type latin:/?Proofs?ded?type
 DependsOn latin:/?TypedQuotients?welldefined?type latin:/?Types?tp?type

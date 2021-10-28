@@ -5,5 +5,17 @@ HasMeta latin:/?TypedUniqueExistentialQuantificationND http://cds.omdoc.org/urth
 Includes latin:/?TypedUniqueExistentialQuantificationND latin:/?TypedUniqueExistentialQuantification
 Declares latin:/?TypedUniqueExistentialQuantificationND latin:/?TypedUniqueExistentialQuantificationND?texistsUniqueI
 constant latin:/?TypedUniqueExistentialQuantificationND?texistsUniqueI
+DependsOn latin:/?TypedUniqueExistentialQuantificationND?texistsUniqueI?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?TypedUniqueExistentialQuantificationND?texistsUniqueI?type latin:/?Propositions?prop?type
+DependsOn latin:/?TypedUniqueExistentialQuantificationND?texistsUniqueI?type latin:/?TypedEquality?tequal?type
+DependsOn latin:/?TypedUniqueExistentialQuantificationND?texistsUniqueI?type latin:/?TypedUniqueExistentialQuantification?texistsUnique?type
+DependsOn latin:/?TypedUniqueExistentialQuantificationND?texistsUniqueI?type latin:/?Proofs?ded?type
+DependsOn latin:/?TypedUniqueExistentialQuantificationND?texistsUniqueI?type latin:/?Types?tp?type
 Declares latin:/?TypedUniqueExistentialQuantificationND latin:/?TypedUniqueExistentialQuantificationND?texistsUniqueE
 constant latin:/?TypedUniqueExistentialQuantificationND?texistsUniqueE
+DependsOn latin:/?TypedUniqueExistentialQuantificationND?texistsUniqueE?type latin:/?TypedTerms?tm?type
+DependsOn latin:/?TypedUniqueExistentialQuantificationND?texistsUniqueE?type latin:/?Propositions?prop?type
+DependsOn latin:/?TypedUniqueExistentialQuantificationND?texistsUniqueE?type latin:/?TypedEquality?tequal?type
+DependsOn latin:/?TypedUniqueExistentialQuantificationND?texistsUniqueE?type latin:/?TypedUniqueExistentialQuantification?texistsUnique?type
+DependsOn latin:/?TypedUniqueExistentialQuantificationND?texistsUniqueE?type latin:/?Proofs?ded?type
+DependsOn latin:/?TypedUniqueExistentialQuantificationND?texistsUniqueE?type latin:/?Types?tp?type

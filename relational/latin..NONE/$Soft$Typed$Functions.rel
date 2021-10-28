@@ -18,4 +18,4 @@ DependsOn latin:/?SoftTypedFunctions?beta?type latin:/?Propositions?prop?type
 DependsOn latin:/?SoftTypedFunctions?beta?type latin:/?Proofs?ded?type
 DependsOn latin:/?SoftTypedFunctions?beta?type latin:/?Terms?term?type
 DependsOn latin:/?SoftTypedFunctions?beta?type latin:/?SoftTypedFunctions?apply?type
-DependsOn latin:/?SoftTypedFunctions?beta?type latin:/?UntypedEquality?equal?type
+DependsOn latin:/?SoftTypedFunctions?beta?type latin:/?UntypedEquality?uequal?type

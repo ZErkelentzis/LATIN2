@@ -38,7 +38,7 @@ Declares latin:/?ClosureOperator latin:/?ClosureOperator?idempotent
 constant latin:/?ClosureOperator?idempotent
 DependsOn latin:/?ClosureOperator?idempotent?type latin:/?TypedTerms?tm?type
 DependsOn latin:/?ClosureOperator?idempotent?type latin:/?Propositions?prop?type
-DependsOn latin:/?ClosureOperator?idempotent?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?ClosureOperator?idempotent?type latin:/?TypedEquality?tequal?type
 DependsOn latin:/?ClosureOperator?idempotent?type latin:/?ClosureOperator?closure?type
 DependsOn latin:/?ClosureOperator?idempotent?type latin:/?Proofs?ded?type
 DependsOn latin:/?ClosureOperator?idempotent?type latin:/powertypes?PowerTypes?power?type

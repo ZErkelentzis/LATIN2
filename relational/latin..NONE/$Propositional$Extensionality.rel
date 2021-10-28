@@ -6,7 +6,7 @@ Declares latin:/?PropositionalExtensionality latin:/?PropositionalExtensionality
 constant latin:/?PropositionalExtensionality?propext
 DependsOn latin:/?PropositionalExtensionality?propext?type latin:/?TypedTerms?tm?type
 DependsOn latin:/?PropositionalExtensionality?propext?type latin:/?Propositions?prop?type
-DependsOn latin:/?PropositionalExtensionality?propext?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?PropositionalExtensionality?propext?type latin:/?TypedEquality?tequal?type
 DependsOn latin:/?PropositionalExtensionality?propext?type latin:/?InternalPropositions?bool?type
 DependsOn latin:/?PropositionalExtensionality?propext?type latin:/?Proofs?ded?type
 DependsOn latin:/?PropositionalExtensionality?propext?type latin:/?Propositions?prop?definition

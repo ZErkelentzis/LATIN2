@@ -1,6 +1,6 @@
 dataconstructor latin:/?Idempotent?idempotent
 theory latin:/?Idempotent
-HasMeta latin:/?Idempotent http://cds.omdoc.org/urtheories?LF
+HasMeta latin:/?Idempotent http://cds.omdoc.org/urtheories/?LF
 Includes latin:/?Idempotent latin:/?Magma
 Declares latin:/?Idempotent latin:/?Idempotent?idempotent
 constant latin:/?Idempotent?idempotent

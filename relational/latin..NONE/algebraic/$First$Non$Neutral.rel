@@ -6,13 +6,13 @@ Declares latin:/algebraic?FirstNonNeutral latin:/algebraic?FirstNonNeutral?first
 constant latin:/algebraic?FirstNonNeutral?firstNonNeutral
 DependsOn latin:/algebraic?FirstNonNeutral?firstNonNeutral?type latin:/?TypedTerms?tm?type
 DependsOn latin:/algebraic?FirstNonNeutral?firstNonNeutral?type latin:/?Propositions?prop?type
-DependsOn latin:/algebraic?FirstNonNeutral?firstNonNeutral?type latin:/?TypedEquality?equal?type
-DependsOn latin:/algebraic?FirstNonNeutral?firstNonNeutral?type latin:/?TypedUniversalQuantification?forall?type
+DependsOn latin:/algebraic?FirstNonNeutral?firstNonNeutral?type latin:/?TypedEquality?tequal?type
 DependsOn latin:/algebraic?FirstNonNeutral?firstNonNeutral?type latin:/algebraic?Set?universe?type
 DependsOn latin:/algebraic?FirstNonNeutral?firstNonNeutral?type latin:/?Implication?impl?type
 DependsOn latin:/algebraic?FirstNonNeutral?firstNonNeutral?type latin:/algebraic?Set?U?type
 DependsOn latin:/algebraic?FirstNonNeutral?firstNonNeutral?type latin:/algebraic?Magma?op?type
 DependsOn latin:/algebraic?FirstNonNeutral?firstNonNeutral?type latin:/?Proofs?ded?type
 DependsOn latin:/algebraic?FirstNonNeutral?firstNonNeutral?type latin:/?SFOLEQ?notequal?type
+DependsOn latin:/algebraic?FirstNonNeutral?firstNonNeutral?type latin:/?TypedUniversalQuantification?tforall?type
 DependsOn latin:/algebraic?FirstNonNeutral?firstNonNeutral?type latin:/?Types?tp?type
 DependsOn latin:/algebraic?FirstNonNeutral?firstNonNeutral?type latin:/algebraic?UnitElement?unitelem/elem?type

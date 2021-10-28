@@ -1,4 +1,4 @@
 theory latin:/?BoundedSemilattice
-HasMeta latin:/?BoundedSemilattice http://cds.omdoc.org/urtheories?LF
+HasMeta latin:/?BoundedSemilattice http://cds.omdoc.org/urtheories/?LF
 Includes latin:/?BoundedSemilattice latin:/?Semilattice
 Includes latin:/?BoundedSemilattice latin:/?CommMonoid

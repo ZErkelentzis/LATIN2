@@ -9,7 +9,7 @@ DependsOn latin:/?EndoFirstNonNeutral?firstNonNeutral?type latin:/?Propositions?
 DependsOn latin:/?EndoFirstNonNeutral?firstNonNeutral?type latin:/?EndoNeutral?e?type
 DependsOn latin:/?EndoFirstNonNeutral?firstNonNeutral?type latin:/?TypeOperator?applyType?type
 DependsOn latin:/?EndoFirstNonNeutral?firstNonNeutral?type latin:/?Logic?inconsistent?type
-DependsOn latin:/?EndoFirstNonNeutral?firstNonNeutral?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?EndoFirstNonNeutral?firstNonNeutral?type latin:/?TypedEquality?tequal?type
 DependsOn latin:/?EndoFirstNonNeutral?firstNonNeutral?type latin:/?EndoMagma?op?type
 DependsOn latin:/?EndoFirstNonNeutral?firstNonNeutral?type latin:/?Proofs?ded?type
 DependsOn latin:/?EndoFirstNonNeutral?firstNonNeutral?type latin:/?Types?tp?type

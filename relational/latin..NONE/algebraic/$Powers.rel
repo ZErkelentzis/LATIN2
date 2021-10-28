@@ -15,7 +15,7 @@ constant latin:/algebraic?Powers?power_zero
 DependsOn latin:/algebraic?Powers?power_zero?type latin:/?TypedTerms?tm?type
 DependsOn latin:/algebraic?Powers?power_zero?type latin:/?Propositions?prop?type
 DependsOn latin:/algebraic?Powers?power_zero?type latin:/algebraic?Set?U?type
-DependsOn latin:/algebraic?Powers?power_zero?type latin:/?TypedEquality?equal?type
+DependsOn latin:/algebraic?Powers?power_zero?type latin:/?TypedEquality?tequal?type
 DependsOn latin:/algebraic?Powers?power_zero?type latin:/algebraic?Powers?power?type
 DependsOn latin:/algebraic?Powers?power_zero?type latin:/?Proofs?ded?type
 DependsOn latin:/algebraic?Powers?power_zero?type latin:/?Nat?Nat?type
@@ -28,7 +28,7 @@ Declares latin:/algebraic?Powers latin:/algebraic?Powers?power_succ
 constant latin:/algebraic?Powers?power_succ
 DependsOn latin:/algebraic?Powers?power_succ?type latin:/?TypedTerms?tm?type
 DependsOn latin:/algebraic?Powers?power_succ?type latin:/?Propositions?prop?type
-DependsOn latin:/algebraic?Powers?power_succ?type latin:/?TypedEquality?equal?type
+DependsOn latin:/algebraic?Powers?power_succ?type latin:/?TypedEquality?tequal?type
 DependsOn latin:/algebraic?Powers?power_succ?type latin:/?Nat?Nat?definition
 DependsOn latin:/algebraic?Powers?power_succ?type latin:/?Nat?Nat?type
 DependsOn latin:/algebraic?Powers?power_succ?type latin:/algebraic?Set?universe?type

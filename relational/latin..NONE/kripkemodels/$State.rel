@@ -26,14 +26,14 @@ DependsOn latin:/kripkemodels?State?extends?type latin:/?Types?tp?type
 DependsOn latin:/kripkemodels?State?extends?type latin:/kripkemodels?State?cell?type
 DependsOn latin:/kripkemodels?State?extends?definition latin:/?TypedTerms?tm?type
 DependsOn latin:/kripkemodels?State?extends?definition latin:/?Propositions?prop?type
-DependsOn latin:/kripkemodels?State?extends?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/kripkemodels?State?extends?definition latin:/?TypedEquality?tequal?type
 DependsOn latin:/kripkemodels?State?extends?definition latin:/?Negation?not?type
-DependsOn latin:/kripkemodels?State?extends?definition latin:/?TypedUniversalQuantification?forall?type
 DependsOn latin:/kripkemodels?State?extends?definition latin:/?Implication?impl?type
 DependsOn latin:/kripkemodels?State?extends?definition latin:/kripkemodels?State?cell?type
 DependsOn latin:/kripkemodels?State?extends?definition latin:/?Conjunction?and?type
 DependsOn latin:/kripkemodels?State?extends?definition latin:/kripkemodels?State?state?type
 DependsOn latin:/kripkemodels?State?extends?definition latin:/?Propositions?prop?definition
+DependsOn latin:/kripkemodels?State?extends?definition latin:/?TypedUniversalQuantification?tforall?type
 DependsOn latin:/kripkemodels?State?extends?definition latin:/?Types?tp?type
 Declares latin:/kripkemodels?State latin:/kripkemodels?State?trclos
 constant latin:/kripkemodels?State?trclos

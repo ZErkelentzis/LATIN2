@@ -29,8 +29,8 @@ Declares latin:/?InteriorTopology latin:/?InteriorTopology?idempotence
 constant latin:/?InteriorTopology?idempotence
 DependsOn latin:/?InteriorTopology?idempotence?type latin:/?TypedTerms?tm?type
 DependsOn latin:/?InteriorTopology?idempotence?type latin:/?Propositions?prop?type
-DependsOn latin:/?InteriorTopology?idempotence?type latin:/?TypedEquality?equal?type
 DependsOn latin:/?InteriorTopology?idempotence?type latin:/?InteriorTopology?interior?type
+DependsOn latin:/?InteriorTopology?idempotence?type latin:/?TypedEquality?tequal?type
 DependsOn latin:/?InteriorTopology?idempotence?type latin:/?Proofs?ded?type
 DependsOn latin:/?InteriorTopology?idempotence?type latin:/?InteriorTopology?X?type
 DependsOn latin:/?InteriorTopology?idempotence?type latin:/powertypes?PowerTypes?power?type
@@ -39,8 +39,8 @@ Declares latin:/?InteriorTopology latin:/?InteriorTopology?bin_inters
 constant latin:/?InteriorTopology?bin_inters
 DependsOn latin:/?InteriorTopology?bin_inters?type latin:/?TypedTerms?tm?type
 DependsOn latin:/?InteriorTopology?bin_inters?type latin:/?Propositions?prop?type
-DependsOn latin:/?InteriorTopology?bin_inters?type latin:/?TypedEquality?equal?type
 DependsOn latin:/?InteriorTopology?bin_inters?type latin:/?InteriorTopology?interior?type
+DependsOn latin:/?InteriorTopology?bin_inters?type latin:/?TypedEquality?tequal?type
 DependsOn latin:/?InteriorTopology?bin_inters?type latin:/?Proofs?ded?type
 DependsOn latin:/?InteriorTopology?bin_inters?type latin:/?InteriorTopology?X?type
 DependsOn latin:/?InteriorTopology?bin_inters?type latin:/powertypes?Intersection?inter?type
@@ -50,8 +50,8 @@ Declares latin:/?InteriorTopology latin:/?InteriorTopology?preservation
 constant latin:/?InteriorTopology?preservation
 DependsOn latin:/?InteriorTopology?preservation?type latin:/?TypedTerms?tm?type
 DependsOn latin:/?InteriorTopology?preservation?type latin:/?Propositions?prop?type
-DependsOn latin:/?InteriorTopology?preservation?type latin:/?TypedEquality?equal?type
 DependsOn latin:/?InteriorTopology?preservation?type latin:/?InteriorTopology?interior?type
+DependsOn latin:/?InteriorTopology?preservation?type latin:/?TypedEquality?tequal?type
 DependsOn latin:/?InteriorTopology?preservation?type latin:/powertypes?FullSet?full?type
 DependsOn latin:/?InteriorTopology?preservation?type latin:/?Proofs?ded?type
 DependsOn latin:/?InteriorTopology?preservation?type latin:/?InteriorTopology?X?type

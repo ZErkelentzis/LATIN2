@@ -12,7 +12,7 @@ DependsOn latin:/kripkemodels?MLSemantics?[latin:/?Box]/box?definition latin:/?T
 DependsOn latin:/kripkemodels?MLSemantics?[latin:/?Box]/box?definition latin:/?Propositions?prop?type
 DependsOn latin:/kripkemodels?MLSemantics?[latin:/?Box]/box?definition latin:/kripkemodels?KripkeFrame?accessible?type
 DependsOn latin:/kripkemodels?MLSemantics?[latin:/?Box]/box?definition latin:/kripkemodels?Worlds?world?type
-DependsOn latin:/kripkemodels?MLSemantics?[latin:/?Box]/box?definition latin:/?TypedUniversalQuantification?forall?type
+DependsOn latin:/kripkemodels?MLSemantics?[latin:/?Box]/box?definition latin:/?TypedUniversalQuantification?tforall?type
 DependsOn latin:/kripkemodels?MLSemantics?[latin:/?Box]/box?definition latin:/?Types?tp?type
 DependsOn latin:/kripkemodels?MLSemantics?[latin:/?Box]/box?definition latin:/?Implication?impl?type
 Declares latin:/kripkemodels?MLSemantics latin:/kripkemodels?MLSemantics?[latin:/?Diamond]/diamond
@@ -21,6 +21,6 @@ DependsOn latin:/kripkemodels?MLSemantics?[latin:/?Diamond]/diamond?definition l
 DependsOn latin:/kripkemodels?MLSemantics?[latin:/?Diamond]/diamond?definition latin:/?Propositions?prop?type
 DependsOn latin:/kripkemodels?MLSemantics?[latin:/?Diamond]/diamond?definition latin:/?Conjunction?and?type
 DependsOn latin:/kripkemodels?MLSemantics?[latin:/?Diamond]/diamond?definition latin:/kripkemodels?KripkeFrame?accessible?type
-DependsOn latin:/kripkemodels?MLSemantics?[latin:/?Diamond]/diamond?definition latin:/?TypedExistentialQuantification?exists?type
 DependsOn latin:/kripkemodels?MLSemantics?[latin:/?Diamond]/diamond?definition latin:/kripkemodels?Worlds?world?type
 DependsOn latin:/kripkemodels?MLSemantics?[latin:/?Diamond]/diamond?definition latin:/?Types?tp?type
+DependsOn latin:/kripkemodels?MLSemantics?[latin:/?Diamond]/diamond?definition latin:/?TypedExistentialQuantification?texists?type

@@ -1,6 +1,6 @@
 dataconstructor latin:/?Commutative?comm
 theory latin:/?Commutative
-HasMeta latin:/?Commutative http://cds.omdoc.org/urtheories?LF
+HasMeta latin:/?Commutative http://cds.omdoc.org/urtheories/?LF
 Includes latin:/?Commutative latin:/?Magma
 Declares latin:/?Commutative latin:/?Commutative?comm
 constant latin:/?Commutative?comm

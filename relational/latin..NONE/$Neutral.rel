@@ -2,7 +2,7 @@ dataconstructor latin:/?Neutral?e
 dataconstructor latin:/?Neutral?neutLeft
 dataconstructor latin:/?Neutral?neutRight
 theory latin:/?Neutral
-HasMeta latin:/?Neutral http://cds.omdoc.org/urtheories?LF
+HasMeta latin:/?Neutral http://cds.omdoc.org/urtheories/?LF
 Includes latin:/?Neutral latin:/?Magma
 Declares latin:/?Neutral latin:/?Neutral?e
 constant latin:/?Neutral?e

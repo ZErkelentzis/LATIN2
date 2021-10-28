@@ -15,7 +15,7 @@ DependsOn latin:/?EndoFunctor?applyId?type latin:/?TypedTerms?tm?type
 DependsOn latin:/?EndoFunctor?applyId?type latin:/?Propositions?prop?type
 DependsOn latin:/?EndoFunctor?applyId?type latin:/?EndoFunctor?applyFun?type
 DependsOn latin:/?EndoFunctor?applyId?type latin:/?TypeOperator?applyType?type
-DependsOn latin:/?EndoFunctor?applyId?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?EndoFunctor?applyId?type latin:/?TypedEquality?tequal?type
 DependsOn latin:/?EndoFunctor?applyId?type latin:/?Proofs?ded?type
 DependsOn latin:/?EndoFunctor?applyId?type latin:/?Types?tp?type
 Declares latin:/?EndoFunctor latin:/?EndoFunctor?applyComp
@@ -24,6 +24,6 @@ DependsOn latin:/?EndoFunctor?applyComp?type latin:/?TypedTerms?tm?type
 DependsOn latin:/?EndoFunctor?applyComp?type latin:/?Propositions?prop?type
 DependsOn latin:/?EndoFunctor?applyComp?type latin:/?EndoFunctor?applyFun?type
 DependsOn latin:/?EndoFunctor?applyComp?type latin:/?TypeOperator?applyType?type
-DependsOn latin:/?EndoFunctor?applyComp?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?EndoFunctor?applyComp?type latin:/?TypedEquality?tequal?type
 DependsOn latin:/?EndoFunctor?applyComp?type latin:/?Proofs?ded?type
 DependsOn latin:/?EndoFunctor?applyComp?type latin:/?Types?tp?type

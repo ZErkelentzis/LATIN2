@@ -6,7 +6,7 @@ Declares latin:/?SimpleFunctionsExtensionality latin:/?SimpleFunctionsExtensiona
 constant latin:/?SimpleFunctionsExtensionality?exten
 DependsOn latin:/?SimpleFunctionsExtensionality?exten?type latin:/?TypedTerms?tm?type
 DependsOn latin:/?SimpleFunctionsExtensionality?exten?type latin:/?Propositions?prop?type
-DependsOn latin:/?SimpleFunctionsExtensionality?exten?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?SimpleFunctionsExtensionality?exten?type latin:/?TypedEquality?tequal?type
 DependsOn latin:/?SimpleFunctionsExtensionality?exten?type latin:/?Proofs?ded?type
 DependsOn latin:/?SimpleFunctionsExtensionality?exten?type latin:/?SimpleFunctionTypes?simpfun?type
 DependsOn latin:/?SimpleFunctionsExtensionality?exten?type latin:/?SimpleFunctions?simpapply?type

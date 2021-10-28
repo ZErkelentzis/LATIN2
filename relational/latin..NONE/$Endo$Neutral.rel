@@ -15,7 +15,7 @@ DependsOn latin:/?EndoNeutral?neutLeft?type latin:/?TypedTerms?tm?type
 DependsOn latin:/?EndoNeutral?neutLeft?type latin:/?Propositions?prop?type
 DependsOn latin:/?EndoNeutral?neutLeft?type latin:/?EndoNeutral?e?type
 DependsOn latin:/?EndoNeutral?neutLeft?type latin:/?TypeOperator?applyType?type
-DependsOn latin:/?EndoNeutral?neutLeft?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?EndoNeutral?neutLeft?type latin:/?TypedEquality?tequal?type
 DependsOn latin:/?EndoNeutral?neutLeft?type latin:/?EndoMagma?op?type
 DependsOn latin:/?EndoNeutral?neutLeft?type latin:/?Proofs?ded?type
 DependsOn latin:/?EndoNeutral?neutLeft?type latin:/?Types?tp?type
@@ -25,7 +25,7 @@ DependsOn latin:/?EndoNeutral?neutRight?type latin:/?TypedTerms?tm?type
 DependsOn latin:/?EndoNeutral?neutRight?type latin:/?Propositions?prop?type
 DependsOn latin:/?EndoNeutral?neutRight?type latin:/?EndoNeutral?e?type
 DependsOn latin:/?EndoNeutral?neutRight?type latin:/?TypeOperator?applyType?type
-DependsOn latin:/?EndoNeutral?neutRight?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?EndoNeutral?neutRight?type latin:/?TypedEquality?tequal?type
 DependsOn latin:/?EndoNeutral?neutRight?type latin:/?EndoMagma?op?type
 DependsOn latin:/?EndoNeutral?neutRight?type latin:/?Proofs?ded?type
 DependsOn latin:/?EndoNeutral?neutRight?type latin:/?Types?tp?type

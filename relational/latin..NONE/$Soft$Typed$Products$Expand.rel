@@ -8,6 +8,6 @@ DependsOn latin:/?SoftTypedProductsExpand?expand?type latin:/?Propositions?prop?
 DependsOn latin:/?SoftTypedProductsExpand?expand?type latin:/?SoftTypedProducts?pair?type
 DependsOn latin:/?SoftTypedProductsExpand?expand?type latin:/?Proofs?ded?type
 DependsOn latin:/?SoftTypedProductsExpand?expand?type latin:/?Terms?term?type
+DependsOn latin:/?SoftTypedProductsExpand?expand?type latin:/?UntypedEquality?uequal?type
 DependsOn latin:/?SoftTypedProductsExpand?expand?type latin:/?SoftTypedProducts?pi2?type
-DependsOn latin:/?SoftTypedProductsExpand?expand?type latin:/?UntypedEquality?equal?type
 DependsOn latin:/?SoftTypedProductsExpand?expand?type latin:/?SoftTypedProducts?pi1?type

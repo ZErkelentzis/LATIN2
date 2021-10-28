@@ -1,6 +1,6 @@
 rule latin:/?Subtyping?subtype
 theory latin:/?Subtyping
-HasMeta latin:/?Subtyping http://cds.omdoc.org/urtheories?LF
+HasMeta latin:/?Subtyping http://cds.omdoc.org/urtheories/?LF
 Includes latin:/?Subtyping latin:/?Types
 Includes latin:/?Subtyping latin:/?Logic
 Declares latin:/?Subtyping latin:/?Subtyping?subtype

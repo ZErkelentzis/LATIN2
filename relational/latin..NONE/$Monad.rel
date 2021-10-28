@@ -21,7 +21,7 @@ constant latin:/?Monad?identLeft
 DependsOn latin:/?Monad?identLeft?type latin:/?TypedTerms?tm?type
 DependsOn latin:/?Monad?identLeft?type latin:/?Propositions?prop?type
 DependsOn latin:/?Monad?identLeft?type latin:/?TypeOperator?applyType?type
-DependsOn latin:/?Monad?identLeft?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?Monad?identLeft?type latin:/?TypedEquality?tequal?type
 DependsOn latin:/?Monad?identLeft?type latin:/?Monad?Bind?type
 DependsOn latin:/?Monad?identLeft?type latin:/?Proofs?ded?type
 DependsOn latin:/?Monad?identLeft?type latin:/?Monad?Return?type
@@ -32,7 +32,7 @@ constant latin:/?Monad?identRight
 DependsOn latin:/?Monad?identRight?type latin:/?TypedTerms?tm?type
 DependsOn latin:/?Monad?identRight?type latin:/?Propositions?prop?type
 DependsOn latin:/?Monad?identRight?type latin:/?TypeOperator?applyType?type
-DependsOn latin:/?Monad?identRight?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?Monad?identRight?type latin:/?TypedEquality?tequal?type
 DependsOn latin:/?Monad?identRight?type latin:/?Monad?Bind?type
 DependsOn latin:/?Monad?identRight?type latin:/?Proofs?ded?type
 DependsOn latin:/?Monad?identRight?type latin:/?Monad?Return?type
@@ -43,7 +43,7 @@ constant latin:/?Monad?assoc
 DependsOn latin:/?Monad?assoc?type latin:/?TypedTerms?tm?type
 DependsOn latin:/?Monad?assoc?type latin:/?Propositions?prop?type
 DependsOn latin:/?Monad?assoc?type latin:/?TypeOperator?applyType?type
-DependsOn latin:/?Monad?assoc?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?Monad?assoc?type latin:/?TypedEquality?tequal?type
 DependsOn latin:/?Monad?assoc?type latin:/?Monad?Bind?type
 DependsOn latin:/?Monad?assoc?type latin:/?Proofs?ded?type
 DependsOn latin:/?Monad?assoc?type latin:/?Propositions?prop?definition
