@@ -71,14 +71,28 @@ theory HProd : HardTyped = {
 }
 theory SProd : SoftTyped = {
     inductive prod (A: tp, B: tp): tp = {
-        pair: {x: term, x*: |- x :: A} {y: term, y*: |- y :: B} ???
+        pair: term -> term -> term
     }
 }
 theory UProd : SetTheory = {
     inductive prod (A: set, B: set): set = {
-        pair: {x: set, x*: |- x ∈ A} {y: set, y*: |- y ∈ B}     ???
+        pair: set -> set -> set
     }
 }
+```
+
+**What is the semantics of the soft-/untyped inductive declarations?**
+
+I guess their semantics is precisely "take the hardtyped inductive declaration, elaborate/flatten it to a list of constants (getting rid of the inductive language feature), apply the [softening translation](https://kwarc.info/people/frabe/Research/RR_soften_21.pdf)".
+
+For example, the semantics of the untyped inductive should be something like
+
+```
+prod: {A: set, B: set} set
+pair: set -> set -> set
+pair*: {x: set, x*: |- x in A} {y: set, y*: |- y in B}   (pair x y) in (prod A B)
+pair_injectivity: {x,y,x',y'}   |- pair x y = pair x' y'  -> |- x = x' /\ y  = y'
+pair_induction: {A,B: set. P: set -> prop}  ({x,x*,y,y*} |- P (pair x y))  ->  {p: set, p*: |- p in prod A B} |- P p
 ```
 
 ## Representing the Translations from Hard- to Soft- & Untyped Languages (Morphisms & Logical Relations)
