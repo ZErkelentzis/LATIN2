@@ -20,7 +20,7 @@ theory Alonzo =
 
     /T Types ❙
     boolTy : tp ❘= bool❘# ο❙
-    funTy  : tp ⟶ tp ⟶ tp ❘= simpfun  ❘# 1 → 2❙
+    funTy  : tp ⟶ tp ⟶ tp ❘= simpfun  ❘# 1 → 2❙ // Kurze Pfeile sind Alonzo-Funktionen, lange Pfeile LF-Funktionen ❙
     prodTy : tp ⟶ tp ⟶ tp ❘= simpprod ❘# 1 × 2❙
 
     /T Expressions ❙
@@ -35,8 +35,8 @@ theory Alonzo =
 
     /T undefinedness ❙
 
-    undef_pred_is_false : { α : tp, p : tm (α → ο), A : tm α } ⊦ p ↑ ⟶ ⊢ (p @ A) == ff ❘ role Simplify ❙
-    undef_term_is_false : { α : tp, p : tm (α → ο), A : tm α } ⊦ A ↑ ⟶ ⊢ (p @ A) == ff ❘ role Simplify ❙
+    // undef_pred_is_false : { α : tp, p : tm (α → ο), A : tm α } ⊦ p ↑ ⟶ ⊢ (p @ A) == ff ❘ role Simplify ❙
+    // undef_term_is_false : { α : tp, p : tm (α → ο), A : tm α } ⊦ A ↑ ⟶ ⊢ (p @ A) == ff ❘ role Simplify ❙
 
     /T Junktoren, Quantoren etc... ❙
 
@@ -82,6 +82,9 @@ theory Alonzo =
 
     simeq_alonzo  : { α : tp, A : tm α, B : tm α } tm ο ❘= [α,A,B] ((A ⇩) ∨ (B ⇩)) ⇒ (A == B)❘# 2 ≃ 3❙
     nsimeq_alonzo : { α : tp, A : tm α, B : tm α } tm ο ❘= [α,A,B] ¬ (A ≃ B)❘# 2 ≄ 3❙
+
+    t_def : ⊢ (T₀ ⇩)❙
+    f_def : ⊢ (F₀ ⇩)❙
 
     /T Sets ❙
 
@@ -148,7 +151,65 @@ theory Alonzo =
 
     /T Quasitypes 𝒬 (jcalQ) ❙
 
-    quasitype : { α : tp } tm (α → ο) ⟶ tp❘# 𝒬 2 ❙
+    quasitype : { α : tp } tp❘= [α] α → ο❘# 𝒬 1 ❙
+
+    qt_lambda   : { α : tp, β : tp, Q : tm (𝒬 α) } (tm α ⟶ tm β) ⟶ tm (α → β)❘= [α,β,Q,B] λ [x : tm α] ((x ∈ Q) ↦ (B x) | (⊥ β))❙
+    qt_forall   : { α : tp, Q : tm (𝒬 α) } (tm α ⟶ tm ο) ⟶ tm ο❘= [α,Q,B] FORALL [x : tm α] ((x ∈ Q) ⇒ (B x))❙
+    qt_exists   : { α : tp, Q : tm (𝒬 α) } (tm α ⟶ tm ο) ⟶ tm ο❘= [α,Q,B] EXISTS [x : tm α] ((x ∈ Q) ∧ (B x))❙
+    qt_definite : { α : tp, Q : tm (𝒬 α) } (tm α ⟶ tm ο) ⟶ tm α❘= [α,Q,B] I [x : tm α] ((x ∈ Q) ∧ (B x))❙
+
+    qt_def      : { α : tp, Q : tm (𝒬 α) } tm α ⟶ tm ο ❘= [α,Q,A] (A ⇩) ∧ (A ∈ Q) ❘# 3 ⇩∈ 2❙
+    qt_ndef     : { α : tp, Q : tm (𝒬 α) } tm α ⟶ tm ο ❘= [α,Q,A] ¬ (A ⇩∈ Q)❘# 3 ⇧∈ 2❙
+
+    qt_arr      : { α : tp, β : tp } tm (❴α❵ → (❴β❵ → ❴α → β❵))❘
+                = [α,β] λ [s : tm ❴α❵] (λ [t : tm ❴β❵] ⦅([f : tm (α → β)] FORALL [x : tm α] (((f@x)⇩) ⇒ ((x ∈ s) ∧ ((f@x) ∈ t))))⦆)❙
+    qt_pair     : { α : tp, β : tp } tm (❴α❵ → (❴β❵ → ❴α × β❵))❘
+                = [α,β] λ [s : tm ❴α❵] (λ [t : tm ❴β❵] ⦅([p : tm (α × β)] ((fst p) ∈ s) ∧ ((snd p) ∈ t))⦆)❙
+
+    // FIXME: add notations, maybe ❙
+    arr_qarb    : { α : tp, β : tp, Q : tm (𝒬 α), R : tm (𝒬 β) } tm (𝒬 (α → β))❘= [α,β,Q,R] ((qt_arr α β)@Q@R)❙
+    arr_arb     : { α : tp, β : tp, R : tm (𝒬 β) } tm (𝒬 (α → β))❘= [α,β,R] ((qt_arr α β)@(U α)@R)❙
+    arr_qab     : { α : tp, β : tp, Q : tm (𝒬 α) } tm (𝒬 (α → β))❘= [α,β,Q] ((qt_arr α β)@Q@(U β))❙
+
+    pair_qarb   : { α : tp, β : tp, Q : tm (𝒬 α), R : tm (𝒬 β) } tm (𝒬 (α × β))❘= [α,β,Q,R] ((qt_pair α β)@Q@R)❙
+    pair_arb    : { α : tp, β : tp, R : tm (𝒬 β) } tm (𝒬 (α × β))❘= [α,β,R] ((qt_pair α β)@(U α)@R)❙
+    pair_qab    : { α : tp, β : tp, Q : tm (𝒬 α) } tm (𝒬 (α × β))❘= [α,β,Q] ((qt_pair α β)@Q@(U β))❙
+
+    al_totalon  : { α : tp, β : tp, F : tm (α → β), Q : tm (𝒬 α), R : tm (𝒬 β) } tm ο❘
+                = [α,β,F,Q,R] FORALL [x : tm α] ((x ∈ Q) ⇒ ((F@x) ⇩∈ R))❘# TOTAL_ON 3 4 5❙
+
+    al_totalon2 : { α : tp, β : tp, γ : tp, F : tm (α → (β → γ)), Q : tm (𝒬 α), R : tm (𝒬 β), S : tm (𝒬 γ) } tm ο❘
+                = [α,β,γ,F,Q,R,S] FORALL [x : tm α] (x ∈ Q) ⇒ (FORALL [y : tm β] (y ∈ R) ⇒ ((F@x@y) ⇩∈ S))❘
+                # TOTAL_ON2 4 5 6 7❙
+
+    al_SURJon   : { α : tp, β : tp, F : tm (α → β), Q : tm (𝒬 α), R : tm (𝒬 β) } tm ο❘
+                = [α,β,F,Q,R] FORALL [y : tm β] ((y ∈ R) ⇒ (EXISTS [x : tm α] ((x ∈ Q) ⇒ ((F@x) == y))))❘
+                # SURJ_ON 3 4 5❙
+
+    al_SURJon2  : { α : tp, β : tp, γ : tp, F : tm (α → (β → γ)), Q : tm (𝒬 α), R : tm (𝒬 β), S : tm (𝒬 γ) } tm ο❘
+                = [α,β,γ,F,Q,R,S] FORALL [z : tm γ] ((z ∈ S) ⇒ (EXISTS [x : tm α] ((x ∈ Q) ⇒ (EXISTS [y : tm β] ((y ∈ R) ⇒ ((F@x@y) == z))))))❘
+                # SURJ_ON2 4 5 6 7❙
+
+    al_INJon    : { α : tp, β : tp, F : tm (α → β), Q : tm (𝒬 α) } tm ο❘
+                = [α,β,F,Q] FORALL [x : tm α] ((x ∈ Q) ⇒ (FORALL [xp : tm α] ((xp ∈ Q) ⇒ ((F@x == F@xp) ⇒ (x == xp)))))❘
+                # INJ_ON 3 4❙
+
+    al_BIJon    : { α : tp, β : tp, F : tm (α → β), Q : tm (𝒬 α), R : tm (𝒬 β) } tm ο❘
+                = [α,β,F,Q,R] (TOTAL_ON F Q R) ∧ (SURJ_ON F Q R) ∧ (INJ_ON F Q)❘
+                # BIJ_ON 3 4 5❙
+
+    al_INF      : { α : tp, Q : tm (𝒬 α) } tm ο❘
+                = [α,Q] EXISTS [u : tm ❴α❵ ] ((u ⊑ Q) ∧ (EXISTS [f : tm (α → α)] (BIJ_ON f u Q)))❘
+                # INF 2❙
+
+    al_FIN      : { α : tp, Q : tm (𝒬 α) } tm ο❘= [α,Q] ¬ (INF Q)❘# FIN 2❙
+
+    al_COUNT    : { α : tp, Q : tm (𝒬 α) } tm ο❘
+                = [α,Q] FORALL [u : tm ❴α❵] ((u ⊑ Q) ∧ ((INF u) ⇒ (EXISTS [f : tm (α → α)] (BIJ_ON f u Q))))❘
+                # COUNT 2❙
+
+    /T Dependent QuasiTypes ❙
+
 ❚
 
 /T 𝕬 (jfrakA) is a proof system for Alonzo. ❚
