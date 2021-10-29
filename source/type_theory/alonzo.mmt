@@ -110,8 +110,11 @@ theory Alonzo =
 
     /T ... for more, we would need LFS ... ❙
 
-    supset   : { α : tp } tm (❴α❵ → (❴α❵ → ο))❘= [α : tp] λ [a : tm ❴α❵] (λ [b : tm ❴α❵] (FORALL [x : tm α] ((x ∈ a) ⇒ (x ∈ b))))❙
-    supset_a : { α : tp } tm ❴α❵ ⟶ tm ❴α❵ ⟶ tm ο❘= [α,a,b] (((supset α)@a)@b)❘# 2 ⊑ 3❙
+    subseteq   : { α : tp } tm (❴α❵ → (❴α❵ → ο))❘= [α : tp] λ [a : tm ❴α❵] (λ [b : tm ❴α❵] (FORALL [x : tm α] ((x ∈ a) ⇒ (x ∈ b))))❙
+    subseteq_a : { α : tp } tm ❴α❵ ⟶ tm ❴α❵ ⟶ tm ο❘= [α,a,b] (((subseteq α)@a)@b)❘# 2 ⊑ 3❙
+
+    subset     : { α : tp } tm (❴α❵ → (❴α❵ → ο))❘= [α : tp] λ [a : tm ❴α❵] (λ [b : tm ❴α❵] (a ⊑ b) ∧ (¬(a == b)))❙
+    subset_a   : { α : tp } tm ❴α❵ ⟶ tm ❴α❵ ⟶ tm ο❘= [α,a,b] (((subset α)@a)@b)❘# 2 ⊂ 3❙
 
     union   : { α : tp } tm (❴α❵ → (❴α❵ → ❴α❵))❘= [α : tp] λ [a : tm ❴α❵] (λ [b : tm ❴α❵] (⦅([x : tm α] ((x ∈ a) ∨ (x ∈ b)))⦆))❙
     union_a : { α : tp } tm ❴α❵ ⟶ tm ❴α❵ ⟶ tm ❴α❵❘= [α,a,b] (((union α)@a)@b)❘# 2 ∪ 3 ❙
@@ -199,16 +202,28 @@ theory Alonzo =
                 # BIJ_ON 3 4 5❙
 
     al_INF      : { α : tp, Q : tm (𝒬 α) } tm ο❘
-                = [α,Q] EXISTS [u : tm ❴α❵ ] ((u ⊑ Q) ∧ (EXISTS [f : tm (α → α)] (BIJ_ON f u Q)))❘
+                = [α,Q] EXISTS [u : tm ❴α❵ ] ((u ⊂ Q) ∧ (EXISTS [f : tm (α → α)] (BIJ_ON f u Q)))❘
                 # INF 2❙
 
     al_FIN      : { α : tp, Q : tm (𝒬 α) } tm ο❘= [α,Q] ¬ (INF Q)❘# FIN 2❙
 
     al_COUNT    : { α : tp, Q : tm (𝒬 α) } tm ο❘
-                = [α,Q] FORALL [u : tm ❴α❵] ((u ⊑ Q) ∧ ((INF u) ⇒ (EXISTS [f : tm (α → α)] (BIJ_ON f u Q))))❘
+                = [α,Q] FORALL [u : tm ❴α❵] ((u ⊂ Q) ∧ ((INF u) ⇒ (EXISTS [f : tm (α → α)] (BIJ_ON f u Q))))❘
                 # COUNT 2❙
 
     /T Dependent QuasiTypes ❙
+
+    alonzo_pi    : { α : tp, β : tp } tm (❴α❵ → ((α → ❴β❵) → ❴α → β❵))❘# Π ❘
+                 = [α,β] λ [s : tm ❴α❵] (λ [t : tm (α → ❴β❵)] (⦅([f : tm (α → β)] (FORALL [x : tm α] (((f@x) ⇩) ⇒ ((x ∈ s) ∧ ((f@x) ∈ (t@x))))))⦆))❙
+
+    alonzo_sigma : { α : tp, β : tp } tm (❴α❵ → ((α → ❴β❵) → ❴α × β❵))❘# Σ ❘
+                 = [α,β] λ [s : tm ❴α❵] (λ [t : tm (α → ❴β❵)] (⦅([p : tm (α × β)] (((fst p) ∈ s) ∧ ((snd p) ∈ (t@(fst p)))))⦆))❙
+
+    qt_pi        : { α : tp, β : tp, Q : tm (𝒬 α), R : tm (𝒬 β) } tm (𝒬 (α → β))❘
+                 = [α,β,Q,R] (Π α β)@Q@(λ [x : tm α] R)❙
+
+    qt_sigma     : { α : tp, β : tp, Q : tm (𝒬 α), R : tm (𝒬 β) } tm (𝒬 (α × β))❘
+                 = [α,β,Q,R] (Σ α β)@Q@(λ [x : tm α] R)❙
 
 ❚
 
