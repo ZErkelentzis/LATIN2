@@ -23,18 +23,18 @@ Declares latin:/?SoftTypedQuotients latin:/?SoftTypedQuotients?equiv
 constant latin:/?SoftTypedQuotients?equiv
 DependsOn latin:/?SoftTypedQuotients?equiv?type latin:/?SoftTypedTerms?of?type
 DependsOn latin:/?SoftTypedQuotients?equiv?type latin:/?Propositions?prop?type
-DependsOn latin:/?SoftTypedQuotients?equiv?type latin:/?SoftTypedEquality?equal?type
 DependsOn latin:/?SoftTypedQuotients?equiv?type latin:/?Proofs?ded?type
 DependsOn latin:/?SoftTypedQuotients?equiv?type latin:/?Terms?term?type
 DependsOn latin:/?SoftTypedQuotients?equiv?type latin:/?SoftTypedQuotients?quotient?type
 DependsOn latin:/?SoftTypedQuotients?equiv?type latin:/?Types?tp?type
+DependsOn latin:/?SoftTypedQuotients?equiv?type latin:/?SoftTypedEquality?requal?type
 Declares latin:/?SoftTypedQuotients latin:/?SoftTypedQuotients?welldefined
 constant latin:/?SoftTypedQuotients?welldefined
 DependsOn latin:/?SoftTypedQuotients?welldefined?type latin:/?SoftTypedTerms?of?type
 DependsOn latin:/?SoftTypedQuotients?welldefined?type latin:/?Propositions?prop?type
-DependsOn latin:/?SoftTypedQuotients?welldefined?type latin:/?SoftTypedEquality?equal?type
 DependsOn latin:/?SoftTypedQuotients?welldefined?type latin:/?Proofs?ded?type
 DependsOn latin:/?SoftTypedQuotients?welldefined?type latin:/?Terms?term?type
 DependsOn latin:/?SoftTypedQuotients?welldefined?type latin:/?SoftTypedQuotients?quotient?type
 DependsOn latin:/?SoftTypedQuotients?welldefined?type latin:/?Types?tp?type
 DependsOn latin:/?SoftTypedQuotients?welldefined?type latin:/?SoftTypedEquality?as?type
+DependsOn latin:/?SoftTypedQuotients?welldefined?type latin:/?SoftTypedEquality?requal?type

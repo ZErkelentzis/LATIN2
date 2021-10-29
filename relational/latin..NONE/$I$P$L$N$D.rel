@@ -1,20 +1,20 @@
 dataconstructor latin:/?IPLND?not_or_left
 dataconstructor latin:/?IPLND?not_or_right
 dataconstructor latin:/?IPLND?nntnd
-dataconstructor latin:/?IPLND?impl_order/[latin:/?Reflexivity]/refl
-judgementconstructor latin:/?IPLND?impl_order/[latin:/?Relation]/rel
 datatypeconstructor latin:/?IPLND?impl_order/[latin:/?OneTyped]/carrier
+judgementconstructor latin:/?IPLND?impl_order/[latin:/?Relation]/rel
+dataconstructor latin:/?IPLND?impl_order/[latin:/?Reflexivity]/refl
 dataconstructor latin:/?IPLND?impl_order/[latin:/?Transitivity]/trans
 dataconstructor latin:/?IPLND?impl_order/[latin:/?Transitivity]/trans3
 dataconstructor latin:/?IPLND?impl_order/[latin:/?Transitivity]/trans4
-dataconstructor latin:/?IPLND?impl_order/[latin:/?AntiSymmetry]/antisym
-dataconstructor latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Reflexivity]/refl
-judgementconstructor latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Relation]/rel
 datatypeconstructor latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?OneTyped]/carrier
+judgementconstructor latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Relation]/rel
+dataconstructor latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Reflexivity]/refl
 dataconstructor latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Transitivity]/trans
 dataconstructor latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Transitivity]/trans3
 dataconstructor latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Transitivity]/trans4
 dataconstructor latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Symmetry]/sym
+dataconstructor latin:/?IPLND?impl_order/[latin:/?AntiSymmetry]/antisym
 theory latin:/?IPLND
 HasMeta latin:/?IPLND http://cds.omdoc.org/urtheories?LF
 Includes latin:/?IPLND latin:/?IPL
@@ -73,28 +73,24 @@ Declares latin:/?IPLND latin:/?IPLND?impl_order
 HasDomain latin:/?IPLND?impl_order latin:/?Order
 HasCodomain latin:/?IPLND?impl_order latin:/?IPLND
 structure latin:/?IPLND?impl_order
-Declares latin:/?IPLND latin:/?IPLND?impl_order/[latin:/?Preorder]
-HasDomain latin:/?IPLND?impl_order/[latin:/?Preorder] latin:/?Preorder
-HasCodomain latin:/?IPLND?impl_order/[latin:/?Preorder] latin:/?IPLND
-structure latin:/?IPLND?impl_order/[latin:/?Preorder]
-Declares latin:/?IPLND latin:/?IPLND?impl_order/[latin:/?Reflexivity]
-HasDomain latin:/?IPLND?impl_order/[latin:/?Reflexivity] latin:/?Reflexivity
-HasCodomain latin:/?IPLND?impl_order/[latin:/?Reflexivity] latin:/?IPLND
-structure latin:/?IPLND?impl_order/[latin:/?Reflexivity]
-Declares latin:/?IPLND latin:/?IPLND?impl_order/[latin:/?Reflexivity]/refl
-constant latin:/?IPLND?impl_order/[latin:/?Reflexivity]/refl
-Declares latin:/?IPLND latin:/?IPLND?impl_order/[latin:/?Relation]
-HasDomain latin:/?IPLND?impl_order/[latin:/?Relation] latin:/?Relation
-HasCodomain latin:/?IPLND?impl_order/[latin:/?Relation] latin:/?IPLND
-structure latin:/?IPLND?impl_order/[latin:/?Relation]
-Declares latin:/?IPLND latin:/?IPLND?impl_order/[latin:/?Relation]/rel
-constant latin:/?IPLND?impl_order/[latin:/?Relation]/rel
 Declares latin:/?IPLND latin:/?IPLND?impl_order/[latin:/?OneTyped]
 HasDomain latin:/?IPLND?impl_order/[latin:/?OneTyped] latin:/?OneTyped
 HasCodomain latin:/?IPLND?impl_order/[latin:/?OneTyped] latin:/?IPLND
 structure latin:/?IPLND?impl_order/[latin:/?OneTyped]
 Declares latin:/?IPLND latin:/?IPLND?impl_order/[latin:/?OneTyped]/carrier
 constant latin:/?IPLND?impl_order/[latin:/?OneTyped]/carrier
+Declares latin:/?IPLND latin:/?IPLND?impl_order/[latin:/?Relation]
+HasDomain latin:/?IPLND?impl_order/[latin:/?Relation] latin:/?Relation
+HasCodomain latin:/?IPLND?impl_order/[latin:/?Relation] latin:/?IPLND
+structure latin:/?IPLND?impl_order/[latin:/?Relation]
+Declares latin:/?IPLND latin:/?IPLND?impl_order/[latin:/?Relation]/rel
+constant latin:/?IPLND?impl_order/[latin:/?Relation]/rel
+Declares latin:/?IPLND latin:/?IPLND?impl_order/[latin:/?Reflexivity]
+HasDomain latin:/?IPLND?impl_order/[latin:/?Reflexivity] latin:/?Reflexivity
+HasCodomain latin:/?IPLND?impl_order/[latin:/?Reflexivity] latin:/?IPLND
+structure latin:/?IPLND?impl_order/[latin:/?Reflexivity]
+Declares latin:/?IPLND latin:/?IPLND?impl_order/[latin:/?Reflexivity]/refl
+constant latin:/?IPLND?impl_order/[latin:/?Reflexivity]/refl
 Declares latin:/?IPLND latin:/?IPLND?impl_order/[latin:/?Transitivity]
 HasDomain latin:/?IPLND?impl_order/[latin:/?Transitivity] latin:/?Transitivity
 HasCodomain latin:/?IPLND?impl_order/[latin:/?Transitivity] latin:/?IPLND
@@ -105,12 +101,10 @@ Declares latin:/?IPLND latin:/?IPLND?impl_order/[latin:/?Transitivity]/trans3
 constant latin:/?IPLND?impl_order/[latin:/?Transitivity]/trans3
 Declares latin:/?IPLND latin:/?IPLND?impl_order/[latin:/?Transitivity]/trans4
 constant latin:/?IPLND?impl_order/[latin:/?Transitivity]/trans4
-Declares latin:/?IPLND latin:/?IPLND?impl_order/[latin:/?AntiSymmetry]
-HasDomain latin:/?IPLND?impl_order/[latin:/?AntiSymmetry] latin:/?AntiSymmetry
-HasCodomain latin:/?IPLND?impl_order/[latin:/?AntiSymmetry] latin:/?IPLND
-structure latin:/?IPLND?impl_order/[latin:/?AntiSymmetry]
-Declares latin:/?IPLND latin:/?IPLND?impl_order/[latin:/?AntiSymmetry]/antisym
-constant latin:/?IPLND?impl_order/[latin:/?AntiSymmetry]/antisym
+Declares latin:/?IPLND latin:/?IPLND?impl_order/[latin:/?Preorder]
+HasDomain latin:/?IPLND?impl_order/[latin:/?Preorder] latin:/?Preorder
+HasCodomain latin:/?IPLND?impl_order/[latin:/?Preorder] latin:/?IPLND
+structure latin:/?IPLND?impl_order/[latin:/?Preorder]
 Declares latin:/?IPLND latin:/?IPLND?impl_order/[latin:/?EqualityType]
 HasDomain latin:/?IPLND?impl_order/[latin:/?EqualityType] latin:/?EqualityType
 HasCodomain latin:/?IPLND?impl_order/[latin:/?EqualityType] latin:/?IPLND
@@ -119,10 +113,18 @@ Declares latin:/?IPLND latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityR
 HasDomain latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel latin:/?EquivalenceRelation
 HasCodomain latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel latin:/?IPLND
 structure latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel
-Declares latin:/?IPLND latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Preorder]
-HasDomain latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Preorder] latin:/?Preorder
-HasCodomain latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Preorder] latin:/?IPLND
-structure latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Preorder]
+Declares latin:/?IPLND latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?OneTyped]
+HasDomain latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?OneTyped] latin:/?OneTyped
+HasCodomain latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?OneTyped] latin:/?IPLND
+structure latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?OneTyped]
+Declares latin:/?IPLND latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?OneTyped]/carrier
+constant latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?OneTyped]/carrier
+Declares latin:/?IPLND latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Relation]
+HasDomain latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Relation] latin:/?Relation
+HasCodomain latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Relation] latin:/?IPLND
+structure latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Relation]
+Declares latin:/?IPLND latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Relation]/rel
+constant latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Relation]/rel
 Declares latin:/?IPLND latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Reflexivity]
 HasDomain latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Reflexivity] latin:/?Reflexivity
 HasCodomain latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Reflexivity] latin:/?IPLND
@@ -130,18 +132,6 @@ structure latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?R
 Declares latin:/?IPLND latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Reflexivity]/refl
 constant latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Reflexivity]/refl
 IsAliasFor latin:/?IPLND?impl_order/refl latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Reflexivity]/refl
-Declares latin:/?IPLND latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Relation]
-HasDomain latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Relation] latin:/?Relation
-HasCodomain latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Relation] latin:/?IPLND
-structure latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Relation]
-Declares latin:/?IPLND latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Relation]/rel
-constant latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Relation]/rel
-Declares latin:/?IPLND latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?OneTyped]
-HasDomain latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?OneTyped] latin:/?OneTyped
-HasCodomain latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?OneTyped] latin:/?IPLND
-structure latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?OneTyped]
-Declares latin:/?IPLND latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?OneTyped]/carrier
-constant latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?OneTyped]/carrier
 Declares latin:/?IPLND latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Transitivity]
 HasDomain latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Transitivity] latin:/?Transitivity
 HasCodomain latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Transitivity] latin:/?IPLND
@@ -155,6 +145,10 @@ IsAliasFor latin:/?IPLND?impl_order/trans3 latin:/?IPLND?impl_order/[latin:/?Equ
 Declares latin:/?IPLND latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Transitivity]/trans4
 constant latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Transitivity]/trans4
 IsAliasFor latin:/?IPLND?impl_order/trans4 latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Transitivity]/trans4
+Declares latin:/?IPLND latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Preorder]
+HasDomain latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Preorder] latin:/?Preorder
+HasCodomain latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Preorder] latin:/?IPLND
+structure latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Preorder]
 Declares latin:/?IPLND latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Symmetry]
 HasDomain latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Symmetry] latin:/?Symmetry
 HasCodomain latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Symmetry] latin:/?IPLND
@@ -162,3 +156,9 @@ structure latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?S
 Declares latin:/?IPLND latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Symmetry]/sym
 constant latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Symmetry]/sym
 IsAliasFor latin:/?IPLND?impl_order/sym latin:/?IPLND?impl_order/[latin:/?EqualityType]/equalityRel/[latin:/?Symmetry]/sym
+Declares latin:/?IPLND latin:/?IPLND?impl_order/[latin:/?AntiSymmetry]
+HasDomain latin:/?IPLND?impl_order/[latin:/?AntiSymmetry] latin:/?AntiSymmetry
+HasCodomain latin:/?IPLND?impl_order/[latin:/?AntiSymmetry] latin:/?IPLND
+structure latin:/?IPLND?impl_order/[latin:/?AntiSymmetry]
+Declares latin:/?IPLND latin:/?IPLND?impl_order/[latin:/?AntiSymmetry]/antisym
+constant latin:/?IPLND?impl_order/[latin:/?AntiSymmetry]/antisym

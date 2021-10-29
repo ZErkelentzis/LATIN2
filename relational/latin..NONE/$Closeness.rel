@@ -43,7 +43,7 @@ DependsOn latin:/?Closeness?transitive?type latin:/?TypedTerms?tm?type
 DependsOn latin:/?Closeness?transitive?type latin:/powertypes?PowerTypes?in?type
 DependsOn latin:/?Closeness?transitive?type latin:/?Propositions?prop?type
 DependsOn latin:/?Closeness?transitive?type latin:/?Proofs?ded?type
-DependsOn latin:/?Closeness?transitive?type latin:/?TypedUniversalQuantification?forall?type
 DependsOn latin:/?Closeness?transitive?type latin:/powertypes?PowerTypes?power?type
+DependsOn latin:/?Closeness?transitive?type latin:/?TypedUniversalQuantification?tforall?type
 DependsOn latin:/?Closeness?transitive?type latin:/?Types?tp?type
 DependsOn latin:/?Closeness?transitive?type latin:/?Implication?impl?type

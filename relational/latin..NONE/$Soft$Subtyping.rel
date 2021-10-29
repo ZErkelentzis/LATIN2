@@ -3,7 +3,7 @@ dataconstructor latin:/?SoftSubtyping?subtypeE
 dataconstructor latin:/?SoftSubtyping?[latin:/?SubtypingPreorder]/sub/[latin:/?Reflexivity]/refl
 dataconstructor latin:/?SoftSubtyping?[latin:/?SubtypingPreorder]/sub/[latin:/?Transitivity]/trans
 theory latin:/?SoftSubtyping
-HasMeta latin:/?SoftSubtyping http://cds.omdoc.org/urtheories?LF
+HasMeta latin:/?SoftSubtyping http://cds.omdoc.org/urtheories/?LF
 Includes latin:/?SoftSubtyping latin:/?SoftTypedTerms
 Includes latin:/?SoftSubtyping latin:/?Subtyping
 Declares latin:/?SoftSubtyping latin:/?SoftSubtyping?subtypeI

@@ -7,7 +7,7 @@ constant latin:/?EndoIdempotent?idempotent
 DependsOn latin:/?EndoIdempotent?idempotent?type latin:/?TypedTerms?tm?type
 DependsOn latin:/?EndoIdempotent?idempotent?type latin:/?Propositions?prop?type
 DependsOn latin:/?EndoIdempotent?idempotent?type latin:/?TypeOperator?applyType?type
-DependsOn latin:/?EndoIdempotent?idempotent?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?EndoIdempotent?idempotent?type latin:/?TypedEquality?tequal?type
 DependsOn latin:/?EndoIdempotent?idempotent?type latin:/?EndoMagma?op?type
 DependsOn latin:/?EndoIdempotent?idempotent?type latin:/?Proofs?ded?type
 DependsOn latin:/?EndoIdempotent?idempotent?type latin:/?Types?tp?type

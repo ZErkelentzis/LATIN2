@@ -29,7 +29,44 @@
     <element>info.kwarc.mmt.api.archives.Importer.buildFile(Index.scala:159)</element>
     <element>info.kwarc.mmt.api.archives.TraversingBuildTarget.runBuildTask(BuildTarget.scala:564)</element>
     <element>info.kwarc.mmt.api.archives.TraversingBuildTarget.runBuildTaskIfNeeded(BuildTarget.scala:470)</element>
-    <element>info.kwarc.mmt.api.archives.BuildQueue$$anon$1.run(BuildQueue.scala:263)</element>
+    <element>info.kwarc.mmt.api.archives.TrivialBuildManager.$anonfun$addTasks$1(BuildQueue.scala:123)</element>
+    <element>scala.collection.immutable.List.foreach(List.scala:333)</element>
+    <element>info.kwarc.mmt.api.archives.TrivialBuildManager.addTasks(BuildQueue.scala:122)</element>
+    <element>info.kwarc.mmt.api.archives.TraversingBuildTarget.build(BuildTarget.scala:389)</element>
+    <element>info.kwarc.mmt.api.archives.TraversingBuildTarget.build(BuildTarget.scala:383)</element>
+    <element>info.kwarc.mmt.api.archives.BuildTarget.apply(BuildTarget.scala:227)</element>
+    <element>info.kwarc.mmt.api.frontend.actions.ArchiveActionHandling.$anonfun$buildArchive$1(ArchiveAction.scala:119)</element>
+    <element>info.kwarc.mmt.api.frontend.actions.ArchiveActionHandling.$anonfun$buildArchive$1$adapted(ArchiveAction.scala:96)</element>
+    <element>scala.collection.immutable.List.foreach(List.scala:333)</element>
+    <element>info.kwarc.mmt.api.frontend.actions.ArchiveActionHandling.buildArchive(ArchiveAction.scala:96)</element>
+    <element>info.kwarc.mmt.api.frontend.actions.ArchiveActionHandling.buildArchive$(ArchiveAction.scala:95)</element>
+    <element>info.kwarc.mmt.api.frontend.Controller.buildArchive(Controller.scala:74)</element>
+    <element>info.kwarc.mmt.api.frontend.actions.ArchiveBuild.apply(ArchiveAction.scala:13)</element>
+    <element>info.kwarc.mmt.api.frontend.actions.ActionHandling.handle(ActionHandling.scala:48)</element>
+    <element>info.kwarc.mmt.api.frontend.actions.ActionHandling.handle$(ActionHandling.scala:37)</element>
+    <element>info.kwarc.mmt.api.frontend.Controller.handle(Controller.scala:74)</element>
+    <element>info.kwarc.mmt.api.frontend.actions.ActionHandling.handleLine(ActionHandling.scala:33)</element>
+    <element>info.kwarc.mmt.api.frontend.actions.ActionHandling.handleLine$(ActionHandling.scala:31)</element>
+    <element>info.kwarc.mmt.api.frontend.Controller.handleLine(Controller.scala:74)</element>
+    <element>info.kwarc.mmt.api.frontend.actions.ExecActionHandling.$anonfun$runMSLFile$1(ExecAction.scala:62)</element>
+    <element>info.kwarc.mmt.api.frontend.actions.ExecActionHandling.$anonfun$runMSLFile$1$adapted(ExecAction.scala:62)</element>
+    <element>scala.collection.ArrayOps$.foreach$extension(ArrayOps.scala:1323)</element>
+    <element>info.kwarc.mmt.api.frontend.actions.ExecActionHandling.runMSLFile(ExecAction.scala:62)</element>
+    <element>info.kwarc.mmt.api.frontend.actions.ExecActionHandling.runMSLFile$(ExecAction.scala:54)</element>
+    <element>info.kwarc.mmt.api.frontend.Controller.runMSLFile(Controller.scala:74)</element>
+    <element>info.kwarc.mmt.api.frontend.actions.ExecFile.apply(ExecAction.scala:15)</element>
+    <element>info.kwarc.mmt.api.frontend.actions.ActionHandling.handle(ActionHandling.scala:48)</element>
+    <element>info.kwarc.mmt.api.frontend.actions.ActionHandling.handle$(ActionHandling.scala:37)</element>
+    <element>info.kwarc.mmt.api.frontend.Controller.handle(Controller.scala:74)</element>
+    <element>info.kwarc.mmt.api.frontend.actions.ActionHandling.handleLine(ActionHandling.scala:33)</element>
+    <element>info.kwarc.mmt.api.frontend.actions.ActionHandling.handleLine$(ActionHandling.scala:31)</element>
+    <element>info.kwarc.mmt.api.frontend.Controller.handleLine(Controller.scala:74)</element>
+    <element>info.kwarc.mmt.api.frontend.Shell.$anonfun$mainRaw$14(Shell.scala:194)</element>
+    <element>info.kwarc.mmt.api.frontend.Shell.$anonfun$mainRaw$14$adapted(Shell.scala:194)</element>
+    <element>scala.collection.ArrayOps$.foreach$extension(ArrayOps.scala:1323)</element>
+    <element>info.kwarc.mmt.api.frontend.Shell.mainRaw(Shell.scala:194)</element>
+    <element>info.kwarc.mmt.api.frontend.Shell.main(Shell.scala:58)</element>
+    <element>info.kwarc.mmt.api.frontend.Run.main(Shell.scala)</element>
   </stacktrace>
 </error>
 </errors>

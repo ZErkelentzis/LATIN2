@@ -4,7 +4,7 @@ dataconstructor latin:/?DependentFunctions?depbeta
 theory latin:/?DependentFunctions
 HasMeta latin:/?DependentFunctions http://cds.omdoc.org/urtheories?LF
 Includes latin:/?DependentFunctions latin:/?DependentFunctionTypes
-Includes latin:/?DependentFunctions latin:/?TypedEquality
+Includes latin:/?DependentFunctions latin:/?TypedEqualityND
 Declares latin:/?DependentFunctions latin:/?DependentFunctions?deplambda
 constant latin:/?DependentFunctions?deplambda
 DependsOn latin:/?DependentFunctions?deplambda?type latin:/?DependentFunctionTypes?depfun?type
@@ -20,7 +20,7 @@ constant latin:/?DependentFunctions?depbeta
 DependsOn latin:/?DependentFunctions?depbeta?type latin:/?DependentFunctionTypes?depfun?type
 DependsOn latin:/?DependentFunctions?depbeta?type latin:/?TypedTerms?tm?type
 DependsOn latin:/?DependentFunctions?depbeta?type latin:/?Propositions?prop?type
-DependsOn latin:/?DependentFunctions?depbeta?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?DependentFunctions?depbeta?type latin:/?TypedEquality?tequal?type
 DependsOn latin:/?DependentFunctions?depbeta?type latin:/?DependentFunctions?deplambda?type
 DependsOn latin:/?DependentFunctions?depbeta?type latin:/?Proofs?ded?type
 DependsOn latin:/?DependentFunctions?depbeta?type latin:/?Types?tp?type

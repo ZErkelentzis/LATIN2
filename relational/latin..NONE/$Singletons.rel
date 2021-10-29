@@ -1,42 +1,131 @@
 dataconstructor latin:/?Singletons?singleton
-dataconstructor latin:/?Singletons?singleton_the
 dataconstructor latin:/?Singletons?singletonI
 dataconstructor latin:/?Singletons?singletonE
+dataconstructor latin:/?Singletons?issingleton
+dataconstructor latin:/?Singletons?singleton_the
+dataconstructor latin:/?Singletons?issingletonI
+dataconstructor latin:/?Singletons?issingletonE
+dataconstructor latin:/?Singletons?singleton_inj
 theory latin:/?Singletons
-HasMeta latin:/?Singletons latin:/?SetFOL
-Includes latin:/?Singletons latin:/?SingletonDefinition
+HasMeta latin:/?Singletons latin:/?DependentFOLEQDescND
+Includes latin:/?Singletons latin:/?SetBase
 Declares latin:/?Singletons latin:/?Singletons?singleton
 constant latin:/?Singletons?singleton
-DependsOn latin:/?Singletons?singleton?type latin:/?SetFOL?set?type
-Declares latin:/?Singletons latin:/?Singletons?singleton_the
-constant latin:/?Singletons?singleton_the
-DependsOn latin:/?Singletons?singleton_the?type latin:/?Propositions?prop?type
-DependsOn latin:/?Singletons?singleton_the?type latin:/?SingletonDefinition?issingleton?type
-DependsOn latin:/?Singletons?singleton_the?type latin:/?SetFOL?set?type
-DependsOn latin:/?Singletons?singleton_the?type latin:/?Proofs?ded?type
-DependsOn latin:/?Singletons?singleton_the?type latin:/?Terms?term?type
-DependsOn latin:/?Singletons?singleton_the?definition latin:/?Propositions?prop?type
-DependsOn latin:/?Singletons?singleton_the?definition latin:/?Description?the?type
-DependsOn latin:/?Singletons?singleton_the?definition latin:/?InternalTypes?in?type
-DependsOn latin:/?Singletons?singleton_the?definition latin:/?SingletonDefinition?issingleton?type
-DependsOn latin:/?Singletons?singleton_the?definition latin:/?SetFOL?set?type
-DependsOn latin:/?Singletons?singleton_the?definition latin:/?Proofs?ded?type
-DependsOn latin:/?Singletons?singleton_the?definition latin:/?Terms?term?type
-DependsOn latin:/?Singletons?singleton_the?definition latin:/?SetFOL?set?definition
+DependsOn latin:/?Singletons?singleton?type latin:/?SetDefinitions?set?type
 Declares latin:/?Singletons latin:/?Singletons?singletonI
 constant latin:/?Singletons?singletonI
 DependsOn latin:/?Singletons?singletonI?type latin:/?Propositions?prop?type
-DependsOn latin:/?Singletons?singletonI?type latin:/?InternalTypes?in?type
-DependsOn latin:/?Singletons?singletonI?type latin:/?SetFOL?set?type
+DependsOn latin:/?Singletons?singletonI?type latin:/?SetDefinitions?set?type
 DependsOn latin:/?Singletons?singletonI?type latin:/?Singletons?singleton?type
+DependsOn latin:/?Singletons?singletonI?type latin:/?SetDefinitions?in?type
 DependsOn latin:/?Singletons?singletonI?type latin:/?Proofs?ded?type
 DependsOn latin:/?Singletons?singletonI?type latin:/?Terms?term?type
+DependsOn latin:/?Singletons?singletonI?type latin:/?SetDefinitions?set?definition
 Declares latin:/?Singletons latin:/?Singletons?singletonE
 constant latin:/?Singletons?singletonE
 DependsOn latin:/?Singletons?singletonE?type latin:/?Propositions?prop?type
-DependsOn latin:/?Singletons?singletonE?type latin:/?InternalTypes?in?type
-DependsOn latin:/?Singletons?singletonE?type latin:/?SetFOL?set?type
+DependsOn latin:/?Singletons?singletonE?type latin:/?SetDefinitions?set?type
 DependsOn latin:/?Singletons?singletonE?type latin:/?Singletons?singleton?type
+DependsOn latin:/?Singletons?singletonE?type latin:/?SetDefinitions?in?type
 DependsOn latin:/?Singletons?singletonE?type latin:/?Proofs?ded?type
 DependsOn latin:/?Singletons?singletonE?type latin:/?Terms?term?type
-DependsOn latin:/?Singletons?singletonE?type latin:/?UntypedEquality?equal?type
+DependsOn latin:/?Singletons?singletonE?type latin:/?UntypedEquality?uequal?type
+DependsOn latin:/?Singletons?singletonE?type latin:/?SetDefinitions?set?definition
+Declares latin:/?Singletons latin:/?Singletons?issingleton
+constant latin:/?Singletons?issingleton
+DependsOn latin:/?Singletons?issingleton?type latin:/?Propositions?prop?type
+DependsOn latin:/?Singletons?issingleton?type latin:/?SetDefinitions?set?type
+DependsOn latin:/?Singletons?issingleton?definition latin:/?Propositions?prop?type
+DependsOn latin:/?Singletons?issingleton?definition latin:/?SetDefinitions?set?type
+DependsOn latin:/?Singletons?issingleton?definition latin:/?UniqueExistentialQuantification?uexistsUnique?type
+DependsOn latin:/?Singletons?issingleton?definition latin:/?SetDefinitions?in?type
+DependsOn latin:/?Singletons?issingleton?definition latin:/?Terms?term?type
+Declares latin:/?Singletons latin:/?Singletons?singleton_the
+constant latin:/?Singletons?singleton_the
+DependsOn latin:/?Singletons?singleton_the?type latin:/?Propositions?prop?type
+DependsOn latin:/?Singletons?singleton_the?type latin:/?Singletons?issingleton?type
+DependsOn latin:/?Singletons?singleton_the?type latin:/?SetDefinitions?set?type
+DependsOn latin:/?Singletons?singleton_the?type latin:/?Proofs?ded?type
+DependsOn latin:/?Singletons?singleton_the?type latin:/?Terms?term?type
+DependsOn latin:/?Singletons?singleton_the?definition latin:/?Propositions?prop?type
+DependsOn latin:/?Singletons?singleton_the?definition latin:/?Singletons?issingleton?type
+DependsOn latin:/?Singletons?singleton_the?definition latin:/?Description?the?type
+DependsOn latin:/?Singletons?singleton_the?definition latin:/?SetDefinitions?set?type
+DependsOn latin:/?Singletons?singleton_the?definition latin:/?UniqueExistentialQuantification?uexistsUnique?type
+DependsOn latin:/?Singletons?singleton_the?definition latin:/?SetDefinitions?in?type
+DependsOn latin:/?Singletons?singleton_the?definition latin:/?Proofs?ded?type
+DependsOn latin:/?Singletons?singleton_the?definition latin:/?Terms?term?type
+DependsOn latin:/?Singletons?singleton_the?definition latin:/?SetDefinitions?set?definition
+Declares latin:/?Singletons latin:/?Singletons?issingletonI
+constant latin:/?Singletons?issingletonI
+DependsOn latin:/?Singletons?issingletonI?type latin:/?Propositions?prop?type
+DependsOn latin:/?Singletons?issingletonI?type latin:/?Singletons?issingleton?type
+DependsOn latin:/?Singletons?issingletonI?type latin:/?SetDefinitions?set?type
+DependsOn latin:/?Singletons?issingletonI?type latin:/?Singletons?singleton?type
+DependsOn latin:/?Singletons?issingletonI?type latin:/?Proofs?ded?type
+DependsOn latin:/?Singletons?issingletonI?type latin:/?Terms?term?type
+DependsOn latin:/?Singletons?issingletonI?type latin:/?UntypedEquality?uequal?type
+DependsOn latin:/?Singletons?issingletonI?definition latin:/?Propositions?prop?type
+DependsOn latin:/?Singletons?issingletonI?definition latin:/?Singletons?issingleton?type
+DependsOn latin:/?Singletons?issingletonI?definition latin:/?UntypedEqualityND?ucongP?type
+DependsOn latin:/?Singletons?issingletonI?definition latin:/?UniqueExistentialQuantification?uexistsUnique?type
+DependsOn latin:/?Singletons?issingletonI?definition latin:/?SetDefinitions?in?type
+DependsOn latin:/?Singletons?issingletonI?definition latin:/?UntypedEquality?uequal?type
+DependsOn latin:/?Singletons?issingletonI?definition latin:/?SetDefinitions?set?definition
+DependsOn latin:/?Singletons?issingletonI?definition latin:/?SetDefinitions?set?type
+DependsOn latin:/?Singletons?issingletonI?definition latin:/?Singletons?singletonE?type
+DependsOn latin:/?Singletons?issingletonI?definition latin:/?Singletons?singletonI?type
+DependsOn latin:/?Singletons?issingletonI?definition latin:/?Singletons?singleton?type
+DependsOn latin:/?Singletons?issingletonI?definition latin:/?Proofs?ded?type
+DependsOn latin:/?Singletons?issingletonI?definition latin:/?Terms?term?type
+DependsOn latin:/?Singletons?issingletonI?definition latin:/?UniqueExistentialQuantificationND?uexistsUniqueI?type
+DependsOn latin:/?Singletons?issingletonI?definition latin:/?UntypedEqualityND?eq/[latin:/?Symmetry]/sym?type
+Declares latin:/?Singletons latin:/?Singletons?issingletonE
+constant latin:/?Singletons?issingletonE
+DependsOn latin:/?Singletons?issingletonE?type latin:/?Propositions?prop?type
+DependsOn latin:/?Singletons?issingletonE?type latin:/?Singletons?issingleton?type
+DependsOn latin:/?Singletons?issingletonE?type latin:/?ExistentialQuantification?uexists?type
+DependsOn latin:/?Singletons?issingletonE?type latin:/?SetDefinitions?set?type
+DependsOn latin:/?Singletons?issingletonE?type latin:/?Singletons?singleton?type
+DependsOn latin:/?Singletons?issingletonE?type latin:/?Proofs?ded?type
+DependsOn latin:/?Singletons?issingletonE?type latin:/?Terms?term?type
+DependsOn latin:/?Singletons?issingletonE?type latin:/?UntypedEquality?uequal?type
+DependsOn latin:/?Singletons?issingletonE?definition latin:/?ExistentialQuantificationNDI?uexistsI?type
+DependsOn latin:/?Singletons?issingletonE?definition latin:/?Propositions?prop?type
+DependsOn latin:/?Singletons?issingletonE?definition latin:/?Singletons?issingleton?type
+DependsOn latin:/?Singletons?issingletonE?definition latin:/?ExistentialQuantification?uexists?type
+DependsOn latin:/?Singletons?issingletonE?definition latin:/?SetDefinitions?eq_in?type
+DependsOn latin:/?Singletons?issingletonE?definition latin:/?EquivalenceNDI?equivI?type
+DependsOn latin:/?Singletons?issingletonE?definition latin:/?UniqueExistentialQuantification?uexistsUnique?type
+DependsOn latin:/?Singletons?issingletonE?definition latin:/?SetDefinitions?in?type
+DependsOn latin:/?Singletons?issingletonE?definition latin:/?UntypedEquality?uequal?type
+DependsOn latin:/?Singletons?issingletonE?definition latin:/?SetDefinitions?set?definition
+DependsOn latin:/?Singletons?issingletonE?definition latin:/?ExtensionalityAx?extensionalityI?type
+DependsOn latin:/?Singletons?issingletonE?definition latin:/?UniqueExistentialQuantificationND?uexistsUniqueE?type
+DependsOn latin:/?Singletons?issingletonE?definition latin:/?SetDefinitions?set?type
+DependsOn latin:/?Singletons?issingletonE?definition latin:/?Singletons?singletonE?type
+DependsOn latin:/?Singletons?issingletonE?definition latin:/?Singletons?singletonI?type
+DependsOn latin:/?Singletons?issingletonE?definition latin:/?Singletons?singleton?type
+DependsOn latin:/?Singletons?issingletonE?definition latin:/?Equivalence?equiv?type
+DependsOn latin:/?Singletons?issingletonE?definition latin:/?Proofs?ded?type
+DependsOn latin:/?Singletons?issingletonE?definition latin:/?Terms?term?type
+DependsOn latin:/?Singletons?issingletonE?definition latin:/?UntypedEqualityND?eq/[latin:/?Symmetry]/sym?type
+Declares latin:/?Singletons latin:/?Singletons?singleton_inj
+constant latin:/?Singletons?singleton_inj
+DependsOn latin:/?Singletons?singleton_inj?type latin:/?Propositions?prop?type
+DependsOn latin:/?Singletons?singleton_inj?type latin:/?SetDefinitions?set?type
+DependsOn latin:/?Singletons?singleton_inj?type latin:/?Singletons?singleton?type
+DependsOn latin:/?Singletons?singleton_inj?type latin:/?Proofs?ded?type
+DependsOn latin:/?Singletons?singleton_inj?type latin:/?Terms?term?type
+DependsOn latin:/?Singletons?singleton_inj?type latin:/?UntypedEquality?uequal?type
+DependsOn latin:/?Singletons?singleton_inj?definition latin:/?Propositions?prop?type
+DependsOn latin:/?Singletons?singleton_inj?definition latin:/?SetDefinitions?set?type
+DependsOn latin:/?Singletons?singleton_inj?definition latin:/?Singletons?singletonE?type
+DependsOn latin:/?Singletons?singleton_inj?definition latin:/?Singletons?singletonI?type
+DependsOn latin:/?Singletons?singleton_inj?definition latin:/?Singletons?singleton?type
+DependsOn latin:/?Singletons?singleton_inj?definition latin:/?SetDefinitions?in?type
+DependsOn latin:/?Singletons?singleton_inj?definition latin:/?Proofs?ded?type
+DependsOn latin:/?Singletons?singleton_inj?definition latin:/?Terms?term?type
+DependsOn latin:/?Singletons?singleton_inj?definition latin:/?UntypedEquality?uequal?type
+DependsOn latin:/?Singletons?singleton_inj?definition latin:/?SetDefinitions?set?definition
+DependsOn latin:/?Singletons?singleton_inj?definition latin:/?SetDefinitions?in_eq?type

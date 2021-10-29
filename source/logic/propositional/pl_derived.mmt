@@ -261,15 +261,15 @@ theory Nnf_and =
 
 theory Nnf_IPL =
 		include ?IPLND❙
-		include ?nnf_or❙
-		include ?nnf_and❙
+		include ?Nnf_or❙
+		include ?Nnf_and❙
 
 ❚
 
 
 theory Nnf_and_classic =
 		include ?PLND❙
-		include ?nnf_and❙
+		include ?Nnf_and❙
 
 		
 		nnf_and_in: {A,B} ⊦ ¬ (A ∧ B) ⟶ ⊦ ¬A  ∨ ¬ B❘
@@ -282,8 +282,8 @@ theory Nnf_and_classic =
 
 theory Nnf_PL =
 		include ?PLND❙
-		include ?nnf_IPL❙
-		include ?nnf_and_classic❙
+		include ?Nnf_IPL❙
+		include ?Nnf_and_classic❙
 ❚
 
 theory And_functor =

@@ -1,45 +1,27 @@
-dataconstructor latin:/?TypeEqualityND?tpeq/[latin:/?UntypedEquality]/equal
-judgementconstructor latin:/?TypeEqualityND?tpeq/[latin:/?Logic]/inconsistent
-dataconstructor latin:/?TypeEqualityND?tpeq/[latin:/?Logic]/inconsistentE
 datatypeconstructor latin:/?TypeEqualityND?tpeq/[latin:/?Propositions]/prop
 judgementconstructor latin:/?TypeEqualityND?tpeq/[latin:/?Proofs]/ded
+judgementconstructor latin:/?TypeEqualityND?tpeq/[latin:/?Logic]/inconsistent
+dataconstructor latin:/?TypeEqualityND?tpeq/[latin:/?Logic]/inconsistentE
 datatypeconstructor latin:/?TypeEqualityND?tpeq/[latin:/?Terms]/term
-dataconstructor latin:/?TypeEqualityND?tpeq/refl
-dataconstructor latin:/?TypeEqualityND?tpeq/congP
-dataconstructor latin:/?TypeEqualityND?tpeq/eq/[latin:/?Reflexivity]/refl
-judgementconstructor latin:/?TypeEqualityND?tpeq/eq/[latin:/?Relation]/rel
+dataconstructor latin:/?TypeEqualityND?tpeq/[latin:/?UntypedEquality]/uequal
+dataconstructor latin:/?TypeEqualityND?tpeq/urefl
+dataconstructor latin:/?TypeEqualityND?tpeq/ucongP
 datatypeconstructor latin:/?TypeEqualityND?tpeq/eq/[latin:/?OneTyped]/carrier
+judgementconstructor latin:/?TypeEqualityND?tpeq/eq/[latin:/?Relation]/rel
+dataconstructor latin:/?TypeEqualityND?tpeq/eq/[latin:/?Reflexivity]/refl
 dataconstructor latin:/?TypeEqualityND?tpeq/eq/[latin:/?Transitivity]/trans
 dataconstructor latin:/?TypeEqualityND?tpeq/eq/[latin:/?Transitivity]/trans3
 dataconstructor latin:/?TypeEqualityND?tpeq/eq/[latin:/?Transitivity]/trans4
 dataconstructor latin:/?TypeEqualityND?tpeq/eq/[latin:/?Symmetry]/sym
 dataconstructor latin:/?TypeEqualityND?tpeq/eq/[latin:/?Congruence]/congT
 theory latin:/?TypeEqualityND
-HasMeta latin:/?TypeEqualityND http://cds.omdoc.org/urtheories?LF
+HasMeta latin:/?TypeEqualityND http://cds.omdoc.org/urtheories/?LF
 Includes latin:/?TypeEqualityND latin:/?Types
 Includes latin:/?TypeEqualityND latin:/?Logic
 Declares latin:/?TypeEqualityND latin:/?TypeEqualityND?tpeq
 HasDomain latin:/?TypeEqualityND?tpeq latin:/?UntypedEqualityND
 HasCodomain latin:/?TypeEqualityND?tpeq latin:/?TypeEqualityND
 structure latin:/?TypeEqualityND?tpeq
-Declares latin:/?TypeEqualityND latin:/?TypeEqualityND?tpeq/[latin:/?UntypedEquality]
-HasDomain latin:/?TypeEqualityND?tpeq/[latin:/?UntypedEquality] latin:/?UntypedEquality
-HasCodomain latin:/?TypeEqualityND?tpeq/[latin:/?UntypedEquality] latin:/?TypeEqualityND
-structure latin:/?TypeEqualityND?tpeq/[latin:/?UntypedEquality]
-Declares latin:/?TypeEqualityND latin:/?TypeEqualityND?tpeq/[latin:/?UntypedEquality]/equal
-constant latin:/?TypeEqualityND?tpeq/[latin:/?UntypedEquality]/equal
-Declares latin:/?TypeEqualityND latin:/?TypeEqualityND?tpeq/[latin:/?UntypedLogic]
-HasDomain latin:/?TypeEqualityND?tpeq/[latin:/?UntypedLogic] latin:/?UntypedLogic
-HasCodomain latin:/?TypeEqualityND?tpeq/[latin:/?UntypedLogic] latin:/?TypeEqualityND
-structure latin:/?TypeEqualityND?tpeq/[latin:/?UntypedLogic]
-Declares latin:/?TypeEqualityND latin:/?TypeEqualityND?tpeq/[latin:/?Logic]
-HasDomain latin:/?TypeEqualityND?tpeq/[latin:/?Logic] latin:/?Logic
-HasCodomain latin:/?TypeEqualityND?tpeq/[latin:/?Logic] latin:/?TypeEqualityND
-structure latin:/?TypeEqualityND?tpeq/[latin:/?Logic]
-Declares latin:/?TypeEqualityND latin:/?TypeEqualityND?tpeq/[latin:/?Logic]/inconsistent
-constant latin:/?TypeEqualityND?tpeq/[latin:/?Logic]/inconsistent
-Declares latin:/?TypeEqualityND latin:/?TypeEqualityND?tpeq/[latin:/?Logic]/inconsistentE
-constant latin:/?TypeEqualityND?tpeq/[latin:/?Logic]/inconsistentE
 Declares latin:/?TypeEqualityND latin:/?TypeEqualityND?tpeq/[latin:/?Propositions]
 HasDomain latin:/?TypeEqualityND?tpeq/[latin:/?Propositions] latin:/?Propositions
 HasCodomain latin:/?TypeEqualityND?tpeq/[latin:/?Propositions] latin:/?TypeEqualityND
@@ -52,46 +34,57 @@ HasCodomain latin:/?TypeEqualityND?tpeq/[latin:/?Proofs] latin:/?TypeEqualityND
 structure latin:/?TypeEqualityND?tpeq/[latin:/?Proofs]
 Declares latin:/?TypeEqualityND latin:/?TypeEqualityND?tpeq/[latin:/?Proofs]/ded
 constant latin:/?TypeEqualityND?tpeq/[latin:/?Proofs]/ded
+Declares latin:/?TypeEqualityND latin:/?TypeEqualityND?tpeq/[latin:/?Logic]
+HasDomain latin:/?TypeEqualityND?tpeq/[latin:/?Logic] latin:/?Logic
+HasCodomain latin:/?TypeEqualityND?tpeq/[latin:/?Logic] latin:/?TypeEqualityND
+structure latin:/?TypeEqualityND?tpeq/[latin:/?Logic]
+Declares latin:/?TypeEqualityND latin:/?TypeEqualityND?tpeq/[latin:/?Logic]/inconsistent
+constant latin:/?TypeEqualityND?tpeq/[latin:/?Logic]/inconsistent
+Declares latin:/?TypeEqualityND latin:/?TypeEqualityND?tpeq/[latin:/?Logic]/inconsistentE
+constant latin:/?TypeEqualityND?tpeq/[latin:/?Logic]/inconsistentE
 Declares latin:/?TypeEqualityND latin:/?TypeEqualityND?tpeq/[latin:/?Terms]
 HasDomain latin:/?TypeEqualityND?tpeq/[latin:/?Terms] latin:/?Terms
 HasCodomain latin:/?TypeEqualityND?tpeq/[latin:/?Terms] latin:/?TypeEqualityND
 structure latin:/?TypeEqualityND?tpeq/[latin:/?Terms]
 Declares latin:/?TypeEqualityND latin:/?TypeEqualityND?tpeq/[latin:/?Terms]/term
 constant latin:/?TypeEqualityND?tpeq/[latin:/?Terms]/term
-Declares latin:/?TypeEqualityND latin:/?TypeEqualityND?tpeq/refl
-constant latin:/?TypeEqualityND?tpeq/refl
-Declares latin:/?TypeEqualityND latin:/?TypeEqualityND?tpeq/congP
-constant latin:/?TypeEqualityND?tpeq/congP
+Declares latin:/?TypeEqualityND latin:/?TypeEqualityND?tpeq/[latin:/?UntypedLogic]
+HasDomain latin:/?TypeEqualityND?tpeq/[latin:/?UntypedLogic] latin:/?UntypedLogic
+HasCodomain latin:/?TypeEqualityND?tpeq/[latin:/?UntypedLogic] latin:/?TypeEqualityND
+structure latin:/?TypeEqualityND?tpeq/[latin:/?UntypedLogic]
+Declares latin:/?TypeEqualityND latin:/?TypeEqualityND?tpeq/[latin:/?UntypedEquality]
+HasDomain latin:/?TypeEqualityND?tpeq/[latin:/?UntypedEquality] latin:/?UntypedEquality
+HasCodomain latin:/?TypeEqualityND?tpeq/[latin:/?UntypedEquality] latin:/?TypeEqualityND
+structure latin:/?TypeEqualityND?tpeq/[latin:/?UntypedEquality]
+Declares latin:/?TypeEqualityND latin:/?TypeEqualityND?tpeq/[latin:/?UntypedEquality]/uequal
+constant latin:/?TypeEqualityND?tpeq/[latin:/?UntypedEquality]/uequal
+Declares latin:/?TypeEqualityND latin:/?TypeEqualityND?tpeq/urefl
+constant latin:/?TypeEqualityND?tpeq/urefl
+Declares latin:/?TypeEqualityND latin:/?TypeEqualityND?tpeq/ucongP
+constant latin:/?TypeEqualityND?tpeq/ucongP
+IsAliasFor latin:/?TypeEqualityND?tpeq/ucongP_ latin:/?TypeEqualityND?tpeq/ucongP
 Declares latin:/?TypeEqualityND latin:/?TypeEqualityND?tpeq/eq
 HasDomain latin:/?TypeEqualityND?tpeq/eq latin:/?EquivalenceCongruence
 HasCodomain latin:/?TypeEqualityND?tpeq/eq latin:/?TypeEqualityND
 structure latin:/?TypeEqualityND?tpeq/eq
-Declares latin:/?TypeEqualityND latin:/?TypeEqualityND?tpeq/eq/[latin:/?EquivalenceRelation]
-HasDomain latin:/?TypeEqualityND?tpeq/eq/[latin:/?EquivalenceRelation] latin:/?EquivalenceRelation
-HasCodomain latin:/?TypeEqualityND?tpeq/eq/[latin:/?EquivalenceRelation] latin:/?TypeEqualityND
-structure latin:/?TypeEqualityND?tpeq/eq/[latin:/?EquivalenceRelation]
-Declares latin:/?TypeEqualityND latin:/?TypeEqualityND?tpeq/eq/[latin:/?Preorder]
-HasDomain latin:/?TypeEqualityND?tpeq/eq/[latin:/?Preorder] latin:/?Preorder
-HasCodomain latin:/?TypeEqualityND?tpeq/eq/[latin:/?Preorder] latin:/?TypeEqualityND
-structure latin:/?TypeEqualityND?tpeq/eq/[latin:/?Preorder]
-Declares latin:/?TypeEqualityND latin:/?TypeEqualityND?tpeq/eq/[latin:/?Reflexivity]
-HasDomain latin:/?TypeEqualityND?tpeq/eq/[latin:/?Reflexivity] latin:/?Reflexivity
-HasCodomain latin:/?TypeEqualityND?tpeq/eq/[latin:/?Reflexivity] latin:/?TypeEqualityND
-structure latin:/?TypeEqualityND?tpeq/eq/[latin:/?Reflexivity]
-Declares latin:/?TypeEqualityND latin:/?TypeEqualityND?tpeq/eq/[latin:/?Reflexivity]/refl
-constant latin:/?TypeEqualityND?tpeq/eq/[latin:/?Reflexivity]/refl
-Declares latin:/?TypeEqualityND latin:/?TypeEqualityND?tpeq/eq/[latin:/?Relation]
-HasDomain latin:/?TypeEqualityND?tpeq/eq/[latin:/?Relation] latin:/?Relation
-HasCodomain latin:/?TypeEqualityND?tpeq/eq/[latin:/?Relation] latin:/?TypeEqualityND
-structure latin:/?TypeEqualityND?tpeq/eq/[latin:/?Relation]
-Declares latin:/?TypeEqualityND latin:/?TypeEqualityND?tpeq/eq/[latin:/?Relation]/rel
-constant latin:/?TypeEqualityND?tpeq/eq/[latin:/?Relation]/rel
 Declares latin:/?TypeEqualityND latin:/?TypeEqualityND?tpeq/eq/[latin:/?OneTyped]
 HasDomain latin:/?TypeEqualityND?tpeq/eq/[latin:/?OneTyped] latin:/?OneTyped
 HasCodomain latin:/?TypeEqualityND?tpeq/eq/[latin:/?OneTyped] latin:/?TypeEqualityND
 structure latin:/?TypeEqualityND?tpeq/eq/[latin:/?OneTyped]
 Declares latin:/?TypeEqualityND latin:/?TypeEqualityND?tpeq/eq/[latin:/?OneTyped]/carrier
 constant latin:/?TypeEqualityND?tpeq/eq/[latin:/?OneTyped]/carrier
+Declares latin:/?TypeEqualityND latin:/?TypeEqualityND?tpeq/eq/[latin:/?Relation]
+HasDomain latin:/?TypeEqualityND?tpeq/eq/[latin:/?Relation] latin:/?Relation
+HasCodomain latin:/?TypeEqualityND?tpeq/eq/[latin:/?Relation] latin:/?TypeEqualityND
+structure latin:/?TypeEqualityND?tpeq/eq/[latin:/?Relation]
+Declares latin:/?TypeEqualityND latin:/?TypeEqualityND?tpeq/eq/[latin:/?Relation]/rel
+constant latin:/?TypeEqualityND?tpeq/eq/[latin:/?Relation]/rel
+Declares latin:/?TypeEqualityND latin:/?TypeEqualityND?tpeq/eq/[latin:/?Reflexivity]
+HasDomain latin:/?TypeEqualityND?tpeq/eq/[latin:/?Reflexivity] latin:/?Reflexivity
+HasCodomain latin:/?TypeEqualityND?tpeq/eq/[latin:/?Reflexivity] latin:/?TypeEqualityND
+structure latin:/?TypeEqualityND?tpeq/eq/[latin:/?Reflexivity]
+Declares latin:/?TypeEqualityND latin:/?TypeEqualityND?tpeq/eq/[latin:/?Reflexivity]/refl
+constant latin:/?TypeEqualityND?tpeq/eq/[latin:/?Reflexivity]/refl
 Declares latin:/?TypeEqualityND latin:/?TypeEqualityND?tpeq/eq/[latin:/?Transitivity]
 HasDomain latin:/?TypeEqualityND?tpeq/eq/[latin:/?Transitivity] latin:/?Transitivity
 HasCodomain latin:/?TypeEqualityND?tpeq/eq/[latin:/?Transitivity] latin:/?TypeEqualityND
@@ -102,12 +95,20 @@ Declares latin:/?TypeEqualityND latin:/?TypeEqualityND?tpeq/eq/[latin:/?Transiti
 constant latin:/?TypeEqualityND?tpeq/eq/[latin:/?Transitivity]/trans3
 Declares latin:/?TypeEqualityND latin:/?TypeEqualityND?tpeq/eq/[latin:/?Transitivity]/trans4
 constant latin:/?TypeEqualityND?tpeq/eq/[latin:/?Transitivity]/trans4
+Declares latin:/?TypeEqualityND latin:/?TypeEqualityND?tpeq/eq/[latin:/?Preorder]
+HasDomain latin:/?TypeEqualityND?tpeq/eq/[latin:/?Preorder] latin:/?Preorder
+HasCodomain latin:/?TypeEqualityND?tpeq/eq/[latin:/?Preorder] latin:/?TypeEqualityND
+structure latin:/?TypeEqualityND?tpeq/eq/[latin:/?Preorder]
 Declares latin:/?TypeEqualityND latin:/?TypeEqualityND?tpeq/eq/[latin:/?Symmetry]
 HasDomain latin:/?TypeEqualityND?tpeq/eq/[latin:/?Symmetry] latin:/?Symmetry
 HasCodomain latin:/?TypeEqualityND?tpeq/eq/[latin:/?Symmetry] latin:/?TypeEqualityND
 structure latin:/?TypeEqualityND?tpeq/eq/[latin:/?Symmetry]
 Declares latin:/?TypeEqualityND latin:/?TypeEqualityND?tpeq/eq/[latin:/?Symmetry]/sym
 constant latin:/?TypeEqualityND?tpeq/eq/[latin:/?Symmetry]/sym
+Declares latin:/?TypeEqualityND latin:/?TypeEqualityND?tpeq/eq/[latin:/?EquivalenceRelation]
+HasDomain latin:/?TypeEqualityND?tpeq/eq/[latin:/?EquivalenceRelation] latin:/?EquivalenceRelation
+HasCodomain latin:/?TypeEqualityND?tpeq/eq/[latin:/?EquivalenceRelation] latin:/?TypeEqualityND
+structure latin:/?TypeEqualityND?tpeq/eq/[latin:/?EquivalenceRelation]
 Declares latin:/?TypeEqualityND latin:/?TypeEqualityND?tpeq/eq/[latin:/?Congruence]
 HasDomain latin:/?TypeEqualityND?tpeq/eq/[latin:/?Congruence] latin:/?Congruence
 HasCodomain latin:/?TypeEqualityND?tpeq/eq/[latin:/?Congruence] latin:/?TypeEqualityND

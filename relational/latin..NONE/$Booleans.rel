@@ -1,13 +1,9 @@
 dataconstructor latin:/?Booleans?bool
 dataconstructor latin:/?Booleans?tt
 dataconstructor latin:/?Booleans?ff
-dataconstructor latin:/?Booleans?if
-dataconstructor latin:/?Booleans?bool_tnd
 dataconstructor latin:/?Booleans?bool_nontrivial
-dataconstructor latin:/?Booleans?if_tt
-dataconstructor latin:/?Booleans?if_ff
 theory latin:/?Booleans
-HasMeta latin:/?Booleans latin:/?SFOLEQ
+HasMeta latin:/?Booleans latin:/?SFOLEQND
 Declares latin:/?Booleans latin:/?Booleans?bool
 constant latin:/?Booleans?bool
 DependsOn latin:/?Booleans?bool?type latin:/?Types?tp?type
@@ -21,49 +17,14 @@ constant latin:/?Booleans?ff
 DependsOn latin:/?Booleans?ff?type latin:/?Booleans?bool?type
 DependsOn latin:/?Booleans?ff?type latin:/?TypedTerms?tm?type
 DependsOn latin:/?Booleans?ff?type latin:/?Types?tp?type
-Declares latin:/?Booleans latin:/?Booleans?if
-constant latin:/?Booleans?if
-DependsOn latin:/?Booleans?if?type latin:/?Booleans?bool?type
-DependsOn latin:/?Booleans?if?type latin:/?TypedTerms?tm?type
-DependsOn latin:/?Booleans?if?type latin:/?Types?tp?type
-Declares latin:/?Booleans latin:/?Booleans?bool_tnd
-constant latin:/?Booleans?bool_tnd
-DependsOn latin:/?Booleans?bool_tnd?type latin:/?Booleans?bool?type
-DependsOn latin:/?Booleans?bool_tnd?type latin:/?TypedTerms?tm?type
-DependsOn latin:/?Booleans?bool_tnd?type latin:/?Propositions?prop?type
-DependsOn latin:/?Booleans?bool_tnd?type latin:/?Booleans?ff?type
-DependsOn latin:/?Booleans?bool_tnd?type latin:/?TypedEquality?equal?type
-DependsOn latin:/?Booleans?bool_tnd?type latin:/?Booleans?tt?type
-DependsOn latin:/?Booleans?bool_tnd?type latin:/?Proofs?ded?type
-DependsOn latin:/?Booleans?bool_tnd?type latin:/?TypedUniversalQuantification?forall?type
-DependsOn latin:/?Booleans?bool_tnd?type latin:/?Types?tp?type
-DependsOn latin:/?Booleans?bool_tnd?type latin:/?Disjunction?or?type
 Declares latin:/?Booleans latin:/?Booleans?bool_nontrivial
 constant latin:/?Booleans?bool_nontrivial
 DependsOn latin:/?Booleans?bool_nontrivial?type latin:/?Booleans?bool?type
 DependsOn latin:/?Booleans?bool_nontrivial?type latin:/?TypedTerms?tm?type
 DependsOn latin:/?Booleans?bool_nontrivial?type latin:/?Propositions?prop?type
 DependsOn latin:/?Booleans?bool_nontrivial?type latin:/?Booleans?ff?type
-DependsOn latin:/?Booleans?bool_nontrivial?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?Booleans?bool_nontrivial?type latin:/?TypedEquality?tequal?type
 DependsOn latin:/?Booleans?bool_nontrivial?type latin:/?Booleans?tt?type
 DependsOn latin:/?Booleans?bool_nontrivial?type latin:/?Proofs?ded?type
 DependsOn latin:/?Booleans?bool_nontrivial?type latin:/?Negation?not?type
 DependsOn latin:/?Booleans?bool_nontrivial?type latin:/?Types?tp?type
-Declares latin:/?Booleans latin:/?Booleans?if_tt
-constant latin:/?Booleans?if_tt
-DependsOn latin:/?Booleans?if_tt?type latin:/?TypedTerms?tm?type
-DependsOn latin:/?Booleans?if_tt?type latin:/?Propositions?prop?type
-DependsOn latin:/?Booleans?if_tt?type latin:/?TypedEquality?equal?type
-DependsOn latin:/?Booleans?if_tt?type latin:/?Booleans?tt?type
-DependsOn latin:/?Booleans?if_tt?type latin:/?Proofs?ded?type
-DependsOn latin:/?Booleans?if_tt?type latin:/?Types?tp?type
-DependsOn latin:/?Booleans?if_tt?type latin:/?Booleans?if?type
-Declares latin:/?Booleans latin:/?Booleans?if_ff
-constant latin:/?Booleans?if_ff
-DependsOn latin:/?Booleans?if_ff?type latin:/?TypedTerms?tm?type
-DependsOn latin:/?Booleans?if_ff?type latin:/?Propositions?prop?type
-DependsOn latin:/?Booleans?if_ff?type latin:/?Booleans?ff?type
-DependsOn latin:/?Booleans?if_ff?type latin:/?TypedEquality?equal?type
-DependsOn latin:/?Booleans?if_ff?type latin:/?Proofs?ded?type
-DependsOn latin:/?Booleans?if_ff?type latin:/?Types?tp?type
-DependsOn latin:/?Booleans?if_ff?type latin:/?Booleans?if?type

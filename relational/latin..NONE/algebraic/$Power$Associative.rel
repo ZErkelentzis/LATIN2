@@ -7,10 +7,10 @@ constant latin:/algebraic?PowerAssociative?power_assoc
 DependsOn latin:/algebraic?PowerAssociative?power_assoc?type latin:/?TypedTerms?tm?type
 DependsOn latin:/algebraic?PowerAssociative?power_assoc?type latin:/?Propositions?prop?type
 DependsOn latin:/algebraic?PowerAssociative?power_assoc?type latin:/algebraic?Set?U?type
-DependsOn latin:/algebraic?PowerAssociative?power_assoc?type latin:/?TypedEquality?equal?type
+DependsOn latin:/algebraic?PowerAssociative?power_assoc?type latin:/?TypedEquality?tequal?type
 DependsOn latin:/algebraic?PowerAssociative?power_assoc?type latin:/algebraic?Set?U?definition
 DependsOn latin:/algebraic?PowerAssociative?power_assoc?type latin:/algebraic?Magma?op?type
 DependsOn latin:/algebraic?PowerAssociative?power_assoc?type latin:/?Proofs?ded?type
-DependsOn latin:/algebraic?PowerAssociative?power_assoc?type latin:/?TypedUniversalQuantification?forall?type
+DependsOn latin:/algebraic?PowerAssociative?power_assoc?type latin:/?TypedUniversalQuantification?tforall?type
 DependsOn latin:/algebraic?PowerAssociative?power_assoc?type latin:/?Types?tp?type
 DependsOn latin:/algebraic?PowerAssociative?power_assoc?type latin:/algebraic?Set?universe?type

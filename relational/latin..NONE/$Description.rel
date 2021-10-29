@@ -5,3 +5,7 @@ Includes latin:/?Description latin:/?Logic
 Includes latin:/?Description latin:/?UniqueExistentialQuantification
 Declares latin:/?Description latin:/?Description?the
 constant latin:/?Description?the
+DependsOn latin:/?Description?the?type latin:/?Propositions?prop?type
+DependsOn latin:/?Description?the?type latin:/?UniqueExistentialQuantification?uexistsUnique?type
+DependsOn latin:/?Description?the?type latin:/?Proofs?ded?type
+DependsOn latin:/?Description?the?type latin:/?Terms?term?type

@@ -1,4 +1,6 @@
 dataconstructor latin:/?DependentDisjunction?dor
+datatypeconstructor latin:/?DependentDisjunction?dis/[latin:/?Propositions]/prop
+dataconstructor latin:/?DependentDisjunction?dis/or
 theory latin:/?DependentDisjunction
 HasMeta latin:/?DependentDisjunction http://cds.omdoc.org/urtheories?LF
 Includes latin:/?DependentDisjunction latin:/?Logic
@@ -7,3 +9,15 @@ constant latin:/?DependentDisjunction?dor
 DependsOn latin:/?DependentDisjunction?dor?type latin:/?Propositions?prop?type
 DependsOn latin:/?DependentDisjunction?dor?type latin:/?Logic?inconsistent?type
 DependsOn latin:/?DependentDisjunction?dor?type latin:/?Proofs?ded?type
+Declares latin:/?DependentDisjunction latin:/?DependentDisjunction?dis
+HasDomain latin:/?DependentDisjunction?dis latin:/?Disjunction
+HasCodomain latin:/?DependentDisjunction?dis latin:/?DependentDisjunction
+structure latin:/?DependentDisjunction?dis
+Declares latin:/?DependentDisjunction latin:/?DependentDisjunction?dis/[latin:/?Propositions]
+HasDomain latin:/?DependentDisjunction?dis/[latin:/?Propositions] latin:/?Propositions
+HasCodomain latin:/?DependentDisjunction?dis/[latin:/?Propositions] latin:/?DependentDisjunction
+structure latin:/?DependentDisjunction?dis/[latin:/?Propositions]
+Declares latin:/?DependentDisjunction latin:/?DependentDisjunction?dis/[latin:/?Propositions]/prop
+constant latin:/?DependentDisjunction?dis/[latin:/?Propositions]/prop
+Declares latin:/?DependentDisjunction latin:/?DependentDisjunction?dis/or
+constant latin:/?DependentDisjunction?dis/or

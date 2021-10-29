@@ -24,7 +24,7 @@ DependsOn latin:/algebraic?Involutory?inverse_refl?type latin:/?Types?tp?type
 DependsOn latin:/algebraic?Involutory?inverse_refl?type latin:/algebraic?Set?universe?type
 DependsOn latin:/algebraic?Involutory?inverse_refl?definition latin:/?TypedTerms?tm?type
 DependsOn latin:/algebraic?Involutory?inverse_refl?definition latin:/?Propositions?prop?type
-DependsOn latin:/algebraic?Involutory?inverse_refl?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/algebraic?Involutory?inverse_refl?definition latin:/?TypedEquality?tequal?type
 DependsOn latin:/algebraic?Involutory?inverse_refl?definition latin:/algebraic?Monoid?involution_inverse?type
 DependsOn latin:/algebraic?Involutory?inverse_refl?definition latin:/?EquivalenceNDE?equivEl?type
 DependsOn latin:/algebraic?Involutory?inverse_refl?definition latin:/algebraic?Set?universe?type
@@ -44,7 +44,7 @@ constant latin:/algebraic?Involutory?inverse_ident
 DependsOn latin:/algebraic?Involutory?inverse_ident?type latin:/?TypedTerms?tm?type
 DependsOn latin:/algebraic?Involutory?inverse_ident?type latin:/?Propositions?prop?type
 DependsOn latin:/algebraic?Involutory?inverse_ident?type latin:/algebraic?Set?U?type
-DependsOn latin:/algebraic?Involutory?inverse_ident?type latin:/?TypedEquality?equal?type
+DependsOn latin:/algebraic?Involutory?inverse_ident?type latin:/?TypedEquality?tequal?type
 DependsOn latin:/algebraic?Involutory?inverse_ident?type latin:/?Proofs?ded?type
 DependsOn latin:/algebraic?Involutory?inverse_ident?type latin:/algebraic?Monoid?inverse?type
 DependsOn latin:/algebraic?Involutory?inverse_ident?type latin:/?Types?tp?type
@@ -52,7 +52,7 @@ DependsOn latin:/algebraic?Involutory?inverse_ident?type latin:/algebraic?Set?un
 DependsOn latin:/algebraic?Involutory?inverse_ident?definition latin:/?TypedTerms?tm?type
 DependsOn latin:/algebraic?Involutory?inverse_ident?definition latin:/algebraic?Involutory?inverse_refl?type
 DependsOn latin:/algebraic?Involutory?inverse_ident?definition latin:/?Propositions?prop?type
-DependsOn latin:/algebraic?Involutory?inverse_ident?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/algebraic?Involutory?inverse_ident?definition latin:/?TypedEquality?tequal?type
 DependsOn latin:/algebraic?Involutory?inverse_ident?definition latin:/algebraic?Monoid?inverse_unique?type
 DependsOn latin:/algebraic?Involutory?inverse_ident?definition latin:/algebraic?Set?universe?type
 DependsOn latin:/algebraic?Involutory?inverse_ident?definition latin:/algebraic?Set?U?type

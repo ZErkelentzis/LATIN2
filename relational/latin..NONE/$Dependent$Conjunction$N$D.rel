@@ -1,6 +1,13 @@
 dataconstructor latin:/?DependentConjunctionND?dandI
 dataconstructor latin:/?DependentConjunctionND?dandEl
 dataconstructor latin:/?DependentConjunctionND?dandEr
+datatypeconstructor latin:/?DependentConjunctionND?conND/[latin:/?Propositions]/prop
+dataconstructor latin:/?DependentConjunctionND?conND/[latin:/?Conjunction]/and
+judgementconstructor latin:/?DependentConjunctionND?conND/[latin:/?Proofs]/ded
+dataconstructor latin:/?DependentConjunctionND?conND/[latin:/?ConjunctionNDI]/andI
+dataconstructor latin:/?DependentConjunctionND?conND/[latin:/?ConjunctionNDE]/andEl
+dataconstructor latin:/?DependentConjunctionND?conND/[latin:/?ConjunctionNDE]/andEr
+dataconstructor latin:/?DependentConjunctionND?conND/and_swap
 theory latin:/?DependentConjunctionND
 HasMeta latin:/?DependentConjunctionND http://cds.omdoc.org/urtheories?LF
 Includes latin:/?DependentConjunctionND latin:/?DependentConjunction
@@ -20,3 +27,41 @@ DependsOn latin:/?DependentConjunctionND?dandEr?type latin:/?Propositions?prop?t
 DependsOn latin:/?DependentConjunctionND?dandEr?type latin:/?DependentConjunctionND?dandEl?type
 DependsOn latin:/?DependentConjunctionND?dandEr?type latin:/?Proofs?ded?type
 DependsOn latin:/?DependentConjunctionND?dandEr?type latin:/?DependentConjunction?dand?type
+Declares latin:/?DependentConjunctionND latin:/?DependentConjunctionND?conND
+HasDomain latin:/?DependentConjunctionND?conND latin:/?ConjunctionND
+HasCodomain latin:/?DependentConjunctionND?conND latin:/?DependentConjunctionND
+structure latin:/?DependentConjunctionND?conND
+Declares latin:/?DependentConjunctionND latin:/?DependentConjunctionND?conND/[latin:/?Propositions]
+HasDomain latin:/?DependentConjunctionND?conND/[latin:/?Propositions] latin:/?Propositions
+HasCodomain latin:/?DependentConjunctionND?conND/[latin:/?Propositions] latin:/?DependentConjunctionND
+structure latin:/?DependentConjunctionND?conND/[latin:/?Propositions]
+Declares latin:/?DependentConjunctionND latin:/?DependentConjunctionND?conND/[latin:/?Propositions]/prop
+constant latin:/?DependentConjunctionND?conND/[latin:/?Propositions]/prop
+Declares latin:/?DependentConjunctionND latin:/?DependentConjunctionND?conND/[latin:/?Conjunction]
+HasDomain latin:/?DependentConjunctionND?conND/[latin:/?Conjunction] latin:/?Conjunction
+HasCodomain latin:/?DependentConjunctionND?conND/[latin:/?Conjunction] latin:/?DependentConjunctionND
+structure latin:/?DependentConjunctionND?conND/[latin:/?Conjunction]
+Declares latin:/?DependentConjunctionND latin:/?DependentConjunctionND?conND/[latin:/?Conjunction]/and
+constant latin:/?DependentConjunctionND?conND/[latin:/?Conjunction]/and
+Declares latin:/?DependentConjunctionND latin:/?DependentConjunctionND?conND/[latin:/?Proofs]
+HasDomain latin:/?DependentConjunctionND?conND/[latin:/?Proofs] latin:/?Proofs
+HasCodomain latin:/?DependentConjunctionND?conND/[latin:/?Proofs] latin:/?DependentConjunctionND
+structure latin:/?DependentConjunctionND?conND/[latin:/?Proofs]
+Declares latin:/?DependentConjunctionND latin:/?DependentConjunctionND?conND/[latin:/?Proofs]/ded
+constant latin:/?DependentConjunctionND?conND/[latin:/?Proofs]/ded
+Declares latin:/?DependentConjunctionND latin:/?DependentConjunctionND?conND/[latin:/?ConjunctionNDI]
+HasDomain latin:/?DependentConjunctionND?conND/[latin:/?ConjunctionNDI] latin:/?ConjunctionNDI
+HasCodomain latin:/?DependentConjunctionND?conND/[latin:/?ConjunctionNDI] latin:/?DependentConjunctionND
+structure latin:/?DependentConjunctionND?conND/[latin:/?ConjunctionNDI]
+Declares latin:/?DependentConjunctionND latin:/?DependentConjunctionND?conND/[latin:/?ConjunctionNDI]/andI
+constant latin:/?DependentConjunctionND?conND/[latin:/?ConjunctionNDI]/andI
+Declares latin:/?DependentConjunctionND latin:/?DependentConjunctionND?conND/[latin:/?ConjunctionNDE]
+HasDomain latin:/?DependentConjunctionND?conND/[latin:/?ConjunctionNDE] latin:/?ConjunctionNDE
+HasCodomain latin:/?DependentConjunctionND?conND/[latin:/?ConjunctionNDE] latin:/?DependentConjunctionND
+structure latin:/?DependentConjunctionND?conND/[latin:/?ConjunctionNDE]
+Declares latin:/?DependentConjunctionND latin:/?DependentConjunctionND?conND/[latin:/?ConjunctionNDE]/andEl
+constant latin:/?DependentConjunctionND?conND/[latin:/?ConjunctionNDE]/andEl
+Declares latin:/?DependentConjunctionND latin:/?DependentConjunctionND?conND/[latin:/?ConjunctionNDE]/andEr
+constant latin:/?DependentConjunctionND?conND/[latin:/?ConjunctionNDE]/andEr
+Declares latin:/?DependentConjunctionND latin:/?DependentConjunctionND?conND/and_swap
+constant latin:/?DependentConjunctionND?conND/and_swap

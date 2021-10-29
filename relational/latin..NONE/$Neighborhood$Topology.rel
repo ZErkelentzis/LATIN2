@@ -36,7 +36,7 @@ constant latin:/?NeighborhoodTopology?nonempty
 DependsOn latin:/?NeighborhoodTopology?nonempty?type latin:/?NeighborhoodTopology?NN?type
 DependsOn latin:/?NeighborhoodTopology?nonempty?type latin:/?TypedTerms?tm?type
 DependsOn latin:/?NeighborhoodTopology?nonempty?type latin:/?Propositions?prop?type
-DependsOn latin:/?NeighborhoodTopology?nonempty?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?NeighborhoodTopology?nonempty?type latin:/?TypedEquality?tequal?type
 DependsOn latin:/?NeighborhoodTopology?nonempty?type latin:/powertypes?EmptySet?empty?type
 DependsOn latin:/?NeighborhoodTopology?nonempty?type latin:/?Proofs?ded?type
 DependsOn latin:/?NeighborhoodTopology?nonempty?type latin:/?Negation?not?type
@@ -77,13 +77,13 @@ Declares latin:/?NeighborhoodTopology latin:/?NeighborhoodTopology?openness
 constant latin:/?NeighborhoodTopology?openness
 DependsOn latin:/?NeighborhoodTopology?openness?type latin:/?TypedTerms?tm?type
 DependsOn latin:/?NeighborhoodTopology?openness?type latin:/?Propositions?prop?type
-DependsOn latin:/?NeighborhoodTopology?openness?type latin:/?TypedUniversalQuantification?forall?type
+DependsOn latin:/?NeighborhoodTopology?openness?type latin:/?TypedExistentialQuantification?texists?type
 DependsOn latin:/?NeighborhoodTopology?openness?type latin:/?Implication?impl?type
 DependsOn latin:/?NeighborhoodTopology?openness?type latin:/powertypes?PowerTypes?in?type
 DependsOn latin:/?NeighborhoodTopology?openness?type latin:/?Conjunction?and?type
-DependsOn latin:/?NeighborhoodTopology?openness?type latin:/?TypedExistentialQuantification?exists?type
 DependsOn latin:/?NeighborhoodTopology?openness?type latin:/?Proofs?ded?type
 DependsOn latin:/?NeighborhoodTopology?openness?type latin:/?NeighborhoodTopology?neighborhood?type
 DependsOn latin:/?NeighborhoodTopology?openness?type latin:/powertypes?PowerTypes?power?type
 DependsOn latin:/?NeighborhoodTopology?openness?type latin:/?NeighborhoodTopology?X?type
+DependsOn latin:/?NeighborhoodTopology?openness?type latin:/?TypedUniversalQuantification?tforall?type
 DependsOn latin:/?NeighborhoodTopology?openness?type latin:/?Types?tp?type

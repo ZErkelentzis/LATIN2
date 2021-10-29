@@ -29,7 +29,7 @@ constant latin:/?InternalEndoFunctor?fmapId
 DependsOn latin:/?InternalEndoFunctor?fmapId?type latin:/?TypedTerms?tm?type
 DependsOn latin:/?InternalEndoFunctor?fmapId?type latin:/?Propositions?prop?type
 DependsOn latin:/?InternalEndoFunctor?fmapId?type latin:/?TypeOperator?applyType?type
-DependsOn latin:/?InternalEndoFunctor?fmapId?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?InternalEndoFunctor?fmapId?type latin:/?TypedEquality?tequal?type
 DependsOn latin:/?InternalEndoFunctor?fmapId?type latin:/?InternalEndoFunctor?fmap?type
 DependsOn latin:/?InternalEndoFunctor?fmapId?type latin:/?Category?ident?type
 DependsOn latin:/?InternalEndoFunctor?fmapId?type latin:/?Proofs?ded?type
@@ -40,7 +40,7 @@ constant latin:/?InternalEndoFunctor?fmapComp
 DependsOn latin:/?InternalEndoFunctor?fmapComp?type latin:/?TypedTerms?tm?type
 DependsOn latin:/?InternalEndoFunctor?fmapComp?type latin:/?Propositions?prop?type
 DependsOn latin:/?InternalEndoFunctor?fmapComp?type latin:/?TypeOperator?applyType?type
-DependsOn latin:/?InternalEndoFunctor?fmapComp?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?InternalEndoFunctor?fmapComp?type latin:/?TypedEquality?tequal?type
 DependsOn latin:/?InternalEndoFunctor?fmapComp?type latin:/?InternalEndoFunctor?fmap?type
 DependsOn latin:/?InternalEndoFunctor?fmapComp?type latin:/?Proofs?ded?type
 DependsOn latin:/?InternalEndoFunctor?fmapComp?type latin:/?Category?comp?type

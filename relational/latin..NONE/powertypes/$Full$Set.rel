@@ -12,7 +12,7 @@ DependsOn latin:/powertypes?FullSet?full?type latin:/?Types?tp?type
 DependsOn latin:/powertypes?FullSet?full?definition latin:/?Truth?true?type
 DependsOn latin:/powertypes?FullSet?full?definition latin:/?TypedTerms?tm?type
 DependsOn latin:/powertypes?FullSet?full?definition latin:/?Propositions?prop?type
-DependsOn latin:/powertypes?FullSet?full?definition latin:/powertypes?PowerTypes?filter?type
+DependsOn latin:/powertypes?FullSet?full?definition latin:/powertypes?PowerTypes?pfilter?type
 DependsOn latin:/powertypes?FullSet?full?definition latin:/powertypes?PowerTypes?power?type
 DependsOn latin:/powertypes?FullSet?full?definition latin:/?Types?tp?type
 Declares latin:/powertypes?FullSet latin:/powertypes?FullSet?fullI
@@ -24,12 +24,12 @@ DependsOn latin:/powertypes?FullSet?fullI?type latin:/powertypes?FullSet?full?ty
 DependsOn latin:/powertypes?FullSet?fullI?type latin:/?Proofs?ded?type
 DependsOn latin:/powertypes?FullSet?fullI?type latin:/powertypes?PowerTypes?power?type
 DependsOn latin:/powertypes?FullSet?fullI?type latin:/?Types?tp?type
-DependsOn latin:/powertypes?FullSet?fullI?definition latin:/powertypes?PowerTypes?filterI?type
 DependsOn latin:/powertypes?FullSet?fullI?definition latin:/?Truth?true?type
 DependsOn latin:/powertypes?FullSet?fullI?definition latin:/?TypedTerms?tm?type
 DependsOn latin:/powertypes?FullSet?fullI?definition latin:/powertypes?PowerTypes?in?type
 DependsOn latin:/powertypes?FullSet?fullI?definition latin:/?Propositions?prop?type
+DependsOn latin:/powertypes?FullSet?fullI?definition latin:/powertypes?PowerTypes?pfilter?type
 DependsOn latin:/powertypes?FullSet?fullI?definition latin:/?Proofs?ded?type
-DependsOn latin:/powertypes?FullSet?fullI?definition latin:/powertypes?PowerTypes?filter?type
+DependsOn latin:/powertypes?FullSet?fullI?definition latin:/powertypes?PowerTypes?pfilterI?type
 DependsOn latin:/powertypes?FullSet?fullI?definition latin:/?TruthND?trueI?type
 DependsOn latin:/powertypes?FullSet?fullI?definition latin:/?Types?tp?type

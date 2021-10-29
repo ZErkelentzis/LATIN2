@@ -27,7 +27,7 @@ DependsOn latin:/algebraic?UnitElement?involution?type latin:/algebraic?Set?U?ty
 DependsOn latin:/algebraic?UnitElement?involution?definition latin:/?TypedTerms?tm?type
 DependsOn latin:/algebraic?UnitElement?involution?definition latin:/?Propositions?prop?type
 DependsOn latin:/algebraic?UnitElement?involution?definition latin:/algebraic?Set?U?type
-DependsOn latin:/algebraic?UnitElement?involution?definition latin:/?TypedEquality?equal?type
+DependsOn latin:/algebraic?UnitElement?involution?definition latin:/?TypedEquality?tequal?type
 DependsOn latin:/algebraic?UnitElement?involution?definition latin:/algebraic?Magma?op?type
 DependsOn latin:/algebraic?UnitElement?involution?definition latin:/?Types?tp?type
 DependsOn latin:/algebraic?UnitElement?involution?definition latin:/algebraic?Set?universe?type

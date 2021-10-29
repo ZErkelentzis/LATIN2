@@ -1,15 +1,92 @@
-dataconstructor latin:/?DependentImplicationND?dimpI
-dataconstructor latin:/?DependentImplicationND?dimpE
+dataconstructor latin:/?DependentImplicationND?dimplI
+dataconstructor latin:/?DependentImplicationND?dimplE
+datatypeconstructor latin:/?DependentImplicationND?impND/[latin:/?Propositions]/prop
+dataconstructor latin:/?DependentImplicationND?impND/[latin:/?Implication]/impl
+judgementconstructor latin:/?DependentImplicationND?impND/[latin:/?Proofs]/ded
+dataconstructor latin:/?DependentImplicationND?impND/[latin:/?ImplicationNDI]/implI
+dataconstructor latin:/?DependentImplicationND?impND/[latin:/?ImplicationNDE]/implE
+datatypeconstructor latin:/?DependentImplicationND?impND/impl_preorder/[latin:/?OneTyped]/carrier
+judgementconstructor latin:/?DependentImplicationND?impND/impl_preorder/[latin:/?Relation]/rel
+dataconstructor latin:/?DependentImplicationND?impND/impl_preorder/[latin:/?Reflexivity]/refl
+dataconstructor latin:/?DependentImplicationND?impND/impl_preorder/[latin:/?Transitivity]/trans
+dataconstructor latin:/?DependentImplicationND?impND/impl_preorder/[latin:/?Transitivity]/trans3
+dataconstructor latin:/?DependentImplicationND?impND/impl_preorder/[latin:/?Transitivity]/trans4
 theory latin:/?DependentImplicationND
 HasMeta latin:/?DependentImplicationND http://cds.omdoc.org/urtheories?LF
 Includes latin:/?DependentImplicationND latin:/?DependentImplication
-Declares latin:/?DependentImplicationND latin:/?DependentImplicationND?dimpI
-constant latin:/?DependentImplicationND?dimpI
-DependsOn latin:/?DependentImplicationND?dimpI?type latin:/?Propositions?prop?type
-DependsOn latin:/?DependentImplicationND?dimpI?type latin:/?Proofs?ded?type
-DependsOn latin:/?DependentImplicationND?dimpI?type latin:/?DependentImplication?dimpl?type
-Declares latin:/?DependentImplicationND latin:/?DependentImplicationND?dimpE
-constant latin:/?DependentImplicationND?dimpE
-DependsOn latin:/?DependentImplicationND?dimpE?type latin:/?Propositions?prop?type
-DependsOn latin:/?DependentImplicationND?dimpE?type latin:/?Proofs?ded?type
-DependsOn latin:/?DependentImplicationND?dimpE?type latin:/?DependentImplication?dimpl?type
+Declares latin:/?DependentImplicationND latin:/?DependentImplicationND?dimplI
+constant latin:/?DependentImplicationND?dimplI
+DependsOn latin:/?DependentImplicationND?dimplI?type latin:/?Propositions?prop?type
+DependsOn latin:/?DependentImplicationND?dimplI?type latin:/?Proofs?ded?type
+DependsOn latin:/?DependentImplicationND?dimplI?type latin:/?DependentImplication?dimpl?type
+Declares latin:/?DependentImplicationND latin:/?DependentImplicationND?dimplE
+constant latin:/?DependentImplicationND?dimplE
+DependsOn latin:/?DependentImplicationND?dimplE?type latin:/?Propositions?prop?type
+DependsOn latin:/?DependentImplicationND?dimplE?type latin:/?Proofs?ded?type
+DependsOn latin:/?DependentImplicationND?dimplE?type latin:/?DependentImplication?dimpl?type
+Declares latin:/?DependentImplicationND latin:/?DependentImplicationND?impND
+HasDomain latin:/?DependentImplicationND?impND latin:/?ImplicationND
+HasCodomain latin:/?DependentImplicationND?impND latin:/?DependentImplicationND
+structure latin:/?DependentImplicationND?impND
+Declares latin:/?DependentImplicationND latin:/?DependentImplicationND?impND/[latin:/?Propositions]
+HasDomain latin:/?DependentImplicationND?impND/[latin:/?Propositions] latin:/?Propositions
+HasCodomain latin:/?DependentImplicationND?impND/[latin:/?Propositions] latin:/?DependentImplicationND
+structure latin:/?DependentImplicationND?impND/[latin:/?Propositions]
+Declares latin:/?DependentImplicationND latin:/?DependentImplicationND?impND/[latin:/?Propositions]/prop
+constant latin:/?DependentImplicationND?impND/[latin:/?Propositions]/prop
+Declares latin:/?DependentImplicationND latin:/?DependentImplicationND?impND/[latin:/?Implication]
+HasDomain latin:/?DependentImplicationND?impND/[latin:/?Implication] latin:/?Implication
+HasCodomain latin:/?DependentImplicationND?impND/[latin:/?Implication] latin:/?DependentImplicationND
+structure latin:/?DependentImplicationND?impND/[latin:/?Implication]
+Declares latin:/?DependentImplicationND latin:/?DependentImplicationND?impND/[latin:/?Implication]/impl
+constant latin:/?DependentImplicationND?impND/[latin:/?Implication]/impl
+Declares latin:/?DependentImplicationND latin:/?DependentImplicationND?impND/[latin:/?Proofs]
+HasDomain latin:/?DependentImplicationND?impND/[latin:/?Proofs] latin:/?Proofs
+HasCodomain latin:/?DependentImplicationND?impND/[latin:/?Proofs] latin:/?DependentImplicationND
+structure latin:/?DependentImplicationND?impND/[latin:/?Proofs]
+Declares latin:/?DependentImplicationND latin:/?DependentImplicationND?impND/[latin:/?Proofs]/ded
+constant latin:/?DependentImplicationND?impND/[latin:/?Proofs]/ded
+Declares latin:/?DependentImplicationND latin:/?DependentImplicationND?impND/[latin:/?ImplicationNDI]
+HasDomain latin:/?DependentImplicationND?impND/[latin:/?ImplicationNDI] latin:/?ImplicationNDI
+HasCodomain latin:/?DependentImplicationND?impND/[latin:/?ImplicationNDI] latin:/?DependentImplicationND
+structure latin:/?DependentImplicationND?impND/[latin:/?ImplicationNDI]
+Declares latin:/?DependentImplicationND latin:/?DependentImplicationND?impND/[latin:/?ImplicationNDI]/implI
+constant latin:/?DependentImplicationND?impND/[latin:/?ImplicationNDI]/implI
+Declares latin:/?DependentImplicationND latin:/?DependentImplicationND?impND/[latin:/?ImplicationNDE]
+HasDomain latin:/?DependentImplicationND?impND/[latin:/?ImplicationNDE] latin:/?ImplicationNDE
+HasCodomain latin:/?DependentImplicationND?impND/[latin:/?ImplicationNDE] latin:/?DependentImplicationND
+structure latin:/?DependentImplicationND?impND/[latin:/?ImplicationNDE]
+Declares latin:/?DependentImplicationND latin:/?DependentImplicationND?impND/[latin:/?ImplicationNDE]/implE
+constant latin:/?DependentImplicationND?impND/[latin:/?ImplicationNDE]/implE
+Declares latin:/?DependentImplicationND latin:/?DependentImplicationND?impND/impl_preorder
+HasDomain latin:/?DependentImplicationND?impND/impl_preorder latin:/?Preorder
+HasCodomain latin:/?DependentImplicationND?impND/impl_preorder latin:/?DependentImplicationND
+structure latin:/?DependentImplicationND?impND/impl_preorder
+Declares latin:/?DependentImplicationND latin:/?DependentImplicationND?impND/impl_preorder/[latin:/?OneTyped]
+HasDomain latin:/?DependentImplicationND?impND/impl_preorder/[latin:/?OneTyped] latin:/?OneTyped
+HasCodomain latin:/?DependentImplicationND?impND/impl_preorder/[latin:/?OneTyped] latin:/?DependentImplicationND
+structure latin:/?DependentImplicationND?impND/impl_preorder/[latin:/?OneTyped]
+Declares latin:/?DependentImplicationND latin:/?DependentImplicationND?impND/impl_preorder/[latin:/?OneTyped]/carrier
+constant latin:/?DependentImplicationND?impND/impl_preorder/[latin:/?OneTyped]/carrier
+Declares latin:/?DependentImplicationND latin:/?DependentImplicationND?impND/impl_preorder/[latin:/?Relation]
+HasDomain latin:/?DependentImplicationND?impND/impl_preorder/[latin:/?Relation] latin:/?Relation
+HasCodomain latin:/?DependentImplicationND?impND/impl_preorder/[latin:/?Relation] latin:/?DependentImplicationND
+structure latin:/?DependentImplicationND?impND/impl_preorder/[latin:/?Relation]
+Declares latin:/?DependentImplicationND latin:/?DependentImplicationND?impND/impl_preorder/[latin:/?Relation]/rel
+constant latin:/?DependentImplicationND?impND/impl_preorder/[latin:/?Relation]/rel
+Declares latin:/?DependentImplicationND latin:/?DependentImplicationND?impND/impl_preorder/[latin:/?Reflexivity]
+HasDomain latin:/?DependentImplicationND?impND/impl_preorder/[latin:/?Reflexivity] latin:/?Reflexivity
+HasCodomain latin:/?DependentImplicationND?impND/impl_preorder/[latin:/?Reflexivity] latin:/?DependentImplicationND
+structure latin:/?DependentImplicationND?impND/impl_preorder/[latin:/?Reflexivity]
+Declares latin:/?DependentImplicationND latin:/?DependentImplicationND?impND/impl_preorder/[latin:/?Reflexivity]/refl
+constant latin:/?DependentImplicationND?impND/impl_preorder/[latin:/?Reflexivity]/refl
+Declares latin:/?DependentImplicationND latin:/?DependentImplicationND?impND/impl_preorder/[latin:/?Transitivity]
+HasDomain latin:/?DependentImplicationND?impND/impl_preorder/[latin:/?Transitivity] latin:/?Transitivity
+HasCodomain latin:/?DependentImplicationND?impND/impl_preorder/[latin:/?Transitivity] latin:/?DependentImplicationND
+structure latin:/?DependentImplicationND?impND/impl_preorder/[latin:/?Transitivity]
+Declares latin:/?DependentImplicationND latin:/?DependentImplicationND?impND/impl_preorder/[latin:/?Transitivity]/trans
+constant latin:/?DependentImplicationND?impND/impl_preorder/[latin:/?Transitivity]/trans
+Declares latin:/?DependentImplicationND latin:/?DependentImplicationND?impND/impl_preorder/[latin:/?Transitivity]/trans3
+constant latin:/?DependentImplicationND?impND/impl_preorder/[latin:/?Transitivity]/trans3
+Declares latin:/?DependentImplicationND latin:/?DependentImplicationND?impND/impl_preorder/[latin:/?Transitivity]/trans4
+constant latin:/?DependentImplicationND?impND/impl_preorder/[latin:/?Transitivity]/trans4

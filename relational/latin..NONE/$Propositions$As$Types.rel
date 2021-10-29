@@ -1,12 +1,8 @@
 datatypeconstructor latin:/?PropositionsAsTypes?[latin:/?Propositions]/prop
-datatypeconstructor latin:/?PropositionsAsTypes?[latin:/?Proofs]/ded
-HasDomain latin:/?PropositionsAsTypes latin:/?Logic
-HasCodomain latin:/?PropositionsAsTypes latin:/?TypedTerms
+HasDomain latin:/?PropositionsAsTypes latin:/?Propositions
+HasCodomain latin:/?PropositionsAsTypes latin:/?Types
 view latin:/?PropositionsAsTypes
-HasViewFrom latin:/?TypedTerms latin:/?Logic
+HasViewFrom latin:/?Types latin:/?Propositions
 Declares latin:/?PropositionsAsTypes latin:/?PropositionsAsTypes?[latin:/?Propositions]/prop
 constant latin:/?PropositionsAsTypes?[latin:/?Propositions]/prop
 DependsOn latin:/?PropositionsAsTypes?[latin:/?Propositions]/prop?definition latin:/?Types?tp?type
-Declares latin:/?PropositionsAsTypes latin:/?PropositionsAsTypes?[latin:/?Proofs]/ded
-constant latin:/?PropositionsAsTypes?[latin:/?Proofs]/ded
-DependsOn latin:/?PropositionsAsTypes?[latin:/?Proofs]/ded?definition latin:/?TypedTerms?tm?type

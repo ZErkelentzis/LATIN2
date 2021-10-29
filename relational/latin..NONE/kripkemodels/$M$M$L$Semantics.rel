@@ -17,7 +17,7 @@ constant latin:/kripkemodels?MMLSemantics?[latin:/?MultiBox]/box
 DependsOn latin:/kripkemodels?MMLSemantics?[latin:/?MultiBox]/box?definition latin:/?TypedTerms?tm?type
 DependsOn latin:/kripkemodels?MMLSemantics?[latin:/?MultiBox]/box?definition latin:/?Propositions?prop?type
 DependsOn latin:/kripkemodels?MMLSemantics?[latin:/?MultiBox]/box?definition latin:/kripkemodels?Worlds?world?type
-DependsOn latin:/kripkemodels?MMLSemantics?[latin:/?MultiBox]/box?definition latin:/?TypedUniversalQuantification?forall?type
+DependsOn latin:/kripkemodels?MMLSemantics?[latin:/?MultiBox]/box?definition latin:/?TypedUniversalQuantification?tforall?type
 DependsOn latin:/kripkemodels?MMLSemantics?[latin:/?MultiBox]/box?definition latin:/?Types?tp?type
 DependsOn latin:/kripkemodels?MMLSemantics?[latin:/?MultiBox]/box?definition latin:/?Implication?impl?type
 Declares latin:/kripkemodels?MMLSemantics latin:/kripkemodels?MMLSemantics?[latin:/?MultiDiamond]/diamond
@@ -25,6 +25,6 @@ constant latin:/kripkemodels?MMLSemantics?[latin:/?MultiDiamond]/diamond
 DependsOn latin:/kripkemodels?MMLSemantics?[latin:/?MultiDiamond]/diamond?definition latin:/?TypedTerms?tm?type
 DependsOn latin:/kripkemodels?MMLSemantics?[latin:/?MultiDiamond]/diamond?definition latin:/?Propositions?prop?type
 DependsOn latin:/kripkemodels?MMLSemantics?[latin:/?MultiDiamond]/diamond?definition latin:/?Conjunction?and?type
-DependsOn latin:/kripkemodels?MMLSemantics?[latin:/?MultiDiamond]/diamond?definition latin:/?TypedExistentialQuantification?exists?type
 DependsOn latin:/kripkemodels?MMLSemantics?[latin:/?MultiDiamond]/diamond?definition latin:/kripkemodels?Worlds?world?type
 DependsOn latin:/kripkemodels?MMLSemantics?[latin:/?MultiDiamond]/diamond?definition latin:/?Types?tp?type
+DependsOn latin:/kripkemodels?MMLSemantics?[latin:/?MultiDiamond]/diamond?definition latin:/?TypedExistentialQuantification?texists?type

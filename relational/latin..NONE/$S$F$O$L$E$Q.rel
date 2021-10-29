@@ -8,3 +8,8 @@ constant latin:/?SFOLEQ?notequal
 DependsOn latin:/?SFOLEQ?notequal?type latin:/?TypedTerms?tm?type
 DependsOn latin:/?SFOLEQ?notequal?type latin:/?Propositions?prop?type
 DependsOn latin:/?SFOLEQ?notequal?type latin:/?Types?tp?type
+DependsOn latin:/?SFOLEQ?notequal?definition latin:/?TypedTerms?tm?type
+DependsOn latin:/?SFOLEQ?notequal?definition latin:/?Propositions?prop?type
+DependsOn latin:/?SFOLEQ?notequal?definition latin:/?TypedEquality?tequal?type
+DependsOn latin:/?SFOLEQ?notequal?definition latin:/?Negation?not?type
+DependsOn latin:/?SFOLEQ?notequal?definition latin:/?Types?tp?type

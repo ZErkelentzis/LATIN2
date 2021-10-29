@@ -7,7 +7,7 @@ constant latin:/?DependentFunctionsExtensionality?exten
 DependsOn latin:/?DependentFunctionsExtensionality?exten?type latin:/?DependentFunctionTypes?depfun?type
 DependsOn latin:/?DependentFunctionsExtensionality?exten?type latin:/?TypedTerms?tm?type
 DependsOn latin:/?DependentFunctionsExtensionality?exten?type latin:/?Propositions?prop?type
-DependsOn latin:/?DependentFunctionsExtensionality?exten?type latin:/?TypedEquality?equal?type
+DependsOn latin:/?DependentFunctionsExtensionality?exten?type latin:/?TypedEquality?tequal?type
 DependsOn latin:/?DependentFunctionsExtensionality?exten?type latin:/?Proofs?ded?type
 DependsOn latin:/?DependentFunctionsExtensionality?exten?type latin:/?Types?tp?type
 DependsOn latin:/?DependentFunctionsExtensionality?exten?type latin:/?DependentFunctions?depapply?type
