@@ -4,6 +4,6 @@ content/
 narration/
 errors/
 relational/
-logaux
+logaux/
+.idea/
 build.html
-/.idea/

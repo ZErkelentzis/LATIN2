@@ -1,8 +1,0 @@
-dataconstructor latin:/?MultiBox?box
-theory latin:/?MultiBox
-HasMeta latin:/?MultiBox http://cds.omdoc.org/urtheories?LF
-Includes latin:/?MultiBox latin:/?MultiModal
-Declares latin:/?MultiBox latin:/?MultiBox?box
-constant latin:/?MultiBox?box
-DependsOn latin:/?MultiBox?box?type latin:/?Propositions?prop?type
-DependsOn latin:/?MultiBox?box?type latin:/?MultiModal?modality?type

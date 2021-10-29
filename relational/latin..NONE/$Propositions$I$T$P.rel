@@ -1,6 +1,0 @@
-untypedconstant latin:/?PropositionsITP?proof
-theory latin:/?PropositionsITP
-Declares latin:/?PropositionsITP latin:/?PropositionsITP?proof
-constant latin:/?PropositionsITP?proof
-Declares latin:/?PropositionsITP latin:/?PropositionsITP?[scala://latin2/proving?CheckProof]
-constant latin:/?PropositionsITP?[scala://latin2/proving?CheckProof]

@@ -1,8 +1,0 @@
-dataconstructor latin:/?UntypedEquality?uequal
-theory latin:/?UntypedEquality
-HasMeta latin:/?UntypedEquality http://cds.omdoc.org/urtheories/?LF
-Includes latin:/?UntypedEquality latin:/?UntypedLogic
-Declares latin:/?UntypedEquality latin:/?UntypedEquality?uequal
-constant latin:/?UntypedEquality?uequal
-DependsOn latin:/?UntypedEquality?uequal?type latin:/?Propositions?prop?type
-DependsOn latin:/?UntypedEquality?uequal?type latin:/?Terms?term?type

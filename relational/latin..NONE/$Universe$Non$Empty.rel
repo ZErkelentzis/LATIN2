@@ -1,9 +1,0 @@
-dataconstructor latin:/?UniverseNonEmpty?univ_nonempty
-theory latin:/?UniverseNonEmpty
-HasMeta latin:/?UniverseNonEmpty http://cds.omdoc.org/urtheories?LF
-Includes latin:/?UniverseNonEmpty latin:/?UntypedLogic
-Declares latin:/?UniverseNonEmpty latin:/?UniverseNonEmpty?univ_nonempty
-constant latin:/?UniverseNonEmpty?univ_nonempty
-DependsOn latin:/?UniverseNonEmpty?univ_nonempty?type latin:/?Propositions?prop?type
-DependsOn latin:/?UniverseNonEmpty?univ_nonempty?type latin:/?Proofs?ded?type
-DependsOn latin:/?UniverseNonEmpty?univ_nonempty?type latin:/?Terms?term?type

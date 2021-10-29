@@ -1,9 +1,0 @@
-dataconstructor latin:/?TypedUniversalQuantification?tforall
-theory latin:/?TypedUniversalQuantification
-HasMeta latin:/?TypedUniversalQuantification http://cds.omdoc.org/urtheories?LF
-Includes latin:/?TypedUniversalQuantification latin:/?TypedLogic
-Declares latin:/?TypedUniversalQuantification latin:/?TypedUniversalQuantification?tforall
-constant latin:/?TypedUniversalQuantification?tforall
-DependsOn latin:/?TypedUniversalQuantification?tforall?type latin:/?TypedTerms?tm?type
-DependsOn latin:/?TypedUniversalQuantification?tforall?type latin:/?Propositions?prop?type
-DependsOn latin:/?TypedUniversalQuantification?tforall?type latin:/?Types?tp?type

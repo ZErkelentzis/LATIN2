@@ -11,15 +11,15 @@ import frontend._
 import info.kwarc.mmt.lf._
 import lf._
 //import lf._Option.map
-import TypedEquality.equal
+import TypedEquality.tequal
 //import Conjunction.and
 //import Disjunction.or
 //import Negation.not
 //import Equivalence.equiv
 //import Implication.impl
-import TypedExistentialQuantification.exists
-import TypedUniqueExistentialQuantification.existsUnique
-import TypedUniversalQuantification.forall
+import TypedExistentialQuantification.texists
+import TypedUniqueExistentialQuantification.texistsUnique
+import TypedUniversalQuantification.tforall
 import info.kwarc.mmt.moduleexpressions.operators.TypedTerms.tm
 
 import scala.collection.mutable
@@ -169,21 +169,21 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
         newtup = generatebyTemplate(nltemp)
         newtup._1.variables.foreach(v => avar += v)
         newterm = newtup._2
-        if (op._1 == TypedUniversalQuantification.forall.path) {
+        if (op._1 == TypedUniversalQuantification.tforall.path) {
           while(avar.toList.length > bvar.toList.length){
             var tobind = avar.toList.filterNot(v => bvar.contains(v)).head
-            newterm = forall(tobind._2, Lambda(tobind._1.name, tm(tobind._2), newterm))
+            newterm = tforall(tobind._2, Lambda(tobind._1.name, tm(tobind._2), newterm))
             bvar += tobind
           }
         }
-        else if (op._1 == TypedExistentialQuantification.exists.path) {
+        else if (op._1 == TypedExistentialQuantification.texists.path) {
           var tobind = avar.toList.filterNot(v => bvar.contains(v)).head
-          newterm = exists(tobind._2, Lambda(tobind._1.name, tm(tobind._2), newterm))
+          newterm = texists(tobind._2, Lambda(tobind._1.name, tm(tobind._2), newterm))
           bvar += tobind
         }
         else {
           var tobind = avar.toList.filterNot(v => bvar.contains(v)).head
-          newterm = existsUnique(tobind._2, Lambda(tobind._1.name, tm(tobind._2), newterm))
+          newterm = texistsUnique(tobind._2, Lambda(tobind._1.name, tm(tobind._2), newterm))
           bvar += tobind
         }
       }
@@ -687,29 +687,29 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
           uvar = uvar.filterNot(q => q == nvar)
           bvar = nvar :: bvar
 
-          if (quantifier == TypedUniversalQuantification.forall.path) {
-            if ((lquant != TypedUniversalQuantification.forall.path) && (lquant != null)) {
+          if (quantifier == TypedUniversalQuantification.tforall.path) {
+            if ((lquant != TypedUniversalQuantification.tforall.path) && (lquant != null)) {
               qalc -= 1
               qualt += 1
             }
-            newsym += TypedUniversalQuantification.forall.path//GlobalName(TypedUniversalQuantification._path, TypedUniversalQuantification._name)
-            newform = forall(nvar._2, Lambda(nvar._1.name, tm(nvar._2), newform))
+            newsym += TypedUniversalQuantification.tforall.path//GlobalName(TypedUniversalQuantification._path, TypedUniversalQuantification._name)
+            newform = tforall(nvar._2, Lambda(nvar._1.name, tm(nvar._2), newform))
           }
-          else if (quantifier == TypedExistentialQuantification.exists.path) {
-            if ((lquant != TypedExistentialQuantification.exists.path) && (lquant != null)) {
+          else if (quantifier == TypedExistentialQuantification.texists.path) {
+            if ((lquant != TypedExistentialQuantification.texists.path) && (lquant != null)) {
               qalc -= 1
               qualt += 1
             }
-            newsym += TypedExistentialQuantification.exists.path//GlobalName(TypedExistentialQuantification._path, TypedExistentialQuantification._name)
-            newform = exists(nvar._2, Lambda(nvar._1.name, tm(nvar._2), newform))
+            newsym += TypedExistentialQuantification.texists.path//GlobalName(TypedExistentialQuantification._path, TypedExistentialQuantification._name)
+            newform = texists(nvar._2, Lambda(nvar._1.name, tm(nvar._2), newform))
           }
           else {
-            if ((lquant != TypedUniqueExistentialQuantification.existsUnique.path) && (lquant != null)) {
+            if ((lquant != TypedUniqueExistentialQuantification.texistsUnique.path) && (lquant != null)) {
               qalc -= 1
               qualt += 1
             }
-            newsym += TypedUniqueExistentialQuantification.existsUnique.path//GlobalName(TypedUniqueExistentialQuantification._path, TypedUniqueExistentialQuantification._name)
-            newform = existsUnique(nvar._2, Lambda(nvar._1.name, tm(nvar._2), newform))
+            newsym += TypedUniqueExistentialQuantification.texistsUnique.path//GlobalName(TypedUniqueExistentialQuantification._path, TypedUniqueExistentialQuantification._name)
+            newform = texistsUnique(nvar._2, Lambda(nvar._1.name, tm(nvar._2), newform))
           }
           lquant = quantifier
           tobind -= 1
@@ -797,18 +797,18 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
             val wvar = f1._1.getUnbound()
             val nvar = wvar(requestNumber(wvar.length))
             bvar = nvar :: bvar
-            if (op == TypedUniversalQuantification.forall.path) {
+            if (op == TypedUniversalQuantification.tforall.path) {
               //fall
               //we extract all unbound variables from the term, choose one at random and apply our quantor
-              newform = forall(nvar._2, Lambda(nvar._1.name, tm(nvar._2), f1._2))
+              newform = tforall(nvar._2, Lambda(nvar._1.name, tm(nvar._2), f1._2))
             }
-            else if (op == TypedExistentialQuantification.exists.path) {
+            else if (op == TypedExistentialQuantification.texists.path) {
               //exist
-              newform = exists(nvar._2, Lambda(nvar._1.name, tm(nvar._2), f1._2)) //makeForall(nvar, Nat.nat.term, f1._2)
+              newform = texists(nvar._2, Lambda(nvar._1.name, tm(nvar._2), f1._2)) //makeForall(nvar, Nat.nat.term, f1._2)
             }
             else {
               //existU
-              newform = existsUnique(nvar._2, Lambda(nvar._1.name, tm(nvar._2), f1._2))
+              newform = texistsUnique(nvar._2, Lambda(nvar._1.name, tm(nvar._2), f1._2))
             }
           }
           newcom = new Complexity(newdepth, Propositions.prop.term, newvar.toList, newsym.toList, null, lquant, qualt, bvar)
@@ -842,7 +842,7 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
     var workform = makeAtomicFormula()
     var newform: Term = workform._2
     var newcom: Complexity = null
-    val lquant: GlobalName = TypedUniversalQuantification.forall.path
+    val lquant: GlobalName = TypedUniversalQuantification.tforall.path
     var bvar = mutable.HashSet[(OMV, Term)]()
     var newtup = (newcom, newform)
     var newvar = mutable.HashSet[(OMV, Term)]()
@@ -875,7 +875,7 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
     //newform = Implication.impl.apply(newform, workform._2)
     //apply All-quantifier
     for(v <- newvar.toList){
-      newform = forall(v._2, Lambda(v._1.name,tm(v._2), newform))
+      newform = tforall(v._2, Lambda(v._1.name,tm(v._2), newform))
       bvar += v
     }
     newcom = new Complexity(newdepth, workform._1.output, newvar.toList, newsym.toList, null, lquant, qualt, bvar.toList)
@@ -942,7 +942,7 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
       val t2 = generateTerm(rdepth, tp)
       t1._1.variables.foreach(v => newvar += v)
       t2._1.variables.foreach(v => newvar += v)
-      val newForm = equal.apply(t1._1.output, t1._2, t2._2)
+      val newForm = tequal.apply(t1._1.output, t1._2, t2._2)
       val newtup = (new Complexity(depth, newout, newvar.toList, newsym), newForm)
       forms += newtup
       newtup
@@ -1130,7 +1130,7 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
         if(qname.contains(template.continoustemplate(i)._1)){
           throw new RuntimeException("Error: Only continuoustemplate(0) can contain a quantifier.")
         }
-        if((template.continoustemplate(i)._1 == TypedEquality.equal.path)
+        if((template.continoustemplate(i)._1 == TypedEquality.tequal.path)
           || preds.getOrEmpty(template.continoustemplate(i)._1).nonEmpty){
           throw new RuntimeException("Error: continuoustemplate can't contain predicates or equality.")
         }
@@ -1165,7 +1165,7 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
     val andtemp = new TermTemplate(andterm, andlist, andconti)
 
     val implication = Implication.impl.apply(a, y)
-    forallconti = (TypedUniversalQuantification.forall.path, 0, 0) :: forallconti
+    forallconti = (TypedUniversalQuantification.tforall.path, 0, 0) :: forallconti
     var foralllist = List[(OMV, Term, Int, TermTemplate)]()
     foralllist = (a, Propositions.prop.term, 3, andtemp) :: foralllist
     foralllist = (y, Propositions.prop.term, 2, null) :: foralllist
@@ -1206,9 +1206,9 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
     lname = Equivalence.equiv.path :: lname
     lname = Implication.impl.path :: lname
     lname = Negation.not.path :: lname
-    qname = TypedUniversalQuantification.forall.path :: qname
-    qname = TypedExistentialQuantification.exists.path :: qname
-    qname = TypedUniqueExistentialQuantification.existsUnique.path :: qname
+    qname = TypedUniversalQuantification.tforall.path :: qname
+    qname = TypedExistentialQuantification.texists.path :: qname
+    qname = TypedUniqueExistentialQuantification.texistsUnique.path :: qname
   }
 
   def escalate(Crit: GenCriteria): Unit = {

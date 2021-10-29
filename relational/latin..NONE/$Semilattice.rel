@@ -1,4 +1,0 @@
-theory latin:/?Semilattice
-HasMeta latin:/?Semilattice http://cds.omdoc.org/urtheories/?LF
-Includes latin:/?Semilattice latin:/?Band
-Includes latin:/?Semilattice latin:/?CommSemigroup

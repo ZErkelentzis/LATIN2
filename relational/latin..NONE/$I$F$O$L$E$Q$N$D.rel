@@ -1,5 +1,0 @@
-theory latin:/?IFOLEQND
-HasMeta latin:/?IFOLEQND http://cds.omdoc.org/urtheories?LF
-Includes latin:/?IFOLEQND latin:/?IFOLEQ
-Includes latin:/?IFOLEQND latin:/?IFOLND
-Includes latin:/?IFOLEQND latin:/?UntypedEqualityND

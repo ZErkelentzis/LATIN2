@@ -1,5 +1,0 @@
-theory latin:/?QuotientTypes
-HasMeta latin:/?QuotientTypes http://cds.omdoc.org/urtheories?LF
-Includes latin:/?QuotientTypes latin:/?QuotientTypesBase
-Includes latin:/?QuotientTypes latin:/?QuotientIndefiniteAccess
-Includes latin:/?QuotientTypes latin:/?QuotientFunctionAccess

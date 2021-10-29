@@ -1,7 +1,0 @@
-dataconstructor latin:/?Magma?op
-theory latin:/?Magma
-HasMeta latin:/?Magma http://cds.omdoc.org/urtheories/?LF
-Includes latin:/?Magma latin:/?EqualityType
-Declares latin:/?Magma latin:/?Magma?op
-constant latin:/?Magma?op
-DependsOn latin:/?Magma?op?type latin:/?OneTyped?carrier?type
