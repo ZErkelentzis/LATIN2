@@ -36,8 +36,9 @@ theory Base =
     // LF-type of object types ❙
     T: type ❙
     // object types of the function parameters for every function symbol
-       i.e., every function symbol f: F and parameter index i: ar gives an object type
-       tp f i ❙
+
+       Every function symbol `f: F` and argument index `a: ar f` gives the object type `argtp f i` of that very
+       argument. ❙
     argtp: {f: F} (ar f) ⟶ T ❙
     // return ("_res_ult") object type for every function symbol ❙
     restp: F ⟶ T ❙
