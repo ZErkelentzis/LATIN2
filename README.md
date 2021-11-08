@@ -49,10 +49,10 @@ If you don't know how to use the MMT shell, here's one way to open and initializ
    Typically, the root path contains, besides this LATIN2 repository, also the [urtheories](https://gl.mathhub.info/MMT/urtheories) and [LFX](https://gl.mathhub.info/MMT/LFX) archives as (transitive) subdirectories.<br>
    \*) if you don't know about that file, you probably don't have one.
 
-## Authors
+## Contributors
 
 The current maintainer is [Florian Rabe][frabe].
-A list of all current of previous maintainers:
+A list of all current and previous contributors:
 
 - [Florian Rabe][frabe]: created LATIN2 in year YYYY (TODO), maintaining and advising people contributing to it ever since 
 - [Navid Roux][nroux]: contributed in years 2019 -- 2021 various formalizations  (incl. Curry Howard, translations in type theory), added documentary source code at various places, and integrated diagram operators (TODO: link to it) in their thesis (TODO: link to it) as to replace XYZ lines of code by a single macro invocation 
