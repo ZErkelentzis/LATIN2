@@ -1,0 +1,93 @@
+// Experimental deep embedding of algebra theories, to eventually formalize theorems of universal algebra.
+
+   Author: Navid
+   Date: started 2021-11-08
+
+   The work is based on:
+
+   [DeM21] William DeMeo. “The Agda Universal Algebra Library and Birkhoff’s Theorem in Dependent Type Theory”.
+           In: CoRR abs/2101.10166 (2021). source code: https://gitlab.com/ualib/ualib.gitlab.io.
+           url: https://arxiv.org/abs/2101.10166.
+
+   See also Navid's review of that in their M.Sc. thesis (when it's ready) in the chapter
+   "Operators for Universal Algebra".
+❚
+namespace latin:/algebraic/univalg-test ❚
+import lfx http://gl.mathhub.info/MMT/LFX ❚
+
+theory Meta : ur:?LF =
+  include ☞lfx:/Records?LFRecords ❙
+  include ☞lfx:/Finite?LFFinite ❙
+  include ☞lfx:/TypedHierarchy?LFHierarchy ❙
+❚
+fixmeta ?Meta ❚
+
+theory Base =
+  // untyped signatures of function symbols ❙
+  theory UFunSig_ =
+    // LF type of function symbols ❙
+    F: type ❙
+    // arities of the function symbols ❙
+    ar: F ⟶ type ❙
+  ❚
+  // typed signatures of function symbols ❙
+  theory TFunSig_ =
+    include ?Base/UFunSig_ ❙
+    // LF-type of object types ❙
+    T: type ❙
+    // object types of the function parameters for every function symbol
+       i.e., every function symbol f: F and parameter index i: ar gives an object type
+       tp f i ❙
+    argtp: {f: F} (ar f) ⟶ T ❙
+    // return ("_res_ult") object type for every function symbol ❙
+    restp: F ⟶ T ❙
+  ❚
+
+  view EveryUntypedFunSigIsTypedOne : ?Base/TFunSig_ -> ?Base/UFunSig_ =
+    include ?Base/UFunSig_ ❙
+    T = UNIT ❙
+    argtp = [f, a] ★ ❙
+    restp = [f] ★ ❙
+  ❚
+
+  // LF types of signatures ❙
+  UFunSig = Mod ☞?Base/UFunSig_ ❙
+  TFunSig = Mod ☞?Base/TFunSig_ ❙
+
+  theory UFunMod_ > sig: UFunSig ❘ =
+    // the model's universe ❙
+    univ: type ❙
+    // the model's interpretation for every function symbol
+
+       For every function symbol `f: sig . F`, the function `args: (sig . ar) f ⟶ univ`
+       encodes a set of arguments, for which this model ought to interpret "f applied to it".❙
+    interp: {f: sig . F} ((sig . ar) f ⟶ univ) ⟶ univ ❙
+  ❚
+  theory TFunMod_ > sig: TFunSig ❘ =
+    // the model's universes, one for each object type ❙
+    univ: (sig . T) ⟶ type ❙
+    // the model's interpretation for every function symbol
+
+       For every function symbol f, we get a function g that encodes a set of arguments of the respective object types
+       that the function expects. The encoding is a direct generalization of UFunMod_?interp. ❙
+    interp: {f: sig . F} ({a: (sig . ar) f} univ ((sig . argtp) f a)) ⟶ univ ((sig . restp) f) ❙
+  ❚
+  // would like to state: for every `sig: TFunSig` there is a view
+  view EveryUntypedFunModIsTypedOne : (?Base/TFunMod_ sig) -> (?Base/UFunMod_ (?Base/EveryUntypedFunSigIsTypedOne sig)) =
+    // univ = [x] univ ❙
+    // interp = interp ❙
+  ❚
+  // ^^^ Sadly we cannot state this as views do not allow parameters, let alone morphism applications in there ❙
+
+  UFunMod = [sig: UFunSig] Mod ☞?Base/UFunMod_ sig ❙
+  TFunMod = [sig: TFunSig] Mod ☞?Base/TFunMod_ sig ❙
+❚
+
+theory Examples =
+  include ?Base ❙
+
+  magma : UFunSig ❘ = [' F := ENUM 1, ar := [x] ENUM 2'] ❙
+  include ☞latin:/?Nat ❙
+  // nat_numbers_as_magma : UMod magma = [' univ := ℕ, interp := [f] [args] f  ']❙
+❚
+
