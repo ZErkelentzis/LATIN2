@@ -58,30 +58,50 @@ theory Base =
   theory UFunMod_ > sig: UFunSig ❘ =
     // the model's universe ❙
     univ: type ❙
+    // the type of argument sets for every function symbol ❙
+    argset: sig . F ⟶ type ❘ = [f] (sig . ar) f ⟶ univ ❙
     // the model's interpretation for every function symbol
 
        For every function symbol `f: sig . F`, the function `args: (sig . ar) f ⟶ univ`
        encodes a set of arguments, for which this model ought to interpret "f applied to it".❙
-    interp: {f: sig . F} ((sig . ar) f ⟶ univ) ⟶ univ ❙
+    interp: {f: sig . F} argset f ⟶ univ ❙
   ❚
   theory TFunMod_ > sig: TFunSig ❘ =
     // the model's universes, one for each object type ❙
     univ: (sig . T) ⟶ type ❙
+    // the type of argument sets for every function symbol ❙
+    argset: sig . F ⟶ type ❘ = [f] ({a: (sig . ar) f} univ ((sig . argtp) f a)) ❙
     // the model's interpretation for every function symbol
 
        For every function symbol f, we get a function g that encodes a set of arguments of the respective object types
        that the function expects. The encoding is a direct generalization of UFunMod_?interp. ❙
-    interp: {f: sig . F} ({a: (sig . ar) f} univ ((sig . argtp) f a)) ⟶ univ ((sig . restp) f) ❙
+    interp: {f: sig . F} argset f ⟶ univ ((sig . restp) f) ❙
   ❚
-  // would like to state: for every `sig: TFunSig` there is a view
+  // would like to state: for every `sig: TFunSig` there is the view given below
+
+     Sadly we cannot state this as views do not allow parameters, let alone morphism applications in there
   view EveryUntypedFunModIsTypedOne : (?Base/TFunMod_ sig) -> (?Base/UFunMod_ (?Base/EveryUntypedFunSigIsTypedOne sig)) =
-    // univ = [x] univ ❙
-    // interp = interp ❙
-  ❚
-  // ^^^ Sadly we cannot state this as views do not allow parameters, let alone morphism applications in there ❙
+    // univ = [x] univ
+    // interp = interp
+  ❙
 
   UFunMod = [sig: UFunSig] Mod ☞?Base/UFunMod_ sig ❙
   TFunMod = [sig: TFunSig] Mod ☞?Base/TFunMod_ sig ❙
+❚
+
+theory Homomorphisms =
+  include ?Base ❙
+
+  theory UFunHom_ > sig: UFunSig, dom: (UFunMod sig), cod: (UFunMod sig) ❘ =
+    eq: (cod . univ) ⟶ (cod . univ) ⟶ type ❘ # 1 ≐ 2 prec 30 ❘ role Eq ❙
+    fun: (dom . univ) ⟶ (cod . univ) ❙
+
+    // homomorphic extension of fun to argument sets ❙
+    fun_argset: {f: sig . F} ((dom . argset) f) ⟶ ((cod . argset) f) ❘ = [f, args, a] fun (args a) ❙
+    hom: {f: sig . F, args: (dom . argset) f}
+             fun ((dom . interp) f args) ≐ (cod . interp) f (fun_argset f args) ❙
+  ❚
+  UFunHom = Mod ☞?Homomorphisms/UFunHom_ ❙
 ❚
 
 theory Examples =
