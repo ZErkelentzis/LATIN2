@@ -124,6 +124,9 @@ theory Examples =
   magma : UFunSig ❘ = [' F := ENUM 1, ar := [x] ENUM 2'] ❙
   include ☞latin:/?NatPlus ❙
 
+  // todo: endo_magma : {sig: UFunSig, mod: UFunMod sig} UFunMod magma, namely the magma
+     of endomorphisms on mod ❙
+
   // match statements expect a default value, not sure how to work around ❙
   build_magma: {A: type} A ⟶ (A ⟶ A ⟶ A) ⟶ UFunMod magma ❘= [A,default,op] ['
     univ := A,
