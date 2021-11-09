@@ -19,6 +19,7 @@ theory Meta : ur:?LF =
   include ☞lfx:/Records?LFRecords ❙
   include ☞lfx:/Finite?LFFinite ❙
   include ☞lfx:/TypedHierarchy?LFHierarchy ❙
+  include ☞lfx:/WTypes?Inductive ❙
 ❚
 fixmeta ?Meta ❚
 
@@ -124,22 +125,25 @@ theory Examples =
   magma : UFunSig ❘ = [' F := ENUM 1, ar := [x] ENUM 2'] ❙
   include ☞latin:/?NatPlus ❙
 
-  // todo: endo_magma : {sig: UFunSig, mod: UFunMod sig} UFunMod magma, namely the magma
-     of endomorphisms on mod ❙
+  endo_magma : {sig: UFunSig, mod: UFunMod sig} UFunMod magma ❘= ['
+    univ := (mod . univ) ⟶ (mod . univ),
+    interp := [f] [args] (f match x.
+                            ([a: mod . univ] (args (CASE 1)) (args (CASE 0) a))
+  ']
 
-  my_default: {A: type} A ❙
+  // my_default: {A: type} A ❙
   // match statements expect a default value, not sure how to work around ❙
-  build_magma: {A: type} (A ⟶ A ⟶ A) ⟶ UFunMod magma ❘= [A,op] ['
+  // build_magma: {A: type} (A ⟶ A ⟶ A) ⟶ UFunMod magma ❘= [A,op] ['
     univ := A,
-    interp := [f: ENUM 1] [args] (f match x.
+    interp := [f] [args] (f match x.
                             op (args (CASE 0)) (args (CASE 1))
                           | x
                          to A)
   '] ❘ # as_magma 2 ❙
-  nat_numbers_as_magma = as_magma ☞latin:/?NatPlus?plus ❙
+  // nat_numbers_as_magma = as_magma ☞latin:/?NatPlus?plus ❙
 
   // group signature without axioms ❙
-  group : UFunSig ❘ = ['
+  // group : UFunSig ❘ = ['
     F := ENUM 3,
     ar := [f] f match g.
                 ENUM 0
@@ -151,7 +155,7 @@ theory Examples =
   // a type, the neutral element, the inverse operation, the binary operation
 
      currently does NOT typecheck ❙
-  build_group: {A: type} A ⟶ (A ⟶ A) ⟶ (A ⟶ A ⟶ A) ⟶ UFunMod group ❘= [A,e,inv,op] ['
+  // build_group: {A: type} A ⟶ (A ⟶ A) ⟶ (A ⟶ A ⟶ A) ⟶ UFunMod group ❘= [A,e,inv,op] ['
     univ := A,
     interp := [f] [args] (f match g.
                             e
@@ -160,7 +164,32 @@ theory Examples =
                           to A)
   '] ❘ # as_group 2 3 4 ❙
 
-  include ☞latin:/?Int ❙
-  int_is_group = build_group ☞latin:/?Int?Int ☞latin:/?Int?ineg ☞latin:/?Int?plus ❙
+  // include ☞latin:/?Int ❙
+  // int_is_group = build_group ☞latin:/?Int?Int ☞latin:/?Int?ineg ☞latin:/?Int?plus ❙
 ❚
 
+theory ExamplesUsingWTypes =
+  induct OneInduct ()❘ =
+    One : type ❙
+    one : One ❙
+  ❚
+  induct TwoInduct ()❘=
+    Two : type ❙
+    two1 : Two ❙
+    two2 : Two ❙
+  ❚
+  magma : UFunSig ❘ = [' F := One, ar := [x: One] Two '] ❙
+  build_magma: {A: type} (A ⟶ A ⟶ A) ⟶ UFunMod magma ❘= [A,op] ['
+    univ := A,
+    interp := [f] [args] (f match x.
+                            op (args (CASE 0)) (args (CASE 1))
+                          | x
+                         to A)
+  '] ❘ # as_magma 2 ❙
+
+  	def addition (n : ℕ) ❘ =
+  		add : ℕ ⟶ ℕ ❘ # 1 + 2 ❙
+  		Zero = n ❙
+  		Succ = [m] S (add m) ❙
+  	❚
+❚
