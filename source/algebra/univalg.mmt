@@ -127,15 +127,16 @@ theory Examples =
   // todo: endo_magma : {sig: UFunSig, mod: UFunMod sig} UFunMod magma, namely the magma
      of endomorphisms on mod ❙
 
+  my_default: {A: type} A ❙
   // match statements expect a default value, not sure how to work around ❙
-  build_magma: {A: type} A ⟶ (A ⟶ A ⟶ A) ⟶ UFunMod magma ❘= [A,default,op] ['
+  build_magma: {A: type} (A ⟶ A ⟶ A) ⟶ UFunMod magma ❘= [A,op] ['
     univ := A,
-    interp := [f] [args] (f match g.
+    interp := [f: ENUM 1] [args] (f match x.
                             op (args (CASE 0)) (args (CASE 1))
-                         | default
+                          | x
                          to A)
-  '] ❘ # as_magma 2 3 ❙
-  nat_numbers_as_magma = as_magma ☞latin:/?Nat?zero ☞latin:/?NatPlus?plus ❙
+  '] ❘ # as_magma 2 ❙
+  nat_numbers_as_magma = as_magma ☞latin:/?NatPlus?plus ❙
 
   // group signature without axioms ❙
   group : UFunSig ❘ = ['
