@@ -1,12 +1,16 @@
 package latin2.tptp
 
-import info.kwarc.mmt.api.StructuralElement
+import info.kwarc.mmt.api.{GeneralError, GlobalName, MPath, StructuralElement}
 import info.kwarc.mmt.api.archives.BuildTask
+import info.kwarc.mmt.api.frontend.Controller
 import info.kwarc.mmt.api.modules.Theory
+import info.kwarc.mmt.api.objects.{Context, Term}
 import info.kwarc.mmt.api.presentation.{RenderingHandler, StructurePresenter}
-import lf.{FOL, FOLEQ, FOLEQDesc, FOLEQDescND, FOLEQND, FOLND, SFOL, SFOLEQ, SFOLEQND, SFOLND}
+import info.kwarc.mmt.api.utils.FilePath
+import leo.datastructures.TPTP.{Include, Problem}
+import lf.{FOL, FOLEQ, FOLEQDesc, FOLEQDescND, FOLEQND, FOLND, HOL, SFOL, SFOLEQ, SFOLEQND, SFOLND}
 
-class TPTPExporter extends StructurePresenter {
+class TPTPExporter extends StructurePresenter { //TODO: does TPTPExporter have to be class (MMT Extension)
   override def apply(e : StructuralElement, standalone: Boolean = false)(implicit rh : RenderingHandler): Unit = {}
 
   /** a string identifying this build target, used for parsing commands, logging, error messages */
@@ -18,34 +22,45 @@ class TPTPExporter extends StructurePresenter {
     //TODO: check if FOL and SFOL at the same time
 
     outputTo(getOutFileForModule(thy.path).get) {
-      if (controller.library.hasImplicit(FOL._path, thy.path)) {
-        //println("detected FOL")
-        //val root = getOutFileForModule(thy.path).get
-        //val includes = thy.getIncludesWithoutMeta.flatMap(in => { //TODO: extract
-        //  if (controller.library.hasImplicit(in, FOL._path)) {
-        //    None
-        //  } else {
-        //    Some(root.relativize(getOutFileForModule(in).get).toString, Nil)
-        //  }
-        //})
-        //rh(new FOLExporter().export_theory(thy, includes)(controller).pretty)
-        rh(new FOLExporter().export_theory_flattened(thy)(controller).pretty)
+      if (controller.library.hasImplicit(HOL._path, thy.path)) {
+        println("detected HOL")
+        rh(HOLExporter.exportStub(thy)(controller).pretty + "\n")
       } else if (controller.library.hasImplicit(SFOL._path, thy.path)) {
         println("detected SFOL")
-        //val root = getOutFileForModule(thy.path).get
-        //val includes = thy.getIncludesWithoutMeta.flatMap(in => { //TODO: extract
-        //  if (controller.library.hasImplicit(in, SFOL._path)) {
-        //    None
-        //  } else {
-        //    Some(root.relativize(getOutFileForModule(in).get).toString, Nil)
-        //  }
-        //})
-        //rh(new SFOLExporter().export_theory(thy, includes)(controller).pretty)
-        rh(new SFOLExporter().export_theory_flattened(thy)(controller).pretty)
+        rh(SFOLExporter.exportStub(thy)(controller).pretty + "\n")
+      } else if (controller.library.hasImplicit(FOL._path, thy.path)) {
+        println("detected FOL")
+        rh(FOLExporter.exportStub(thy)(controller).pretty + "\n")
       } else {
-        println("no LF detected")
+        println("no known Logic detected")
       }
     }
+  }
+
+  def combineStubs(p: GlobalName, ctx: Context, t: Term)(implicit ctrl: Controller): Option[Problem] = {
+    if (controller.library.hasImplicit(HOL._path, p.module)) {
+      Some(HOLExporter.combineStubs(p, ctx, t))
+    } else if (controller.library.hasImplicit(SFOL._path, p.module)) {
+      Some(SFOLExporter.combineStubs(p, ctx, t))
+    } else if (controller.library.hasImplicit(FOL._path, p.module)) {
+      Some(???)//FOLExporter.combineStubs(p, ctx, t)
+    } else {
+      log(GeneralError("no known Logic detected"))
+      None
+    }
+  }
+  def translate_include(home_path: MPath, in: MPath) : Include = {
+    val home = getOutFileForModule(home_path).get
+    val include = home.relativize(getOutFileForModule(in).get).toString
+    ((include, Seq()))
+  }
+
+  def exportProblem(problem: Problem, path: MPath) : String = {
+    val file_path = getOutFileForModule(path).get.setExtension("p")
+    outputTo(file_path) {
+      rh(problem.pretty)
+    }
+    file_path.toString
   }
 
 }

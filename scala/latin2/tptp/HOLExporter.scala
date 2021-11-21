@@ -1,6 +1,6 @@
 package latin2.tptp
 
-import info.kwarc.mmt.api.{GlobalName, LocalName, MPath, StructuralElement}
+import info.kwarc.mmt.api.{ContentPath, GlobalName, LocalName, MPath, StructuralElement}
 import info.kwarc.mmt.api.archives.BuildTask
 import info.kwarc.mmt.api.frontend.Controller
 import info.kwarc.mmt.api.modules.Theory
@@ -11,7 +11,8 @@ import info.kwarc.mmt.api.uom.SimplificationUnit
 import info.kwarc.mmt.lf.{ApplySpine, Lambda}
 import latin2.sfol.CommonSymbols.DedList
 import latin2.sfol.SFOLPatterns.{FuncDecl, PredDecl, TypeDecl}
-import leo.datastructures.TPTP.{AnnotatedFormula, Include, Problem, TFF, TFFAnnotated}
+import leo.datastructures.TPTP.THF.{FunTyConstructor, FunctionTerm}
+import leo.datastructures.TPTP.{AnnotatedFormula, Include, Problem, THF, THFAnnotated}
 import lf.Conjunction.and
 import lf.Disjunction.or
 import lf.Equivalence.equiv
@@ -19,12 +20,15 @@ import lf.TypedExistentialQuantification.exists
 import lf.Implication.impl
 import lf.Negation.not
 import lf.Proofs.ded
+import lf.SFOLEQ.notequal
+import lf.{InternalPropositions, SimpleFunctionTypes}
+import lf.SimpleFunctions.{simpapply, simplambda}
 import lf.TypedEquality.equal
 import lf.TypedUniversalQuantification.forall
 
 import scala.collection.mutable.ArrayBuffer
 
-object SFOLExporter {
+object HOLExporter {
   def combineStubs(p: GlobalName, ctx: Context, t: Term)(implicit ctrl: Controller): Problem = {
     var includes = ArrayBuffer[MPath]()
     var formulas = ArrayBuffer[AnnotatedFormula]()
@@ -41,7 +45,7 @@ object SFOLExporter {
     }.flatten.distinct
 
     formulas ++= axioms
-    formulas += TFFAnnotated("conjecture", "conjecture",  TFF.Logical(translate_formula(t)), None)
+    formulas += THFAnnotated("conjecture", "conjecture",  THF.Logical(translate_formula(t)), None)
 
     val tptp_exporter = ctrl.extman.get(classOf[TPTPExporter]).head
 
@@ -64,7 +68,7 @@ object SFOLExporter {
     }.flatten.distinct.map(x => if (x.role == "") { x.copy(role = "axiom") } else x)
 
     val conjectures = what match {
-      case DedList(formulas) => formulas.map(f => TFFAnnotated("Conjecture", "conjecture",  TFF.Logical(translate_formula(f)), None))
+      case DedList(formulas) => formulas.map(f => THFAnnotated("Conjecture", "conjecture",  THF.Logical(translate_formula(f)), None))
     }
 
     Problem(List(), (axioms++conjectures))
@@ -75,7 +79,7 @@ object SFOLExporter {
     Problem(List(), axioms)
   }
 
-  def translate_theory_flattened(theory: Theory)(implicit ctrl: Controller): List[TFFAnnotated] = {
+  def translate_theory_flattened(theory: Theory)(implicit ctrl: Controller): List[THFAnnotated] = {
     theory.getIncludesWithoutMeta.flatMap(include => translate_theory_flattened(ctrl.getTheory(include))) ++ theory.getConstants.flatMap(translate_constant)
   }
 
@@ -84,106 +88,102 @@ object SFOLExporter {
     Problem(includes, axioms)
   }
 
-  def translate_theory(theory: Theory)(implicit ctrl: Controller): List[TFFAnnotated] = {
+  def translate_theory(theory: Theory)(implicit ctrl: Controller): List[THFAnnotated] = {
     theory.getConstants.flatMap(translate_constant)
   }
 
-  def translate_decl(name: LocalName, tp: Option[Term], df: Option[Term], ctx: Context)(implicit ctrl: Controller): List[TFFAnnotated] = {
+  def funty_builder(in: List[THF.Formula], out: THF.Formula) = in.foldRight(out)((g, arg) => THF.BinaryFormula(FunTyConstructor, arg, g))
+
+  def translate_decl(name: LocalName, tp: Option[Term], df: Option[Term], ctx: Context)(implicit ctrl: Controller): List[THFAnnotated] = {
     val simplicationUnit = SimplificationUnit(ctx, expandDefinitions = true, fullRecursion = true)
 
     val newTp = tp.map(ctrl.simplifier(_, simplicationUnit))
 
+
     newTp match {
       case Some(ded(formula)) =>
-        List(TFFAnnotated(name.toString, "axiom", TFF.Logical(translate_formula(formula)), None))
+        List(THFAnnotated(name.toString, "axiom", THF.Logical(translate_formula(formula)), None))
       case Some(TypeDecl(Nil))  =>
-        List(TFFAnnotated("type_" + name.toString, "type", TFF.Typing("t_" + name.toString, TFF.AtomicType("$tType", Nil)), None)) //is optional
-      case Some(FuncDecl(Nil, OMID(out))) =>
-        List(TFFAnnotated("type_" + name.toString, "type", TFF.Typing("t_" + name.toString, TFF.AtomicType("t_" + out.name.toString, Nil)), None))
-      case Some(FuncDecl(in, out)) =>
-        TFFAnnotated("type_" + name.toString, "type", TFF.Typing("t_" + name.toString, TFF.MappingType(in.map(translate_type), translate_type(out))), None) :: List[TFFAnnotated]()//:: (df.map(TFFAnnotated("def_" + name.toString, "axiom", TFF.QuantifiedFormula(TFF.!, ))))
-      case Some(PredDecl(in)) =>
-        List(TFFAnnotated("type_" + name.toString, "type", TFF.Typing("t_" + name.toString, in match {
-          case Nil => TFF.AtomicType("$o", Nil)
-          case in => TFF.MappingType(in.map(translate_type), TFF.AtomicType("$o", Nil))
+        List(THFAnnotated("type_" + name.toString, "type", THF.Typing("t_" + name.toString, THF.FunctionTerm("$tType", Nil)), None)) //is optional
+      case Some(PredDecl(in)) => //TODO: moved this up as -> bool matched on FuncDecl(Nil, OMID(out)) first?
+        List(THFAnnotated("type_" + name.toString, "type", THF.Typing("t_" + name.toString, in match {
+          case Nil => THF.FunctionTerm("$o", Nil)
+          case in => funty_builder(in.map(translate_formula), THF.FunctionTerm("$o", Nil))
         }), None))
+      case Some(FuncDecl(Nil, OMID(out))) =>
+        List(THFAnnotated("type_" + name.toString, "type", THF.Typing("t_" + name.toString, THF.FunctionTerm("t_" + out.name.toString, Nil)), None))
+      case Some(FuncDecl(in, out)) =>
+        THFAnnotated("type_" + name.toString, "type", THF.Typing("t_" + name.toString, funty_builder(in.map(translate_formula), translate_formula(out))), None) :: List[THFAnnotated]()//:: (df.map(THFAnnotated("def_" + name.toString, "axiom", THF.QuantifiedFormula(THF.!, ))))
       case _ => Nil
     }
   }
 
-  def translate_var_decl(vd: VarDecl, ctx: Context)(implicit ctrl: Controller): List[TFFAnnotated] =
+  def translate_var_decl(vd: VarDecl, ctx: Context)(implicit ctrl: Controller): List[THFAnnotated] =
     translate_decl(vd.name, vd.tp, vd.df, ctx)
 
-  def translate_constant(c: Constant)(implicit ctrl: Controller): List[TFFAnnotated] =
+  def translate_constant(c: Constant)(implicit ctrl: Controller): List[THFAnnotated] =
     translate_decl(c.name, c.tp, c.df, Context(c.path.module))
 
-  def translate_formula(t: Term): TFF.Formula = t match {
+  def translate_formula(t: Term): THF.Formula = t match {
+    case Lambda(v, ty, body) => THF.QuantifiedFormula(THF.^, Seq(("V_" + v.toPath, translate_formula(ty))), translate_formula(body))
+    case simplambda(_, _, f) => translate_formula(f)
+    case simpapply(_, _, f, x) => translate_formula(ApplySpine(f, x))
+
+    // TODO: ask Navid, Florian said this is needed? YES
+    case SimpleFunctionTypes.simpfun(a, b) => funty_builder(List(translate_formula(a)), translate_formula(b))
+    case InternalPropositions.bool.term => THF.FunctionTerm("$o", Nil)
+    // TODO: product types, etc. still needed
+
     case forall((ty, Lambda(v, _, body))) =>
-      TFF.QuantifiedFormula(
-        TFF.!,
+      THF.QuantifiedFormula(
+        THF.!,
         Seq(
-          ("V_" + v.toPath, Some(translate_type(ty)))
+          ("V_" + v.toPath, translate_formula(ty))
         ),
         translate_formula(body)
       )
     case exists((ty, Lambda(v, _, body))) =>
-      TFF.QuantifiedFormula(
-        TFF.?,
+      THF.QuantifiedFormula(
+        THF.?,
         Seq(
-          ("V_" + v.toPath, Some(translate_type(ty)))
+          ("V_" + v.toPath, translate_formula(ty))
         ),
         translate_formula(body)
       )
     case forall(ty, body) =>
       val varname = Context.pickFresh(body.allVars.map(VarDecl(_)), LocalName("x"))._1
       translate_formula(forall(ty, Lambda(varname, ty, ApplySpine(body, OMV(varname)))))
+    //TODO: add exists like above forall
     case exists(ty, body) =>
       val varname = Context.pickFresh(body.allVars.map(VarDecl(_)), LocalName("x"))._1
       translate_formula(exists(ty, Lambda(varname, ty, ApplySpine(body, OMV(varname)))))
+    //TODO: add exists like above forall
     case and(left, right) =>
-      TFF.BinaryFormula(TFF.&, translate_formula(left), translate_formula(right))
+      THF.BinaryFormula(THF.&, translate_formula(left), translate_formula(right))
     case or(left, right) =>
-      TFF.BinaryFormula(TFF.|, translate_formula(left), translate_formula(right))
+      THF.BinaryFormula(THF.|, translate_formula(left), translate_formula(right))
     case impl(left, right) =>
-      TFF.BinaryFormula(TFF.Impl, translate_formula(left), translate_formula(right))
+      THF.BinaryFormula(THF.Impl, translate_formula(left), translate_formula(right))
     case equiv(left, right) =>
-      TFF.BinaryFormula(TFF.<=>, translate_formula(left), translate_formula(right))
+      THF.BinaryFormula(THF.<=>, translate_formula(left), translate_formula(right))
     case equal(ty, left, right) => {
-      TFF.Equality(translate_term(left), translate_term(right))
+      THF.BinaryFormula(THF.Eq, translate_formula(left), translate_formula(right))
+    }
+    case notequal(ty, left, right) => {
+      THF.BinaryFormula(THF.Neq, translate_formula(left), translate_formula(right))
     }
     case not(arg) =>
-      TFF.UnaryFormula(TFF.~, translate_formula(arg))
+      THF.UnaryFormula(THF.~, translate_formula(arg))
 
     case OMID(f) =>
-      TFF.AtomicFormula("t_" + f.name.toString, Nil)
+      THF.FunctionTerm("t_" + f.name.toString, Nil)
 
-    case OMV(x) => {
-      TFF.AtomicFormula("t_" + x.toString, Nil)
-    }
-
-    case ApplySpine(OMID(f), args) =>
-      TFF.AtomicFormula("t_" + f.name.toString, args.map(translate_term))
-
-  }
-
-  def translate_term(t: Term): TFF.Term = t match {
-    case ApplySpine(OMID(f), args) =>
-      // f: GlobalName, args: List[Term]
-      TFF.AtomicTerm("t_" + f.name.toString, args.map(translate_term))
-
-    case OMID(f) =>
-      TFF.AtomicTerm("t_" + f.name.toString, Nil)
-
-    //case OMV(x) =>
-    //  // x: LocalName
-    //  Var(x.name.toString)
     case OMV(x) =>
-      // x: LocalName
-      TFF.Variable("V_" + x.toString)
-  }
+      THF.FunctionTerm("t_" + x.toString, Nil)
 
-  def translate_type(t: Term): TFF.Type = t match {
-    case OMID(f) =>
-      TFF.AtomicType("t_" + f.name.toString, Nil)
+    case ApplySpine(f, args) => args.map(translate_formula).foldLeft(translate_formula(f))((g, arg) => THF.BinaryFormula(THF.App, g, arg))
+
+    case default => println(default)
+      ???
   }
 }

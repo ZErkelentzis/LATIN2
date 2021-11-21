@@ -1,16 +1,23 @@
 package latin2.proving
 
 import info.kwarc.mmt.api.checking.{History, InferenceAndTypingRule, Solver}
+import info.kwarc.mmt.api.frontend.Controller
 import info.kwarc.mmt.api.objects._
 import info.kwarc.mmt.api.parser.ParseResult
 import info.kwarc.mmt.api.{GlobalName, Path}
 import info.kwarc.mmt.lf.OfType
+import latin2.tptp.{SFOLExporter, TPTPExporter}
 import lf.Proofs
 
 import scala.annotation.tailrec
+import scala.sys.process.Process
 
 object InvokeATPRule extends InferenceAndTypingRule(Path.parseS("latin:/?PropositionsATP?atp_proof"), OfType.path) {
-  private def invokeATP(p: GlobalName, ctx: Context, t: Term): Boolean = {
+
+  private def invokeATP(p: GlobalName, ctx: Context, t: Term)(implicit  ctrl: Controller): Boolean = {
+    val tptp_exporter = ctrl.extman.get(classOf[TPTPExporter]).head;
+    val problem = tptp_exporter.combineStubs(p, ctx, t)
+
     // TODO (XBagon): step 0: outsource this method to the tptp folder
     // TODO(XBagon): step 1:
     //    ctrl.getTheory(p.module).getDeclarations.dropUntil(_.path == p).map {
@@ -27,7 +34,14 @@ object InvokeATPRule extends InferenceAndTypingRule(Path.parseS("latin:/?Proposi
     // to see examples what this prints, either run or see comments in tptp-exporter_monoid.mmt.
     println(s"invoked ATP on `$t` in context `$ctx` for constant `$p`")
 
-    true
+    problem.map(tptp_exporter.exportProblem(_, p.module)).map(callExternalATP).isDefined
+  }
+
+  def callExternalATP(path: String)(implicit  ctrl: Controller) = {
+    println(s"""java -jar ${sys.env("LEO3")} $path """)
+    val pb = Process(s"""java -jar ${sys.env("LEO3")} $path """)
+    val result = pb.!!
+    println(result)
   }
 
   @tailrec
@@ -54,7 +68,7 @@ object InvokeATPRule extends InferenceAndTypingRule(Path.parseS("latin:/?Proposi
         return (None, None)
       }
 
-      val formulaProvable = invokeATP(outerConstant, stack.context, formula)
+      val formulaProvable = invokeATP(outerConstant, stack.context, formula)(solver.controller)
 
       if (formulaProvable) {
         (Some(Proofs.ded(formula)), Some(true))

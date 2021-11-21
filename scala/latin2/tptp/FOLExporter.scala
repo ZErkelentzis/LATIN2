@@ -20,7 +20,10 @@ import lf.Negation.not
 import lf.Proofs.ded
 import lf.UniversalQuantification.forall
 
-class FOLExporter {
+object FOLExporter {
+  def exportStub(theory: Theory)(implicit ctrl: Controller): Problem = {
+    export_theory(theory, Nil)
+  }
 
   def exportTPTP(ctx: Context, what: List[Term])(implicit ctrl: Controller): Problem = {
     // walk through ctx, collect all axioms

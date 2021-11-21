@@ -32,7 +32,7 @@ object Playground extends Extension {
     )
     //val what = ded(and(OMV("G"), OMV("F")))
     //print(new SFOLExporter().translate_theory(theory)(controller))
-    println(new SFOLExporter().exportTPTP(ctx, Nil)(controller).pretty)
+    //println(new tptp_exporter.exportTPTP(ctx, Nil)(controller).pretty)
   }
 }
 
