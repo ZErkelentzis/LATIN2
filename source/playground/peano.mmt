@@ -1,0 +1,26 @@
+namespace latin:/playground/tptp-exporter ❚
+rule scala://parser.api.mmt.kwarc.info?MMTURILexer ❚
+
+theory Meta =
+  include ☞latin:/?HOLND❙
+  include ☞latin:/?PropositionsATP❙
+❚
+fixmeta ?Meta ❚
+
+theory Peano =
+    ℕ : tp❙
+    successor : tm (ℕ → ℕ)❙
+
+    zero : tm ℕ❙
+    //No Confusion Axiom❙
+    axiom3 : ⊦ ∀[n: tm ℕ] ¬(successor @ n ≐ zero)❙
+    //Injectivity Axiom❙
+    axiom4 : ⊦ ∀[n: tm ℕ] ∀[m: tm ℕ] ((successor @ n ≐ successor @ m) ⇒ (n ≐ m))❙
+    //Induction Axiom❙
+    axiom5 : ⊦ ∀[X: tm (ℕ → bool)] (X @ zero ∧ ∀[n : tm ℕ] (X @ n ⇒ X @ (successor @ n)) ⇒ ∀[x: tm ℕ] X @ x)❙
+
+    //Conjecture forall x, x = 0 \/ (exists y, S y = x)❙
+
+    //Maybe prove conjecture per hand❙
+❚
+
