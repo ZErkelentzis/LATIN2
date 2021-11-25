@@ -4,19 +4,49 @@ fixmeta ur:?LF❚
 
 theory UndefinedTerms =
   include ?UntypedLogic❙
-  defined : term ⟶ prop❘# 1 ↓ prec 70❙
-  strict_equal : term ⟶ term ⟶ prop❘ # 1 ≚ 2 prec 50❙ 
+  udefined : term ⟶ prop❘# 1 ↓ͧ prec 70❙
+  ustrict_equal : term ⟶ term ⟶ prop❘ # 1 ≚ͧ 2 prec 50❙ 
 ❚ 
 
 theory UndefinedTypedTerms =
   include ?TypedLogic❙
-  defined : {A} tm A ⟶ prop❘# 2 ↓ prec 70❙
-  strict_equal : {A} tm A ⟶ tm A ⟶ prop❘# 2 ≚ 3 prec 50❙ 
+  tdefined : {A} tm A ⟶ prop❘# 2 ↓ͭ prec 70❙
+  tstrict_equal : {A} tm A ⟶ tm A ⟶ prop❘# 2 ≚ͭ 3 prec 50❙ 
 ❚
 
 theory UndefinedSoftTypedTerms =
   include ?SoftTypedTerms❙
-  defined : term ⟶ tp ⟶ prop❘# 1 ↓ 2 prec 70❙
-  strict_equal : tp ⟶ term ⟶ term ⟶ prop❘# 2 ≚ 3 prec 50❙
+  rdefined : term ⟶ tp ⟶ prop❘# 1 ↓ͬ 2 prec 70❙
+  rstrict_equal : tp ⟶ term ⟶ term ⟶ prop❘# 2 ≚ͬ 3 prec 50❙
+❚
+
+theory NonDenoting =
+    include ?UntypedLogic❙
+
+    denoting    : term ⟶ prop❘# 1 ⥿❙
+    nondenoting : term ⟶ prop❘# 1 ⥾❙
+❚
+
+theory NonDenotingND =
+    include ?NonDenoting❙
+    include ?NegationND❙
+
+    den_not_nonden : { A } (⊦ (A ⥿)) ⟶ (⊦ (¬ (A ⥾)))❙
+    nonden_not_den : { A } (⊦ (A ⥾)) ⟶ (⊦ (¬ (A ⥿)))❙
+❚
+
+theory Undefined =
+    include ?TypedLogic❙
+
+    defined   : { α : tp } tm α ⟶ prop❘# 2 ↓❙
+    undefined : { α : tp } tm α ⟶ prop❘# 2 ↑❙
+❚
+
+theory UndefinedND =
+    include ?Undefined❙
+    include ?NegationND❙
+
+    def_not_undef : { α : tp, A : tm α } (⊦ (A ↓)) ⟶ (⊦ (¬ (A ↑)))❙
+    undef_not_def : { α : tp, A : tm α } (⊦ (A ↑)) ⟶ (⊦ (¬ (A ↓)))❙
 ❚
 

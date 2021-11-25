@@ -1,8 +1,0 @@
-accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Soft$Typed$Terms".
-
-accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$F$O$L$E$Q".
-
-/* generated from rforall : tp⟶(term⟶prop)⟶prop */
-
-/* type rforall tp -> term -> prop -> prop. */
-

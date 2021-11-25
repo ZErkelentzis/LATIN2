@@ -1,0 +1,420 @@
+namespace latin:/❚
+
+fixmeta ur:?LF❚
+
+// Based on Daan Luca Di Scala's 2020 Bachelor Thesis: https://dspace.library.uu.nl/handle/1874/396282 ❚
+
+theory ExclusiveOr =
+    // Exclusive OR is necessary for some Strategies.❙
+    include ?IPL❙
+    xor : prop ⟶ prop ⟶ prop❘ = [p,q] ¬(p ⇔ q) ❘# 1 ⨂ 2 prec 15❙
+❚
+
+theory AllDifferent =
+        include ?TypedLogic❙
+        include ?SFOLEQND❙
+
+        all_different : { T, a : tm T, b : tm T, c : tm T, d : tm T, e : tm T, f : tm T, g : tm T, h : tm T, i : tm T } prop❘
+                      = [T,p1,p2,p3,p4,p5,p6,p7,p8,p9]
+                        ((p1 ≠ p2) ∧ (p1 ≠ p3) ∧ (p1 ≠ p4) ∧ (p1 ≠ p5) ∧ (p1 ≠ p6) ∧ (p1 ≠ p7) ∧ (p1 ≠ p8) ∧ (p1 ≠ p9) ∧ (p2 ≠ p3)
+                      ∧ (p2 ≠ p4) ∧ (p2 ≠ p5) ∧ (p2 ≠ p6) ∧ (p2 ≠ p7) ∧ (p2 ≠ p8) ∧ (p2 ≠ p9) ∧ (p3 ≠ p4) ∧ (p3 ≠ p5) ∧ (p3 ≠ p6)
+                      ∧ (p3 ≠ p7) ∧ (p3 ≠ p8) ∧ (p3 ≠ p9) ∧ (p4 ≠ p5) ∧ (p4 ≠ p6) ∧ (p4 ≠ p7) ∧ (p4 ≠ p8) ∧ (p4 ≠ p9) ∧ (p5 ≠ p6)
+                      ∧ (p5 ≠ p7) ∧ (p5 ≠ p8) ∧ (p5 ≠ p9) ∧ (p6 ≠ p7) ∧ (p6 ≠ p8) ∧ (p6 ≠ p9) ∧ (p7 ≠ p8) ∧ (p7 ≠ p9) ∧ (p8 ≠ p9))
+                      ❘# ⋖ 2 3 4 5 6 7 8 9 10 ⋗❙
+
+        swap12 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T }
+               ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (⋖ d2 d1 d3 d4 d5 d6 d7 d8 d9 ⋗)❙
+
+        swap13 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T }
+               ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (⋖ d3 d2 d1 d4 d5 d6 d7 d8 d9 ⋗)❙
+
+        swap14 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T }
+               ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (⋖ d4 d2 d3 d1 d5 d6 d7 d8 d9 ⋗)❙
+
+        swap15 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T }
+               ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (⋖ d5 d2 d3 d4 d1 d6 d7 d8 d9 ⋗)❙
+
+        swap16 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T }
+               ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (⋖ d6 d2 d3 d4 d5 d1 d7 d8 d9 ⋗)❙
+
+        swap17 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T }
+               ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (⋖ d7 d2 d3 d4 d5 d6 d1 d8 d9 ⋗)❙
+
+        swap18 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T }
+               ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (⋖ d8 d2 d3 d4 d5 d6 d7 d1 d9 ⋗)❙
+
+        swap19 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T }
+               ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (⋖ d9 d2 d3 d4 d5 d6 d7 d8 d1 ⋗)❙
+
+        proj_uneq_12 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d1 ≠ d2)❙
+        proj_uneq_13 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d1 ≠ d3)❙
+        proj_uneq_14 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d1 ≠ d4)❙
+        proj_uneq_15 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d1 ≠ d5)❙
+        proj_uneq_16 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d1 ≠ d6)❙
+        proj_uneq_17 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d1 ≠ d7)❙
+        proj_uneq_18 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d1 ≠ d8)❙
+        proj_uneq_19 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d1 ≠ d9)❙
+        proj_uneq_23 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d2 ≠ d3)❙
+        proj_uneq_24 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d2 ≠ d4)❙
+        proj_uneq_25 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d2 ≠ d5)❙
+        proj_uneq_26 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d2 ≠ d6)❙
+        proj_uneq_27 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d2 ≠ d7)❙
+        proj_uneq_28 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d2 ≠ d8)❙
+        proj_uneq_29 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d2 ≠ d9)❙
+        proj_uneq_34 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d3 ≠ d4)❙
+        proj_uneq_35 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d3 ≠ d5)❙
+        proj_uneq_36 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d3 ≠ d6)❙
+        proj_uneq_37 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d3 ≠ d7)❙
+        proj_uneq_38 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d3 ≠ d8)❙
+        proj_uneq_39 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d3 ≠ d9)❙
+        proj_uneq_45 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d4 ≠ d5)❙
+        proj_uneq_46 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d4 ≠ d6)❙
+        proj_uneq_47 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d4 ≠ d7)❙
+        proj_uneq_48 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d4 ≠ d8)❙
+        proj_uneq_49 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d4 ≠ d9)❙
+        proj_uneq_56 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d5 ≠ d6)❙
+        proj_uneq_57 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d5 ≠ d7)❙
+        proj_uneq_58 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d5 ≠ d8)❙
+        proj_uneq_59 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d5 ≠ d9)❙
+        proj_uneq_67 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T }⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d6 ≠ d7)❙
+        proj_uneq_68 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d6 ≠ d8)❙
+        proj_uneq_69 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d6 ≠ d9)❙
+        proj_uneq_78 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d7 ≠ d8)❙
+        proj_uneq_79 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d7 ≠ d9)❙
+        proj_uneq_89 : { T, d1 : tm T, d2 : tm T, d3 : tm T, d4 : tm T, d5 : tm T, d6 : tm T, d7 : tm T, d8 : tm T, d9 : tm T } ⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗) ⟶ ⊦ (d8 ≠ d9)❙
+❚
+
+theory SudokuBoard =
+    include ?TypedLogic❙
+    include ?SFOLEQND❙
+    include ?MLHilbert❙
+    include ?AllDifferent❙
+
+    cell : tp❙ // type or tp? or tm W? ❙
+
+    c01 : tm cell❘# c₀₁❙ c02 : tm cell❘# c₀₂❙ c03 : tm cell❘# c₀₃❙ c04 : tm cell❘# c₀₄❙ c05 : tm cell❘# c₀₅❙
+    c06 : tm cell❘# c₀₆❙ c07 : tm cell❘# c₀₇❙ c08 : tm cell❘# c₀₈❙ c09 : tm cell❘# c₀₉❙ c10 : tm cell❘# c₁₀❙
+    c11 : tm cell❘# c₁₁❙ c12 : tm cell❘# c₁₂❙ c13 : tm cell❘# c₁₃❙ c14 : tm cell❘# c₁₄❙ c15 : tm cell❘# c₁₅❙
+    c16 : tm cell❘# c₁₆❙ c17 : tm cell❘# c₁₇❙ c18 : tm cell❘# c₁₈❙ c19 : tm cell❘# c₁₉❙ c20 : tm cell❘# c₂₀❙
+    c21 : tm cell❘# c₂₁❙ c22 : tm cell❘# c₂₂❙ c23 : tm cell❘# c₂₃❙ c24 : tm cell❘# c₂₄❙ c25 : tm cell❘# c₂₅❙
+    c26 : tm cell❘# c₂₆❙ c27 : tm cell❘# c₂₇❙ c28 : tm cell❘# c₂₈❙ c29 : tm cell❘# c₂₉❙ c30 : tm cell❘# c₃₀❙
+    c31 : tm cell❘# c₃₁❙ c32 : tm cell❘# c₃₂❙ c33 : tm cell❘# c₃₃❙ c34 : tm cell❘# c₃₄❙ c35 : tm cell❘# c₃₅❙
+    c36 : tm cell❘# c₃₆❙ c37 : tm cell❘# c₃₇❙ c38 : tm cell❘# c₃₈❙ c39 : tm cell❘# c₃₉❙ c40 : tm cell❘# c₄₀❙
+    c41 : tm cell❘# c₄₁❙ c42 : tm cell❘# c₄₂❙ c43 : tm cell❘# c₄₃❙ c44 : tm cell❘# c₄₄❙ c45 : tm cell❘# c₄₅❙
+    c46 : tm cell❘# c₄₆❙ c47 : tm cell❘# c₄₇❙ c48 : tm cell❘# c₄₈❙ c49 : tm cell❘# c₄₉❙ c50 : tm cell❘# c₅₀❙
+    c51 : tm cell❘# c₅₁❙ c52 : tm cell❘# c₅₂❙ c53 : tm cell❘# c₅₃❙ c54 : tm cell❘# c₅₄❙ c55 : tm cell❘# c₅₅❙
+    c56 : tm cell❘# c₅₆❙ c57 : tm cell❘# c₅₇❙ c58 : tm cell❘# c₅₈❙ c59 : tm cell❘# c₅₉❙ c60 : tm cell❘# c₆₀❙
+    c61 : tm cell❘# c₆₁❙ c62 : tm cell❘# c₆₂❙ c63 : tm cell❘# c₆₃❙ c64 : tm cell❘# c₆₄❙ c65 : tm cell❘# c₆₅❙
+    c66 : tm cell❘# c₆₆❙ c67 : tm cell❘# c₆₇❙ c68 : tm cell❘# c₆₈❙ c69 : tm cell❘# c₆₉❙ c70 : tm cell❘# c₇₀❙
+    c71 : tm cell❘# c₇₁❙ c72 : tm cell❘# c₇₂❙ c73 : tm cell❘# c₇₃❙ c74 : tm cell❘# c₇₄❙ c75 : tm cell❘# c₇₅❙
+    c76 : tm cell❘# c₇₆❙ c77 : tm cell❘# c₇₇❙ c78 : tm cell❘# c₇₈❙ c79 : tm cell❘# c₇₉❙ c80 : tm cell❘# c₈₀❙
+    c81 : tm cell❘# c₈₁❙
+
+    // Accessibility Relations❙
+
+    hrzntl : tm cell ⟶ tm cell ⟶ prop❘# 1 ℋ 2 prec 30❙ // Same Horizontal❙
+    vrtcl  : tm cell ⟶ tm cell ⟶ prop❘# 1 𝒱 2 prec 30❙ // Same Vertical❙
+    blck   : tm cell ⟶ tm cell ⟶ prop❘# 1 ℬ 2 prec 30❙ // Same Block❙
+
+    // Same Line = Vertical or Horizontal❙
+    ln : tm cell ⟶ tm cell ⟶ prop❘ = [a,b] (a ℋ b) ∨ (a 𝒱 b)❘# 1 ℒ 2 prec 30❙
+
+    // Same Group = Same Line or Block❙
+    grp : tm cell ⟶ tm cell ⟶ prop❘ = [a,b] (a ℒ b) ∨ (a ℬ b) ❘# 1 𝒢 2 prec 30❙
+
+    // Symmetry Axioms❙
+    symH : {c1,c2 : tm cell} (⊦ (c1 ℋ c2)) ⟶ (⊦ (c2 ℋ c1))❙
+    symV : {c1,c2 : tm cell} (⊦ (c1 𝒱 c2)) ⟶ (⊦ (c2 𝒱 c1))❙
+    symB : {c1,c2 : tm cell} (⊦ (c1 ℬ c2)) ⟶ (⊦ (c2 ℬ c1))❙
+
+    symL : {c1,c2 : tm cell} (⊦ (c1 ℒ c2)) ⟶ (⊦ (c2 ℒ c1))❙
+    symG : {c1,c2 : tm cell} (⊦ (c1 𝒢 c2)) ⟶ (⊦ (c2 𝒢 c1))❙
+
+    // Transitivity Axioms❙
+    transH : {c1,c2,c3 : tm cell} (⊦ (c1 ℋ c2)) ⟶ (⊦ (c2 ℋ c3)) ⟶ (⊦ (c1 ℋ c3))❙
+    transV : {c1,c2,c3 : tm cell} (⊦ (c1 𝒱 c2)) ⟶ (⊦ (c2 𝒱 c3)) ⟶ (⊦ (c1 𝒱 c3))❙
+    transB : {c1,c2,c3 : tm cell} (⊦ (c1 ℬ c2)) ⟶ (⊦ (c2 ℬ c3)) ⟶ (⊦ (c1 ℬ c3))❙
+
+    // Connection Axioms❙
+
+    c01Hc02 : ⊦ (c₀₁ ℋ c₀₂)❙ c01Hc03 : ⊦ (c₀₁ ℋ c₀₃)❙ c01Hc04 : ⊦ (c₀₁ ℋ c₀₄)❙ c01Hc05 : ⊦ (c₀₁ ℋ c₀₅)❙
+    c01Hc06 : ⊦ (c₀₁ ℋ c₀₆)❙ c01Hc07 : ⊦ (c₀₁ ℋ c₀₇)❙ c01Hc08 : ⊦ (c₀₁ ℋ c₀₈)❙ c01Hc09 : ⊦ (c₀₁ ℋ c₀₉)❙
+    c10Hc11 : ⊦ (c₁₀ ℋ c₁₁)❙ c10Hc12 : ⊦ (c₁₀ ℋ c₁₂)❙ c10Hc13 : ⊦ (c₁₀ ℋ c₁₃)❙ c10Hc14 : ⊦ (c₁₀ ℋ c₁₄)❙
+    c10Hc15 : ⊦ (c₁₀ ℋ c₁₅)❙ c10Hc16 : ⊦ (c₁₀ ℋ c₁₆)❙ c10Hc17 : ⊦ (c₁₀ ℋ c₁₇)❙ c10Hc18 : ⊦ (c₁₀ ℋ c₁₈)❙
+    c19Hc20 : ⊦ (c₁₉ ℋ c₂₀)❙ c19Hc21 : ⊦ (c₁₉ ℋ c₂₁)❙ c19Hc22 : ⊦ (c₁₉ ℋ c₂₂)❙ c19Hc23 : ⊦ (c₁₉ ℋ c₂₃)❙
+    c19Hc24 : ⊦ (c₁₉ ℋ c₂₄)❙ c19Hc25 : ⊦ (c₁₉ ℋ c₂₅)❙ c19Hc26 : ⊦ (c₁₉ ℋ c₂₆)❙ c19Hc27 : ⊦ (c₁₉ ℋ c₂₇)❙
+    c28Hc29 : ⊦ (c₂₈ ℋ c₂₉)❙ c28Hc30 : ⊦ (c₂₈ ℋ c₃₀)❙ c28Hc31 : ⊦ (c₂₈ ℋ c₃₁)❙ c28Hc32 : ⊦ (c₂₈ ℋ c₃₂)❙
+    c28Hc33 : ⊦ (c₂₈ ℋ c₃₃)❙ c28Hc34 : ⊦ (c₂₈ ℋ c₃₄)❙ c28Hc35 : ⊦ (c₂₈ ℋ c₃₅)❙ c28Hc36 : ⊦ (c₂₈ ℋ c₃₆)❙
+    c37Hc38 : ⊦ (c₃₇ ℋ c₃₈)❙ c37Hc39 : ⊦ (c₃₇ ℋ c₃₉)❙ c37Hc40 : ⊦ (c₃₇ ℋ c₄₀)❙ c37Hc41 : ⊦ (c₃₇ ℋ c₄₁)❙
+    c37Hc42 : ⊦ (c₃₇ ℋ c₄₂)❙ c37Hc43 : ⊦ (c₃₇ ℋ c₄₃)❙ c37Hc44 : ⊦ (c₃₇ ℋ c₄₄)❙ c37Hc45 : ⊦ (c₃₇ ℋ c₄₅)❙
+    c46Hc47 : ⊦ (c₄₆ ℋ c₄₇)❙ c46Hc48 : ⊦ (c₄₆ ℋ c₄₈)❙ c46Hc49 : ⊦ (c₄₆ ℋ c₄₉)❙ c46Hc50 : ⊦ (c₄₆ ℋ c₅₀)❙
+    c46Hc51 : ⊦ (c₄₆ ℋ c₅₁)❙ c46Hc52 : ⊦ (c₄₆ ℋ c₅₂)❙ c46Hc53 : ⊦ (c₄₆ ℋ c₅₃)❙ c46Hc54 : ⊦ (c₄₆ ℋ c₅₄)❙
+    c55Hc56 : ⊦ (c₅₅ ℋ c₅₆)❙ c55Hc57 : ⊦ (c₅₅ ℋ c₅₇)❙ c55Hc58 : ⊦ (c₅₅ ℋ c₅₈)❙ c55Hc59 : ⊦ (c₅₅ ℋ c₅₉)❙
+    c55Hc60 : ⊦ (c₅₅ ℋ c₆₀)❙ c55Hc61 : ⊦ (c₅₅ ℋ c₆₁)❙ c55Hc62 : ⊦ (c₅₅ ℋ c₆₂)❙ c55Hc63 : ⊦ (c₅₅ ℋ c₆₃)❙
+    c64Hc65 : ⊦ (c₆₄ ℋ c₆₅)❙ c64Hc66 : ⊦ (c₆₄ ℋ c₆₆)❙ c64Hc67 : ⊦ (c₆₄ ℋ c₆₇)❙ c64Hc68 : ⊦ (c₆₄ ℋ c₆₈)❙
+    c64Hc69 : ⊦ (c₆₄ ℋ c₆₉)❙ c64Hc70 : ⊦ (c₆₄ ℋ c₇₀)❙ c64Hc71 : ⊦ (c₆₄ ℋ c₇₁)❙ c64Hc72 : ⊦ (c₆₄ ℋ c₇₂)❙
+    c73Hc74 : ⊦ (c₇₃ ℋ c₇₄)❙ c73Hc75 : ⊦ (c₇₃ ℋ c₇₅)❙ c73Hc76 : ⊦ (c₇₃ ℋ c₇₆)❙ c73Hc77 : ⊦ (c₇₃ ℋ c₇₇)❙
+    c73Hc78 : ⊦ (c₇₃ ℋ c₇₈)❙ c73Hc79 : ⊦ (c₇₃ ℋ c₇₉)❙ c73Hc80 : ⊦ (c₇₃ ℋ c₈₀)❙ c73Hc81 : ⊦ (c₇₃ ℋ c₈₁)❙
+
+    c01Vc10 : ⊦ (c₀₁ 𝒱 c₁₀)❙ c01Vc19 : ⊦ (c₀₁ 𝒱 c₁₉)❙ c01Vc28 : ⊦ (c₀₁ 𝒱 c₂₈)❙ c01Vc37 : ⊦ (c₀₁ 𝒱 c₃₇)❙
+    c01Vc46 : ⊦ (c₀₁ 𝒱 c₄₆)❙ c01Vc55 : ⊦ (c₀₁ 𝒱 c₅₅)❙ c01Vc64 : ⊦ (c₀₁ 𝒱 c₆₄)❙ c01Vc73 : ⊦ (c₀₁ 𝒱 c₇₃)❙
+    c02Vc11 : ⊦ (c₀₂ 𝒱 c₁₁)❙ c02Vc20 : ⊦ (c₀₂ 𝒱 c₂₀)❙ c02Vc29 : ⊦ (c₀₂ 𝒱 c₂₉)❙ c02Vc38 : ⊦ (c₀₂ 𝒱 c₃₈)❙
+    c02Vc47 : ⊦ (c₀₂ 𝒱 c₄₇)❙ c02Vc56 : ⊦ (c₀₂ 𝒱 c₅₆)❙ c02Vc65 : ⊦ (c₀₂ 𝒱 c₆₅)❙ c02Vc74 : ⊦ (c₀₂ 𝒱 c₇₄)❙
+    c03Vc12 : ⊦ (c₀₃ 𝒱 c₁₂)❙ c03Vc21 : ⊦ (c₀₃ 𝒱 c₂₁)❙ c03Vc30 : ⊦ (c₀₃ 𝒱 c₃₀)❙ c03Vc39 : ⊦ (c₀₃ 𝒱 c₃₉)❙
+    c03Vc48 : ⊦ (c₀₃ 𝒱 c₄₈)❙ c03Vc57 : ⊦ (c₀₃ 𝒱 c₅₇)❙ c03Vc66 : ⊦ (c₀₃ 𝒱 c₆₆)❙ c03Vc75 : ⊦ (c₀₃ 𝒱 c₇₅)❙
+    c04Vc13 : ⊦ (c₀₄ 𝒱 c₁₃)❙ c04Vc22 : ⊦ (c₀₄ 𝒱 c₂₂)❙ c04Vc31 : ⊦ (c₀₄ 𝒱 c₃₁)❙ c04Vc40 : ⊦ (c₀₄ 𝒱 c₄₀)❙
+    c04Vc49 : ⊦ (c₀₄ 𝒱 c₄₉)❙ c04Vc58 : ⊦ (c₀₄ 𝒱 c₅₈)❙ c04Vc67 : ⊦ (c₀₄ 𝒱 c₆₇)❙ c04Vc76 : ⊦ (c₀₄ 𝒱 c₇₆)❙
+    c05Vc14 : ⊦ (c₀₅ 𝒱 c₁₄)❙ c05Vc23 : ⊦ (c₀₅ 𝒱 c₂₃)❙ c05Vc32 : ⊦ (c₀₅ 𝒱 c₃₂)❙ c05Vc41 : ⊦ (c₀₅ 𝒱 c₄₁)❙
+    c05Vc50 : ⊦ (c₀₅ 𝒱 c₅₀)❙ c05Vc59 : ⊦ (c₀₅ 𝒱 c₅₉)❙ c05Vc68 : ⊦ (c₀₅ 𝒱 c₆₈)❙ c05Vc77 : ⊦ (c₀₅ 𝒱 c₇₇)❙
+    c06Vc15 : ⊦ (c₀₆ 𝒱 c₁₅)❙ c06Vc24 : ⊦ (c₀₆ 𝒱 c₂₄)❙ c06Vc33 : ⊦ (c₀₆ 𝒱 c₃₃)❙ c06Vc42 : ⊦ (c₀₆ 𝒱 c₄₂)❙
+    c06Vc51 : ⊦ (c₀₆ 𝒱 c₅₁)❙ c06Vc60 : ⊦ (c₀₆ 𝒱 c₆₀)❙ c06Vc69 : ⊦ (c₀₆ 𝒱 c₆₉)❙ c06Vc78 : ⊦ (c₀₆ 𝒱 c₇₈)❙
+    c07Vc16 : ⊦ (c₀₇ 𝒱 c₁₆)❙ c07Vc25 : ⊦ (c₀₇ 𝒱 c₂₅)❙ c07Vc34 : ⊦ (c₀₇ 𝒱 c₃₄)❙ c07Vc43 : ⊦ (c₀₇ 𝒱 c₄₃)❙
+    c07Vc52 : ⊦ (c₀₇ 𝒱 c₅₂)❙ c07Vc61 : ⊦ (c₀₇ 𝒱 c₆₁)❙ c07Vc70 : ⊦ (c₀₇ 𝒱 c₇₀)❙ c07Vc79 : ⊦ (c₀₇ 𝒱 c₇₉)❙
+    c08Vc17 : ⊦ (c₀₈ 𝒱 c₁₇)❙ c08Vc26 : ⊦ (c₀₈ 𝒱 c₂₆)❙ c08Vc35 : ⊦ (c₀₈ 𝒱 c₃₅)❙ c08Vc44 : ⊦ (c₀₈ 𝒱 c₄₄)❙
+    c08Vc53 : ⊦ (c₀₈ 𝒱 c₅₃)❙ c08Vc62 : ⊦ (c₀₈ 𝒱 c₆₂)❙ c08Vc71 : ⊦ (c₀₈ 𝒱 c₇₁)❙ c08Vc80 : ⊦ (c₀₈ 𝒱 c₈₀)❙
+    c09Vc18 : ⊦ (c₀₉ 𝒱 c₁₈)❙ c09Vc27 : ⊦ (c₀₉ 𝒱 c₂₇)❙ c09Vc36 : ⊦ (c₀₉ 𝒱 c₃₆)❙ c09Vc45 : ⊦ (c₀₉ 𝒱 c₄₅)❙
+    c09Vc54 : ⊦ (c₀₉ 𝒱 c₅₄)❙ c09Vc63 : ⊦ (c₀₉ 𝒱 c₆₃)❙ c09Vc72 : ⊦ (c₀₉ 𝒱 c₇₂)❙ c09Vc81 : ⊦ (c₀₉ 𝒱 c₈₁)❙
+
+    c01Bc11 : ⊦ (c₀₁ ℬ c₁₁)❙ c02Bc11 : ⊦ (c₀₂ ℬ c₁₁)❙ c03Bc11 : ⊦ (c₀₃ ℬ c₁₁)❙ c10Bc11 : ⊦ (c₁₀ ℬ c₁₁)❙
+    c12Bc11 : ⊦ (c₁₂ ℬ c₁₁)❙ c19Bc11 : ⊦ (c₁₉ ℬ c₁₁)❙ c20Bc11 : ⊦ (c₂₀ ℬ c₁₁)❙ c21Bc11 : ⊦ (c₂₁ ℬ c₁₁)❙
+    c04Bc14 : ⊦ (c₀₄ ℬ c₁₄)❙ c05Bc14 : ⊦ (c₀₅ ℬ c₁₄)❙ c06Bc14 : ⊦ (c₀₆ ℬ c₁₄)❙ c13Bc14 : ⊦ (c₁₃ ℬ c₁₄)❙
+    c15Bc14 : ⊦ (c₁₅ ℬ c₁₄)❙ c22Bc14 : ⊦ (c₂₂ ℬ c₁₄)❙ c23Bc14 : ⊦ (c₂₃ ℬ c₁₄)❙ c24Bc14 : ⊦ (c₂₄ ℬ c₁₄)❙
+    c07Bc17 : ⊦ (c₀₇ ℬ c₁₇)❙ c08Bc17 : ⊦ (c₀₈ ℬ c₁₇)❙ c09Bc17 : ⊦ (c₀₉ ℬ c₁₇)❙ c16Bc17 : ⊦ (c₁₆ ℬ c₁₇)❙
+    c18Bc17 : ⊦ (c₁₈ ℬ c₁₇)❙ c25Bc17 : ⊦ (c₂₅ ℬ c₁₇)❙ c26Bc17 : ⊦ (c₂₆ ℬ c₁₇)❙ c27Bc17 : ⊦ (c₂₇ ℬ c₁₇)❙
+    c28Bc38 : ⊦ (c₂₈ ℬ c₃₈)❙ c29Bc38 : ⊦ (c₂₉ ℬ c₃₈)❙ c30Bc38 : ⊦ (c₃₀ ℬ c₃₈)❙ c37Bc38 : ⊦ (c₃₇ ℬ c₃₈)❙
+    c39Bc38 : ⊦ (c₃₉ ℬ c₃₈)❙ c46Bc38 : ⊦ (c₄₆ ℬ c₃₈)❙ c47Bc38 : ⊦ (c₄₇ ℬ c₃₈)❙ c48Bc38 : ⊦ (c₄₈ ℬ c₃₈)❙
+    c31Bc41 : ⊦ (c₃₁ ℬ c₄₁)❙ c32Bc41 : ⊦ (c₃₂ ℬ c₄₁)❙ c33Bc41 : ⊦ (c₃₃ ℬ c₄₁)❙ c40Bc41 : ⊦ (c₄₀ ℬ c₄₁)❙
+    c42Bc41 : ⊦ (c₄₂ ℬ c₄₁)❙ c49Bc41 : ⊦ (c₄₉ ℬ c₄₁)❙ c50Bc41 : ⊦ (c₅₀ ℬ c₄₁)❙ c51Bc41 : ⊦ (c₅₁ ℬ c₄₁)❙
+    c34Bc44 : ⊦ (c₃₄ ℬ c₄₄)❙ c35Bc44 : ⊦ (c₃₅ ℬ c₄₄)❙ c36Bc44 : ⊦ (c₃₆ ℬ c₄₄)❙ c43Bc44 : ⊦ (c₄₃ ℬ c₄₄)❙
+    c45Bc44 : ⊦ (c₄₅ ℬ c₄₄)❙ c52Bc44 : ⊦ (c₅₂ ℬ c₄₄)❙ c53Bc44 : ⊦ (c₅₃ ℬ c₄₄)❙ c54Bc44 : ⊦ (c₅₄ ℬ c₄₄)❙
+    c55Bc65 : ⊦ (c₅₅ ℬ c₆₅)❙ c56Bc65 : ⊦ (c₅₆ ℬ c₆₅)❙ c57Bc65 : ⊦ (c₅₇ ℬ c₆₅)❙ c64Bc65 : ⊦ (c₆₄ ℬ c₆₅)❙
+    c66Bc65 : ⊦ (c₆₆ ℬ c₆₅)❙ c73Bc65 : ⊦ (c₇₃ ℬ c₆₅)❙ c74Bc65 : ⊦ (c₇₄ ℬ c₆₅)❙ c75Bc65 : ⊦ (c₇₅ ℬ c₆₅)❙
+    c58Bc68 : ⊦ (c₅₈ ℬ c₆₈)❙ c59Bc68 : ⊦ (c₅₉ ℬ c₆₈)❙ c60Bc68 : ⊦ (c₆₀ ℬ c₆₈)❙ c67Bc68 : ⊦ (c₆₇ ℬ c₆₈)❙
+    c69Bc68 : ⊦ (c₆₉ ℬ c₆₈)❙ c76Bc68 : ⊦ (c₇₆ ℬ c₆₈)❙ c77Bc68 : ⊦ (c₇₇ ℬ c₆₈)❙ c78Bc68 : ⊦ (c₇₈ ℬ c₆₈)❙
+    c61Bc71 : ⊦ (c₆₁ ℬ c₇₁)❙ c62Bc71 : ⊦ (c₆₂ ℬ c₇₁)❙ c63Bc71 : ⊦ (c₆₃ ℬ c₇₁)❙ c70Bc71 : ⊦ (c₇₀ ℬ c₇₁)❙
+    c72Bc71 : ⊦ (c₇₂ ℬ c₇₁)❙ c79Bc71 : ⊦ (c₇₉ ℬ c₇₁)❙ c80Bc71 : ⊦ (c₈₀ ℬ c₇₁)❙ c81Bc71 : ⊦ (c₈₁ ℬ c₇₁)❙
+
+    alldiff_column_1 : ⊦ (⋖ c01 c10 c19 c28 c37 c46 c55 c64 c73⋗)❙
+    alldiff_column_2 : ⊦ (⋖ c02 c11 c20 c29 c38 c47 c56 c65 c74⋗)❙
+    alldiff_column_3 : ⊦ (⋖ c03 c12 c21 c30 c39 c48 c57 c66 c75⋗)❙
+    alldiff_column_4 : ⊦ (⋖ c04 c13 c22 c31 c40 c49 c58 c67 c76⋗)❙
+    alldiff_column_5 : ⊦ (⋖ c05 c14 c23 c32 c41 c50 c59 c68 c77⋗)❙
+    alldiff_column_6 : ⊦ (⋖ c06 c15 c24 c33 c42 c51 c60 c69 c78⋗)❙
+    alldiff_column_7 : ⊦ (⋖ c07 c16 c25 c34 c43 c52 c61 c70 c79⋗)❙
+    alldiff_column_8 : ⊦ (⋖ c08 c17 c26 c35 c44 c53 c62 c71 c80⋗)❙
+    alldiff_column_9 : ⊦ (⋖ c09 c18 c27 c36 c45 c54 c63 c72 c81⋗)❙
+
+    // If two cells are in one of these relations to each other, they're not equal. ❙
+    uneq_H : { c1 : tm cell, c2 : tm cell } (⊦ (c1 ℋ c2)) ⟶ (⊦ (c1 ≠ c2))❙
+    uneq_V : { c1 : tm cell, c2 : tm cell } (⊦ (c1 𝒱 c2)) ⟶ (⊦ (c1 ≠ c2))❙
+    uneq_B : { c1 : tm cell, c2 : tm cell } (⊦ (c1 ℬ c2)) ⟶ (⊦ (c1 ≠ c2))❙
+❚
+
+theory SudokuPencilMarks =
+    include ?TypedLogic❙
+    include ?SFOLEQND❙
+    include ?MLHilbert❙
+    include ?ExclusiveOr❙
+    include ?AllDifferent❙
+
+    // Pencil Marks❙
+    PM  : tp❙
+    pm1 : tm PM❘# ①❙ pm2 : tm PM❘# ②❙ pm3 : tm PM❘# ③❙ pm4 : tm PM❘# ④❙ pm5 : tm PM❘# ⑤❙ pm6 : tm PM❘# ⑥❙
+    pm7 : tm PM❘# ⑦❙ pm8 : tm PM❘# ⑧❙ pm9 : tm PM❘# ⑨❙
+
+    upper_bound_axiom_pm : {p : tm PM} ⊦ ((p ≐ ①) ⨂ (p ≐ ②) ⨂ (p ≐ ③) ⨂ (p ≐ ④) ⨂ (p ≐ ⑤) ⨂ (p ≐ ⑥) ⨂ (p ≐ ⑦) ⨂ (p ≐ ⑧) ⨂ (p ≐ ⑨))❙
+
+    stndard_alldiff : ⊦ (⋖ ① ② ③ ④ ⑤ ⑥ ⑦ ⑧ ⑨ ⋗)❙
+❚
+
+theory Sudoku =
+    include ?SudokuBoard❙
+    include ?SudokuPencilMarks❙
+
+    // Accessibility relation ❙
+    pencil : tm cell ⟶ tm PM ⟶ prop❘# 1 Π 2 prec 30❙ // Pencil Marks❙
+❚
+
+// Cell-Based Elimination❚
+theory SudokuStrategyCBE =
+    include ?Sudoku❙
+    cbe : {d1 : tm PM, d2 : tm PM, c : tm cell} (⊦ (d1 ≠ d2)) ⟶ (⊦ (□ (c Π d1))) ⟶ (⊦ (¬ (◇ (c Π d2))))❙
+❚
+
+// Pencil Mark Duality❚
+theory SudokuStrategyPMD =
+    include ?Sudoku❙
+    include ?ExclusiveOr❙
+
+    pmd1 : { d1 : tm PM, d2 : tm PM, d3 : tm PM, d4 : tm PM, d5 : tm PM, d6 : tm PM, d7 : tm PM, d8 : tm PM, d9 : tm PM , c : tm cell }
+         (⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗))
+         ⟶ (⊦ (◇ (c Π d1)))
+         ⟶ (⊦ (¬ (◇ (c Π d2)))) ⟶ (⊦ (¬ (◇ (c Π d3)))) ⟶ (⊦ (¬ (◇ (c Π d4)))) ⟶ (⊦ (¬ (◇ (c Π d5))))
+         ⟶ (⊦ (¬ (◇ (c Π d6)))) ⟶ (⊦ (¬ (◇ (c Π d7)))) ⟶ (⊦ (¬ (◇ (c Π d8)))) ⟶ (⊦ (¬ (◇ (c Π d9))))
+         ⟶ (⊦ (□ (c Π d1)))❙
+
+    pmd2 : { d1 : tm PM, d2 : tm PM, d3 : tm PM, d4 : tm PM, d5 : tm PM, d6 : tm PM, d7 : tm PM, d8 : tm PM, d9 : tm PM , c : tm cell }
+         (⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗))
+         ⟶ (⊦ (◇ (c Π d1))) ⟶ (⊦ (◇ (c Π d2)))
+         ⟶ (⊦ (¬ (◇ (c Π d3)))) ⟶ (⊦ (¬ (◇ (c Π d4)))) ⟶ (⊦ (¬ (◇ (c Π d5)))) ⟶ (⊦ (¬ (◇ (c Π d6))))
+         ⟶ (⊦ (¬ (◇ (c Π d7)))) ⟶ (⊦ (¬ (◇ (c Π d8)))) ⟶ (⊦ (¬ (◇ (c Π d9))))
+         ⟶ (⊦ (□ ((c Π d1) ⨂ (c Π d2))))❙
+
+    pmd3 : { d1 : tm PM, d2 : tm PM, d3 : tm PM, d4 : tm PM, d5 : tm PM, d6 : tm PM, d7 : tm PM, d8 : tm PM, d9 : tm PM , c : tm cell }
+         (⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗))
+         ⟶ (⊦ (◇ (c Π d1))) ⟶ (⊦ (◇ (c Π d2))) ⟶ (⊦ (◇ (c Π d3)))
+         ⟶ (⊦ (¬ (◇ (c Π d4)))) ⟶ (⊦ (¬ (◇ (c Π d5)))) ⟶ (⊦ (¬ (◇ (c Π d6))))
+         ⟶ (⊦ (¬ (◇ (c Π d7)))) ⟶ (⊦ (¬ (◇ (c Π d8)))) ⟶ (⊦ (¬ (◇ (c Π d9))))
+         ⟶ (⊦ (□ ((c Π d1) ⨂ (c Π d2) ⨂ (c Π d3))))❙
+
+    pmd4 : { d1 : tm PM, d2 : tm PM, d3 : tm PM, d4 : tm PM, d5 : tm PM, d6 : tm PM, d7 : tm PM, d8 : tm PM, d9 : tm PM , c : tm cell }
+         (⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗))
+         ⟶ (⊦ (◇ (c Π d1))) ⟶ (⊦ (◇ (c Π d2))) ⟶ (⊦ (◇ (c Π d3))) ⟶ (⊦ (◇ (c Π d4)))
+         ⟶ (⊦ (¬ (◇ (c Π d5)))) ⟶ (⊦ (¬ (◇ (c Π d6)))) ⟶ (⊦ (¬ (◇ (c Π d7)))) ⟶ (⊦ (¬ (◇ (c Π d8)))) ⟶ (⊦ (¬ (◇ (c Π d9))))
+         ⟶ (⊦ (□ ((c Π d1) ⨂ (c Π d2) ⨂ (c Π d3) ⨂ (c Π d4))))❙
+
+    pmd5 : { d1 : tm PM, d2 : tm PM, d3 : tm PM, d4 : tm PM, d5 : tm PM, d6 : tm PM, d7 : tm PM, d8 : tm PM, d9 : tm PM , c : tm cell }
+         (⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗))
+         ⟶ (⊦ (◇ (c Π d1))) ⟶ (⊦ (◇ (c Π d2))) ⟶ (⊦ (◇ (c Π d3))) ⟶ (⊦ (◇ (c Π d4))) ⟶ (⊦ (◇ (c Π d5)))
+         ⟶ (⊦ (¬ (◇ (c Π d6)))) ⟶ (⊦ (¬ (◇ (c Π d7)))) ⟶ (⊦ (¬ (◇ (c Π d8)))) ⟶ (⊦ (¬ (◇ (c Π d9))))
+         ⟶ (⊦ (□ ((c Π d1) ⨂ (c Π d2) ⨂ (c Π d3) ⨂ (c Π d4) ⨂ (c Π d5))))❙
+
+    pmd6 : { d1 : tm PM, d2 : tm PM, d3 : tm PM, d4 : tm PM, d5 : tm PM, d6 : tm PM, d7 : tm PM, d8 : tm PM, d9 : tm PM , c : tm cell }
+         (⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗))
+         ⟶ (⊦ (◇ (c Π d1))) ⟶ (⊦ (◇ (c Π d2))) ⟶ (⊦ (◇ (c Π d3))) ⟶ (⊦ (◇ (c Π d4))) ⟶ (⊦ (◇ (c Π d5))) ⟶ (⊦ (◇ (c Π d6)))
+         ⟶ (⊦ (¬ (◇ (c Π d7)))) ⟶ (⊦ (¬ (◇ (c Π d8)))) ⟶ (⊦ (¬ (◇ (c Π d9))))
+         ⟶ (⊦ (□ ((c Π d1) ⨂ (c Π d2) ⨂ (c Π d3) ⨂ (c Π d4) ⨂ (c Π d5) ⨂ (c Π d6))))❙
+
+    pmd7 : { d1 : tm PM, d2 : tm PM, d3 : tm PM, d4 : tm PM, d5 : tm PM, d6 : tm PM, d7 : tm PM, d8 : tm PM, d9 : tm PM , c : tm cell }
+         (⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗))
+         ⟶ (⊦ (◇ (c Π d1))) ⟶ (⊦ (◇ (c Π d2))) ⟶ (⊦ (◇ (c Π d3))) ⟶ (⊦ (◇ (c Π d4)))
+         ⟶ (⊦ (◇ (c Π d5))) ⟶ (⊦ (◇ (c Π d6))) ⟶ (⊦ (◇ (c Π d7)))
+         ⟶ (⊦ (¬ (◇ (c Π d8)))) ⟶ (⊦ (¬ (◇ (c Π d9))))
+         ⟶ (⊦ (□ ((c Π d1) ⨂ (c Π d2) ⨂ (c Π d3) ⨂ (c Π d4) ⨂ (c Π d5) ⨂ (c Π d6) ⨂ (c Π d7))))❙
+
+    pmd8 : { d1 : tm PM, d2 : tm PM, d3 : tm PM, d4 : tm PM, d5 : tm PM, d6 : tm PM, d7 : tm PM, d8 : tm PM, d9 : tm PM , c : tm cell }
+         (⊦ (⋖ d1 d2 d3 d4 d5 d6 d7 d8 d9 ⋗))
+         ⟶ (⊦ (◇ (c Π d1))) ⟶ (⊦ (◇ (c Π d2))) ⟶ (⊦ (◇ (c Π d3))) ⟶ (⊦ (◇ (c Π d4)))
+         ⟶ (⊦ (◇ (c Π d5))) ⟶ (⊦ (◇ (c Π d6))) ⟶ (⊦ (◇ (c Π d7))) ⟶ (⊦ (◇ (c Π d8)))
+         ⟶ (⊦ (¬ (◇ (c Π d9))))
+         ⟶ (⊦ (□ ((c Π d1) ⨂ (c Π d2) ⨂ (c Π d3) ⨂ (c Π d4) ⨂ (c Π d5) ⨂ (c Π d6) ⨂ (c Π d7) ⨂ (c Π d8))))❙
+❚
+
+theory SudokuStrategyHBE =
+    include ?Sudoku❙
+    hbe_hori : { c1 : tm cell, c2 : tm cell, d : tm PM } (⊦ (□ (c1 Π d))) ⟶ (⊦ (c1 ℋ c2)) ⟶ (⊦ (¬ (◇ (c2 Π d))))❙
+    hbe_vert : { c1 : tm cell, c2 : tm cell, d : tm PM } (⊦ (□ (c1 Π d))) ⟶ (⊦ (c1 𝒱 c2)) ⟶ (⊦ (¬ (◇ (c2 Π d))))❙
+    hbe_blck : { c1 : tm cell, c2 : tm cell, d : tm PM } (⊦ (□ (c1 Π d))) ⟶ (⊦ (c1 ℬ c2)) ⟶ (⊦ (¬ (◇ (c2 Π d))))❙
+❚
+
+// Last Remaining Cell❚
+// ”If all the other cells in the same house cannot possibly contain a certain digit, then this cell must contain that digit” ❚
+theory SudokuStrategyLRC =
+    include ?Sudoku❙
+
+    hH : { c : tm cell, k : tm cell, p : tm PM } prop❘ = [c1,k1,p1] (c1 ≠ k1) ∧ (c1 ℋ k1) ∧ (¬ (◇ (k1 Π p1))) ❘# ℍ 1 2 3❙
+    hV : { c : tm cell, k : tm cell, p : tm PM } prop❘ = [c1,k1,p1] (c1 ≠ k1) ∧ (c1 𝒱 k1) ∧ (¬ (◇ (k1 Π p1))) ❘# 𝕍 1 2 3❙
+    hB : { c : tm cell, k : tm cell, p : tm PM } prop❘ = [c1,k1,p1] (c1 ≠ k1) ∧ (c1 ℬ k1) ∧ (¬ (◇ (k1 Π p1))) ❘# 𝔹 1 2 3❙
+
+    lrc_hori : { c1 : tm cell, c2 : tm cell, c3 : tm cell, c4 : tm cell, c5 : tm cell, c6 : tm cell, c7 : tm cell, c8 : tm cell, c9 : tm cell, p : tm PM }
+             (⊦ (⋖ c1 c2 c3 c4 c5 c6 c7 c8 c9 ⋗))
+             ⟶ ⊦ ℍ c1 c2 p ⟶ ⊦ ℍ c1 c3 p ⟶ ⊦ ℍ c1 c4 p ⟶ ⊦ ℍ c1 c5 p ⟶ ⊦ ℍ c1 c6 p ⟶ ⊦ ℍ c1 c7 p ⟶ ⊦ ℍ c1 c8 p ⟶ ⊦ ℍ c1 c9 p
+             ⟶ ⊦ (□ (c1 Π p))❙
+
+    lrc_vert : { c1 : tm cell, c2 : tm cell, c3 : tm cell, c4 : tm cell, c5 : tm cell, c6 : tm cell, c7 : tm cell, c8 : tm cell, c9 : tm cell, p : tm PM }
+             (⊦ (⋖ c1 c2 c3 c4 c5 c6 c7 c8 c9 ⋗))
+             ⟶ ⊦ 𝕍 c1 c2 p ⟶ ⊦ 𝕍 c1 c3 p ⟶ ⊦ 𝕍 c1 c4 p ⟶ ⊦ 𝕍 c1 c5 p ⟶ ⊦ 𝕍 c1 c6 p ⟶ ⊦ 𝕍 c1 c7 p ⟶ ⊦ 𝕍 c1 c8 p ⟶ ⊦ 𝕍 c1 c9 p
+             ⟶ ⊦ (□ (c1 Π p))❙
+
+    lrc_box : { c1 : tm cell, c2 : tm cell, c3 : tm cell, c4 : tm cell, c5 : tm cell, c6 : tm cell, c7 : tm cell, c8 : tm cell, c9 : tm cell, p : tm PM }
+             (⊦ (⋖ c1 c2 c3 c4 c5 c6 c7 c8 c9 ⋗))
+             ⟶ ⊦ 𝔹 c1 c2 p ⟶ ⊦ 𝔹 c1 c3 p ⟶ ⊦ 𝔹 c1 c4 p ⟶ ⊦ 𝔹 c1 c5 p ⟶ ⊦ 𝔹 c1 c6 p ⟶ ⊦ 𝔹 c1 c7 p ⟶ ⊦ 𝔹 c1 c8 p ⟶ ⊦ 𝔹 c1 c9 p
+             ⟶ ⊦ (□ (c1 Π p))❙
+❚
+
+// Pencil Mark Introduction❚
+// ”If in none of the three houses of a cell another cell must contain a digit, this cell can possibly contain this digit”❚
+theory SudokuStrategyPMI =
+    include ?Sudoku❙
+
+    allH : { c1 : tm cell, c2 : tm cell, c3 : tm cell, c4 : tm cell, c5 : tm cell, c6 : tm cell, c7 : tm cell, c8 : tm cell, c9 : tm cell } prop❘
+         = [c1,c2,c3,c4,c5,c6,c7,c8,c9] (c1 ℋ c2) ∧ (c2 ℋ c3) ∧ (c3 ℋ c4) ∧ (c4 ℋ c5) ∧ (c5 ℋ c6) ∧ (c6 ℋ c7) ∧ (c7 ℋ c8) ∧ (c8 ℋ c9)❙
+
+    allV : { c1 : tm cell, c2 : tm cell, c3 : tm cell, c4 : tm cell, c5 : tm cell, c6 : tm cell, c7 : tm cell, c8 : tm cell, c9 : tm cell } prop❘
+         = [c1,c2,c3,c4,c5,c6,c7,c8,c9] (c1 𝒱 c2) ∧ (c2 𝒱 c3) ∧ (c3 𝒱 c4) ∧ (c4 𝒱 c5) ∧ (c5 𝒱 c6) ∧ (c6 𝒱 c7) ∧ (c7 𝒱 c8) ∧ (c8 𝒱 c9)❙
+
+    allB : { c1 : tm cell, c2 : tm cell, c3 : tm cell, c4 : tm cell, c5 : tm cell, c6 : tm cell, c7 : tm cell, c8 : tm cell, c9 : tm cell } prop❘
+         = [c1,c2,c3,c4,c5,c6,c7,c8,c9] (c1 ℬ c2) ∧ (c2 ℬ c3) ∧ (c3 ℬ c4) ∧ (c4 ℬ c5) ∧ (c5 ℬ c6) ∧ (c6 ℬ c7) ∧ (c7 ℬ c8) ∧ (c8 ℬ c9)❙
+
+    house : { c1 : tm cell, c2 : tm cell, c3 : tm cell, c4 : tm cell, c5 : tm cell, c6 : tm cell, c7 : tm cell, c8 : tm cell, c9 : tm cell, p : tm PM } prop❘
+           = [c1,c2,c3,c4,c5,c6,c7,c8,c9,p] (¬(□(c2 Π p))) ∧ (¬(□(c3 Π p))) ∧ (¬(□(c4 Π p)))
+           ∧ (¬(□(c5 Π p))) ∧ (¬(□(c6 Π p))) ∧ (¬(□(c7 Π p))) ∧ (¬(□(c8 Π p))) ∧ (¬(□(c9 Π p)))❙
+
+    pmi : { pivot : tm cell, p : tm PM,
+            c12 : tm cell, c13 : tm cell, c14 : tm cell, c15 : tm cell, c16 : tm cell, c17 : tm cell, c18 : tm cell, c19 : tm cell,
+            c22 : tm cell, c23 : tm cell, c24 : tm cell, c25 : tm cell, c26 : tm cell, c27 : tm cell, c28 : tm cell, c29 : tm cell,
+            c32 : tm cell, c33 : tm cell, c34 : tm cell, c35 : tm cell, c36 : tm cell, c37 : tm cell, c38 : tm cell, c39 : tm cell }
+          (⊦ (⋖ pivot c12 c13 c14 c15 c16 c17 c18 c19 ⋗)) ⟶ ⊦ (allV pivot c12 c13 c14 c15 c16 c17 c18 c19) ⟶ ⊦ (house pivot c12 c13 c14 c15 c16 c17 c18 c19 p)
+        ⟶ (⊦ (⋖ pivot c22 c23 c24 c25 c26 c27 c28 c29 ⋗)) ⟶ ⊦ (allH pivot c12 c13 c14 c15 c16 c17 c18 c19) ⟶ ⊦ (house pivot c22 c23 c24 c25 c26 c27 c28 c29 p)
+        ⟶ (⊦ (⋖ pivot c32 c33 c34 c35 c36 c37 c38 c39 ⋗)) ⟶ ⊦ (allB pivot c12 c13 c14 c15 c16 c17 c18 c19) ⟶ ⊦ (house pivot c32 c33 c34 c35 c36 c37 c38 c39 p)
+        ⟶ ⊦ (◇ (pivot Π p))❙
+❚
+
+theory SudokuSolve =
+    // General❙
+
+    // Implicit Strategies❙
+    include ?SudokuStrategyCBE❙
+    include ?SudokuStrategyPMD❙
+
+    // Beginner Strategies❙
+    include ?SudokuStrategyHBE❙
+    include ?SudokuStrategyLRC❙
+    include ?SudokuStrategyPMI❙
+❚
+
+theory SudokuTestTrivial =
+    include ?Sudoku❙
+    include ?SudokuSolve❙
+
+    // Everything but the last one given ❙
+
+    c01given : ⊦ (□ (c₀₁ Π ⑧))❙ c02given : ⊦ (□ (c₀₂ Π ⑥))❙ c03given : ⊦ (□ (c₀₃ Π ⑤))❙ c04given : ⊦ (□ (c₀₄ Π ⑦))❙
+    c05given : ⊦ (□ (c₀₅ Π ①))❙ c06given : ⊦ (□ (c₀₆ Π ④))❙ c07given : ⊦ (□ (c₀₇ Π ③))❙ c08given : ⊦ (□ (c₀₈ Π ②))❙
+    c09given : ⊦ (□ (c₀₉ Π ⑨))❙ c10given : ⊦ (□ (c₁₀ Π ⑨))❙ c11given : ⊦ (□ (c₁₁ Π ①))❙ c12given : ⊦ (□ (c₁₂ Π ⑦))❙
+    c13given : ⊦ (□ (c₁₃ Π ③))❙ c14given : ⊦ (□ (c₁₄ Π ⑥))❙ c15given : ⊦ (□ (c₁₅ Π ②))❙ c16given : ⊦ (□ (c₁₆ Π ⑧))❙
+    c17given : ⊦ (□ (c₁₇ Π ④))❙ c18given : ⊦ (□ (c₁₈ Π ⑤))❙ c19given : ⊦ (□ (c₁₉ Π ②))❙ c20given : ⊦ (□ (c₂₀ Π ③))❙
+    c21given : ⊦ (□ (c₂₁ Π ④))❙ c22given : ⊦ (□ (c₂₂ Π ⑤))❙ c23given : ⊦ (□ (c₂₃ Π ⑨))❙ c24given : ⊦ (□ (c₂₄ Π ⑧))❙
+    c25given : ⊦ (□ (c₂₅ Π ⑦))❙ c26given : ⊦ (□ (c₂₆ Π ⑥))❙ c27given : ⊦ (□ (c₂₇ Π ①))❙ c28given : ⊦ (□ (c₂₈ Π ①))❙
+    c29given : ⊦ (□ (c₂₉ Π ④))❙ c30given : ⊦ (□ (c₃₀ Π ②))❙ c31given : ⊦ (□ (c₃₁ Π ⑥))❙ c32given : ⊦ (□ (c₃₂ Π ⑤))❙
+    c33given : ⊦ (□ (c₃₃ Π ⑦))❙ c34given : ⊦ (□ (c₃₄ Π ⑨))❙ c35given : ⊦ (□ (c₃₅ Π ⑧))❙ c36given : ⊦ (□ (c₃₆ Π ③))❙
+    c37given : ⊦ (□ (c₃₇ Π ⑦))❙ c38given : ⊦ (□ (c₃₈ Π ⑧))❙ c39given : ⊦ (□ (c₃₉ Π ③))❙ c40given : ⊦ (□ (c₄₀ Π ⑨))❙
+    c41given : ⊦ (□ (c₄₁ Π ④))❙ c42given : ⊦ (□ (c₄₂ Π ①))❙ c43given : ⊦ (□ (c₄₃ Π ②))❙ c44given : ⊦ (□ (c₄₄ Π ⑤))❙
+    c45given : ⊦ (□ (c₄₅ Π ⑥))❙ c46given : ⊦ (□ (c₄₆ Π ⑤))❙ c47given : ⊦ (□ (c₄₇ Π ⑨))❙ c48given : ⊦ (□ (c₄₈ Π ⑥))❙
+    c49given : ⊦ (□ (c₄₉ Π ②))❙ c50given : ⊦ (□ (c₅₀ Π ⑧))❙ c51given : ⊦ (□ (c₅₁ Π ③))❙ c52given : ⊦ (□ (c₅₂ Π ①))❙
+    c53given : ⊦ (□ (c₅₃ Π ⑦))❙ c54given : ⊦ (□ (c₅₄ Π ④))❙ c55given : ⊦ (□ (c₅₅ Π ③))❙ c56given : ⊦ (□ (c₅₆ Π ⑤))❙
+    c57given : ⊦ (□ (c₅₇ Π ⑧))❙ c58given : ⊦ (□ (c₅₈ Π ①))❙ c59given : ⊦ (□ (c₅₉ Π ⑦))❙ c60given : ⊦ (□ (c₆₀ Π ⑥))❙
+    c61given : ⊦ (□ (c₆₁ Π ④))❙ c62given : ⊦ (□ (c₆₂ Π ⑨))❙ c63given : ⊦ (□ (c₆₃ Π ②))❙ c64given : ⊦ (□ (c₆₄ Π ④))❙
+    c65given : ⊦ (□ (c₆₅ Π ②))❙ c66given : ⊦ (□ (c₆₆ Π ⑨))❙ c67given : ⊦ (□ (c₆₇ Π ⑧))❙ c68given : ⊦ (□ (c₆₈ Π ③))❙
+    c69given : ⊦ (□ (c₆₉ Π ⑤))❙ c70given : ⊦ (□ (c₇₀ Π ⑥))❙ c71given : ⊦ (□ (c₇₁ Π ①))❙ c72given : ⊦ (□ (c₇₂ Π ⑦))❙
+    c73given : ⊦ (□ (c₇₃ Π ⑥))❙ c74given : ⊦ (□ (c₇₄ Π ⑦))❙ c75given : ⊦ (□ (c₇₅ Π ①))❙ c76given : ⊦ (□ (c₇₆ Π ④))❙
+    c77given : ⊦ (□ (c₇₇ Π ②))❙ c78given : ⊦ (□ (c₇₈ Π ⑨))❙ c79given : ⊦ (□ (c₇₉ Π ⑤))❙ c80given : ⊦ (□ (c₈₀ Π ③))❙
+❚
+
+theory SudokuTestEasy =
+    include ?Sudoku❙
+    include ?SudokuSolve❙
+
+    // "Easy" Sudoku from the internet ❙
+
+    c03given : ⊦ (□ (c₀₃ Π ①))❙ c04given : ⊦ (□ (c₀₄ Π ⑦))❙ c05given : ⊦ (□ (c₀₅ Π ⑥))❙ c14given : ⊦ (□ (c₁₄ Π ⑧))❙
+    c16given : ⊦ (□ (c₁₆ Π ②))❙ c17given : ⊦ (□ (c₁₇ Π ⑤))❙ c19given : ⊦ (□ (c₁₉ Π ⑧))❙ c20given : ⊦ (□ (c₂₀ Π ②))❙
+    c22given : ⊦ (□ (c₂₂ Π ④))❙ c24given : ⊦ (□ (c₂₄ Π ⑨))❙ c26given : ⊦ (□ (c₂₆ Π ①))❙ c29given : ⊦ (□ (c₂₉ Π ⑨))❙
+    c31given : ⊦ (□ (c₃₁ Π ⑤))❙ c32given : ⊦ (□ (c₃₂ Π ①))❙ c35given : ⊦ (□ (c₃₅ Π ③))❙ c37given : ⊦ (□ (c₃₇ Π ②))❙
+    c38given : ⊦ (□ (c₃₈ Π ①))❙ c41given : ⊦ (□ (c₄₁ Π ③))❙ c42given : ⊦ (□ (c₄₂ Π ⑥))❙ c43given : ⊦ (□ (c₄₃ Π ⑦))❙
+    c47given : ⊦ (□ (c₄₇ Π ⑤))❙ c49given : ⊦ (□ (c₄₉ Π ⑧))❙ c51given : ⊦ (□ (c₅₁ Π ④))❙ c53given : ⊦ (□ (c₅₃ Π ⑨))❙
+    c55given : ⊦ (□ (c₅₅ Π ⑨))❙ c56given : ⊦ (□ (c₅₆ Π ⑥))❙ c63given : ⊦ (□ (c₆₃ Π ⑧))❙ c64given : ⊦ (□ (c₆₄ Π ①))❙
+    c66given : ⊦ (□ (c₆₆ Π ⑤))❙ c67given : ⊦ (□ (c₆₇ Π ⑥))❙ c68given : ⊦ (□ (c₆₈ Π ⑦))❙ c70given : ⊦ (□ (c₇₀ Π ④))❙
+    c74given : ⊦ (□ (c₇₄ Π ⑦))❙ c75given : ⊦ (□ (c₇₅ Π ④))❙ c76given : ⊦ (□ (c₇₆ Π ②))❙ c77given : ⊦ (□ (c₇₇ Π ⑨))❙
+    c79given : ⊦ (□ (c₇₉ Π ⑤))❙ c81given : ⊦ (□ (c₈₁ Π ①))❙
+❚

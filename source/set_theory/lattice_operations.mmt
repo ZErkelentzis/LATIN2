@@ -1,0 +1,222 @@
+namespace latin:/❚
+
+fixmeta ?DependentFOLEQDescND❚
+
+theory Union =
+  include ?SetBase❙
+  
+  // symbol: jcup❙
+  union : set ⟶ set ⟶ set❘# 1 ∪ 2 prec 40❙
+  unionIl : {A,B,x} ⊦ x∈A ⟶ ⊦ x∈A∪B❘ # unionIl 2 4❙
+  unionIr : {A,B,x} ⊦ x∈B ⟶ ⊦ x∈A∪B❘ # unionIr 1 4❙
+  unionE : {A,B,x,C} ⊦ x∈A∪B ⟶ (⊦ x∈A ⟶ ⊦ C) ⟶ (⊦ x∈B ⟶ ⊦ C) ⟶ ⊦ C❘# 5 unionE 6 7❙ 
+
+  union_subl : {A,B} ⊦ A ⊆ A∪B❘
+    = [A,B] subsetI ([x,p] unionIl B p)❙
+  union_subr : {A,B} ⊦ B ⊆ A∪B❘
+    = [A,B] subsetI ([x,p] unionIr A p)❙
+  union_sup : {A,B,C} ⊦ A⊆C ⟶ ⊦ B⊆C ⟶ ⊦ A∪B ⊆C❘
+    = [A,B,C,pa,pb] subsetI ([x,p] p unionE ([qa] qa subsetE pa) ([qb] qb subsetE pb))❙
+    
+  union_idem : {A} ⊦ A∪A =ͧ A❘
+    = [A] extensionalityI ([x] equivI ([p] p unionE ([pa] pa) ([pb] pb)) ([q] unionIl A q))❙
+  union_comm : {A,B} ⊦ A∪B =ͧ B∪A❘
+    = [A,B] extensionalityI ([x] equivI ([p] p unionE ([pa] unionIr B pa) ([pb] unionIl A pb))
+      ([q] q unionE ([qa] unionIr A qa) ([qb] unionIl B qb)))❙
+  union_assoc : {A,B,C} ⊦ (A∪B)∪C =ͧ A∪(B∪C)❘
+    = [A,B,C] extensionalityI ([x] equivI ([p] p unionE ([pab] pab unionE ([pa] unionIl (B∪C) pa)
+      ([pb] unionIr A (unionIl C pb))) ([pc] unionIr A (unionIr B pc)))
+      ([q] q unionE ([qa] unionIl C (unionIl B qa)) ([qbc] qbc unionE 
+      ([qb] unionIl C (unionIr A qb)) ([qc] unionIr (A∪B) qc))))❙
+
+  // This is only true, if A is a subset of U❙
+  union_universe : {U,A} ({x} ⊦ x∈A ⟶ ⊦ x∈U) ⟶ ⊦ A∪U =ͧ U❘
+    = [U,A,Q] extensionalityI ([x] equivI 
+      ([p] p unionE ([pa] Q x pa) ([pb] pb)) ([q] unionIr A q))❙
+❚
+
+theory UnionEmpty =
+  include ?Union❙
+  include ?EmptySet❙
+  
+  union_empty : {A} ⊦ A∪∅ =ͧ A❘
+    = [A] extensionalityI ([x] equivI 
+      ([p] p unionE ([pa] pa) ([pb] empty_prop notE uexistsI x pb inconE))
+      ([q] unionIl ∅ q))❙
+❚
+
+theory Intersection =
+  include ?SetBase❙
+  
+  // symbol: jcap❙
+  inter : set ⟶ set ⟶ set❘# 1 ∩ 2 prec 40❙
+  interI : {A,B,x} ⊦ x∈A ⟶ ⊦ x∈B ⟶ ⊦ x∈A∩B❙
+  interEl : {A,B,x} ⊦ x∈A∩B ⟶ ⊦ x∈A❘# 4 interEl❙
+  interEr : {A,B,y} ⊦ y∈A∩B ⟶ ⊦ y∈B❘# 4 interEr❙
+  
+  inter_subl : {A,B} ⊦ A∩B ⊆A❘
+    = [A,B] subsetI ([x,p] p interEl)❙
+  inter_subr : {A,B} ⊦ A∩B ⊆B❘
+    = [A,B] subsetI ([x,p] p interEr)❙
+  inter_inf : {A,B,C} ⊦ C⊆A ⟶ ⊦ C⊆B ⟶ ⊦ C⊆(A∩B)❘
+    = [A,B,C,pa,pb] subsetI ([x,p] interI (p subsetE pa) (p subsetE pb))❙
+
+  inter_idem : {A} ⊦ A∩A =ͧ A❘
+    = [A] extensionalityI ([x] equivI ([p] p interEl) ([q] interI q q))❙
+  inter_comm : {A,B} ⊦ A∩B =ͧ B∩A❘
+    = [A,B] extensionalityI ([x] equivI ([p] interI (p interEr) (p interEl))
+      ([q] interI (q interEr) (q interEl)))❙
+  inter_assoc : {A,B,C} ⊦ (A∩B)∩C =ͧ A∩(B∩C)❘
+    = [A,B,C] extensionalityI ([x] equivI 
+      ([p] interI (p interEl interEl) (interI (p interEl interEr) (p interEr)))
+      ([q] interI (interI (q interEl) (q interEr interEl)) (q interEr interEr)))❙
+
+  // This is only true, if A is a subset of U❙
+  inter_universe : {U,A} ({x} ⊦ x∈A ⟶ ⊦ x∈U) ⟶ ⊦ A∩U =ͧ A❘
+    = [U,A,Q] extensionalityI ([x] equivI 
+      ([p] p interEl) ([q] interI q (Q x q)))❙
+      
+  // this does not work because all algebra theories are written relative to SFOL and we're in FOL❙ 
+  // total structure algebra : algebraic?BoundedSemilattice =
+  //   universe = set❙
+  //   op = inter❙
+  //   comm_ax = forallI [X] forallI [Y] extensionalityI ([p] interI (interER p) (interEL p)) (([p] interI (interER p) (interEL p)))❙
+  // ❚
+❚
+
+theory IntersectionEmpty =
+  include ?Intersection❙
+  include ?EmptySet❙
+  
+  inter_empty : {A} ⊦ A∩∅ =ͧ ∅❘
+    = [A] extensionalityI ([x] equivI ([p] p interEr) 
+      ([q] empty_prop notE uexistsI x q inconE))❙
+❚
+
+theory BigUnion =
+  include ?SetBase❙
+  
+  // symbol: jbigcup❙
+  bigunion : set ⟶ set❘# ⋃ 1 prec 45❙
+  bigunionI : {A,X,x} ⊦ X∈A ⟶ ⊦ x∈X ⟶ ⊦ x∈ ⋃A❙
+  bigunionE : {A,x,C} ⊦ x∈⋃A ⟶ ({X}⊦X∈A ⟶ ⊦ x∈X ⟶ ⊦C) ⟶ ⊦C❘# 4 bigunionE 5❙
+  
+  bigunion_sub : {A,X} ⊦ X∈A ⟶ ⊦ X⊆⋃A❘
+    = [A,X,p] subsetI ([x,q] bigunionI p q)❙
+  bigunion_sup : {A,B} ({X} ⊦ X∈A ⟶ ⊦ X⊆B) ⟶ ⊦ ⋃A⊆B❘
+    = [A,B,p] subsetI ([x,q] q bigunionE ([X,qa,qb] qb subsetE p X qa))❙
+❚
+
+theory BigIntersection =
+  include ?SetBase❙
+  include ?EmptyDefinitions❙
+  
+  // symbol: jbigcap❙
+  biginter : set ⟶ set❘# ⋂ 1 prec 45❙
+  // A must be nonempty because otherwise intersection would produce the set of all sets❙
+  biginterI : {A,x} ⊦ nonempty A ⟶ ({X} ⊦ X∈A ⟶ ⊦ x∈X) ⟶ ⊦ x∈⋂A❙
+  biginterE : {A,X,x} ⊦ x∈⋂A ⟶ ⊦ X∈A ⟶ ⊦ x∈X❘# 4 biginterE 5❙
+  
+  biginter_sub : {A,X} ⊦ X∈A ⟶ ⊦ ⋂A⊆X❘
+    = [A,X,p] subsetI ([x,q] q biginterE p)❙
+  biginter_inf : {A,C} ⊦ nonempty A ⟶ ({X} ⊦ X∈A ⟶ ⊦ C⊆X) ⟶ ⊦ C⊆⋂A❘
+    = [A,C,pa,pb] subsetI ([x,p] biginterI pa ([X,q] p subsetE pb X q))❙
+❚
+
+theory Difference =
+  include ?SetBase❙
+  
+  // symbol: jsetminus❙
+  dif : set ⟶ set ⟶ set❘# 1 ∖ 2 prec 40❙
+  difI : {A,B,x} ⊦ x∈A ⟶ ⊦ ¬ x∈B ⟶ ⊦ x ∈ A∖B❙
+  difEl : {A,B,x} ⊦ x ∈ A∖B ⟶ ⊦ x∈A❘# 4 difEl❙
+  difEr : {A,B,x} ⊦ x ∈ A∖B ⟶ ⊦ ¬ x∈B❘# 4 difEr❙
+  
+  dif_sub : {A,B} ⊦ A∖B ⊆A❘
+    = [A,B] subsetI ([x,p] p difEl)❙
+❚
+
+theory DifferenceEmpty =
+  include ?Difference❙
+  include ?EmptySet❙
+  
+  dif_empty : {A} ⊦ A∖∅ =ͧ A❘
+    = [A] extensionalityI ([x] equivI ([p] p difEl) 
+      ([q] difI q (notI ([pf] empty_prop notE uexistsI x pf))))❙
+  dif_id : {A} ⊦ A∖A =ͧ ∅❘
+    = [A] extensionalityI ([x] equivI ([p] p difEr notE (p difEl) inconE)
+      ([q] empty_prop notE uexistsI x q inconE))❙
+❚
+
+theory DifferenceIntersection =
+  include ?Difference❙
+  include ?Intersection❙
+  include ?EmptySet❙
+  
+  dif_inter : {A,B} ⊦ A ∩ (B∖A) =ͧ ∅❘
+    = [A,B] extensionalityI ([x] equivI
+      ([p] (p interEr) difEr notE (p interEl) inconE)
+      ([q] empty_prop notE uexistsI x q inconE))❙
+❚
+
+theory Complement =
+  include ?SetBase❙
+  
+  // A should be a subset of U❙
+  // symbol: jcomp❙
+  comp : set ⟶ set ⟶ set❘# ∁ 1 2 prec 50❙
+  compI : {U,A,x} ⊦ x∈U ⟶  ⊦ ¬ x∈A ⟶ ⊦ x∈(∁U A)❙
+  compEl : {U,A,x} ⊦ x∈(∁ U A) ⟶ ⊦ x∈U❘# 4 compEl❙
+  compEr : {U,A,x} ⊦ x∈(∁ U A) ⟶ ⊦ ¬ x∈A❘# 4 compEr❙
+  
+  comp_sub : {U,A} ⊦ ∁ U A ⊆ U❘
+    = [U,A] subsetI ([x,p] p compEl)❙
+
+  // This is only true, if A is a subset of U❙  
+  comp_id : {U,A} ({x} ⊦ x∈A ⟶ ⊦ x∈U) ⟶ ⊦ ∁ U (∁ U A) =ͧ A❘
+    = [U,A,Q] extensionalityI ([x] equivI 
+      ([p] dne notI ([pf] p compEr notE (compI (p compEl) pf))) 
+      ([q] compI (Q x q) (notI ([pf] pf compEr notE q))))❙
+  
+  // This is only true, if A is a subset of U; this does not need to be
+    explicitely defined for B, since B is defined as ∁ U A already❙
+  comp_equality : {U,A,B} ({x} ⊦ x∈A ⟶ ⊦ x∈U) ⟶ ⊦ ∁ U A =ͧ B ⟶ ⊦ ∁ U B =ͧ A❘
+    = [U,A,B,Q,p] extensionalityI ([x] equivI
+      ([pa] dne notI ([pf] ((eq/sym p) ucongP ([X] ¬x∈X) (pa compEr)) 
+      notE (compI (pa compEl) pf)))
+      ([pb] compI (Q x pb) (notI ([pf] (in_eq pf (eq/sym p) compEr) notE pb))))❙
+❚
+
+theory ComplementEmpty =
+  include ?Complement❙
+  include ?EmptySet❙
+  
+  comp_empty : {U} ⊦ ∁ U ∅ =ͧ U❘
+    = [U] extensionalityI ([x] equivI ([p] p compEl)
+      ([q] compI q notI ([pf] empty_prop notE uexistsI x pf)))❙
+  comp_universe : {U} ⊦ ∁ U U =ͧ ∅❘
+    = [U] extensionalityI ([x] equivI ([p] p compEr notE (p compEl) inconE)
+      ([q] empty_prop notE (uexistsI x q) inconE))❙
+❚
+
+theory ComplementUnion =
+  include ?Complement❙
+  include ?Union❙
+  
+  // This is only true, if A is a subset of U❙
+  comp_union : {U,A} ({x} ⊦ x∈A ⟶ ⊦ x∈U) ⟶ ⊦ A ∪ ∁ U A =ͧ U❘
+    = [U,A,Q] extensionalityI ([x] equivI 
+      ([p] p unionE ([pa] Q x pa) ([pb] pb compEl))
+      ([q] tnd orE ([qa] unionIl (comp U A) qa) ([qb] unionIr A (compI q qb))))❙
+❚
+
+theory ComplementIntersection =
+  include ?Complement❙
+  include ?Intersection❙
+  include ?EmptySet❙
+  
+  comp_inter : {U,A} ⊦ A ∩ ∁ U A =ͧ ∅❘
+    = [U,A] extensionalityI ([x] equivI 
+      ([p] (p interEr) compEr notE (p interEl) inconE) 
+      ([q] empty_prop notE uexistsI x q inconE))❙
+❚

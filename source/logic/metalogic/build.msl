@@ -1,0 +1,7 @@
+file ../../../build_config.msl
+
+// logic
+// depends in general on fundamentals and propositional (these dependencies are not mentioned here)!
+// only metalogic right now
+build MMT/LATIN2 mmt-omdoc logic/metalogic/metalogic.mmt
+

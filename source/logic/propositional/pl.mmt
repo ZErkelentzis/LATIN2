@@ -1,0 +1,289 @@
+namespace latin:/❚
+import rules scala://lf.mmt.kwarc.info❚
+
+rule scala://parser.api.mmt.kwarc.info?MMTURILexer❚
+
+fixmeta ur:?LF❚
+
+/T A fully modular specification of intuitionistic and classical propositional
+  logics.
+  Every connective and all proof rules are specified in their own theories to maximize reusability.
+  
+  Proof rules follow natural deduction except that a judgment for inconsistency is used in some rules.
+❚
+
+// See README.md for naming conventions ❚
+
+theory Equivalence =
+  include ?Propositions❙
+  equiv : prop ⟶ prop ⟶ prop❘# 1 ⇔ 2 prec 10❙
+❚
+
+theory EquivalenceNDI =
+  include ?Equivalence❙
+  include ?Proofs❙
+  equivI : {F,G} (⊦ F ⟶ ⊦ G) ⟶ (⊦ G ⟶ ⊦ F) ⟶ ⊦ F ⇔ G❙
+❚
+
+theory EquivalenceNDE =
+  include ?Equivalence❙
+  include ?Proofs❙
+  equivEl : {F,G} ⊦ F ⇔ G ⟶ ⊦ F ⟶ ⊦ G❘# 3 equivEl 4❘role ForwardRule❙
+  equivEr : {F,G} ⊦ F ⇔ G ⟶ ⊦ G ⟶ ⊦ F❘# 3 equivEr 4❘role ForwardRule❙
+❚
+
+theory EquivalenceND =
+  include ?EquivalenceNDI❙
+  include ?EquivalenceNDE❙
+
+  total structure equiv_equivalence : ?EquivalenceRelation =
+    carrier = prop❙
+    rel = [x,y] ⊦ x ⇔ y❙
+    refl = [F] equivI ([p]p) ([p]p)❙
+    sym  = [F,G,p] equivI ([q] p equivEr q) ([q] p equivEl q)❙
+    trans = [F,G,H,fg,gh] equivI ([f] gh equivEl (fg equivEl f))
+                                 ([h] fg equivEr (gh equivEr h))❘# 4 %n 5❙
+  ❚
+  total structure lindenbaum : ?EqualityType =
+     carrier = prop❙
+     structure equalityRel = ?EquivalenceND?equiv_equivalence❙
+  ❚
+❚
+
+theory EquivalenceNDS =
+  include ?ProofEquality ❙
+  include ?EquivalenceND ❙
+  equivSl: {F,G, pf1: ⊦ F ⟶ ⊦ G, pf2, pfF} ((equivI pf1 pf2) equivEl pfF) ⟺ pf1 pfF  ❘ role Simplify ❙
+  equivSr: {F,G, pf1: ⊦ F ⟶ ⊦ G, pf2, pfG} ((equivI pf1 pf2) equivEr pfG) ⟺ pf2 pfG  ❘ role Simplify ❙
+❚
+
+theory Lindenbaum =
+  include ?EquivalenceND❙
+  include ?EqualityType❘ = ?EquivalenceND?lindenbaum❙
+❚   
+
+theory Truth =
+  include ?Propositions❙
+  true  : prop❘# ⊤❙
+❚
+
+theory TruthND =
+  include ?Truth❙
+  include ?Proofs❙
+  trueI : ⊦ true❙
+❚
+
+theory Falsity =
+  include ?Propositions❙
+  false  : prop❘# ⊥❙
+❚
+
+theory FalsityND =
+  include ?Falsity❙
+  include ?Logic❙
+  falseE : ⊦ false ⟶ ↯❘# 1 falseE❙
+❚
+
+theory Negation =
+  include ?Propositions❙
+  not   : prop ⟶ prop❘# ¬ 1   prec 20❙
+❚
+
+theory NegationNDI =
+  include ?Negation❙
+  include ?Logic❙
+  notI  : {F} (⊦ F ⟶ ↯) ⟶ ⊦ ¬ F❘# notI 2❙
+❚
+
+theory NegationNDE =
+  include ?Negation❙
+  include ?Logic❙
+  notE  : {F} ⊦ ¬ F ⟶ ⊦ F ⟶ ↯❘# 2 notE 3❙
+❚
+
+theory NegationND =
+  include ?NegationNDI❙
+  include ?NegationNDE❙
+❚
+
+theory NegationNDS =
+  include ?ProofEquality ❙
+  include ?NegationND ❙
+  notS: {F, pf: ⊦ F ⟶ ↯, pfF: ⊦ F} {a} ((notI pf) notE pfF) a ⟺ pf pfF a ❘ role Simplify ❙
+❚
+
+theory Disjunction =
+  include ?Propositions❙
+  or    : prop ⟶ prop ⟶ prop❘# 1 ∨ 2 prec 15❙
+❚
+
+theory DisjunctionNDI =
+  include ?Disjunction❙
+  include ?Proofs❙
+  orIl  : {F,G} ⊦ F ⟶ ⊦ F ∨ G❘# 3 orIl❙
+  orIr  : {F,G} ⊦ G ⟶ ⊦ F ∨ G❘# 3 orIr❙
+❚
+
+theory DisjunctionNDE =
+  include ?Disjunction❙
+  include ?Proofs❙
+  orE   : {F,G,C} ⊦ F ∨ G ⟶ (⊦ F ⟶ ⊦ C) ⟶ (⊦ G ⟶ ⊦ C) ⟶ ⊦ C❘# 4 orE 5 6❘role EliminationRule❙
+❚
+
+theory DisjunctionND =
+  include ?DisjunctionNDI❙
+  include ?DisjunctionNDE❙
+  or_swap : {F,G} ⊦ F∨G ⟶ ⊦ G∨F❘= [F,G,p] p orE ([q] q orIr) ([q] q orIl)❙
+❚
+
+theory DisjunctionNDS =
+  include ?ProofEquality ❙
+  include ?DisjunctionND ❙
+  orSl: {F,G,C, pfF: ⊦ F, pf1: ⊦ F ⟶ ⊦ C, pf2: ⊦ G ⟶ ⊦ C} (?DisjunctionNDE?orE F G C (pfF orIl) pf1 pf2) ⟺ pf1 pfF ❘ role Simplify ❙
+  orSr: {F,G,C, pfG: ⊦ G, pf1: ⊦ F ⟶ ⊦ C, pf2: ⊦ G ⟶ ⊦ C} (?DisjunctionNDE?orE F G C (pfG orIr) pf1 pf2) ⟺ pf2 pfG ❘ role Simplify ❙
+❚
+
+theory Conjunction =
+  include ?Propositions❙
+  and   : prop ⟶ prop ⟶ prop❘# 1 ∧ 2 prec 15❙
+❚
+
+theory ConjunctionNDI =
+  include ?Conjunction❙
+  include ?Proofs❙
+  andI  : {F,G} ⊦ F ⟶ ⊦ G ⟶ ⊦ F ∧ G❙
+❚
+
+theory ConjunctionNDE =
+  include ?Conjunction❙
+  include ?Proofs❙
+  andEl : {F,G} ⊦ F∧G ⟶ ⊦ F❘# 3 andEl❘role ForwardRule❙
+  andEr : {F,G} ⊦ F∧G ⟶ ⊦ G❘# 3 andEr❘role ForwardRule❙
+❚
+
+theory ConjunctionND =
+  include ?ConjunctionNDI❙
+  include ?ConjunctionNDE❙
+  and_swap: {F,G} ⊦ F∧G ⟶ ⊦ G∧F❘ = [F,G,p] andI (p andEr) (p andEl)❙
+❚
+
+theory ConjunctionNDS =
+  include ?ProofEquality ❙
+  include ?ConjunctionND ❙
+  andSl: {F,G, pfF: ⊦ F, pfG: ⊦ G} (andI pfF pfG) andEl ⟺ pfF ❘ role Simplify ❙
+  andSr: {F,G, pfF: ⊦ F, pfG: ⊦ G} (andI pfF pfG) andEr ⟺ pfG ❘ role Simplify ❙
+❚
+
+theory Implication =
+  include ?Propositions❙
+  impl  : prop ⟶ prop ⟶ prop❘# 1 %R⇒ 2 prec 10❙  
+❚
+
+theory ImplicationNDI =
+  include ?Implication❙
+  include ?Proofs❙
+  implI  : {F,G} (⊦ F ⟶ ⊦ G) ⟶ ⊦ F ⇒ G❙
+❚
+
+theory ImplicationNDE =
+  include ?Implication❙
+  include ?Proofs❙
+  implE  : {F,G} ⊦ F ⇒ G ⟶ ⊦ F ⟶ ⊦ G❘# 3 implE 4❘role ForwardRule❙
+❚
+
+theory ImplicationND =
+  include ?ImplicationNDI❙
+  include ?ImplicationNDE❙
+  
+  total structure impl_preorder : ?Preorder =
+    carrier = prop❙
+    rel = [x,y] ⊦ x ⇒ y❙
+    refl = [F] implI [f] f❙
+    trans = [F,G,H,fg,gh] implI [f] gh implE (fg implE f)❙ 
+  ❚
+❚
+
+theory ImplicationNDS =
+  include ?ProofEquality ❙
+  include ?ImplicationND ❙
+  implS: {F,G, pf: ⊦ F ⟶ ⊦ G, pfF: ⊦ F} ((implI pf) implE pfF) ⟺ pf pfF ❘ role Simplify ❙
+❚
+
+theory IPL =
+  include ?Propositions❙
+  include ?Truth❙
+  include ?Falsity❙
+  include ?Negation❙
+  include ?Conjunction❙
+  include ?Disjunction❙
+  include ?Implication❙
+  include ?Equivalence❙
+❚
+
+theory IPLND =
+  include ?IPL❙
+  include ?Logic❙
+  include ?TruthND❙
+  include ?FalsityND❙
+  include ?NegationND❙
+  include ?ConjunctionND❙
+  include ?DisjunctionND❙
+  include ?ImplicationND❙
+  include ?EquivalenceND❙
+  
+  not_or_left : {F,G} ⊦ ¬(F∨G) ⟶ ⊦¬F ❘= [F,G,p] notI [q] p notE (q orIl)❙
+  not_or_right : {F,G} ⊦ ¬(F∨G) ⟶ ⊦¬G ❘= [F,G,p] notI [q] p notE (q orIr)❙
+  nntnd : {F} ⊦¬¬(F∨¬F)❘= [F] notI [p] (not_or_right p) notE (not_or_left p)❙
+
+  total structure impl_order : ?Order =
+    include ?ImplicationND/impl_preorder❙ 
+    structure equalityRel = ?EquivalenceND/equiv_equivalence❙
+    antisym = [F,G,fg,gf] equivI ([f] fg implE f) ([g] gf implE g)❙
+  ❚
+❚
+
+theory IPLNDS =
+  include ?IPLND ❙
+  include ?ConjunctionNDS ❙
+  include ?DisjunctionNDS ❙
+  include ?ImplicationNDS ❙
+  include ?EquivalenceNDS ❙
+❚
+
+theory Classical =
+  include ?Logic❙
+  classical : {F} ((⊦ F ⟶ ↯) ⟶ ↯) ⟶ ⊦ F❘# classical 2❙
+❚
+
+theory ProofIrrelevance =
+  include ?Logic❙
+  rule rules?TermIrrelevanceRule ded❙
+❚
+
+theory PL =
+  include ?IPL❙
+❚
+
+theory PLND =
+  include ?PL❙
+  include ?IPLND❙
+  include ?ProofIrrelevance❙
+  include ?Classical❙
+
+  impl_flip: {F,G} ⊦F⇒G ⟶ ⊦ ¬G ⇒¬F❘= [F,G,p] implI [q] notI [r] q notE (p implE r)❙
+
+  indirect : {F} (⊦¬F ⟶ ↯) ⟶ ⊦ F❘= [F,h] classical [q] h (notI q)❘# indirect 2❙  
+  dne : {F} ⊦¬¬F ⟶ ⊦F❘= [F,p] indirect [q] p notE q❙
+  tnd : {F} ⊦F∨¬F❘= [F] dne nntnd❙
+❚
+
+theory AlternativeNegationAndFalsityND =
+  include ?Proofs ❙
+  include ?Falsity ❙
+  include ?Negation ❙
+  include ?Disjunction ❙
+  notIntroduction : {A} (⊦ A ⟶ ⊦ false) ⟶ (⊦ ¬ A) ❘ # altNotI 2 ❙
+  notElimination : {A} ⊦ ¬ ¬ A ⟶ ⊦ A ❘ # altNotE 2 ❙
+  falseIntroduction : {A} ⊦ ¬ A ⟶ ⊦ A ⟶ ⊦ false ❘ # altFI 2 3 ❘ role EliminationRule ❙
+  falseElimination : {A} ⊦ false ⟶ ⊦ A ❘ # altFE 1 2 ❙
+❚

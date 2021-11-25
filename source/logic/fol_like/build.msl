@@ -1,0 +1,34 @@
+file ../../../build_config.msl
+
+// logic
+// depends in general on fundamentals and propositional (these dependencies are not mentioned here)!
+
+// no dependencies
+// AS: yields an error
+build MMT/LATIN2 mmt-omdoc logic/fol_like/fol.mmt
+build MMT/LATIN2 mmt-omdoc logic/fol_like/sfol.mmt
+
+// dependent on fol
+build MMT/LATIN2 mmt-omdoc logic/fol_like/stfol.mmt
+build MMT/LATIN2 mmt-omdoc logic/fol_like/fol_hilbert.mmt
+build MMT/LATIN2 mmt-omdoc logic/fol_like/fol_derived.mmt
+build MMT/LATIN2 mmt-omdoc logic/fol_like/fol-tableaux.mmt
+// AS: this is also dependent on ur:?DiagramOperators which fails for me -> LOIF
+// build MMT/LATIN2 mmt-omdoc logic/fol_like/fol-diagop.mmt
+
+// dependent on fol and drt
+// AS: yields an error -> LOIF
+// build MMT/LATIN2 mmt-omdoc logic/fol_like/drt-fol.mmt
+
+// dependent on fol and sfol
+build MMT/LATIN2 mmt-omdoc logic/fol_like/sfol_derived.mmt
+
+// dependent on sfol
+build MMT/LATIN2 mmt-omdoc logic/fol_like/booleans.mmt
+
+// dependent on sfol and booleans
+build MMT/LATIN2 mmt-omdoc logic/fol_like/pl-sfol.mmt
+// fixed order
+build MMT/LATIN2 mmt-omdoc logic/fol_like/multimodal.mmt
+build MMT/LATIN2 mmt-omdoc logic/fol_like/dynamic.mmt
+

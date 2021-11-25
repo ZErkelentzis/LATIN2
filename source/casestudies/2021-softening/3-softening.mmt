@@ -1,0 +1,48 @@
+// Library of soft-typed features
+     obtained via softening the library of hard-typed ones
+   ========================================================= ❚
+
+namespace latin:/casestudies/softening2021 ❚
+fixmeta ?Meta ❚
+
+diagram HAll := baseddiag(diag(?Meta),
+  ?Proofs, ?HTyped, ?HProd, ?HEqual, ?HFun, ?HDepFun, ?HBeta, ?HEta, ?HExten, ?HDepBeta
+) ❚
+
+// Compute interface theories for combined and partial translations of suitable form
+   (as sketched in Section 5 of the paper).
+   E.g. with `symbols(?Proofs?ded)` we say that the morphism part of the combined translation
+   shall be partial on the symbol `?Proofs?ded` (i.e., the constant `ded` from theory `Proofs`).
+   And with `symbols(?Proofs?prop, ?HTyped?tp)` we say that the logical relation part of the
+   combined translation shall be partial on `Proofs?prop? and `HTyped?tp`.
+
+   See `x-generated-output-first.mmtx` for generated diagram. ❚
+diagram HAllLogrels :=
+  COMPTRANS OF SKELETON
+  ctskel(
+    "r",
+    ctskel("m", symbols(?Proofs?ded)),
+    symbols(?Proofs?prop, ?HTyped?tp)
+  )
+  OVER ?Meta
+  OF ?HAll
+❚
+
+view TypePres : ?HTyped_comptrans -> ?STyped =
+  constant prop/m = prop ❙
+  constant ded/r  = ded  ❙
+
+  constant tp/m   = tp   ❙
+  constant tm/m   = [x] term ❙
+  constant tm/r   = [A,t] ⊦ t ⦂ A ❙
+❚
+
+// Modify some meta information of the diagrams (needed for technical reasons of the implementation). ❚
+diagram HLibraryLogrels := (?HAllLogrels EXCEPT diag(?Proofs_comptrans,?HTyped_comptrans)) REBASED TO ?HTyped_comptrans ❚
+
+// See `y-generated-output-second.mmtx` for generated diagram. ❚
+diagram STypedLibraryDirty := PUSHOUT ?TypePres ?HLibraryLogrels ❚
+
+// The final result: a library of soft-typed features.
+   See `z-generated-output-second.mmtx` for generated diagram. ❚
+diagram STypedLibrary := DROP_ARGS_DEFAULT diag(?STyped) ?STypedLibraryDirty ❚

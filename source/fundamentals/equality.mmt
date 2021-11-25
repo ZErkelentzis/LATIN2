@@ -5,22 +5,22 @@ fixmeta ur:?LF❚
 
 theory UntypedEquality =
   include ?UntypedLogic❙
-  equal : term ⟶ term ⟶ prop❘# 1 ≐ 2 prec 30❘role Eq❙
+  uequal : term ⟶ term ⟶ prop❘# 1 =ͧ 2 prec 30❘role Eq❙
 ❚
 
 theory UntypedEqualityND =
   include ?UntypedEquality❙
-  refl  : {x} ⊦ x ≐ x❘# refl %I1❙
+  urefl  : {x} ⊦ x =ͧ x❘# urefl %I1❙
   /T use the alias congP_ when inference of implicit arguments fails when using congP ❙
-  congP : {x,y} ⊦ x ≐ y ⟶ {P: term ⟶ prop} ⊦ P x ⟶ ⊦ P y❘# 3 congP 4 5 ❘@ congP_ ❙
+  ucongP : {x,y} ⊦ x =ͧ y ⟶ {P: term ⟶ prop} ⊦ P x ⟶ ⊦ P y❘# 3 ucongP  4 5 ❘@ ucongP_ ❙
   
   total structure eq : ?EquivalenceCongruence =
     carrier = term❙
-    rel = [x,y] ⊦ x≐y❙
-    refl = [x] refl❙
-    sym = [x,y,p] p congP ([u]u≐x) refl❙
-    trans = [x,y,z,p,q] q congP ([u]x≐u) p❙
-    congT = [x,y,p,T] p congP ([u] T x ≐ T u) refl❙
+    rel = [x,y] ⊦ x =ͧ y❙
+    refl = [x] urefl❙
+    sym = [x,y,p] p ucongP ([u]u =ͧ x) urefl❙
+    trans = [x,y,z,p,q] q ucongP ([u]x =ͧ u) p❘# 4 %n 5❙
+    congT = [x,y,p,T] p ucongP ([u] T x =ͧ T u) urefl❙
   ❚
 ❚
 
@@ -35,8 +35,8 @@ theory ProofEquality =
 theory UntypedEqualityNDS =
   include ?UntypedEqualityND❙
   include ?ProofEquality ❙
-  congP_s : {x, P: term ⟶ prop, pf: ⊦ P x}
-              (congP_ x x refl P pf) ⟺ pf ❘ role Simplify ❙
+  ucongP_s : {x, P: term ⟶ prop, pf: ⊦ P x}
+              (ucongP_ x x urefl P pf) ⟺ pf ❘ role Simplify ❙
 ❚
 
 /T A relative equality for a typed language, in which the equality of objects may depend on the type at which it is taken.
@@ -47,30 +47,30 @@ theory UntypedEqualityNDS =
 ❚
 theory SoftTypedEquality =
   include ?SoftTypedLogic❙
-  equal : tp ⟶ term ⟶ term ⟶ prop❘# 2 ≐ 1 3 prec 30❙
+  requal : tp ⟶ term ⟶ term ⟶ prop❘# 2 =ͬ 1 3 prec 30❙
   as : {x,A} ⊦ x⦂A ⟶ term❘ # ↑ 3 prec 50❙
 ❚
 
 theory SoftTypedEqualityND =
   include ?SoftTypedEquality❙
-  refl  : {A,x} ⊦ x ≐A x❘# refl 1 %I2❙
-  equal_tp : {A,x} ⊦ x ≐A x ⟶ ⊦ x ⦂ A❙
-  sym   : {A,x,y} ⊦ x ≐A y ⟶ ⊦ y ≐A x❘ # 4 sym❙
-  trans : {A,x,y,z} ⊦ x ≐A y ⟶ ⊦ y ≐A z ⟶ ⊦ x ≐A z❘ # 5 trans 6❙
-  equal_any_tp : {A,x,y} ⊦ x ≐A y ⟶ ⊦ x ⦂ A❘
-               = [A,x,y,p] equal_tp (p trans (p sym))❙
-  equal_as : {A,x,y} ⊦ x ≐A y ⟶ term❘ = [A,x,y,p] ↑(equal_any_tp p)❘ # equal_as 4❙ 
-  congP : {A,x,y,p:⊦ x ≐A y, P: term ⟶ prop} ⊦ P (equal_as p) ⟶ ⊦ P (equal_as (p sym))❘# 4 congP 5 6❙
+  rrefl  : {A,x} ⊦ x =ͬ A x❘# rrefl 1 %I2❙
+  requal_tp : {A,x} ⊦ x =ͬ A x ⟶ ⊦ x ⦂ A❙
+  rsym   : {A,x,y} ⊦ x =ͬ A y ⟶ ⊦ y =ͬ A x❘ # 4 rsym❙
+  rtrans : {A,x,y,z} ⊦ x =ͬ A y ⟶ ⊦ y =ͬ A z ⟶ ⊦ x =ͬ A z❘ # 5 rtrans 6❙
+  requal_any_tp : {A,x,y} ⊦ x =ͬ A y ⟶ ⊦ x ⦂ A❘
+               = [A,x,y,p] requal_tp (p rtrans (p rsym))❙
+  requal_as : {A,x,y} ⊦ x =ͬ A y ⟶ term❘ = [A,x,y,p] ↑(requal_any_tp p)❘ # requal_as 4❙ 
+  rcongP : {A,x,y,p:⊦ x =ͬ A y, P: term ⟶ prop} ⊦ P (requal_as p) ⟶ ⊦ P (requal_as (p rsym))❘# 4 rcongP 5 6❙
 ❚
 
 theory TypedEquality =
   include ?TypedLogic❙
-  equal  : {A} tm A ⟶ tm A ⟶ prop❘# 2 ≐ 3 prec 30❘role Eq❙
+  tequal  : {A} tm A ⟶ tm A ⟶ prop❘# 2 =ͭ 3 prec 30❘role Eq❙
 ❚
 
 theory TypedEqualityND =
   include ?TypedEquality❙
-  refl   : {A,x: tm A} ⊦ x ≐ x❙
+  trefl   : {A,x: tm A} ⊦ x =ͭ x❙
 
   /T Explanation:
      Let `P: (tm A ⟶ tm B) ⟶ prop` be a predicate, which by HOAS we can interpret as a predicate that is
@@ -78,7 +78,7 @@ theory TypedEqualityND =
      Now the axiom asserts that if `X,Y: tm A ⟶ tm B` are two functions that are extensionally equal,
      then `⊦ P X` implies `⊦ P Y`.
   ❙
-  congB : {A,B, X,Y: tm A ⟶ tm B} ({a}⊦X a ≐ Y a) ⟶ {P: (tm A ⟶ tm B) ⟶ prop} ⊦ P X ⟶ ⊦ P Y❙
+  tcongB : {A,B, X,Y: tm A ⟶ tm B} ({a}⊦X a =ͭ Y a) ⟶ {P: (tm A ⟶ tm B) ⟶ prop} ⊦ P X ⟶ ⊦ P Y❙
 
   /T
     Explanation of definiens:
@@ -86,20 +86,20 @@ theory TypedEqualityND =
     and (ii) the predicate `(tm A ⟶ tm A) ⟶ prop` given by `λU. P (U x)`. Here, it is irrelevant whether
     we would have written `U x` (as-is) or `U y` (since we are using constant functions anyway).
   ❙
-  congP  : {A,  x,y} ⊦ x ≐ y ⟶ {P: tm A ⟶ prop} ⊦ P x ⟶ ⊦ P y❘# 4 congP 5 6❘
-         = [A,x,y,p,P,q] congB ([a]p) ([U] P (U x)) q❙
+  tcongP  : {A,x,y} ⊦ x =ͭ y ⟶ {P: tm A ⟶ prop} ⊦ P x ⟶ ⊦ P y❘# 4 tcongP 5 6❘
+         = [A,x,y,p,P,q] tcongB ([a]p) ([U] P (U x)) q❙
   
   
-  congT  : {A,B,x,y} ⊦ x ≐ y ⟶ {T: tm A ⟶ tm B} ⊦ T x  ≐  T y ❘# 5 congT 6❘
-         = [A,B,x,y,p,T] p congP ([u] T x ≐ T u) refl❙
-  sym    : {A, x,y: tm A} ⊦ x ≐ y ⟶ ⊦ y ≐ x❘# 4 sym❘
-         = [A,x,y,p] p congP ([u]u≐x) refl❙
-  trans  : {A,x,y,z: tm A} ⊦ x ≐ y ⟶ ⊦ y ≐ z ⟶ ⊦ x ≐ z❘# 5 trans 6❘
-         = [A,x,y,z,p,q] q congP ([u]x≐u) p❙
-  trans3 : {A, w,x,y,z: tm A} ⊦ w ≐ x ⟶ ⊦ x ≐ y ⟶ ⊦ y ≐ z ⟶ ⊦ w ≐ z❘
-         = [A, w,x,y,z,p,q,r] p trans q trans r❙
-  trans4 : {A, v,w,x,y,z: tm A} ⊦ v ≐ w ⟶ ⊦ w ≐ x ⟶ ⊦ x ≐ y ⟶ ⊦ y ≐ z ⟶ ⊦ v ≐ z❘
-         = [A, v,w,x,y,z,p,q,r,s] p trans q trans r trans s❙
-  congT2 : {A,B,C,x,y,xˈ,yˈ} ⊦ x≐y ⟶ ⊦xˈ≐yˈ⟶ {T: tm A ⟶ tm B ⟶ tm C} ⊦ T x xˈ ≐ T y yˈ❘# 8 9 congT2 10❘
-         = [A,B,C,x,y,xˈ,yˈ,p,q,T] (p congT [u] T u xˈ) trans (q congT [u] T y u)❙
+  tcongT  : {A,B,x,y} ⊦ x =ͭ y ⟶ {T: tm A ⟶ tm B} ⊦ T x =ͭ T y ❘# 5 tcongT 6❘
+         = [A,B,x,y,p,T] p tcongP ([u] T x =ͭ T u) trefl❙
+  tsym    : {A, x,y: tm A} ⊦ x =ͭ y ⟶ ⊦ y =ͭ x❘# 4 tsym❘
+         = [A,x,y,p] p tcongP ([u]u =ͭ x) trefl❙
+  ttrans  : {A,x,y,z: tm A} ⊦ x =ͭ y ⟶ ⊦ y =ͭ z ⟶ ⊦ x =ͭ z❘# 5 ttrans 6❘
+         = [A,x,y,z,p,q] q tcongP ([u]x =ͭ u) p❙
+  ttrans3 : {A, w,x,y,z: tm A} ⊦ w =ͭ x ⟶ ⊦ x =ͭ y ⟶ ⊦ y =ͭ z ⟶ ⊦ w =ͭ z❘
+         = [A, w,x,y,z,p,q,r] p ttrans q ttrans r❙
+  ttrans4 : {A, v,w,x,y,z: tm A} ⊦ v =ͭ w ⟶ ⊦ w =ͭ x ⟶ ⊦ x =ͭ y ⟶ ⊦ y =ͭ z ⟶ ⊦ v =ͭ z❘
+         = [A, v,w,x,y,z,p,q,r,s] p ttrans q ttrans r ttrans s❙
+  tcongT2 : {A,B,C,x,y,xˈ,yˈ} ⊦ x =ͭ y ⟶ ⊦xˈ =ͭ yˈ⟶ {T: tm A ⟶ tm B ⟶ tm C} ⊦ T x xˈ =ͭ T y yˈ❘# 8 9 tcongT2 10❘
+         = [A,B,C,x,y,xˈ,yˈ,p,q,T] (p tcongT [u] T u xˈ) ttrans (q tcongT [u] T y u)❙
 ❚

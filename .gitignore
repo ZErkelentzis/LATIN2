@@ -1,9 +1,9 @@
 # jedit temp. files.
 *~
-content
-narration
-errors
-relational
-logaux
+content/
+narration/
+errors/
+relational/
+logaux/
+.idea/
 build.html
-/.idea/

@@ -5,25 +5,18 @@ fixmeta ur:?LF❚
 theory TypedPredicateSubtypes =
   include ?TypedLogic❙
   include ?TypedEquality❙
-  include ?ProofEquality❙
   
-  predsub : {A} (tm A ⟶ prop) ⟶ tp ❘ # 1 | 2  prec 40 ❙
-  /T introductory form (downcast to subtype) ❙
+  predsub : {A} (tm A ⟶ prop) ⟶ tp ❘# 1 | 2  prec 40 ❙
   predsubI  : {A, P, x:tm A} ⊦ P x ⟶ tm A|P ❘ # 3 ↓ 4 prec 40 ❙
-
-  /T eliminating form left (upcast to supertype) ❙
   predsubEl : {A, P, x:tm A|P} tm A ❘# predsubEl 3 ❘@ predsubEl_long ❙
-  /T eliminating form right (cast to proof of predicate that qualified for subtype membership) ❙
   predsubEr : {A, P, x:tm A|P} ⊦ P (predsubEl x) ❘# predsubEr 3 ❘@ predsubEr_long ❙
 
   predsubElBeta
-    : {A, P, a, p: ⊦ P a}  ⊦ ?TypedPredicateSubtypes?predsubEl A P (a ↓ p) ≐ a
+    : {A, P, a, p: ⊦ P a}  ⊦ predsubEl_long A P (a ↓ p) =ͭ a
+    ❘// we need predsubEl_long here due to an incompleteness/bug of MMT's inference algorithm
     ❘role Simplify
   ❙
-  predsubErBeta
-    : {A, P, a, p: ⊦ P a} (?TypedPredicateSubtypes?predsubEr A P (a ↓ p)) ⟺ p
-    ❘role Simplify
-  ❙
+  // cannot express predsubErBeta here, what should equality on ded be? ❙
 ❚
 
 theory SoftTypedPredicateSubtypes =

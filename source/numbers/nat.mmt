@@ -22,18 +22,18 @@ theory Nat =
 theory NatPlus =
   include ?Nat❙
   plus : ℕ ⟶ ℕ ⟶ ℕ ❘ # 1 + 2 prec 50❙
-  plus_zero : ⊦ ∀[n] n+zero ≐ n❙
-  plus_succ : ⊦ ∀[m]∀[n] n+(succ m) ≐ succ(n+m)❙
+  plus_zero : ⊦ ∀ͭ[n] n+zero =ͭ n❙
+  plus_succ : ⊦ ∀ͭ[m]∀ͭ[n] n+(succ m) =ͭ succ(n+m)❙
   
-  plus_zero_left: ⊦ ∀[n] zero+n ≐ n❘
+  plus_zero_left: ⊦ ∀ͭ[n] zero+n =ͭ n❘
                // = proof ommited❘
   ❙
 
-  assoc : ⊦ ∀[l]∀[m]∀[n] (l+m)+n ≐ l+(m+n)❘
+  assoc : ⊦ ∀ͭ[l]∀ͭ[m]∀ͭ[n] (l+m)+n =ͭ l+(m+n)❘
                // = proof ommited❘  
   ❙
   
-  comm : ⊦ ∀[m]∀[n] m+n ≐ n+m❘
+  comm : ⊦ ∀ͭ[m]∀ͭ[n] m+n =ͭ n+m❘
                // = proof ommited❘  
   ❙
   
@@ -57,6 +57,7 @@ theory Int =
   ipred: ℤ ⟶ ℤ❘ # p 1 prec 15❙
   ineg: ℤ ⟶ ℤ❘ # - 1 prec 15❙
   iplus: ℤ ⟶ ℤ ⟶ ℤ❘ # 1 + 2 prec 50❙
+  iminus: ℤ ⟶ ℤ ⟶ ℤ❘= [a,b] a + (- b)❘ # 1 - 2 prec 50 ❙
   itimes: ℤ ⟶ ℤ ⟶ ℤ❘ # 1 * 2 prec 60❙
   
   ieven: ℤ ⟶ prop ❘ # even 1 prec 70❙

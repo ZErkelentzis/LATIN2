@@ -1,0 +1,26 @@
+namespace latin:/❚
+
+fixmeta ur:?LF❚
+
+theory UndefELPITest =
+    include ?UndefinedND❙
+    include ?PLND❙
+
+    zero : term ❘# ⓪❙
+    zero_def : ⊦ ⓪↓❙
+
+    succ : term ⟶ term ❘# S 1❙
+    succ_def : { t : term } ⊦ ((S t) ↓)❙
+
+    // Some idea of partial function❙
+    foo : term ⟶ term❙
+
+    no_foo_of_zero   : ⊦ ((foo ⓪)↑)❙
+    foo_of_successor : { t : term } (⊦ (t ↓)) ⟶ (⊦ (foo (S t))↓)❙
+    no_foo_of_undef  : { t : term } (⊦ (t ↑)) ⟶ (⊦ ((foo t) ↑))❙
+
+   // Equality things❙
+   // foo_of_all_else  : {t : term} ((⊦ (¬(⓪ ≐ t))) ⟶ (⊦ ((foo t)↓)))❙
+   // succ_neq : { t : term } ⊦ (¬ (t ≐ (S t)))❙
+   // neq_refl : { t : term, u : term } (⊦ (¬ (t ≐ u))) ⟶ (⊦ (¬ (u ≐ t)))❙
+❚

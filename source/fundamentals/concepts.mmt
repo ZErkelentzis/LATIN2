@@ -127,8 +127,9 @@ theory TypesAsPredicates =
 theory InternalTypes =
   include ?Terms❙
   include ?Propositions❙
-  in : term ⟶ term ⟶ prop❘# 1 ∈ 2 prec 30❙
+  // AS: I changed this, because otherwise I would have to change it every time in set theory❙
+  cin : term ⟶ term ⟶ prop❘# 1 ∈ͨ 2 prec 30❙
   realize ?SoftTypedTerms❙
   tp = term❙
-  of = in❙
+  of = cin❙
 ❚

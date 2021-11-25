@@ -1,0 +1,49 @@
+namespace latin:/kripkemodels❚
+
+fixmeta ur:?LF❚
+
+/T a theory of states, i.e. assignments to program variables ❚
+theory State : latin:/?HOL =
+  include ?Worlds❙
+  cell : tp ⟶ tp❙
+  state: tm W ⟶ {S} tm cell S ⟶ tm S❘ # 3 * 1 prec 50 ❙
+  
+  extends : tm W ⟶ tm W ⟶ {S} tm cell S ⟶ (tm W ⟶ tm S) ⟶ prop❘
+          = [v,w,S,n,x] n*w =ͭ x v ∧ ∀ͭ[m] ¬n =ͭ m ⇒ m*v =ͭ m*w❘
+          # extends 1 2 4 5❙
+  
+  trclos : {S} (tm S ⟶ tm S ⟶ prop) ⟶ (tm S ⟶ tm S ⟶ prop)❘ # trclos 2 3 4❙
+  trclose_extend : {S,r} {x,y: tm S} ⊦ r x y ⟶ ⊦ trclos r x y❙
+  trclose_refl : {S,r} {x: tm S} ⊦ trclos r x x❙
+  trclose_trans: {S,r} {x,y,z: tm S} ⊦ trclos r x y ⟶ ⊦ trclos r y z ⟶ ⊦ trclos r x z❙
+❚
+
+view DynamicLogicSemantics : latin:/?DynamicLogic → ?State =
+  include ?MMLSemantics❙
+❚
+
+view NonDetProgSemantics : latin:/?NonDetProg → ?State =
+  include ☞latin:/?Programs❘ = ?DynamicLogicSemantics❙
+  include ?PLSemantics❙
+  comp = [p,q] [u,w] ∃ͭ [v] p u v ∧ q v w❙
+  distrib = [p,q] [v,w] p v w ∨ q v w❙
+  iteration = [p] [v,w] trclos p v w❙
+  test = [f] [v,w] f v ∧ v =ͭ w❙
+
+  // check currently skipped❙
+  skip = [v,w] v =ͭ w❙
+❚
+
+view PropDynamicLogicSemantics : latin:/?PropDynamicLogic → ?State =
+  include ?DynamicLogicSemantics❙
+  include ?NonDetProgSemantics❙
+❚
+
+view TypedDynamicSemantics : latin:/?TypedDynamicLogic → ?State =
+  include ?PropDynamicLogicSemantics❙
+  include ?SFOLSemantics❙
+  var = [S] tm cell S❙
+  retrieve = [S,n] [w] n*w❙
+  assign = [S,n,x] [v,w] extends v w n x❙ 
+  random_assign = [S,n] [v,w] ∃ͭ[t: tm W→S] extends v w n ([u]t@u)❙
+❚
