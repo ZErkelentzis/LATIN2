@@ -12,6 +12,12 @@ import lf.Proofs
 import scala.annotation.tailrec
 import scala.sys.process.Process
 
+// @TODO(FR):
+//    1. The typing rule below is bound to constant ATP_RPOOF https://gl.mathhub.info/MMT/LATIN2/-/blob/ce3ad95d97f6cc29ec14268cfca2004c9db45bfe/source/proving/atp.mmt#L6
+//    1. ATP_PROOF should be called after the solver has solved all variables
+//    2. ATP_PROOF shouldn't necessitate the formula it should prove as an argument
+//    Instead, as FR suggested: "neue Unbekannte vom Typ |- F generieren, am Ende, wenn MMT mit Typechecking fertig ist"
+
 object InvokeATPRule extends InferenceAndTypingRule(Path.parseS("latin:/?PropositionsATP?atp_proof"), OfType.path) {
 
   private def invokeATP(p: GlobalName, ctx: Context, t: Term)(implicit  ctrl: Controller): Boolean = {
