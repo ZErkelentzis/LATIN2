@@ -15,12 +15,12 @@ import leo.datastructures.TPTP.{AnnotatedFormula, Include, Problem, TFF, TFFAnno
 import lf.Conjunction.and
 import lf.Disjunction.or
 import lf.Equivalence.equiv
-import lf.TypedExistentialQuantification.exists
+import lf.TypedExistentialQuantification.texists
 import lf.Implication.impl
 import lf.Negation.not
 import lf.Proofs.ded
-import lf.TypedEquality.equal
-import lf.TypedUniversalQuantification.forall
+import lf.TypedEquality.tequal
+import lf.TypedUniversalQuantification.tforall
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -118,7 +118,7 @@ object SFOLExporter {
     translate_decl(c.name, c.tp, c.df, Context(c.path.module))
 
   def translate_formula(t: Term): TFF.Formula = t match {
-    case forall((ty, Lambda(v, _, body))) =>
+    case tforall((ty, Lambda(v, _, body))) =>
       TFF.QuantifiedFormula(
         TFF.!,
         Seq(
@@ -126,7 +126,7 @@ object SFOLExporter {
         ),
         translate_formula(body)
       )
-    case exists((ty, Lambda(v, _, body))) =>
+    case texists((ty, Lambda(v, _, body))) =>
       TFF.QuantifiedFormula(
         TFF.?,
         Seq(
@@ -134,12 +134,12 @@ object SFOLExporter {
         ),
         translate_formula(body)
       )
-    case forall(ty, body) =>
+    case tforall(ty, body) =>
       val varname = Context.pickFresh(body.allVars.map(VarDecl(_)), LocalName("x"))._1
-      translate_formula(forall(ty, Lambda(varname, ty, ApplySpine(body, OMV(varname)))))
-    case exists(ty, body) =>
+      translate_formula(tforall(ty, Lambda(varname, ty, ApplySpine(body, OMV(varname)))))
+    case texists(ty, body) =>
       val varname = Context.pickFresh(body.allVars.map(VarDecl(_)), LocalName("x"))._1
-      translate_formula(exists(ty, Lambda(varname, ty, ApplySpine(body, OMV(varname)))))
+      translate_formula(texists(ty, Lambda(varname, ty, ApplySpine(body, OMV(varname)))))
     case and(left, right) =>
       TFF.BinaryFormula(TFF.&, translate_formula(left), translate_formula(right))
     case or(left, right) =>
@@ -148,7 +148,7 @@ object SFOLExporter {
       TFF.BinaryFormula(TFF.Impl, translate_formula(left), translate_formula(right))
     case equiv(left, right) =>
       TFF.BinaryFormula(TFF.<=>, translate_formula(left), translate_formula(right))
-    case equal(ty, left, right) => {
+    case tequal(ty, left, right) => {
       TFF.Equality(translate_term(left), translate_term(right))
     }
     case not(arg) =>

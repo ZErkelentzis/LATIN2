@@ -8,10 +8,10 @@ theory Meta =
 fixmeta ?Meta ❚
 
 theory Todo =
-    equalConstant : {A} tm A → (A → bool)❘= [A]λ[x]λ[y]x≐y❙
+    equalConstant : {A} tm A → (A → bool)❘= [A]λ[x]λ[y]x =ͭ y❙
 
-    // example1 = [F: prop] ☞latin:/?ImplicationNDI?implI F F [pfF: ⊦ F] ATP_PROOF F ❙ // original ❙
-    example1 : {F} ⊦ F ⇒ F ❘ = [F: prop] implI [pfF: ⊦ F] ATP_PROOF F ❙ // works ❙
+    example1 = [F: prop] ☞latin:/?ImplicationNDI?implI F F [pfF: ⊦ F] ATP_PROOF F ❙ // original ❙
+    // example1 : {F} ⊦ F ⇒ F ❘ = [F: prop] implI [pfF: ⊦ F] ATP_PROOF F ❙ // works ❙
     // example1 : {F} ⊦ F ⇒ F ❘= [F: prop] implI [pfF: ⊦ F] ATP_PROOF ❙ // doesn't work ❙
 ❚
 
@@ -58,10 +58,10 @@ theory Example =
     heated_mix : tm (beverage → syrup → beverage) ❘ = λ[b: tm beverage] λ[s: tm syrup] (heat @ (mix @ b @ s))❙
     hot : tm (beverage → bool)❙
 
-    axiom2 : ⊦ ∀[b: tm beverage] ∀[s: tm syrup] (hot @ (heated_mix @ b @ s))❙
-    axiom3 : ⊦ ∀[s: tm syrup] heated_mix @ coffee @ s ≐ coffee❙
+    axiom2 : ⊦ ∀ͭ[b: tm beverage] ∀ͭ[s: tm syrup] (hot @ (heated_mix @ b @ s))❙
+    axiom3 : ⊦ ∀ͭ[s: tm syrup] heated_mix @ coffee @ s =ͭ coffee❙
 
-    conj : ⊦ ∃[m: tm (syrup → beverage)] ∀[s: tm syrup] ((m @ s) ≐ coffee) ∧ (hot @ (m @ s))❘ = ATP_PROOF❙
+    //conj : ⊦ ∃ͭ[m: tm (syrup → beverage)] ∀ͭ[s: tm syrup] ((m @ s) =ͭ coffee) ∧ (hot @ (m @ s))❘ = ATP_PROOF (⊦ ∃ͭ[m: tm (syrup → beverage)] ∀ͭ[s: tm syrup] ((m @ s) =ͭ coffee) ∧ (hot @ (m @ s)))❙
     //At least compiles without: (∃[m: tm (syrup → beverage)] ∀[s: tm syrup] ((m @ s) ≐ coffee) ∧ (hot @ (m @ s)))❙
 
     //V_ and t_ prefix the same? see example, where they are different❙

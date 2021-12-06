@@ -25,13 +25,13 @@ theory UnitElement =
 
 theory Unital =
   include ?UnitElement❙
-  neutralR : ⊦ ∀[x] x∘e ≐ x❙
-  neutralL : ⊦ ∀[x] e∘x ≐ x❙
+  neutralR : ⊦ ∀ͭ[x] x∘e =ͭ x❙
+  neutralL : ⊦ ∀ͭ[x] e∘x =ͭ x❙
 ❚
 
 theory Semigroup =
   include ?Magma ❙
-  assoc_ax : ⊦ ∀[x]∀[y]∀[z] (x∘y)∘z ≐ x∘(y∘z)❙
+  assoc_ax : ⊦ ∀ͭ[x]∀ͭ[y]∀ͭ[z] (x∘y)∘z =ͭ x∘(y∘z)❙
 
   // assoc: {x,y,z} ⊦ (x∘y)∘z ≐ x∘(y∘z)❘
        = [x,y,z] assoc_ax forallE x forallE y forallE z❙
@@ -78,7 +78,7 @@ theory ATPExamples =
   ❙
   // example2 = [F: prop, G: prop] ☞latin:/?ImplicationNDI?implI (F ∧ G) (G ∧ F) [pfFG: ⊦ F ∧ G] ATP_PROOF G ∧ F ❙
 
-  example3 = [F: prop] implI [pfF: ⊦ F] ATP_PROOF F ❙
+  example3 = [F: prop] ☞latin:/?ImplicationNDI?implI F F [pfF: ⊦ F] ATP_PROOF F ❙
 ❚
 
 // theory ConjectureMonoid =

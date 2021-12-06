@@ -16,15 +16,15 @@ import leo.datastructures.TPTP.{AnnotatedFormula, Include, Problem, THF, THFAnno
 import lf.Conjunction.and
 import lf.Disjunction.or
 import lf.Equivalence.equiv
-import lf.TypedExistentialQuantification.exists
+import lf.TypedExistentialQuantification.texists
 import lf.Implication.impl
 import lf.Negation.not
 import lf.Proofs.ded
 import lf.SFOLEQ.notequal
 import lf.{InternalPropositions, SimpleFunctionTypes}
 import lf.SimpleFunctions.{simpapply, simplambda}
-import lf.TypedEquality.equal
-import lf.TypedUniversalQuantification.forall
+import lf.TypedEquality.tequal
+import lf.TypedUniversalQuantification.tforall
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -92,7 +92,7 @@ object HOLExporter {
     theory.getConstants.flatMap(translate_constant)
   }
 
-  def funty_builder(in: List[THF.Formula], out: THF.Formula) = in.foldRight(out)((g, arg) => THF.BinaryFormula(FunTyConstructor, arg, g))
+  def funty_builder(in: List[THF.Formula], out: THF.Formula) = in.foldRight(out)((g, arg) => THF.BinaryFormula(FunTyConstructor, g, arg))
 
   def translate_decl(name: LocalName, tp: Option[Term], df: Option[Term], ctx: Context)(implicit ctrl: Controller): List[THFAnnotated] = {
     val simplicationUnit = SimplificationUnit(ctx, expandDefinitions = true, fullRecursion = true)
@@ -129,12 +129,11 @@ object HOLExporter {
     case simplambda(_, _, f) => translate_formula(f)
     case simpapply(_, _, f, x) => translate_formula(ApplySpine(f, x))
 
-    // TODO: ask Navid, Florian said this is needed? YES
     case SimpleFunctionTypes.simpfun(a, b) => funty_builder(List(translate_formula(a)), translate_formula(b))
     case InternalPropositions.bool.term => THF.FunctionTerm("$o", Nil)
     // TODO: product types, etc. still needed
 
-    case forall((ty, Lambda(v, _, body))) =>
+    case tforall((ty, Lambda(v, _, body))) =>
       THF.QuantifiedFormula(
         THF.!,
         Seq(
@@ -142,7 +141,7 @@ object HOLExporter {
         ),
         translate_formula(body)
       )
-    case exists((ty, Lambda(v, _, body))) =>
+    case texists((ty, Lambda(v, _, body))) =>
       THF.QuantifiedFormula(
         THF.?,
         Seq(
@@ -150,14 +149,12 @@ object HOLExporter {
         ),
         translate_formula(body)
       )
-    case forall(ty, body) =>
+    case tforall(ty, body) =>
       val varname = Context.pickFresh(body.allVars.map(VarDecl(_)), LocalName("x"))._1
-      translate_formula(forall(ty, Lambda(varname, ty, ApplySpine(body, OMV(varname)))))
-    //TODO: add exists like above forall
-    case exists(ty, body) =>
+      translate_formula(tforall(ty, Lambda(varname, ty, ApplySpine(body, OMV(varname)))))
+    case texists(ty, body) =>
       val varname = Context.pickFresh(body.allVars.map(VarDecl(_)), LocalName("x"))._1
-      translate_formula(exists(ty, Lambda(varname, ty, ApplySpine(body, OMV(varname)))))
-    //TODO: add exists like above forall
+      translate_formula(texists(ty, Lambda(varname, ty, ApplySpine(body, OMV(varname)))))
     case and(left, right) =>
       THF.BinaryFormula(THF.&, translate_formula(left), translate_formula(right))
     case or(left, right) =>
@@ -166,7 +163,7 @@ object HOLExporter {
       THF.BinaryFormula(THF.Impl, translate_formula(left), translate_formula(right))
     case equiv(left, right) =>
       THF.BinaryFormula(THF.<=>, translate_formula(left), translate_formula(right))
-    case equal(ty, left, right) => {
+    case tequal(ty, left, right) => {
       THF.BinaryFormula(THF.Eq, translate_formula(left), translate_formula(right))
     }
     case notequal(ty, left, right) => {
@@ -179,7 +176,7 @@ object HOLExporter {
       THF.FunctionTerm("t_" + f.name.toString, Nil)
 
     case OMV(x) =>
-      THF.FunctionTerm("t_" + x.toString, Nil)
+      THF.FunctionTerm("V_" + x.toString, Nil)
 
     case ApplySpine(f, args) => args.map(translate_formula).foldLeft(translate_formula(f))((g, arg) => THF.BinaryFormula(THF.App, g, arg))
 

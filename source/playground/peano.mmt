@@ -8,19 +8,27 @@ theory Meta =
 fixmeta ?Meta ❚
 
 theory Peano =
-    ℕ : tp❙
-    successor : tm (ℕ → ℕ)❙
+    N : tp❙
+    successor : tm (N → N)❙
 
-    zero : tm ℕ❙
+    zero : tm N❙
+
     //No Confusion Axiom❙
-    axiom3 : ⊦ ∀[n: tm ℕ] ¬(successor @ n ≐ zero)❙
+    axiom3 : ⊦ ∀ͭ[n: tm N] ¬(successor @ n =ͭ zero)❙
+
     //Injectivity Axiom❙
-    axiom4 : ⊦ ∀[n: tm ℕ] ∀[m: tm ℕ] ((successor @ n ≐ successor @ m) ⇒ (n ≐ m))❙
+    axiom4 : ⊦ ∀ͭ[n: tm N] ∀ͭ[m: tm N] ((successor @ n =ͭ successor @ m) ⇒ (n =ͭ m))❙
+
     //Induction Axiom❙
-    axiom5 : ⊦ ∀[X: tm (ℕ → bool)] (X @ zero ∧ ∀[n : tm ℕ] (X @ n ⇒ X @ (successor @ n)) ⇒ ∀[x: tm ℕ] X @ x)❙
+    axiom5 : ⊦ ∀ͭ[X: tm (N → bool)] (X @ zero ∧ ∀ͭ[n : tm N] (X @ n ⇒ X @ (successor @ n)) ⇒ ∀ͭ[x: tm N] X @ x)❙
 
-    //Conjecture forall x, x = 0 \/ (exists y, S y = x)❙
+    // Conjecture forall x, x = 0 \/ (exists y, S y = x)❙
+    //conj : ⊦ ☞latin:/?TypedEquality?tequal (tm N) zero zero❘ = ATP_PROOF ☞latin:/?TypedEquality?tequal (tm N) zero zero❙
 
-    //Maybe prove conjecture per hand❙
+    conj : ⊦ ☞latin:/?TypedUniversalQuantification?tforall N [x: tm N] (
+        (☞latin:/?TypedEquality?tequal N x zero) ∨
+        (☞latin:/?TypedExistentialQuantification?texists N [y: tm N] (
+            ☞latin:/?TypedEquality?tequal N (successor @ y) x
+        ))
+    )❙
 ❚
-
