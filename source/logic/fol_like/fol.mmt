@@ -160,7 +160,7 @@ theory RelativizedExistentialQuantificationND =
 theory UniqueExistentialQuantification =
   include ?ExistentialQuantification❙
   include ?UntypedEquality❙
-  uexistsUnique  : (term ⟶ prop) ⟶ prop❘# ∃ꜝͧ 1❙
+  uexistsUnique  : (term ⟶ prop) ⟶ prop❘# ∃ ꜝͧ 1 prec -5 ❙
  ❚
 
 theory UniqueExistentialQuantificationND =
@@ -183,7 +183,7 @@ theory UniqueExistentialQuantificationNDS =
 theory Description =
   include ?Logic❙
   include ?UniqueExistentialQuantification❙
-  the : {P} ⊦ ∃ꜝͧ P ⟶ term❘# the 1 2❙
+  the : {P} ⊦ ∃ꜝͧ P ⟶ term❘# the 1 2 prec 50❙
 ❚
 
 theory DescriptionND =
@@ -208,7 +208,7 @@ theory DescriptionNDS =
 theory Choice =
   include ?Logic❙
   include ?ExistentialQuantification❙
-  some : {P} ⊦ ∃ͧ P ⟶ term❘# some 1 2❙
+  some : {P} ⊦ ∃ͧ P ⟶ term❘# some 1 2 prec 50❙
 ❚
 
 theory ChoiceND =

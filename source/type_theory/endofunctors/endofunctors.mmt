@@ -14,16 +14,19 @@ theory EndoFunctor =
 ❚
 
 /T View currently not total, needs Extensionality❚
-implicit view CategoryOfTypes : ?Category → ?SimpleFunctions =
+implicit view CategoryOfTypes : ?Category → ?SimpleFunctionsEta =
   obj = tp❙
   hom = [a,b] a→b❙
   ident = [a] λ[x]x❙
   comp = [a,b,c,f,g] λ[x] g@(f@x)❙
+  neutLeft = [a,b,f] eta tsym ❙
+  neutRight = [a,b,f] eta tsym ❙
+  assoc = [a,b,c,d,f,g,h] trefl❙
 ❚
 
 theory InternalEndoFunctor =
   include ?TypeOperator❙
-  include ?SimpleFunctions❙
+  include ?SimpleFunctionsEta❙
   fmap : {a,b} tm a→b ⟶ tm &a→&b❘# fmap 3 prec 50❙
   fmapApply : {a,b} tm a→b ⟶ tm &a ⟶ tm &b❘= [a,b,f,x] (fmap f)@x❘# 3 <$> 4❙
   fmapId : {a} ⊦ fmap (ident a) =ͭ ident (&a)❙

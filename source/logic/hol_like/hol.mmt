@@ -12,6 +12,7 @@ theory InternalEquality =
 theory PropositionalExtensionality =
   include ?InternalEquality❙
   propext: {F,G} (⊦ F ⟶ ⊦ G) ⟶ (⊦ G ⟶ ⊦ F) ⟶ ⊦ F =ͭ G❙
+  top_unique: {F,G} ⊦ F ⟶ ⊦ G ⟶ ⊦ F =ͭ G❘ = [F,G,p,q] propext ([u] q) ([u] p)
 ❚
 
 theory IHOL =
@@ -53,30 +54,36 @@ theory PowerHOLND =
   realize powertypes?PowerTypes❙
 
   power = [a] a → bool❙
-  filter = [A,P] λ P❙
+  pfilter = [A,P] λ P❙
   in = [A,x,S] S @ x❙
   compute = [A,P,x] eq_equiv trefl❙
-  expand = [A,S] eta tsym❙
+  expand = [A,S] eta❙
 ❚
 
 // Diaconescu's theorem, following the Wikipedia article❚
 theory ClassicalViaChoice =
   include ?HOLND❙
-  include ?Choice❙
+  include ?TypedChoice❙
   Forbot = [F][x] F ∨ (x =ͭ ⊥)❙
+  exists_Forbot : {F} ⊦ ∃ͭ Forbot F❘ = [F] texistsI ⊥ (trefl orIr)❘ # %n 1❙   
   Fortop = [F][x] F ∨ (x =ͭ ⊤)❙
+  exists_Fortop : {F} ⊦ ∃ͭ Fortop F❘ = [F] texistsI ⊤ (trefl orIr)❘ # %n 1❙   
   tnd : {F} ⊦ F ∨ (¬ F)❘
-      = [F] (rul_some (Forbot F) ⊥ (trefl orIr)) orE
+      = [F] (tsome_ax (Forbot F) (exists_Forbot F)) orE
         ([p: ⊦ F] p orIl)
-        ([p: ⊦ (some (Forbot F)) =ͭ ⊥] (rul_some (Fortop F) ⊤ (trefl orIr)) orE
-                                   ([q: ⊦ F] q orIl)
-                                   ([q: ⊦ (some (Fortop F)) =ͭ ⊤] (notI [r: ⊦ F]
-                                     eq⊦ (eqtrans3
-                                       (eqsym q)
-                                       (eqapp eqrefl (eqλ [x] top_unique (r orIl) (r orIl)))
-                                       p
-                                     ) ⊤I  
-                                   ) orIl)
+        ([p: ⊦ (tsome (Forbot F) (exists_Forbot F)) =ͭ ⊥]
+            (tsome_ax (Fortop F) (exists_Fortop F)) orE
+               ([q: ⊦ F] q orIl)
+               ([q: ⊦ (tsome (Fortop F) (exists_Fortop F)) =ͭ ⊤]
+                 (notI [r: ⊦ F]
+                   (eq_thm (
+                     ttrans3
+                      (q tsym)
+                      (tsome_eq ([x,s] r orIl) ([x,s] r orIl))
+                      p
+                   ) trueI)
+                   falseE)
+                 orIr)
         )❙
 ❚
 

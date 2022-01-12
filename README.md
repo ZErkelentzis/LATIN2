@@ -1,24 +1,41 @@
-# MMT/LATIN2 Archive
+# Logic Atlas and Integrator
 
-This is the second generation of the *<u>L</u>ogic <u>At</u>las and <u>In</u>tegrator* (*LATIN*) Project: an effort to develop methods, techniques, and tools for interfacing logics and related formal systems.
-See [\[CHK11-paper\]][CHK11-paper] and [\[CHK11-slides\]][CHK11-slides] for the original project description.
-A more recent project description can be found at [\[RR-modlog\]][modlog-paper].
+See https://uniformal.github.io/doc/archives/LATIN/LATIN2.html for background information, contributors, and publications.
 
-See [./CITATION](./CITATION) for how to cite.
+# Viewing and Editing
 
-## Building
+The repository is hosted by gitlab at https://gl.mathhub.info/MMT/LATIN2 which includes syntax highlighting.
 
-<!-- TODO: comment out this in the future: First issue `git submodule init` and `git submodule update` in order for the submodule `lib/tptp-parser` to be cloned -->
+Additionally, the files can be viewed using MMT's semantic interaction services at https://mathhub.info/
+But keep in mind that this system is a research product itself and not always stable.
 
-### Building individual files (for endusers)
+To edit files and contribute, users can use any text editor, but it is recommended to use one of the [MMT IDEs](https://uniformal.github.io//doc/applications/ides.html).
 
-The `master` branch is supposed to already contain all build artifacts, hence there should be no need to build everything from scratch for end users.
-End users can just modify files to their liking and build these individually, e.g., by using the [MMT IntelliJ Plugin](https://uniformal.github.io/doc/applications/intellij/).
+# Building
 
-However, if you modify large portions or face peculiar build errors (like ["no backend applicable", "invalid object"](https://github.com/UniFormal/uniformal.github.io/wiki/Errors
+## Master Branch
+
+The `master` branch is co-released with the MMT system, i.e., the latest `master` branch of MMT can/should be used with the latest `master` of LATIN2.
+
+Human-edited files are in the folders `source` (for MMT content) and `scala` (for supplementary Scala sources).
+Other folders are produced by building and should not be committed.
+
+To build, run the build script in this repository with MMT, e.g., by
+```
+PATH/TO/MMT/deploy/mmt file build.msl
+```
+
+Each folder contains its own build script, and these are called by the above.
+To rebuild only the files in that folder, the respective build script can be used.
+
+Individual files can be built via MMT or from within an MMT IDE.
+
+## Individual files
+
+If you modify large portions or face peculiar build errors (like ["no backend applicable", "invalid object"](https://github.com/UniFormal/uniformal.github.io/wiki/Errors
 )), you might want to try rebuilding as follows.
 
-### Building everything from scratch (for elaborate endusers / developers)
+## Whole archive
 
 From the [MMT shell](https://uniformal.github.io/doc/applications/shell.html), run the following commands:
 
@@ -30,7 +47,7 @@ build MMT/LATIN2 lf-scala logic/drt
 build MMT/LATIN2 scala-bin
 ```
 
-As of today (2021-11-08), it is expected that you see parsing or typechecking errors during the procedure above.
+As of 2021-11-08, it is expected that you see parsing or typechecking errors during the procedure above.
 Most end users are not affected by them.
 
 > **A note on build order:** The formalizations as well as Scala files in this archive require a specific build order. In particular, there are many circular dependencies between `.mmt` files themselves as well as between them and Scala files.
@@ -48,52 +65,3 @@ If you don't know how to use the MMT shell, here's one way to open and initializ
 
    Typically, the root path contains, besides this LATIN2 repository, also the [urtheories](https://gl.mathhub.info/MMT/urtheories) and [LFX](https://gl.mathhub.info/MMT/LFX) archives as (transitive) subdirectories.<br>
    \*) if you don't know about that file, you probably don't have one.
-
-## Contributors
-
-The current maintainer is [Florian Rabe][frabe].
-A list of all current and previous contributors:
-
-- [Florian Rabe][frabe]: created LATIN2 in year YYYY (TODO), maintaining and advising people contributing to it ever since 
-- [Navid Roux][nroux]: contributed in years 2019 -- 2021 various formalizations  (incl. Curry Howard, translations in type theory), added documentary source code at various places, and integrated diagram operators (TODO: link to it) in their thesis (TODO: link to it) as to replace XYZ lines of code by a single macro invocation 
-- [Dennis Müller][dmueller]: TODO
-- [Annika Schmidt][aschmidt]: contributed in 2021 formalizations of set theory in their M.Sc. thesis (TODO: link to it), of translations from type to set theory, and completely reworked the build script
-
-and various other [people of the kwarc research group](https://kwarc.info/people/).
-
-## Bibliography
-
-**\[CHK11\]**: Project Abstract: Logic Atlas and Integrator (LATIN), Mihai Codescu, Fulya Horozal, Michael Kohlhase, Till Mossakowski, Florian Rabe, 2011 <br>
-               Intelligent Computer Mathematics, J. Davenport, W. Farmer, F. Rabe, J. Urban (eds.), pp. 289-291 , volume 6824 of Lecture Notes in Computer Science, Springer. [PDF][CHK11-paper], [Slides PDF][CHK11-slides].
-
-<!-- Keep this in sync with the CITATION file, please -->
-
-    @InProceedings{CodHorKoh:palai11,
-      title = {Project Abstract: Logic Atlas and Integrator ({LATIN})},
-      author = {Mihai Codescu and Fulya Horozal and Michael Kohlhase and Till Mossakowski and Florian Rabe},
-      pages = {289--291},
-      year = {2011},
-      url = {https://kwarc.info/people/frabe/Research/CHKMR_latinabs_11.pdf},
-      doi = {10.1007/978-3-642-22673-1_24},
-      isbn = "978-3-642-22673-1",
-      booktitle = {{Intelligent Computer Mathematics}},
-      editor = {James Davenport and William Farmer and Florian Rabe and Josef Urban},
-      number = {6824},
-      series = {Lecture Notes in Computer Science},
-      volume = {6824},
-      publisher = {Springer Verlag},
-      address = "Berlin, Heidelberg",
-
-      abstract="LATIN aims at developing methods, techniques, and tools for interfacing logics and related formal systems. These systems are at the core of mathematics and computer science and are implemented in systems like (semi-)automated theorem provers, model checkers, computer algebra systems, constraint solvers, or concept classifiers. Unfortunately, these systems have differing domains of applications, foundational assumptions, and input languages, which makes them non-interoperable and difficult to compare and evaluate in practice."
-    }
-
-**[modlog]:** Modular Formalizations of Formal Systems, Florian Rabe, Navid Roux, 2021 (unpublished). [PDF][modlog-paper].
-
-[CHK11-paper]: https://kwarc.info/people/frabe/Research/CHKMR_latinabs_11.pdf
-[CHK11-slides]: https://kwarc.info/people/frabe/Research/slides/CHKMR_latinabs_11.pdf
-[modlog-paper]: https://kwarc.info/people/frabe/Research/RR_modlog_21.pdf
-
-[dmueller]: https://kwarc.info/people/dmueller/
-[frabe]: https://kwarc.info/people/frabe/
-[nroux]: https://kwarc.info/people/nroux/
-[aschmidt]: https://kwarc.info/people/aschmidt/
