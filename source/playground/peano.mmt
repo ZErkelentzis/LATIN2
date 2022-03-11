@@ -4,6 +4,7 @@ rule scala://parser.api.mmt.kwarc.info?MMTURILexer ❚
 theory Peano : latin:/?HOLND =
     N : tp❙
     successor : tm (N → N)❙
+    test : tm N ⟶ (⊦ ∀ͭ[n: tm N] ¬(successor @ n =ͭ n))❙
 
     zero : tm N❙
 
@@ -14,7 +15,7 @@ theory Peano : latin:/?HOLND =
     axiom4 : ⊦ ∀ͭ[n: tm N] ∀ͭ[m: tm N] ((successor @ n =ͭ successor @ m) ⇒ (n =ͭ m))❙
 
     //Induction Axiom❙
-    axiom5 : ⊦ ∀ͭ[X: tm (N → bool)] (X @ zero ∧ ∀ͭ[n : tm N] (X @ n ⇒ X @ (successor @ n)) ⇒ ∀ͭ[x: tm N] X @ x)❙
+    axiom5 : ⊦ ∀ͭ[X: tm N → bool] X @ zero ∧ (∀ͭ[n : tm N] X @ n ⇒ X @ (successor @ n)) ⇒ ∀ͭ[x: tm N] X @ x❙
 
     // Conjecture❙
     conj : ⊦ zero =ͭ (successor zero) ❘ = PROVE❙
