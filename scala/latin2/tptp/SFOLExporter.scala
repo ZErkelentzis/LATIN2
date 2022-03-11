@@ -45,7 +45,7 @@ object SFOLExporter {
 
     val tptp_exporter = ctrl.extman.get(classOf[TPTPExporter]).head
 
-    Problem(includes.map(i => tptp_exporter.translate_include(p.module, i)).toSeq, formulas.toSeq)
+    Problem(includes.map(i => tptp_exporter.translate_include(p.module, i)).toSeq, formulas.toSeq, Map())
   }
 
   def exportStub(theory: Theory)(implicit ctrl: Controller): Problem = {
@@ -67,12 +67,12 @@ object SFOLExporter {
       case DedList(formulas) => formulas.map(f => TFFAnnotated("Conjecture", "conjecture",  TFF.Logical(translate_formula(f)), None))
     }
 
-    Problem(List(), (axioms++conjectures))
+    Problem(List(), (axioms++conjectures), Map())
   }
 
   def export_theory_flattened(theory: Theory)(implicit ctrl: Controller): Problem = {
     val axioms = translate_theory_flattened(theory).distinct.map(x => if (x.role == "") { x.copy(role = "axiom") } else x)
-    Problem(List(), axioms)
+    Problem(List(), axioms, Map())
   }
 
   def translate_theory_flattened(theory: Theory)(implicit ctrl: Controller): List[TFFAnnotated] = {
@@ -81,7 +81,7 @@ object SFOLExporter {
 
   def export_theory(theory: Theory, includes: Seq[Include])(implicit ctrl: Controller): Problem = {
     val axioms = translate_theory(theory).map(x => if (x.role == "") { x.copy(role = "axiom") } else x)
-    Problem(includes, axioms)
+    Problem(includes, axioms, Map())
   }
 
   def translate_theory(theory: Theory)(implicit ctrl: Controller): List[TFFAnnotated] = {

@@ -1,18 +1,16 @@
 package latin2.tptp
 
-import info.kwarc.mmt.api.{ContentPath, GlobalName, LocalName, MPath, StructuralElement}
-import info.kwarc.mmt.api.archives.BuildTask
+import info.kwarc.mmt.api.{GlobalName, LocalName, MPath}
 import info.kwarc.mmt.api.frontend.Controller
 import info.kwarc.mmt.api.modules.Theory
 import info.kwarc.mmt.api.objects._
-import info.kwarc.mmt.api.presentation.{RenderingHandler, StructurePresenter}
 import info.kwarc.mmt.api.symbols.{Constant, Declaration, HasType, PlainInclude}
 import info.kwarc.mmt.api.uom.SimplificationUnit
-import info.kwarc.mmt.lf.{ApplySpine, Lambda}
-import latin2.sfol.CommonSymbols.DedList
+import info.kwarc.mmt.lf.{ApplyGeneral, ApplySpine, FunTerm, FunType, Lambda}
 import latin2.sfol.SFOLPatterns.{FuncDecl, PredDecl, TypeDecl}
+import leo.datastructures.TPTP.Comment.{CommentFormat, CommentType}
 import leo.datastructures.TPTP.THF.{FunTyConstructor, FunctionTerm}
-import leo.datastructures.TPTP.{AnnotatedFormula, Include, Problem, THF, THFAnnotated}
+import leo.datastructures.TPTP.{AnnotatedFormula, Comment, Include, Problem, THF, THFAnnotated}
 import lf.Conjunction.and
 import lf.Disjunction.or
 import lf.Equivalence.equiv
@@ -24,6 +22,7 @@ import lf.SFOLEQ.notequal
 import lf.{InternalPropositions, SimpleFunctionTypes}
 import lf.SimpleFunctions.{simpapply, simplambda}
 import lf.TypedEquality.tequal
+import lf.TypedTerms.tm
 import lf.TypedUniversalQuantification.tforall
 
 import scala.collection.mutable.ArrayBuffer
@@ -41,7 +40,7 @@ object HOLExporter {
     }
     val axioms = ctx.mapVarDecls {
       case (ctx, vd: VarDecl) =>
-        translate_var_decl(vd, ctx)(ctrl)
+        translate_var_decl(p.module, vd, ctx)(ctrl)
     }.flatten.distinct
 
     formulas ++= axioms
@@ -49,34 +48,16 @@ object HOLExporter {
 
     val tptp_exporter = ctrl.extman.get(classOf[TPTPExporter]).head
 
-    Problem(includes.map(i => tptp_exporter.translate_include(p.module, i)).toSeq, formulas.toSeq)
+    Problem(includes.map(i => tptp_exporter.translate_include(p.module, i)).toSeq, formulas.toSeq, Map())
   }
 
   def exportStub(theory: Theory)(implicit ctrl: Controller): Problem = {
     export_theory(theory, Nil)
   }
 
-  def exportTPTP(ctx: Context, what: List[Term])(implicit ctrl: Controller): Problem = {
-    // walk through ctx, collect all axioms
-    // especially, upon IncludeVarDecls, recurse into referenced theory
-    val axioms = ctx.mapVarDecls {
-      case (_, vd@IncludeVarDecl(_, _, _)) =>
-        val path = vd.tp.get.toMPath
-        translate_theory_flattened(ctrl.getTheory(path))
-      case (ctx, vd: VarDecl) =>
-        translate_var_decl(vd, ctx)(ctrl)
-    }.flatten.distinct.map(x => if (x.role == "") { x.copy(role = "axiom") } else x)
-
-    val conjectures = what match {
-      case DedList(formulas) => formulas.map(f => THFAnnotated("Conjecture", "conjecture",  THF.Logical(translate_formula(f)), None))
-    }
-
-    Problem(List(), (axioms++conjectures))
-  }
-
   def export_theory_flattened(theory: Theory)(implicit ctrl: Controller): Problem = {
     val axioms = translate_theory_flattened(theory).distinct.map(x => if (x.role == "") { x.copy(role = "axiom") } else x)
-    Problem(List(), axioms)
+    Problem(List(), axioms, Map())
   }
 
   def translate_theory_flattened(theory: Theory)(implicit ctrl: Controller): List[THFAnnotated] = {
@@ -85,7 +66,7 @@ object HOLExporter {
 
   def export_theory(theory: Theory, includes: Seq[Include])(implicit ctrl: Controller): Problem = {
     val axioms = translate_theory(theory).map(x => if (x.role == "") { x.copy(role = "axiom") } else x)
-    Problem(includes, axioms)
+    Problem(includes, axioms, Map())
   }
 
   def translate_theory(theory: Theory)(implicit ctrl: Controller): List[THFAnnotated] = {
@@ -94,35 +75,64 @@ object HOLExporter {
 
   def funty_builder(in: List[THF.Formula], out: THF.Formula) = in.foldRight(out)((g, arg) => THF.BinaryFormula(FunTyConstructor, g, arg))
 
-  def translate_decl(name: LocalName, tp: Option[Term], df: Option[Term], ctx: Context)(implicit ctrl: Controller): List[THFAnnotated] = {
+  def translate_decl(path: GlobalName, tp: Option[Term], df: Option[Term], ctx: Context)(implicit ctrl: Controller): List[THFAnnotated] = {
     val simplicationUnit = SimplificationUnit(ctx, expandDefinitions = true, fullRecursion = true)
 
     val newTp = tp.map(ctrl.simplifier(_, simplicationUnit))
 
+    val name = path.name
 
     newTp match {
-      case Some(ded(formula)) =>
-        List(THFAnnotated(name.toString, "axiom", THF.Logical(translate_formula(formula)), None))
+      case Some(FunType(args, ded(formula))) => //axiom schemata, beweis vorhanden -> definiton kann ignoriert werden
+        /*val c = args.foldRight(formula){case ((name,ty),accu) => (name, ty) match {
+          case (Some(n), tm(a)) => tforall(a, Lambda(n, tm(a), accu))
+          case (None, ded(f)) => impl(f, accu)
+        }}*/
+        var c = formula
+        for((name, ty) <- args.reverse) {
+          (name, ty) match {
+            case (Some(n), tm(a)) => c = tforall(a, Lambda(n, tm(a), c))
+            case (None, ded(f)) => c = impl(f, c)
+            case _ => return List(THFAnnotated(path.toString, "axiom", THF.Logical(THF.FunctionTerm("$true", Nil)), None)) //TODO: Comment(CommentFormat.LINE, CommentType.NORMAL, "Unsupported:") comments map in implicit argument
+          }
+        }
+        List(THFAnnotated(name.toString, "axiom", THF.Logical(translate_formula(c)), None))
       case Some(TypeDecl(Nil))  =>
         List(THFAnnotated("type_" + name.toString, "type", THF.Typing("t_" + name.toString, THF.FunctionTerm("$tType", Nil)), None)) //is optional
-      case Some(PredDecl(in)) => //TODO: moved this up as -> bool matched on FuncDecl(Nil, OMID(out)) first?
-        List(THFAnnotated("type_" + name.toString, "type", THF.Typing("t_" + name.toString, in match {
-          case Nil => THF.FunctionTerm("$o", Nil)
-          case in => funty_builder(in.map(translate_formula), THF.FunctionTerm("$o", Nil))
-        }), None))
-      case Some(FuncDecl(Nil, OMID(out))) =>
-        List(THFAnnotated("type_" + name.toString, "type", THF.Typing("t_" + name.toString, THF.FunctionTerm("t_" + out.name.toString, Nil)), None))
-      case Some(FuncDecl(in, out)) =>
-        THFAnnotated("type_" + name.toString, "type", THF.Typing("t_" + name.toString, funty_builder(in.map(translate_formula), translate_formula(out))), None) :: List[THFAnnotated]()//:: (df.map(THFAnnotated("def_" + name.toString, "axiom", THF.QuantifiedFormula(THF.!, ))))
-      case _ => Nil
+      case newTp => definition_builder(newTp, path, name, df, ctx)
     }
   }
 
-  def translate_var_decl(vd: VarDecl, ctx: Context)(implicit ctrl: Controller): List[THFAnnotated] =
-    translate_decl(vd.name, vd.tp, vd.df, ctx)
+  def definition_builder(newTp: Option[Term], path: GlobalName, name: LocalName, df: Option[Term], ctx: Context)(implicit ctrl: Controller): List[THFAnnotated] = {
+    val (ty, inner) = newTp match {
+      case Some(PredDecl(in)) =>
+        (funty_builder(in.map(translate_formula), THF.FunctionTerm("$o", Nil)),
+        (args: List[(LocalName, Term)], d: Term) => equiv(ApplyGeneral(OMS(path), args.map(x => OMV(x._1))), d))
+      case Some(FuncDecl(in, out)) =>
+        (funty_builder(in.map(translate_formula), translate_formula(out)),
+        (args: List[(LocalName, Term)], d: Term) => tequal(out, ApplyGeneral(OMS(path), args.map(x => OMV(x._1))), d))
+      case _ => //No known definition -> Comment
+        return Nil//return THFAnnotated("")
+    }
+    val tpD = THFAnnotated("type_" + name.toString, "type", THF.Typing("t_" + name.toString, ty), None)
+    val dfT = df match {
+      case FunTerm(args, d) =>
+        val argssome = args.map(x => (Some(x._1),x._2))
+        Some(FunType(argssome, ded(inner(args, d))))
+      case _ => None
+    }
+    var dfD = translate_decl(path / "def", dfT, None, ctx)
+    assert(dfD.length <= 1)
+    dfD = dfD.map(x => x.copy(role = "definition"))
+
+    tpD :: dfD
+  }
+
+  def translate_var_decl(thy_path: MPath, vd: VarDecl, ctx: Context)(implicit ctrl: Controller): List[THFAnnotated] =
+    translate_decl(thy_path ? vd.name, vd.tp, vd.df, ctx)
 
   def translate_constant(c: Constant)(implicit ctrl: Controller): List[THFAnnotated] =
-    translate_decl(c.name, c.tp, c.df, Context(c.path.module))
+    translate_decl(c.path, c.tp, c.df, Context(c.path.module))
 
   def translate_formula(t: Term): THF.Formula = t match {
     case Lambda(v, ty, body) => THF.QuantifiedFormula(THF.^, Seq(("V_" + v.toPath, translate_formula(ty))), translate_formula(body))
@@ -131,6 +141,7 @@ object HOLExporter {
 
     case SimpleFunctionTypes.simpfun(a, b) => funty_builder(List(translate_formula(a)), translate_formula(b))
     case InternalPropositions.bool.term => THF.FunctionTerm("$o", Nil)
+    //TODO: Add term -> $i
     // TODO: product types, etc. still needed
 
     case tforall((ty, Lambda(v, _, body))) =>

@@ -40,12 +40,12 @@ object FOLExporter {
       case DedList(formulas) => formulas.map(f => FOFAnnotated("Conjecture", "conjecture",  FOF.Logical(translate_formula(f)), None))
     }
 
-    Problem(List(), (axioms++conjectures))
+    Problem(List(), (axioms++conjectures), Map())
   }
 
   def export_theory_flattened(theory: Theory)(implicit ctrl: Controller): Problem = {
     val axioms = translate_theory_flattened(theory).distinct.map(x => if (x.role == "") { x.copy(role = "axiom") } else x)
-    Problem(List(), axioms)
+    Problem(List(), axioms, Map())
   }
 
   def translate_theory_flattened(theory: Theory)(implicit ctrl: Controller): List[FOFAnnotated] = {
@@ -55,7 +55,7 @@ object FOLExporter {
   def export_theory(theory: Theory, includes: Seq[Include])(implicit ctrl: Controller): Problem = {
     val axioms = translate_theory(theory).map(x => if (x.role == "") { x.copy(role = "axiom") } else x)
 
-    Problem(includes, axioms)
+    Problem(includes, axioms, Map())
   }
 
   def translate_theory(theory: Theory)(implicit ctrl: Controller): List[FOFAnnotated] = {

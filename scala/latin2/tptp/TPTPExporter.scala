@@ -21,20 +21,25 @@ class TPTPExporter extends StructurePresenter { //TODO: does TPTPExporter have t
   override def exportTheory(thy : Theory, bf: BuildTask): Unit = {
     //TODO: check if FOL and SFOL at the same time
 
-    outputTo(getOutFileForModule(thy.path).get) {
-      if (controller.library.hasImplicit(HOL._path, thy.path)) {
-        println("detected HOL")
-        rh(HOLExporter.exportStub(thy)(controller).pretty + "\n")
-      } else if (controller.library.hasImplicit(SFOL._path, thy.path)) {
-        println("detected SFOL")
-        rh(SFOLExporter.exportStub(thy)(controller).pretty + "\n")
-      } else if (controller.library.hasImplicit(FOL._path, thy.path)) {
-        println("detected FOL")
-        rh(FOLExporter.exportStub(thy)(controller).pretty + "\n")
-      } else {
-        println("no known Logic detected")
+    var output_string = ""
+    if (controller.library.hasImplicit(HOL._path, thy.path)) {
+      println("detected HOL")
+      output_string = HOLExporter.exportStub(thy)(controller).pretty + "\n"
+    } else if (controller.library.hasImplicit(SFOL._path, thy.path)) {
+      println("detected SFOL")
+      output_string = SFOLExporter.exportStub(thy)(controller).pretty + "\n"
+    } else if (controller.library.hasImplicit(FOL._path, thy.path)) {
+      println("detected FOL")
+      output_string = FOLExporter.exportStub(thy)(controller).pretty + "\n"
+    } else {
+      println("no known Logic detected")
+    }
+    if (!output_string.isEmpty) {
+      outputTo(getOutFileForModule(thy.path).get) {
+        rh(output_string)
       }
     }
+
   }
 
   def combineStubs(p: GlobalName, ctx: Context, t: Term)(implicit ctrl: Controller): Option[Problem] = {
@@ -52,7 +57,7 @@ class TPTPExporter extends StructurePresenter { //TODO: does TPTPExporter have t
   def translate_include(home_path: MPath, in: MPath) : Include = {
     val home = getOutFileForModule(home_path).get
     val include = home.relativize(getOutFileForModule(in).get).toString
-    ((include, Seq()))
+    ((include, (Seq(), Seq())))
   }
 
   def exportProblem(problem: Problem, path: MPath) : String = {

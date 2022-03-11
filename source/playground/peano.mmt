@@ -10,6 +10,7 @@ fixmeta ?Meta ❚
 theory Peano =
     N : tp❙
     successor : tm (N → N)❙
+    test : tm N ⟶ (⊦ ∀ͭ[n: tm N] ¬(successor @ n =ͭ n))❙
 
     zero : tm N❙
 
@@ -20,7 +21,7 @@ theory Peano =
     axiom4 : ⊦ ∀ͭ[n: tm N] ∀ͭ[m: tm N] ((successor @ n =ͭ successor @ m) ⇒ (n =ͭ m))❙
 
     //Induction Axiom❙
-    axiom5 : ⊦ ∀ͭ[X: tm (N → bool)] (X @ zero ∧ ∀ͭ[n : tm N] (X @ n ⇒ X @ (successor @ n)) ⇒ ∀ͭ[x: tm N] X @ x)❙
+    axiom5 : ⊦ ∀ͭ[X: tm N → bool] X @ zero ∧ (∀ͭ[n : tm N] X @ n ⇒ X @ (successor @ n)) ⇒ ∀ͭ[x: tm N] X @ x❙
 
     // Conjecture forall x, x = 0 \/ (exists y, S y = x)❙
     //conj : ⊦ ☞latin:/?TypedEquality?tequal (tm N) zero zero❘ = ATP_PROOF ☞latin:/?TypedEquality?tequal (tm N) zero zero❙
