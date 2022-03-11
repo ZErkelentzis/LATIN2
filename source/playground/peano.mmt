@@ -1,13 +1,7 @@
 namespace latin:/playground/tptp-exporter ❚
 rule scala://parser.api.mmt.kwarc.info?MMTURILexer ❚
 
-theory Meta =
-  include ☞latin:/?HOLND❙
-  include ☞latin:/?PropositionsATP❙
-❚
-fixmeta ?Meta ❚
-
-theory Peano =
+theory Peano : latin:/?HOLND =
     N : tp❙
     successor : tm (N → N)❙
 
@@ -22,13 +16,6 @@ theory Peano =
     //Induction Axiom❙
     axiom5 : ⊦ ∀ͭ[X: tm (N → bool)] (X @ zero ∧ ∀ͭ[n : tm N] (X @ n ⇒ X @ (successor @ n)) ⇒ ∀ͭ[x: tm N] X @ x)❙
 
-    // Conjecture forall x, x = 0 \/ (exists y, S y = x)❙
-    //conj : ⊦ ☞latin:/?TypedEquality?tequal (tm N) zero zero❘ = ATP_PROOF ☞latin:/?TypedEquality?tequal (tm N) zero zero❙
-
-    conj : ⊦ ☞latin:/?TypedUniversalQuantification?tforall N [x: tm N] (
-        (☞latin:/?TypedEquality?tequal N x zero) ∨
-        (☞latin:/?TypedExistentialQuantification?texists N [y: tm N] (
-            ☞latin:/?TypedEquality?tequal N (successor @ y) x
-        ))
-    )❙
+    // Conjecture❙
+    conj : ⊦ zero =ͭ (successor zero) ❘ = PROVE❙
 ❚
