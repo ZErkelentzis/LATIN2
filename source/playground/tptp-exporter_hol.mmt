@@ -1,0 +1,70 @@
+namespace latin:/playground/tptp-exporter ❚
+rule scala://parser.api.mmt.kwarc.info?MMTURILexer ❚
+
+theory Meta =
+  include ☞latin:/?HOLND❙
+  include ☞latin:/?PropositionsATP❙
+❚
+fixmeta ?Meta ❚
+
+theory Todo =
+    equalConstant : {A} tm A → (A → bool)❘= [A]λ[x]λ[y]x =ͭ y❙
+
+    example1 = [F: prop] ☞latin:/?ImplicationNDI?implI F F [pfF: ⊦ F] ATP_PROOF F ❙ // original ❙
+    // example1 : {F} ⊦ F ⇒ F ❘ = [F: prop] implI [pfF: ⊦ F] ATP_PROOF F ❙ // works ❙
+    // example1 : {F} ⊦ F ⇒ F ❘= [F: prop] implI [pfF: ⊦ F] ATP_PROOF ❙ // doesn't work ❙
+❚
+
+
+// http://www.tptp.org/Seminars/TPTPWorldTutorial/LogicTHF.html
+
+Problem
+    Axioms
+        Coffee is a beverage.
+        A heated beverage is a beverage.
+        A mixture of a beverage with a syrup is a beverage.
+        A heated mix is the application of heat to the mixture of a beverage with a syrup.
+        A heated mixture is hot!
+        A heated mixture of coffee and any syrup is still coffee.
+    Conjecture
+        There is something that when mixed with any syrup results in hot coffee.
+
+In logic
+    Type information
+        beverage is a type
+        syrup is a type
+        coffee is a beverage
+        mix takes a beverage and a syrup argument and returns a beverage
+        heat takes a beverage argument and returns a beverage
+        heated_mix takes a beverage and a syrup argument and returns a beverage
+        hot takes a beverage argument and returns boolean
+    Axioms
+        heated_mix = λ B:beverage,S:syrup (heat (mix B S))
+        ∀ B:beverage ∀ S:syrup (hot (heated_mix B S))
+        ∀ S:syrup (heated_mix coffee S) = coffee
+    Conjecture
+        ∃ M:syrup > beverage ∀ S:syrup (M S) = coffee ∧ (hot (M S))
+❚
+
+theory Example =
+    beverage : tp❙
+    syrup : tp❙
+
+    coffee : tm beverage❙
+
+    mix : tm (beverage → syrup → beverage)❙
+    heat : tm (beverage → beverage)❙
+    //includes axiom1❙
+    heated_mix : tm (beverage → syrup → beverage) ❘ = λ[b: tm beverage] λ[s: tm syrup] (heat @ (mix @ b @ s))❙
+    hot : tm (beverage → bool)❙
+
+    axiom2 : ⊦ ∀ͭ[b: tm beverage] ∀ͭ[s: tm syrup] (hot @ (heated_mix @ b @ s))❙
+    axiom3 : ⊦ ∀ͭ[s: tm syrup] heated_mix @ coffee @ s =ͭ coffee❙
+
+    //conj : ⊦ ∃ͭ[m: tm (syrup → beverage)] ∀ͭ[s: tm syrup] ((m @ s) =ͭ coffee) ∧ (hot @ (m @ s))❘ = ATP_PROOF (⊦ ∃ͭ[m: tm (syrup → beverage)] ∀ͭ[s: tm syrup] ((m @ s) =ͭ coffee) ∧ (hot @ (m @ s)))❙
+    //At least compiles without: (∃[m: tm (syrup → beverage)] ∀[s: tm syrup] ((m @ s) ≐ coffee) ∧ (hot @ (m @ s)))❙
+
+    //V_ and t_ prefix the same? see example, where they are different❙
+❚
+
+//TODO: Build MMT with ATP_PROOF to see Type Check Result❚

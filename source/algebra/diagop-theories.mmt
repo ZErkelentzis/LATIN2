@@ -60,12 +60,12 @@ theory Graph =
 theory Monoid =
   include ?Magma ❙
   e: tm U ❙
-  neutrality: ⊦ ∀ [x] x ∘ e ≐ x ❙
+  neutrality: ⊦ ∀ͭ [x] x ∘ e =ͭ x ❙
 ❚
 
 theory Commutative =
   include ?Magma ❙
-  comm_ax : ⊦ ∀[x]∀[y] x∘y ≐ y∘x❙
+  comm_ax : ⊦ ∀ͭ[x]∀ͭ[y] x∘y =ͭ y∘x❙
 ❚
 
 view OppositeMagma : ?Magma → ?Magma =
@@ -75,7 +75,7 @@ view OppositeMagma : ?Magma → ?Magma =
 
 theory Idempotent =
   include ?Magma ❙
-  idem_ax: ⊦ ∀[x] x∘x ≐ x ❙
+  idem_ax: ⊦ ∀ͭ[x] x∘x =ͭ x ❙
 ❚
 
 view OppositeCommMagma : ?Commutative → ?Commutative =
@@ -86,23 +86,23 @@ view OppositeCommMagma : ?Commutative → ?Commutative =
 
 theory PowerAssociative =
   include ?Magma ❙
-  power_assoc : ⊦ ∀[x] (x∘x)∘x ≐ x∘(x∘x)❙
+  power_assoc : ⊦ ∀ͭ[x] (x∘x)∘x =ͭ x∘(x∘x)❙
 ❚
 
 theory Semigroup =
   include ?Magma ❙
-  assoc_ax : ⊦ ∀[x]∀[y]∀[z] (x∘y)∘z ≐ x∘(y∘z)❙
+  assoc_ax : ⊦ ∀ͭ[x]∀ͭ[y]∀ͭ[z] (x∘y)∘z =ͭ x∘(y∘z)❙
 
-  assoc: {x,y,z} ⊦ (x∘y)∘z ≐ x∘(y∘z)❘
-       = [x,y,z] assoc_ax forallE x forallE y forallE z❙
-  assocR: {x,y,z} ⊦ x∘(y∘z) ≐ (x∘y)∘z❘
-        = [x,y,z] assoc sym❙
-  assoc4:  {w,x,y,z} ⊦ ((w∘x)∘y)∘z ≐ w∘(x∘(y∘z))❘
-        =  [w,x,y,z] trans3 (assoc congT [u]u∘z) assoc (assoc congT [u]w∘u)❙
-  assoc4R: {w,x,y,z} ⊦ w∘(x∘(y∘z)) ≐ ((w∘x)∘y)∘z❘
-          = [w,x,y,z] assoc4 sym❙
-  assoc5: {v,w,x,y,z} ⊦ (((v∘w)∘x)∘y)∘z ≐ v∘(w∘(x∘(y∘z)))❘
-        = [v,w,x,y,z] trans4 (assoc4 congT [u]u∘z) assoc
+  assoc: {x,y,z} ⊦ (x∘y)∘z =ͭ x∘(y∘z)❘
+       = [x,y,z] assoc_ax tforallE x tforallE y tforallE z❙
+  assocR: {x,y,z} ⊦ x∘(y∘z) =ͭ (x∘y)∘z❘
+        = [x,y,z] assoc tsym❙
+  assoc4:  {w,x,y,z} ⊦ ((w∘x)∘y)∘z =ͭ w∘(x∘(y∘z))❘
+        =  [w,x,y,z] ttrans3 (assoc congT [u]u∘z) assoc (assoc congT [u]w∘u)❙
+  assoc4R: {w,x,y,z} ⊦ w∘(x∘(y∘z)) =ͭ ((w∘x)∘y)∘z❘
+          = [w,x,y,z] assoc4 tsym❙
+  assoc5: {v,w,x,y,z} ⊦ (((v∘w)∘x)∘y)∘z =ͭ v∘(w∘(x∘(y∘z)))❘
+        = [v,w,x,y,z] ttrans4 (assoc4 congT [u]u∘z) assoc
                              (assoc congT [u]v∘u) (assoc congT [u]v∘(w∘u))❙
 ❚
 

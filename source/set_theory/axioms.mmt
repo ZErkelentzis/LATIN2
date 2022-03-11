@@ -1,119 +1,147 @@
 namespace latin:/❚
 
-fixmeta ?SetFOL❚
-
-// TODO:
-	- TODOs in theories
-	- check whether everything is right
-	- maybe add more axioms for TG, NBG and more?
-❚
-
-theory ExtensionalityAx =
-	// Two sets A and B are equal iff they have the same elements❙
-	include ?ExtensionalityDefinition❙
-	
-	extensionality_axiom : {A,B} ⊦ isextensional A B❙	
-	extensionalityI : {A,B} ({x} ⊦ x∈A ⇔ x∈B) ⟶ ⊦ A≐B❙
-	extensionalityE : {A,B} ⊦ A≐B ⟶ {x} ⊦ x∈A ⇔ x∈B❘# 3 extensionalityE❙ 
-❚
-
-// AS: Set existence was defined as UniverseNonEmpty; 
-		Do I need to declare it again?
-		I did a theory, just to be safe❚
-theory ExistenceAx =
-	// There exists at least one set❙
-	existence_axiom : ⊦ ∃[A] true❙
-	
-	// AS : I can't think of meaningful introduction and elimination rules❙
-❚
+fixmeta ?DependentFOLEQDescND❚
 
 theory PairingAx =
-	// The unordered pair {A,B} consists of exactly the two elements A and B❙
-	include ?UnorderedPairDefinition❙
-	
-	pairing_axiom : {A,B} ⊦ ∃[Z] isuopair A B Z❙
-	pairing_unique : {A,B} ⊦ ∃¹[Z] isuopair A B Z❘ // = _ ❙
-	pairingAxI : {A,B,Z,x} ⊦ x≐A ∨ x≐B ⟶ ⊦ x∈Z❙
-	pairingAxE : {A,B,Z,x} ⊦ x∈Z ⟶ ⊦ x≐A ∨ x≐B❘# 5 pairingAxE 1 2❙
+  include ?SetBase❙
+  
+  // The unordered pair {A,B} consists of exactly the two elements A and B❙
+  isuopair = [A,B,Z] ∀ͧ[x] x∈Z ⇔ x =ͧ A ∨ x =ͧ B❙
+
+  pairing_axiom : {A,B} ⊦ ∃ͧ[Z] isuopair A B Z❙
+  pairing_unique : {A,B} ⊦ ∃ꜝͧ[Z] isuopair A B Z❘ 
+    = [A,B] pairing_axiom uexistsE ([z,pz] uexistsUniqueI pz
+      ([y,py] extensionalityI ([x] (pz uforallE x) equiv_equivalence/trans
+      (equiv_equivalence/sym (py uforallE x)))))❙
+  pairingAxI : {A,B,Z,x} ⊦ isuopair A B Z ⟶ ⊦ x =ͧ A ∨ x =ͧ B ⟶ ⊦ x∈Z❘
+    = [A,B,Z,x,p,q] p uforallE x equivEr q❙
+  pairingAxE : {A,B,Z,x,C} ⊦ isuopair A B Z ⟶ ⊦ x∈Z ⟶ (⊦ x =ͧ A ⟶ ⊦ C) ⟶ (⊦ x =ͧ B ⟶ ⊦ C) ⟶ ⊦ C❘# 7 pairingAxE 6 8 9❘
+    = [A,B,Z,x,C,p,q,pa,pb] p uforallE x equivEl q orE pa pb❙
 ❚
 
 theory UnionAx =
-	// The big union of a family of sets A consists of all the elements x of its sets X.❙
-	include ?BigUnionDefinition❙
-	
-	union_axiom : {A} ⊦ ∃[Z] isbigunion A Z❙
-	union_unique : {A} ⊦ ∃¹[Z] isbigunion A Z❘ // = _ ❙
-	unionAxI : {A,Z,X,x} ⊦ X∈A ⟶ ⊦ x∈X ⟶ ⊦ x∈Z❙
-	unionAxE : {A,Z,x} ⊦ x∈Z ⟶ ⊦ ∃[X] X∈A ∧ x∈X❘# 4 unionAxE 1❙
+  include ?SetBase❙
+  
+  // The big union of a family of sets A consists of all the elements x of its sets X.❙
+  isbigunion = [A,Z] ∀ͧ[x] x∈Z ⇔ ∃ͧ[X] X∈A ∧ x∈X❙
+
+  union_axiom : {A} ⊦ ∃ͧ[Z] isbigunion A Z❙
+  union_unique : {A} ⊦ ∃ꜝͧ[Z] isbigunion A Z❘
+    = [A] union_axiom uexistsE ([z,pz] uexistsUniqueI pz
+      ([y,py] extensionalityI ([x] (pz uforallE x) equiv_equivalence/trans
+      (equiv_equivalence/sym (py uforallE x)))))❙
+  unionAxI : {A,Z,X,x} ⊦ isbigunion A Z ⟶ ⊦ X∈A ⟶ ⊦ x∈X ⟶ ⊦ x∈Z❘
+    = [A,Z,X,x,p,pa,pb] p uforallE x equivEr (uexistsI X (andI pa pb))❙
+  unionAxE : {A,Z,x} ⊦ isbigunion A Z ⟶ ⊦ x∈Z ⟶ ⊦ ∃ͧ[X] X∈A ∧ x∈X❘# 5 unionAxE 4❘
+    = [A,Z,x,p,q] p uforallE x equivEl q❙
 ❚
 
 theory PowersetAx =
-	// Each subset B of the set A is an element of the powerset Z❙
-	include ?PowerSetDefinition❙
-	
-	powerset_axiom : {A} ⊦ ∃[Z] ispowerset A Z❙
-	powerset_unique : {A} ⊦ ∃¹[Z] ispowerset A Z❘ // = _ ❙
-	
-	// AS: This definition is dependent on ⪽. So maybe use the alternative definition.❙
-	// powersetAxI : {A,B,Z} ⊦ B⪽A ⟶ ⊦ B∈Z❙
-	// powersetAxE : {A,B,Z} ⊦ B∈Z ⟶ ⊦ B⪽A❘// # 4 powersetAxE❙
-	
-	// Alternative definition❙
-	powersetAxI : {A,B,Z} ({x} ⊦ x∈B ⇒ x∈A) ⟶ ⊦ B∈Z❙
-	powersetAxE : {A,B,Z} ⊦ B∈Z ⟶ {x} ⊦ x∈B ⇒ x∈A❘# 4 powersetAxE 5❙
+  include ?SetBase❙
+  
+  // Each subset B of the set A is an element of the powerset Z❙
+  ispowerset = [A,Z] ∀ͧ[B] B∈Z ⇔ (∀ͧ[x] x∈B ⇒ x∈A)❙
+
+  powerset_axiom : {A} ⊦ ∃ͧ[Z] ispowerset A Z❙
+  powerset_unique : {A} ⊦ ∃ꜝͧ[Z] ispowerset A Z❘
+    = [A] powerset_axiom uexistsE ([z,pz] uexistsUniqueI pz
+      ([y,py] extensionalityI ([B] (pz uforallE B) equiv_equivalence/trans
+      (equiv_equivalence/sym (py uforallE B)))))❙
+  powersetAxI : {A,B,Z} ⊦ ispowerset A Z ⟶ ({x} ⊦ x∈B ⇒ x∈A) ⟶ ⊦ B∈Z❘
+    = [A,B,Z,p,q] p uforallE B equivEr (uforallI q)❙
+  powersetAxE : {A,B,Z} ⊦ ispowerset A Z ⟶ ⊦ B∈Z ⟶ {x} ⊦ x∈B ⇒ x∈A❘# 5 powersetAxE 4 6❘
+    = [A,B,Z,p,q,x] p uforallE B equivEl q uforallE x❙
 ❚
 
 theory ComprehensionAx =
-	// The resulting set consists of all elements x of A that satisfy predicate P❙
-	include ?ComprehensionDefinition❙
-	
-	comprehension_axiom : {A,P} ⊦ ∃[Z] iscomprehension A P Z❙
-	comprehension_unique : {A,P} ⊦ ∃¹[Z] iscomprehension A P Z❘ // = _ ❙
-	comprehensionAxI : {A,P,Z,x} ⊦ x∈A ⟶ ⊦ P x ⟶ ⊦ x∈Z❙
-	comprehensionAxEl : {A,Z,x} ⊦ x∈Z ⟶ ⊦ x∈A❘# 4 comprehensionAxEl❙
-	comprehensionAxEr : {P,Z,x} ⊦ x∈Z ⟶ ⊦ P x❘# 4 comprehensionAxEr 1❙
+  include ?SetBase❙
+  
+  // The resulting set consists of all elements x of A that satisfy predicate P❙
+  iscomprehension = [A,P,Z] ∀ͧ[x] x∈Z ⇔ x∈A ∧ (P x)❙
+
+  comprehension_axiom : {A,P} ⊦ ∃ͧ[Z] iscomprehension A P Z❙
+  comprehension_unique : {A,P} ⊦ ∃ꜝͧ[Z] iscomprehension A P Z❘
+    = [A,P] comprehension_axiom uexistsE ([z,pz] uexistsUniqueI pz
+      ([y,py] extensionalityI ([x] (pz uforallE x) equiv_equivalence/trans
+      (equiv_equivalence/sym (py uforallE x)))))❙
+  comprehensionAxI : {A,P,Z,x} ⊦ iscomprehension A P Z ⟶ ⊦ x∈A ⟶ ⊦ P x ⟶ ⊦ x∈Z❘
+    = [A,P,Z,x,p,pa,pb] p uforallE x equivEr (andI pa pb)❙
+  comprehensionAxEl : {A,P,Z,x} ⊦ iscomprehension A P Z ⟶ ⊦ x∈Z ⟶ ⊦ x∈A❘# 6 comprehensionAxEl 5❘
+    = [A,P,Z,x,p,q] p uforallE x equivEl q andEl❙
+  comprehensionAxEr : {A,P,Z,x} ⊦ iscomprehension A P Z ⟶ ⊦ x∈Z ⟶ ⊦ P x❘# 6 comprehensionAxEr 5❘
+    = [A,P,Z,x,p,q] p uforallE x equivEl q andEr❙
 ❚
 
 theory ReplacementAx =
-	// The resulting set is a replacement for A regarding function F❙
-	include ?ReplacementDefinition❙
-	
-	replacement_axiom : {A,F} ⊦ ∃[Z] isreplacement A F Z❙
-	replacement_unique : {A,F} ⊦ ∃¹[Z] isreplacement A F Z❘ // = _ ❙
-	replacementAxI : {A,F,Z,x} ⊦ x∈A ⟶ ⊦ (F x)∈Z❘# replacementAxI 2 5❙
-	replacementAxE : {A,F,Z,y,C} ⊦ y∈Z ⟶ ({x} ⊦x∈A ⟶ ⊦ F x ≐ y ⟶ ⊦C) ⟶ ⊦C❘# 6 replacementAxE 1 2 7❙ 
+  include ?SetBase❙
+  include ?RelationDefinitions❙
+  
+  // The resulting set is a replacement for A regarding function f❙
+  isreplacement = [f,A,Z] ∀ͧ[y] y∈Z ⇔ (∃ͧ[x] x∈A ∧ f x y)❙  
+
+  replacement_axiom : {f} ⊦ ∀ͧ[A] isfunction f A ⇒ ∃ͧ[Z] isreplacement f A Z❙
+  replacement_unique : {f,A} ⊦ isfunction f A ⟶ ⊦ ∃ꜝͧ[Z] isreplacement f A Z❘
+    = [f,A,p] replacement_axiom uforallE A implE p uexistsE ([z,pz] uexistsUniqueI pz
+      ([y,py] extensionalityI ([x] (pz uforallE x) equiv_equivalence/trans
+      (equiv_equivalence/sym (py uforallE x)))))❙
+  // AS: do I need isfunction f A here?❙
+  replacementAxI : {f,A,Z,y} ⊦ isfunction f A ⟶ ⊦ isreplacement f A Z ⟶ ⊦ (∃ͧ[x] x∈A ∧ f x y) ⟶ ⊦ y∈Z❘
+    = [f,A,Z,y,pf,pr,q] pr uforallE y equivEr q❙
+  replacementAxE : {f,A,Z,y,C} ⊦ isfunction f A ⟶ ⊦ isreplacement f A Z ⟶ ⊦ y∈Z ⟶ ({x} ⊦ x∈A ⟶ ⊦ f x y ⟶ ⊦C) ⟶ ⊦C❘# 8 replacementAxE 6 7 9❘
+    = [f,A,Z,y,C,pf,pr,q,Q] pr uforallE y equivEl q uexistsE ([x,px] Q x (px andEl) (px andEr))❙ 
 ❚
 
 theory RegularityAx =
-	// Every set has a "smallest" element❙
-	include ?RegularityDefinition❙
-	
-	regularity_axiom : ⊦ isregular❙
-	regularityI : {A} ⊦ (∃[u] u∈A) ⟶ ⊦ ∃[B] B∈A ∧ ¬(∃[x] x∈A ∧ x∈B)❙
-	// AS: this is probably unnecessary❙
-	regularityE : {A} ⊦ (∃[B] B∈A ∧ ¬(∃[x] x∈A ∧ x∈B)) ⟶ ⊦ ∃[u] u∈A❘# 2 regularityE❙
+  include ?SetBase❙
+  
+  // Every set has a "smallest" element❙
+  isregular = ∀ͧ[A](∃ͧ[u] u∈A) ⇒ ∃ͧ[B] B∈A ∧ ¬(∃ͧ[x] x∈A ∧ x∈B)❙
+
+  regularity_axiom : ⊦ isregular❙
+❚
+
+// AS: These are special cases of regularity. Maybe it should be moved to a file
+  containing features, but for now there is no suitable file❚
+theory Acyclic =
+  include ?SetBase❙
+  
+  in_acyclic : {A,B} ⊦ A∈B ⟶ ⊦ B∈A ⟶ ⊦ ⊥❙
+  in_acyclic0 : {A} ⊦ A∈A ⟶ ⊦ ⊥❘
+    = [A,p] in_acyclic p p❙
 ❚
 
 theory InfinityAx =
-	// There exists an infinite set containing ∅ and all successors of elements of its set.❙
-	include ?InfinityDefinition❙
-	
-	infinity_axiom : ⊦ ∃[A] isinfinite A❙
-	// AS: is it possible to define introduction and elimination rules here that make sense?
-		Maybe, if I do it similar to choice❙
+  // There exists an successor set A containing ∅ and for every element x of A, the successor
+    of x is a member of A as well.❙
+  include ?EmptySet❙
+
+  // abstract successor function s❙
+  issuccset = [s : set ⟶ set,A] ∅∈A ∧ ∀ͧ[x] x∈A ⇒ (s x)∈A❙
+
+  infinity_axiom : {s} ⊦ ∃ͧ[A] issuccset s A❙
 ❚
 
 theory ChoiceAx =
-	// There exists a set C with an unique element c that each set X of M has in common❙
-	include ?ChoiceDefinition❙
-	
-	// abstract functions❙
-	all_nonempty: set ⟶ prop❘ // = ❙
-  // AS: maybe define this in BigIntersection❙
-  pairwise_disjoint: set ⟶ prop❘ // = ❙
+  include ?SetBase❙
+  include ?EmptyDefinitions❙
+  include ?DisjointDefinitions❙
+
+  // AS: to fulfill pw_disjoint this definition has probably to be changed to
+    ischoice = [A,C] ∀ͧ[X] X∈A ⇒ (∃ꜝͧ[c] c∈C ⇒ c∈X)❙
+  // There exists a set C that shares an unique element c with each set X of A❙
+  ischoice = [A,C] ∀ͧ[X] X∈A ⇒ ∃ꜝͧ[c]c∈C∧c∈X❙
+
+  // AS: Halmos (p60) gives this definition. all_nonempty might be enough❙
+  choice_axiom : ⊦ ∀ͧ[A] (all_nonempty A ∧ ispwdisjoint A) ⇒ ∃ͧ[C] ischoice A C❙
   
-  choice_axiom : ⊦ ∀[A] (all_nonempty A ∧ pairwise_disjoint A) ⇒ ∃[C] ischoice A C❙
-  choiceI : {A} ⊦ all_nonempty A ⟶ ⊦ pairwise_disjoint A ⟶ ⊦ ∃[C] ischoice A C❙
-  choiceEl : {A} ⊦ (∃[C] ischoice A C) ⟶ ⊦ all_nonempty A❘# 2 choiceEl❙
-  choiceEr : {A} ⊦ (∃[C] ischoice A C) ⟶ ⊦ pairwise_disjoint A❘# 2 choiceEr❙
+  choiceI : {A} ⊦ all_nonempty A ⟶ ⊦ ispwdisjoint A ⟶ ⊦ ∃ͧ[C] ischoice A C❘
+    = [A,ne,pw] choice_axiom uforallE A implE (andI ne pw)❙
+  choiceE : {A} ⊦ (∃ͧ[C] ischoice A C) ⟶ ⊦ all_nonempty A❘# 2 choiceEl❘
+    = [A,p] all_nonemptyI ([X,pa] p uexistsE ([C,pb] pb uforallE X implE pa uexistsUniqueE 
+      ([c,q,Q] uexistsI c (q andEr))))❙
+  // AS: this proof is not be possible, since two sets A and B can have the same element❙
+  // choiceEr : {A} ⊦ (∃ͧ[C] ischoice A C) ⟶ ⊦ ispwdisjoint A❘// # 2 choiceEr❙
+    // = [A,p] ispwdisjointI ([X,Y,pa] tnd orE ([qa] qa orIl)
+      ([qb] p uexistsE ([C,pb] aredisjointI ([x] notI ([pf] pb uforallE X implE (pa andEl)
+      uexistsUniqueE ([c,pc,Q] ❙
 ❚

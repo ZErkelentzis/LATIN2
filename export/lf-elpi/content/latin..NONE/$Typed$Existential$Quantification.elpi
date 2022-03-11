@@ -1,6 +1,0 @@
-accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Typed$Logic".
-
-/* generated from exists : {A}(tm A⟶prop)⟶prop */
-
-/* type exists pi (A \ tm A -> prop -> prop). */
-

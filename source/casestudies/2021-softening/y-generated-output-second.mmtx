@@ -1,0 +1,330 @@
+theory HProd_comptrans_pushout : latin:/casestudies/softening2021?Meta  =
+	include ☞latin:/casestudies/softening2021?Proofs_comptrans ❙
+	include ☞latin:/casestudies/softening2021?Proofs ❙
+	include ☞latin:/casestudies/softening2021?STyped ❙
+	prod/m
+		: tp⟶(tp⟶tp)
+		❘ meta sourceRef uri"latin:/casestudies/softening2021/2-hardtyped-library.mmt#182.8.2:211.8.31"
+		❘ meta TypeLevel type
+	❙
+	pair/m
+		: {A/m:tp,B/m:tp}term⟶(term⟶term)
+		❘ meta sourceRef uri"latin:/casestudies/softening2021/2-hardtyped-library.mmt#215.9.2:262.9.49"
+		❘ meta TypeLevel type
+	❙
+	pair/r
+		: {A/m:tp,B/m:tp}{x⁰/m:term,x⁰/r:⊦x⁰/m⦂A/m,x¹/m:term,x¹/r:⊦x¹/m⦂B/m}⊦(pair/m A/m B/m x⁰/m x¹/m)⦂(prod/m A/m B/m)
+		❘ meta drop_args_keep drop_args_keep_all
+	❙
+	projL/m
+		: {A/m:tp,B/m:tp}term⟶term
+		❘ meta sourceRef uri"latin:/casestudies/softening2021/2-hardtyped-library.mmt#266.10.2:302.10.38"
+		❘ meta TypeLevel type
+	❙
+	projL/r
+		: {A/m:tp,B/m:tp}{x⁰/m:term,x⁰/r:⊦x⁰/m⦂(prod/m A/m B/m)}⊦(projL/m A/m B/m x⁰/m)⦂A/m
+		❘ meta drop_args_keep drop_args_keep_all
+	❙
+	projR/m
+		: {A/m:tp,B/m:tp}term⟶term
+		❘ meta sourceRef uri"latin:/casestudies/softening2021/2-hardtyped-library.mmt#306.11.2:342.11.38"
+		❘ meta TypeLevel type
+	❙
+	projR/r
+		: {A/m:tp,B/m:tp}{x⁰/m:term,x⁰/r:⊦x⁰/m⦂(prod/m A/m B/m)}⊦(projR/m A/m B/m x⁰/m)⦂B/m
+		❘ meta drop_args_keep drop_args_keep_all
+	❙
+
+❚
+
+view HProd_comptrans_pushout_view : latin:/casestudies/softening2021?HProd_comptrans  -> latin:/casestudies/softening2021?HProd_comptrans_pushout  =
+	include ☞latin:/casestudies/softening2021?HTyped_comptrans  ❘ ?TypePres❙
+	include ☞latin:/casestudies/softening2021?Meta  ❘ IDENTITY ?Meta❙
+	include ☞latin:/casestudies/softening2021?Proofs_comptrans  ❘ COMPOSE (IDENTITY ?Proofs_comptrans);?TypePres❙
+	prod/m
+		= prod/m
+	❙
+	pair/m
+		= pair/m
+	❙
+	pair/r
+		= pair/r
+	❙
+	projL/m
+		= projL/m
+	❙
+	projL/r
+		= projL/r
+	❙
+	projR/m
+		= projR/m
+	❙
+	projR/r
+		= projR/r
+	❙
+
+❚
+
+theory HEqual_comptrans_pushout : latin:/casestudies/softening2021?Meta  =
+	include ☞latin:/casestudies/softening2021?Proofs_comptrans ❙
+	include ☞latin:/casestudies/softening2021?Proofs ❙
+	include ☞latin:/casestudies/softening2021?STyped ❙
+	eq/m
+		: {A/m:tp}term⟶(term⟶prop)
+		❘ meta drop_args_keep drop_args_keep_specific 1
+		❘ meta sourceRef uri"latin:/casestudies/softening2021/2-hardtyped-library.mmt#386.17.2:538.20.2"
+		❘ meta TypeLevel type
+	❙
+	refl/r
+		: {A/m:tp,x/m:term,x/r:⊦x/m⦂A/m}⊦(eq/m A/m x/m x/m)
+		❘ meta drop_args_keep drop_args_keep_all
+	❙
+	eqsub/r
+		: {A/m:tp,x/m:term,x/r:⊦x/m⦂A/m,y/m:term,y/r:⊦y/m⦂A/m}{x⁰/r:⊦(eq/m A/m x/m y/m),F/m:term⟶prop,x²/r:⊦(F/m x/m)}⊦(F/m y/m)
+		❘ meta drop_args_keep drop_args_keep_all
+	❙
+	sym/r
+		: {A/m:tp,x/m:term,x/r:⊦x/m⦂A/m,y/m:term,y/r:⊦y/m⦂A/m}{x⁰/r:⊦(eq/m A/m x/m y/m)}⊦(eq/m A/m y/m x/m)
+		❘ = [A/m:tp,x/m:term,x/r:⊦x/m⦂A/m,y/m:term,y/r:⊦y/m⦂A/m,p/r:⊦(eq/m A/m x/m y/m)]eqsub/r A/m x/m x/r y/m y/r p/r ([u/m:term]eq/m A/m u/m x/m) (refl/r A/m x/m x/r)
+		❘ meta drop_args_keep drop_args_keep_all
+	❙
+	trans/r
+		: {A/m:tp,x/m:term,x/r:⊦x/m⦂A/m,y/m:term,y/r:⊦y/m⦂A/m,z/m:term,z/r:⊦z/m⦂A/m}{x⁰/r:⊦(eq/m A/m x/m y/m),x¹/r:⊦(eq/m A/m y/m z/m)}⊦(eq/m A/m x/m z/m)
+		❘ = [A/m:tp,x/m:term,x/r:⊦x/m⦂A/m,y/m:term,y/r:⊦y/m⦂A/m,z/m:term,z/r:⊦z/m⦂A/m,p/r:⊦(eq/m A/m x/m y/m),q/r:⊦(eq/m A/m y/m z/m)]eqsub/r A/m y/m y/r z/m z/r q/r ([u/m:term]eq/m A/m x/m u/m) p/r
+		❘ meta drop_args_keep drop_args_keep_all
+	❙
+
+❚
+
+view HEqual_comptrans_pushout_view : latin:/casestudies/softening2021?HEqual_comptrans  -> latin:/casestudies/softening2021?HEqual_comptrans_pushout  =
+	include ☞latin:/casestudies/softening2021?HTyped_comptrans  ❘ ?TypePres❙
+	include ☞latin:/casestudies/softening2021?Meta  ❘ IDENTITY ?Meta❙
+	include ☞latin:/casestudies/softening2021?Proofs_comptrans  ❘ COMPOSE (IDENTITY ?Proofs_comptrans);?TypePres❙
+	eq/m
+		= eq/m
+	❙
+	refl/r
+		= refl/r
+	❙
+	eqsub/r
+		= eqsub/r
+	❙
+	sym/r
+		= sym/r
+	❙
+	trans/r
+		= trans/r
+	❙
+
+❚
+
+theory HFun_comptrans_pushout : latin:/casestudies/softening2021?Meta  =
+	include ☞latin:/casestudies/softening2021?Proofs_comptrans ❙
+	include ☞latin:/casestudies/softening2021?Proofs ❙
+	include ☞latin:/casestudies/softening2021?STyped ❙
+	include ☞latin:/casestudies/softening2021?HEqual_comptrans_pushout ❙
+	fun/m
+		: tp⟶(tp⟶tp)
+		❘ meta sourceRef uri"latin:/casestudies/softening2021/2-hardtyped-library.mmt#925.32.2:952.32.29"
+		❘ meta TypeLevel type
+	❙
+	lam/m
+		: {A/m:tp,B/m:tp}(term⟶term)⟶term
+		❘ meta drop_args_keep drop_args_keep_specific 1
+		❘ meta sourceRef uri"latin:/casestudies/softening2021/2-hardtyped-library.mmt#956.33.2:1115.36.2"
+		❘ meta TypeLevel type
+	❙
+	lam/r
+		: {A/m:tp,B/m:tp}{x⁰/m:term⟶term,x⁰/r:{x⁰/m:term,x⁰/r:⊦x⁰/m⦂A/m}⊦(x⁰/m x⁰/m)⦂B/m}⊦(lam/m A/m B/m x⁰/m)⦂(fun/m A/m B/m)
+		❘ meta drop_args_keep drop_args_keep_all
+	❙
+	app/m
+		: {A/m:tp,B/m:tp}term⟶(term⟶term)
+		❘ meta sourceRef uri"latin:/casestudies/softening2021/2-hardtyped-library.mmt#1119.37.2:1169.37.52"
+		❘ meta TypeLevel type
+	❙
+	app/r
+		: {A/m:tp,B/m:tp}{x⁰/m:term,x⁰/r:⊦x⁰/m⦂(fun/m A/m B/m),x¹/m:term,x¹/r:⊦x¹/m⦂A/m}⊦(app/m A/m B/m x⁰/m x¹/m)⦂B/m
+		❘ meta drop_args_keep drop_args_keep_all
+	❙
+
+❚
+
+view HFun_comptrans_pushout_view : latin:/casestudies/softening2021?HFun_comptrans  -> latin:/casestudies/softening2021?HFun_comptrans_pushout  =
+	include ☞latin:/casestudies/softening2021?HTyped_comptrans  ❘ ?TypePres❙
+	include ☞latin:/casestudies/softening2021?Meta  ❘ IDENTITY ?Meta❙
+	include ☞latin:/casestudies/softening2021?Proofs_comptrans  ❘ COMPOSE (IDENTITY ?Proofs_comptrans);?TypePres❙
+	include ☞latin:/casestudies/softening2021?HEqual_comptrans  ❘ ?HEqual_comptrans_pushout_view❙
+	fun/m
+		= fun/m
+	❙
+	lam/m
+		= lam/m
+	❙
+	lam/r
+		= lam/r
+	❙
+	app/m
+		= app/m
+	❙
+	app/r
+		= app/r
+	❙
+
+❚
+
+theory HDepFun_comptrans_pushout : latin:/casestudies/softening2021?Meta  =
+	include ☞latin:/casestudies/softening2021?Proofs_comptrans ❙
+	include ☞latin:/casestudies/softening2021?Proofs ❙
+	include ☞latin:/casestudies/softening2021?STyped ❙
+	include ☞latin:/casestudies/softening2021?HEqual_comptrans_pushout ❙
+	dfun/m
+		: {A/m:tp}(term⟶tp)⟶tp
+		❘ meta drop_args_keep drop_args_keep_specific 1
+		❘ meta sourceRef uri"latin:/casestudies/softening2021/2-hardtyped-library.mmt#1213.42.2:1357.45.2"
+		❘ meta TypeLevel type
+	❙
+	dlam/m
+		: {A/m:tp,B/m:term⟶tp}({x/m:term}term)⟶term
+		❘ meta drop_args_keep drop_args_keep_specific 1
+		❘ meta sourceRef uri"latin:/casestudies/softening2021/2-hardtyped-library.mmt#1361.46.2:1542.49.2"
+		❘ meta TypeLevel type
+	❙
+	dlam/r
+		: {A/m:tp,B/m:term⟶tp}{x⁰/m:{x/m:term}term,x⁰/r:{x/m:term,x/r:⊦x/m⦂A/m}⊦(x⁰/m x/m)⦂(B/m x/m)}⊦(dlam/m A/m B/m x⁰/m)⦂(dfun/m A/m B/m)
+		❘ meta drop_args_keep drop_args_keep_all
+	❙
+	dapp/m
+		: {A/m:tp,B/m:term⟶tp}term⟶{x/m:term}term
+		❘ meta sourceRef uri"latin:/casestudies/softening2021/2-hardtyped-library.mmt#1546.50.2:1615.50.71"
+		❘ meta TypeLevel type
+	❙
+	dapp/r
+		: {A/m:tp,B/m:term⟶tp}{x⁰/m:term,x⁰/r:⊦x⁰/m⦂(dfun/m A/m B/m),x/m:term,x/r:⊦x/m⦂A/m}⊦(dapp/m A/m B/m x⁰/m x/m)⦂(B/m x/m)
+		❘ meta drop_args_keep drop_args_keep_all
+	❙
+
+❚
+
+view HDepFun_comptrans_pushout_view : latin:/casestudies/softening2021?HDepFun_comptrans  -> latin:/casestudies/softening2021?HDepFun_comptrans_pushout  =
+	include ☞latin:/casestudies/softening2021?HTyped_comptrans  ❘ ?TypePres❙
+	include ☞latin:/casestudies/softening2021?Meta  ❘ IDENTITY ?Meta❙
+	include ☞latin:/casestudies/softening2021?Proofs_comptrans  ❘ COMPOSE (IDENTITY ?Proofs_comptrans);?TypePres❙
+	include ☞latin:/casestudies/softening2021?HEqual_comptrans  ❘ ?HEqual_comptrans_pushout_view❙
+	dfun/m
+		= dfun/m
+	❙
+	dlam/m
+		= dlam/m
+	❙
+	dlam/r
+		= dlam/r
+	❙
+	dapp/m
+		= dapp/m
+	❙
+	dapp/r
+		= dapp/r
+	❙
+
+❚
+
+theory HBeta_comptrans_pushout : latin:/casestudies/softening2021?Meta  =
+	include ☞latin:/casestudies/softening2021?Proofs_comptrans ❙
+	include ☞latin:/casestudies/softening2021?Proofs ❙
+	include ☞latin:/casestudies/softening2021?STyped ❙
+	include ☞latin:/casestudies/softening2021?HEqual_comptrans_pushout ❙
+	include ☞latin:/casestudies/softening2021?HFun_comptrans_pushout ❙
+	beta/r
+		: {A/m:tp,B/m:tp,F/m:term⟶term,F/r:{x⁰/m:term,x⁰/r:⊦x⁰/m⦂A/m}⊦(F/m x⁰/m)⦂B/m,x/m:term,x/r:⊦x/m⦂A/m}⊦(eq/m B/m (app/m A/m B/m (lam/m A/m B/m F/m) x/m) (F/m x/m))
+		❘ meta drop_args_keep drop_args_keep_all
+	❙
+
+❚
+
+view HBeta_comptrans_pushout_view : latin:/casestudies/softening2021?HBeta_comptrans  -> latin:/casestudies/softening2021?HBeta_comptrans_pushout  =
+	include ☞latin:/casestudies/softening2021?HTyped_comptrans  ❘ ?TypePres❙
+	include ☞latin:/casestudies/softening2021?Meta  ❘ IDENTITY ?Meta❙
+	include ☞latin:/casestudies/softening2021?Proofs_comptrans  ❘ COMPOSE (IDENTITY ?Proofs_comptrans);?TypePres❙
+	include ☞latin:/casestudies/softening2021?HEqual_comptrans  ❘ ?HEqual_comptrans_pushout_view❙
+	include ☞latin:/casestudies/softening2021?HFun_comptrans  ❘ ?HFun_comptrans_pushout_view❙
+	beta/r
+		= beta/r
+	❙
+
+❚
+
+theory HEta_comptrans_pushout : latin:/casestudies/softening2021?Meta  =
+	include ☞latin:/casestudies/softening2021?Proofs_comptrans ❙
+	include ☞latin:/casestudies/softening2021?Proofs ❙
+	include ☞latin:/casestudies/softening2021?STyped ❙
+	include ☞latin:/casestudies/softening2021?HEqual_comptrans_pushout ❙
+	include ☞latin:/casestudies/softening2021?HFun_comptrans_pushout ❙
+	eta/r
+		: {A/m:tp,B/m:tp,f/m:term,f/r:⊦f/m⦂(fun/m A/m B/m)}⊦(eq/m (fun/m A/m B/m) (lam/m A/m B/m [x/m:term]app/m A/m B/m f/m x/m) f/m)
+		❘ meta drop_args_keep drop_args_keep_all
+	❙
+
+❚
+
+view HEta_comptrans_pushout_view : latin:/casestudies/softening2021?HEta_comptrans  -> latin:/casestudies/softening2021?HEta_comptrans_pushout  =
+	include ☞latin:/casestudies/softening2021?HTyped_comptrans  ❘ ?TypePres❙
+	include ☞latin:/casestudies/softening2021?Meta  ❘ IDENTITY ?Meta❙
+	include ☞latin:/casestudies/softening2021?Proofs_comptrans  ❘ COMPOSE (IDENTITY ?Proofs_comptrans);?TypePres❙
+	include ☞latin:/casestudies/softening2021?HEqual_comptrans  ❘ ?HEqual_comptrans_pushout_view❙
+	include ☞latin:/casestudies/softening2021?HFun_comptrans  ❘ ?HFun_comptrans_pushout_view❙
+	eta/r
+		= eta/r
+	❙
+
+❚
+
+theory HExten_comptrans_pushout : latin:/casestudies/softening2021?Meta  =
+	include ☞latin:/casestudies/softening2021?Proofs_comptrans ❙
+	include ☞latin:/casestudies/softening2021?Proofs ❙
+	include ☞latin:/casestudies/softening2021?STyped ❙
+	include ☞latin:/casestudies/softening2021?HEqual_comptrans_pushout ❙
+	include ☞latin:/casestudies/softening2021?HFun_comptrans_pushout ❙
+	exten/r
+		: {A/m:tp,B/m:tp,F/m:term⟶term,F/r:{x⁰/m:term,x⁰/r:⊦x⁰/m⦂A/m}⊦(F/m x⁰/m)⦂B/m,G/m:term⟶term,G/r:{x⁰/m:term,x⁰/r:⊦x⁰/m⦂A/m}⊦(G/m x⁰/m)⦂B/m}{x⁰/r:{x/m:term,x/r:⊦x/m⦂A/m}⊦(eq/m B/m (F/m x/m) (G/m x/m))}⊦(eq/m (fun/m A/m B/m) (lam/m A/m B/m F/m) (lam/m A/m B/m G/m))
+		❘ meta drop_args_keep drop_args_keep_all
+	❙
+
+❚
+
+view HExten_comptrans_pushout_view : latin:/casestudies/softening2021?HExten_comptrans  -> latin:/casestudies/softening2021?HExten_comptrans_pushout  =
+	include ☞latin:/casestudies/softening2021?HTyped_comptrans  ❘ ?TypePres❙
+	include ☞latin:/casestudies/softening2021?Meta  ❘ IDENTITY ?Meta❙
+	include ☞latin:/casestudies/softening2021?Proofs_comptrans  ❘ COMPOSE (IDENTITY ?Proofs_comptrans);?TypePres❙
+	include ☞latin:/casestudies/softening2021?HEqual_comptrans  ❘ ?HEqual_comptrans_pushout_view❙
+	include ☞latin:/casestudies/softening2021?HFun_comptrans  ❘ ?HFun_comptrans_pushout_view❙
+	exten/r
+		= exten/r
+	❙
+
+❚
+
+theory HDepBeta_comptrans_pushout : latin:/casestudies/softening2021?Meta  =
+	include ☞latin:/casestudies/softening2021?Proofs_comptrans ❙
+	include ☞latin:/casestudies/softening2021?Proofs ❙
+	include ☞latin:/casestudies/softening2021?STyped ❙
+	include ☞latin:/casestudies/softening2021?HEqual_comptrans_pushout ❙
+	include ☞latin:/casestudies/softening2021?HDepFun_comptrans_pushout ❙
+	beta/r
+		: {A/m:tp,B/m:{B/1/v/m:term}tp,F/m:{x/m:term}term,F/r:{x/m:term,x/r:⊦x/m⦂A/m}⊦(F/m x/m)⦂(B/m x/m),x/m:term,x/r:⊦x/m⦂A/m}⊦(eq/m (B/m x/m) (dapp/m A/m ([x/r/m:term]B/m x/r/m) (dlam/m A/m ([x/r/m:term]B/m x/r/m) F/m) x/m) (F/m x/m))
+		❘ meta drop_args_keep drop_args_keep_all
+	❙
+
+❚
+
+view HDepBeta_comptrans_pushout_view : latin:/casestudies/softening2021?HDepBeta_comptrans  -> latin:/casestudies/softening2021?HDepBeta_comptrans_pushout  =
+	include ☞latin:/casestudies/softening2021?HTyped_comptrans  ❘ ?TypePres❙
+	include ☞latin:/casestudies/softening2021?Meta  ❘ IDENTITY ?Meta❙
+	include ☞latin:/casestudies/softening2021?Proofs_comptrans  ❘ COMPOSE (IDENTITY ?Proofs_comptrans);?TypePres❙
+	include ☞latin:/casestudies/softening2021?HEqual_comptrans  ❘ ?HEqual_comptrans_pushout_view❙
+	include ☞latin:/casestudies/softening2021?HDepFun_comptrans  ❘ ?HDepFun_comptrans_pushout_view❙
+	beta/r
+		= beta/r
+	❙
+
+❚

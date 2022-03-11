@@ -9,8 +9,8 @@ theory TypeOperator =
 theory EndoFunctor =
   include ?TypeOperator❙
   applyFun: {a,b} (tm a ⟶ tm b) ⟶ tm &a ⟶ tm &b❘# 4 map 3 prec 50❙
-  applyId : {a,xs: tm &a} ⊦ xs map ([x] x) ≐ xs❙
-  applyComp : {a,b,c,f:tm a ⟶ tm b, g: tm b ⟶ tm c, xs: tm &a} ⊦ xs map f map g ≐ xs map [x] g (f x)❙
+  applyId : {a,xs: tm &a} ⊦ xs map ([x] x) =ͭ xs❙
+  applyComp : {a,b,c,f:tm a ⟶ tm b, g: tm b ⟶ tm c, xs: tm &a} ⊦ xs map f map g =ͭ xs map [x] g (f x)❙
 ❚
 
 /T View currently not total, needs Extensionality❚
@@ -26,8 +26,8 @@ theory InternalEndoFunctor =
   include ?SimpleFunctions❙
   fmap : {a,b} tm a→b ⟶ tm &a→&b❘# fmap 3 prec 50❙
   fmapApply : {a,b} tm a→b ⟶ tm &a ⟶ tm &b❘= [a,b,f,x] (fmap f)@x❘# 3 <$> 4❙
-  fmapId : {a} ⊦ fmap (ident a) ≐ ident (&a)❙
-  fmapComp : {a,b,c,f:tm a→b,g:tm b→c} ⊦ fmap (f;g) ≐ (fmap f);(fmap g)❙
+  fmapId : {a} ⊦ fmap (ident a) =ͭ ident (&a)❙
+  fmapComp : {a,b,c,f:tm a→b,g:tm b→c} ⊦ fmap (f;g) =ͭ (fmap f);(fmap g)❙
   
   // Remaining implementation is missing
   realize ?EndoFunctor❙

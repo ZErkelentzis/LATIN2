@@ -1,0 +1,151 @@
+namespace latin:/❚
+
+fixmeta ?DependentFOLEQDescND❚
+
+theory SetDefinitions =
+  set = term❙
+  
+  in : set ⟶ set ⟶ prop❘# 1 ∈ 2 prec 30❙
+  
+  eq_in : {x,y,A} ⊦ x =ͧ y ⟶ ⊦ y∈A ⟶ ⊦ x∈A❘
+    = [x,y,A,p,q] (eq/sym p) ucongP ([u] u∈A) q❙
+  in_eq : {x,A,B} ⊦ x∈A ⟶ ⊦ A =ͧ B ⟶ ⊦ x∈B❘
+    = [x,A,B,p,q] q ucongP ([U] x∈U) p❙
+❚
+
+theory ExtensionalityAx =
+  include ?SetDefinitions❙
+
+  // Two sets A and B are equal iff they have the same elements❙
+  isextensional = [A,B] (∀ͧ[x] (x∈A ⇔ x∈B)) ⇔ A =ͧ B❙
+
+  extensionality_axiom : {A,B} ⊦ isextensional A B❙	
+  extensionalityI : {A,B} ({x} ⊦ x∈A ⇔ x∈B) ⟶ ⊦ A =ͧ B❘
+    = [A,B,Q] extensionality_axiom equivEl (uforallI Q)❙
+  extensionalityE : {A,B} ⊦ A =ͧ B ⟶ {x} ⊦ x∈A ⇔ x∈B❘# 3 extensionalityE❘
+    = [A,B,p,x] extensionality_axiom equivEr p uforallE x❙
+❚
+
+theory SubsetDefinitions =
+  include ?SetDefinitions❙
+  
+  // symbol: jsubseteq❙
+  subset : set ⟶ set ⟶ prop❘# 1 ⊆ 2 prec 30❘
+    = [A,B] ∀ͧ[x] x∈A ⇒ x∈B❙
+  subsetI : {A,B} ({x} ⊦ x∈A ⟶ ⊦ x∈B) ⟶ ⊦ A⊆B❘
+    = [A,B,Q] uforallI ([x] implI ([p] Q x p))❙
+  subsetE : {A,B} ⊦ A⊆B ⟶ {x} ⊦ x∈A ⟶ ⊦ x∈B❘# 5 subsetE 3❘
+    = [A,B,p,x,q] p uforallE x implE q❙
+    
+  subset_refl : {A} ⊦ A⊆A❘
+    = [A] subsetI ([x,p] p)❙
+  subset_trans : {A,B,C} ⊦ A⊆B ⟶ ⊦ B⊆C ⟶ ⊦ A⊆C❘
+    = [A,B,C,p,q] subsetI ([x,pa] (pa subsetE p) subsetE q)❙
+❚
+
+// AS: This could be written in SubsetDefinitions, but then subset would be dependent
+  on ExtensionalityAx. Because both theories are part of SetBase, this would be irrelevant.
+  For consistency reasons, I decided to make an extra theory which can be included if needed.❚
+theory SubsetExtensionality =
+  include ?SubsetDefinitions❙
+  include ?ExtensionalityAx❙
+  
+  subset_eq : {A,B} ⊦ A⊆B ⟶ ⊦ B⊆A ⟶ ⊦ A =ͧ B❘
+    = [A,B,pa,pb] extensionalityI ([x] equivI 
+      ([qa] qa subsetE pa) ([qb] qb subsetE pb))❙
+❚
+
+theory EmptyDefinitions =
+  include ?SetDefinitions❙
+
+  isempty : set ⟶ prop❘ = [A] ¬∃ͧ[x]x∈A❙
+  nonempty : set ⟶ prop❘ = [A] ∃ͧ[x]x∈A❙
+  
+  isemptyE : {A,x} ⊦ isempty A ⟶ ⊦ x∈A ⟶ ↯❘ # 3 isemptyE 4❘
+    = [A,x,p,q] p notE (uexistsI x q)❙
+  nonemptyE : {A,C} ⊦ nonempty A ⟶ ({x} ⊦x∈A ⟶ ⊦C) ⟶ ⊦C❘
+    = [A,C,ne,P] ne uexistsE [x,p] P x p❙
+  
+  all_nonempty : set ⟶ prop❘
+    = [A] ∀ͧ[X] X∈A ⇒ nonempty X❙
+  all_nonemptyI : {A} ({X} ⊦ X∈A ⟶ ⊦ nonempty X) ⟶ ⊦ all_nonempty A❘
+    = [A,Q] uforallI ([X] implI ([p] Q X p))❙
+  all_nonemptyE : {A} ⊦ all_nonempty A ⟶ {X} ⊦ X∈A ⟶ ⊦ nonempty X❘
+    = [A,p,X,q] p uforallE X implE q❙
+❚
+
+theory DisjointDefinitions =
+  include ?SetDefinitions❙
+  
+  // AS: maybe rewrite this as ¬(∃ͧ[x] x∈A ∧ x∈B), but this would be a bit more annoying to proof❙
+  aredisjoint : set ⟶ set ⟶ prop❘
+    = [A,B] ∀ͧ[x] ¬(x∈A ∧ x∈B)❙
+  aredisjointI : {A,B} ({x} ⊦ ¬ (x∈A ∧ x∈B)) ⟶ ⊦ aredisjoint A B❘
+    = [A,B,Q] uforallI Q❙
+  aredisjointE : {A,B} ⊦ aredisjoint A B ⟶ {x} ⊦ ¬(x∈A ∧ x∈B)❘
+    = [A,B,p,x] p uforallE x❙
+  
+  ispwdisjoint : set ⟶ prop❘
+    = [A] ∀ͧ[x]∀ͧ[y] x∈A ∧ y∈A ⇒ x =ͧ y ∨ aredisjoint x y❙
+  ispwdisjointI : {A} ({x,y} ⊦ x∈A ∧ y∈A ⟶ ⊦ x =ͧ y ∨ aredisjoint x y) ⟶ ⊦ ispwdisjoint A❘
+    = [A,Q] uforallI ([x] uforallI ([y] implI ([p] Q x y p)))❙
+  ispwdisjointE : {A} ⊦ ispwdisjoint A ⟶ {x,y} ⊦ x∈A ∧ y∈A ⟶ ⊦ x =ͧ y ∨ aredisjoint x y❘
+    = [A,p,x,y,q] p uforallE x uforallE y implE q❙
+❚
+
+theory RelationDefinitions =
+  include ?SetDefinitions❙
+  
+  islefttotal : (set ⟶ set ⟶ prop) ⟶ set ⟶ prop❘
+    = [f,A] ∀ͧ[x] x∈A ⇒ ∃ͧ[y] f x y❙
+  islefttotalI : {f,A} ({x} ⊦ x∈A ⟶ ⊦ ∃ͧ[y] f x y) ⟶ ⊦ islefttotal f A❘
+    = [f,A,Q] uforallI ([x] implI ([p] Q x p))❙
+  islefttotalE : {f,A} ⊦ islefttotal f A ⟶ {x} ⊦ x∈A ⟶ ⊦ ∃ͧ[y] f x y❘# 3 islefttotalE 4 5❘
+    = [f,A,p,x,q] p uforallE x implE q❙
+  
+  isrighttotal : (set ⟶ set ⟶ prop) ⟶ set ⟶ prop❘
+    = [f,B] ∀ͧ[y] y∈B ⇒ ∃ͧ[x] f x y❙
+  isrighttotalI : {f,B} ({y} ⊦ y∈B ⟶ ⊦ ∃ͧ[x] f x y) ⟶ ⊦ isrighttotal f B❘
+    = [f,B,Q] uforallI ([y] implI ([p] Q y p))❙
+  isrighttotalE : {f,B} ⊦ isrighttotal f B ⟶ {y} ⊦ y∈B ⟶ ⊦ ∃ͧ[x] f x y❘# 3 isrighttotalE 4 5❘
+    = [f,B,p,y,q] p uforallE y implE q❙  
+  
+  isleftunique : (set ⟶ set ⟶ prop) ⟶ prop❘
+    = [f] ∀ͧ[x]∀ͧ[y]∀ͧ[z] (f x y ∧ f z y) ⇒ x =ͧ z❙
+  isleftuniqueI : {f} ({x,y,z} ⊦ f x y ∧ f z y ⟶ ⊦ x =ͧ z) ⟶ ⊦ isleftunique f❘
+    = [f,Q] uforallI ([x] uforallI ([y] uforallI ([z] implI ([p] Q x y z p))))❙
+  isleftuniqueE : {f} ⊦ isleftunique f ⟶ {x,y,z} ⊦ f x y ∧ f z y ⟶ ⊦ x =ͧ z❘# 2 isleftuniqueE 3 4 5 6❘
+    = [f,p,x,y,z,q] p uforallE x uforallE y uforallE z implE q❙
+    
+  isrightunique : (set ⟶ set ⟶ prop) ⟶ prop❘
+    = [f] ∀ͧ[x]∀ͧ[y]∀ͧ[z] (f x y ∧ f x z) ⇒ y =ͧ z❙
+  isrightuniqueI : {f} ({x,y,z} ⊦ f x y ∧ f x z ⟶ ⊦ y =ͧ z) ⟶ ⊦ isrightunique f❘
+    = [f,Q] uforallI ([x] uforallI ([y] uforallI ([z] implI ([p] Q x y z p))))❙
+  isrightuniqueE : {f} ⊦ isrightunique f ⟶ {x,y,z} ⊦ f x y ∧ f x z ⟶ ⊦ y =ͧ z❘# 2 isrightuniqueE 3 4 5 6❘
+    = [f,p,x,y,z,q] p uforallE x uforallE y uforallE z implE q❙
+    
+  // a function is lefttotal and rightunique❙
+  isfunction : (set ⟶ set ⟶ prop) ⟶ set ⟶ prop❘
+    = [f,A] islefttotal f A ∧ isrightunique f❙
+  isfunctionI : {f,A} ⊦ islefttotal f A ⟶ ⊦ isrightunique f ⟶ ⊦ isfunction f A❘
+    = [f,A,pl,pr] andI pl pr❙
+  isfunctionEl : {f,A} ⊦ isfunction f A ⟶ ⊦ islefttotal f A❘
+    = [f,A,p] p andEl❙
+  isfunctionEr : {f,A} ⊦ isfunction f A ⟶ ⊦ isrightunique f❘
+    = [f,A,p] p andEr❙
+  
+  fun2rel : (set ⟶ set) ⟶ (set ⟶ set ⟶ prop)❘
+    = [f] [x,y] f x =ͧ y❙
+  isfun_fun2rel : {f,A} ⊦ isfunction (fun2rel f) A❘
+    = [f,A] andI (islefttotalI ([x,p] uexistsI (f x) urefl))
+      (isrightuniqueI ([x,y,z,p] (eq/sym (p andEl)) eq/trans (p andEr)))❙
+❚
+
+theory SetBase =
+  include ?SetDefinitions❙
+  include ?ExtensionalityAx❙
+  include ?SubsetDefinitions❙
+
+  // UniverseNonEmpty is used instead of ExistenceAx❙
+  include ?UniverseNonEmpty❙
+❚

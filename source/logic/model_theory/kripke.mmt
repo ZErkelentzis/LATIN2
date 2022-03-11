@@ -1,0 +1,119 @@
+namespace latin:/kripkemodels❚
+
+fixmeta ur:?LF❚
+
+theory Worlds : latin:/?HOLND =
+  world: tp❘# W❙
+
+  liftPred2: {S,A,B} (          tm A ⟶           tm B  ⟶          prop)
+                   ⟶ (tm S ⟶ tm A) ⟶ (tm S ⟶ tm B) ⟶ (tm S ⟶ prop)❘
+      = [S,A,B,o,f,g] [x] o (f x) (g x)❘
+      # liftFun2 4❙
+
+  lift0: {S} prop ⟶ (tm S ⟶ prop)❘
+      = [S,o] [x]o❘
+      # lift0 2❙
+  lift1: {S} (prop ⟶ prop) ⟶ (tm S ⟶ prop) ⟶ (tm S ⟶ prop)❘
+      = [S,o,f] [x]o (f x)❘
+      # lift1 2❙
+  lift2: {S} (prop ⟶ prop ⟶ prop) ⟶ (tm S ⟶ prop) ⟶ (tm S ⟶ prop) ⟶ (tm S ⟶ prop)❘
+      = [S,o,f,g] [x]o (f x) (g x)❘
+      # lift2 2❙
+      
+  liftbind : {S} ({T}  (        tm T            ⟶ prop)  ⟶          prop) ⟶
+                  {T} ((tm S ⟶ tm T) ⟶ (tm S ⟶ prop)) ⟶ (tm S ⟶ prop)❘
+           = [S][B][T][F][x] B (S→T) [f] F (apply1 f) x❘
+           # liftbind 2❙
+  
+❚
+
+ref latin:/?DisjunctionHilbert2ND❚
+ref latin:/?NegationHilbert2ND❚
+ref latin:/?ImplicationHilbert2ND❚
+ref latin:/?EquivalenceHilbert2ND❚
+
+theory KripkeFrame : latin:/?TypedLogic =
+  include ?Worlds❙
+  accessible : tm W ⟶ tm W ⟶ prop❘ # 1 acc 2 prec 30❙
+❚
+
+theory KripkeModel =
+  include ☞latin:/?SFOLEQ❙
+  include ?KripkeFrame❙
+❚
+
+view PropSemantics : latin:/?Propositions → ?Worlds =
+  prop = tm W ⟶ prop❙
+❚
+
+view LogicSemantics : latin:/?Logic → ?Worlds =
+  include ?PropSemantics❙
+  ded = [f] {w} ⊦ f w❙
+❚
+
+view PLSemantics : latin:/?PL → ?Worlds =
+  include ?PropSemantics❙
+  true = lift0 true❙
+  false = lift0 false❙
+  and = lift2 and❙
+  or = lift2 or❙
+  impl = lift2 impl❙
+  not = lift1 not❙
+  equiv = lift2 equiv❙
+❚
+
+view PLHilbertSemantics : latin:/?PLHilbert → ?Worlds =
+  include ?PLSemantics❙
+  include ?LogicSemantics❙
+  
+  trueI = [w] trueI❙
+  falseE = [f] [g,w] f w falseE inconE❙
+  
+  andI  = [F,G,f,g][w] andI (f w) (g w)❙
+  andEl = [F,G,fg] [w] fg w andEl❙
+  andEr = [F,G,fg] [w] fg w andEr❙
+
+  orIl = [F,G,f] [w] f w orIl❙
+  orIr = [F,G,f] [w] f w orIr❙
+  orE_ax = [F,G,H][w] orE_ax❙
+  
+  implE = [F,G,fg,f] [w] (fg w) implE (f w)❙
+  K_ax = [F,G,w] K_ax❙
+  S_ax = [F,G,H,w] S_ax❙
+  
+  notI_ax = [F,w] notI_ax❙ 
+  notE = [F,nf,f] [g,w] (nf w) notE (f w) inconE❙
+  
+  equivI_ax = [F,G,w] equivI_ax❙
+  equivEl = [F,G,fg,f] [w] (fg w) equivEl (f w)❙
+  equivEr = [F,G,fg,g] [w] (fg w) equivEr (g w)❙
+  
+  classical = [F,p] [w] classical [Fwincon] [A] p ([Fw,Gv,v] Fwincon (Fw w) (Gv v)) ([u] A) w❙
+❚
+
+view TermSemantics : latin:/?TypedTerms → ?Worlds =
+  /T constant universe; alternative would be tp = tm W ⟶ tp❙
+  tp = tp❙
+  tm = [S] tm W ⟶ tm S❙
+❚
+
+view SFOLSemantics : latin:/?SFOLEQ → ?Worlds =
+  include ?TermSemantics❙
+  include ?PLSemantics❙
+  include ?LogicSemantics❙
+  tforall = liftbind tforall❙
+  texists = liftbind texists❙
+  tequal = [S] liftFun2 (tequal S)❙
+❚
+
+view MLSemantics : latin:/?ML → ?KripkeModel =
+  include ?PLSemantics❙
+  include ?LogicSemantics❙
+  box = [p] [v] ∀ͭ [w] v acc w ⇒ p w❙
+  diamond = [p] [v] ∃ͭ [w] v acc w ∧ p w❙ 
+❚
+
+view MLHilbertSemantics : latin:/?MLHilbert → ?KripkeModel =
+  include ?MLSemantics❙
+  include ?PLHilbertSemantics❙
+❚

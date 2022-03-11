@@ -1,0 +1,47 @@
+namespace latin:/❚
+
+fixmeta ?DependentFOLEQDescND❚
+
+theory TypedUniversalQuantificationSet =
+  // AS: Propositions and Proofs are part of the fixmeta❙
+  include ?Propositions❙
+  include ?Proofs❙
+  include ?TypedLogicSet❙
+  
+  realize ?TypedUniversalQuantification❙
+  
+  tforall = [A,P: Elem A ⟶ prop] uforall [x] (x∈A) ⇒ͩ ([p] P (elem x p))❙
+❚
+
+theory TypedUniversalQuantificationNDSet =
+  // AS: Propositions and Proofs are part of the fixmeta❙
+  include ?Propositions❙
+  include ?Proofs❙
+  include ?TypedUniversalQuantificationSet❙
+  
+  realize ?TypedUniversalQuantificationND❙
+  tforallI = [A,P,p] uforallI [x] dimplI ([q] p (elem x q))❙
+  tforallE = [A,P,p,e: Elem A] simpP P equivEr ((p uforallE (which e)) dimplE (why e))❙
+❚
+
+theory TypedExistentialQuantificationSet =
+  // AS: Propositions and Proofs are part of the fixmeta❙
+  include ?Propositions❙
+  include ?Proofs❙  
+  include ?TypedLogicSet❙
+	
+  realize ?TypedExistentialQuantification❙
+  
+  texists = [A,P: Elem A ⟶ prop] uexists [x] (x∈A) ∧ͩ ([p] P (elem x p))❙
+❚
+
+theory TypedExistentialQuantificationNDSet =
+  // AS: Propositions and Proofs are part of the fixmeta❙
+  include ?Propositions❙
+  include ?Proofs❙  
+  include ?TypedExistentialQuantificationSet❙
+	
+  realize ?TypedExistentialQuantificationND❙
+  texistsI = [A,P: Elem A ⟶ prop,e: Elem A,p] uexistsI (which e) (dandI (why e) (simpP P equivEl p))❙
+  texistsE = [A,P,C,p,Q] p uexistsE ([x,px] Q (elem x (px dandEl)) (px dandEr))❙
+❚

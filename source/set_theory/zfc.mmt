@@ -1,84 +1,109 @@
 namespace latin:/❚
 
-fixmeta ?SetFOL❚
+fixmeta ?DependentFOLEQDescND❚
 
-// TODO:
-	- TODOs in theories
-	- check whether everything is right
-	- maybe some theories need to be rewritten after changes in axioms
-	- add ZFBase in each ZF theory?❙
-❚
+// AS: I commented the definitions, cause it ruins the performance❚
 
+// ZFBase now contains all standard axioms of ZF instead of just Extensionality
+  and Existence.❚
 theory ZFBase =
-	// AS: should I use UniverseNonEmpty or ExistenceAx here?❙
-  include ?UniverseNonEmpty❙
-  include ?ExtensionalityAx❙
-❚
-
-theory ZFEmptySet =
-  include ?ZFBase❙
-  include ?EmptySetDefinitions❙
-  realize ?EmptySet❙
-  
-  empty_unique : ⊦ ∃¹ isempty❘ // = ❙
-  empty = the isempty empty_unique❙
-  empty_prop = the_ax isempty empty_unique❙
-  
-  // realize empty_sub❙
-❚
-
-theory ZFPairing =
+  include ?SetBase❙
   include ?PairingAx❙
-  include ?UnorderedPairs❘ = ?UopairFromAxiom❙
-❚
-
-theory ZFUnion =
   include ?UnionAx❙
-  include ?BigUnion❘ = ?BigUnionFromAxiom❙
-❚
-
-theory ZFPowerset =
   include ?PowersetAx❙
- 	include ?Powersets❘ = ?PowersetFromAxiom❙
-❚
-
-theory ZFComprehension =
   include ?ComprehensionAx❙
-	include ?Filter❘ = ?FilterFromAxiom❙
-❚
-
-theory ZFReplacement =
-  include ?ReplacementAx❙	
-	include ?Replacement❘ = ?ReplacementFromAxiom❙
-❚
-
-theory ZFInfinity =
-	// AS: either just include here oder like the rest❙
-  include ?ZFBase❙
-  include ?Infinity❙
+  include ?ReplacementAx❙
+  include ?RegularityAx❙
+  // InfinityAx relies on Empty Set and should be added after defining Empty Set❙
 ❚
 
 theory ZF =
   include ?ZFBase❙
-  include ?ZFEmptySet❙
-  include ?ZFPairing❙
-  include ?ZFUnion❙
-  include ?ZFPowerset❙
-  include ?ZFComprehension❙
-  include ?ZFReplacement❙
-  include ?Regularity❙
-  include ?ZFInfinity❙
+  
+  include ?UnorderedPairs❙// = ?UopairFromAxiom❙
+  include ?BigUnion❙// = ?BigUnionFromAxiom❙
+  include ?Powersets❙// = ?PowersetFromAxiom❙
+  include ?Filter❙// = ?FilterFromAxiom❙
+  include ?Replace❙// = ?ReplaceFromAxiom❙
+  
+  // Acyclic is a special case of RegularityAx❙
+  // include ?RegularityUopair❙
+  include ?Acyclic❙// = ?AcyclicUopair❙
+  
+  // AS: Since empty is necessary for InfinityAx, this is added here❙
+  // include ?ExistFilter❙
+  include ?EmptySet❙// = ?EmptyExistFilter❙
+  
+  include ?InfinityAx❙
 ❚
 
-// FR: maybe this is not needed - can just be included from ZF-independent feature Choice❚
-theory ZFChoice =
-	// AS: either just include here oder like the rest❙
-  include ?ZFBase❙
-  include ?ChoiceAx❙
-  // realize ?SetChoice❙
+// ZF and features that can be built from ZF❚
+theory ZFFeatures =
+  include ?ZF❙
+
+  // AS: There are many includes that I wish would not be necessary❙  
+  // include ?BigUnionUnorderedPairs❙
+  include ?Union❙// = ?UnionAsBigUnion❙
+  
+  // include ?BigUnionFilterEmptyDefinition❙
+  include ?BigIntersection❙// = ?BigIntersectionFilter❙
+  
+  // include ?BigIntersectionUnorderedPairs❙
+  include ?Intersection❙// = ?IntersectionAsBigIntersection❙
+  
+  include ?Difference❙// = ?DifFilter❙
+  
+  include ?Complement❙// = ?ComplementFilter❙
+  
+  // include ?UnionDifference❙
+  include ?SymmetricDifference❙// = ?SymUnion❙
+
+  include ?Singletons❙// = ?SelfPair❙
+  
+  // include ?UnionSingleton❙
+  include ?Adjoin❙// = ?AdjoinUnion❙
+  
+  include ?Remove❙// = ?RemoveFilter❙
+  
+  include ?Image❙// = ?ImageReplace❙ 
+  
+  // AS: pairs and so on. KuratowskiPairs lead to errors❙
+  // include ?KuratowskiPairs❙
+  
+  // include ?OrderedBigUnionImage❙
+  include ?CartesianProduct❙// = ?CartImage❙
+  include ?Sigma❙// = ?SigmaUnion❙
+  
+  // include ?CartFilter❙
+  include ?TheRelation❙// = ?TheCartFilter❙
+  
+  // include ?CartFilterPower❙
+  include ?Relations❙// = ?RelCartFilter❙
+  include ?PartialFunctions❙// = ?RelFilter❙
+  include ?Functions❙// = ?FuncCartFilter❙
+  
+  // include ?TheBigCartFilterImage❙
+  include ?LambdaFunction❙// = ?LambdaCartFilter❙
 ❚
 
 theory ZFC = 
   include ?ZF❙
-  include ?ZFChoice❙
+  include ?ChoiceAx❙
+❚
+
+theory ZFCFeatures =
+  include ?ZFC❙
+  include ?ZFFeatures❙
+❚
+
+// AS: maybe typed versions of ZFC have to be moved into a different file
+  or they are unnecessary❚
+theory TypedZF =
+  include ?TypeBase❙
+  include ?ZF❙
+❚
+
+theory TypedZFFeatures =
+  include ?TypedZF❙
+  include ?ZFFeatures❙
 ❚

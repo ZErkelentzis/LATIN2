@@ -42,7 +42,7 @@ axioms and extensions
  gretest
  lub
  glb
- 
+
 # Actions
 
 T-action on S for every theories S, T

@@ -14,13 +14,16 @@ import leo.datastructures.TPTP.{FOF, FOFAnnotated, Include, Problem}
 import lf.Conjunction.and
 import lf.Disjunction.or
 import lf.Equivalence.equiv
-import lf.ExistentialQuantification.exists
+import lf.ExistentialQuantification.uexists
 import lf.Implication.impl
 import lf.Negation.not
 import lf.Proofs.ded
-import lf.UniversalQuantification.forall
+import lf.UniversalQuantification.uforall
 
-class FOLExporter {
+object FOLExporter {
+  def exportStub(theory: Theory)(implicit ctrl: Controller): Problem = {
+    export_theory(theory, Nil)
+  }
 
   def exportTPTP(ctx: Context, what: List[Term])(implicit ctrl: Controller): Problem = {
     // walk through ctx, collect all axioms
@@ -85,7 +88,7 @@ class FOLExporter {
   }
 
   def translate_formula(t: Term): FOF.Formula = t match {
-    case forall(Lambda(v, _, body)) =>
+    case uforall(Lambda(v, _, body)) =>
       FOF.QuantifiedFormula(
         FOF.!,
         Seq(
@@ -93,7 +96,7 @@ class FOLExporter {
         ),
         translate_formula(body)
       )
-    case exists(Lambda(v, _, body)) =>
+    case uexists(Lambda(v, _, body)) =>
       FOF.QuantifiedFormula(
         FOF.?,
         Seq(

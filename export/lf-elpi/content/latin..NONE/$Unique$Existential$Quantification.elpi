@@ -1,8 +1,0 @@
-accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Existential$Quantification".
-
-accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Equality".
-
-/* generated from existsUnique : (term⟶prop)⟶prop */
-
-/* type existsUnique term -> prop -> prop. */
-

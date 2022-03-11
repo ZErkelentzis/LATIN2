@@ -1,0 +1,106 @@
+namespace latin:/❚
+
+fixmeta ?DependentFOLEQDescND❚
+
+theory TheRelation =
+  include ?SetBase❙
+  include ?RelationDefinitions❙
+  
+  // A specific relation on the sets A and B which fulfills some predicate P❙
+  theRel: set ⟶ set ⟶ (set ⟶ set ⟶ prop) ⟶ set❙
+  inRel : set ⟶ set ⟶ set ⟶ prop❙
+    
+  // auxiliary function to check whether a set is a relation of A B❙
+  // AS: note that it is not possible to define this similar as in ordered pairs.
+      isrelAB = [R,A,B] ∃[P] R =ͧ theRel A B P does not work in FOL!❙
+  // A single relation is a subset of the CartesianProduct.❙
+  isrelAB : set ⟶ set ⟶ set ⟶ prop❙
+  
+  // computation rule❙
+  compRel : {A,B,P,a,b} ⊦ inRel (theRel A B P) a b ⇔ a∈A ∧ b∈B ∧ P a b❙
+  
+  // representation rule❙
+  reprRel : {A,B,R} ⊦ isrelAB R A B ⟶ ⊦ R =ͧ theRel A B ([x,y] inRel R x y)❙
+  
+  // extensionality rule❙
+  extRel : {A,B,R,S} ⊦ isrelAB R A B ⟶ ⊦ isrelAB S A B ⟶ ({x,y} ⊦ inRel R x y ⇔ inRel S x y) ⟶ ⊦ R =ͧ S❙
+  
+  // just a helper to specify isrightunique❙
+  isrightu : set ⟶ prop❘
+    = [R] isrightunique (inRel R)❙
+  // just a helper to specify islefttotal❙
+  isleftt : set ⟶ set ⟶ prop❘
+    = [R,A] islefttotal (inRel R) A❙
+    
+  // auxiliary function to check, whether a set is a pfunc❙
+  ispfuncAB : set ⟶ set ⟶ set ⟶ prop❘
+    = [R,A,B] isrelAB R A B ∧ isrightu R❙
+    
+  isfuncAB : set ⟶ set ⟶ set ⟶ prop❘
+    = [R,A,B] isrelAB R A B ∧ isrightu R ∧ isleftt R A❙
+❚
+
+theory Relations =
+  include ?TheRelation❙
+
+  // The set of all relations is the powerset of the CartesianProduct❙
+  // The set of all relations of A and B❙
+  rel : set ⟶ set ⟶ set❙
+
+  relI : {A,B,P} ⊦ theRel A B P ∈ rel A B❘# relI 3❙  
+  relE : {A,B,R} ⊦ R ∈ rel A B ⟶ ⊦ isrelAB R A B❘# 4 relE❙
+  
+  rel_sub : {A,B,C,D} ⊦ A⊆C ⟶ ⊦ B⊆D ⟶ ⊦ rel A B ⊆ rel C D❙
+❚
+
+theory PartialFunctions =
+  include ?TheRelation❙
+
+  // The set of all partial functions of A and B. Partial functions are 
+    relations that are right unique.❙
+  pfunc : set ⟶ set ⟶ set❙
+
+  // introduction and elimination rule for the set of all partial functions of X and Y❙
+  pfuncI : {A,B,P} ⊦ isrightu (theRel A B P) ⟶ ⊦ theRel A B P ∈ pfunc A B❘# pfuncI 3 4❙    
+  pfuncE : {A,B,R} ⊦ R ∈ pfunc A B ⟶ ⊦ ispfuncAB R A B❘# 4 pfuncE❙
+❚
+
+theory Functions =
+  include ?TheRelation❙
+
+  // The set of all functions of X and Y. Functions are partial functions that
+   are left total.❙
+  func : set ⟶ set ⟶ set❙
+
+  // introduction and elimination rule for the set of all functions of X and Y❙
+  funcI : {A,B,P} ⊦ isrightu (theRel A B P) ⟶ ⊦ isleftt (theRel A B P) A ⟶ ⊦ theRel A B P ∈ func A B❘# funcI 3 4❙
+  funcE : {A,B,R} ⊦ R ∈ func A B ⟶ ⊦ isfuncAB R A B❘# 4 funcE❙
+❚
+
+// AS: Lambda shall later be used to formalize function_types. However, the defintion of 
+  lambda s.t. it is usable for function_types is harder than expected❚
+theory LambdaFunction =
+  // Formalization of lambda function❙
+  include ?TheRelation❙
+  // lambda A f = {(x,ͧf(x)) : x∈A}❙
+  lambda : set ⟶ (set ⟶ set) ⟶ set❘# λͧ 1 2 prec 40❙
+  apply : set ⟶ set ⟶ set❘# 1 @ͧ 2 prec 50❙
+  
+  // computation rule❙
+  beta : {A,f,x} ⊦ x∈A ⟶ ⊦ (λͧ A f)@ͧx =ͧ f x❙
+  // representation rule❙
+  eta : {A,B,F} ⊦ isfuncAB F A B ⟶ ⊦ F =ͧ λͧ A ([x] F@ͧx)❙
+  // extensionality rule❙
+  ext : {A,B,F,G} ⊦ isfuncAB F A B ⟶ ⊦ isfuncAB G A B ⟶ ([x] ⊦ x∈A ⟶ ⊦ F@ͧx =ͧ G@ͧx) ⟶ ⊦ F=ͧG❙
+❚
+
+theory LambdaImage =
+  include ?LambdaFunction❙
+  include ?Image❙
+  // Lambda is just a relation❙
+  lambda_rel : {A,f} ⊦ λͧ A f =ͧ theRel A (image f A) (fun2rel f)❙
+  // AS: maybe use the fact that F is a function and therefore there has to be a unique b❙
+  // apply_inrel : {F,a} ⊦ isfuncAB F A B ⟶ ⊦ F@ͧa =ͧ the ([b] inRel F a b) (right_unique)❙
+  // This has to be correct, but is it useful?
+  // apply_inrel : {F,a,b} ⊦ F@ͧa =ͧ b ⇔ inRel F a b❙
+❚

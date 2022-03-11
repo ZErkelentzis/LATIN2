@@ -34,7 +34,7 @@ view LogicAsTypeTheory : ?Logic -> ?TypedTerms =
 
 view ProofAsTermEquality : ?ProofEquality -> ?TypedEquality =
   include ?ProofsAsTerms ❙
-  proofeq = [A,s,t] ⊦ s ≐ t ❙
+  proofeq = [A,s,t] ⊦ s =ͭ t ❙
 ❚
 
 /T conjunctions as product types ❚

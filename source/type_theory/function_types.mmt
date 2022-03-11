@@ -9,14 +9,16 @@ theory SimpleFunctionTypes =
 
 theory DependentFunctionTypes =
   include ?TypedTerms❙
-  depfun : {A} (tm A ⟶ tp) ⟶ tp❘# Π 2 prec 40❙
+  depfun : {A} (tm A ⟶ tp) ⟶ tp❘# Πͭ 2 prec 40❙
+  
+  // AS: Maybe change realize to a total structure❙
   realize ?SimpleFunctionTypes❙
-  simpfun = [A,B] Π [x: tm A] B❙
+  simpfun = [A,B] Πͭ [x: tm A] B❙
 ❚
 
 theory SoftDependentFunctionTypes =
   include ?SoftTypedTerms❙
-  softfun : tp ⟶ (term ⟶ tp) ⟶ tp❘# Π 1 2 prec 40❙
+  softfun : tp ⟶ (term ⟶ tp) ⟶ tp❘# Πͬ 1 2 prec 40❙
 ❚
 
 theory SimpleFunctions =
@@ -24,16 +26,16 @@ theory SimpleFunctions =
   include ?TypedEqualityND❙
   simplambda: {A,B} (tm A ⟶ tm B) ⟶ tm A → B❘# λ 3 prec 40❙
   simpapply: {A,B} tm A → B ⟶ tm A ⟶ tm B❘# 3 @ 4 prec 50❙
-  simpbeta : {A,B,F: tm A ⟶ tm B, X} ⊦ (λ F) @ X ≐ F X❘ role Simplify❙
+  simpbeta : {A,B,F: tm A ⟶ tm B, X} ⊦ (λ F) @ X =ͭ F X❘ role Simplify❙
   
-  simpxi : {A,B,F,G:tm A ⟶ tm B} ({x} ⊦F x≐G x) ⟶ ⊦λ F≐λ G❘
-         = [A,B,F,G,p] congB p ([U] λ F ≐ λ U) refl❙
-  apply_eq : {A,B,F,G:tm A→B,x,y:tm A} ⊦ F≐G ⟶ ⊦x≐y ⟶ ⊦ F@x ≐ G@y❘
-           = [A,B,F,G,x,y,p,q] p q congT2 [u,v]u@v❙  
-  apply_eq_l : {A,B,F,G:tm A→B} ⊦ F≐G ⟶ {x:tm A} ⊦ F@x ≐ G@x❘
-           = [A,B,F,G,p,x] apply_eq p refl❙ 
-  apply_eq_r : {A,B,x,y:tm A} ⊦x≐y ⟶ {F:tm A→B} ⊦ F@x ≐ F@y❘
-           = [A,B,x,y,p,F] apply_eq refl p❙ 
+  simpxi : {A,B,F,G:tm A ⟶ tm B} ({x} ⊦F x =ͭ G x) ⟶ ⊦λ F =ͭ λ G❘
+         = [A,B,F,G,p] tcongB p ([U] λ F =ͭ λ U) trefl❙
+  apply_eq : {A,B,F,G:tm A→B,x,y:tm A} ⊦ F =ͭ G ⟶ ⊦x =ͭ y ⟶ ⊦ F@x =ͭ G@y❘
+           = [A,B,F,G,x,y,p,q] p q tcongT2 [u,v]u@v❙  
+  apply_eq_l : {A,B,F,G:tm A→B} ⊦ F =ͭ G ⟶ {x:tm A} ⊦ F@x =ͭ G@x❘
+           = [A,B,F,G,p,x] apply_eq p trefl❙ 
+  apply_eq_r : {A,B,x,y:tm A} ⊦x =ͭ y ⟶ {F:tm A→B} ⊦ F@x =ͭ F@y❘
+           = [A,B,x,y,p,F] apply_eq trefl p❙ 
 
   // should be an extra notation for simpapply❙
   apply1 : {a,b} tm a→b ⟶ (tm a ⟶ tm b)❘
@@ -44,9 +46,9 @@ theory SimpleFunctions =
 theory DependentFunctions =
   include ?DependentFunctionTypes❙
   include ?TypedEqualityND❙
-  deplambda: {A,B} ({x: tm A} tm B x) ⟶ tm Π B❘# λ 3 prec 40❙
-  depapply: {A,B} tm Π B ⟶ {x: tm A} tm B x ❘# 3 @ 4 prec 50❙
-  depbeta : {A,B,F:{x:tm A} tm B x, X} ⊦ (λ F) @ X ≐ F X❙
+  deplambda: {A,B} ({x: tm A} tm B x) ⟶ tm Πͭ B❘# λ 3 prec 40❙
+  depapply: {A,B} tm Πͭ B ⟶ {x: tm A} tm B x ❘# 3 @ 4 prec 50❙
+  depbeta : {A,B,F:{x:tm A} tm B x, X} ⊦ (λ F) @ X =ͭ F X❙
   
   // realize ?SimpleFunctions❙
   // simplambda = [A,B,F] λ[x:tm A] F x❙
@@ -56,10 +58,11 @@ theory DependentFunctions =
 
 theory SoftTypedFunctions =
   include ?Terms❙
+  // AS: why is this UntypedEquality and not SoftTypedEquality?❙
   include ?UntypedEquality❙
   lambda: (term ⟶ term) ⟶ term❘# λ 1 prec 40❙
   apply : term ⟶ term ⟶ term❘# 1 @ 2 prec 50❙
-  beta  : {F,X} ⊦ (λ F) @ X ≐ F X❙
+  beta  : {F,X} ⊦ (λ F) @ X =ͧ F X❙
 ❚
 
 theory SoftTypedSimpleFunctions =
@@ -73,45 +76,45 @@ theory SoftTypedDependentFunctions =
   include ?SoftTypedTerms❙
   include ?SoftTypedFunctions❙
   include ?SoftDependentFunctionTypes❙
-  fun_typing : {A,B,F} ({x} ⊦ x⦂A ⟶ ⊦ (F x)⦂(B x)) ⟶ ⊦ λ F ⦂ Π A B❙
+  fun_typing : {A,B,F} ({x} ⊦ x⦂A ⟶ ⊦ (F x)⦂(B x)) ⟶ ⊦ λ F ⦂ Πͬ A B❙
 ❚
 
 theory SimpleFunctionsEta =
   include ?SimpleFunctions❙
-  eta: {A,B,F:tm A → B} ⊦ F ≐ λ[x]F@x❙
+  eta: {A,B,F:tm A → B} ⊦ F =ͭ λ[x]F@x❙
 ❚
 
 theory DependentFunctionsEta =
   include ?DependentFunctions❙
-  eta: {A,B, F:tm Π[x:tm A] B x} ⊦ F ≐ λ[x]F@x❙
+  eta: {A,B, F:tm Πͭ[x:tm A] B x} ⊦ F =ͭ λ[x]F@x❙
 ❚
 
 theory SoftTypedFunctionsEta =
   include ?SoftTypedFunctions❙
-  eta: {F} ⊦ F ≐ λ[x]F@x❙
+  eta: {F} ⊦ F =ͧ λ[x]F@x❙
 ❚
 
 theory SimpleFunctionsExtensionality =
   include ?SimpleFunctions❙
-  exten: {A,B,F,G:tm A → B} ({x} ⊦ F@x ≐ G@x) ⟶ ⊦ F≐G❙
+  exten: {A,B,F,G:tm A → B} ({x} ⊦ F@x =ͭ G@x) ⟶ ⊦ F =ͭ G❙
 ❚
 
 theory DependentFunctionsExtensionality =
   include ?DependentFunctions❙
-  exten: {A,B, F,G:tm Π[x:tm A] B x} ({x} ⊦ F@x ≐ G@x) ⟶ ⊦ F≐G❙
+  exten: {A,B, F,G:tm Πͭ[x:tm A] B x} ({x} ⊦ F@x =ͭ G@x) ⟶ ⊦ F =ͭ G❙
 ❚
 
 theory SofttypedFunctionsExtensionality =
   include ?SoftTypedFunctions❙
-  exten: {F,G} ({x} ⊦ F@x ≐ G@x) ⟶ ⊦ F≐G❙
+  exten: {F,G} ({x} ⊦ F@x =ͧ G@x) ⟶ ⊦ F =ͧ G❙
 ❚
 
 view FE : ?SimpleFunctionsExtensionality -> ?SimpleFunctionsEta =
   include ?SimpleFunctions❙
-   exten = [A,B,F,G] [f] trans3 eta (simpxi [x] f x) (eta sym)❙
+   exten = [A,B,F,G] [f] ttrans3 eta (simpxi [x] f x) (eta tsym)❙
 ❚
 
 view EF : ?SimpleFunctionsEta -> ?SimpleFunctionsExtensionality =
    include ?SimpleFunctions❙
-   eta = [A,B,F] exten [x] refl ❙
+   eta = [A,B,F] exten [x] trefl❙
 ❚

@@ -1,13 +1,12 @@
 % iteratively increases search depth, calls id_prove_run for actual proving with that depth.
 
 id_prove_aux N _ F Res :- N > 0, id_prove_run N Res F, !.
-id_prove_aux N M F Res :-
-    N < M, N' is N + 1, print "New depth: " N',
-    id_prove_aux N' M F Res, !.
+id_prove_aux N M F Res :- N < M, K is N + 1, print "New depth: " K, id_prove_aux K M F Res, !.
+    
 id_prove F :-
     print "Proving " F,
     id_prove_aux 0 15 F Res,
     print "Result:" Res, !, fail.
 id_prove F :-
     print "Result: Failure", !, fail.
-
+ 

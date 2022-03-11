@@ -13,17 +13,17 @@ theory GeneratedSets =
 theory GeneratedMagmas =
   include ?Magma❙
   include ?GeneratedSets❙
-  closure_op: {S} ⊦ ∀[x]∀[y] x∈⟨S⟩ ⇒ y∈⟨S⟩ ⇒ (x∘y)∈⟨S⟩❙ 
+  closure_op: {S} ⊦ ∀ͭ[x]∀ͭ[y] x∈ͯ⟨S⟩ ⇒ y∈ͯ⟨S⟩ ⇒ (x∘y)∈ͯ⟨S⟩❙ 
 ❚
 
 theory GeneratedPointed =
   include ?Pointed❙
   include ?GeneratedMagmas❙
-  closure_elem: {S} ⊦ e∈⟨S⟩❙ 
+  closure_elem: {S} ⊦ e∈ͯ⟨S⟩❙ 
 ❚
 
 theory GeneratedInverseFun =
   include ?InverseFun❙
   include ?GeneratedPointed❙
-  closure_inv: {S} ⊦ ∀[x] x∈⟨S⟩ ⇒ x⁻∈⟨S⟩❙ 
+  closure_inv: {S} ⊦ ∀ͭ[x] x∈ͯ⟨S⟩ ⇒ x⁻∈ͯ⟨S⟩❙ 
 ❚

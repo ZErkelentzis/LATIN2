@@ -1,0 +1,19 @@
+file ../../../build_config.msl
+
+// logic
+// depends in general on fundamentals (these dependencies are not mentioned here)!
+
+// no dependencies
+// AS: drt needs some scala stuff which fails for me -> LOIF
+// build MMT/LATIN2 mmt-omdoc logic/propositional/drt.mmt
+build MMT/LATIN2 mmt-omdoc logic/propositional/pl.mmt
+
+// dependent on pl
+build MMT/LATIN2 mmt-omdoc logic/propositional/dependent_pl.mmt
+build MMT/LATIN2 mmt-omdoc logic/propositional/pl_hilbert.mmt
+build MMT/LATIN2 mmt-omdoc logic/propositional/pl_derived.mmt
+build MMT/LATIN2 mmt-omdoc logic/propositional/pl-tableaux.mmt
+build MMT/LATIN2 mmt-omdoc logic/propositional/pl-views.mmt
+
+// dependent on pl and pl_hilbert
+build MMT/LATIN2 mmt-omdoc logic/propositional/modal.mmt
