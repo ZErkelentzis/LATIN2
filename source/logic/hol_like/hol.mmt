@@ -12,13 +12,13 @@ theory InternalEquality =
 theory PropositionalExtensionality =
   include ?InternalEquality❙
   propext: {F,G} (⊦ F ⟶ ⊦ G) ⟶ (⊦ G ⟶ ⊦ F) ⟶ ⊦ F =ͭ G❙
-  top_unique: {F,G} ⊦ F ⟶ ⊦ G ⟶ ⊦ F =ͭ G❘ = [F,G,p,q] propext ([u] q) ([u] p)
+  top_unique: {F,G} ⊦ F ⟶ ⊦ G ⟶ ⊦ F =ͭ G❘ = [F,G,p,q] propext ([u] q) ([u] p)❙
 ❚
 
 theory IHOL =
   include ?InternalEquality❙
   include ?ISFOL❙
- ❚
+❚
 
 theory IHOLND =
   include ?InternalEquality❙
@@ -88,31 +88,36 @@ theory ClassicalViaChoice =
 ❚
 
 theory IfThenElseViaChoice =
-  include ?HOL❙
-  include ?TypedChoice❙
-  //
-     ifte_prop : tm o -> tm A -> tm A -> (tm A -> tm o) = [b][x][y] [u] (b ∧ (u == x)) ∨ (¬ b ∧ (u == y)).
-   ifte : tm o -> tm A -> tm A -> tm A = [b][x][y] the [u] ifte_prop b x y u.
-   ifte_exists : ⊦ ∃ [u] ifte_prop B X Y u
-     = ∨E tnd ([p: ⊦   B] ∃I X (∨Il (∧I p eqrefl)))
-              ([p: ⊦ ¬ B] ∃I Y (∨Ir (∧I p eqrefl))).
-   ifte_unique : {u} ⊦ ifte_prop B X Y u -> {v} ⊦ ifte_prop B X Y v -> ⊦ u == v
-     = [u][p][v][q] ∨E p ([r: ⊦   B ∧ (u == X)]
-                            ∨E q ([s: ⊦   B ∧ (v == X)] eqtrans (∧Er r) (eqsym (∧Er s)))
-                                 ([s: ⊦ ¬ B ∧ (v == Y)] ¬E' (∧El s) (∧El r))
-                        )([r: ⊦ ¬ B ∧ (u == Y)]
-                            ∨E q ([s: ⊦   B ∧ (v == X)] ¬E' (∧El r) (∧El s))
-                                 ([s: ⊦ ¬ B ∧ (v == Y)] eqtrans (∧Er r) (eqsym (∧Er s)))
-                        ).
-   ifte_then : ⊦   B -> ⊦ ifte B X Y == X
-     = [p] ∃E ifte_exists [x][q: ⊦ ifte_prop B X Y x]
-         ∨E (rul_the ([u] ifte_prop B X Y u) x q ([u][r] ifte_unique u r x q))
-            ([r: ⊦   B ∧ (ifte B X Y == X)] ∧Er r)
-            ([r: ⊦ ¬ B ∧ (ifte B X Y == Y)] ¬E' (∧El r) p).
-   ifte_else : ⊦ ¬ B -> ⊦ ifte B X Y == Y
-     = [p] ∃E ifte_exists [y][q: ⊦ ifte_prop B X Y y]
-         ∨E (rul_the ([u] ifte_prop B X Y u) y q ([u][r] ifte_unique u r y q))
-            ([r: ⊦   B ∧ (ifte B X Y == X)] ¬E' p (∧El r))
-            ([r: ⊦ ¬ B ∧ (ifte B X Y == Y)] ∧Er r).
-   ❙
+  include ?HOLND❙
+  include ?TypedTotalChoice❙
+  
+  ifte_prop : {A} prop ⟶ tm A ⟶ tm A ⟶ (tm A ⟶ prop)❘# %%prefix 1 4❘
+            = [A,b,x,y] [u] (b ∧ (u =ͭ x)) ∨ (¬ b ∧ (u =ͭ y))❙
+  ifte : {A} prop ⟶ tm A ⟶ tm A ⟶ tm A❘ # if 2 then 3 else 4 prec 50❘
+       = [A,b,x,y] tsome [u] ifte_prop b x y u❙
+  
+  ifte_exists : {A,B,X,Y: tm A} ⊦ ∃ͭ [u] ifte_prop B X Y u❘
+     = [A,B,X,Y: tm A] tnd orE
+           ([p: ⊦   B] texistsI X ((andI p trefl) orIl))
+           ([p: ⊦ ¬ B] texistsI Y ((andI p trefl) orIr))❙
+
+  ifte_unique : {A,B,X,Y: tm A,u} ⊦ ifte_prop B X Y u ⟶ {v} ⊦ ifte_prop B X Y v ⟶ ⊦ u =ͭ v❘
+     = [A,B,X,Y,u,p,v,q] p orE ([r: ⊦   B ∧ (u =ͭ X)]
+                              q orE ([s: ⊦   B ∧ (v =ͭ X)] (r andEr) ttrans ((s andEr) tsym))
+                                    ([s: ⊦ ¬ B ∧ (v =ͭ Y)] (s andEl) notE_done (r andEl))
+                            )([r: ⊦ ¬ B ∧ (u =ͭ Y)]
+                              q orE ([s: ⊦   B ∧ (v =ͭ X)] (r andEl) notE_done (s andEl))
+                                    ([s: ⊦ ¬ B ∧ (v =ͭ Y)] (r andEr) ttrans ((s andEr) tsym))
+                            )❙
+ 
+  ifte_then : {A,B,X,Y:tm A} ⊦   B ⟶ ⊦ if B then X else Y =ͭ X❘
+     = [A,B,X,Y,p] ifte_exists texistsE [x][q: ⊦ ifte_prop B X Y x]
+         (tsome_ax ([u] ifte_prop B X Y u) ifte_exists) orE
+            ([r: ⊦   B ∧ (if B then X else Y =ͭ X)] r andEr)
+            ([r: ⊦ ¬ B ∧ (if B then X else Y =ͭ Y)] (r andEl) notE_done p)❙
+   ifte_else : {A,B,X,Y:tm A} ⊦ ¬ B ⟶ ⊦ if B then X else Y =ͭ Y❘
+     = [A,B,X,Y,p] ifte_exists texistsE [y][q: ⊦ ifte_prop B X Y y]
+         (tsome_ax  ([u] ifte_prop B X Y u) ifte_exists) orE
+            ([r: ⊦   B ∧ (if B then X else Y =ͭ X)] p notE_done (r andEl))
+            ([r: ⊦ ¬ B ∧ (if B then X else Y =ͭ Y)] r andEr)❙
 ❚

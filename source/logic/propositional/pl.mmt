@@ -99,6 +99,8 @@ theory NegationNDE =
   include ?Negation❙
   include ?Logic❙
   notE  : {F} ⊦ ¬ F ⟶ ⊦ F ⟶ ↯❘# 2 notE 3❙
+  notE_done: {F,G} ⊦ ¬ F ⟶ ⊦ F ⟶ ⊦ G❘# 3 notE_done 4❘
+           = [F,G,p,q] (p notE q) G❙
 ❚
 
 theory NegationND =
