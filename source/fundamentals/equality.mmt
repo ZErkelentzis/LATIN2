@@ -102,3 +102,10 @@ theory TypedEqualityND =
   tcongT2 : {A,B,C,x,y,xˈ,yˈ} ⊦ x =ͭ y ⟶ ⊦xˈ =ͭ yˈ⟶ {T: tm A ⟶ tm B ⟶ tm C} ⊦ T x xˈ =ͭ T y yˈ❘# 8 9 tcongT2 10❘
          = [A,B,C,x,y,xˈ,yˈ,p,q,T] (p tcongT [u] T u xˈ) ttrans (q tcongT [u] T y u)❙
 ❚
+
+theory PropositionalExtensionality =
+  include ?InternalPropositions❙
+  include ?TypedEquality❙
+  propext: {F,G} (⊦ F ⟶ ⊦ G) ⟶ (⊦ G ⟶ ⊦ F) ⟶ ⊦ F =ͭ G❙
+  top_unique: {F,G} ⊦ F ⟶ ⊦ G ⟶ ⊦ F =ͭ G❘ = [F,G,p,q] propext ([u] q) ([u] p)❙
+❚

@@ -9,12 +9,6 @@ theory InternalEquality =
   equalConstant : {A} tm A → (A → bool)❘= [A]λ[x]λ[y]x =ͭ y❙
 ❚
 
-theory PropositionalExtensionality =
-  include ?InternalEquality❙
-  propext: {F,G} (⊦ F ⟶ ⊦ G) ⟶ (⊦ G ⟶ ⊦ F) ⟶ ⊦ F =ͭ G❙
-  top_unique: {F,G} ⊦ F ⟶ ⊦ G ⟶ ⊦ F =ͭ G❘ = [F,G,p,q] propext ([u] q) ([u] p)❙
-❚
-
 theory IHOL =
   include ?InternalEquality❙
   include ?ISFOL❙
@@ -94,7 +88,7 @@ theory IfThenElseViaChoice =
   ifte_prop : {A} prop ⟶ tm A ⟶ tm A ⟶ (tm A ⟶ prop)❘# %%prefix 1 4❘
             = [A,b,x,y] [u] (b ∧ (u =ͭ x)) ∨ (¬ b ∧ (u =ͭ y))❙
   ifte : {A} prop ⟶ tm A ⟶ tm A ⟶ tm A❘ # if 2 then 3 else 4 prec 50❘
-       = [A,b,x,y] tsome [u] ifte_prop b x y u❙
+       = [A,b,x,y] tany [u] ifte_prop b x y u❙
   
   ifte_exists : {A,B,X,Y: tm A} ⊦ ∃ͭ [u] ifte_prop B X Y u❘
      = [A,B,X,Y: tm A] tnd orE
@@ -112,12 +106,12 @@ theory IfThenElseViaChoice =
  
   ifte_then : {A,B,X,Y:tm A} ⊦   B ⟶ ⊦ if B then X else Y =ͭ X❘
      = [A,B,X,Y,p] ifte_exists texistsE [x][q: ⊦ ifte_prop B X Y x]
-         (tsome_ax ([u] ifte_prop B X Y u) ifte_exists) orE
+         (tany_ax ([u] ifte_prop B X Y u) ifte_exists) orE
             ([r: ⊦   B ∧ (if B then X else Y =ͭ X)] r andEr)
             ([r: ⊦ ¬ B ∧ (if B then X else Y =ͭ Y)] (r andEl) notE_done p)❙
    ifte_else : {A,B,X,Y:tm A} ⊦ ¬ B ⟶ ⊦ if B then X else Y =ͭ Y❘
      = [A,B,X,Y,p] ifte_exists texistsE [y][q: ⊦ ifte_prop B X Y y]
-         (tsome_ax  ([u] ifte_prop B X Y u) ifte_exists) orE
+         (tany_ax  ([u] ifte_prop B X Y u) ifte_exists) orE
             ([r: ⊦   B ∧ (if B then X else Y =ͭ X)] p notE_done (r andEl))
             ([r: ⊦ ¬ B ∧ (if B then X else Y =ͭ Y)] r andEr)❙
 ❚

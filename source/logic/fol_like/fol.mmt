@@ -192,41 +192,14 @@ theory DescriptionND =
   the_ax : {P,p} ⊦ P (the P p)❘# the_ax 1 2❙
 ❚
 
-/T might not yet typecheck (done by Navid, 2021-04-24) ❚
-theory DescriptionNDS =
-  include ?DescriptionND❙
-  include ?ProofEquality ❙
-  /T does not typecheck due to https://github.com/UniFormal/MMT/blob/e28a07fb6792b79337e6b69673c9c15ce08cfd4d/src/mmt-lf/src/info/kwarc/mmt/lf/SimplificationRuleGenerator.scala#L205 ❙
-  theS: {x,P: term ⟶ prop,px: ⊦ P x,pf1: {y} ⊦ P y ⟶ ⊦ x =ͧ y}
-          ⊦ the P (uexistsUniqueI px pf1) =ͧ x ❘ role Simplify❙
-
-  /T well-typedness of this constant depends on simplification rule theS above ❙
-  the_axS: {x,P: term ⟶ prop,px: ⊦ P x,pf1}
-          (the_ax P (uexistsUniqueI px pf1)) ⟺ px ❘ role Simplify ❙
-❚
-
 theory Choice =
   include ?Logic❙
   include ?ExistentialQuantification❙
-  some : {P} ⊦ ∃ͧ P ⟶ term❘# some 1 2 prec 50❙
-❚
-
-theory ChoiceND =
-  include ?Choice❙
-  include ?ExistentialQuantificationND❙
-  some_ax : {P,p} ⊦ P (some P p)❘# some_ax 1 2❙
-❚
-
-/T might not yet typecheck (done by Navid, 2021-04-24) ❚
-theory ChoiceNDS =
-  include ?ChoiceND❙
   include ?UntypedEquality❙
-  include ?ProofEquality❙
-
-  someS: {P,X,pf: ⊦ P X} ⊦ some P (uexistsI X pf) =ͧ X ❘ role Simplify ❙
-
-  /T well-typedness of this constant depends on simplification rule someS above ❙
-  some_axS: {P,X,pf: ⊦ P X} some_ax P (uexistsI X pf) ⟺ pf ❘ role Simplify ❙
+  some : {P} ⊦ ∃ͧ P ⟶ term❘# some 1 2 prec 50❙
+  some_ax : {P,p} ⊦ P (some P p)❘# some_ax 1 2❙
+  some_eq: {P,Q,p,q} ({x} ⊦ P x ⟶ ⊦ Q x) ⟶ ({x} ⊦ Q x ⟶ ⊦ P x) ⟶
+            ⊦ some P p =ͧ some Q q❙
 ❚
 
 // The variant of choice that always returns a value and whose defining axiom is relativized by existence; only sound if types are guaranteed to be non-empty.❚
@@ -235,8 +208,15 @@ theory TotalChoice =
   include ?ExistentialQuantification❙
   include ?UntypedEquality❙
   include ?UniverseNonEmpty❙
-  some : {P:term ⟶ prop} term❘# %n 1 prec 50❙
-  some_ax : {P: term ⟶ prop,p} ⊦ ∃ͧ P ⟶ ⊦ P (some p)❘# %n 2 3❙
+  any : {P:term ⟶ prop} term❘# %n 1 prec 50❙
+  any_ax : {P: term ⟶ prop,p} ⊦ ∃ͧ P ⟶ ⊦ P (any p)❘# %n 2 3❙
+  any_eq : {P,Q} ({x} ⊦ P x ⟶ ⊦ Q x) ⟶ ({x} ⊦ Q x ⟶ ⊦ P x) ⟶
+            ⊦ any P =ͧ any Q❙
+  
+  realize ?Choice❙
+  some = [P,p] any P❙
+  some_ax = [P,p] any_ax P p❙
+  some_eq = [P,Q,p,q,r,s] any_eq r s❙
 ❚
 
 theory FOLEQDesc = 

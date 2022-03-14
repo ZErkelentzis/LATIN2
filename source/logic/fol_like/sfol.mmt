@@ -95,7 +95,7 @@ theory TypedChoice =
   tsome : {A} {P:tm A ⟶ prop} ⊦ ∃ͭ P ⟶ tm A❘# %n 2 3 prec 50❙
   tsome_ax : {A,P: tm A ⟶ prop,p} ⊦ P (tsome P p)❘# %n 2 3❙
   tsome_eq: {A,P,Q,p,q} ({x: tm A} ⊦ P x ⟶ ⊦ Q x) ⟶ ({x: tm A} ⊦ Q x ⟶ ⊦ P x) ⟶
-   ⊦ tsome P p =ͭ tsome Q q❙
+            ⊦ tsome P p =ͭ tsome Q q❙
 ❚
 
 // The variant of choice that always returns a value and whose defining axiom is relativized by existence; only sound if types are guaranteed to be non-empty.❚
@@ -104,6 +104,13 @@ theory TypedTotalChoice =
   include ?TypedExistentialQuantification❙
   include ?TypedEquality❙
   include ?TypesNonEmpty❙
-  tsome : {A} {P:tm A ⟶ prop} tm A❘# %n 2 prec 50❙
-  tsome_ax : {A,P: tm A ⟶ prop} ⊦ ∃ͭ P ⟶ ⊦ P (tsome P)❘# %n 2 3❙
+  tany : {A} {P:tm A ⟶ prop} tm A❘# %n 2 prec 50❙
+  tany_ax : {A,P: tm A ⟶ prop} ⊦ ∃ͭ P ⟶ ⊦ P (tany P)❘# %n 2 3❙
+  tany_eq : {A,P,Q} ({x: tm A} ⊦ P x ⟶ ⊦ Q x) ⟶ ({x: tm A} ⊦ Q x ⟶ ⊦ P x) ⟶
+            ⊦ tany P =ͭ tany Q❙
+  
+  realize ?TypedChoice❙
+  tsome = [A,P,p] tany P❙
+  tsome_ax = [A,P,p] tany_ax P p❙
+  tsome_eq = [A,P,Q,p,q,r,s] tany_eq r s❙
 ❚
