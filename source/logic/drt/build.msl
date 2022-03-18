@@ -1,0 +1,7 @@
+file ../../../build_config.msl
+
+// discourse representation theory
+
+// depends on fol, requires lf-scala and scala-bin
+build MMT/LATIN2 mmt-omdoc logic/fol_like/drt.mmt
+build MMT/LATIN2 mmt-omdoc logic/fol_like/drt-fol.mmt

@@ -42,7 +42,7 @@ file source/type_theory/endofunctors/build.msl
 file source/set_theory/build.msl
 
 // Logic extensions formalizes various less common logical features.
-file source/logic_extensions/build.msl
+file source/logic/other/build.msl
 
 // Topology provides formalizes the various definitions of closure operators and topologies.
 // These are interesting in their own and a case-study on theory morphisms, but also often used at the meta-level.
@@ -52,7 +52,7 @@ build MMT/LATIN2 mmt-omdoc topology
 build MMT/LATIN2 mmt-omdoc curry-howard
 
 // Numbers
-build MMT/LATIN2 mmt-omdoc numbers
+file source/numbers/build.msl
 
 // The algebraic hierarchy based on FOL.
 file source/algebra/build.msl
