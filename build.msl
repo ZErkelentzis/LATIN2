@@ -44,8 +44,9 @@ file source/set_theory/build.msl
 // Logic extensions formalizes various less common logical features.
 file source/logic/other/build.msl
 
-// Topology provides formalizes the various definitions of closure operators and topologies.
+// Topology formalizes the various definitions of closure operators and topologies.
 // These are interesting in their own and a case-study on theory morphisms, but also often used at the meta-level.
+// They depend on PowerHOL.
 build MMT/LATIN2 mmt-omdoc topology
 
 // Theory morphisms formalizing the Curry-Howard correspondence between logics and type theories.
@@ -67,4 +68,6 @@ file source/transformations_to_set/build.msl
 // build MMT/LATIN2 lf-scala
 
 // build scala-bin scala
+
+// build MMT/LATIN2 present-text-notations-flat
 
