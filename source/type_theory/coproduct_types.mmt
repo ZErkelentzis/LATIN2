@@ -1,0 +1,26 @@
+namespace latin:/❚
+
+fixmeta ur:?LF❚
+
+theory CoproductTypes =
+  include ?Types❙
+  coprod : tp ⟶ tp ⟶ tp❘# 1 ⊎ͭ 2 prec 50❙
+❚
+
+theory Coproducts =
+  include ?CoproductTypes❙
+  include ?TypedEqualityND❙
+  inj1 : {A,B} tm A ⟶ tm A ⊎ͭ B❘# inj1 3 prec 50❙
+  inj2 : {A,B} tm B ⟶ tm A ⊎ͭ B❘# inj2 3 prec 50❙
+  cases : {A,B,C} tm A ⊎ͭ B ⟶ (tm A ⟶ tm C) ⟶ (tm B ⟶ tm C) ⟶ tm C❘# 4 cases 5 6 prec 30❙
+  
+  compute1 : {A,B,C,a: tm A,f, g:tm B ⟶ tm C} ⊦ (inj1 a) cases f g =ͭ f a❙
+  compute2 : {A,B,C,b: tm B,f:tm A ⟶ tm C, g} ⊦ (inj2 b) cases f g =ͭ g b❙
+❚
+
+theory CoproductsExpand =
+  include ?Coproducts❙
+  expand : {A,B,c: tm A ⊎ͭ B} ⊦ c cases ([a] inj1 a) ([b] inj2 b) =ͭ c❙
+❚
+
+

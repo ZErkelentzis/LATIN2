@@ -49,12 +49,10 @@ file source/logic_extensions/build.msl
 build MMT/LATIN2 mmt-omdoc topology
 
 // Theory morphisms formalizing the Curry-Howard correspondence between logics and type theories.
-// AS: logic-to-type-theory leads to an error
 build MMT/LATIN2 mmt-omdoc curry-howard
 
 // Numbers
-// AS: nat-induct leads to an error, so I only build nat.mmt for now
-build MMT/LATIN2 mmt-omdoc numbers/nat.mmt
+build MMT/LATIN2 mmt-omdoc numbers
 
 // The algebraic hierarchy based on FOL.
 file source/algebra/build.msl

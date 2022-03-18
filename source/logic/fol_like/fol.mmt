@@ -69,12 +69,6 @@ theory IFOLND =
   include ?ExistentialQuantificationND❙
 ❚
 
-theory IFOLNDS =
-  include ?IFOLND❙
-  include ?UniversalQuantificationNDS❙
-  include ?ExistentialQuantificationNDS❙
-❚
-
 theory IFOLEQ =
   include ?IFOL❙
   include ?UntypedEquality❙
@@ -84,12 +78,6 @@ theory IFOLEQND =
   include ?IFOLEQ❙
   include ?IFOLND ❙
   include ?UntypedEqualityND❙
-❚
-
-theory IFOLEQNDS =
-  include ?IFOLEQND❙
-  include ?IFOLNDS❙
-  include ?UntypedEqualityNDS❙
 ❚
 
 theory FOL =
@@ -103,11 +91,6 @@ theory FOLND =
   include ?IFOLND❙
 ❚
 
-theory FOLNDS =
-  include ?FOLND❙
-  include ?IFOLNDS❙
-❚
-
 theory FOLEQ =
   include ?FOL❙
   include ?UntypedEquality❙
@@ -117,12 +100,6 @@ theory FOLEQND =
   include ?FOLEQ❙
   include ?FOLND❙
   include ?UntypedEqualityND❙
-❚
-
-theory FOLEQNDS =
-  include ?FOLEQND❙
-  include ?FOLNDS❙
-  include ?UntypedEqualityNDS❙
 ❚
 
 theory RelativizedUniversalQuantification =
@@ -230,12 +207,6 @@ theory FOLEQDescND =
   include ?DescriptionND❙
 ❚
 
-theory FOLEQDescNDS =
-  include ?FOLEQDescND❙
-  include ?FOLEQNDS❙
-  include ?DescriptionNDS❙
-❚
-
 theory DependentFOLEQDesc =
   include ?FOLEQDesc❙
   include ?DependentConjunction❙
@@ -251,21 +222,9 @@ theory DependentFOLEQDescND =
   include ?DependentImplicationND❙
 ❚
 
-// I added this theory just to be complete. It can be deleted, if it is not wanted❚
-theory DependentFOLEQDescNDS =
-  include ?DependentFOLEQDescND❙
-  include ?FOLEQDescNDS❙
-  include ?DependentConjunctionNDS❙
-  include ?DependentImplicationNDS❙
-❚
-
-// does not typecheck:
-
 view TC : ?Nonempty -> ?Description =
   nonempty = [A] ∃I (the [x] ⊤) ⊤I❙ 
 ❚
-
-// does not typecheck:
 
 view DC : ?Description -> ?Choice =
    the = [A] some❙

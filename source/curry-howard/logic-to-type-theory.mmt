@@ -1,23 +1,8 @@
-/T One direction of the Curry-Howard correspondence, namely the one interpreting (propositional, first-order)
-   logic in terms of (simple, dependent) type theory.
+/T Curry-Howard correspondence as morphisms XCH that translate logical theories X to type-theoretical theories
 ❚
 
 namespace latin:/❚
 fixmeta ur:?LF❚
-
-// Naming convention:
-
-   Theory suffixes:
-     - view PLTheoryCH:   ?PLTheory   -> ???: the Curry Howard realizing the PL theory `PLTheory` in type theory
-     - view PLTheoryCHND: ?PLTheoryND -> ???: the Curry Howard realizing the natural deduction rules, too
-❚
-
-// missing:
-
-   Disjunction(NDS) -> Coproduct(Types): we currently have no coproduct types in type_theory
-   Falsity -> EmptyType: we currently have no empty type in type_theory
-   Truth -> SingletonType: we currently have no singleton type in type_theory
-❚
 
 view PropositionsAsTypes : ?Propositions -> ?Types =
   prop = tp❙
@@ -28,13 +13,30 @@ view ProofsAsTerms : ?Proofs -> ?TypedTerms =
   ded  = tm❙
 ❚
 
-view LogicAsTypeTheory : ?Logic -> ?TypedTerms =
+view LogicCH : ?Logic -> ?TypedTerms =
   include ?ProofsAsTerms ❙
 ❚
 
-view ProofAsTermEquality : ?ProofEquality -> ?TypedEquality =
-  include ?ProofsAsTerms ❙
-  proofeq = [A,s,t] ⊦ s =ͭ t ❙
+/T falsity as empty type ❚
+view FalsityCH : ?Falsity -> ?EmptyType =
+  include ?PropositionsAsTypes ❙
+  false = void❙
+❚
+view FalsityNDCH : ?FalsityND -> ?EmptyType =
+  include ?LogicCH❙
+  include ?FalsityCH❙
+  falseE = throw❙
+❚
+
+/T truth as unit type ❚
+view TruthCH : ?Truth -> ?UnitType =
+  include ?PropositionsAsTypes ❙
+  true = unitType❙
+❚
+view TruthNDCH : ?TruthND -> ?UnitType =
+  include ?LogicCH❙
+  include ?TruthCH❙
+  trueI = unit❙
 ❚
 
 /T conjunctions as product types ❚
@@ -42,45 +44,24 @@ view ConjunctionCH : ?Conjunction -> ?SimpleProductTypes =
   include ?PropositionsAsTypes ❙
   and = simpprod ❙
 ❚
-/T dependent conjunctions as dependent product types ❚
-view DependentConjunctionCH : ?DependentConjunction -> ?DependentProductTypes =
-  include ?LogicAsTypeTheory ❙
-  dand = depprod ❙
-❚
-
-/T conjunction proof simplification as product projections ❚
-view ConjunctionCHND : ?ConjunctionND -> ?SimpleProducts =
+view ConjunctionNDCH : ?ConjunctionND -> ?SimpleProducts =
   include ?ConjunctionCH ❙
   include ?ProofsAsTerms ❙
   andI = simppair ❙
   andEl = simppi1 ❙
   andEr = simppi2 ❙
 ❚
-/T concrete dependent conjunctions as dependent pairs ❚
-view DependentConjunctionCHND : ?DependentConjunctionND -> ?DependentProducts =
+
+/T dependent conjunctions as dependent product types ❚
+view DependentConjunctionCH : ?DependentConjunction -> ?DependentProductTypes =
+  include ?LogicCH ❙
+  dand = depprod ❙
+❚
+view DependentConjunctionNDCH : ?DependentConjunctionND -> ?DependentProducts =
   include ?DependentConjunctionCH ❙
   dandI = deppair ❙
   dandEl = deppi1 ❙
   dandEr = deppi2 ❙
-❚
-
-/T conjunction proof simplification as product projections ❚
-view ConjunctionCHNDS : ?ConjunctionNDS -> ?SimpleProducts =
-  include ?ConjunctionCHND ❙
-  include ?ProofAsTermEquality ❙
-  andSl = ?SimpleProducts?compute1 ❙
-  andSr = ?SimpleProducts?compute2 ❙
-❚
-
-// dependent conjunction proof simplification as dependent product projections
-
-   Does not completely typecheck yet!
-❚
-// view DependentConjunctionCHNDS : ?DependentConjunctionNDS -> ?DependentProducts =
-  include ?DependentConjunctionCHND ❙
-  include ?ProofAsTermEquality ❙
-  dandSl = ?DependentProducts?compute1 ❙
-  dandSr = ?DependentProducts?compute2 ❙
 ❚
 
 /T implications as functions types ❚
@@ -88,35 +69,34 @@ view ImplicationCH : ?Implication -> ?SimpleFunctionTypes =
   include ?PropositionsAsTypes ❙
   impl = simpfun ❙
 ❚
-/T dependent implication as dependent function types ❚
-view DependentImplicationCH : ?DependentImplication -> ?DependentFunctionTypes =
-  include ?LogicAsTypeTheory ❙
-  dimpl = depfun ❙
-❚
-
-/T concrete implications as functions ❚
 view ImplicationCHND : ?ImplicationND -> ?SimpleFunctions =
   include ?ImplicationCH ❙
   include ?ProofsAsTerms ❙
   implI = simplambda ❙
   implE = simpapply ❙
 ❚
-/T concrete dependent implications as dependent functions ❚
+
+/T dependent implication as dependent function types ❚
+view DependentImplicationCH : ?DependentImplication -> ?DependentFunctionTypes =
+  include ?LogicCH ❙
+  dimpl = depfun ❙
+❚
 view DependentImplicationCHND : ?DependentImplicationND -> ?DependentFunctions =
   include ?DependentImplicationCH ❙
   dimplI = deplambda ❙
   dimplE = depapply ❙
 ❚
 
-/T implication proof simplification as function beta reduction ❚
-view ImplicationCHNDS : ?ImplicationNDS -> ?SimpleFunctions =
-  include ?ImplicationCHND ❙
-  include ?ProofAsTermEquality ❙
-  implS = ?SimpleFunctions?simpbeta ❙
+/T disjunction as coproduct types ❚
+view DisjunctionCH : ?Disjunction -> ?CoproductTypes =
+  include ?PropositionsAsTypes❙
+  or = coprod ❙
 ❚
-/T dependent implication proof simplification as dependent function beta reduction ❚
-view DependentImplicationCHNDS : ?DependentImplicationNDS -> ?DependentFunctions =
-  include ?DependentImplicationCHND ❙
-  include ?ProofAsTermEquality ❙
-  dimplS = ?DependentFunctions?depbeta ❙
+/T disjunction as coproduct types ❚
+view DisjunctionNDCH : ?DisjunctionND -> ?Coproducts =
+  include ?LogicCH❙
+  include ?DisjunctionCH❙
+  orIl = inj1❙
+  orIr = inj2❙
+  orE = cases❙
 ❚
