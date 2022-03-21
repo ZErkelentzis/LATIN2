@@ -20,7 +20,7 @@ theory ClosureOperator =
   monotone     : {A,B} ⊦ A ⊆ͯ B ⟶ ⊦ cl A ⊆ͯ cl B❙
   idempotent   : {A} ⊦ cl (cl A) =ͭ cl A❙
   
-  closureFixI : {A} ⊦ cl A ⊆ͯ A ⟶ ⊦ cl A =ͭ A❘ = [A,p] extensionalityI ([x,q] subsetE p q) ([x,q] subsetE extensive q)❙     
+  closureFixI : {A} ⊦ cl A ⊆ͯ A ⟶ ⊦ cl A =ͭ A❘ = [A,p] subset_antisym p extensive❙     
 ❚
 
 theory Closeness =
