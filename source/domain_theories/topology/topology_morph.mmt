@@ -18,3 +18,15 @@ for functions f: X ⟶ Y
       Open ⟶ Closed: OO = complements of CC
       Closed ⟶ Open: CC = complements of OO
 ❚
+
+
+view ClosureSystemToOperator : ?ClosureSystem -> ?ClosureOperator =
+  X = X❙
+  CC = pfilter [x] cl x =ͭ x❙
+  intersection = [Q,p] pfilterI _ ❙
+  full_closed = pfilterI _ ❙
+❚
+
+view CloseToClosureTopology : ?ClosedTopology -> ?ClosureTopology =
+  include ?ClosureSystemToOperator❙
+❚

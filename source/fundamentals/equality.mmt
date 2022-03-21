@@ -56,20 +56,13 @@ theory TypedEqualityND =
   include ?TypedEquality❙
   trefl   : {A,x: tm A} ⊦ x =ͭ x❙
 
-  /T Explanation:
-     Let `P: (tm A ⟶ tm B) ⟶ prop` be a predicate, which by HOAS we can interpret as a predicate that is
-     allowed to apply a function `tm A ⟶ tm B`.
-     Now the axiom asserts that if `X,Y: tm A ⟶ tm B` are two functions that are extensionally equal,
-     then `⊦ P X` implies `⊦ P Y`.
+  // We use an unusual congruence in order to be able to perform congruence under an arbitrary binder.
+     The rule captures a |- X a = Y a ---> P [a] X a ⇔ P [a] Y a.
+     That suffices to derive the xi rule for λ later. 
   ❙
   tcongB : {A,B, X,Y: tm A ⟶ tm B} ({a}⊦X a =ͭ Y a) ⟶ {P: (tm A ⟶ tm B) ⟶ prop} ⊦ P X ⟶ ⊦ P Y❙
 
-  /T
-    Explanation of definiens:
-    We instantiate `congB` with (i) two constant functions `λ_. x` and `λ_. y` (inferred implicit arguments)
-    and (ii) the predicate `(tm A ⟶ tm A) ⟶ prop` given by `λU. P (U x)`. Here, it is irrelevant whether
-    we would have written `U x` (as-is) or `U y` (since we are using constant functions anyway).
-  ❙
+  /T The usual congruence rule arises as a special case.❙
   tcongP  : {A,x,y} ⊦ x =ͭ y ⟶ {P: tm A ⟶ prop} ⊦ P x ⟶ ⊦ P y❘# 4 tcongP 5 6❘
          = [A,x,y,p,P,q] tcongB ([a]p) ([U] P (U x)) q❙
   
@@ -85,6 +78,9 @@ theory TypedEqualityND =
          = [A, v,w,x,y,z,p,q,r,s] p ttrans q ttrans r ttrans s❙
   tcongT2 : {A,B,C,x,y,xˈ,yˈ} ⊦ x =ͭ y ⟶ ⊦xˈ =ͭ yˈ⟶ {T: tm A ⟶ tm B ⟶ tm C} ⊦ T x xˈ =ͭ T y yˈ❘# 8 9 tcongT2 10❘
          = [A,B,C,x,y,xˈ,yˈ,p,q,T] (p tcongT [u] T u xˈ) ttrans (q tcongT [u] T y u)❙
+  
+  eqChain : {A,X:tm A} ⊦ X =ͭ X❘ = [A,X] trefl❘ # eqChain 2❙
+  equalToVia : {A,T,X: tm A} ⊦ T =ͭ X ⟶ {Y} ⊦ X =ͭ Y ⟶ ⊦ T =ͭ Y❘= [A,T,X,p,Y,q] p ttrans q❘# 4 < 6 > 5❙
 ❚
 
 theory PropositionalExtensionality =

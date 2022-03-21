@@ -2,6 +2,7 @@ namespace latin:/❚
 
 fixmeta latin:/powertypes?PowerSFOL❚
 
+// isomorphic axiomatizations of closure systems/operators❚
 theory ClosureSystem =
   X  : tp❙
   CC : tm ℘ͯ℘ͯX❙
@@ -18,7 +19,20 @@ theory ClosureOperator =
   extensive    : {A} ⊦ A ⊆ͯ cl A❙
   monotone     : {A,B} ⊦ A ⊆ͯ B ⟶ ⊦ cl A ⊆ͯ cl B❙
   idempotent   : {A} ⊦ cl (cl A) =ͭ cl A❙
+  
+  closureFixI : {A} ⊦ cl A ⊆ͯ A ⟶ ⊦ cl A =ͭ A❘ = [A,p] extensionalityI ([x,q] subsetE p q) ([x,q] subsetE extensive q)❙     
 ❚
+
+theory Closeness =
+  X     : tp❙
+  close : tm X ⟶ tm ℘ͯX ⟶ prop❘ # 1 | 2 prec 40❙
+
+  in_close     : {x,A} ⊦ x ∈ͯ A ⟶ ⊦ x|A❙
+  bigger_close : {x,A,B} ⊦ x|A ⟶ ⊦ A ⊆ͯ B ⟶ ⊦ x|B❙
+  transitive   : {A,B,x} ⊦ x|B ⟶ ⊦ (∀ͭ [y] y ∈ͯ B ⇒ y|A) ⟶ ⊦ x|A❙
+❚
+
+// isomorphic axiomatizations of topologies❚
 
 theory InteriorTopology = 
 	X : tp ❙
@@ -40,16 +54,6 @@ theory ClosureTopology =
   // monotone provable from union❙ 
 ❚
 
-//   isomorphic to ClosureOperator❚
-theory Closeness =
-  X     : tp❙
-  close : tm X ⟶ tm ℘ͯX ⟶ prop❘ # 1 | 2 prec 40❙
-
-  in_close     : {x,A} ⊦ x ∈ͯ A ⟶ ⊦ x|A❙
-  bigger_close : {x,A,B} ⊦ x|A ⟶ ⊦ A ⊆ͯ B ⟶ ⊦ x|B❙
-  transitive   : {A,B,x} ⊦ x|B ⟶ ⊦ (∀ͭ [y] y ∈ͯ B ⇒ y|A) ⟶ ⊦ x|A❙
-❚
-  
 theory ClosenessTopology =
   include ?Closeness❙
 

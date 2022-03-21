@@ -1,8 +1,6 @@
 namespace latin:/❚
 fixmeta ur:?LF❚
 
-// See README.md for naming conventions ❚
-
 theory TypedUniversalQuantification =
   include ?TypedLogic❙
   tforall : {A} (tm A ⟶ prop) ⟶ prop❘# ∀ͭ 2❙
@@ -103,7 +101,6 @@ theory TypedTotalChoice =
   include ?TypedLogic❙
   include ?TypedExistentialQuantification❙
   include ?TypedEquality❙
-  include ?TypesNonEmpty❙
   tany : {A} {P:tm A ⟶ prop} tm A❘# %n 2 prec 50❙
   tany_ax : {A,P: tm A ⟶ prop} ⊦ ∃ͭ P ⟶ ⊦ P (tany P)❘# %n 2 3❙
   tany_eq : {A,P,Q} ({x: tm A} ⊦ P x ⟶ ⊦ Q x) ⟶ ({x: tm A} ⊦ Q x ⟶ ⊦ P x) ⟶

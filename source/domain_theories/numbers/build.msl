@@ -1,8 +1,8 @@
-file ../../build_config.msl
+file ../../../build_config.msl
 
 // numbers
 // depends in general on fundamentals
-build MMT/LATIN2 mmt-omdoc numbers/nat.mmt
+build MMT/LATIN2 mmt-omdoc domain_theories/numbers/nat.mmt
 
 // non-canonical
 // build MMT/LATIN2 mmt-omdoc numbers/nat-induct.mmt

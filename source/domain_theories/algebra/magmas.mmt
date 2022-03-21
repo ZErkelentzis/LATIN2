@@ -170,9 +170,12 @@ theory Absorptive =
   include ?RightAbsorptive❙
 ❚
 
+// Two variants of magmas in which the composition of some elements returns the first/last one that is not the neutral element.
+These are rather uninteresting theories, but they are helpful in the Option monad (with None as the neutral element).
+❚
 theory FirstNonNeutral =
   include ?Unital❙
-  firstNonNeutral : ⊦ ∀ͭ[x] x≠e ⇒ ∀ͭ[y]x∘y =ͭ x❙  
+  firstNonNeutral : ⊦ ∀ͭ[x] x≠e ⇒ ∀ͭ[y]x∘y =ͭ x❙
   // realize ?Monoid❙
 ❚
 
@@ -200,10 +203,10 @@ theory Monoid =
   inverse_sym : {x,xˈ} ⊦ inverse x xˈ ⟶ ⊦ inverse xˈ x❘
               = [x,xˈ,p] andI (p andEr) (p andEl)❙
   inverse_unique : {x,x1,x2} ⊦ inverse x x1 ⟶ ⊦ inverse x x2 ⟶ ⊦ x1 =ͭ x2❘
-                 = [x,x1,x2,p,q] ttrans3
-                   ((neutR tsym) ttrans (q andEl tsym tcongT [u]x1∘u))
-                   assocR
-                   ((p andEr tcongT [u]u∘x2) ttrans neutL)❙
+                 = [x,x1,x2,p,q] eqChain x1
+                 < (neutR tsym) ttrans (q andEl tsym tcongT [u]x1∘u) > x1∘(x∘x2)
+                 < _ > (x1∘x)∘x2
+                 < (p andEr tcongT [u]u∘x2) > x2❙
 
   inverse_neutral : ⊦ inverse e e❘
                   = andI neutL neutL❙
