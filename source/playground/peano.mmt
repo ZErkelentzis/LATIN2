@@ -1,5 +1,4 @@
 namespace latin:/playground/tptp-exporter ❚
-rule scala://parser.api.mmt.kwarc.info?MMTURILexer ❚
 
 theory Peano : latin:/?HOLND =
     N : tp❙
@@ -18,5 +17,9 @@ theory Peano : latin:/?HOLND =
     axiom5 : ⊦ ∀ͭ[X: tm N → bool] X @ zero ∧ (∀ͭ[n : tm N] X @ n ⇒ X @ (successor @ n)) ⇒ ∀ͭ[x: tm N] X @ x❙
 
     // Conjecture❙
-    conj : ⊦ zero =ͭ (successor zero) ❘ = PROVE❙
+    conj : ⊦ ∀ͭ[x: tm N] (x =ͭ zero) ∨ (∃ͭ[y: tm N] successor @ y =ͭ x) ❘ = PROVE❙
+
+    //decl2 = successor @ (successor @ zero)❙
+
+    //conj2 : ⊦ ¬(decl2 =ͭ zero) ❘ = PROVE❙
 ❚

@@ -1,0 +1,8 @@
+namespace latin:/playground/tptp-exporter ❚
+
+theory PeanoNumbers : latin:/?HOLND =
+    include ?Peano❙
+    decl2 = successor @ (successor @ zero)❙
+
+    conj2 : ⊦ ¬(decl2 =ͭ zero) ❘ = PROVE❙
+❚

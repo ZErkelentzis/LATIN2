@@ -25,7 +25,7 @@ import lf.TypedUniversalQuantification.tforall
 import scala.collection.mutable.ArrayBuffer
 
 object SFOLExporter {
-  def combineStubs(p: GlobalName, ctx: Context, t: Term)(implicit ctrl: Controller): Problem = {
+  def combineStubs(p: MPath, ctx: Context, t: Term)(implicit ctrl: Controller): Problem = {
     var includes = ArrayBuffer[MPath]()
     var formulas = ArrayBuffer[AnnotatedFormula]()
     for (x <- ctrl.getTheory(p.module).getDeclarations.takeWhile(_.path != p)) {
@@ -41,6 +41,7 @@ object SFOLExporter {
     }.flatten.distinct
 
     formulas ++= axioms
+
     formulas += TFFAnnotated("conjecture", "conjecture",  TFF.Logical(translate_formula(t)), None)
 
     val tptp_exporter = ctrl.extman.get(classOf[TPTPExporter]).head

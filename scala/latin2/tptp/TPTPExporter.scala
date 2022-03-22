@@ -1,16 +1,19 @@
 package latin2.tptp
 
-import info.kwarc.mmt.api.{GeneralError, GlobalName, MPath, StructuralElement}
+import info.kwarc.mmt.api.{CPath, GeneralError, GlobalName, MPath, RuleSet, StructuralElement}
 import info.kwarc.mmt.api.archives.BuildTask
 import info.kwarc.mmt.api.frontend.Controller
 import info.kwarc.mmt.api.modules.Theory
 import info.kwarc.mmt.api.objects.{Context, Term}
 import info.kwarc.mmt.api.presentation.{RenderingHandler, StructurePresenter}
+import info.kwarc.mmt.api.proving.{AutomatedProver, ProvingUnit}
 import info.kwarc.mmt.api.utils.FilePath
 import leo.datastructures.TPTP.{Include, Problem}
 import lf.{FOL, FOLEQ, FOLEQDesc, FOLEQDescND, FOLEQND, FOLND, HOL, SFOL, SFOLEQ, SFOLEQND, SFOLND}
 
-class TPTPExporter extends StructurePresenter { //TODO: does TPTPExporter have to be class (MMT Extension)
+import scala.sys.process.Process
+
+class TPTPExporter extends StructurePresenter with AutomatedProver { //TODO: does TPTPExporter have to be class (MMT Extension)
   override def apply(e : StructuralElement, standalone: Boolean = false)(implicit rh : RenderingHandler): Unit = {}
 
   /** a string identifying this build target, used for parsing commands, logging, error messages */
@@ -42,12 +45,12 @@ class TPTPExporter extends StructurePresenter { //TODO: does TPTPExporter have t
 
   }
 
-  def combineStubs(p: GlobalName, ctx: Context, t: Term)(implicit ctrl: Controller): Option[Problem] = {
-    if (controller.library.hasImplicit(HOL._path, p.module)) {
+  def combineStubs(p: MPath, ctx: Context, t: Term)(implicit ctrl: Controller): Option[Problem] = {
+    if (controller.library.hasImplicit(HOL._path, p)) {
       Some(HOLExporter.combineStubs(p, ctx, t))
-    } else if (controller.library.hasImplicit(SFOL._path, p.module)) {
+    } else if (controller.library.hasImplicit(SFOL._path, p)) {
       Some(SFOLExporter.combineStubs(p, ctx, t))
-    } else if (controller.library.hasImplicit(FOL._path, p.module)) {
+    } else if (controller.library.hasImplicit(FOL._path, p)) {
       Some(???)//FOLExporter.combineStubs(p, ctx, t)
     } else {
       log(GeneralError("no known Logic detected"))
@@ -66,6 +69,32 @@ class TPTPExporter extends StructurePresenter { //TODO: does TPTPExporter have t
       rh(problem.pretty)
     }
     file_path.toString
+  }
+
+  def callExternalATP(path: String)(implicit  ctrl: Controller) = {
+    println(s"""java -jar ${sys.env("LEO3")} $path """)
+    val pb = Process(s"""java -jar ${sys.env("LEO3")} $path """)
+    val result = pb.!!
+    println(result)
+
+  }
+
+  def callInternalATP(path: String)(implicit  ctrl: Controller) = {
+    leo.Main.main(Array(path))
+  }
+
+  /**
+    * tries to prove a proof obligation automatically
+    *
+    * @param rules  the proof rules to use
+    * @param levels the depth of the breadth-first searches
+    * @return true if the goal was solved and possibly a proof term
+    */
+  override def apply(pu: ProvingUnit, rules: RuleSet, levels: Int): (Boolean, Option[Term]) = {
+    val mod = MPath(pu.component.get.parent.toTriple._1.get, pu.component.get.parent.toTriple._2.get)
+    val problem = combineStubs(mod, pu.context, pu.tp)(this.controller)
+    val result = problem.map(exportProblem(_, mod)).map(path => callInternalATP(path)(this.controller)).isDefined
+    (result, None)
   }
 
 }

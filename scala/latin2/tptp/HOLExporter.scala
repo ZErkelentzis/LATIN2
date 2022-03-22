@@ -28,10 +28,13 @@ import lf.TypedUniversalQuantification.tforall
 import scala.collection.mutable.ArrayBuffer
 
 object HOLExporter {
-  def combineStubs(p: GlobalName, ctx: Context, t: Term)(implicit ctrl: Controller): Problem = {
+  def combineStubs(p: MPath, ctx: Context, t: Term)(implicit ctrl: Controller): Problem = {
     var includes = ArrayBuffer[MPath]()
     var formulas = ArrayBuffer[AnnotatedFormula]()
-    for (x <- ctrl.getTheory(p.module).getDeclarations.takeWhile(_.path != p)) {
+    val decls = ctrl.getTheory(p).getDeclarations
+
+    //for (x <- ctrl.getTheory(p.module).getDeclarations.takeWhile(x => x.parent == p)) {
+    for (x <- decls.take(decls.length - 1)) {
       x match
       {
         case PlainInclude(t) => includes += t._1
@@ -44,7 +47,9 @@ object HOLExporter {
     }.flatten.distinct
 
     formulas ++= axioms
-    formulas += THFAnnotated("conjecture", "conjecture",  THF.Logical(translate_formula(t)), None)
+
+    val ded(conjecture) = t
+    formulas += THFAnnotated("conjecture", "conjecture",  THF.Logical(translate_formula(conjecture)), None)
 
     val tptp_exporter = ctrl.extman.get(classOf[TPTPExporter]).head
 
@@ -187,11 +192,11 @@ object HOLExporter {
       THF.FunctionTerm("t_" + f.name.toString, Nil)
 
     case OMV(x) =>
-      THF.FunctionTerm("V_" + x.toString, Nil)
+      THF.Variable("V_" + x.toString)
 
     case ApplySpine(f, args) => args.map(translate_formula).foldLeft(translate_formula(f))((g, arg) => THF.BinaryFormula(THF.App, g, arg))
 
     case default => println(default)
-      ???
+      ??? //FIXME: exception when unknown term or op, example "0" instead of "zero" or "=" instead of "=ͭ"
   }
 }
