@@ -44,25 +44,25 @@ file source/set_theory/build.msl
 // Logic extensions formalizes various less common logical features.
 file source/logic/other/build.msl
 
-// Topology formalizes the various definitions of closure operators and topologies.
-// These are interesting in their own and a case-study on theory morphisms, but also often used at the meta-level.
-// They depend on PowerHOL.
-build MMT/LATIN2 mmt-omdoc topology
-
 // Theory morphisms formalizing the Curry-Howard correspondence between logics and type theories.
 build MMT/LATIN2 mmt-omdoc curry-howard
 
 // Numbers
-file source/numbers/build.msl
+file source/domain_theories/numbers/build.msl
 
 // The algebraic hierarchy based on FOL.
-file source/algebra/build.msl
+file source/domain_theories/algebra/build.msl
+
+// Topology formalizes the various definitions of closure operators and topologies.
+// These are interesting in their own and a case-study on theory morphisms, but also often used at the meta-level.
+// They depend on PowerHOL.
+build MMT/LATIN2 mmt-omdoc domain/theories/topology
 
 // Meta-theorems stating the algebraic properties of logic, formalized as theory morphisms from algebraic to logical theories.
 build MMT/LATIN2 mmt-omdoc algebraic_logic/pl_semilattice.mmt
 
 // The set-theoretical semantics of logical and type-theoretical features, formalized as theory morphisms into set theory.
-file source/transformations_to_set/build.msl
+file source/set-theoretical_semantics/build.msl
 
 // TODO:
 // build MMT/LATIN2 lf-scala
