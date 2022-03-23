@@ -1,5 +1,4 @@
-/T One direction of the Curry-Howard correspondence, namely the one interpreting (simple, dependent) type theory
-   in terms of (propositional, first-order) logic.
+/T Curry-Howard correspondence as morphisms XCH that translate type-theoretical theories X to logical ones
 ❚
 
 namespace latin:/❚
@@ -14,45 +13,81 @@ view TermsAsProofs : ?TypedTerms -> ?Proofs =
   tm = ded❙
 ❚
 
-// DOES NOT TYPECHECK
-
-view TypeTheoryToLogic : ?TypedEquality -> ?ProofEquality =
+view TypedEqualityCH : ?TypedEqualityND -> ?Logic + ?ProofIrrelevance =
   include ?TermsAsProofs ❙
-  prop = type ❙
-  equal = [F,pf1,pf2] pf1 ⇝ pf2 ❙
+  // propositions in type theory mostly occur as equalities between terms
+     Thus, we need a type that can hold equalities between proofs of F. 
+     In the presence of proof irrelevance, they are equal anyway and we can simply use F.❙
+  prop = prop ❙
+  ded = ded❙
+  tequal = [F,pf1,pf2] F❙
+  trefl = _ ❙
+  tcongB = [A,B,X,Y,p,P,q] q ❙
 ❚
 
-// view SimpleFunctionCH : ?SimpleFunctions -> ?ImplicationNDS =
-  include ?TypeTheoryToLogic ❙
+view EmptyTypeCH : ?EmptyType -> ?FalsityND + ?ProofIrrelevance =
+  include ?TypedEqualityCH❙
+  void = false❙
+  throw = falseE❙
+  voidUnique = [A,B,F,e] e falseE B❙
+❚
+
+view UnitTypeCH : ?UnitType -> ?TruthND + ?ProofIrrelevance =
+  include ?TypedEqualityCH❙
+  unitType = true❙
+  unit = trueI❙
+  unitUnique = _ ❙
+❚
+
+view SimpleFunctionsCH : ?SimpleFunctions -> ?ImplicationND + ?ProofIrrelevance =
+  include ?TypedEqualityCH ❙
   simpfun = impl ❙
   simplambda = implI ❙
   simpapply = implE ❙
-  simpbeta = implS ❙
+  simpbeta = _ ❙
 ❚
 
-// view SimpleProductCH : ?SimpleProducts -> ?ConjunctionNDs =
-  include ?TypeTheoryToLogic ❙
+view SimpleProductsCH : ?SimpleProducts -> ?ConjunctionND + ?ProofIrrelevance =
+  include ?TypedEqualityCH ❙
   simpprod = and ❙
   simppair = andI ❙
   simppi1 = andEl ❙
   simppi2 = andEr ❙
-  compute1 = andSl ❙
-  compute2 = andSr ❙
+  compute1 = _ ❙
+  compute2 = _ ❙
 ❚
 
-// view TypesAsPropositions_depfun : ?DependentFunctions -> ?IFOLND =
-  include ?TypesAsPropositions ❙
-  include ?TypesAsPropositions_proof_irrelevance ❙
-  /T The type of `depprod` is                 `{A: tp} (tm A ⟶ tp) ⟶ tp`       (*)
-     The expected type of the assignment is:  `{p: prop} (⊦ p ⟶ prop) ⟶ prop` (**)
+view CoproductsCH : ?Coproducts -> ?DisjunctionND + ?ProofIrrelevance =
+  include ?TypedEqualityCH❙
+  coprod = or ❙
+  inj1 = orIl❙
+  inj2 = orIr❙
+  cases = orE❙
+  compute1 = [A,B,C,a,f,g] f a ❙
+  compute2 = [A,B,C,b,f,g] g b ❙
+❚
 
-     If we could start with (*), one would be inclined to map it to
-       `[A: tp, P: tm A ⟶ tp] ∀[x: tm A] curry_howard (P x)`.
-
-     But that wouldn't be compositionally and thus go against (**).
-     With (**) we can only map dependent function types to dependent implications. ❙
+view DependentFunctionsCH : ?DependentFunctions -> ?DependentImplicationND + ?ProofIrrelevance =
+  include ?TypedEqualityCH ❙
+  // We have depfun: {A: tp} (tm A ⟶ tp) ⟶ tp
+     and thus need to {p: prop} (⊦ p ⟶ prop) ⟶ prop.
+     The intuitive map of depfun to ∀ does not work because we would need to translate
+     - the domain type to a logical type
+     - the codomain type to a proposition
+     Instead, the CH-analog of depfun is dependent implication.❙
   depfun = dimpl ❙
   deplambda = dimplI ❙
   depapply = dimplE ❙
-  depbeta = [p,q,P,x,y] trueI ❙
+  depbeta = _ ❙
+❚
+
+view DependentProductsCH : ?DependentProducts -> ?DependentConjunctionND + ?ProofIrrelevance =
+  include ?TypedEqualityCH❙
+  depprod = dand ❙
+  deppair = dandI ❙
+  deppi1 = dandEl ❙
+  deppi2 = dandEr ❙
+  compute1 = _ ❙
+  // this requires mapping type-equality to equivalence of propositions❙
+  // compute2 = _ ❙
 ❚

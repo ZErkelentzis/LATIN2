@@ -22,13 +22,6 @@ theory UniversalQuantificationND =
   include ?UniversalQuantificationNDI❙
 ❚
 
-theory UniversalQuantificationNDS =
-  include ?UniversalQuantificationND❙
-  include ?ProofEquality❙
-
-  uforallS: {P, pf: {x} ⊦ P x, x} ((uforallI pf) uforallE x) ⟺ pf x ❘ role Simplify ❙
-❚
-
 theory ExistentialQuantification =
   include ?UntypedLogic❙
   uexists : (term ⟶ prop) ⟶ prop❘# ∃ͧ 1❘## ∃ͧ V1 2❙
@@ -49,13 +42,6 @@ theory ExistentialQuantificationND =
   include ?ExistentialQuantificationNDE❙ 
 ❚
 
-theory ExistentialQuantificationNDS =
-  include ?ExistentialQuantificationND❙
-  include ?ProofEquality ❙
-
-  uexistsS: {P,X,pf1: ⊦ P X, C,pf2: {x} ⊦ P x ⟶ ⊦ C} ((uexistsI X pf1) uexistsE pf2) ⟺ pf2 X pf1 ❘ role Simplify ❙
-❚
-
 theory IFOL =
   include ?IPL❙
   include ?UniversalQuantification❙
@@ -69,12 +55,6 @@ theory IFOLND =
   include ?ExistentialQuantificationND❙
 ❚
 
-theory IFOLNDS =
-  include ?IFOLND❙
-  include ?UniversalQuantificationNDS❙
-  include ?ExistentialQuantificationNDS❙
-❚
-
 theory IFOLEQ =
   include ?IFOL❙
   include ?UntypedEquality❙
@@ -84,12 +64,6 @@ theory IFOLEQND =
   include ?IFOLEQ❙
   include ?IFOLND ❙
   include ?UntypedEqualityND❙
-❚
-
-theory IFOLEQNDS =
-  include ?IFOLEQND❙
-  include ?IFOLNDS❙
-  include ?UntypedEqualityNDS❙
 ❚
 
 theory FOL =
@@ -103,11 +77,6 @@ theory FOLND =
   include ?IFOLND❙
 ❚
 
-theory FOLNDS =
-  include ?FOLND❙
-  include ?IFOLNDS❙
-❚
-
 theory FOLEQ =
   include ?FOL❙
   include ?UntypedEquality❙
@@ -117,12 +86,6 @@ theory FOLEQND =
   include ?FOLEQ❙
   include ?FOLND❙
   include ?UntypedEqualityND❙
-❚
-
-theory FOLEQNDS =
-  include ?FOLEQND❙
-  include ?FOLNDS❙
-  include ?UntypedEqualityNDS❙
 ❚
 
 theory RelativizedUniversalQuantification =
@@ -160,7 +123,7 @@ theory RelativizedExistentialQuantificationND =
 theory UniqueExistentialQuantification =
   include ?ExistentialQuantification❙
   include ?UntypedEquality❙
-  uexistsUnique  : (term ⟶ prop) ⟶ prop❘# ∃ꜝͧ 1❙
+  uexistsUnique  : (term ⟶ prop) ⟶ prop❘# ∃ ꜝͧ 1 prec -5 ❙
  ❚
 
 theory UniqueExistentialQuantificationND =
@@ -169,64 +132,37 @@ theory UniqueExistentialQuantificationND =
   uexistsUniqueE : {P,C} ⊦ ∃ꜝͧ P ⟶ ({x} ⊦ P x ⟶ ({y} ⊦ P y ⟶ ⊦ x =ͧ y) ⟶ ⊦ C) ⟶ ⊦ C❘# 3 uexistsUniqueE 4❙
 ❚
 
-theory UniqueExistentialQuantificationNDS =
-  include ?UniqueExistentialQuantificationND ❙
-  include ?ProofEquality❙
-
-  /T does not typecheck due to https://github.com/UniFormal/MMT/blob/e28a07fb6792b79337e6b69673c9c15ce08cfd4d/src/mmt-lf/src/info/kwarc/mmt/lf/SimplificationRuleGenerator.scala#L205 ❙
-  existsUniqueS: {x,P: term ⟶ prop,px: ⊦ P x,pf1: {y} ⊦ P y ⟶ ⊦ x =ͧ y,
-                  C,pf2: {z} ⊦ P z ⟶ ({y} ⊦ P y ⟶ ⊦ z =ͧ y) ⟶ ⊦ C}
-                    ((uexistsUniqueI px pf1) uexistsUniqueE pf2) ⟺ pf2 x px pf1 ❘ role Simplify ❙
-❚
-
-// AS: maybe rename with u❚
 theory Description =
   include ?Logic❙
-  include ?UniqueExistentialQuantification❙
-  the : {P} ⊦ ∃ꜝͧ P ⟶ term❘# the 1 2❙
-❚
-
-theory DescriptionND =
-  include ?Description❙
   include ?UniqueExistentialQuantificationND❙
+  the : {P} ⊦ ∃ꜝͧ P ⟶ term❘# the 1 2 prec 50❙
   the_ax : {P,p} ⊦ P (the P p)❘# the_ax 1 2❙
-❚
-
-/T might not yet typecheck (done by Navid, 2021-04-24) ❚
-theory DescriptionNDS =
-  include ?DescriptionND❙
-  include ?ProofEquality ❙
-  /T does not typecheck due to https://github.com/UniFormal/MMT/blob/e28a07fb6792b79337e6b69673c9c15ce08cfd4d/src/mmt-lf/src/info/kwarc/mmt/lf/SimplificationRuleGenerator.scala#L205 ❙
-  theS: {x,P: term ⟶ prop,px: ⊦ P x,pf1: {y} ⊦ P y ⟶ ⊦ x =ͧ y}
-          ⊦ the P (uexistsUniqueI px pf1) =ͧ x ❘ role Simplify❙
-
-  /T well-typedness of this constant depends on simplification rule theS above ❙
-  the_axS: {x,P: term ⟶ prop,px: ⊦ P x,pf1}
-          (the_ax P (uexistsUniqueI px pf1)) ⟺ px ❘ role Simplify ❙
 ❚
 
 theory Choice =
   include ?Logic❙
-  include ?ExistentialQuantification❙
-  some : {P} ⊦ ∃ͧ P ⟶ term❘# some 1 2❙
-❚
-
-theory ChoiceND =
-  include ?Choice❙
   include ?ExistentialQuantificationND❙
+  include ?UntypedEquality❙
+  some : {P} ⊦ ∃ͧ P ⟶ term❘# some 1 2 prec 50❙
   some_ax : {P,p} ⊦ P (some P p)❘# some_ax 1 2❙
+  some_eq: {P,Q,p,q} ({x} ⊦ P x ⟶ ⊦ Q x) ⟶ ({x} ⊦ Q x ⟶ ⊦ P x) ⟶
+            ⊦ some P p =ͧ some Q q❙
 ❚
 
-/T might not yet typecheck (done by Navid, 2021-04-24) ❚
-theory ChoiceNDS =
-  include ?ChoiceND❙
+// The variant of choice that always returns a value and whose defining axiom is relativized by existence; only sound if types are guaranteed to be non-empty.❚
+theory TotalChoice =
+  include ?Logic❙
+  include ?ExistentialQuantificationND❙
   include ?UntypedEquality❙
-  include ?ProofEquality❙
-
-  someS: {P,X,pf: ⊦ P X} ⊦ some P (uexistsI X pf) =ͧ X ❘ role Simplify ❙
-
-  /T well-typedness of this constant depends on simplification rule someS above ❙
-  some_axS: {P,X,pf: ⊦ P X} some_ax P (uexistsI X pf) ⟺ pf ❘ role Simplify ❙
+  any : {P:term ⟶ prop} term❘# %n 1 prec 50❙
+  any_ax : {P: term ⟶ prop,p} ⊦ ∃ͧ P ⟶ ⊦ P (any p)❘# %n 2 3❙
+  any_eq : {P,Q} ({x} ⊦ P x ⟶ ⊦ Q x) ⟶ ({x} ⊦ Q x ⟶ ⊦ P x) ⟶
+            ⊦ any P =ͧ any Q❙
+  
+  realize ?Choice❙
+  some = [P,p] any P❙
+  some_ax = [P,p] any_ax P p❙
+  some_eq = [P,Q,p,q,r,s] any_eq r s❙
 ❚
 
 theory FOLEQDesc = 
@@ -237,13 +173,6 @@ theory FOLEQDesc =
 theory FOLEQDescND =
   include ?FOLEQDesc❙
   include ?FOLEQND❙
-  include ?DescriptionND❙
-❚
-
-theory FOLEQDescNDS =
-  include ?FOLEQDescND❙
-  include ?FOLEQNDS❙
-  include ?DescriptionNDS❙
 ❚
 
 theory DependentFOLEQDesc =
@@ -261,23 +190,14 @@ theory DependentFOLEQDescND =
   include ?DependentImplicationND❙
 ❚
 
-// I added this theory just to be complete. It can be deleted, if it is not wanted❚
-theory DependentFOLEQDescNDS =
-  include ?DependentFOLEQDescND❙
-  include ?FOLEQDescNDS❙
-  include ?DependentConjunctionNDS❙
-  include ?DependentImplicationNDS❙
+view TotalChoiceYieldsNonempty : ?UniverseNonEmpty -> ?TotalChoice =
+  include ?UntypedLogic❙
+  univ_nonempty = [C,P] P (any [x] x =ͧ x)❙ 
 ❚
 
-// does not typecheck:
-
-view TC : ?Nonempty -> ?Description =
-  nonempty = [A] ∃I (the [x] ⊤) ⊤I❙ 
-❚
-
-// does not typecheck:
-
-view DC : ?Description -> ?Choice =
-   the = [A] some❙
-   ax_the = [A][T] rul_some ([u] u == T) T eqrefl❙
+view ChoiceYieldsDescription : ?Description -> ?Choice + ?UniqueExistentialQuantificationND =
+  include ?Logic❙
+  include ?UniqueExistentialQuantificationND❙
+  the = [P,p] some P (p uexistsUniqueE [x,q,F] uexistsI x q)❙
+  the_ax = [P,p] some_ax P (p uexistsUniqueE [x,q,F] uexistsI x q)❙
 ❚

@@ -1,0 +1,73 @@
+// This script builds all files in this archive in an appropriate order.
+// Some non-essential parts may be skipped as commented below.
+// The script is modular and calls corresponding build scripts in all subdirectories. Those script can be run on their own to build only the respective files.
+
+// Because the files are build in dependency order, this file also doubles as documented table of contents for this archive.
+
+// preparation: logging, settings, etc.
+server on 8080
+log html build.html
+file build_config.msl
+
+// ********************* fundamental concepts
+// This includes formalizations of features like typing and equality.
+// From these, various base languages are built. Usually each feature introduced below depends on one of these base languages.
+file source/fundamentals/build.msl
+
+// Propositional logics do not use any types or typed objects.
+// Their base languages only introduces propositions.
+file source/logic/propositional/build.msl
+file source/logic/metalogic/build.msl
+
+// FOL-like logics use (typed or untyped) terms.
+file source/logic/fol_like/build.msl
+
+// Type theory introduces various type/term constructing features of typed languages, in particular function types and lambda-abstraction.
+file source/type_theory/buildNoEndo.msl
+
+// HOL-like logics extend FOL-like logics with simple function types.
+file source/logic/hol_like/build.msl
+
+// Model theory describes base languages needed for model-theoretical semantics such as Kripke models in FOL.
+file source/logic/model_theory/build.msl
+
+// Category theory introduces the basic notions of categories.
+// This is used in particular to obtain the theory of types and inherit abbreviations from it into typed languages.
+build MMT/LATIN2 mmt-omdoc category_theory
+
+// Multiple type theoretical features are based on endofunctors on the category of types, such as lists or sets over a type.
+file source/type_theory/endofunctors/build.msl
+
+// Set theory defines ZFC-style languages using FOL as the meta-theory.
+file source/set_theory/build.msl
+
+// Logic extensions formalizes various less common logical features.
+file source/logic/other/build.msl
+
+// Topology formalizes the various definitions of closure operators and topologies.
+// These are interesting in their own and a case-study on theory morphisms, but also often used at the meta-level.
+// They depend on PowerHOL.
+build MMT/LATIN2 mmt-omdoc topology
+
+// Theory morphisms formalizing the Curry-Howard correspondence between logics and type theories.
+build MMT/LATIN2 mmt-omdoc curry-howard
+
+// Numbers
+file source/numbers/build.msl
+
+// The algebraic hierarchy based on FOL.
+file source/algebra/build.msl
+
+// Meta-theorems stating the algebraic properties of logic, formalized as theory morphisms from algebraic to logical theories.
+build MMT/LATIN2 mmt-omdoc algebraic_logic/pl_semilattice.mmt
+
+// The set-theoretical semantics of logical and type-theoretical features, formalized as theory morphisms into set theory.
+file source/transformations_to_set/build.msl
+
+// TODO:
+// build MMT/LATIN2 lf-scala
+
+// build scala-bin scala
+
+// build MMT/LATIN2 present-text-notations-flat
+

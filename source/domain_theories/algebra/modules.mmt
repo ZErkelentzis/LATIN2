@@ -1,0 +1,58 @@
+namespace latin:/algebraic❚
+
+fixmeta latin:/?SFOLEQND❚
+
+theory Scalars = 
+  structure scalars : ?Set =
+    U @ scalar❙
+  ❚
+❚
+
+theory CommGroupScalars =
+  include ?Scalars❙
+  structure scalars : ?CommGroup =
+    include ?Scalars?scalars❙
+  ❚
+❚
+
+theory FieldScalars =
+  include ?Scalars❙
+  structure scalars : ?Field =
+    structure add = ?CommGroupScalars?scalars❙
+  ❚
+❚
+theory LeftModule = 
+	include ?Scalars❙
+  include ?Ring❙
+
+	left_scalar_mult : scalar ⟶ U ⟶ U ❘# 1 ∗ 2 prec 60❙
+	left_identity: ⊦ ∀ͭ[a] one ∗ a =ͭ a ❙
+	left_distrib_ring: ⊦ ∀ͭ[r: S] ∀ͭ[s: S] ∀ͭ[a : U] (r + s) ∗ a =ͭ add (r ∗ a) (s ∗ a) ❙ 
+	left_distrib_module: ⊦ ∀ͭ[r: S] ∀ͭ[a: U] ∀ͭ[b: U] r ∗ (add a b) =ͭ add (r ∗ a) (r ∗ b) ❙
+	left_assoc_ring: ⊦ ∀ͭ[r: S] ∀ͭ[s: S] ∀ͭ[a: U] r ∗ (s ∗ a) =ͭ (r ⋅ s) ∗ a ❙
+❚
+
+theory RightModule = 
+	include ?CommGroup ❙
+  structure right_scalars : ?Ring =
+	  U # S ❙
+	❚
+
+	right_scalar_mult : U ⟶ S ⟶ U ❘# 1 ∗ 2 prec 60❙
+	right_identity: ⊦ ∀ͭ[a:U] a ∗ one =ͭ a ❙
+	right_distrib_ring: ⊦ ∀ͭ[r: S] ∀ͭ[s: S] ∀ͭ[a : U] a ∗ (r + s) =ͭ add (a ∗ r) (a ∗ s) ❙ 
+	right_distrib_module: ⊦ ∀ͭ[r: S] ∀ͭ[a: U] ∀ͭ[b: U] (add a b) ∗ r =ͭ add (a ∗ r) (b ∗ r) ❙
+	right_assoc_ring: ⊦ ∀ͭ[r: S] ∀ͭ[s: S] ∀ͭ[a: U] (a ∗ s) ∗ r =ͭ a ∗ (s ⋅ r) ❙
+❚
+
+theory BiModule = 
+  include ?LeftModule ❙
+  include ?RightModule ❙
+❚
+
+theory VectorSpace = 
+  include ?LeftModule ❙
+  structure scalars : ?DivisionRing =
+    include ?LeftModule/left_scalars ❙
+  ❚
+❚

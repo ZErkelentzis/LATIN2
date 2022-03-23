@@ -1,3 +1,5 @@
+// This file contains common configuration options for all build scripts.
+
 log console
 log+ archive
 log+ mmt-omdoc

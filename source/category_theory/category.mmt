@@ -17,6 +17,8 @@ theory Category =
   neutLeft : {a,b,f:Hom a b} ⊦ id;f =ͭ f❙
   neutRight : {a,b,f:Hom a b} ⊦ f;id =ͭ f❙
   assoc: {a,b,c,d, f:Hom a b, g:Hom b c, h:Hom c d} ⊦ f;(g;h) =ͭ (f;g);h❙
+  assoc_22_121: {a,b,c,d,e, f:Hom a b, g:Hom b c, h:Hom c d, i: Hom d e} ⊦ (f;g);(h;i) =ͭ f;(g;h);i❘
+              = [a,b,c,d,e,f,g,h,i] assoc ttrans ((assoc tsym) tcongT ([u] u;i))❙
   
   isos  = [a,b,f:Hom a b,g] f;g =ͭ id ∧ g;f =ͭ id❘ # isos 3 4❙
   iso = [a,b] ∃ͭ[f:Hom a b]∃ͭ[g] isos f g❙
@@ -25,9 +27,20 @@ theory Category =
     carrier = obj❙
     rel = [a,b] ⊦ iso a b❙
     refl = [a] texistsI id texistsI id andI neutLeft neutLeft❙
-//    trans = [a,b,c,p,q] p existsE [abf,pˈ] pˈ existsE [abg,abi]
-                        q existsE [bcf,qˈ] qˈ existsE [bcg,bci]
-                        existsI (abf;bcf) existsI (bcg;abg) andI _ _ ❙
+    trans = [a,b,c,p,q] p texistsE [abf,pˈ] pˈ texistsE [abg,abi]
+                        q texistsE [bcf,qˈ] qˈ texistsE [bcg,bci]
+                        texistsI (abf;bcf) texistsI (bcg;abg) andI
+                          (assoc_22_121 ttrans
+                          (bci andEl tcongT [u] abf;u;abg) ttrans
+                          (neutRight tcongT [u] u;abg) ttrans
+                          (abi andEl)
+                          )
+                          (assoc_22_121 ttrans
+                          (abi andEr tcongT [u] bcg;u;bcf) ttrans
+                          (neutRight tcongT [u] u;bcf) ttrans
+                          (bci andEr)
+                          )
+                          ❙
     sym = [a,b,p] p texistsE [f,pˈ] pˈ texistsE [g,i] texistsI g texistsI f and_swap i❙
   ❚
 ❚

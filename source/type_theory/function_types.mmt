@@ -11,7 +11,7 @@ theory DependentFunctionTypes =
   include ?TypedTerms❙
   depfun : {A} (tm A ⟶ tp) ⟶ tp❘# Πͭ 2 prec 40❙
   
-  // AS: Maybe change realize to a total structure❙
+  // maybe change realize to a total structure❙
   realize ?SimpleFunctionTypes❙
   simpfun = [A,B] Πͭ [x: tm A] B❙
 ❚
@@ -116,5 +116,5 @@ view FE : ?SimpleFunctionsExtensionality -> ?SimpleFunctionsEta =
 
 view EF : ?SimpleFunctionsEta -> ?SimpleFunctionsExtensionality =
    include ?SimpleFunctions❙
-   eta = [A,B,F] exten [x] trefl❙
+   eta = [A,B,F] exten [x] trefl ❙
 ❚
