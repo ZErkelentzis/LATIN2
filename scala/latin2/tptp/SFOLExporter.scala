@@ -11,7 +11,8 @@ import info.kwarc.mmt.api.uom.SimplificationUnit
 import info.kwarc.mmt.lf.{ApplySpine, Lambda}
 import latin2.sfol.CommonSymbols.DedList
 import latin2.sfol.SFOLPatterns.{FuncDecl, PredDecl, TypeDecl}
-import leo.datastructures.TPTP.{AnnotatedFormula, Include, Problem, TFF, TFFAnnotated}
+import latin2.tptp.CommonExporter.splitFormulasAndComments
+import leo.datastructures.TPTP.{AnnotatedFormula, Comment, Include, Problem, TFF, TFFAnnotated}
 import lf.Conjunction.and
 import lf.Disjunction.or
 import lf.Equivalence.equiv
@@ -27,96 +28,78 @@ import scala.collection.mutable.ArrayBuffer
 object SFOLExporter {
   def combineStubs(p: MPath, ctx: Context, t: Term)(implicit ctrl: Controller): Problem = {
     var includes = ArrayBuffer[MPath]()
-    var formulas = ArrayBuffer[AnnotatedFormula]()
-    for (x <- ctrl.getTheory(p.module).getDeclarations.takeWhile(_.path != p)) {
+    var formulasAndComments = ArrayBuffer[(AnnotatedFormula, Option[Comment])]()
+
+    val decls = ctrl.getTheory(p).getDeclarations
+    //for (x <- ctrl.getTheory(p.module).getDeclarations.takeWhile(x => x.parent == p)) {
+    for (x <- decls.take(decls.length - 1)) {
       x match
       {
-        case PlainInclude(t) => includes += t._1
-        case c: Constant => formulas ++= translate_constant(c)
+        case PlainInclude(t) => includes :+= t._1
+        case c: Constant => formulasAndComments ++= translate_constant(c)
       }
     }
     val axioms = ctx.mapVarDecls {
       case (ctx, vd: VarDecl) =>
-        translate_var_decl(vd, ctx)(ctrl)
+        translate_var_decl(p.module, vd, ctx)(ctrl)
     }.flatten.distinct
 
-    formulas ++= axioms
+    formulasAndComments ++= axioms
 
-    formulas += TFFAnnotated("conjecture", "conjecture",  TFF.Logical(translate_formula(t)), None)
+    val ded(conjecture) = t
+    formulasAndComments :+= (TFFAnnotated("conjecture", "conjecture",  TFF.Logical(translate_formula(conjecture)), None), None)
 
     val tptp_exporter = ctrl.extman.get(classOf[TPTPExporter]).head
 
-    Problem(includes.map(i => tptp_exporter.translate_include(p.module, i)).toSeq, formulas.toSeq, Map())
+    val (formulas, comments) = splitFormulasAndComments(formulasAndComments.toList)
+
+    Problem(includes.map(i => tptp_exporter.translate_include(p.module, i)).toSeq, formulas, comments)
   }
 
   def exportStub(theory: Theory)(implicit ctrl: Controller): Problem = {
     export_theory(theory, Nil)
   }
 
-  def exportTPTP(ctx: Context, what: List[Term])(implicit ctrl: Controller): Problem = {
-    // walk through ctx, collect all axioms
-    // especially, upon IncludeVarDecls, recurse into referenced theory
-    val axioms = ctx.mapVarDecls {
-      case (_, vd@IncludeVarDecl(_, _, _)) =>
-        val path = vd.tp.get.toMPath
-        translate_theory_flattened(ctrl.getTheory(path))
-      case (ctx, vd: VarDecl) =>
-        translate_var_decl(vd, ctx)(ctrl)
-    }.flatten.distinct.map(x => if (x.role == "") { x.copy(role = "axiom") } else x)
-
-    val conjectures = what match {
-      case DedList(formulas) => formulas.map(f => TFFAnnotated("Conjecture", "conjecture",  TFF.Logical(translate_formula(f)), None))
-    }
-
-    Problem(List(), (axioms++conjectures), Map())
-  }
-
-  def export_theory_flattened(theory: Theory)(implicit ctrl: Controller): Problem = {
-    val axioms = translate_theory_flattened(theory).distinct.map(x => if (x.role == "") { x.copy(role = "axiom") } else x)
-    Problem(List(), axioms, Map())
-  }
-
-  def translate_theory_flattened(theory: Theory)(implicit ctrl: Controller): List[TFFAnnotated] = {
-    theory.getIncludesWithoutMeta.flatMap(include => translate_theory_flattened(ctrl.getTheory(include))) ++ theory.getConstants.flatMap(translate_constant)
-  }
-
   def export_theory(theory: Theory, includes: Seq[Include])(implicit ctrl: Controller): Problem = {
-    val axioms = translate_theory(theory).map(x => if (x.role == "") { x.copy(role = "axiom") } else x)
-    Problem(includes, axioms, Map())
+    val axioms = translate_theory(theory).map(x => if (x._1.role == "") { x.copy(_1 = x._1.copy(role = "axiom")) } else x)
+    val (formulas, comments) = splitFormulasAndComments(axioms)
+    Problem(includes, formulas, comments)
   }
 
-  def translate_theory(theory: Theory)(implicit ctrl: Controller): List[TFFAnnotated] = {
+  def translate_theory(theory: Theory)(implicit ctrl: Controller): List[(TFFAnnotated, Option[Comment])] = {
     theory.getConstants.flatMap(translate_constant)
   }
 
-  def translate_decl(name: LocalName, tp: Option[Term], df: Option[Term], ctx: Context)(implicit ctrl: Controller): List[TFFAnnotated] = {
+  def translate_decl(path: GlobalName, tp: Option[Term], df: Option[Term], ctx: Context)(implicit ctrl: Controller): List[(TFFAnnotated, Option[Comment])] = {
     val simplicationUnit = SimplificationUnit(ctx, expandDefinitions = true, fullRecursion = true)
 
     val newTp = tp.map(ctrl.simplifier(_, simplicationUnit))
 
+    val name = path.name
+
     newTp match {
       case Some(ded(formula)) =>
-        List(TFFAnnotated(name.toString, "axiom", TFF.Logical(translate_formula(formula)), None))
+        List((TFFAnnotated(name.toString, "axiom", TFF.Logical(translate_formula(formula)), None), None))
       case Some(TypeDecl(Nil))  =>
-        List(TFFAnnotated("type_" + name.toString, "type", TFF.Typing("t_" + name.toString, TFF.AtomicType("$tType", Nil)), None)) //is optional
+        List((TFFAnnotated("type_" + name.toString, "type", TFF.Typing("t_" + name.toString, TFF.AtomicType("$tType", Nil)), None), None)) //is optional
       case Some(FuncDecl(Nil, OMID(out))) =>
-        List(TFFAnnotated("type_" + name.toString, "type", TFF.Typing("t_" + name.toString, TFF.AtomicType("t_" + out.name.toString, Nil)), None))
+        List((TFFAnnotated("type_" + name.toString, "type", TFF.Typing("t_" + name.toString, TFF.AtomicType("t_" + out.name.toString, Nil)), None), None))
       case Some(FuncDecl(in, out)) =>
-        TFFAnnotated("type_" + name.toString, "type", TFF.Typing("t_" + name.toString, TFF.MappingType(in.map(translate_type), translate_type(out))), None) :: List[TFFAnnotated]()//:: (df.map(TFFAnnotated("def_" + name.toString, "axiom", TFF.QuantifiedFormula(TFF.!, ))))
+        (TFFAnnotated("type_" + name.toString, "type", TFF.Typing("t_" + name.toString, TFF.MappingType(in.map(translate_type), translate_type(out))), None), None) :: List[(TFFAnnotated, Option[Comment])]()//:: (df.map(TFFAnnotated("def_" + name.toString, "axiom", TFF.QuantifiedFormula(TFF.!, ))))
       case Some(PredDecl(in)) =>
-        List(TFFAnnotated("type_" + name.toString, "type", TFF.Typing("t_" + name.toString, in match {
+        List((TFFAnnotated("type_" + name.toString, "type", TFF.Typing("t_" + name.toString, in match {
           case Nil => TFF.AtomicType("$o", Nil)
           case in => TFF.MappingType(in.map(translate_type), TFF.AtomicType("$o", Nil))
-        }), None))
+        }), None), None))
       case _ => Nil
     }
   }
 
-  def translate_var_decl(vd: VarDecl, ctx: Context)(implicit ctrl: Controller): List[TFFAnnotated] =
-    translate_decl(vd.name, vd.tp, vd.df, ctx)
+  def translate_var_decl(thy_path: MPath, vd: VarDecl, ctx: Context)(implicit ctrl: Controller): List[(TFFAnnotated, Option[Comment])] =
+    translate_decl(thy_path ? vd.name, vd.tp, vd.df, ctx)
 
-  def translate_constant(c: Constant)(implicit ctrl: Controller): List[TFFAnnotated] =
-    translate_decl(c.name, c.tp, c.df, Context(c.path.module))
+  def translate_constant(c: Constant)(implicit ctrl: Controller): List[(TFFAnnotated, Option[Comment])] =
+    translate_decl(c.path, c.tp, c.df, Context(c.path.module))
 
   def translate_formula(t: Term): TFF.Formula = t match {
     case tforall((ty, Lambda(v, _, body))) =>
