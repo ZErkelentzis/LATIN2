@@ -76,6 +76,8 @@ build MMT/LATIN2 lf-scala
 build MMT/LATIN2 scala-bin scala
 
 // rebuild the files that need two rounds
+// TODO this doesn't seem to work. It's possible the classloader does not pick up on the now created class files. 'clear' should fix that, but it's not tested yet.
+clear
 file source/logic/drt/build.msl
 
 // build MMT/LATIN2 present-text-notations-flat
