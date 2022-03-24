@@ -27,15 +27,14 @@ theory DRT =
   
   capture: {x} x⁺⊎x⁻ ≐ pos x❙ //specifying DR capture ❙
   
-  rule scala://modes.drt.latin2?NormalizePunion❙
-  
   close : mode ⟶ mode❘# 1 ↓ prec 60❙
   close_pos: {x} x⁺↓ ≐ ∅❘ role Simplify❙
   close_neg: {x} x⁻↓ ≐ x⁻❘ role Simplify❙
   close_empty: ∅↓ ≐ ∅❘ role Simplify❙ 
   close_close: {x}x↓↓ ≐ x↓❘ role Simplify❙
   
-  // normal form of modes: set of DR with function into boolean❙
+  // normal form of modes: set of DRs with function into boolean❙
+  rule ☞scala://modes.drt.latin2?NormalizePunion❙
   
   drs : mode ⟶ type❘# 1 # o prec -5❙ // type of DRSes ❙
   tm : mode ⟶ type❘# tm 1 prec -5❙ // type of terms ❙

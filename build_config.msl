@@ -5,7 +5,6 @@ log+ archive
 log+ mmt-omdoc
 
 mathpath archive ../urtheories
-mathpath archive ../LFX
 mathpath archive .
 
 

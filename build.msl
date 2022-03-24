@@ -64,10 +64,20 @@ build MMT/LATIN2 mmt-omdoc algebraic_logic/pl_semilattice.mmt
 // The set-theoretical semantics of logical and type-theoretical features, formalized as theory morphisms into set theory.
 file source/set-theoretical_semantics/build.msl
 
-// TODO:
-// build MMT/LATIN2 lf-scala
+// files containing Scala rules may need to be build twice: once to generate Scala code and then once again after compiling the rule
+// We ignore all errors thrown in the first run.
+log- error
+file source/logic/drt/build.msl
+log+ error
 
-// build scala-bin scala
+// generate Scala auxiliary code for all theories (which can be used by native Scala code in the archive)
+build MMT/LATIN2 lf-scala
+
+// compile the generated Scala and all native Scala code
+build MMT/LATIN2 scala-bin scala
+
+// rebuild the files that need two rounds
+file source/logic/drt/build.msl
 
 // build MMT/LATIN2 present-text-notations-flat
 
