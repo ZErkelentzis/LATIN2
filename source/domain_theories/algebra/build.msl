@@ -17,7 +17,8 @@ build MMT/LATIN2 mmt-omdoc domain_theories/algebra/bands.mmt
 build MMT/LATIN2 mmt-omdoc domain_theories/algebra/ringoids.mmt
 
 // dependent on power_types, groups and ringoids
-build MMT/LATIN2 mmt-omdoc domain_theories/algebra/modules.mmt
+// needs complete redesign
+// build MMT/LATIN2 mmt-omdoc domain_theories/algebra/modules.mmt
 
 // dependent on power_types, topology and files from before
 build MMT/LATIN2 mmt-omdoc domain_theories/algebra/generated.mmt
