@@ -11,18 +11,30 @@ view TypesAsPropositions : ?Types -> ?Propositions =
 view TermsAsProofs : ?TypedTerms -> ?Proofs =
   include ?TypesAsPropositions ❙
   tm = ded❙
-❚
+❚ 
 
 view TypedEqualityCH : ?TypedEqualityND -> ?Logic + ?ProofIrrelevance =
   include ?TermsAsProofs ❙
+  include ?Logic❙
   // propositions in type theory mostly occur as equalities between terms
      Thus, we need a type that can hold equalities between proofs of F. 
      In the presence of proof irrelevance, they are equal anyway and we can simply use F.❙
-  prop = prop ❙
-  ded = ded❙
   tequal = [F,pf1,pf2] F❙
   trefl = _ ❙
   tcongB = [A,B,X,Y,p,P,q] q ❙
+❚
+
+view DependentTypedEqualityCH : ?DependentTypeEquality -> ?Logic + ?EquivalenceND + ?ProofIrrelevance =
+  include ?TypedEqualityCH❙
+  // type equality is mapped to equivalence of propositions❙
+  constant tpeq/uequal = [F,G] F⇔G❙
+  constant tpeq/urefl = [x] equiv_equivalence/refl❙
+  // The substitution property for equivalence can only be proved on the meta-level.❙
+  constant tpeq/ucongP = _ ❙
+  transport = equivEl ❙
+  transport_refl = _ ❙
+  transport_trans = _ ❙
+  
 ❚
 
 view EmptyTypeCH : ?EmptyType -> ?FalsityND + ?ProofIrrelevance =
@@ -81,8 +93,9 @@ view DependentFunctionsCH : ?DependentFunctions -> ?DependentImplicationND + ?Pr
   depbeta = _ ❙
 ❚
 
-view DependentProductsCH : ?DependentProducts -> ?DependentConjunctionND + ?ProofIrrelevance =
+view DependentProductsCH : ?DependentProducts -> ?DependentConjunctionND + ?EquivalenceND + ?ProofIrrelevance =
   include ?TypedEqualityCH❙
+  include ?TypeEqualityCH❙
   depprod = dand ❙
   deppair = dandI ❙
   deppi1 = dandEl ❙

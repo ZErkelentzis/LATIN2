@@ -66,7 +66,6 @@ theory Flexary_FOL =
 
 theory Derived_forall =
 		include ?Forall2❙
-		include ?IFOLND❙
 
 		forall_modes_ponens : {P,Q,Y}  ⊦ (∀ͧ[x] P x ⇒ Q x ) ⟶ ⊦ P Y ⟶ ⊦ Q Y ❘
 				= [P,Q,Y,q,k] (q uforallE Y) implE k❙

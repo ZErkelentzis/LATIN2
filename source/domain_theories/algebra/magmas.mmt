@@ -204,9 +204,9 @@ theory Monoid =
               = [x,xˈ,p] andI (p andEr) (p andEl)❙
   inverse_unique : {x,x1,x2} ⊦ inverse x x1 ⟶ ⊦ inverse x x2 ⟶ ⊦ x1 =ͭ x2❘
                  = [x,x1,x2,p,q] eqChain x1
-                 < (neutR tsym) ttrans (q andEl tsym tcongT [u]x1∘u) > x1∘(x∘x2)
-                 < _ > (x1∘x)∘x2
-                 < (p andEr tcongT [u]u∘x2) > x2❙
+                 ⟪ (neutR tsym) ttrans (q andEl tsym tcongT [u]x1∘u) ⟫ x1∘(x∘x2)
+                 ⟪ _ ⟫ (x1∘x)∘x2
+                 ⟪ (p andEr tcongT [u]u∘x2) ⟫ x2❙
 
   inverse_neutral : ⊦ inverse e e❘
                   = andI neutL neutL❙
