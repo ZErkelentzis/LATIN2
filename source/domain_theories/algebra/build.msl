@@ -20,9 +20,6 @@ build MMT/LATIN2 mmt-omdoc domain_theories/algebra/ringoids.mmt
 // needs complete redesign
 // build MMT/LATIN2 mmt-omdoc domain_theories/algebra/modules.mmt
 
-// dependent on power_types, topology and files from before
-build MMT/LATIN2 mmt-omdoc domain_theories/algebra/generated.mmt
-
 // independent of the rest
 // build MMT/LATIN2 mmt-omdoc algebra/diagop-theories.mmt
 // dependent on informal and others (not completely checked by now)

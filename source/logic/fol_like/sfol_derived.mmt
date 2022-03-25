@@ -35,8 +35,8 @@ theory Texists2 =
 ❚
 
 theory Derived_tforall =
-		include ?Tforall2❙
 		include ?ISFOLND❙
+		include ?Tforall2❙
 
 		tforall_flip : {A,B,P:tm A ⟶tm B ⟶prop} ⊦ (∀ͭ[x] ∀ͭ[y] P x y) ⟶ ⊦ (∀ͭ[y] ∀ͭ[x] P x y) ❘
 				= [A,B,P]([q] tforallI [y] tforallI [x] q tforallE x tforallE y)❙
@@ -49,8 +49,8 @@ theory Derived_tforall =
 ❚
 
 theory Derived_texists =
-		include ?Texists2❙
 		include ?ISFOLND❙
+		include ?Texists2❙
 
 		texists_flip : {A,B,P:tm A ⟶tm B ⟶prop} ⊦ (∃ͭ[x] ∃ͭ[y] P x y) ⟶ ⊦ (∃ͭ[y] ∃ͭ[x] P x y) ❘
 				= [A,B,P] ([q] q texistsE [x,p] (p texistsE [y,k] (texistsI y (texistsI x k)) )  )❙

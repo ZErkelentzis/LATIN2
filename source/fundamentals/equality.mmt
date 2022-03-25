@@ -80,7 +80,7 @@ theory TypedEqualityND =
          = [A,B,C,x,y,xˈ,yˈ,p,q,T] (p tcongT [u] T u xˈ) ttrans (q tcongT [u] T y u)❙
   
   eqChain : {A,X:tm A} ⊦ X =ͭ X❘ = [A,X] trefl❘ # eqChain 2❙
-  equalToVia : {A,T,X: tm A} ⊦ T =ͭ X ⟶ {Y} ⊦ X =ͭ Y ⟶ ⊦ T =ͭ Y❘= [A,T,X,p,Y,q] p ttrans q❘# 4 < 6 > 5❙
+  equalToVia : {A,T,X: tm A} ⊦ T =ͭ X ⟶ {Y} ⊦ X =ͭ Y ⟶ ⊦ T =ͭ Y❘= [A,T,X,p,Y,q] p ttrans q❘# 4 ⟪ 6 ⟫ 5❙
 ❚
 
 theory PropositionalExtensionality =
