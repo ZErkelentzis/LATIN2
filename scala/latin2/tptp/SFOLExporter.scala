@@ -35,7 +35,7 @@ object SFOLExporter {
     for (x <- decls.take(decls.length - 1)) {
       x match
       {
-        case PlainInclude(t) => includes :+= t._1
+        case PlainInclude(t) => includes += t._1
         case c: Constant => formulasAndComments ++= translate_constant(c)
       }
     }
@@ -47,7 +47,7 @@ object SFOLExporter {
     formulasAndComments ++= axioms
 
     val ded(conjecture) = t
-    formulasAndComments :+= (TFFAnnotated("conjecture", "conjecture",  TFF.Logical(translate_formula(conjecture)), None), None)
+    formulasAndComments += ((TFFAnnotated("conjecture", "conjecture",  TFF.Logical(translate_formula(conjecture)), None), None))
 
     val tptp_exporter = ctrl.extman.get(classOf[TPTPExporter]).head
 

@@ -31,14 +31,14 @@ import scala.collection.mutable.ArrayBuffer
 object HOLExporter {
   def combineStubs(p: MPath, ctx: Context, t: Term)(implicit ctrl: Controller): Problem = {
     var includes = ArrayBuffer[MPath]()
-    var formulasAndComments = ArrayBuffer[(AnnotatedFormula, Option[Comment])]()
+    val formulasAndComments = ArrayBuffer[(AnnotatedFormula, Option[Comment])]()
 
     val decls = ctrl.getTheory(p).getDeclarations
     //for (x <- ctrl.getTheory(p.module).getDeclarations.takeWhile(x => x.parent == p)) {
     for (x <- decls.take(decls.length - 1)) {
       x match
       {
-        case PlainInclude(t) => includes :+= t._1
+        case PlainInclude(t) => includes += t._1
         case c: Constant => formulasAndComments ++= translate_constant(c)
       }
     }
@@ -50,7 +50,7 @@ object HOLExporter {
     formulasAndComments ++= axioms
 
     val ded(conjecture) = t
-    formulasAndComments :+= (THFAnnotated("conjecture", "conjecture",  THF.Logical(translate_formula(conjecture)), None), None)
+    formulasAndComments += ((THFAnnotated("conjecture", "conjecture",  THF.Logical(translate_formula(conjecture)), None), None))
 
     val tptp_exporter = ctrl.extman.get(classOf[TPTPExporter]).head
 

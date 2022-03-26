@@ -94,6 +94,7 @@ class TPTPExporter extends StructurePresenter with AutomatedProver { //TODO: doe
     val mod = MPath(pu.component.get.parent.toTriple._1.get, pu.component.get.parent.toTriple._2.get)
     val problem = combineStubs(mod, pu.context, pu.tp)(this.controller)
     val result = problem.map(exportProblem(_, mod)).map(path => callInternalATP(path)(this.controller)).isDefined
+    log("ATP Result: " + result)
     (result, None)
   }
 

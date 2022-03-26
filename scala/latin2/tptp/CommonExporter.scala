@@ -9,7 +9,9 @@ object CommonExporter {
     for ((formula, comment) <- formulasAndComments) {
       comment match {
         case Some(comment) => comments += (formula.name -> Seq(comment))
+        case None => {}
       }
+      formulas :+= formula
     }
     (formulas, comments)
   }
