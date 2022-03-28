@@ -9,7 +9,9 @@ theory ClosureSystem =
   
   intersection : {Q: tm ℘ͯ℘ͯX} ⊦ Q ⊆ͯ CC ⟶ ⊦ (⋂ͯ Q) ∈ͯ CC❙
   // provable ❙
-  full_closed  : ⊦ fullset ∈ͯ CC❙
+  full_closed  : ⊦ fullset ∈ͯ CC❘
+  				= intersection ∅ͯ subset_empty❙
+
 ❚
 
 theory ClosureOperator =
@@ -20,7 +22,8 @@ theory ClosureOperator =
   monotone     : {A,B} ⊦ A ⊆ͯ B ⟶ ⊦ cl A ⊆ͯ cl B❙
   idempotent   : {A} ⊦ cl (cl A) =ͭ cl A❙
   
-  closureFixI : {A} ⊦ cl A ⊆ͯ A ⟶ ⊦ cl A =ͭ A❘ = [A,p] subset_antisym p extensive❙     
+  closureFixI : {A} ⊦ cl A ⊆ͯ A ⟶ ⊦ cl A =ͭ A❘ 
+  				= [A,p] subset_antisym p extensive❙     
 ❚
 
 theory Closeness =
@@ -42,7 +45,6 @@ theory InteriorTopology =
 	idempotence : {A} ⊦ ((interior A) =ͭ  (interior (interior A)))❙
 	bin_inters : {A, B} ⊦ ((interior (A ∩ͯ B)) =ͭ ((interior A) ∩ͯ (interior B)))❙
 	preservation : ⊦ ((interior (full X)) =ͭ (full X))❙
-	
 ❚
 
 theory ClosureTopology =
@@ -71,6 +73,7 @@ theory OpenTopology =
   full_open  : ⊦ (full X) ∈ͯ OO❙
   union_open : {Q: tm ℘ͯ℘ͯX} ⊦ Q ⊆ͯ OO ⟶ ⊦ (⋃ͯ Q) ∈ͯ OO❙
 
+  // empty_open provable from union_open ❙
   empty_open : ⊦ (empty X) ∈ͯ OO ❙
   finite_intersection : {A,B} ⊦ A ∈ͯ OO ⟶ ⊦ B ∈ͯ OO ⟶ ⊦ A ∩ͯ B ∈ͯ OO❙
 ❚
