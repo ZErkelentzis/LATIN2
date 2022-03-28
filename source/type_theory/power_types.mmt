@@ -82,6 +82,7 @@ theory Subset =
                = [A,R,S,T,p,q] subsetI [x,r] subsetE q (subsetE p r)❙
   subset_antisym : {A,S,T:tm ℘ͯA} ⊦ S⊆ͯT ⟶ ⊦ T⊆ͯS ⟶ ⊦ S =ͭ T❘
                  = [A,S,T,p,q] extensionalityI ([x,r] subsetE p r) ([x,r] subsetE q r)❙
+  subset_eq : {A,S,T:tm ℘ͯA} ⊦ S =ͭ T ⟶ ⊦ S ⊆ͯ T❘ = [A,S,T,p] subsetI [x,q] eq_in_left p q❙ 
 ❚
 
 theory FullSet =
