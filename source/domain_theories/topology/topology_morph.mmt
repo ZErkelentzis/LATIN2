@@ -53,7 +53,10 @@ view ClosenessToClosureOperator : ?Closeness → ?ClosureOperator =
 	close = [x,A] x ∈ͯ cl A❙
 	in_close = [x,A,p] subsetE extensive p❙
 	bigger_close = [x,A,B,p,q] subsetE (monotone q) p❙
-	transitive = [A,B,x,p,q] subsetE (subset_trans (monotone (subsetI [y, r] q tforallE y implE r) )(subsetI (eq_in_left idempotent))) p❙
+	transitive = [A,B,x,p,q] subsetE
+	  (subset_trans (monotone (subsetI [y, r] q tforallE y implE r) )
+	                (subset_eq idempotent))
+	  p❙
 ❚
 
 //   views:

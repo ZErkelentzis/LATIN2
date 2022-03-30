@@ -95,7 +95,7 @@ view DependentFunctionsCH : ?DependentFunctions -> ?DependentImplicationND + ?Pr
 
 view DependentProductsCH : ?DependentProducts -> ?DependentConjunctionND + ?EquivalenceND + ?ProofIrrelevance =
   include ?TypedEqualityCH❙
-  include ?TypeEqualityCH❙
+  include ?DependentTypedEqualityCH❙
   depprod = dand ❙
   deppair = dandI ❙
   deppi1 = dandEl ❙
