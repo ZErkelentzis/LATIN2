@@ -163,7 +163,7 @@ theory BigIntersection =
   biginterI : {A,K,x:tm A} ({S}⊦S∈ͯK⟶⊦x∈ͯS) ⟶ ⊦ x∈ͯ⋂ͯK ❘ 
   				  = [A,K,x,f] pfilterI (tforallI [S] implI [p] f S p)❙
   biginterE : {A,K,x:tm A,S} ⊦ x∈ͯ⋂ͯK ⟶ ⊦S∈ͯK ⟶ ⊦x∈ͯS❘ 
-  				  = [A,K,x,S,p,q] p pfilterE tforallE S implE q❙
+  				  = [A,K,x,S,p,q] p pfilterE tforallE S implE q❙				
 ❚
 
 theory BigUnion =

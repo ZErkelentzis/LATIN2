@@ -11,27 +11,6 @@ for functions f: X ⟶ Y
   f(cl A) ⊆‍ cl f(A)  ⇔  preservation of closeness   ⇔  reflection of closedness  (= continuous)
   f(cl A) ⊇ cl f(A)  ⇔  preservation of closedness
   
-view ClosureSystemToClosureOperator : ?ClosureSystem -> ?ClosureOperator =
-	X = X
-	CC = pfilter [A] cl A =ͭ A
-	intersection = [Q,p] pfilterI 
-	full_closed = pfilterI closureFixI subset_full
-
-
-view ClosureOperatorToCloseness : ?ClosureOperator → ?Closeness =
-	X = X
-	closure = [A] pfilter [x] x|A
-	extensive = [A] subsetI 
-	monotone =  
-	idempotent = 
-
-
-view ClosenessToClosureSystem : ?Closeness → ?ClosureSystem =
-	X = X
-	close = [x,A] (∀[B] (A ⊆ͯ cl B ⇒ x ∈ͯ cl B))
-	in_close = 
-	bigger_close = 
-	transitive = 
 ❚
 
 view ClosureSystemToCloseness : ?ClosureSystem → ?Closeness =
@@ -81,7 +60,7 @@ view ClosenessTopologyToClosureTopology : ?ClosenessTopology → ?ClosureTopolog
 
 view ClosureTopologyToInteriorTopology : ?ClosureTopology → ?InteriorTopology =
 	X = X❙
-	closure = _ ❙
+	closure = [A] ∁ͯ (interior ∁ͯ A) ❙
 	extensive = _ ❙
 	monotone = _ ❙
 	idempotent = _ ❙
@@ -91,7 +70,7 @@ view ClosureTopologyToInteriorTopology : ?ClosureTopology → ?InteriorTopology 
 
 view InteriorTopologyToNeighborhoodTopology : ?InteriorTopology → ?NeighborhoodTopology =
 	X = X❙
-	interior = _ ❙
+	interior = [A] pfilter [x] x ∘ A❙
 	int_extensivity = _ ❙
 	idempotence = _ ❙
 	bin_inters = _ ❙
@@ -110,8 +89,8 @@ view NeighborhoodTopologyToOpenTopology : ?NeighborhoodTopology → ?OpenTopolog
 
 view OpenTopologyToClosedTopology : ?OpenTopology → ?ClosedTopology =
 	X = X❙
-	OO = _ ❙
-	full_open = _ ❙
+	OO = pfilter [A] ∁ͯ A ∈ͯ CC❙
+	full_open = pfilterI compl_full empty_closed❙
 	union_open = _ ❙
 	empty_open = _ ❙
 	finite_intersection = _ ❙
