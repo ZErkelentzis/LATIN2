@@ -16,14 +16,15 @@ for functions f: X ⟶ Y
 view ClosureSystemToCloseness : ?ClosureSystem → ?Closeness =
 	X = X❙
 	CC = pfilter [A] (∀ͭ[x] (x | A ⇒ x ∈ͯ A))❙
+	full_closed = pfilterI forallI ❙
 	intersection = _ ❙
 ❚
 
 view ClosureOperatorToClosureSystem : ?ClosureOperator → ?ClosureSystem =
 	X = X❙
 	closure = [A] biginter X (pfilter [B] (B ∈ͯ CC ∧ A ⊆ͯ B))❙
-	extensive = subsetI ❙
-	monotone = _ ❙
+	extensive = [A] subset_biginter_glb [A,K,C,p] _❙
+	monotone = [A,B,p] _ ❙
 	idempotent = _ ❙
 ❚
 
@@ -47,15 +48,15 @@ view ClosenessToClosureOperator : ?Closeness → ?ClosureOperator =
 
 view ClosedTopologyToClosenessTopology : ?ClosedTopology → ?ClosenessTopology =
 	include ?ClosureSystemToCloseness❙
-	empty_closed = _ ❙ 
+	empty_closed = pfilterI _ ❙ 
 	finite_union = _ ❙
 ❚
 
 view ClosenessTopologyToClosureTopology : ?ClosenessTopology → ?ClosureTopology =
 	include ?ClosenessToClosureOperator❙
 
-	empty_union = _ ❙
-	finite_union = _ ❙
+	empty_union = [x] notI [p] (emptyE (eq_in_left closure_empty p))❙
+	finite_union = [x,A,B,p] unionE _  ❙
 ❚
 
 view ClosureTopologyToInteriorTopology : ?ClosureTopology → ?InteriorTopology =
@@ -71,7 +72,7 @@ view ClosureTopologyToInteriorTopology : ?ClosureTopology → ?InteriorTopology 
 view InteriorTopologyToNeighborhoodTopology : ?InteriorTopology → ?NeighborhoodTopology =
 	X = X❙
 	interior = [A] pfilter [x] x ∘ A❙
-	int_extensivity = _ ❙
+	int_extensivity = [A] subsetI ([x,p] inneighborhood (pfilterE p))❙
 	idempotence = _ ❙
 	bin_inters = _ ❙
 	preservation = _ ❙
@@ -90,7 +91,7 @@ view NeighborhoodTopologyToOpenTopology : ?NeighborhoodTopology → ?OpenTopolog
 view OpenTopologyToClosedTopology : ?OpenTopology → ?ClosedTopology =
 	X = X❙
 	OO = pfilter [A] ∁ͯ A ∈ͯ CC❙
-	full_open = pfilterI compl_full empty_closed❙
+	full_open = pfilterI congForm ([s,s ∈ͯ CC] (sym compl_full) empty_closed)❙
 	union_open = _ ❙
 	empty_open = _ ❙
 	finite_intersection = _ ❙
