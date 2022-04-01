@@ -82,7 +82,8 @@ theory Subset =
                = [A,R,S,T,p,q] subsetI [x,r] subsetE q (subsetE p r)❙
   subset_antisym : {A,S,T:tm ℘ͯA} ⊦ S⊆ͯT ⟶ ⊦ T⊆ͯS ⟶ ⊦ S =ͭ T❘
                  = [A,S,T,p,q] extensionalityI ([x,r] subsetE p r) ([x,r] subsetE q r)❙
-  subset_eq : {A,S,T:tm ℘ͯA} ⊦ S =ͭ T ⟶ ⊦ S ⊆ͯ T❘ = [A,S,T,p] subsetI [x,q] eq_in_left p q❙ 
+  subset_eq_left : {A,S,T:tm ℘ͯA} ⊦ S =ͭ T ⟶ ⊦ S ⊆ͯ T❘ = [A,S,T,p] subsetI [x,q] eq_in_left p q❙
+  subset_eq_right : {A,S,T:tm ℘ͯA} ⊦ S =ͭ T ⟶ ⊦ T ⊆ͯ S❘ = [A,S,T,p] subsetI [x,q] eq_in_right p q❙
 ❚
 
 theory FullSet =
@@ -268,6 +269,14 @@ theory ComplementRules =
               = [A,S] extensionalityI ([x,p] compl_tnd orE ([q] q) ([q] complE p q inconE)) ([x,p] complI [q] complE q p)❙
 ❚
 
+theory IntersectionRules =
+	include ?SubsetRules❙
+	inter_eq : {A,S,T : tm ℘ͯA} ⊦ S ⊆ͯ T ⟶ ⊦ S =ͭ S ∩ͯ T❘
+							= [A,S,T,p] subset_antisym 
+							   (subsetI [x,q] interI q (subsetE p q))
+								subset_inter_left❙
+❚
+
 theory PowerSFOL =
    include ☞latin:/?SFOLEQND❙
    include ?PowerTypes❙
@@ -276,4 +285,5 @@ theory PowerSFOL =
    include ?Lattice❙
    include ?SubsetRules❙
    include ?ComplementRules❙
+   include ?IntersectionRules❙
 ❚

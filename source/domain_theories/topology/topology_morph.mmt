@@ -35,7 +35,7 @@ view ClosenessToClosureOperator : ?Closeness → ?ClosureOperator =
 	bigger_close = [x,A,B,p,q] subsetE (monotone q) p❙
 	transitive = [A,B,x,p,q] subsetE
 	  (subset_trans (monotone (subsetI [y, r] q tforallE y implE r) )
-	                (subset_eq idempotent))
+	                (subset_eq_left idempotent))
 	  p❙
 ❚
 
@@ -62,8 +62,10 @@ view ClosenessTopologyToClosureTopology : ?ClosenessTopology → ?ClosureTopolog
 view ClosureTopologyToInteriorTopology : ?ClosureTopology → ?InteriorTopology =
 	X = X❙
 	closure = [A] ∁ͯ (interior ∁ͯ A) ❙
-	extensive = _ ❙
-	monotone = _ ❙
+	extensive = [A] subset_trans
+					(subset_eq_right compl_compl)
+					(subset_compl int_extensivity)❙
+	monotone = [A,B,p] subset_compl monotone subset_compl p❙
 	idempotent = _ ❙
 	closure_empty = _ ❙
 	closure_union = _ ❙
@@ -72,16 +74,19 @@ view ClosureTopologyToInteriorTopology : ?ClosureTopology → ?InteriorTopology 
 view InteriorTopologyToNeighborhoodTopology : ?InteriorTopology → ?NeighborhoodTopology =
 	X = X❙
 	interior = [A] pfilter [x] x ∘ A❙
-	int_extensivity = [A] subsetI ([x,p] inneighborhood (pfilterE p))❙
+	int_extensivity = [A] subsetI [x,p] inneighborhood (p pfilterE)❙
 	idempotence = _ ❙
 	bin_inters = _ ❙
-	preservation = _ ❙
+	preservation = subset_antisym (int_extensivity fullset) 
+						(subsetI [p] pfilterI (superset_closed))❙
 ❚	
 
 view NeighborhoodTopologyToOpenTopology : ?NeighborhoodTopology → ?OpenTopology =
 	X = X❙
 	NN = [x] pfilter [A] (∃ͭ[O] (O ∈ͯ OO ∧ x ∈ͯ O ∧ O ⊆ͯ A)) ❙
-	nonempty = _ ❙
+	nonempty = [x] notI 
+					(emptyE pfilterI 
+						(texistsI (andI (andI full_open fullI) subset_refl)))❙
 	inneighborhood = _ ❙
 	superset_closed = _ ❙
 	intersection_closed = _ ❙
@@ -93,6 +98,6 @@ view OpenTopologyToClosedTopology : ?OpenTopology → ?ClosedTopology =
 	OO = pfilter [A] ∁ͯ A ∈ͯ CC❙
 	full_open = pfilterI congForm ([s,s ∈ͯ CC] (sym compl_full) empty_closed)❙
 	union_open = _ ❙
-	empty_open = _ ❙
+	empty_open = pfilterI tcongP _ ❙
 	finite_intersection = _ ❙
 ❚
