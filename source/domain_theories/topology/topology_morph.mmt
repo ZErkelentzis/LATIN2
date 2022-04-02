@@ -16,7 +16,6 @@ for functions f: X ⟶ Y
 view ClosureSystemToCloseness : ?ClosureSystem → ?Closeness =
 	X = X❙
 	CC = pfilter [A] (∀ͭ[x] (x | A ⇒ x ∈ͯ A))❙
-	full_closed = pfilterI forallI ❙
 	intersection = _ ❙
 ❚
 
@@ -48,8 +47,12 @@ view ClosenessToClosureOperator : ?Closeness → ?ClosureOperator =
 
 view ClosedTopologyToClosenessTopology : ?ClosedTopology → ?ClosenessTopology =
 	include ?ClosureSystemToCloseness❙
-	empty_closed = pfilterI _ ❙ 
-	finite_union = _ ❙
+	empty_closed = pfilterI 
+					(tforallI [x] implI [p] ((empty_union notE p) inconE))❙ 
+	finite_union = [A,B,p,q] pfilterI
+					(tforallI [x] implI [s] (finite_union s)
+					orE ([l] unionIl (((p pfilterE) tforallE x) implE l))
+						([r] unionIr (((q pfilterE) tforallE x) implE r)))  ❙
 ❚
 
 view ClosenessTopologyToClosureTopology : ?ClosenessTopology → ?ClosureTopology =
@@ -96,8 +99,7 @@ view NeighborhoodTopologyToOpenTopology : ?NeighborhoodTopology → ?OpenTopolog
 view OpenTopologyToClosedTopology : ?OpenTopology → ?ClosedTopology =
 	X = X❙
 	OO = pfilter [A] ∁ͯ A ∈ͯ CC❙
-	full_open = pfilterI congForm ([s,s ∈ͯ CC] (sym compl_full) empty_closed)❙
+	full_open = pfilterI ((compl_full tsym) tcongP ([A] A ∈ͯ CC) empty_closed)❙
 	union_open = _ ❙
-	empty_open = pfilterI tcongP _ ❙
 	finite_intersection = _ ❙
 ❚

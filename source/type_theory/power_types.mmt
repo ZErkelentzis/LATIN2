@@ -277,6 +277,23 @@ theory IntersectionRules =
 								subset_inter_left❙
 ❚
 
+theory BigIntersectionRules =
+	include ?SubsetRules❙
+	biginter_empty : {A} ⊦ ⋂ͯ (empty ℘ͯA) =ͭ fullset❘
+					= [A] subset_antisym subset_full  
+						(subset_biginter_glb [S,p] ((emptyE p) inconE))❙
+❚
+
+theory BigUnionRules =
+	include ?SubsetRules❙
+	bigunion_empty : {A} ⊦ ⋃ͯ (empty ℘ͯA) =ͭ ∅ͯ❘
+					= [A] subset_antisym  
+					(subset_bigunion_lub [S,p] ((emptyE p) inconE))
+					subset_empty❙
+
+❚
+
+
 theory PowerSFOL =
    include ☞latin:/?SFOLEQND❙
    include ?PowerTypes❙
@@ -286,4 +303,6 @@ theory PowerSFOL =
    include ?SubsetRules❙
    include ?ComplementRules❙
    include ?IntersectionRules❙
+   include ?BigIntersectionRules❙
+   include ?BigUnionRules❙
 ❚
