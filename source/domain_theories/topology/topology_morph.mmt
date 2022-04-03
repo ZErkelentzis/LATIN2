@@ -16,15 +16,20 @@ for functions f: X ⟶ Y
 view ClosureSystemToCloseness : ?ClosureSystem → ?Closeness =
 	X = X❙
 	CC = pfilter [A] (∀ͭ[x] (x | A ⇒ x ∈ͯ A))❙
-	intersection = _ ❙
+	intersection = [Q,p] pfilterI 
+					(tforallI [x] implI [q] 
+					(biginterI [S,r] (((subsetE p r) pfilterE) tforallE x) implE
+					(bigger_close q (subset_biginter r)))) ❙
 ❚
 
 view ClosureOperatorToClosureSystem : ?ClosureOperator → ?ClosureSystem =
 	X = X❙
-	closure = [A] biginter X (pfilter [B] (B ∈ͯ CC ∧ A ⊆ͯ B))❙
-	extensive = [A] subset_biginter_glb [A,K,C,p] _❙
-	monotone = [A,B,p] _ ❙
-	idempotent = _ ❙
+	closure = [A] ⋂ͯ(pfilter [C] (C ∈ͯ CC ∧ A ⊆ͯ C))❙
+	extensive = [A] subset_biginter_glb [S,p] ((p pfilterE) andEr)❙
+	monotone = [A,B,p] subset_biginter pfilterI andI
+				(intersection subsetI [S,q] ((q pfilterE) andEl))
+				(subset_biginter_glb [T,r] (subset_trans p ((r pfilterE) andEr)))❙
+	idempotent = [A] _ ❙
 ❚
 
 view ClosenessToClosureOperator : ?Closeness → ?ClosureOperator =
@@ -70,7 +75,8 @@ view ClosureTopologyToInteriorTopology : ?ClosureTopology → ?InteriorTopology 
 					(subset_compl int_extensivity)❙
 	monotone = [A,B,p] subset_compl monotone subset_compl p❙
 	idempotent = _ ❙
-	closure_empty = _ ❙
+	closure_empty = (((compl_empty tsym) tcongP ([A] interior A =ͭ fullset) preservation) tsym) 
+					tcongP ([A] ∁ͯ A =ͭ ∅ͯ) compl_full❙
 	closure_union = _ ❙
 ❚
 
