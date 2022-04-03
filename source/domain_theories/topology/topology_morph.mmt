@@ -22,8 +22,8 @@ view ClosureSystemToCloseness : ?ClosureSystem → ?Closeness =
 view ClosureOperatorToClosureSystem : ?ClosureOperator → ?ClosureSystem =
 	X = X❙
 	closure = [A] biginter X (pfilter [B] (B ∈ͯ CC ∧ A ⊆ͯ B))❙
-	extensive = subsetI ❙
-	monotone = _ ❙
+	extensive = [A] subset_biginter_glb [A,K,C,p] _❙
+	monotone = [A,B,p] _ ❙
 	idempotent = _ ❙
 ❚
 
@@ -34,7 +34,7 @@ view ClosenessToClosureOperator : ?Closeness → ?ClosureOperator =
 	bigger_close = [x,A,B,p,q] subsetE (monotone q) p❙
 	transitive = [A,B,x,p,q] subsetE
 	  (subset_trans (monotone (subsetI [y, r] q tforallE y implE r) )
-	                (subset_eq idempotent))
+	                (subset_eq_left idempotent))
 	  p❙
 ❚
 
@@ -47,22 +47,28 @@ view ClosenessToClosureOperator : ?Closeness → ?ClosureOperator =
 
 view ClosedTopologyToClosenessTopology : ?ClosedTopology → ?ClosenessTopology =
 	include ?ClosureSystemToCloseness❙
-	empty_closed = _ ❙ 
-	finite_union = _ ❙
+	empty_closed = pfilterI 
+					(tforallI [x] implI [p] ((empty_union notE p) inconE))❙ 
+	finite_union = [A,B,p,q] pfilterI
+					(tforallI [x] implI [s] (finite_union s)
+					orE ([l] unionIl (((p pfilterE) tforallE x) implE l))
+						([r] unionIr (((q pfilterE) tforallE x) implE r)))  ❙
 ❚
 
 view ClosenessTopologyToClosureTopology : ?ClosenessTopology → ?ClosureTopology =
 	include ?ClosenessToClosureOperator❙
 
-	empty_union = _ ❙
-	finite_union = _ ❙
+	empty_union = [x] notI [p] (emptyE (eq_in_left closure_empty p))❙
+	finite_union = [x,A,B,p] unionE _  ❙
 ❚
 
 view ClosureTopologyToInteriorTopology : ?ClosureTopology → ?InteriorTopology =
 	X = X❙
 	closure = [A] ∁ͯ (interior ∁ͯ A) ❙
-	extensive = _ ❙
-	monotone = _ ❙
+	extensive = [A] subset_trans
+					(subset_eq_right compl_compl)
+					(subset_compl int_extensivity)❙
+	monotone = [A,B,p] subset_compl monotone subset_compl p❙
 	idempotent = _ ❙
 	closure_empty = _ ❙
 	closure_union = _ ❙
@@ -71,16 +77,19 @@ view ClosureTopologyToInteriorTopology : ?ClosureTopology → ?InteriorTopology 
 view InteriorTopologyToNeighborhoodTopology : ?InteriorTopology → ?NeighborhoodTopology =
 	X = X❙
 	interior = [A] pfilter [x] x ∘ A❙
-	int_extensivity = _ ❙
+	int_extensivity = [A] subsetI [x,p] inneighborhood (p pfilterE)❙
 	idempotence = _ ❙
 	bin_inters = _ ❙
-	preservation = _ ❙
+	preservation = subset_antisym (int_extensivity fullset) 
+						(subsetI [p] pfilterI (superset_closed))❙
 ❚	
 
 view NeighborhoodTopologyToOpenTopology : ?NeighborhoodTopology → ?OpenTopology =
 	X = X❙
 	NN = [x] pfilter [A] (∃ͭ[O] (O ∈ͯ OO ∧ x ∈ͯ O ∧ O ⊆ͯ A)) ❙
-	nonempty = _ ❙
+	nonempty = [x] notI 
+					(emptyE pfilterI 
+						(texistsI (andI (andI full_open fullI) subset_refl)))❙
 	inneighborhood = _ ❙
 	superset_closed = _ ❙
 	intersection_closed = _ ❙
@@ -90,8 +99,7 @@ view NeighborhoodTopologyToOpenTopology : ?NeighborhoodTopology → ?OpenTopolog
 view OpenTopologyToClosedTopology : ?OpenTopology → ?ClosedTopology =
 	X = X❙
 	OO = pfilter [A] ∁ͯ A ∈ͯ CC❙
-	full_open = pfilterI compl_full empty_closed❙
+	full_open = pfilterI ((compl_full tsym) tcongP ([A] A ∈ͯ CC) empty_closed)❙
 	union_open = _ ❙
-	empty_open = _ ❙
 	finite_intersection = _ ❙
 ❚

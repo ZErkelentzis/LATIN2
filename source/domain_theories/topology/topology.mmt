@@ -8,8 +8,8 @@ theory ClosureSystem =
   CC : tm ℘ͯ℘ͯX❙
   
   intersection : {Q: tm ℘ͯ℘ͯX} ⊦ Q ⊆ͯ CC ⟶ ⊦ (⋂ͯ Q) ∈ͯ CC❙
-  // provable ❙
-  full_closed  : ⊦ fullset ∈ͯ CC❙
+  full_closed  : ⊦ fullset ∈ͯ CC❘
+  				= biginter_empty tcongP ([A] A ∈ͯ CC) intersection subset_empty❙
 ❚
 
 theory ClosureOperator =
@@ -43,6 +43,11 @@ theory InteriorTopology =
 	idempotence : {A} ⊦ ((interior A) =ͭ  (interior (interior A)))❙
 	bin_inters : {A, B} ⊦ ((interior (A ∩ͯ B)) =ͭ ((interior A) ∩ͯ (interior B)))❙
 	preservation : ⊦ ((interior (full X)) =ͭ (full X))❙
+	monotone : {A,B} ⊦ A ⊆ͯ B ⟶ ⊦ interior A ⊆ͯ interior B❘
+					= [A,B,p] subset_trans
+						(subset_trans (subset_eq_left ((inter_eq p) tcongT interior)) 
+						              (subset_eq_left bin_inters))
+						subset_inter_right❙
 ❚
 
 theory ClosureTopology =
@@ -70,9 +75,8 @@ theory OpenTopology =
   
   full_open  : ⊦ (full X) ∈ͯ OO❙
   union_open : {Q: tm ℘ͯ℘ͯX} ⊦ Q ⊆ͯ OO ⟶ ⊦ (⋃ͯ Q) ∈ͯ OO❙
-
-  // empty_open provable from union_open ❙
-  empty_open : ⊦ (empty X) ∈ͯ OO ❙
+  empty_open : ⊦ (empty X) ∈ͯ OO❘
+   				= bigunion_empty tcongP ([A] A ∈ͯ OO) union_open subset_empty❙
   finite_intersection : {A,B} ⊦ A ∈ͯ OO ⟶ ⊦ B ∈ͯ OO ⟶ ⊦ A ∩ͯ B ∈ͯ OO❙
 ❚
 
