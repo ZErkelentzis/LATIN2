@@ -74,28 +74,33 @@ view ClosureTopologyToInteriorTopology : ?ClosureTopology → ?InteriorTopology 
 					(subset_eq_right compl_compl)
 					(subset_compl int_extensivity)❙
 	monotone = [A,B,p] subset_compl monotone subset_compl p❙
-	idempotent = _ ❙
+	idempotent = [A] ((compl_compl tsym) tcongP ([C] interior C =ͭ interior (∁ͯA)) (idempotence tsym)) tcongT ([C] ∁ͯC)❙
 	closure_empty = (((compl_empty tsym) tcongP ([A] interior A =ͭ fullset) preservation) tsym) 
 					tcongP ([A] ∁ͯ A =ͭ ∅ͯ) compl_full❙
-	closure_union = _ ❙
+	closure_union = [A,B] (compl_union tcongT ([C] ∁ͯ(interior C))) ttrans 
+					(bin_inters tcongT ([C] ∁ͯC)) ttrans compl_inter❙
 ❚
 
 view InteriorTopologyToNeighborhoodTopology : ?InteriorTopology → ?NeighborhoodTopology =
 	X = X❙
 	interior = [A] pfilter [x] x ∘ A❙
 	int_extensivity = [A] subsetI [x,p] inneighborhood (p pfilterE)❙
-	idempotence = _ ❙
-	bin_inters = _ ❙
-	preservation = subset_antisym (int_extensivity fullset) 
-						(subsetI [p] pfilterI (superset_closed))❙
+	idempotence = _❙
+	bin_inters = [A,B] subset_antisym
+				(subsetI [x,p] interI
+					(pfilterI (superset_closed (p pfilterE) subset_inter_left))
+					(pfilterI (superset_closed (p pfilterE) subset_inter_right)))
+				(subsetI [x,p] 
+					(pfilterI (intersection_closed
+								((interEl p) pfilterE)
+								((interEr p) pfilterE))))❙
+	preservation = _ ❙
 ❚	
 
 view NeighborhoodTopologyToOpenTopology : ?NeighborhoodTopology → ?OpenTopology =
 	X = X❙
 	NN = [x] pfilter [A] (∃ͭ[O] (O ∈ͯ OO ∧ x ∈ͯ O ∧ O ⊆ͯ A)) ❙
-	nonempty = [x] notI 
-					(emptyE pfilterI 
-						(texistsI (andI (andI full_open fullI) subset_refl)))❙
+	nonempty = _ ❙
 	inneighborhood = _ ❙
 	superset_closed = _ ❙
 	intersection_closed = _ ❙
