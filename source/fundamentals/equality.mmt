@@ -68,6 +68,7 @@ theory TypedEqualityND =
   
   tcongT  : {A,B,x,y} ⊦ x =ͭ y ⟶ {T: tm A ⟶ tm B} ⊦ T x =ͭ T y ❘# 5 tcongT 6❘
          = [A,B,x,y,p,T] p tcongP ([u] T x =ͭ T u) trefl❙
+  tcongTAt = tcongT❘# at 6 tcongT 5 prec -5❙
   tsym    : {A, x,y: tm A} ⊦ x =ͭ y ⟶ ⊦ y =ͭ x❘# 4 tsym❘
          = [A,x,y,p] p tcongP ([u]u =ͭ x) trefl❙
   ttrans  : {A,x,y,z: tm A} ⊦ x =ͭ y ⟶ ⊦ y =ͭ z ⟶ ⊦ x =ͭ z❘# 5 ttrans 6❘

@@ -212,6 +212,10 @@ theory SubsetRules =
                     = [A,S,T] subsetI [x,p] interEr p❙
   subset_inter_glb : {A,S,T,C: tm ℘ͯA} ⊦ C ⊆ͯ S ⟶ ⊦ C ⊆ͯ T ⟶ ⊦ C ⊆ͯ S ∩ͯ T❘
                    = [A,S,T,C,s,t] subsetI [x,xc] interI (subsetE s xc) (subsetE t xc)❙
+	inter_subset : {A,S,T : tm ℘ͯA} ⊦ S ⊆ͯ T ⟶ ⊦ S =ͭ S ∩ͯ T❘
+							= [A,S,T,p] subset_antisym 
+							   (subsetI [x,q] interI q (subsetE p q))
+								subset_inter_left❙
 
   subset_bigunion : {A,K,S: tm ℘ͯA} ⊦ S ∈ͯ K ⟶ ⊦ S ⊆ͯ ⋃ͯ K❘
                   = [A,K,S,p] subsetI [x,q] bigunionI p q❙ 
@@ -267,30 +271,28 @@ theory ComplementRules =
               = [A,S] extensionalityI ([x,p] compl_tnd orE ([q] q) ([q] complE p q inconE)) ([x,p] complI [q] complE q p)❙
 ❚
 
-theory IntersectionRules =
+theory EmptyRules =
 	include ?SubsetRules❙
-	inter_eq : {A,S,T : tm ℘ͯA} ⊦ S ⊆ͯ T ⟶ ⊦ S =ͭ S ∩ͯ T❘
-							= [A,S,T,p] subset_antisym 
-							   (subsetI [x,q] interI q (subsetE p q))
-								subset_inter_left❙
-❚
-
-theory BigIntersectionRules =
-	include ?SubsetRules❙
-	biginter_empty : {A} ⊦ ⋂ͯ (empty ℘ͯA) =ͭ fullset❘
+	inter_empty : {A,S: tm ℘ͯ A} ⊦ S ∩ͯ ∅ͯ =ͭ ∅ͯ❙  
+	
+	biginter_empty : {A} ⊦ ⋂ͯ ∅ͯ =ͭ full A❘
 					= [A] subset_antisym subset_full  
-						(subset_biginter_glb [S,p] ((emptyE p) inconE))❙
-❚
+						(subset_biginter_glb [S,p] emptyE p inconE)❙
 
-theory BigUnionRules =
-	include ?SubsetRules❙
-	bigunion_empty : {A} ⊦ ⋃ͯ (empty ℘ͯA) =ͭ ∅ͯ❘
+	bigunion_empty : {A} ⊦ ⋃ͯ ∅ͯ =ͭ empty A❘
 					= [A] subset_antisym  
-					(subset_bigunion_lub [S,p] ((emptyE p) inconE))
+					(subset_bigunion_lub [S,p] emptyE p inconE)
 					subset_empty❙
-
 ❚
 
+theory FullRules =
+	include ?SubsetRules❙
+	inter_full : {A,S: tm ℘ͯ A} ⊦ S ∩ͯ fullset =ͭ S❙  
+	
+	biginter_full : {A} ⊦ ⋂ͯ fullset =ͭ empty A❙
+
+	bigunion_full : {A} ⊦ ⋃ͯ fullset =ͭ full A❙
+❚
 
 theory PowerSFOL =
    include ☞latin:/?SFOLEQND❙
@@ -300,7 +302,6 @@ theory PowerSFOL =
    include ?Lattice❙
    include ?SubsetRules❙
    include ?ComplementRules❙
-   include ?IntersectionRules❙
-   include ?BigIntersectionRules❙
-   include ?BigUnionRules❙
+   include ?EmptyRules❙
+   include ?FullRules❙
 ❚
