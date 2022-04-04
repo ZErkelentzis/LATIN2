@@ -16,15 +16,20 @@ for functions f: X ⟶ Y
 view ClosureSystemToCloseness : ?ClosureSystem → ?Closeness =
 	X = X❙
 	CC = pfilter [A] (∀ͭ[x] (x | A ⇒ x ∈ͯ A))❙
-	intersection = _ ❙
+	intersection = [Q,p] pfilterI 
+					(tforallI [x] implI [q] 
+					(biginterI [S,r] (((subsetE p r) pfilterE) tforallE x) implE
+					(bigger_close q (subset_biginter r)))) ❙
 ❚
 
 view ClosureOperatorToClosureSystem : ?ClosureOperator → ?ClosureSystem =
 	X = X❙
-	closure = [A] biginter X (pfilter [B] (B ∈ͯ CC ∧ A ⊆ͯ B))❙
-	extensive = [A] subset_biginter_glb [A,K,C,p] _❙
-	monotone = [A,B,p] _ ❙
-	idempotent = _ ❙
+	closure = [A] ⋂ͯ(pfilter [C] (C ∈ͯ CC ∧ A ⊆ͯ C))❙
+	extensive = [A] subset_biginter_glb [S,p] ((p pfilterE) andEr)❙
+	monotone = [A,B,p] subset_biginter pfilterI andI
+				(intersection subsetI [S,q] ((q pfilterE) andEl))
+				(subset_biginter_glb [T,r] (subset_trans p ((r pfilterE) andEr)))❙
+	idempotent = [A] _ ❙
 ❚
 
 view ClosenessToClosureOperator : ?Closeness → ?ClosureOperator =
@@ -69,27 +74,33 @@ view ClosureTopologyToInteriorTopology : ?ClosureTopology → ?InteriorTopology 
 					(subset_eq_right compl_compl)
 					(subset_compl int_extensivity)❙
 	monotone = [A,B,p] subset_compl monotone subset_compl p❙
-	idempotent = _ ❙
-	closure_empty = _ ❙
-	closure_union = _ ❙
+	idempotent = [A] ((compl_compl tsym) tcongP ([C] interior C =ͭ interior (∁ͯA)) (idempotence tsym)) tcongT ([C] ∁ͯC)❙
+	closure_empty = (((compl_empty tsym) tcongP ([A] interior A =ͭ fullset) preservation) tsym) 
+					tcongP ([A] ∁ͯ A =ͭ ∅ͯ) compl_full❙
+	closure_union = [A,B] (compl_union tcongT ([C] ∁ͯ(interior C))) ttrans 
+					(bin_inters tcongT ([C] ∁ͯC)) ttrans compl_inter❙
 ❚
 
 view InteriorTopologyToNeighborhoodTopology : ?InteriorTopology → ?NeighborhoodTopology =
 	X = X❙
 	interior = [A] pfilter [x] x ∘ A❙
 	int_extensivity = [A] subsetI [x,p] inneighborhood (p pfilterE)❙
-	idempotence = _ ❙
-	bin_inters = _ ❙
-	preservation = subset_antisym (int_extensivity fullset) 
-						(subsetI [p] pfilterI (superset_closed))❙
+	idempotence = _❙
+	bin_inters = [A,B] subset_antisym
+				(subsetI [x,p] interI
+					(pfilterI (superset_closed (p pfilterE) subset_inter_left))
+					(pfilterI (superset_closed (p pfilterE) subset_inter_right)))
+				(subsetI [x,p] 
+					(pfilterI (intersection_closed
+								((interEl p) pfilterE)
+								((interEr p) pfilterE))))❙
+	preservation = _ ❙
 ❚	
 
 view NeighborhoodTopologyToOpenTopology : ?NeighborhoodTopology → ?OpenTopology =
 	X = X❙
 	NN = [x] pfilter [A] (∃ͭ[O] (O ∈ͯ OO ∧ x ∈ͯ O ∧ O ⊆ͯ A)) ❙
-	nonempty = [x] notI 
-					(emptyE pfilterI 
-						(texistsI (andI (andI full_open fullI) subset_refl)))❙
+	nonempty = _ ❙
 	inneighborhood = _ ❙
 	superset_closed = _ ❙
 	intersection_closed = _ ❙
