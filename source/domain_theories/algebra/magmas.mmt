@@ -73,6 +73,10 @@ theory Semigroup =
         =  [w,x,y,z] ttrans3 (assoc tcongT [u]u∘z) assoc (assoc tcongT [u]w∘u)❙
   assoc4R: {w,x,y,z} ⊦ w∘(x∘(y∘z)) =ͭ ((w∘x)∘y)∘z❘
           = [w,x,y,z] assoc4 tsym❙
+  assoc4M: {w,x,y,z} ⊦ (w∘x)∘(y∘z) =ͭ w∘(x∘y)∘z❘
+        = [w,x,y,z] assocR ttrans (assoc tcongT [u]u∘z)❙
+  assoc4LR: {w,x,y,z} ⊦ ((w∘x)∘y)∘z =ͭ (w∘x)∘(y∘z)❘
+        = [w,x,y,z] assoc❙
   assoc5: {v,w,x,y,z} ⊦ (((v∘w)∘x)∘y)∘z =ͭ v∘(w∘(x∘(y∘z)))❘
         = [v,w,x,y,z] ttrans4 (assoc4 tcongT [u]u∘z) assoc
                              (assoc tcongT [u]v∘u) (assoc tcongT [u]v∘(w∘u))❙
