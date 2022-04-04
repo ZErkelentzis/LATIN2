@@ -126,7 +126,7 @@ implicit view LeftRegular2RightCommutative : ?LeftRegular -> ?RightCommutative =
 
 implicit view RightNormal2Normal : ?RightNormal -> ?Normal =
   include ?Band❙
-	rightregular1 = [x,y,z]
+  	rightregular1 = [x,y,z]
      assoc ttrans (idem tsym)
      ttrans
      assoc ttrans ((assocR ttrans normal) tcongT [u] (x∘z)∘u)
