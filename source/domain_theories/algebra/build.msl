@@ -1,17 +1,20 @@
 file ../../../build_config.msl
 
 // algebra
-// depends in general on fundamentals and logic (these dependencies are not mentioned here)!
+// depends in general on fundamentals and logic
 
 // fixed order
 build MMT/LATIN2 mmt-omdoc domain_theories/algebra/sets.mmt
 build MMT/LATIN2 mmt-omdoc domain_theories/algebra/relations.mmt
 build MMT/LATIN2 mmt-omdoc domain_theories/algebra/magmas.mmt
+build MMT/LATIN2 mmt-omdoc domain_theories/algebra/monoids.mmt
 
 // dependent on magmas
+build MMT/LATIN2 mmt-omdoc domain_theories/algebra/lattices.mmt
 build MMT/LATIN2 mmt-omdoc domain_theories/algebra/additive_magmas.mmt
 build MMT/LATIN2 mmt-omdoc domain_theories/algebra/groups.mmt
 build MMT/LATIN2 mmt-omdoc domain_theories/algebra/bands.mmt
+build MMT/LATIN2 mmt-omdoc domain_theories/algebra/algebra_to_order.mmt
 
 // dependent on magmas, sets and groups
 build MMT/LATIN2 mmt-omdoc domain_theories/algebra/ringoids.mmt

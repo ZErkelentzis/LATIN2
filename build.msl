@@ -49,6 +49,8 @@ build MMT/LATIN2 mmt-omdoc curry-howard
 
 // various common domains
 file source/domain_theories/numbers/build.msl
+file source/domain_theories/relations/build.msl
+// algebraic lattices use orders, so must come after relations
 file source/domain_theories/algebra/build.msl
 // Topology formalizes the various definitions of closure operators and topologies.
 // These are interesting in their own and a case-study on theory morphisms, but also often used at the meta-level.
