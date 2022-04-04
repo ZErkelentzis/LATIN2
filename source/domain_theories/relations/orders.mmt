@@ -1,0 +1,63 @@
+namespace latin:/algebraic❚
+
+fixmeta latin:/?SFOLEQND❚
+
+theory Order =
+  include ?Preorder❙
+  include ?AntiSymmetry❙
+❚
+
+theory Infimum =
+  include ?Relation❙
+  inf : U ⟶ U ⟶ U❙
+  infimum_ax : {x,y} ⊦ infimumOf x y (inf x y)❙
+  infimum_smallerL: {x,y} ⊦ (inf x y) $ x❘= [x,y] infimum_ax andEl andEl❙
+  infimum_smallerR: {x,y} ⊦ (inf x y) $ y❘= [x,y] infimum_ax andEl andEr❙
+❚
+
+theory Supremum =
+  include ?Relation❙
+  sup: U ⟶ U ⟶ U❙
+  supremum_ax: {x,y} ⊦ supremumOf x y (sup x y)❙
+❚
+
+view OppositeRelation : ?Relation -> ?Relation =
+  include ?Set❙
+  rel = [x,y] y$x❙
+❚
+
+view OppositeInf : ?Infimum → ?Supremum =
+  include ?OppositeRelation❙
+  inf = sup❙
+  infimum_ax = [x,y] supremum_ax❙
+❚
+
+view OppositeSup : ?Supremum → ?Infimum =
+  include ?OppositeRelation❙
+  sup = inf❙
+  supremum_ax = [x,y] infimum_ax❙
+❚
+
+theory TopElement =
+  include ?Relation❙
+  top : U❙
+  top_ax : {x}⊦ x$top❙
+❚
+
+theory BottomElement =
+  include ?Relation❙
+  bot : U❙
+  bot_ax : {x}⊦ bot$x❙
+❚
+
+view OppositeTop : ?TopElement → ?BottomElement =
+  include ?OppositeRelation❙
+  top = bot❙
+  top_ax = [x] bot_ax❙
+❚
+
+view OppositeBottom : ?BottomElement → ?TopElement =
+  include ?OppositeRelation❙
+  bot = top❙
+  bot_ax = [x] top_ax❙
+❚

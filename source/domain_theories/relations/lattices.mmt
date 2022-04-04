@@ -1,0 +1,27 @@
+namespace latin:/algebraic❚
+
+fixmeta latin:/?SFOLEQND❚
+
+theory LatticeOrder =
+  include ?Order❙
+  include ?Infimum❙
+  include ?Supremum❙
+❚
+
+theory Cartesian =
+  include ?Order❙
+  include ?Infimum❙
+  include ?TopElement❙
+❚
+
+theory CoCartesian =
+  include ?Order❙
+  include ?Supremum❙
+  include ?BottomElement❙
+❚
+
+theory BoundedLatticeOrder =
+  include ?LatticeOrder❙
+  include ?Cartesian❙
+  include ?CoCartesian❙
+❚

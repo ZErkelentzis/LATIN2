@@ -1,0 +1,103 @@
+namespace latin:/algebraic❚
+
+fixmeta latin:/?SFOLEQND❚
+
+theory UnitElement =
+  include ?Magma❙
+  unit: U ❘# e❙
+  realize ?Pointed❙
+  point = unit❙
+  involution : U ⟶ prop❘ = [x] x∘x =ͭ e❙
+❚
+
+theory RightUnital =
+  include ?UnitElement❙
+  neutralR : ⊦ ∀ͭ[x] x∘e =ͭ x❙
+  neutR: {x} ⊦ x∘e =ͭ x❘= [x] neutralR tforallE x❘role Simplify❙
+❚
+
+theory LeftUnital = 
+  include ?UnitElement❙
+  neutralL : ⊦ ∀ͭ[x] e∘x =ͭ x❙
+  neutL: {x} ⊦ e∘x =ͭ x❘= [x] neutralL tforallE x❘ role Simplify❙ 
+❚
+
+theory Unital = 
+  include ?LeftUnital ❙
+  include ?RightUnital ❙
+❚
+
+// Two variants of magmas in which the composition of some elements returns the first/last one that is not the neutral element.
+These are rather uninteresting theories, but they are helpful in the Option monad (with None as the neutral element).
+❚
+theory FirstNonNeutral =
+  include ?Unital❙
+  firstNonNeutral : ⊦ ∀ͭ[x] x≠e ⇒ ∀ͭ[y]x∘y =ͭ x❙
+  // realize ?Monoid❙
+❚
+
+theory LastNonNeutral =
+  include ?Unital❙
+  lastNonNeutral : ⊦ ∀ͭ[x] x≠e ⇒ ∀ͭ[y]x∘y =ͭ x❙  
+  // realize ?Monoid❙
+❚
+
+theory Powers = 
+  include ?PowerAssociative❙
+  include ?Unital❙
+  include ☞latin:/?Nat❙
+  power : U ⟶ ℕ ⟶ U❘# 1 ^ 2 prec 60❙
+  power_zero: {x} ⊦ x^0 =ͭ e❘ role Simplify❙
+  power_succ: {x,n} ⊦ x^(n') =ͭ x^n∘x❘ role Simplify❙
+❚
+
+theory Monoid = 
+  include ?Semigroup❙
+  include ?Unital❙
+
+  inverse : U ⟶ U ⟶ prop❘ = [x,xˈ] x∘xˈ =ͭ e ∧ xˈ∘x =ͭ e❘# inverse 1 2 prec 30❙
+
+  inverse_sym : {x,xˈ} ⊦ inverse x xˈ ⟶ ⊦ inverse xˈ x❘
+              = [x,xˈ,p] andI (p andEr) (p andEl)❙
+  inverse_unique : {x,x1,x2} ⊦ inverse x x1 ⟶ ⊦ inverse x x2 ⟶ ⊦ x1 =ͭ x2❘
+                 = [x,x1,x2,p,q] eqChain x1
+                 ⟪ _ ttrans (q andEl tsym tcongT [u]x1∘u) ⟫ x1∘(x∘x2)
+                 ⟪ _ ⟫ (x1∘x)∘x2
+                 ⟪ (p andEr tcongT [u]u∘x2) ⟫ x2❙
+
+  inverse_neutral : ⊦ inverse e e❘
+                  = andI neutL neutL❙
+  inverse_op : {x,y,xˈ,yˈ} ⊦ inverse x xˈ ⟶ ⊦ inverse y yˈ ⟶ ⊦ inverse (x∘y) (yˈ∘xˈ)❘
+             = [x,y,xˈ,yˈ,p,q] andI
+             (assoc ttrans ((ttrans3 assocR (q andEl tcongT [u]u∘xˈ) neutL) tcongT [u]x∘u) ttrans (p andEl))
+             (assoc ttrans ((ttrans3 assocR (p andEr tcongT [u]u∘y) neutL) tcongT [u]yˈ∘u) ttrans (q andEr))
+             ❙
+
+  involution_inverse: {x} ⊦ involution x ⇔ inverse x x❘
+             = [x] equivI ([p] andI p p) ([p] p andEl)❙
+❚
+
+theory Involutory =
+  include ?Monoid❙
+  involutory: {x} ⊦ involution x❙
+  
+  inverse_refl : {x} ⊦ inverse x x❘
+               = [x] involution_inverse equivEl involutory❙
+  inverse_ident : {x,y} ⊦ inverse x y ⟶ ⊦ x =ͭ y❘
+                = [x,y,p] inverse_unique inverse_refl p❙
+❚
+
+theory IdempotentMonoid = 
+  include ?Monoid❙
+  include ?Band❙
+❚
+
+theory CommMonoid = 
+  include ?Monoid❙
+  include ?CommSemigroup❙
+❚
+
+theory BoundedSemilattice =
+  include ?Semilattice ❙
+  include ?CommMonoid ❙
+❚
