@@ -131,11 +131,11 @@ implicit view RightNormal2Normal : ?RightNormal -> ?Normal =
      ttrans
      assoc ttrans ((assocR ttrans normal) tcongT [u] (x∘z)∘u)
      ttrans
-     ((assoc4M ttrans (idem tcongT [u]y∘u∘x)) tcongT [u] (x∘z)∘(u∘(y∘z)))
+     (at ([u] (x∘z)∘(u∘(y∘z))) tcongT (assoc4M ttrans (idem tcongT [u]y∘u∘x)))
      ttrans
      assocR ttrans ((assoc4M ttrans normal) tcongT [u] u∘(y∘z))
      ttrans
-     ((assoc ttrans (idem tcongT [u]y∘u)) tcongT [u] ((x∘u)∘x)∘(y∘z))
+     (at ([u] ((x∘u)∘x)∘(y∘z)) tcongT (assoc ttrans (idem tcongT [u]y∘u)))
      ttrans
      assoc ttrans idem ttrans assocR❙
 ❚
