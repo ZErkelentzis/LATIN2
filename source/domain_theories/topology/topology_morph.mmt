@@ -29,7 +29,12 @@ view ClosureOperatorToClosureSystem : ?ClosureOperator → ?ClosureSystem =
 	monotone = [A,B,p] subset_biginter pfilterI andI
 				(intersection_closed subsetI [S,q] ((q pfilterE) andEl))
 				(subset_biginter_glb [T,r] (subset_trans p ((r pfilterE) andEr)))❙
-	idempotent = [A] _ ❙
+	idempotent = [A] subset_antisym
+				 (subset_biginter (pfilterI (andI
+				 (intersection_closed (subsetI [D,p]
+				 (p pfilterE) andEl))
+				 subset_refl)))
+				 (subset_biginter_glb [S,p] ((p pfilterE) andEr))❙
 ❚
 
 view ClosenessToClosureOperator : ?Closeness → ?ClosureOperator =
@@ -64,7 +69,9 @@ view ClosenessTopologyToClosureTopology : ?ClosenessTopology → ?ClosureTopolog
 	include ?ClosenessToClosureOperator❙
 
 	empty_union = [x] notI [p] (emptyE (eq_in_left closure_empty p))❙
-	finite_union = [x,A,B,p] unionE _  ❙
+	finite_union = [x,A,B,p] unionE
+					(closure_union tcongP ([C] x ∈ͯ C) p)
+					([l] l orIl)([r] r orIr)❙
 ❚
 
 view ClosureTopologyToInteriorTopology : ?ClosureTopology → ?InteriorTopology =
@@ -100,9 +107,14 @@ view InteriorTopologyToNeighborhoodTopology : ?InteriorTopology → ?Neighborhoo
 view NeighborhoodTopologyToOpenTopology : ?NeighborhoodTopology → ?OpenTopology =
 	X = X❙
 	NN = [x] pfilter [A] (∃ͭ[O] (O ∈ͯ OO ∧ x ∈ͯ O ∧ O ⊆ͯ A)) ❙
-	nonempty = _ ❙
-	inneighborhood = _ ❙
-	superset_closed = _ ❙
+	nonempty = [x] notI ([F] emptyE (F tcongP ([U] fullset ∈ͯ U)
+				(pfilterI (texistsI fullset (
+				andI (andI full_open fullI) subset_refl))))) ❙
+	inneighborhood = [x,N,p] (p pfilterE) texistsE 
+					([U,q] (subsetE (q andEr)((q andEl) andEr)))❙
+	superset_closed = [M,N,x,p,q] (p pfilterE) texistsE
+						([U,r] pfilterI (texistsI U
+						(andI (r andEl) (subset_trans (r andEr) q))))❙
 	intersection_closed = _ ❙
 	openness = _ ❙
 ❚

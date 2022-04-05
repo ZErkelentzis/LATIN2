@@ -214,7 +214,7 @@ theory SubsetRules =
                     = [A,S,T] subsetI [x,p] interEr p❙
   subset_inter_glb : {A,S,T,C: tm ℘ͯA} ⊦ C ⊆ͯ S ⟶ ⊦ C ⊆ͯ T ⟶ ⊦ C ⊆ͯ S ∩ͯ T❘
                    = [A,S,T,C,s,t] subsetI [x,xc] interI (subsetE s xc) (subsetE t xc)❙
-	inter_subset : {A,S,T : tm ℘ͯA} ⊦ S ⊆ͯ T ⟶ ⊦ S =ͭ S ∩ͯ T❘
+  inter_subset : {A,S,T : tm ℘ͯA} ⊦ S ⊆ͯ T ⟶ ⊦ S =ͭ S ∩ͯ T❘
 							= [A,S,T,p] subset_antisym 
 							   (subsetI [x,q] interI q (subsetE p q))
 								subset_inter_left❙
