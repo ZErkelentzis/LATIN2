@@ -92,7 +92,11 @@ view InteriorTopologyToNeighborhoodTopology : ?InteriorTopology → ?Neighborhoo
 	X = X❙
 	interior = [A] pfilter [x] x ∘ A❙
 	int_extensive = [A] subsetI [x,p] inneighborhood (p pfilterE)❙
-	int_idempotent = _ ❙
+	int_idempotent = [A] subset_antisym
+	                     (subsetI [x,p] pfilterI ((openness (p pfilterE)) texistsE [M,q] 
+	                     	superset_closed ((q tforallE x) andEl)
+	                     		            (subsetI [y,r] pfilterI (((q tforallE y) andEr) implE r))))
+	                     (subsetI [x,p] inneighborhood (p pfilterE))❙
 	bin_inters = [A,B] subset_antisym
 				(subsetI [x,p] interI
 					(pfilterI (superset_closed (p pfilterE) subset_inter_left))
@@ -101,7 +105,8 @@ view InteriorTopologyToNeighborhoodTopology : ?InteriorTopology → ?Neighborhoo
 					(pfilterI (intersection_closed
 								((interEl p) pfilterE)
 								((interEr p) pfilterE))))❙
-	preservation = _ ❙
+	preservation = subset_antisym subset_full
+								   (subsetI [x,p] pfilterI fullset_neighborhood)❙
 ❚	
 
 view NeighborhoodTopologyToOpenTopology : ?NeighborhoodTopology → ?OpenTopology =
@@ -115,8 +120,18 @@ view NeighborhoodTopologyToOpenTopology : ?NeighborhoodTopology → ?OpenTopolog
 	superset_closed = [M,N,x,p,q] (p pfilterE) texistsE
 						([U,r] pfilterI (texistsI U
 						(andI (r andEl) (subset_trans (r andEr) q))))❙
-	intersection_closed = _ ❙
-	openness = _ ❙
+	intersection_closed = [M,N,x,p,q] (p pfilterE) texistsE [U,r]
+						   (q pfilterE) texistsE [V,s] pfilterI texistsI (U ∩ͯ V) 
+						   (andI (andI (finite_intersection_open ((r andEl) andEl) ((s andEl) andEl)) 
+						               (interI ((r andEl) andEr)((s andEl) andEr))) 
+						        (subset_inter_glb
+						        	   (subset_trans subset_inter_left (r andEr))
+						        	   (subset_trans subset_inter_right (s andEr))))❙
+	openness = [N,x,p] (p pfilterE) texistsE [U,r] texistsI U tforallI [y]
+	            andI (pfilterI texistsI U andI (r andEl) subset_refl)
+	           		 (implI [q] pfilterI texistsI U
+	           		  andI (andI ((r andEl) andEl) q)
+	           		   	   (r andEr))❙
 ❚
 
 view OpenTopologyToClosedTopology : ?OpenTopology → ?ClosedTopology =

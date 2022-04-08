@@ -207,18 +207,26 @@ theory SubsetRules =
                     = [A,S,T] subsetI [x,p] unionIr p❙
   subset_union_lub : {A,S,T,C: tm ℘ͯA} ⊦ S ⊆ͯ C ⟶ ⊦ T ⊆ͯ C ⟶ ⊦ S ∪ͯ T ⊆ͯ C❘
                    = [A,S,T,C,s,t] subsetI [x,st] unionE st ([xs] subsetE s xs) ([xt] subsetE t xt)❙
- 
+  union_subset_left : {A,S,T : tm ℘ͯA} ⊦ S ⊆ͯ T ⟶ ⊦ T =ͭ S ∪ͯ T❘
+							= [A,S,T,p] subset_antisym subset_union_right
+							   (subset_union_lub p subset_refl)❙
+  union_subset_right : {A,S,T : tm ℘ͯA} ⊦ S ⊆ͯ T ⟶ ⊦ T =ͭ T ∪ͯ S❘
+							= [A,S,T,p] subset_antisym subset_union_left
+							   (subset_union_lub subset_refl p)❙					
   subset_inter_left : {A,S,T: tm ℘ͯA} ⊦ S ∩ͯ T ⊆ͯ S❘
                     = [A,S,T] subsetI [x,p] interEl p❙
   subset_inter_right : {A,S,T: tm ℘ͯA} ⊦ S ∩ͯ T ⊆ͯ T❘
                     = [A,S,T] subsetI [x,p] interEr p❙
   subset_inter_glb : {A,S,T,C: tm ℘ͯA} ⊦ C ⊆ͯ S ⟶ ⊦ C ⊆ͯ T ⟶ ⊦ C ⊆ͯ S ∩ͯ T❘
                    = [A,S,T,C,s,t] subsetI [x,xc] interI (subsetE s xc) (subsetE t xc)❙
-  inter_subset : {A,S,T : tm ℘ͯA} ⊦ S ⊆ͯ T ⟶ ⊦ S =ͭ S ∩ͯ T❘
+  inter_subset_left : {A,S,T : tm ℘ͯA} ⊦ S ⊆ͯ T ⟶ ⊦ S =ͭ S ∩ͯ T❘
 							= [A,S,T,p] subset_antisym 
 							   (subsetI [x,q] interI q (subsetE p q))
 								subset_inter_left❙
-
+  inter_subset_right : {A,S,T : tm ℘ͯA} ⊦ S ⊆ͯ T ⟶ ⊦ S =ͭ T ∩ͯ S❘
+							= [A,S,T,p] subset_antisym 
+							   (subsetI [x,q] interI (subsetE p q) q)
+								subset_inter_right❙							
   subset_bigunion : {A,K,S: tm ℘ͯA} ⊦ S ∈ͯ K ⟶ ⊦ S ⊆ͯ ⋃ͯ K❘
                   = [A,K,S,p] subsetI [x,q] bigunionI p q❙ 
   subset_bigunion_lub : {A,K,C: tm ℘ͯA} ({S} ⊦ S ∈ͯ K ⟶ ⊦ S ⊆ͯ C) ⟶ ⊦ ⋃ͯ K ⊆ͯ C❘
@@ -281,12 +289,13 @@ theory ComplementRules =
 
 theory EmptyRules =
 	include ?SubsetRules❙
-	inter_empty : {A,S: tm ℘ͯ A} ⊦ S ∩ͯ ∅ͯ =ͭ ∅ͯ❙  
-	
+	inter_empty : {A,S: tm ℘ͯ A} ⊦ S ∩ͯ ∅ͯ =ͭ ∅ͯ❘
+				   = [A,S] (inter_subset_right subset_empty) tsym❙
+    union_empty : {A,S: tm ℘ͯ A} ⊦ S ∪ͯ ∅ͯ =ͭ S❘
+    			   = [A,S] (union_subset_right subset_empty) tsym❙
 	biginter_empty : {A} ⊦ ⋂ͯ ∅ͯ =ͭ full A❘
 					= [A] subset_antisym subset_full  
 						(subset_biginter_glb [S,p] emptyE p inconE)❙
-
 	bigunion_empty : {A} ⊦ ⋃ͯ ∅ͯ =ͭ empty A❘
 					= [A] subset_antisym  
 					(subset_bigunion_lub [S,p] emptyE p inconE)
