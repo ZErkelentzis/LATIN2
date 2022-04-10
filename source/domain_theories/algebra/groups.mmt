@@ -40,7 +40,7 @@ theory InverseFun =
   invR : {x} ⊦ x∘x⁻ =ͭ e❘= [x] inverseRight tforallE x❙
   
   inverse_inv : {x} ⊦ inverse x (x⁻)❘= [x] andI invR invL❙
-  inv_unit : ⊦ e⁻ =ͭ e❘ = inverse_unique inverse_inv inverse_neutral❙
+  inv_unit : ⊦ e⁻ =ͭ e❘ = inverse_unique (?InverseFun?inverse_inv e) inverse_neutral❙
   inv_op : {x,y} ⊦ (x∘y)⁻ =ͭ y⁻∘x⁻❘
          = [x,y] inverse_unique inverse_inv (inverse_op inverse_inv inverse_inv)❙
 ❚

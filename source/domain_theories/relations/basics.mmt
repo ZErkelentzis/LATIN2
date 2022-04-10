@@ -5,6 +5,11 @@ fixmeta latin:/?SFOLEQND❚
 theory Relation =
   include ?Set❙
   rel : U ⟶ U ⟶ prop❘# 1 $ 2 prec 30❙
+  
+  total structure metarel : latin:/?Relation =
+    carrier = U❙
+    rel = [x,y] ⊦ x $ y❙
+  ❚
    
   isSmallest: U ⟶ (U ⟶ prop) ⟶ prop❘ = [x,p] p x ∧ ∀ͭ[z] p z ⇒ x$z❘# 1 isSmallest 2❙
   isGreatest: U ⟶ (U ⟶ prop) ⟶ prop❘ = [x,p] p x ∧ ∀ͭ[z] p z ⇒ z$x❘# 1 isGreatest 2❙
