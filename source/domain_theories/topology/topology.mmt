@@ -45,7 +45,7 @@ theory InteriorTopology =
 	preservation : ⊦ interior (full X) =ͭ full X❙
 	monotone : {A,B} ⊦ A ⊆ͯ B ⟶ ⊦ interior A ⊆ͯ interior B❘
 					= [A,B,p] subset_trans
-						(subset_trans (subset_eq_left ((inter_subset p) tcongT interior)) 
+						(subset_trans (subset_eq_left ((inter_subset_left p) tcongT interior)) 
 						              (subset_eq_left bin_inters))
 						subset_inter_right❙
 ❚
@@ -98,4 +98,10 @@ theory NeighborhoodTopology =
   superset_closed   : {M,N,x} ⊦ x ∘ M ⟶ ⊦ M ⊆ͯ N ⟶ ⊦ x ∘ N❙
   intersection_closed : {M,N,x} ⊦ x ∘ M ⟶ ⊦ x ∘ N ⟶ ⊦ x ∘ M ∩ͯ N❙
   openness       : {N,x} ⊦ x ∘ N ⟶ ⊦ ∃ͭ[M]∀ͭ[y] x ∘ M ∧ (y∈ͯM ⇒ y∘N)❙
+  lemma : {x} ⊦ ∃ͭ[N] x ∘ N❘
+  		  = [x] indirect [p] nonempty notE
+  		  	(subset_antisym (subsetI [N,q] (p notE texistsI N q) inconE) subset_empty)❙
+  fullset_neighborhood : {x} ⊦ x ∘ (full X)❘
+           = [x] lemma
+  		  	texistsE [M,r] superset_closed r subset_full❙
 ❚
