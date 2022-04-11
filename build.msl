@@ -48,7 +48,7 @@ file source/logic/other/build.msl
 build MMT/LATIN2 mmt-omdoc curry-howard
 
 // various common domains
-file domain_theories/build.msl
+file source/domain_theories/build.msl
 
 // Meta-theorems stating the algebraic properties of logic, formalized as theory morphisms from algebraic to logical theories.
 build MMT/LATIN2 mmt-omdoc algebraic_logic/pl_semilattice.mmt
