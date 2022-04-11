@@ -7,7 +7,7 @@ theory ClosureSystem =
   X  : tp❙
   CC : tm ℘ͯ℘ͯX❙
   
-  intersection_closed : {Q: tm ℘ͯ℘ͯX} ⊦ Q ⊆ͯ CC ⟶ ⊦ (⋂ͯ Q) ∈ͯ CC❙
+  intersection_closed : {Q: tm ℘ͯ℘ͯX} ⊦ Q ⊆ͯ CC ⟶ ⊦ ⋂ͯ Q ∈ͯ CC❙
   full_closed  : ⊦ fullset ∈ͯ CC❘
   				= biginter_empty tcongP ([A] A ∈ͯ CC) intersection_closed subset_empty❙
 ❚
@@ -16,55 +16,55 @@ theory ClosureOperator =
   X       : tp❙
   closure : tm ℘ͯX ⟶ tm ℘ͯX❘ # cl 1 prec 50❙
   
-  extensive    : {A} ⊦ A ⊆ͯ cl A❙
-  monotone     : {A,B} ⊦ A ⊆ͯ B ⟶ ⊦ cl A ⊆ͯ cl B❙
-  idempotent   : {A} ⊦ cl (cl A) =ͭ cl A❙
+  extensive_closure    : {A} ⊦ A ⊆ͯ cl A❙
+  monotone_closure     : {A,B} ⊦ A ⊆ͯ B ⟶ ⊦ cl A ⊆ͯ cl B❙
+  idempotent_closure   : {A} ⊦ cl cl A =ͭ cl A❙
   
   closureFixI : {A} ⊦ cl A ⊆ͯ A ⟶ ⊦ cl A =ͭ A❘ 
-  				= [A,p] subset_antisym p extensive❙     
+  				= [A,p] subset_antisym p extensive_closure❙     
 ❚
 
 theory Closeness =
   X     : tp❙
   close : tm X ⟶ tm ℘ͯX ⟶ prop❘ # 1 | 2 prec 40❙
 
-  in_close     : {x,A} ⊦ x ∈ͯ A ⟶ ⊦ x|A❙
-  bigger_close : {x,A,B} ⊦ x|A ⟶ ⊦ A ⊆ͯ B ⟶ ⊦ x|B❙
-  transitive   : {A,B,x} ⊦ x|B ⟶ ⊦ (∀ͭ [y] y ∈ͯ B ⇒ y|A) ⟶ ⊦ x|A❙
+  in_close          : {x,A} ⊦ x ∈ͯ A ⟶ ⊦ x|A❙
+  bigger_close      : {x,A,B} ⊦ x|A ⟶ ⊦ A ⊆ͯ B ⟶ ⊦ x|B❙
+  transitive_close  : {A,B,x} ⊦ x|B ⟶ ⊦ (∀ͭ [y] y ∈ͯ B ⇒ y|A) ⟶ ⊦ x|A❙
 ❚
 
 // isomorphic axiomatizations of topologies❚
 
 theory InteriorTopology = 
-	X : tp ❙
-	interior : tm ℘ͯX ⟶ tm ℘ͯX❘# interior 1 prec 50 ❙
+  X : tp ❙
+  interior : tm ℘ͯX ⟶ tm ℘ͯX❘# interior 1 prec 50 ❙
 
-	int_extensive : {A} ⊦ interior A ⊆ͯ A❙
-	int_idempotent : {A} ⊦ interior A =ͭ interior interior A❙
-	bin_inters : {A, B} ⊦ interior (A ∩ͯ B) =ͭ interior A ∩ͯ interior B❙
-	preservation : ⊦ interior (full X) =ͭ full X❙
-	monotone : {A,B} ⊦ A ⊆ͯ B ⟶ ⊦ interior A ⊆ͯ interior B❘
-					= [A,B,p] subset_trans
-						(subset_trans (subset_eq_left ((inter_subset_left p) tcongT interior)) 
-						              (subset_eq_left bin_inters))
-						subset_inter_right❙
+  extensive_interior    : {A} ⊦ interior A ⊆ͯ A❙
+  idempotent_interior   : {A} ⊦ interior A =ͭ interior interior A❙
+  bin_inters_interior   : {A, B} ⊦ interior (A ∩ͯ B) =ͭ interior A ∩ͯ interior B❙
+  preservation_interior : ⊦ interior full X =ͭ full X❙
+  monotone_interior     : {A,B} ⊦ A ⊆ͯ B ⟶ ⊦ interior A ⊆ͯ interior B❘
+								= [A,B,p] subset_trans
+								(subset_trans (subset_eq_left (inter_subset_left p tcongT interior)) 
+						                       subset_eq_left bin_inters_interior)
+						         subset_inter_right❙
 ❚
 
 theory ClosureTopology =
   include ?ClosureOperator❙
 
-  closure_empty  : ⊦ cl (empty X) =ͭ empty X❙
-  closure_union  : {A,B} ⊦ cl (A ∪ͯ B) =ͭ cl A ∪ͯ cl B❙
+  empty_closure    : ⊦ cl empty X =ͭ empty X❙
+  union_closure    : {A,B} ⊦ cl (A ∪ͯ B) =ͭ cl A ∪ͯ cl B❙
   
-  // monotone provable from union❙ 
+  // monotone_closure provable from union_closure❚
 ❚
 
 theory ClosenessTopology =
   include ?Closeness❙
 
-  empty_union  : {x} ⊦ ¬ x|(empty X)❙
-  finite_union : {x,A,B} ⊦ x|(A ∪ͯ B) ⟶ ⊦ x|A ∨ x|B❙
-  
+  empty_union_close  : {x} ⊦ ¬ x|empty X❙
+  finite_union_close : {x,A,B} ⊦ x|(A ∪ͯ B) ⟶ ⊦ x|A ∨ x|B❙
+
   // bigger_close provable from union ❙
 ❚
 
@@ -72,18 +72,18 @@ theory OpenTopology =
   X     : tp❙
   OO    : tm ℘ͯ℘ͯX❙
   
-  full_open  : ⊦ (full X) ∈ͯ OO❙
-  union_open : {Q: tm ℘ͯ℘ͯX} ⊦ Q ⊆ͯ OO ⟶ ⊦ (⋃ͯ Q) ∈ͯ OO❙
+  full_open  : ⊦ full X ∈ͯ OO❙
+  union_open : {Q: tm ℘ͯ℘ͯX} ⊦ Q ⊆ͯ OO ⟶ ⊦ ⋃ͯ Q ∈ͯ OO❙
   finite_intersection_open : {A,B} ⊦ A ∈ͯ OO ⟶ ⊦ B ∈ͯ OO ⟶ ⊦ A ∩ͯ B ∈ͯ OO❙
 
-  empty_open : ⊦ (empty X) ∈ͯ OO❘
-   				= bigunion_empty tcongP ([A] A ∈ͯ OO) union_open subset_empty❙
+  empty_open : ⊦ empty X ∈ͯ OO❘
+   			    = bigunion_empty tcongP ([A] A ∈ͯ OO) union_open subset_empty❙
 ❚
 
 // axioms/theorems are dual to OpenTopology❚
 theory ClosedTopology =
   include ?ClosureSystem❙  
-  empty_closed : ⊦ (empty X) ∈ͯ CC❙
+  empty_closed : ⊦ empty X ∈ͯ CC❙
   finite_union_closed : {A,B} ⊦ A ∈ͯ CC ⟶ ⊦ B ∈ͯ CC ⟶ ⊦ A ∪ͯ B ∈ͯ CC❙
 ❚
 
@@ -91,17 +91,17 @@ theory NeighborhoodTopology =
   X     : tp❙
   NN    : tm X ⟶ tm ℘ͯ℘ͯX❙
   neighborhood: tm X ⟶ tm ℘ͯX ⟶ prop❘
-              = [x,N] N ∈ͯ (NN x)❘# 1 ∘ 2 prec 30❙
+              = [x,N] N ∈ͯ NN x❘# 1 ∘ 2 prec 30❙
   
-  nonempty : {x} ⊦ ¬ (NN x) =ͭ ∅ͯ❙
-  inneighborhood : {x: tm X,N} ⊦ x ∘ N ⟶ ⊦ x ∈ͯ N❙
-  superset_closed   : {M,N,x} ⊦ x ∘ M ⟶ ⊦ M ⊆ͯ N ⟶ ⊦ x ∘ N❙
-  intersection_closed : {M,N,x} ⊦ x ∘ M ⟶ ⊦ x ∘ N ⟶ ⊦ x ∘ M ∩ͯ N❙
-  openness       : {N,x} ⊦ x ∘ N ⟶ ⊦ ∃ͭ[M]∀ͭ[y] x ∘ M ∧ (y∈ͯM ⇒ y∘N)❙
+  nonempty_neighborhood : {x} ⊦ ¬ NN x =ͭ ∅ͯ❙
+  in_neighborhood : {x: tm X,N} ⊦ x ∘ N ⟶ ⊦ x ∈ͯ N❙
+  superset_closed_neighborhood : {M,N,x} ⊦ x ∘ M ⟶ ⊦ M ⊆ͯ N ⟶ ⊦ x ∘ N❙
+  intersection_closed_neighborhood : {M,N,x} ⊦ x ∘ M ⟶ ⊦ x ∘ N ⟶ ⊦ x ∘ M ∩ͯ N❙
+  openness_neighborhood : {N,x} ⊦ x ∘ N ⟶ ⊦ ∃ͭ[M]∀ͭ[y] x ∘ M ∧ (y∈ͯM ⇒ y∘N)❙
   lemma : {x} ⊦ ∃ͭ[N] x ∘ N❘
-  		  = [x] indirect [p] nonempty notE
-  		  	(subset_antisym (subsetI [N,q] (p notE texistsI N q) inconE) subset_empty)❙
-  fullset_neighborhood : {x} ⊦ x ∘ (full X)❘
+  		  = [x] indirect [p] nonempty_neighborhood notE
+  		  	 subset_antisym (subsetI [N,q] p notE texistsI N q inconE) subset_empty❙
+  fullset_neighborhood : {x} ⊦ x ∘ full X❘
            = [x] lemma
-  		  	texistsE [M,r] superset_closed r subset_full❙
+  		  	  texistsE [M,r] superset_closed_neighborhood r subset_full❙
 ❚
