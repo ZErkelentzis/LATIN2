@@ -17,7 +17,6 @@ theory TypedTermsSet =
 ❚
 
 theory SoftTypedTermsSet =
-  // AS: Propositions and Terms are part of the fixmeta❙
   include ?Propositions❙
   include ?Terms❙
   include ?TypesSet❙
@@ -27,7 +26,6 @@ theory SoftTypedTermsSet =
 ❚
 
 theory TypedLogicSet =
-  // AS: Propositions and Proofs are part of the fixmeta❙
   include ?Propositions❙
   include ?Proofs❙
   include ?TypedTermsSet❙
@@ -36,7 +34,6 @@ theory TypedLogicSet =
 ❚
 
 theory SoftTypedLogicSet =
-  // AS: Propositions, Terms and Proofs are part of the fixmeta❙
   include ?Propositions❙
   include ?Terms❙
   include ?Proofs❙
@@ -46,7 +43,6 @@ theory SoftTypedLogicSet =
 ❚
 
 theory TypedEqualitySet =
-  // AS: Propositions and Proofs are part of the fixmeta❙
   include ?Propositions❙
   include ?Proofs❙
   include ?TypedLogicSet❙
@@ -56,7 +52,6 @@ theory TypedEqualitySet =
 ❚
 
 theory TypedEqualityNDSet =
-  // AS: Propositions and Proofs are part of the fixmeta❙
   include ?Propositions❙
   include ?Proofs❙
   include ?TypedEqualitySet❙
@@ -67,7 +62,6 @@ theory TypedEqualityNDSet =
 ❚
 
 theory TypeEqualityNDSet =
-  // AS: Propositions and Proofs are part of the fixmeta❙
   include ?Propositions❙
   include ?Proofs❙
   
@@ -75,7 +69,7 @@ theory TypeEqualityNDSet =
   
   realize ?TypeEqualityND❙
   // AS: a structure mapping untyped equality to types within the 
-    transformation of type theory into untyped set theory :D
+    transformation of type theory into untyped set theory
     → term = tp = set = term❙
   constant tpeq/uequal = [A,B] A =ͧ B❙
   constant tpeq/urefl = [A] urefl❙
@@ -83,7 +77,6 @@ theory TypeEqualityNDSet =
 ❚
 
 theory DependentTypeEqualitySet =
-  // AS: Propositions and Proofs are part of the fixmeta❙
   include ?Propositions❙
   include ?Proofs❙
   
