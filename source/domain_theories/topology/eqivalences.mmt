@@ -1,10 +1,5 @@
 namespace latin:/❚
 
-// for functions f: X ⟶ Y
-  f(cl A) ⊆‍ cl f(A)  ⇔  preservation of closeness   ⇔  reflection of closedness  (= continuous)
-  f(cl A) ⊇ cl f(A)  ⇔  preservation of closedness
-❚
-
 // views between the isomorphic axiomatizations of closure systems/operators:
 
    ClosureOperator ⟶ ClosureSystem: cl A = intersection of closed supersets of A
@@ -13,7 +8,7 @@ namespace latin:/❚
 ❚
 
 view ClosureOperatorToClosureSystem : ?ClosureOperator → ?ClosureSystem =
-	X = X❙
+  include ?BaseSet❙  
 	closure = [A] ⋂ͯpfilter [C] C ∈ͯ CC ∧ A ⊆ͯ C❙
 	extensive_closure = [A] subset_biginter_glb [S,p] p pfilterE andEr❙
 	monotone_closure = [A,B,p] subset_biginter pfilterI andI
@@ -26,7 +21,7 @@ view ClosureOperatorToClosureSystem : ?ClosureOperator → ?ClosureSystem =
 ❚
 
 view ClosureSystemToCloseness : ?ClosureSystem → ?Closeness =
-	X = X❙
+  include ?BaseSet❙  
 	CC = pfilter [A] ∀ͭ[x] x | A ⇒ x ∈ͯ A❙
 	intersection_closed = [Q,p] pfilterI tforallI [x] implI [q] 
 						   biginterI [S,r] subsetE p r pfilterE tforallE x implE
@@ -34,7 +29,7 @@ view ClosureSystemToCloseness : ?ClosureSystem → ?Closeness =
 ❚
 
 view ClosenessToClosureOperator : ?Closeness → ?ClosureOperator =
-	X = X❙
+  include ?BaseSet❙  
 	close = [x,A] x ∈ͯ cl A❙
 	in_close = [x,A,p] subsetE extensive_closure p❙
 	bigger_close = [x,A,B,p,q] subsetE (monotone_closure q) p❙
@@ -70,7 +65,7 @@ view ClosenessTopologyToClosureTopology : ?ClosenessTopology → ?ClosureTopolog
 ❚
 
 view ClosureTopologyToInteriorTopology : ?ClosureTopology → ?InteriorTopology =
-	X = X❙
+  include ?BaseSet❙  
 	closure = [A] ∁ͯ interior ∁ͯ A ❙
 	extensive_closure = [A] subset_trans (subset_eq_right compl_compl) 
 										   subset_compl extensive_interior❙
@@ -84,7 +79,7 @@ view ClosureTopologyToInteriorTopology : ?ClosureTopology → ?InteriorTopology 
 ❚
 
 view InteriorTopologyToNeighborhoodTopology : ?InteriorTopology → ?NeighborhoodTopology =
-	X = X❙
+  include ?BaseSet❙  
 	interior = [A] pfilter [x] x ∘ A❙
 	extensive_interior = [A] subsetI [x,p] in_neighborhood (p pfilterE)❙
 	idempotent_interior = [A] subset_antisym
@@ -103,35 +98,35 @@ view InteriorTopologyToNeighborhoodTopology : ?InteriorTopology → ?Neighborhoo
 ❚	
 
 view NeighborhoodTopologyToOpenTopology : ?NeighborhoodTopology → ?OpenTopology =
-	X = X❙
+  include ?BaseSet❙ 
 	NN = [x] pfilter [A] ∃ͭ[O] O ∈ͯ OO ∧ x ∈ͯ O ∧ O ⊆ͯ A❙
-	nonempty_neighborhood = [x] notI [F] emptyE (F tcongP ([U] fullset ∈ͯ U)
+	nonempty_neighborhood = [x] notI [F] emptyE (F tcongP ([u] fullset ∈ͯ u)
 							 pfilterI texistsI fullset andI (andI full_open fullI) subset_refl) ❙
-	in_neighborhood = [x,N,p] p pfilterE texistsE [U,q] subsetE q andEr (q andEl andEr)❙
-	superset_closed_neighborhood = [M,N,x,p,q] p pfilterE texistsE [U,r] pfilterI texistsI U
+	in_neighborhood = [x,N,p] p pfilterE texistsE [u,q] subsetE q andEr (q andEl andEr)❙
+	superset_closed_neighborhood = [M,N,x,p,q] p pfilterE texistsE [u,r] pfilterI texistsI u
 						 			andI r andEl subset_trans r andEr q❙
-	intersection_closed_neighborhood = [M,N,x,p,q] p pfilterE texistsE [U,r] q pfilterE texistsE [V,s] 
-											pfilterI texistsI (U ∩ͯ V) 
+	intersection_closed_neighborhood = [M,N,x,p,q] p pfilterE texistsE [u,r] q pfilterE texistsE [V,s] 
+											pfilterI texistsI (u ∩ͯ V) 
 												andI (andI 
 												(finite_intersection_open r andEl andEl (s andEl andEl)) 
 												interI r andEl andEr (s andEl andEr))
 											subset_inter_glb
 												(subset_trans subset_inter_left (r andEr))
 												subset_trans subset_inter_right (s andEr)❙
-	openness_neighborhood = [N,x,p] p pfilterE texistsE [U,r] texistsI U tforallI [y]
-	            				andI (pfilterI texistsI U andI r andEl subset_refl)
-	            					 implI [q] pfilterI texistsI U andI (andI r andEl andEl q) 
+	openness_neighborhood = [N,x,p] p pfilterE texistsE [u,r] texistsI u tforallI [y]
+	            				andI (pfilterI texistsI u andI r andEl subset_refl)
+	            					 implI [q] pfilterI texistsI u andI (andI r andEl andEl q) 
 	            					 									 (r andEr)❙
 ❚
 
 view OpenTopologyToClosedTopology : ?OpenTopology → ?ClosedTopology =
-	X = X❙
+  include ?BaseSet❙  
 	OO = pfilter [A] ∁ͯ A ∈ͯ CC❙
 	full_open = pfilterI (compl_full tsym tcongP ([A] A ∈ͯ CC) empty_closed)❙
-	union_open = [Q,p] pfilterI (compl_bigunion tsym tcongP ([U] U ∈ͯ CC) 
-				   intersection_closed subsetI [B,q] compl_compl tcongP ([U] U ∈ͯ CC) 
+	union_open = [Q,p] pfilterI (compl_bigunion tsym tcongP ([u] u ∈ͯ CC) 
+				   intersection_closed subsetI [B,q] compl_compl tcongP ([u] u ∈ͯ CC) 
 				   (subsetE p (q pfilterE) pfilterE))❙
 	finite_intersection_open = [A,B,p,q] pfilterI 
-								(compl_inter tsym tcongP ([U] U ∈ͯ CC) 
+								(compl_inter tsym tcongP ([u] u ∈ͯ CC) 
 								 finite_union_closed p pfilterE (q pfilterE))❙
 ❚
