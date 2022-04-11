@@ -98,7 +98,7 @@ view InteriorTopologyToNeighborhoodTopology : ?InteriorTopology → ?Neighborhoo
 ❚	
 
 view NeighborhoodTopologyToOpenTopology : ?NeighborhoodTopology → ?OpenTopology =
-  include ?BaseSet❙ 
+  include ?BaseSet❙
 	NN = [x] pfilter [A] ∃ͭ[O] O ∈ͯ OO ∧ x ∈ͯ O ∧ O ⊆ͯ A❙
 	nonempty_neighborhood = [x] notI [F] emptyE (F tcongP ([u] fullset ∈ͯ u)
 							 pfilterI texistsI fullset andI (andI full_open fullI) subset_refl) ❙

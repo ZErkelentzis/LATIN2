@@ -293,7 +293,7 @@ theory EmptyRules =
 	include ?SubsetRules❙
 	inter_empty : {A,S: tm ℘ͯ A} ⊦ S ∩ͯ ∅ͯ =ͭ ∅ͯ❘
 				   = [A,S] inter_subset_right subset_empty tsym❙
-    union_empty : {A,S: tm ℘ͯ A} ⊦ S ∪ͯ ∅ͯ =ͭ S❘
+  union_empty : {A,S: tm ℘ͯ A} ⊦ S ∪ͯ ∅ͯ =ͭ S❘
     			   = [A,S] union_subset_right subset_empty tsym❙
 	biginter_empty : {A} ⊦ ⋂ͯ ∅ͯ =ͭ full A❘
 					= [A] subset_antisym subset_full subset_biginter_glb [S,p] emptyE p inconE❙
@@ -324,4 +324,7 @@ theory PowerSFOL =
    include ?ComplementRules❙
    include ?EmptyRules❙
    include ?FullRules❙
+   
+   notemptyE : {A,S:tm ℘ͯA, C} ⊦ ¬ S =ͭ ∅ͯ ⟶ ({x} ⊦ x ∈ͯ S ⟶ ⊦ C) ⟶ ⊦ C❘
+       = [A,S,C,P,Q] tnd orE ([r] r texistsE [x,s] Q x s) ([r] _ ) ❙
 ❚
