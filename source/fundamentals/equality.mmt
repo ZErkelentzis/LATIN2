@@ -10,8 +10,7 @@ theory UntypedEquality =
 theory UntypedEqualityND =
   include ?UntypedEquality❙
   urefl  : {x} ⊦ x =ͧ x❘# urefl %I1❙
-  /T use the alias congP_ when inference of implicit arguments fails when using congP ❙
-  ucongP : {x,y} ⊦ x =ͧ y ⟶ {P: term ⟶ prop} ⊦ P x ⟶ ⊦ P y❘# 3 ucongP  4 5 ❘@ ucongP_ ❙
+  ucongP : {x,y} ⊦ x =ͧ y ⟶ {P: term ⟶ prop} ⊦ P x ⟶ ⊦ P y❘# 3 ucongP  4 5❙
   
   total structure eq : ?EquivalenceCongruence =
     carrier = term❙

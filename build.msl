@@ -48,6 +48,7 @@ file source/logic/other/build.msl
 build MMT/LATIN2 mmt-omdoc curry-howard
 
 // various common domains
+build MMT/LATIN2 mmt-omdoc domain_theories/set.mmt
 file source/domain_theories/numbers/build.msl
 file source/domain_theories/relations/build.msl
 // algebraic lattices use orders, so must come after relations

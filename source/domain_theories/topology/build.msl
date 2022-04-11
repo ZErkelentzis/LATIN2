@@ -1,4 +1,6 @@
 file ../../../build_config.msl
 
+build MMT/LATIN2 mmt-omdoc domain_theories/topology/definitions.mmt
+build MMT/LATIN2 mmt-omdoc domain_theories/topology/equivalences.mmt
 build MMT/LATIN2 mmt-omdoc domain_theories/topology/topology.mmt
-build MMT/LATIN2 mmt-omdoc domain_theories/topology/topology_morph.mmt
+build MMT/LATIN2 mmt-omdoc domain_theories/topology/continuity.mmt

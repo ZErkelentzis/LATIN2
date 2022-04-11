@@ -37,6 +37,7 @@ theory TypeBase =
   EqCongF : {P,Q,c,d,F: Class P ⟶ Class Q} ⊦ (cwhich P c =ͧ cwhich P d) ⟶ ⊦ (cwhich Q (F c) =ͧ cwhich Q (F d))❙
   
   Refl : {A,e} ⊦ Eq A e e❘ = [A,e] urefl❙
+
   EqcongB : {A,B,F: Elem A ⟶ Elem B,G: Elem A ⟶ Elem B} ({e} ⊦ (F e) Eq (G e)) ⟶ {P: (Elem A ⟶ Elem B) ⟶ prop} ⊦ P F ⟶ ⊦ P G❙
   
   // AS: trying to solve the simplify problem❙

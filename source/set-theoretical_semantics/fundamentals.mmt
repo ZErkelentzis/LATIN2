@@ -68,11 +68,8 @@ theory TypeEqualityNDSet =
   include ?TypesSet❙
   
   realize ?TypeEqualityND❙
-  // AS: a structure mapping untyped equality to types within the 
-    transformation of type theory into untyped set theory
-    → term = tp = set = term❙
   constant tpeq/uequal = [A,B] A =ͧ B❙
-  constant tpeq/urefl = [A] urefl❙
+  constant tpeq/urefl = [x] urefl ❙
   constant tpeq/ucongP = [A,B,p,P,q] p ucongP P q❙
 ❚
 
@@ -84,7 +81,7 @@ theory DependentTypeEqualitySet =
   include ?TypedEqualityNDSet❙
   
   realize ?DependentTypeEquality❙
-  transport = [A,B,p,e: Elem A] elem (which e) (p tpeq/ucongP ([T] which e∈T) (why e))❙
-  transport_refl = [A,e: Elem A] tpeq/urefl❙ 
-  transport_trans = [A,B,C,e: Elem A,p,q] uequal❙ 
+  transport = [A,B,p,e] elem (which e) (p tpeq/ucongP ([T] which e∈T) (why e))❙
+  transport_refl = [A,e] tpeq/urefl❙ 
+  transport_trans = [A,B,C,e,p,q] urefl❙ 
 ❚
