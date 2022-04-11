@@ -1,0 +1,13 @@
+file ../../build_config.msl
+
+build MMT/LATIN2 mmt-omdoc domain_theories/sets.mmt
+file numbers/build.msl
+file relations/build.msl
+// algebraic lattices use orders, so must come after relations
+file algebra/build.msl
+// Topology formalizes the various definitions of closure operators and topologies.
+// These are interesting in their own and a case-study on theory morphisms, but also often used at the meta-level.
+// They depend on PowerHOL.
+build MMT/LATIN2 mmt-omdoc domain_theories/topology
+// depends on algebra, power types, and topology
+build MMT/LATIN2 mmt-omdoc domain_theories/generated.mmt

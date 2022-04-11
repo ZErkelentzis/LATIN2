@@ -48,17 +48,7 @@ file source/logic/other/build.msl
 build MMT/LATIN2 mmt-omdoc curry-howard
 
 // various common domains
-build MMT/LATIN2 mmt-omdoc domain_theories/set.mmt
-file source/domain_theories/numbers/build.msl
-file source/domain_theories/relations/build.msl
-// algebraic lattices use orders, so must come after relations
-file source/domain_theories/algebra/build.msl
-// Topology formalizes the various definitions of closure operators and topologies.
-// These are interesting in their own and a case-study on theory morphisms, but also often used at the meta-level.
-// They depend on PowerHOL.
-build MMT/LATIN2 mmt-omdoc domain_theories/topology
-// depends on algebra, power types, and topology
-build MMT/LATIN2 mmt-omdoc domain_theories/generated.mmt
+file domain_theories/build.msl
 
 // Meta-theorems stating the algebraic properties of logic, formalized as theory morphisms from algebraic to logical theories.
 build MMT/LATIN2 mmt-omdoc algebraic_logic/pl_semilattice.mmt
