@@ -326,5 +326,7 @@ theory PowerSFOL =
    include ?FullRules❙
    
    notemptyE : {A,S:tm ℘ͯA, C} ⊦ ¬ S =ͭ ∅ͯ ⟶ ({x} ⊦ x ∈ͯ S ⟶ ⊦ C) ⟶ ⊦ C❘
-       = [A,S,C,P,Q] tnd orE ([r] r texistsE [x,s] Q x s) ([r] _ ) ❙
+       = [A,S,C,p,q] (indirect [r] p notE
+  		  subset_antisym (subsetI [B,s] r notE texistsI B s inconE) subset_empty)
+  		  texistsE q❙
 ❚

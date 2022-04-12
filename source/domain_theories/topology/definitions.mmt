@@ -31,11 +31,11 @@ theory ClosureOperator =
 
 theory Closeness =
   include ?BaseSet❙  
-  close : tm X ⟶ tm ℘ͯX ⟶ prop❘ # 1 | 2 prec 40❙
+  close : tm X ⟶ tm ℘ͯX ⟶ prop❘ # 1 ⋶ 2 prec 40❙
 
-  in_close          : {x,A} ⊦ x ∈ͯ A ⟶ ⊦ x|A❙
-  bigger_close      : {x,A,B} ⊦ x|A ⟶ ⊦ A ⊆ͯ B ⟶ ⊦ x|B❙
-  transitive_close  : {A,B,x} ⊦ x|B ⟶ ⊦ (∀ͭ [y] y ∈ͯ B ⇒ y|A) ⟶ ⊦ x|A❙
+  in_close          : {x,A} ⊦ x ∈ͯ A ⟶ ⊦ x ⋶ A❙
+  bigger_close      : {x,A,B} ⊦ x ⋶ A ⟶ ⊦ A ⊆ͯ B ⟶ ⊦ x ⋶ B❙
+  transitive_close  : {A,B,x} ⊦ x ⋶ B ⟶ ⊦ (∀ͭ [y] y ∈ͯ B ⇒ y ⋶ A) ⟶ ⊦ x ⋶ A❙
 ❚
 
 // isomorphic axiomatizations of topologies❚
@@ -67,8 +67,8 @@ theory ClosureTopology =
 theory ClosenessTopology =
   include ?Closeness❙
 
-  empty_union_close  : {x} ⊦ ¬ x|empty X❙
-  finite_union_close : {x,A,B} ⊦ x|(A ∪ͯ B) ⟶ ⊦ x|A ∨ x|B❙
+  empty_union_close  : {x} ⊦ ¬ x ⋶ empty X❙
+  finite_union_close : {x,A,B} ⊦ x ⋶ (A ∪ͯ B) ⟶ ⊦ x ⋶ A ∨ x ⋶ B❙
 
   // bigger_close provable from union ❙
 ❚
@@ -96,17 +96,14 @@ theory NeighborhoodTopology =
   include ?BaseSet❙  
   NN    : tm X ⟶ tm ℘ͯ℘ͯX❙
   neighborhood: tm X ⟶ tm ℘ͯX ⟶ prop❘
-              = [x,N] N ∈ͯ NN x❘# 1 ∘ 2 prec 30❙
+              = [x,N] N ∈ͯ NN x❘# 1 ⋵ 2 prec 30❙
   
   nonempty_neighborhood : {x} ⊦ ¬ NN x =ͭ ∅ͯ❙
-  in_neighborhood : {x: tm X,N} ⊦ x ∘ N ⟶ ⊦ x ∈ͯ N❙
-  superset_closed_neighborhood : {M,N,x} ⊦ x ∘ M ⟶ ⊦ M ⊆ͯ N ⟶ ⊦ x ∘ N❙
-  intersection_closed_neighborhood : {M,N,x} ⊦ x ∘ M ⟶ ⊦ x ∘ N ⟶ ⊦ x ∘ M ∩ͯ N❙
-  openness_neighborhood : {N,x} ⊦ x ∘ N ⟶ ⊦ ∃ͭ[M]∀ͭ[y] x ∘ M ∧ (y∈ͯM ⇒ y∘N)❙
-  lemma : {x} ⊦ ∃ͭ[N] x ∘ N❘
-  		  = [x] indirect [p] nonempty_neighborhood notE
-  		  	 subset_antisym (subsetI [N,q] p notE texistsI N q inconE) subset_empty❙
-  fullset_neighborhood : {x} ⊦ x ∘ full X❘
-           = [x] lemma
-  		  	  texistsE [M,r] superset_closed_neighborhood r subset_full❙
+  in_neighborhood : {x: tm X,N} ⊦ x ⋵ N ⟶ ⊦ x ∈ͯ N❙
+  superset_closed_neighborhood : {M,N,x} ⊦ x ⋵ M ⟶ ⊦ M ⊆ͯ N ⟶ ⊦ x ⋵ N❙
+  intersection_closed_neighborhood : {M,N,x} ⊦ x ⋵ M ⟶ ⊦ x ⋵ N ⟶ ⊦ x ⋵ M ∩ͯ N❙
+  openness_neighborhood : {N,x} ⊦ x ⋵ N ⟶ ⊦ ∃ͭ[M]∀ͭ[y] x ⋵ M ∧ (y∈ͯM ⇒ y ⋵ N)❙
+  fullset_neighborhood : {x} ⊦ x ⋵ full X❘
+           = [x] notemptyE 
+             nonempty_neighborhood [N,p] superset_closed_neighborhood p subset_full❙
 ❚

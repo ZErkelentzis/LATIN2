@@ -22,7 +22,7 @@ view ClosureOperatorToClosureSystem : ?ClosureOperator → ?ClosureSystem =
 
 view ClosureSystemToCloseness : ?ClosureSystem → ?Closeness =
   include ?BaseSet❙  
-	CC = pfilter [A] ∀ͭ[x] x | A ⇒ x ∈ͯ A❙
+	CC = pfilter [A] ∀ͭ[x] x ⋶ A ⇒ x ∈ͯ A❙
 	intersection_closed = [Q,p] pfilterI tforallI [x] implI [q] 
 						   biginterI [S,r] subsetE p r pfilterE tforallE x implE
 						   bigger_close q subset_biginter r ❙
@@ -80,7 +80,7 @@ view ClosureTopologyToInteriorTopology : ?ClosureTopology → ?InteriorTopology 
 
 view InteriorTopologyToNeighborhoodTopology : ?InteriorTopology → ?NeighborhoodTopology =
   include ?BaseSet❙  
-	interior = [A] pfilter [x] x ∘ A❙
+	interior = [A] pfilter [x] x ⋵ A❙
 	extensive_interior = [A] subsetI [x,p] in_neighborhood (p pfilterE)❙
 	idempotent_interior = [A] subset_antisym
 	                     		(subsetI [x,p] pfilterI ((openness_neighborhood (p pfilterE)) texistsE [M,q] 

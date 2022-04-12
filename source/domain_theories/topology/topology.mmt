@@ -3,12 +3,18 @@ namespace latin:/❚
 fixmeta latin:/powertypes?PowerSFOL❚
 
 theory Closure =
-
+  include ?ClosureSystem❙
+  include ?ClosureOperator❘ = ?ClosureOperatorToClosureSystem❙
+  include ?Closeness❘ = ?ClosenessToClosureOperator❙
 ❚
 
 theory Topology =
   include ?Closure❙
   include ?ClosedTopology❙
   include ?OpenTopology❘ = ?OpenTopologyToClosedTopology❙
-  // ... ❙
+  include ?NeighborhoodTopology❘ = ?NeighborhoodTopologyToOpenTopology❙
+  include ?InteriorTopology❘ = ?InteriorTopologyToNeighborhoodTopology❙
+  include ?ClosureTopology❘ = ?ClosureTopologyToInteriorTopology❙
+  include ?ClosenessTopology❘ = ?ClosenessTopologyToClosureTopology❙
+
 ❚
