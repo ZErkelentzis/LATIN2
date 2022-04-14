@@ -1,16 +1,19 @@
 package latin2.tptp
 
-import info.kwarc.mmt.api.{CPath, GeneralError, GlobalName, MPath, RuleSet, StructuralElement}
 import info.kwarc.mmt.api.archives.BuildTask
+import info.kwarc.mmt.api.checking.UnknownTerm
 import info.kwarc.mmt.api.frontend.Controller
 import info.kwarc.mmt.api.modules.Theory
-import info.kwarc.mmt.api.objects.{Context, Term}
+import info.kwarc.mmt.api.objects.{Context, OMSemiFormal, Term, Text}
 import info.kwarc.mmt.api.presentation.{RenderingHandler, StructurePresenter}
 import info.kwarc.mmt.api.proving.{AutomatedProver, ProvingUnit}
-import info.kwarc.mmt.api.utils.FilePath
+import info.kwarc.mmt.api.utils.File
+import info.kwarc.mmt.api.utils.File.read
+import info.kwarc.mmt.api.{GeneralError, MPath, RuleSet, StructuralElement}
 import leo.datastructures.TPTP.{Include, Problem}
-import lf.{FOL, FOLEQ, FOLEQDesc, FOLEQDescND, FOLEQND, FOLND, HOL, SFOL, SFOLEQ, SFOLEQND, SFOLND}
+import lf.{FOL, HOL, SFOL}
 
+import java.security.DigestInputStream
 import scala.sys.process.Process
 
 class TPTPExporter extends StructurePresenter with AutomatedProver { //TODO: does TPTPExporter have to be class (MMT Extension)
@@ -20,6 +23,8 @@ class TPTPExporter extends StructurePresenter with AutomatedProver { //TODO: doe
   override def key: String = "tptp"
 
   override val outExt: String = "ax"
+
+  var atpEnabled = true
 
   override def exportTheory(thy : Theory, bf: BuildTask): Unit = {
     //TODO: check if FOL and SFOL at the same time
@@ -79,8 +84,32 @@ class TPTPExporter extends StructurePresenter with AutomatedProver { //TODO: doe
 
   }
 
-  def callInternalATP(path: String)(implicit  ctrl: Controller) = {
-    leo.Main.main(Array(path))
+  def callInternalATP(path: String): (Boolean, Option[String]) = {
+    import java.io.{ByteArrayOutputStream, PrintStream}
+    val baos = new ByteArrayOutputStream
+    val printStream = new PrintStream(baos)
+    //System.setOut(printStream)
+    val err = System.err
+    System.setErr(printStream)
+    Console.withOut(printStream) {
+      //Console.withErr(printStream) {
+        leo.Main.main(Array(path, "-p"))
+      //}
+    }
+    System.setErr(err)
+    //println("OUT/ERR:\n"+baos.toString)
+    parseResult(baos.toString)
+  }
+
+  def parseResult(log: String): (Boolean, Option[String]) = {
+    val lines = log.split("\\R")
+    val statusIndex = lines.indexWhere((line) => line.startsWith("% SZS status"))
+    val status = lines(statusIndex).stripPrefix("% SZS status ").startsWith("Theorem")
+    val proofIndexStart = lines.indexWhere((line) => line.startsWith("% SZS output start Refutation")) + 1
+    val proofIndexEnd = lines.indexWhere((line) => line.startsWith("% SZS output end Refutation")) - 1
+    val proofLines = Option(lines.slice(proofIndexStart, proofIndexEnd)).filter(_.nonEmpty)
+    val proof = proofLines.map((lines) => lines.slice(proofIndexStart, proofIndexEnd).mkString("\n"))
+    (status, proof)
   }
 
   /**
@@ -92,10 +121,54 @@ class TPTPExporter extends StructurePresenter with AutomatedProver { //TODO: doe
     */
   override def apply(pu: ProvingUnit, rules: RuleSet, levels: Int): (Boolean, Option[Term]) = {
     val mod = MPath(pu.component.get.parent.toTriple._1.get, pu.component.get.parent.toTriple._2.get)
-    val problem = combineStubs(mod, pu.context, pu.tp)(this.controller)
-    val result = problem.map(exportProblem(_, mod)).map(path => callInternalATP(path)(this.controller)).isDefined
-    log("ATP Result: " + result)
-    (result, None)
+
+    //TODO: build stubs, before combining
+    val problem_path = combineStubs(mod, pu.context, pu.tp)(this.controller) match {
+      case Some(problem) => exportProblem(problem, mod)
+      case None => return (true, None)
+    }
+
+    //check if proof cached
+    val proof_path = getOutFileForModule(mod).get.setExtension("proof.tptp")
+    val cached = if (proof_path.exists()) {
+      import java.io.BufferedReader
+      import java.io.FileReader
+      val br = new BufferedReader(new FileReader(proof_path))
+      val first_line = br.readLine
+      if (first_line == metadata_line(problem_path)) {
+        true
+      } else {
+        false
+      }
+    } else {
+      false
+    }
+
+    if (cached) {
+      println("Proof to '" + mod + "' cached. Skipping..")
+      return (true, None)
+    };
+
+    val result = callInternalATP(problem_path)
+
+    //Caching proof
+    result._2 match {
+      case Some(proof) => outputTo(proof_path) {
+        rh(metadata_line(problem_path) + "\n" + proof)
+      }
+    }
+
+    (result._1, result._2.map(proof => UnknownTerm(OMSemiFormal(Text("tptp", proof)))))
   }
 
+  def metadata_line(problem_path: String): String = {
+    import java.security.MessageDigest
+    import java.io.FileInputStream
+    val buffer = new Array[Byte](8192)
+    val md = MessageDigest.getInstance("SHA-256")
+    val dis = new DigestInputStream(new FileInputStream(problem_path), md)
+    try { while (dis.read(buffer) != -1) { } } finally { dis.close() }
+
+    "% " + md.digest.map("%02x".format(_)).mkString
+  }
 }

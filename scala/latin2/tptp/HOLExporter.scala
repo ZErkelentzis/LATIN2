@@ -1,45 +1,46 @@
 package latin2.tptp
 
-import info.kwarc.mmt.api.{GlobalName, LocalName, MPath}
 import info.kwarc.mmt.api.frontend.Controller
 import info.kwarc.mmt.api.modules.Theory
 import info.kwarc.mmt.api.objects._
-import info.kwarc.mmt.api.symbols.{Constant, Declaration, HasType, PlainInclude}
+import info.kwarc.mmt.api.symbols.{Constant, PlainInclude}
 import info.kwarc.mmt.api.uom.SimplificationUnit
-import info.kwarc.mmt.lf.{ApplyGeneral, ApplySpine, FunTerm, FunType, Lambda}
+import info.kwarc.mmt.api.{GlobalName, LocalName, MPath}
+import info.kwarc.mmt.lf._
 import latin2.sfol.SFOLPatterns.{FuncDecl, PredDecl, TypeDecl}
-import latin2.tptp.CommonExporter.splitFormulasAndComments
 import leo.datastructures.TPTP.Comment.{CommentFormat, CommentType}
-import leo.datastructures.TPTP.THF.{FunTyConstructor, FunctionTerm}
-import leo.datastructures.TPTP.{AnnotatedFormula, Comment, Include, Problem, THF, THFAnnotated}
+import leo.datastructures.TPTP.THF.FunTyConstructor
+import leo.datastructures.TPTP._
 import lf.Conjunction.and
 import lf.Disjunction.or
 import lf.Equivalence.equiv
-import lf.TypedExistentialQuantification.texists
 import lf.Implication.impl
 import lf.Negation.not
 import lf.Proofs.ded
 import lf.SFOLEQ.notequal
-import lf.{InternalPropositions, SimpleFunctionTypes}
 import lf.SimpleFunctions.{simpapply, simplambda}
 import lf.TypedEquality.tequal
+import lf.TypedExistentialQuantification.texists
 import lf.TypedTerms.tm
 import lf.TypedUniversalQuantification.tforall
+import lf.{Falsity, InternalPropositions, SimpleFunctionTypes, Truth}
 
 import scala.collection.mutable.ArrayBuffer
 
 object HOLExporter {
+  var comments = Map[String, Seq[Comment]]() //TODO: use this instead of returning comments, don't forget to clear after each run
+  var currentFormulaComments = Seq[Comment]()
+
   def combineStubs(p: MPath, ctx: Context, t: Term)(implicit ctrl: Controller): Problem = {
     var includes = ArrayBuffer[MPath]()
-    val formulasAndComments = ArrayBuffer[(AnnotatedFormula, Option[Comment])]()
+    val formulas = ArrayBuffer[AnnotatedFormula]()
 
     val decls = ctrl.getTheory(p).getDeclarations
     //for (x <- ctrl.getTheory(p.module).getDeclarations.takeWhile(x => x.parent == p)) {
     for (x <- decls.take(decls.length - 1)) {
-      x match
-      {
+      x match {
         case PlainInclude(t) => includes += t._1
-        case c: Constant => formulasAndComments ++= translate_constant(c)
+        case c: Constant => formulas ++= translate_constant(c)
       }
     }
     val axioms = ctx.mapVarDecls {
@@ -47,16 +48,17 @@ object HOLExporter {
         translate_var_decl(p.module, vd, ctx)(ctrl)
     }.flatten.distinct
 
-    formulasAndComments ++= axioms
+    formulas ++= axioms
 
     val ded(conjecture) = t
-    formulasAndComments += ((THFAnnotated("conjecture", "conjecture",  THF.Logical(translate_formula(conjecture)), None), None))
+    formulas += THFAnnotated("conjecture", "conjecture", THF.Logical(translate_formula(conjecture)), None)
+    add_formula_comment("conjecture")
 
     val tptp_exporter = ctrl.extman.get(classOf[TPTPExporter]).head
 
-    val (formulas, comments) = splitFormulasAndComments(formulasAndComments.toList)
-
-    Problem(includes.map(i => tptp_exporter.translate_include(p.module, i)).toSeq, formulas, comments)
+    val ret = Problem(includes.map(i => tptp_exporter.translate_include(p.module, i)).toSeq, formulas.toList, comments)
+    comments = Map()
+    ret
   }
 
   def exportStub(theory: Theory)(implicit ctrl: Controller): Problem = {
@@ -64,18 +66,21 @@ object HOLExporter {
   }
 
   def export_theory(theory: Theory, includes: Seq[Include])(implicit ctrl: Controller): Problem = {
-    val axioms = translate_theory(theory).map(x => if (x._1.role == "") { x.copy(_1 = x._1.copy(role = "axiom")) } else x)
-    val (formulas, comments) = splitFormulasAndComments(axioms)
-    Problem(includes, formulas, comments)
+    val formulas = translate_theory(theory).map(x => if (x.role == "") {
+      x.copy(role = "axiom")
+    } else x)
+    val ret = Problem(includes, formulas, comments)
+    comments = Map()
+    ret
   }
 
-  def translate_theory(theory: Theory)(implicit ctrl: Controller): List[(THFAnnotated, Option[Comment])] = {
+  def translate_theory(theory: Theory)(implicit ctrl: Controller): List[THFAnnotated] = {
     theory.getConstants.flatMap(translate_constant)
   }
 
   def funty_builder(in: List[THF.Formula], out: THF.Formula) = in.foldRight(out)((g, arg) => THF.BinaryFormula(FunTyConstructor, g, arg))
 
-  def translate_decl(path: GlobalName, tp: Option[Term], df: Option[Term], ctx: Context)(implicit ctrl: Controller): List[(THFAnnotated, Option[Comment])] = {
+  def translate_decl(path: GlobalName, tp: Option[Term], df: Option[Term], ctx: Context)(implicit ctrl: Controller): List[THFAnnotated] = {
     val simplicationUnit = SimplificationUnit(ctx, expandDefinitions = true, fullRecursion = true)
 
     val newTp = tp.map(ctrl.simplifier(_, simplicationUnit))
@@ -89,53 +94,67 @@ object HOLExporter {
           case (None, ded(f)) => impl(f, accu)
         }}*/
         var c = formula
-        for((name, ty) <- args.reverse) {
+        for ((name, ty) <- args.reverse) {
           (name, ty) match {
             case (Some(n), tm(a)) => c = tforall(a, Lambda(n, tm(a), c))
             case (None, ded(f)) => c = impl(f, c)
-            case _ => return List((
-              THFAnnotated(path.toString, "axiom", THF.Logical(THF.FunctionTerm("$true", Nil)), None),
-              Some(Comment(CommentFormat.LINE, CommentType.NORMAL, "Unsupported:"))
-            ))
+            case default => {
+              val name = path.toString
+              comments += (name -> Seq(Comment(CommentFormat.LINE, CommentType.NORMAL, "Unsupported Argument(s) for Deduction: " + default)))
+              return List(THFAnnotated(path.toString, "axiom", THF.Logical(THF.FunctionTerm("$true", Nil)), None))
+            }
           }
         }
-        List((THFAnnotated(name.toString, "axiom", THF.Logical(translate_formula(c)), None), None))
-      case Some(TypeDecl(Nil))  =>
-        List((THFAnnotated("type_" + name.toString, "type", THF.Typing("t_" + name.toString, THF.FunctionTerm("$tType", Nil)), None), None)) //is optional
+        val nameString = name.toString
+        val ret = List(THFAnnotated(nameString, "axiom", THF.Logical(translate_formula(c)), None))
+        add_formula_comment(nameString)
+        ret
+      case Some(TypeDecl(Nil)) =>
+        List(THFAnnotated("type_" + name.toString, "type", THF.Typing("t_" + name.toString, THF.FunctionTerm("$tType", Nil)), None)) //is optional
       case newTp => definition_builder(newTp, path, name, df, ctx)
     }
   }
 
-  def definition_builder(newTp: Option[Term], path: GlobalName, name: LocalName, df: Option[Term], ctx: Context)(implicit ctrl: Controller): List[(THFAnnotated, Option[Comment])] = {
+  def definition_builder(newTp: Option[Term], path: GlobalName, name: LocalName, df: Option[Term], ctx: Context)(implicit ctrl: Controller): List[THFAnnotated] = {
     val (ty, inner) = newTp match {
       case Some(PredDecl(in)) =>
         (funty_builder(in.map(translate_formula), THF.FunctionTerm("$o", Nil)),
-        (args: List[(LocalName, Term)], d: Term) => equiv(ApplyGeneral(OMS(path), args.map(x => OMV(x._1))), d))
+          (args: List[(LocalName, Term)], d: Term) => equiv(ApplyGeneral(OMS(path), args.map(x => OMV(x._1))), d))
       case Some(FuncDecl(in, out)) =>
         (funty_builder(in.map(translate_formula), translate_formula(out)),
-        (args: List[(LocalName, Term)], d: Term) => tequal(out, ApplyGeneral(OMS(path), args.map(x => OMV(x._1))), d))
+          (args: List[(LocalName, Term)], d: Term) => tequal(out, ApplyGeneral(OMS(path), args.map(x => OMV(x._1))), d))
       case _ => //No known definition -> Comment
-        return Nil//return THFAnnotated("")
+        return Nil //return THFAnnotated("")
     }
-    val tpD = (THFAnnotated("type_" + name.toString, "type", THF.Typing("t_" + name.toString, ty), None), None)
+    val thfaName = "type_" + name.toString
+    val tpD = THFAnnotated(thfaName, "type", THF.Typing("t_" + name.toString, ty), None)
+    add_formula_comment(thfaName)
     val dfT = df match {
       case FunTerm(args, d) =>
-        val argssome = args.map(x => (Some(x._1),x._2))
+        val argssome = args.map(x => (Some(x._1), x._2))
         Some(FunType(argssome, ded(inner(args, d))))
       case _ => None
     }
     var dfD = translate_decl(path / "def", dfT, None, ctx)
     assert(dfD.length <= 1)
-    dfD = dfD.map(x => x.copy(_1 = x._1.copy(role = "definition")))
+    dfD = dfD.map(x => x.copy(role = "definition"))
 
     tpD :: dfD
   }
 
-  def translate_var_decl(thy_path: MPath, vd: VarDecl, ctx: Context)(implicit ctrl: Controller): List[(THFAnnotated, Option[Comment])] =
+  def translate_var_decl(thy_path: MPath, vd: VarDecl, ctx: Context)(implicit ctrl: Controller): List[THFAnnotated] =
     translate_decl(thy_path ? vd.name, vd.tp, vd.df, ctx)
 
-  def translate_constant(c: Constant)(implicit ctrl: Controller): List[(THFAnnotated, Option[Comment])] =
+  def translate_constant(c: Constant)(implicit ctrl: Controller): List[THFAnnotated] =
     translate_decl(c.path, c.tp, c.df, Context(c.path.module))
+
+  // Needs to be added after each Annotated construction involving `translate_formula`
+  def add_formula_comment(name: String) = {
+    if (currentFormulaComments.nonEmpty) {
+      comments += (name -> currentFormulaComments)
+      currentFormulaComments = Seq()
+    }
+  }
 
   def translate_formula(t: Term): THF.Formula = t match {
     case Lambda(v, ty, body) => THF.QuantifiedFormula(THF.^, Seq(("V_" + v.toPath, translate_formula(ty))), translate_formula(body))
@@ -186,6 +205,12 @@ object HOLExporter {
     case not(arg) =>
       THF.UnaryFormula(THF.~, translate_formula(arg))
 
+    case Truth._true(()) =>
+      THF.FunctionTerm("$true", Nil)
+
+    case Falsity._false(()) =>
+      THF.FunctionTerm("$false", Nil)
+
     case OMID(f) =>
       THF.FunctionTerm("t_" + f.name.toString, Nil)
 
@@ -194,7 +219,12 @@ object HOLExporter {
 
     case ApplySpine(f, args) => args.map(translate_formula).foldLeft(translate_formula(f))((g, arg) => THF.BinaryFormula(THF.App, g, arg))
 
-    case default => println(default)
-      ??? //FIXME: exception when unknown term or op, example "0" instead of "zero" or "=" instead of "=ͭ"
+    case default =>
+      currentFormulaComments +:= Comment(CommentFormat.LINE, CommentType.NORMAL, "Unknown term/op: " + default)
+      THF.FunctionTerm("$true", Nil)
+    //return (
+    //  THF.FunctionTerm("$true", Nil),
+    //  List(Comment(CommentFormat.LINE, CommentType.NORMAL, "Unknown term/op: " + default))
+    //) //FIXME: exception when unknown term or op, example "0" instead of "zero" or "=" instead of "=ͭ"
   }
 }
