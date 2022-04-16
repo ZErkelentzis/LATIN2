@@ -14,6 +14,7 @@ import leo.datastructures.TPTP.{Include, Problem}
 import lf.{FOL, HOL, SFOL}
 
 import java.security.DigestInputStream
+import java.util.Base64
 import scala.sys.process.Process
 
 class TPTPExporter extends StructurePresenter with AutomatedProver { //TODO: does TPTPExporter have to be class (MMT Extension)
@@ -40,9 +41,10 @@ class TPTPExporter extends StructurePresenter with AutomatedProver { //TODO: doe
       println("detected FOL")
       output_string = FOLExporter.exportStub(thy)(controller).pretty + "\n"
     } else {
+      output_string = "% LOGIC UNSUPPORTED!\n"
       println("no known Logic detected")
     }
-    if (!output_string.isEmpty) {
+    if (output_string.nonEmpty) {
       outputTo(getOutFileForModule(thy.path).get) {
         rh(output_string)
       }
@@ -130,24 +132,17 @@ class TPTPExporter extends StructurePresenter with AutomatedProver { //TODO: doe
 
     //check if proof cached
     val proof_path = getOutFileForModule(mod).get.setExtension("proof.tptp")
-    val cached = if (proof_path.exists()) {
+    if (proof_path.exists()) {
       import java.io.BufferedReader
       import java.io.FileReader
       val br = new BufferedReader(new FileReader(proof_path))
       val first_line = br.readLine
       if (first_line == metadata_line(problem_path)) {
-        true
-      } else {
-        false
+        println("Proof to '" + mod + "' cached. Skipping..")
+        val proof = Iterator.continually(br.readLine()).takeWhile(_ != null).mkString
+        return (true, Some(UnknownTerm(OMSemiFormal(Text("tptp", proof)))))
       }
-    } else {
-      false
     }
-
-    if (cached) {
-      println("Proof to '" + mod + "' cached. Skipping..")
-      return (true, None)
-    };
 
     val result = callInternalATP(problem_path)
 
@@ -168,7 +163,6 @@ class TPTPExporter extends StructurePresenter with AutomatedProver { //TODO: doe
     val md = MessageDigest.getInstance("SHA-256")
     val dis = new DigestInputStream(new FileInputStream(problem_path), md)
     try { while (dis.read(buffer) != -1) { } } finally { dis.close() }
-
-    "% " + md.digest.map("%02x".format(_)).mkString
+    "% " + Base64.getEncoder.encodeToString(md.digest)
   }
 }

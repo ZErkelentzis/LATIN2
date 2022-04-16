@@ -1,16 +1,14 @@
 package latin2.tptp
 
-import info.kwarc.mmt.api.archives.BuildTask
-import info.kwarc.mmt.api.{CPath, StructuralElement, documents}
+import info.kwarc.mmt.api.MPath
 import info.kwarc.mmt.api.frontend.Controller
 import info.kwarc.mmt.api.modules.Theory
-import info.kwarc.mmt.api.objects.{Context, IncludeVarDecl, OMID, OMV, Obj, Term, VarDecl}
-import info.kwarc.mmt.api.presentation.{ObjectPresenter, RenderingHandler, StructurePresenter}
-import info.kwarc.mmt.api.symbols.Constant
+import info.kwarc.mmt.api.objects._
+import info.kwarc.mmt.api.symbols.{Constant, PlainInclude}
 import info.kwarc.mmt.api.uom.SimplificationUnit
 import info.kwarc.mmt.lf.{ApplySpine, Lambda}
 import latin2.sfol.CommonSymbols.DedList
-import leo.datastructures.TPTP.{FOF, FOFAnnotated, Include, Problem}
+import leo.datastructures.TPTP.{AnnotatedFormula, Comment, FOF, FOFAnnotated, Include, Problem}
 import lf.Conjunction.and
 import lf.Disjunction.or
 import lf.Equivalence.equiv
@@ -20,42 +18,53 @@ import lf.Negation.not
 import lf.Proofs.ded
 import lf.UniversalQuantification.uforall
 
+import scala.collection.mutable.ArrayBuffer
+
 object FOLExporter {
+  var comments = Map[String, Seq[Comment]]()
+  var currentFormulaComments = Seq[Comment]()
+  def combineStubs(p: MPath, ctx: Context, t: Term)(implicit ctrl: Controller): Problem = {
+    var includes = ArrayBuffer[MPath]()
+    val formulas = ArrayBuffer[AnnotatedFormula]()
+
+    val decls = ctrl.getTheory(p).getDeclarations
+    //for (x <- ctrl.getTheory(p.module).getDeclarations.takeWhile(x => x.parent == p)) {
+    for (x <- decls.take(decls.length - 1)) {
+      x match {
+        case PlainInclude(t) => includes += t._1
+        case c: Constant => formulas ++= translate_constant(c)
+      }
+    }
+    val axioms = ctx.mapVarDecls {
+      case (ctx, vd: VarDecl) =>
+        translate_var_decl(vd, ctx)(ctrl)
+    }.flatten.distinct
+
+    formulas ++= axioms
+
+    val ded(conjecture) = t
+    formulas += FOFAnnotated("conjecture", "conjecture", FOF.Logical(translate_formula(conjecture)), None)
+    add_formula_comment("conjecture")
+
+    val tptp_exporter = ctrl.extman.get(classOf[TPTPExporter]).head
+
+    val ret = Problem(includes.map(i => tptp_exporter.translate_include(p.module, i)).toSeq, formulas.toList, comments)
+    comments = Map()
+    ret
+  }
+
+
   def exportStub(theory: Theory)(implicit ctrl: Controller): Problem = {
     export_theory(theory, Nil)
   }
 
-  def exportTPTP(ctx: Context, what: List[Term])(implicit ctrl: Controller): Problem = {
-    // walk through ctx, collect all axioms
-    // especially, upon IncludeVarDecls, recurse into referenced theory
-    val axioms = ctx.mapVarDecls {
-      case (_, vd@IncludeVarDecl(_, _, _)) =>
-        val path = vd.tp.get.toMPath
-        translate_theory(ctrl.getTheory(path))
-      case (ctx, vd: VarDecl) =>
-        translate_var_decl(vd, ctx)(ctrl).toList
-    }.flatten.distinct.map(x => x.copy(role = "axiom"))
-
-    val conjectures = what match {
-      case DedList(formulas) => formulas.map(f => FOFAnnotated("Conjecture", "conjecture",  FOF.Logical(translate_formula(f)), None))
-    }
-
-    Problem(List(), (axioms++conjectures), Map())
-  }
-
-  def export_theory_flattened(theory: Theory)(implicit ctrl: Controller): Problem = {
-    val axioms = translate_theory_flattened(theory).distinct.map(x => if (x.role == "") { x.copy(role = "axiom") } else x)
-    Problem(List(), axioms, Map())
-  }
-
-  def translate_theory_flattened(theory: Theory)(implicit ctrl: Controller): List[FOFAnnotated] = {
-    theory.getIncludesWithoutMeta.flatMap(include => translate_theory_flattened(ctrl.getTheory(include))) ++ theory.getConstants.flatMap(translate_constant)
-  }
-
   def export_theory(theory: Theory, includes: Seq[Include])(implicit ctrl: Controller): Problem = {
-    val axioms = translate_theory(theory).map(x => if (x.role == "") { x.copy(role = "axiom") } else x)
-
-    Problem(includes, axioms, Map())
+    val formulas = translate_theory(theory).map(x => if (x.role == "") {
+      x.copy(role = "axiom")
+    } else x)
+    val ret = Problem(includes, formulas, comments)
+    comments = Map()
+    ret
   }
 
   def translate_theory(theory: Theory)(implicit ctrl: Controller): List[FOFAnnotated] = {
@@ -86,6 +95,15 @@ object FOLExporter {
       case _ => None
     }
   }
+
+  // Needs to be added after each Annotated construction involving `translate_formula`
+  def add_formula_comment(name: String) = {
+    if (currentFormulaComments.nonEmpty) {
+      comments += (name -> currentFormulaComments)
+      currentFormulaComments = Seq()
+    }
+  }
+
 
   def translate_formula(t: Term): FOF.Formula = t match {
     case uforall(Lambda(v, _, body)) =>
@@ -127,7 +145,7 @@ object FOLExporter {
 
   }
 
-  def translate_term(t: Term): FOF.Term = t match {
+  def translate_term(t: Term): FOF.Term = t match { //FIXME: MatchErrors happening here cause of lambdas
     case ApplySpine(OMID(f), args) =>
       // f: GlobalName, args: List[Term]
       FOF.AtomicTerm(f.name.toString, args.map(translate_term))
