@@ -31,16 +31,16 @@ theory UntypedEqualityND =
 theory SoftTypedEquality =
   include ?SoftTypedLogic❙
   requal : tp ⟶ term ⟶ term ⟶ prop❘# 2 =ͬ 1 3 prec 30❙
-  as : {x,A} ⊦ x⦂A ⟶ term❘ # ↑ 3 prec 50❙
+  as : {x,A} ⊦ x∶A ⟶ term❘ # ↑ 3 prec 50❙
 ❚
 
 theory SoftTypedEqualityND =
   include ?SoftTypedEquality❙
   rrefl  : {A,x} ⊦ x =ͬ A x❘# rrefl 1 %I2❙
-  requal_tp : {A,x} ⊦ x =ͬ A x ⟶ ⊦ x ⦂ A❙
+  requal_tp : {A,x} ⊦ x =ͬ A x ⟶ ⊦ x ∶ A❙
   rsym   : {A,x,y} ⊦ x =ͬ A y ⟶ ⊦ y =ͬ A x❘ # 4 rsym❙
   rtrans : {A,x,y,z} ⊦ x =ͬ A y ⟶ ⊦ y =ͬ A z ⟶ ⊦ x =ͬ A z❘ # 5 rtrans 6❙
-  requal_any_tp : {A,x,y} ⊦ x =ͬ A y ⟶ ⊦ x ⦂ A❘
+  requal_any_tp : {A,x,y} ⊦ x =ͬ A y ⟶ ⊦ x ∶ A❘
                = [A,x,y,p] requal_tp (p rtrans (p rsym))❙
   requal_as : {A,x,y} ⊦ x =ͬ A y ⟶ term❘ = [A,x,y,p] ↑(requal_any_tp p)❘ # requal_as 4❙ 
   rcongP : {A,x,y,p:⊦ x =ͬ A y, P: term ⟶ prop} ⊦ P (requal_as p) ⟶ ⊦ P (requal_as (p rsym))❘# 4 rcongP 5 6❙

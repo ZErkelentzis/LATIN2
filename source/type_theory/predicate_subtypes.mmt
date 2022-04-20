@@ -23,7 +23,7 @@ theory SoftTypedPredicateSubtypes =
   include ?SoftTypedLogic❙
   
   predsub : tp ⟶ (term ⟶ prop) ⟶ tp❘# 1 | 2  prec 50❙
-  predsubI : {A,P,x} ⊦ x⦂A ⟶ ⊦P x ⟶ ⊦ x⦂A|P❙
-  predsubEl: {A,P,x}⊦ x⦂A|P ⟶ ⊦x⦂A❙
-  predsubEr: {A,P,x}⊦ x⦂A|P ⟶ ⊦ P x❙
+  predsubI : {A,P,x} ⊦ x∶A ⟶ ⊦P x ⟶ ⊦ x∶A|P❙
+  predsubEl: {A,P,x}⊦ x∶A|P ⟶ ⊦x∶A❙
+  predsubEr: {A,P,x}⊦ x∶A|P ⟶ ⊦ P x❙
 ❚

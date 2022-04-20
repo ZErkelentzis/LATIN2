@@ -60,14 +60,14 @@ theory SoftTypedSimpleProducts =
   include ?SoftTypedTerms❙
   include ?SoftTypedProducts❙
   include ?SimpleProductTypes❙
-  fun_typing : {A,B,a,b} ⊦ a⦂A ⟶ ⊦ b⦂B ⟶ ⊦ (a,ͬb) ⦂ A ×ͭ B❙
+  fun_typing : {A,B,a,b} ⊦ a∶A ⟶ ⊦ b∶B ⟶ ⊦ (a,ͬb) ∶ A ×ͭ B❙
 ❚
 
 theory SoftTypedDependentProducts =
   include ?SoftTypedTerms❙
   include ?SoftTypedProducts❙
   include ?SoftDependentProductTypes❙
-  fun_typing : {A,B,a,b} ⊦ a⦂A ⟶ ⊦ b⦂(B a) ⟶ ⊦ (a,ͬb) ⦂ Σͬ A B❙
+  fun_typing : {A,B,a,b} ⊦ a∶A ⟶ ⊦ b∶(B a) ⟶ ⊦ (a,ͬb) ∶ Σͬ A B❙
 ❚
 
 theory SimpleProductsExpand =

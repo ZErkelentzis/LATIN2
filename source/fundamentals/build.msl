@@ -21,3 +21,6 @@ build MMT/LATIN2 mmt-omdoc fundamentals/type_equality.mmt
 
 // depends on concepts, relations and equality
 build MMT/LATIN2 mmt-omdoc fundamentals/subtyping.mmt
+
+// depends on concepts and in future various others
+build MMT/LATIN2 mmt-omdoc fundamentals/universes.mmt
