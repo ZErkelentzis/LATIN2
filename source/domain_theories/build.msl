@@ -8,6 +8,6 @@ file algebra/build.msl
 // Topology formalizes the various definitions of closure operators and topologies.
 // These are interesting in their own and a case-study on theory morphisms, but also often used at the meta-level.
 // They depend on PowerHOL.
-build MMT/LATIN2 mmt-omdoc domain_theories/topology
+file topology/build.msl
 // depends on algebra, power types, and topology
 build MMT/LATIN2 mmt-omdoc domain_theories/generated.mmt

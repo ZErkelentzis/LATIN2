@@ -58,9 +58,7 @@ file source/set-theoretical_semantics/build.msl
 
 // files containing Scala rules may need to be build twice: once to generate Scala code and then once again after compiling the rule
 // We ignore all errors thrown in the first run.
-log- error
-file source/logic/drt/build.msl
-log+ error
+suppressErrors file source/logic/drt/build.msl
 
 // generate Scala auxiliary code for all theories (which can be used by native Scala code in the archive)
 build MMT/LATIN2 lf-scala
