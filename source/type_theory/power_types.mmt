@@ -29,7 +29,7 @@ theory Map =
   include ☞latin:/?ConjunctionND❙
   include ☞latin:/?TypedExistentialQuantificationND❙
   map : {A,B} (tm A ⟶ tm B) ⟶ tm ℘ͯA ⟶ tm ℘ͯB❘
-      = [A,B,f,S] pfilter[b] ∃ͭ[a] a∈ͯS ∧ (b =ͭ f a)❘# 4 map 3 prec 40❙
+      = [A,B,f,S] pfilter [b] ∃ͭ[a] a∈ͯS ∧ (b =ͭ f a)❘# 4 map 3 prec 40❙
   mapI : {A,B,f:tm A ⟶ tm B,S,x} ⊦ x ∈ͯ S ⟶ ⊦ f x ∈ͯ S map f❘
        = [A,B,f,S,x,p] pfilterI texistsI x andI p trefl❙
   mapE : {A,B,f:tm A ⟶ tm B,S,x,C} ⊦ x ∈ͯ S map f ⟶ ({a} ⊦ a∈ͯS ⟶ ⊦ x =ͭ f a ⟶ ⊦C) ⟶ ⊦ C❘
@@ -39,7 +39,11 @@ theory Map =
 theory Preimage =
   include ?PowerTypes❙
   preimage : {A,B} (tm A ⟶ tm B) ⟶ tm ℘ͯB ⟶ tm ℘ͯA❘
-  			= [A,B,f,S] pfilter[a] f a ∈ͯ S❙
+  			= [A,B,f,S] pfilter [a] f a ∈ͯ S❘# 4 preimage 3 prec 40 ❙
+  preimageI : {A,B,f:tm A ⟶ tm B,S,x} ⊦ f x ∈ͯ S ⟶ ⊦ x ∈ͯ S preimage f❘
+       = [A,B,f,S,x,p] pfilterI p❙
+  preimageE : {A,B,f:tm A ⟶ tm B,S,x} ⊦ x ∈ͯ S preimage f ⟶ ⊦ f x ∈ͯ S❘
+       = [A,B,f,S,x,p] p pfilterE❙
 ❚
 
 theory Extensionality =
