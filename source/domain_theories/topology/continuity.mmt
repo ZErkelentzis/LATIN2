@@ -10,8 +10,8 @@ fixmeta latin:/powertypes?PowerSFOL❚
 theory Continuous = 
   structure dom : ?Topology❙
   structure cod : ?Topology❙
-  map : tm dom/X ⟶ tm cod/X❙
+  homX : tm dom/X ⟶ tm cod/X❙
   
-  continuous : ⊦ ∀ͭ[A : tm ℘ͯ cod/X] (A ∈ͯ cod/CC ⇒ ((preimage map A) ∈ͯ dom/CC))❙
+  continuous : ⊦ ∀ͭ[A: tm ℘ͯ cod/X] A ∈ͯ cod/CC ⇒ A preimage homX ∈ͯ dom/CC❙
 
 ❚
