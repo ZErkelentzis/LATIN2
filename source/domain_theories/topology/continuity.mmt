@@ -12,6 +12,6 @@ theory Continuous =
   structure cod : ?Topology❙
   map : tm dom/X ⟶ tm cod/X❙
   
-  continuous : {A : tm ℘ͯ cod/X} ⊦ A ∈ͯ cod/CC ⟶ ⊦ ❙
+  continuous : ⊦ ∀ͭ[A : tm ℘ͯ cod/X] (A ∈ͯ cod/CC ⇒ ((preimage map A) ∈ͯ dom/CC))❙
 
 ❚
