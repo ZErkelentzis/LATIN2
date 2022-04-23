@@ -42,7 +42,8 @@ file source/type_theory/endofunctors/build.msl
 file source/set_theory/build.msl
 
 // Logic extensions formalizes various less common logical features.
-file source/logic/other/build.msl
+// commented out due to errors
+// file source/logic/other/build.msl
 
 // Theory morphisms formalizing the Curry-Howard correspondence between logics and type theories.
 build MMT/LATIN2 mmt-omdoc curry-howard
