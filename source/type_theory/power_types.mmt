@@ -299,9 +299,8 @@ theory ComplementRules =
   					   bigunionI (pfilterI (compl_compl tsym tcongP ([U] U ∈ͯ K) r)) compl_not s)
   					  subset_bigunion_lub [S,p] subsetI [x,q] compl_not
   				      notI [r] complE (biginterE r (p pfilterE)) q❙
-  compl_preimage : {A,B,f:tm A ⟶ tm B,S} ⊦ ∁ͯ S preimage f =ͭ ∁ͯ (S preimage f)❘
-  					= [A,B,f,S] subset_antisym () ()
-  					❙
+  compl_preimage : {A,B,f:tm A ⟶ tm B,S} ⊦ (∁ͯ S) preimage f =ͭ ∁ͯ (S preimage f)❘
+  					= [A,B,f,S] subset_antisym _ _ ❙
 
 ❚
 

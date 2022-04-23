@@ -4,7 +4,6 @@ file ../../build_config.msl
 // depends in general on fundamentals
 
 // no dependency
-build MMT/LATIN2 mmt-omdoc type_theory/nonempty.mmt
 build MMT/LATIN2 mmt-omdoc type_theory/empty_type.mmt
 build MMT/LATIN2 mmt-omdoc type_theory/unit_type.mmt
 build MMT/LATIN2 mmt-omdoc type_theory/function_types.mmt
