@@ -4,24 +4,23 @@ file ../../../build_config.msl
 // depends in general on fundamentals and logic
 
 // fixed order
-build MMT/LATIN2 mmt-omdoc domain_theories/algebra/magmas.mmt
-build MMT/LATIN2 mmt-omdoc domain_theories/algebra/monoids.mmt
+build MMT/LATIN2 mmt-omdoc ./magmas.mmt
+build MMT/LATIN2 mmt-omdoc ./monoids.mmt
 
 // depend on magmas
-build MMT/LATIN2 mmt-omdoc domain_theories/algebra/lattices.mmt
-build MMT/LATIN2 mmt-omdoc domain_theories/algebra/additive_magmas.mmt
-build MMT/LATIN2 mmt-omdoc domain_theories/algebra/groups.mmt
-build MMT/LATIN2 mmt-omdoc domain_theories/algebra/bands.mmt
-build MMT/LATIN2 mmt-omdoc domain_theories/algebra/algebra_to_order.mmt
+build MMT/LATIN2 mmt-omdoc ./lattices.mmt
+build MMT/LATIN2 mmt-omdoc ./groups.mmt
+build MMT/LATIN2 mmt-omdoc ./bands.mmt
+build MMT/LATIN2 mmt-omdoc ./algebra_to_order.mmt
 
 // depend on magmas, sets and groups
-build MMT/LATIN2 mmt-omdoc domain_theories/algebra/ringoids.mmt
+build MMT/LATIN2 mmt-omdoc ./ringoids.mmt
 
 // depend on power_types, groups and ringoids
 // needs complete redesign
-// build MMT/LATIN2 mmt-omdoc domain_theories/algebra/modules.mmt
+// build MMT/LATIN2 mmt-omdoc ./modules.mmt
 
 // independent of the rest
-// build MMT/LATIN2 mmt-omdoc algebra/diagop-theories.mmt
+// build MMT/LATIN2 mmt-omdoc ./diagop-theories.mmt
 // dependent on informal and others (not completely checked by now)
-// build MMT/LATIN2 mmt-omdoc algebra/diagop-test.mmt
+// build MMT/LATIN2 mmt-omdoc ./diagop-test.mmt
