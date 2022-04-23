@@ -2,15 +2,16 @@ namespace latin:/❚
 
 fixmeta ur:?LF❚
 
-/T Universes as a soft typing relation on types
-   tp is now no longer the base universe -- instead, it is the union of all universes❚
+/T Universes as a soft typing relation (level) on types
+   tp is now no longer the base universe -- instead, it is the union of all universes
+   We define a universe to be any type that occurs on the left of the level relation.❚
 theory SoftUniverses =
   include ?TypedLogic❙
   level : tp ⟶ tp ⟶ prop❘ # 1 ⋳ 2 prec 30❙
   univTm: {A,U} ⊦A⋳U ⟶ tm U❙
 ❚
 
-/T single universe of types and kinds❚
+/T single universes of types and kinds❚
 theory TwoUniverses = 
   include ?SoftUniverses❙
   utp: tp❙
