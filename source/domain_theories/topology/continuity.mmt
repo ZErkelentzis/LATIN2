@@ -15,13 +15,15 @@ theory TopologyMap =
 
 theory ReflectsClosedness =
   include ?TopologyMap❙
-  reflectsClosedness : ⊦ ∀ͭ[A] A ∈ͯ cod/CC ⇒ A preimage homX ∈ͯ dom/CC❙
+  reflectsClosedness : ⊦ ∀ͭ[C] C ∈ͯ cod/CC ⇒ C preimage homX ∈ͯ dom/CC❙
 ❚
 
 theory ReflectsOpenness =
   include ?TopologyMap❙
-  reflectsOpenness : ⊦ ∀ͭ[A] A ∈ͯ cod/OO ⇒ A preimage homX ∈ͯ dom/OO❙
+  reflectsOpenness : ⊦ ∀ͭ[C] C ∈ͯ cod/OO ⇒ C preimage homX ∈ͯ dom/OO❙
 ❚
+
+
 
 theory ReflectsNeighborhood =
   include ?TopologyMap❙
@@ -30,17 +32,22 @@ theory ReflectsNeighborhood =
 
 theory PreimageExpandsInterior =
   include ?TopologyMap❙
-  interior : ⊦ ∀ͭ[A] (cod/interior A) preimage homX ⊆ͯ dom/interior (A preimage homX)❙
+  preimageExpandsInterior : ⊦ ∀ͭ[C] (cod/interior C) preimage homX ⊆ͯ dom/interior (C preimage homX)❙
 ❚
 
 theory ExpandsClosure =
   include ?TopologyMap❙
-  closure : ⊦ ∀ͭ[A] (dom/cl A) map homX ⊆ͯ cod/cl (A map homX)❙
+  expandsClosure : ⊦ ∀ͭ[D] (dom/cl D) map homX ⊆ͯ cod/cl (D map homX)❙
 ❚
 
 theory PreservesCloseness =
   include ?TopologyMap❙
-  preservesCloseness : ⊦ ∀ͭ[A]∀ͭ[x] x dom/⋶ A ⇒ (homX x) cod/⋶ (A map homX)❙
+  preservesCloseness : ⊦ ∀ͭ[D]∀ͭ[d] d dom/⋶ D ⇒ (homX d) cod/⋶ (D map homX)❙
+❚
+
+view ReflectsOpennessToReflectsClosedness : ?ReflectsOpenness → ?ReflectsClosedness =
+  include ?TopologyMap❙
+  reflectsOpenness = _ ❙
 ❚
 
 theory Continuous = 
