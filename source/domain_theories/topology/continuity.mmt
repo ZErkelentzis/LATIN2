@@ -7,47 +7,45 @@ fixmeta latin:/powertypes?PowerSFOL❚
   f(cl A) ⊇ cl f(A)  ⇔  preservation of closedness
 ❚
 
-theory Homomorphism =
+theory TopologyMap =
   structure dom : ?Topology❙
   structure cod : ?Topology❙
   homX : tm dom/X ⟶ tm cod/X❙
 ❚
 
-theory Continuous = 
-  include ?Homomorphism❙
-❚
-
 theory ReflectsClosedness =
-  include ?Homomorphism❙
+  include ?TopologyMap❙
   reflectsClosedness : ⊦ ∀ͭ[A] A ∈ͯ cod/CC ⇒ A preimage homX ∈ͯ dom/CC❙
 ❚
 
 theory ReflectsOpenness =
-  include ?Homomorphism❙
+  include ?TopologyMap❙
   reflectsOpenness : ⊦ ∀ͭ[A] A ∈ͯ cod/OO ⇒ A preimage homX ∈ͯ dom/OO❙
 ❚
 
 theory ReflectsNeighborhood =
-  include ?Homomorphism❙
+  include ?TopologyMap❙
   reflectsNeighborhood : ⊦ ∀ͭ[x]∀ͭ[V] homX x cod/∶ V ⇒ x dom/∶ V preimage homX❙
 ❚
 
-theory Interior =
-  include ?Homomorphism❙
-  interior : ⊦ ∀ͭ[A] A ⊆ͯ cod/X ⇒ (cod/interior A) preimage homX ⊆ͯ dom/interior (A preimage homX)❙
-
+theory PreimageExpandsInterior =
+  include ?TopologyMap❙
+  interior : ⊦ ∀ͭ[A] (cod/interior A) preimage homX ⊆ͯ dom/interior (A preimage homX)❙
 ❚
 
-theory Closure =
-  include ?Homomorphism❙
-  closure : ⊦ ∀ͭ[A] A ⊆ͯ dom/X ⇒ (dom/cl A) map homX ⊆ͯ cod/cl (A map homX)❙
+theory ExpandsClosure =
+  include ?TopologyMap❙
+  closure : ⊦ ∀ͭ[A] (dom/cl A) map homX ⊆ͯ cod/cl (A map homX)❙
 ❚
 
 theory PreservesCloseness =
-  include ?Homomorphism❙
+  include ?TopologyMap❙
   preservesCloseness : ⊦ ∀ͭ[A]∀ͭ[x] x dom/⋶ A ⇒ (homX x) cod/⋶ (A map homX)❙
 ❚
 
+theory Continuous = 
+  include ?TopologyMap❙
+❚
 
 
 
