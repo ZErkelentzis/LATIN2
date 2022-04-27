@@ -30,10 +30,11 @@ view DependentTypedEqualityCH : ?DependentTypeEquality -> ?Logic + ?EquivalenceN
   constant tpeq/uequal = [F,G] F⇔G❙
   constant tpeq/urefl = [x] equiv_equivalence/refl❙
   // The substitution property for equivalence can only be proved on the meta-level.❙
-  constant tpeq/ucongP = _ ❙
+  // constant tpeq/ucongP = _ ❙
   transport = equivEl ❙
   transport_refl = _ ❙
-  transport_trans = _ ❙
+  // This proof succeeds trivially, but only if its expected type can be computed, which requires translating tpeq/ucongP.❙
+  // transport_trans = _ ❙
   
 ❚
 

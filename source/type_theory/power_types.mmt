@@ -57,6 +57,10 @@ theory Extensionality =
         = [A,S,T,x,p,q] p tcongP ([u]x∈ͯu) q❙
   eq_in_right : {A,S,T,x:tm A} ⊦ S =ͭ T ⟶ ⊦ x∈ͯT ⟶ ⊦ x∈ͯS❘
         = [A,S,T,x,p,q] p tsym tcongP ([u]x∈ͯu) q❙
+
+  pfilter_eq : {A,P,Q} ({a: tm A} ⊦P a ⟶ ⊦ Q a) ⟶ ({a: tm A} ⊦ Q a ⟶ ⊦ P a) ⟶ ⊦ pfilter P =ͭ pfilter Q❘
+             = [A,P,Q,f,g] extensionalityI ([x,p] pfilterI f x (p pfilterE))
+                                           ([x,q] pfilterI g x (q pfilterE))❙
 ❚
 
 theory FiniteSets = 
@@ -253,6 +257,14 @@ theory SubsetRules =
 theory ComplementRules =
   include ?Lattice❙
   include ?SubsetRules❙
+  filter_not : {A,f,x: tm A} ⊦ ¬ (f x) ⟶ ⊦ ¬ x ∈ͯ pfilter [a] f a❘
+             = [A,f,x,p] notI [q] p notE (q pfilterE)❙
+  compl_pfilter : {A, f} ⊦ ∁ͯ (pfilter [a: tm A] f a) =ͭ pfilter [a] ¬(f a)❘
+               = [A,f] extensionalityI ([x,p] pfilterI notI [q] (p pfilterE) notE (pfilterI q))
+                                         ([x,p] complI [q] filter_not (p pfilterE) notE q)❙
+  pfilter_compl : {A,S: tm ℘ͯ A} ⊦ (pfilter [a] a ∈ͯ ∁ͯS) =ͭ (pfilter [a] ¬ a ∈ͯ S)❘
+               = [A,S] pfilter_eq ([x,p] notI [q] complE p q)
+                                  ([x,p] complI [q] p notE q)❙
   compl_empty : {A} ⊦ ∁ͯ(empty A) =ͭ full A❘
               = [A] extensionalityI ([x,p] fullI) ([x,p] complI [q] emptyE q)❙
   compl_full  : {A} ⊦ ∁ͯ(full A) =ͭ empty A❘
@@ -300,7 +312,7 @@ theory ComplementRules =
   					  subset_bigunion_lub [S,p] subsetI [x,q] compl_not
   				      notI [r] complE (biginterE r (p pfilterE)) q❙
   compl_preimage : {A,B,f:tm A ⟶ tm B,S} ⊦ (∁ͯ S) preimage f =ͭ ∁ͯ (S preimage f)❘
-  					= [A,B,f,S] subset_antisym _ _ ❙
+  					= [A,B,f,S] (pfilter_eq ([x,p] p pfilterE) ([x,p] pfilterI p)) ttrans (compl_pfilter tsym)❙
 
 ❚
 
