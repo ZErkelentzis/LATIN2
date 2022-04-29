@@ -23,8 +23,6 @@ theory ReflectsOpenness =
   reflectsOpenness : ⊦ ∀ͭ[C] C ∈ͯ cod/OO ⇒ C preimage homX ∈ͯ dom/OO❙
 ❚
 
-
-
 theory ReflectsNeighborhood =
   include ?TopologyMap❙
   reflectsNeighborhood : ⊦ ∀ͭ[x]∀ͭ[V] homX x cod/∶ V ⇒ x dom/∶ V preimage homX❙
@@ -47,7 +45,33 @@ theory PreservesCloseness =
 
 view ReflectsOpennessToReflectsClosedness : ?ReflectsOpenness → ?ReflectsClosedness =
   include ?TopologyMap❙
-  reflectsOpenness = _ ❙
+  reflectsOpenness = tforallI [C] implI [p] pfilterI
+  					  ((compl_preimage tsym) tcongP ([A] A ∈ͯ dom/CC) (p pfilterE))❙
+❚
+
+view ReflectsClosednessToPreservesCloseness : ?ReflectsClosedness → ?PreservesCloseness =
+  include ?TopologyMap❙
+  reflectsClosedness = _❙
+❚
+
+view PreservesClosenessToExpandsClosure : ?PreservesCloseness → ?ExpandsClosure =
+  include ?TopologyMap❙
+  preservesCloseness = _❙
+❚
+
+view ExpandsClosureToPreimageExpandsInterior : ?ExpandsClosure → ?PreimageExpandsInterior =
+  include ?TopologyMap❙
+  expandsClosure = _❙
+❚
+
+view PreimageExpandsInteriorToReflectsNeighborhood : ?PreimageExpandsInterior → ?ReflectsNeighborhood =
+  include ?TopologyMap❙
+  preimageExpandsInterior = _❙
+❚
+
+view ReflectsNeighborhoodToReflectsOpenness : ?ReflectsNeighborhood → ?ReflectsOpenness =
+  include ?TopologyMap❙
+  reflectsNeighborhood = _❙
 ❚
 
 theory Continuous = 
