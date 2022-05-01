@@ -2,11 +2,6 @@ namespace latin:/❚
 
 fixmeta latin:/powertypes?PowerSFOL❚
 
-// for functions f: X ⟶ Y
-  f(cl A) ⊆‍ cl f(A)  ⇔  preservation of closeness   ⇔  reflection of closedness  (= continuous)
-  f(cl A) ⊇ cl f(A)  ⇔  preservation of closedness
-❚
-
 theory TopologyMap =
   structure dom : ?Topology❙
   structure cod : ?Topology❙
@@ -25,7 +20,7 @@ theory ReflectsOpenness =
 
 theory ReflectsNeighborhood =
   include ?TopologyMap❙
-  reflectsNeighborhood : ⊦ ∀ͭ[x]∀ͭ[V] homX x cod/∶ V ⇒ x dom/∶ V preimage homX❙
+  reflectsNeighborhood : ⊦ ∀ͭ[d]∀ͭ[C] homX d cod/∶ C ⇒ d dom/∶ C preimage homX❙
 ❚
 
 theory PreimageExpandsInterior =
@@ -45,8 +40,9 @@ theory PreservesCloseness =
 
 view ReflectsOpennessToReflectsClosedness : ?ReflectsOpenness → ?ReflectsClosedness =
   include ?TopologyMap❙
-  reflectsOpenness = tforallI [C] implI [p] pfilterI
-  					  ((compl_preimage tsym) tcongP ([A] A ∈ͯ dom/CC) (p pfilterE))❙
+  reflectsOpenness = tforallI [C] implI [p] pfilterI 
+  					 (compl_preimage tcongP ([A] A ∈ͯ dom/CC) 
+  					 (reflectsClosedness tforallE ∁ͯC implE (p pfilterE)))❙
 ❚
 
 view ReflectsClosednessToPreservesCloseness : ?ReflectsClosedness → ?PreservesCloseness =
@@ -56,7 +52,8 @@ view ReflectsClosednessToPreservesCloseness : ?ReflectsClosedness → ?Preserves
 
 view PreservesClosenessToExpandsClosure : ?PreservesCloseness → ?ExpandsClosure =
   include ?TopologyMap❙
-  preservesCloseness = _❙
+  preservesCloseness = tforallI [D] tforallI [d] implI [p] 
+   						subsetE (expandsClosure tforallE D) mapI p❙
 ❚
 
 view ExpandsClosureToPreimageExpandsInterior : ?ExpandsClosure → ?PreimageExpandsInterior =
@@ -66,12 +63,18 @@ view ExpandsClosureToPreimageExpandsInterior : ?ExpandsClosure → ?PreimageExpa
 
 view PreimageExpandsInteriorToReflectsNeighborhood : ?PreimageExpandsInterior → ?ReflectsNeighborhood =
   include ?TopologyMap❙
-  preimageExpandsInterior = _❙
+  preimageExpandsInterior = tforallI [C] subsetI [d,p] pfilterI
+  							(reflectsNeighborhood tforallE d tforallE C implE
+  							(preimageE p pfilterE))❙
 ❚
 
 view ReflectsNeighborhoodToReflectsOpenness : ?ReflectsNeighborhood → ?ReflectsOpenness =
   include ?TopologyMap❙
-  reflectsNeighborhood = _❙
+  reflectsNeighborhood = tforallI [d] tforallI [C] implI [p]
+  						 p pfilterE texistsE [O,q] pfilterI texistsI (O preimage homX)
+  						 andI (andI (reflectsOpenness tforallE O implE (q andEl andEl))
+  						 			preimageI (q andEl andEr))
+  						 	   subset_preimage (q andEr)❙
 ❚
 
 theory Continuous = 
