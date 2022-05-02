@@ -254,7 +254,11 @@ theory SubsetRules =
                = [A,S,T,p] subsetI [x,q] complI [r] complE q (subsetE p r)❙
   subset_preimage : {A,B,f:tm A ⟶ tm B,S,T} ⊦ S⊆ͯT ⟶ ⊦ S preimage f ⊆ͯ T preimage f❘
   				= [A,B,f,S,T,p] subsetI [x,q] preimageI subsetE p preimageE q❙
-
+  subset_image_preimage : {A,B,f:tm A ⟶ tm B,S} ⊦ (S preimage f) map f⊆ͯS❘
+  							= [A,B,f,S] subsetI [y,p] 
+  							  mapE p [x,q,r] (r tsym) tcongP ([z] z ∈ͯ S) preimageE q❙
+  subset_preimage_image : {A,B,f:tm A ⟶ tm B,S} ⊦ S⊆ͯ (S map f) preimage f❘
+  							= [A,B,f,S] subsetI [x,p] preimageI mapI p❙
 ❚
 
 theory ComplementRules =

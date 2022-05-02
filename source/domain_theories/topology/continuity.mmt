@@ -47,7 +47,12 @@ view ReflectsOpennessToReflectsClosedness : ?ReflectsOpenness → ?ReflectsClose
 
 view ReflectsClosednessToPreservesCloseness : ?ReflectsClosedness → ?PreservesCloseness =
   include ?TopologyMap❙
-  reflectsClosedness = _❙
+  reflectsClosedness = tforallI [D] tforallI [d] implI [p] pfilterI tforallI [d] implI [q]
+   						preimageI 
+   						((p pfilterE) tforallE (homX d))
+   						implE
+   						(bigger_close subset_image_preimage
+   							((preservesCloseness tforallE (C preimage homX) d) implE q))❙
 ❚
 
 view PreservesClosenessToExpandsClosure : ?PreservesCloseness → ?ExpandsClosure =
