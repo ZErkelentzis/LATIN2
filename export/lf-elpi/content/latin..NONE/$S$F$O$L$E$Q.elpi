@@ -1,8 +1,0 @@
-accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$S$F$O$L".
-
-accumulate "/home/jfs/mmt/content/MathHub/MMT/LATIN2/export/lf-elpi/content/latin..NONE/$Typed$Equality".
-
-/* generated from notequal : {A}tm A⟶tm A⟶prop */
-
-/* type notequal pi (A \ tm A -> tm A -> prop). */
-

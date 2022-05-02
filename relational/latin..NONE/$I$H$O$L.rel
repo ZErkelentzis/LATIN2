@@ -1,4 +1,0 @@
-theory latin:/?IHOL
-HasMeta latin:/?IHOL http://cds.omdoc.org/urtheories?LF
-Includes latin:/?IHOL latin:/?InternalEquality
-Includes latin:/?IHOL latin:/?ISFOL

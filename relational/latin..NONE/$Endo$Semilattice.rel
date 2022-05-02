@@ -1,4 +1,0 @@
-theory latin:/?EndoSemilattice
-HasMeta latin:/?EndoSemilattice latin:/?TypedEquality
-Includes latin:/?EndoSemilattice latin:/?EndoBand
-Includes latin:/?EndoSemilattice latin:/?EndoCommSemigroup

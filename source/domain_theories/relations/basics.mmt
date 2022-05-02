@@ -1,0 +1,61 @@
+namespace latin:/algebraic❚
+
+fixmeta latin:/?SFOLEQND❚
+
+theory Relation =
+  include ?Set❙
+  rel : U ⟶ U ⟶ prop❘# 1 $ 2 prec 30❙
+  
+  total structure metarel : latin:/?Relation =
+    carrier = U❙
+    rel = [x,y] ⊦ x $ y❙
+  ❚
+   
+  isSmallest: U ⟶ (U ⟶ prop) ⟶ prop❘ = [x,p] p x ∧ ∀ͭ[z] p z ⇒ x$z❘# 1 isSmallest 2❙
+  isGreatest: U ⟶ (U ⟶ prop) ⟶ prop❘ = [x,p] p x ∧ ∀ͭ[z] p z ⇒ z$x❘# 1 isGreatest 2❙
+
+  below2 = [x,y,u] u$x ∧ u$y❙
+  above2 = [x,y,u] x$u ∧ y$u❙
+
+  infimumOf = [x,y,i] i isGreatest below2 x y❙
+  infimumI : {x,y,i} ⊦i$x ⟶ ⊦i$y ⟶ ({z} ⊦z$x ⟶ ⊦z$y ⟶ ⊦z$i) ⟶ ⊦ infimumOf x y i❘
+           = [x,y,i,p,q,R] andI (andI p q) tforallI [z] implI [s] R z (s andEl) (s andEr)❙
+  infimumE : {x,y,i,z} ⊦ infimumOf x y i ⟶ ⊦z$x ⟶ ⊦z$y ⟶ ⊦z$i❘
+           = [x,y,i,z,p,q,r] p andEr tforallE z implE (andI q r)❙
+ 
+  supremumOf = [x,y,s] s isSmallest above2 x y❙
+  supremumI : {x,y,s} ⊦x$s ⟶ ⊦y$s ⟶ ({z} ⊦x$z ⟶ ⊦y$z ⟶ ⊦s$z) ⟶ ⊦ supremumOf x y s❘
+           = [x,y,i,p,q,R] andI (andI p q) tforallI [z] implI [t] R z (t andEl) (t andEr)❙
+  supremumE : {x,y,s,z} ⊦ supremumOf x y s ⟶ ⊦x$z ⟶ ⊦y$z ⟶ ⊦s$z❘
+           = [x,y,s,z,p,q,r] p andEr tforallE z implE (andI q r)❙ 
+❚
+
+theory Reflexivity =
+  include ?Relation❙
+  refl : {x} ⊦ x$x❘# %n %I1❙
+❚
+
+theory Symmetry =
+  include ?Relation❙
+  sym : {x,y} ⊦ x$y ⟶ ⊦ y$x❘# 3 %n❙
+❚
+
+theory Transitivity =
+  include ?Relation❙
+  trans    : {x,y,z} ⊦ x$y ⟶ ⊦ y$z ⟶ ⊦ x$z❘# 4 %n 5❙
+❚
+
+theory Preorder =
+  include ?Reflexivity❙
+  include ?Transitivity❙
+❚
+
+theory EquivalenceRelation =
+  include ?Preorder❙
+  include ?Symmetry❙
+❚
+
+theory AntiSymmetry =
+  include ?Relation❙
+  antisym : {x,y} ⊦ x$y ⟶ ⊦ y$x ⟶ ⊦ x =ͭ y❘# %n 3 4❙
+❚

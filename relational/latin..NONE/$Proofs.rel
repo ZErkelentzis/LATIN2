@@ -1,7 +1,0 @@
-judgementconstructor latin:/?Proofs?ded
-theory latin:/?Proofs
-HasMeta latin:/?Proofs http://cds.omdoc.org/urtheories?LF
-Includes latin:/?Proofs latin:/?Propositions
-Declares latin:/?Proofs latin:/?Proofs?ded
-constant latin:/?Proofs?ded
-DependsOn latin:/?Proofs?ded?type latin:/?Propositions?prop?type

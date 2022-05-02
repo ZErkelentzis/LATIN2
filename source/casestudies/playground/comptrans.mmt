@@ -1,0 +1,44 @@
+/T Author: Navid Roux
+❚
+
+namespace latin:/playground/comptrans ❚
+rule scala://parser.api.mmt.kwarc.info?MMTURILexer ❚
+
+fixmeta ur:?LF ❚
+
+theory Proofs =
+  prop: type ❙
+  ded: prop ⟶ type ❘ # ⊦ 1 prec -5 ❙
+❚
+
+theory HTyped =
+  include ?Proofs ❙
+  tp: type ❙
+  tm: tp ⟶ type ❘ # tm 1 prec -5 ❙
+  U: tp ❙
+  x: tm U ❙
+❚
+
+theory STyped =
+  include ?Proofs ❙
+  tp: type ❙
+  term: type ❙
+  of: term ⟶ tp ⟶ prop ❘ # 1 ∶ 2 prec 30 ❙
+❚
+
+theory Meta =
+  include ☞ur:?Strings ❙
+  include ☞ur:?DiagramOperators ❙
+❚
+
+//            ctskel("n", symbols(?Proofs?ded)), ❚
+diagram Diag : ?Meta :=
+  COMPTRANS OF SKELETON
+    ctskel("r",
+           ctskel("m", symbols(?Proofs?ded)),
+           ctskel("n", symbols(?Proofs?ded)),
+           symbols(?Proofs?prop, ?HTyped?tp)
+          )
+  OVER ☞ur:?LF
+  OF baseddiag(diag(☞ur:?LF), ?Proofs, ?HTyped)
+❚

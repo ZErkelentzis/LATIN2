@@ -1,6 +1,6 @@
 
 
-/* generated from forallT : {P,X}marktrue (forall P)⟶(marktrue (P X)⟶⊥)⟶⊥ */
+/* generated from forallT : {P,X}∀P¹⟶((P X)¹⟶⊥)⟶⊥ */
 
 closedbranch X4 :- help/forallT X4 P X X1 X3 , marktrue X1 (forall P) , (pi (x2 \ marktrue/hyp x2 (P X) => closedbranch (X3 x2))).
 
@@ -14,9 +14,11 @@ help/forallT (ucert X2) P X (ucert (prep (marktrue X3 (forall P)) X2)) (x4 \ uce
 
 help/forallT (hdcert X2) P X (hdcert X2) (x3 \ hdcert X2).
 
+help/forallT (hd2cert X2) P X (hd2cert X2) (x3 \ hd2cert X2).
+
 help/forallT (bccert X4) P X (bccert X2) (x3 \ bccert X2) :- bc/pos X4 , X2 is X4 - 1.
 
-/* generated from forallF : {P}markfalse (forall P)⟶({x}markfalse (P x)⟶⊥)⟶⊥ */
+/* generated from forallF : {P}∀P⁰⟶({x}(P x)⁰⟶⊥)⟶⊥ */
 
 closedbranch X4 :- help/forallF X4 P X1 X3 , markfalse X1 (forall P) , (pi (x \ pi (x2 \ markfalse/hyp x2 (P x) => closedbranch (X3 x x2)))).
 
@@ -30,11 +32,13 @@ help/forallF (ucert X2) P (ucert (prep (markfalse X3 (forall P)) X2)) (x \ x4 \ 
 
 help/forallF (hdcert X2) P (hdcert X2) (x \ x3 \ hdcert X2).
 
+help/forallF (hd2cert X2) P (hd2cert X2) (x \ x3 \ hd2cert X2).
+
 help/forallF (bccert X4) P (bccert X2) (x \ x3 \ bccert X2) :- bc/pos X4 , X2 is X4 - 1.
 
 
 
-/* generated from existsT : {P}marktrue (exists P)⟶({x}marktrue (P x)⟶⊥)⟶⊥ */
+/* generated from existsT : {P}∃P¹⟶({x}(P x)¹⟶⊥)⟶⊥ */
 
 closedbranch X4 :- help/existsT X4 P X1 X3 , marktrue X1 (exists P) , (pi (x \ pi (x2 \ marktrue/hyp x2 (P x) => closedbranch (X3 x x2)))).
 
@@ -48,9 +52,11 @@ help/existsT (ucert X2) P (ucert (prep (marktrue X3 (exists P)) X2)) (x \ x4 \ u
 
 help/existsT (hdcert X2) P (hdcert X2) (x \ x3 \ hdcert X2).
 
+help/existsT (hd2cert X2) P (hd2cert X2) (x \ x3 \ hd2cert X2).
+
 help/existsT (bccert X4) P (bccert X2) (x \ x3 \ bccert X2) :- bc/pos X4 , X2 is X4 - 1.
 
-/* generated from existsF : {P,X}markfalse (exists P)⟶(markfalse (P X)⟶⊥)⟶⊥ */
+/* generated from existsF : {P,X}∃P⁰⟶((P X)⁰⟶⊥)⟶⊥ */
 
 closedbranch X4 :- help/existsF X4 P X X1 X3 , markfalse X1 (exists P) , (pi (x2 \ markfalse/hyp x2 (P X) => closedbranch (X3 x2))).
 
@@ -63,6 +69,8 @@ help/existsF (ptcert (existsF P X X2 X4)) P X (ptcert X2) (x3 \ ptcert X4).
 help/existsF (ucert X2) P X (ucert (prep (markfalse X3 (exists P)) X2)) (x4 \ ucert (prep (markfalse X3 (exists P)) X2)) :- markfalse X3 (exists P) , occatmost (markfalse X3 (exists P)) 4 X2.
 
 help/existsF (hdcert X2) P X (hdcert X2) (x3 \ hdcert X2).
+
+help/existsF (hd2cert X2) P X (hd2cert X2) (x3 \ hd2cert X2).
 
 help/existsF (bccert X4) P X (bccert X2) (x3 \ bccert X2) :- bc/pos X4 , X2 is X4 - 1.
 

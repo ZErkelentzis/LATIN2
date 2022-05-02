@@ -1,9 +1,0 @@
-dataconstructor latin:/?EndoMagma?op
-theory latin:/?EndoMagma
-HasMeta latin:/?EndoMagma latin:/?TypedEquality
-Includes latin:/?EndoMagma latin:/?EndoFunctor
-Declares latin:/?EndoMagma latin:/?EndoMagma?op
-constant latin:/?EndoMagma?op
-DependsOn latin:/?EndoMagma?op?type latin:/?TypedTerms?tm?type
-DependsOn latin:/?EndoMagma?op?type latin:/?TypeOperator?applyType?type
-DependsOn latin:/?EndoMagma?op?type latin:/?Types?tp?type

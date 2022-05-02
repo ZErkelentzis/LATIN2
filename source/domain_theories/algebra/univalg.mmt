@@ -1,0 +1,195 @@
+// Experimental deep embedding of algebra theories, to eventually formalize theorems of universal algebra.
+
+   Author: Navid Roux
+   Date: started 2021-11-08
+
+   The work is based on:
+
+   [DeM21] William DeMeo. “The Agda Universal Algebra Library and Birkhoff’s Theorem in Dependent Type Theory”.
+           In: CoRR abs/2101.10166 (2021). source code: https://gitlab.com/ualib/ualib.gitlab.io.
+           url: https://arxiv.org/abs/2101.10166.
+
+   See also Navid's review of that in their M.Sc. thesis (when it's ready) in the chapter
+   "Operators for Universal Algebra".
+❚
+namespace latin:/algebraic/univalg-test ❚
+import lfx http://gl.mathhub.info/MMT/LFX ❚
+
+theory Meta : ur:?LF =
+  include ☞lfx:/Records?LFRecords ❙
+  include ☞lfx:/Finite?LFFinite ❙
+  include ☞lfx:/TypedHierarchy?LFHierarchy ❙
+  include ☞lfx:/WTypes?Inductive ❙
+❚
+fixmeta ?Meta ❚
+
+theory Base =
+  // untyped signatures of function symbols ❙
+  theory UFunSig_ =
+    // LF type of function symbols ❙
+    F: type ❙
+    // arities of the function symbols ❙
+    ar: F ⟶ type ❙
+  ❚
+  // typed signatures of function symbols ❙
+  theory TFunSig_ =
+    include ?Base/UFunSig_ ❙
+    // LF-type of object types ❙
+    T: type ❙
+    // object types of the function parameters for every function symbol
+
+       Every function symbol `f: F` and argument index `a: ar f` gives the object type `argtp f i` of that very
+       argument. ❙
+    argtp: {f: F} (ar f) ⟶ T ❙
+    // return ("_res_ult") object type for every function symbol ❙
+    restp: F ⟶ T ❙
+  ❚
+
+  view EveryUntypedFunSigIsTypedOne : ?Base/TFunSig_ -> ?Base/UFunSig_ =
+    include ?Base/UFunSig_ ❙
+    T = UNIT ❙
+    argtp = [f, a] ★ ❙
+    restp = [f] ★ ❙
+  ❚
+
+  // LF types of signatures ❙
+  UFunSig = Mod ☞?Base/UFunSig_ ❙
+  TFunSig = Mod ☞?Base/TFunSig_ ❙
+
+  theory UFunMod_ > sig: UFunSig ❘ =
+    // the model's universe ❙
+    univ: type ❙
+    // the type of argument sets for every function symbol ❙
+    argset: sig . F ⟶ type ❘ = [f] (sig . ar) f ⟶ univ ❙
+    // the model's interpretation for every function symbol
+
+       For every function symbol `f: sig . F`, the function `args: (sig . ar) f ⟶ univ`
+       encodes a set of arguments, for which this model ought to interpret "f applied to it".❙
+    interp: {f: sig . F} argset f ⟶ univ ❙
+  ❚
+  theory TFunMod_ > sig: TFunSig ❘ =
+    // the model's universes, one for each object type ❙
+    univ: (sig . T) ⟶ type ❙
+    // the type of argument sets for every function symbol ❙
+    argset: sig . F ⟶ type ❘ = [f] ({a: (sig . ar) f} univ ((sig . argtp) f a)) ❙
+    // the model's interpretation for every function symbol
+
+       For every function symbol f, we get a function g that encodes a set of arguments of the respective object types
+       that the function expects. The encoding is a direct generalization of UFunMod_?interp. ❙
+    interp: {f: sig . F} argset f ⟶ univ ((sig . restp) f) ❙
+  ❚
+  // would like to state: for every `sig: TFunSig` there is the view given below
+
+     Sadly we cannot state this as views do not allow parameters, let alone morphism applications in there
+  view EveryUntypedFunModIsTypedOne : (?Base/TFunMod_ sig) -> (?Base/UFunMod_ (?Base/EveryUntypedFunSigIsTypedOne sig)) =
+    // univ = [x] univ
+    // interp = interp
+  ❙
+
+  UFunMod = [sig: UFunSig] Mod ☞?Base/UFunMod_ sig ❙
+  TFunMod = [sig: TFunSig] Mod ☞?Base/TFunMod_ sig ❙
+❚
+
+theory Homomorphisms =
+  include ?Base ❙
+
+  theory UFunHom_ > sig: UFunSig, dom: (UFunMod sig), cod: (UFunMod sig) ❘ =
+    eq: (cod . univ) ⟶ (cod . univ) ⟶ type ❘ # 1 ≐ 2 prec 30 ❘ role Eq ❙
+    fun: (dom . univ) ⟶ (cod . univ) ❙
+
+    // homomorphic extension of fun to argument sets ❙
+    fun_argset: {f: sig . F} ((dom . argset) f) ⟶ ((cod . argset) f) ❘ = [f, args, a] fun (args a) ❙
+    hom: {f: sig . F, args: (dom . argset) f}
+             fun ((dom . interp) f args) ≐ (cod . interp) f (fun_argset f args) ❙
+  ❚
+
+  theory TFunHom_ > sig: TFunSig, dom: (TFunMod sig), cod: (TFunMod sig) ❘ =
+    eq: {t: sig . T} (cod . univ) t ⟶ (cod . univ) t ⟶ type ❘ # 2 ≐ 3 prec 30 ❘ role Eq ❙
+    fun: {t: sig . T} (dom . univ) t ⟶ (cod . univ) t ❘ # fun 2 prec 40 ❙
+
+    // homomorphic extension of fun to argument sets ❙
+    fun_argset: {f: sig . F} ((dom . argset) f) ⟶ ((cod . argset) f) ❘ = [f, args, a] fun (args a) ❙
+    hom: {f: sig . F, args: (dom . argset) f}
+             fun ((dom . interp) f args) ≐ (cod . interp) f (fun_argset f args) ❙
+  ❚
+  UFunHom = [sig, dom: UFunMod sig, cod: UFunMod sig] Mod ☞?Homomorphisms/UFunHom_ sig dom cod ❙
+  TFunHom = [sig, dom: TFunMod sig, cod: TFunMod sig] Mod ☞?Homomorphisms/TFunHom_ sig dom cod ❙
+
+  // ufun_identity_hom: {sig: UFunSig, mod: UFunMod sig} UFunHom sig mod mod
+  ❘= // we can define this ❙
+❚
+
+theory Examples =
+  include ?Base ❙
+
+  magma : UFunSig ❘ = [' F := ENUM 1, ar := [x] ENUM 2'] ❙
+  include ☞latin:/?NatPlus ❙
+
+  endo_magma : {sig: UFunSig, mod: UFunMod sig} UFunMod magma ❘= ['
+    univ := (mod . univ) ⟶ (mod . univ),
+    interp := [f] [args] (f match x.
+                            ([a: mod . univ] (args (CASE 1)) (args (CASE 0) a))
+  ']
+
+  // my_default: {A: type} A ❙
+  // match statements expect a default value, not sure how to work around ❙
+  // build_magma: {A: type} (A ⟶ A ⟶ A) ⟶ UFunMod magma ❘= [A,op] ['
+    univ := A,
+    interp := [f] [args] (f match x.
+                            op (args (CASE 0)) (args (CASE 1))
+                          | x
+                         to A)
+  '] ❘ # as_magma 2 ❙
+  // nat_numbers_as_magma = as_magma ☞latin:/?NatPlus?plus ❙
+
+  // group signature without axioms ❙
+  // group : UFunSig ❘ = ['
+    F := ENUM 3,
+    ar := [f] f match g.
+                ENUM 0
+              | ENUM 1
+              | ENUM 2
+              to type
+  '] ❙
+
+  // a type, the neutral element, the inverse operation, the binary operation
+
+     currently does NOT typecheck ❙
+  // build_group: {A: type} A ⟶ (A ⟶ A) ⟶ (A ⟶ A ⟶ A) ⟶ UFunMod group ❘= [A,e,inv,op] ['
+    univ := A,
+    interp := [f] [args] (f match g.
+                            e
+                          | inv (args (CASE 0))
+                          | op (args (CASE 0)) (args (CASE 1))
+                          to A)
+  '] ❘ # as_group 2 3 4 ❙
+
+  // include ☞latin:/?Int ❙
+  // int_is_group = build_group ☞latin:/?Int?Int ☞latin:/?Int?ineg ☞latin:/?Int?plus ❙
+❚
+
+theory ExamplesUsingWTypes =
+  induct OneInduct ()❘ =
+    One : type ❙
+    one : One ❙
+  ❚
+  induct TwoInduct ()❘=
+    Two : type ❙
+    two1 : Two ❙
+    two2 : Two ❙
+  ❚
+  magma : UFunSig ❘ = [' F := One, ar := [x: One] Two '] ❙
+  build_magma: {A: type} (A ⟶ A ⟶ A) ⟶ UFunMod magma ❘= [A,op] ['
+    univ := A,
+    interp := [f] [args] (f match x.
+                            op (args (CASE 0)) (args (CASE 1))
+                          | x
+                         to A)
+  '] ❘ # as_magma 2 ❙
+
+  	def addition (n : ℕ) ❘ =
+  		add : ℕ ⟶ ℕ ❘ # 1 + 2 ❙
+  		Zero = n ❙
+  		Succ = [m] S (add m) ❙
+  	❚
+❚

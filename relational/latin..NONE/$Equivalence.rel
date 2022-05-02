@@ -1,7 +1,0 @@
-dataconstructor latin:/?Equivalence?equiv
-theory latin:/?Equivalence
-HasMeta latin:/?Equivalence http://cds.omdoc.org/urtheories?LF
-Includes latin:/?Equivalence latin:/?Propositions
-Declares latin:/?Equivalence latin:/?Equivalence?equiv
-constant latin:/?Equivalence?equiv
-DependsOn latin:/?Equivalence?equiv?type latin:/?Propositions?prop?type

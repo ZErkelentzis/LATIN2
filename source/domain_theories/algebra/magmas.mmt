@@ -1,0 +1,165 @@
+namespace latin:/algebraic❚
+
+fixmeta latin:/?SFOLEQND❚
+
+theory Magma = 
+  include ?Set ❙
+  op : U ⟶ U ⟶ U ❘# 1 ∘ 2 prec 50❙
+  
+  total structure divisibility : ?Relation =
+    include ?Set❙
+    rel = [x,z] ∃ͭ[y]x∘y =ͭ z❙
+  ❚
+❚
+
+theory MagmaHom = 
+  include ?SetHom ❙
+  structure domain : ?Magma =
+    include ?SetHom/domain❙
+  ❚
+  structure codomain : ?Magma = 
+    include ?SetHom/codomain❙
+  ❚
+  op : ⊦ ∀ͭ[x]∀ͭ[y] U (x domain/∘ y) =ͭ U x codomain/∘ U y ❙
+❚
+
+theory SubMagma = 
+  include ?SubSet❙
+  structure parent : ?Magma =
+    include ?SubSet/parent❙
+  ❚
+  op: ⊦ ∀ͭ[x]∀ͭ[y] U x ⇒ U y ⇒ U (x parent/∘ y)  ❙
+❚
+
+theory Commutative = 
+  include ?Magma ❙
+  comm_ax : ⊦ ∀ͭ[x]∀ͭ[y] x∘y =ͭ y∘x❙
+  comm : {x,y} ⊦ x∘y =ͭ y∘x❘ = [x,y] comm_ax tforallE x tforallE y❙
+❚
+
+view OppositeMagma : ?Magma → ?Magma = 
+  universe = universe ❙
+  U = U ❙
+  op = [x, y] y ∘ x ❙
+❚
+
+theory Idempotent = 
+  include ?Magma ❙
+  idem_ax: ⊦ ∀ͭ[x] x∘x =ͭ x ❙
+  idem : {x} ⊦ x∘x =ͭ x❘ = [x] idem_ax tforallE x❙
+❚
+
+view OppositeCommMagma : ?Commutative → ?Commutative =
+  include ?OppositeMagma ❙
+  op = op ❙
+  comm_ax = comm_ax ❙
+❚
+
+theory PowerAssociative = 
+  include ?Magma ❙
+  power_assoc : ⊦ ∀ͭ[x] (x∘x)∘x =ͭ x∘(x∘x)❙
+❚
+
+theory Semigroup = 
+  include ?Magma ❙
+  assoc_ax : ⊦ ∀ͭ[x]∀ͭ[y]∀ͭ[z] (x∘y)∘z =ͭ x∘(y∘z)❙
+  
+  assoc: {x,y,z} ⊦ (x∘y)∘z =ͭ x∘(y∘z)❘
+       = [x,y,z] assoc_ax tforallE x tforallE y tforallE z❙
+  assocR: {x,y,z} ⊦ x∘(y∘z) =ͭ (x∘y)∘z❘
+        = [x,y,z] assoc tsym❙
+  assoc4:  {w,x,y,z} ⊦ ((w∘x)∘y)∘z =ͭ w∘(x∘(y∘z))❘
+        =  [w,x,y,z] ttrans3 (assoc tcongT [u]u∘z) assoc (assoc tcongT [u]w∘u)❙
+  assoc4R: {w,x,y,z} ⊦ w∘(x∘(y∘z)) =ͭ ((w∘x)∘y)∘z❘
+          = [w,x,y,z] assoc4 tsym❙
+  assoc4M: {w,x,y,z} ⊦ (w∘x)∘(y∘z) =ͭ w∘(x∘y)∘z❘
+        = [w,x,y,z] assocR ttrans (assoc tcongT [u]u∘z)❙
+  assoc4LR: {w,x,y,z} ⊦ ((w∘x)∘y)∘z =ͭ (w∘x)∘(y∘z)❘
+        = [w,x,y,z] assoc❙
+  assoc5: {v,w,x,y,z} ⊦ (((v∘w)∘x)∘y)∘z =ͭ v∘(w∘(x∘(y∘z)))❘
+        = [v,w,x,y,z] ttrans4 (assoc4 tcongT [u]u∘z) assoc
+                             (assoc tcongT [u]v∘u) (assoc tcongT [u]v∘(w∘u))❙
+  
+  realize ?PowerAssociative❙
+  power_assoc = tforallI [x] assoc❙
+  
+//  total structure divisibility : ?Transitivity =
+    include ?Magma/divisibility❙
+//    metarel/trans = [x,y,z,p,q] p existsE [xy,xyP] q existsE [yz,yzP]
+      existsI (xy ∘ yz) trans3 assocR (xyP congT [u]u∘yz) yzP❙
+//  ❙
+❚
+
+view OppositeSemigroup : ?Semigroup → ?Semigroup = 
+  include ?OppositeMagma ❙
+  op = op ❙
+  assoc_ax = assoc_ax❙
+❚
+
+theory CommSemigroup = 
+  include ?Semigroup ❙
+  include ?Commutative ❙
+❚
+
+theory Band = 
+  include ?Semigroup ❙
+  include ?Idempotent ❙
+❚
+
+theory CommIdempotent =
+  include ?Idempotent❙
+  include ?Commutative❙
+❚
+
+theory Semilattice = 
+  include ?CommSemigroup❙
+  include ?Band❙
+  include ?CommIdempotent❙
+  
+  total structure absorbRelation : ?Order =
+    include ?Set❙
+    rel = [x,y] x∘y =ͭ x❙
+    refl = [x] idem ❙
+    trans = [x,y,z,p,q] (p tsym) tcongT ([u]u∘z) ttrans assoc ttrans (q tcongT [u]x∘u) ttrans p❙
+    antisym = [x,y,p,q] p tsym ttrans comm ttrans q❙
+  ❚
+  total structure absorbRelationInfimum : ?Infimum =
+    include ?Relation❘ = ?Semilattice?absorbRelation❙
+    inf = [x,y]x∘y❙
+    infimum_ax = [x,y]
+       andI
+         (andI ((assoc ttrans (comm tcongT [u]x∘u)) ttrans assocR ttrans (idem tcongT [u]u∘y))
+               (assoc ttrans (idem tcongT [u]x∘u)))
+         tforallI [z] implI [p] assocR ttrans (p andEl tcongT ([u]u∘y)) ttrans (p andEr) ❙
+  ❚
+❚
+
+theory Pointed = 
+  include ?Set❙
+  point : U❙
+❚
+
+theory AbsorbingElement =
+  include ?Magma❙
+  absorber : U❘ # abs❙
+  realize ?Pointed❙
+  point = abs❙
+❚
+
+theory RightAbsorptive =
+  include ?AbsorbingElement❙
+  absorbR : ⊦ ∀ͭ[x] x∘abs =ͭ abs❙
+  absR : {x} ⊦ x∘abs =ͭ abs❘ = [x] absorbR tforallE x❘role Simplify❙
+❚
+
+theory LeftAbsorptive =
+  include ?AbsorbingElement❙
+  absorbL : ⊦ ∀ͭ[x] abs∘x =ͭ abs❙
+  absL : {x} ⊦ abs∘x =ͭ abs❘ = [x] absorbL tforallE x❘role Simplify❙
+❚
+
+theory Absorptive = 
+  include ?LeftAbsorptive❙
+  include ?RightAbsorptive❙
+❚
+

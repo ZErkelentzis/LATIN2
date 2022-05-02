@@ -7,3 +7,5 @@ responsible: florian.rabe@kwarc.info
 title: LATIN logic atlas v.2
 teaser: a modern redesing of the LATIN logic atlas
 description: ../source/desc.html
+scaladep: MMT/LFX
+scala: scala export/lf-scala lib/tptp-parser/src/main

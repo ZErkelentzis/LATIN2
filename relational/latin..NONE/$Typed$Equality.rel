@@ -1,9 +1,0 @@
-dataconstructor latin:/?TypedEquality?equal
-theory latin:/?TypedEquality
-HasMeta latin:/?TypedEquality http://cds.omdoc.org/urtheories?LF
-Includes latin:/?TypedEquality latin:/?TypedLogic
-Declares latin:/?TypedEquality latin:/?TypedEquality?equal
-constant latin:/?TypedEquality?equal
-DependsOn latin:/?TypedEquality?equal?type latin:/?TypedTerms?tm?type
-DependsOn latin:/?TypedEquality?equal?type latin:/?Propositions?prop?type
-DependsOn latin:/?TypedEquality?equal?type latin:/?Types?tp?type

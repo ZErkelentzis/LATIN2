@@ -50,13 +50,6 @@ theory EquivalenceND =
   ❚
 ❚
 
-theory EquivalenceNDS =
-  include ?ProofEquality ❙
-  include ?EquivalenceND ❙
-  equivSl: {F,G, pf1: ⊦ F ⟶ ⊦ G, pf2, pfF} ((equivI pf1 pf2) equivEl pfF) ⟺ pf1 pfF  ❘ role Simplify ❙
-  equivSr: {F,G, pf1: ⊦ F ⟶ ⊦ G, pf2, pfG} ((equivI pf1 pf2) equivEr pfG) ⟺ pf2 pfG  ❘ role Simplify ❙
-❚
-
 theory Lindenbaum =
   include ?EquivalenceND❙
   include ?EqualityType❘ = ?EquivalenceND?lindenbaum❙
@@ -69,7 +62,7 @@ theory Truth =
 
 theory TruthND =
   include ?Truth❙
-  include ?Proofs❙
+  include ?Logic❙
   trueI : ⊦ true❙
 ❚
 
@@ -99,17 +92,13 @@ theory NegationNDE =
   include ?Negation❙
   include ?Logic❙
   notE  : {F} ⊦ ¬ F ⟶ ⊦ F ⟶ ↯❘# 2 notE 3❙
+  notE_done: {F,G} ⊦ ¬ F ⟶ ⊦ F ⟶ ⊦ G❘# 3 notE_done 4❘
+           = [F,G,p,q] (p notE q) G❙
 ❚
 
 theory NegationND =
   include ?NegationNDI❙
   include ?NegationNDE❙
-❚
-
-theory NegationNDS =
-  include ?ProofEquality ❙
-  include ?NegationND ❙
-  notS: {F, pf: ⊦ F ⟶ ↯, pfF: ⊦ F} {a} ((notI pf) notE pfF) a ⟺ pf pfF a ❘ role Simplify ❙
 ❚
 
 theory Disjunction =
@@ -119,14 +108,14 @@ theory Disjunction =
 
 theory DisjunctionNDI =
   include ?Disjunction❙
-  include ?Proofs❙
+  include ?Logic❙
   orIl  : {F,G} ⊦ F ⟶ ⊦ F ∨ G❘# 3 orIl❙
   orIr  : {F,G} ⊦ G ⟶ ⊦ F ∨ G❘# 3 orIr❙
 ❚
 
 theory DisjunctionNDE =
   include ?Disjunction❙
-  include ?Proofs❙
+  include ?Logic❙
   orE   : {F,G,C} ⊦ F ∨ G ⟶ (⊦ F ⟶ ⊦ C) ⟶ (⊦ G ⟶ ⊦ C) ⟶ ⊦ C❘# 4 orE 5 6❘role EliminationRule❙
 ❚
 
@@ -134,13 +123,6 @@ theory DisjunctionND =
   include ?DisjunctionNDI❙
   include ?DisjunctionNDE❙
   or_swap : {F,G} ⊦ F∨G ⟶ ⊦ G∨F❘= [F,G,p] p orE ([q] q orIr) ([q] q orIl)❙
-❚
-
-theory DisjunctionNDS =
-  include ?ProofEquality ❙
-  include ?DisjunctionND ❙
-  orSl: {F,G,C, pfF: ⊦ F, pf1: ⊦ F ⟶ ⊦ C, pf2: ⊦ G ⟶ ⊦ C} (?DisjunctionNDE?orE F G C (pfF orIl) pf1 pf2) ⟺ pf1 pfF ❘ role Simplify ❙
-  orSr: {F,G,C, pfG: ⊦ G, pf1: ⊦ F ⟶ ⊦ C, pf2: ⊦ G ⟶ ⊦ C} (?DisjunctionNDE?orE F G C (pfG orIr) pf1 pf2) ⟺ pf2 pfG ❘ role Simplify ❙
 ❚
 
 theory Conjunction =
@@ -165,13 +147,6 @@ theory ConjunctionND =
   include ?ConjunctionNDI❙
   include ?ConjunctionNDE❙
   and_swap: {F,G} ⊦ F∧G ⟶ ⊦ G∧F❘ = [F,G,p] andI (p andEr) (p andEl)❙
-❚
-
-theory ConjunctionNDS =
-  include ?ProofEquality ❙
-  include ?ConjunctionND ❙
-  andSl: {F,G, pfF: ⊦ F, pfG: ⊦ G} (andI pfF pfG) andEl ⟺ pfF ❘ role Simplify ❙
-  andSr: {F,G, pfF: ⊦ F, pfG: ⊦ G} (andI pfF pfG) andEr ⟺ pfG ❘ role Simplify ❙
 ❚
 
 theory Implication =
@@ -201,12 +176,6 @@ theory ImplicationND =
     refl = [F] implI [f] f❙
     trans = [F,G,H,fg,gh] implI [f] gh implE (fg implE f)❙ 
   ❚
-❚
-
-theory ImplicationNDS =
-  include ?ProofEquality ❙
-  include ?ImplicationND ❙
-  implS: {F,G, pf: ⊦ F ⟶ ⊦ G, pfF: ⊦ F} ((implI pf) implE pfF) ⟺ pf pfF ❘ role Simplify ❙
 ❚
 
 theory IPL =
@@ -242,14 +211,6 @@ theory IPLND =
   ❚
 ❚
 
-theory IPLNDS =
-  include ?IPLND ❙
-  include ?ConjunctionNDS ❙
-  include ?DisjunctionNDS ❙
-  include ?ImplicationNDS ❙
-  include ?EquivalenceNDS ❙
-❚
-
 theory Classical =
   include ?Logic❙
   classical : {F} ((⊦ F ⟶ ↯) ⟶ ↯) ⟶ ⊦ F❘# classical 2❙
@@ -275,15 +236,4 @@ theory PLND =
   indirect : {F} (⊦¬F ⟶ ↯) ⟶ ⊦ F❘= [F,h] classical [q] h (notI q)❘# indirect 2❙  
   dne : {F} ⊦¬¬F ⟶ ⊦F❘= [F,p] indirect [q] p notE q❙
   tnd : {F} ⊦F∨¬F❘= [F] dne nntnd❙
-❚
-
-theory AlternativeNegationAndFalsityND =
-  include ?Proofs ❙
-  include ?Falsity ❙
-  include ?Negation ❙
-  include ?Disjunction ❙
-  notIntroduction : {A} (⊦ A ⟶ ⊦ false) ⟶ (⊦ ¬ A) ❘ # altNotI 2 ❙
-  notElimination : {A} ⊦ ¬ ¬ A ⟶ ⊦ A ❘ # altNotE 2 ❙
-  falseIntroduction : {A} ⊦ ¬ A ⟶ ⊦ A ⟶ ⊦ false ❘ # altFI 2 3 ❘ role EliminationRule ❙
-  falseElimination : {A} ⊦ false ⟶ ⊦ A ❘ # altFE 1 2 ❙
 ❚

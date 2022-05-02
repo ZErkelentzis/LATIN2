@@ -1,0 +1,87 @@
+namespace latin:/❚
+
+fixmeta ?DependentFOLEQDescND❚
+
+theory TypesSet =
+  include ?TypeBase❙
+  
+  realize ?Types❙
+  tp = set❙
+❚
+
+theory TypedTermsSet =
+  include ?TypesSet❙
+  
+  realize ?TypedTerms❙
+  tm = [A] Elem A❙
+❚
+
+theory SoftTypedTermsSet =
+  include ?Propositions❙
+  include ?Terms❙
+  include ?TypesSet❙
+  
+  realize ?SoftTypedTerms❙
+  of = in❙
+❚
+
+theory TypedLogicSet =
+  include ?Propositions❙
+  include ?Proofs❙
+  include ?TypedTermsSet❙
+  
+  realize ?TypedLogic❙
+❚
+
+theory SoftTypedLogicSet =
+  include ?Propositions❙
+  include ?Terms❙
+  include ?Proofs❙
+  include ?SoftTypedTermsSet❙
+  
+  realize ?SoftTypedLogic❙
+❚
+
+theory TypedEqualitySet =
+  include ?Propositions❙
+  include ?Proofs❙
+  include ?TypedLogicSet❙
+  
+  realize ?TypedEquality❙
+  tequal = Eq❙ 
+❚
+
+theory TypedEqualityNDSet =
+  include ?Propositions❙
+  include ?Proofs❙
+  include ?TypedEqualitySet❙
+  
+  realize ?TypedEqualityND❙
+  trefl = [A,e: Elem A] Refl❙
+  tcongB = EqcongB❙
+❚
+
+theory TypeEqualityNDSet =
+  include ?Propositions❙
+  include ?Proofs❙
+  
+  include ?TypesSet❙
+  
+  realize ?TypeEqualityND❙
+  constant tpeq/uequal = [A,B] A =ͧ B❙
+  constant tpeq/urefl = [x] urefl ❙
+  constant tpeq/ucongP = [A,B,p,P,q] p ucongP P q❙
+❚
+
+theory DependentTypeEqualitySet =
+  include ?Propositions❙
+  include ?Proofs❙
+  
+  include ?TypeEqualityNDSet❙
+  include ?TypedEqualityNDSet❙
+  
+  realize ?DependentTypeEquality❙
+  transport = [A,B,p,e] elem (which e) (p tpeq/ucongP ([T] which e∈T) (why e))❙
+  transport_refl = [A,e] tpeq/urefl❙ 
+  transport_trans = [A,B,C,e,p,q] urefl❙ 
+❚

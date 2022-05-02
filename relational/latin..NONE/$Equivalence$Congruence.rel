@@ -1,4 +1,0 @@
-theory latin:/?EquivalenceCongruence
-HasMeta latin:/?EquivalenceCongruence http://cds.omdoc.org/urtheories?PLF
-Includes latin:/?EquivalenceCongruence latin:/?EquivalenceRelation
-Includes latin:/?EquivalenceCongruence latin:/?Congruence

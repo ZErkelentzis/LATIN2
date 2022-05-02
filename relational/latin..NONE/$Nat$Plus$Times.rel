@@ -1,7 +1,0 @@
-dataconstructor latin:/?NatPlusTimes?times
-theory latin:/?NatPlusTimes
-HasMeta latin:/?NatPlusTimes latin:/?SFOLEQND
-Includes latin:/?NatPlusTimes latin:/?NatPlus
-Declares latin:/?NatPlusTimes latin:/?NatPlusTimes?times
-constant latin:/?NatPlusTimes?times
-DependsOn latin:/?NatPlusTimes?times?type latin:/?Nat?Nat?type

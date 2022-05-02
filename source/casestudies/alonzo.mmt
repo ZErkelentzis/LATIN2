@@ -1,0 +1,268 @@
+namespace latin:/❚
+fixmeta ur:?LF❚
+
+theory tpEquality =
+    /T FIXME: Factor this out later❙
+    include ?TypedLogic ❙
+    tpEquals    : tp ⟶ tp ⟶ prop❘# 1 =τ 2❙
+    tpNotEquals : tp ⟶ tp ⟶ prop❘# 1 ≠τ 2❙
+❚
+
+
+theory Alonzo =
+
+    include ?UndefinedND❙
+    include ?TypedEqualityND❙
+    include ?Booleans❙
+    include ?SimpleFunctions❙
+    include ?SimpleProducts❙
+    include ?tpEquality❙
+
+    /T Types ❙
+    boolTy : tp ❘= bool❘# ο❙
+    funTy  : tp ⟶ tp ⟶ tp ❘= simpfun  ❘# 1 → 2❙ // Kurze Pfeile sind Alonzo-Funktionen, lange Pfeile LF-Funktionen ❙
+    prodTy : tp ⟶ tp ⟶ tp ❘= simpprod ❘# 1 × 2❙
+
+    /T Expressions ❙
+
+    alonzoDed : tm ο ⟶ type ❘# ⊢ 1 prec -5❘ role Judgment❙
+
+    equals : { α : tp } tm α ⟶ tm α ⟶ tm ο❘# 2 == 3 ❘ role Eq ❙
+
+    /T FIXME: Needs to make sure that ⊦ (α ≠τ ο). Maybe make undefined when it's equal? ❙
+    defdes   : { α : tp } (tm α ⟶ tm ο) ⟶ tm α ❘# I 2 ❙
+    indefdes : { α : tp } (tm α ⟶ tm ο) ⟶ tm α ❘# ϵ 2 ❙
+
+    /T undefinedness ❙
+
+    // undef_pred_is_false : { α : tp, p : tm (α → ο), A : tm α } ⊦ p ↑ ⟶ ⊢ (p @ A) == ff ❘ role Simplify ❙
+    // undef_term_is_false : { α : tp, p : tm (α → ο), A : tm α } ⊦ A ↑ ⟶ ⊢ (p @ A) == ff ❘ role Simplify ❙
+
+    /T Junktoren, Quantoren etc... ❙
+
+    t_omicron : tm ο ❘# T₀ ❘= λ ([x : tm ο] x) == λ ([x : tm ο] x)❙
+    f_omicron : tm ο ❘# F₀ ❘= λ ([x : tm ο] T₀) == λ ([x : tm ο] x)❙
+
+    wedge : tm (ο → (ο → ο)) ❘= λ ([x : tm ο] (λ [y : tm ο] ((λ [g : tm (ο → (ο → ο))] ((g @ T₀) @ T₀))) == (λ [g : tm (ο → (ο → ο))] ((g @ x) @ y)))) ❙
+    wedge_apply : tm ο ⟶ tm ο ⟶ tm ο ❘= [a : tm ο, b : tm ο] ((wedge @ a) @ b) ❘# 1 ∧ 2❙
+    
+    implic : tm (ο → (ο → ο)) ❘= λ [x : tm ο] (λ [y : tm ο] ( x == (x ∧ y) ))❙
+    implic_apply : tm ο ⟶ tm ο ⟶ tm ο ❘= [a : tm ο, b : tm ο] ((implic @ a) @ b) ❘# 1 ⇒ 2❙
+
+    negation : tm (ο → ο) ❘= λ ([x : tm ο] x == F₀)❙
+    negation_apply : tm ο ⟶ tm ο ❘= [a : tm ο] negation @ a ❘# ¬ 1 prec -1❙
+
+    vee : tm (ο → (ο → ο)) ❘= λ [x : tm ο] (λ [y : tm ο] (¬ ( ¬x ∧ ¬y ))) ❙
+    vee_apply : tm ο ⟶ tm ο ⟶ tm ο ❘= [a : tm ο, b : tm ο] ((vee @ a) @ b) ❘# 1 ∨ 2❙
+
+    ifa : {α : tp} tm (ο → (α → (α → α))) ❘= [α] (λ [b : tm ο] (λ [x : tm α] (λ [y : tm α] (I ([z : tm α] (b ⇒ (z == x)) ∧ ((¬b) ⇒ (z == y)))))))❙
+    ifa_apply : { α : tp } tm ο ⟶ tm α ⟶ tm α ⟶ tm α ❘= [α : tp, b : tm ο, x : tm α, y : tm α] ((((ifa α) @ b) @ x) @ y)❘# 2 ↦ 3 | 4 ❙
+
+    equivalence : tm (ο → (ο → ο)) ❘= λ [x : tm ο] (λ [y : tm ο] ( x == y ))❙
+    equivalence_apply : tm ο ⟶ tm ο ⟶ tm ο ❘= [a : tm ο, b : tm ο] ((equivalence @ a) @ b) ❘# 1 ⇔ 2 ❙
+
+    unequals : { α : tp } tm (α → (α → ο)) ❘= [α : tp] (λ [x : tm α] (λ [y : tm α] ¬ ( x == y )))❙
+    unequals_apply : { α : tp } tm α ⟶ tm α ⟶ tm ο ❘= [α : tp, a : tm α, b : tm α] (((unequals α) @ a) @ b) ❘# 2 ≠ 3 ❙
+
+    tripequals : { α : tp } tm (α → (α → (α → ο))) ❘= [α : tp] (λ [x : tm α] (λ [y : tm α] (λ [z : tm α] ((x == y) ∧ (y == z)))))❙
+    tripequals_apply : { α : tp } tm α ⟶ tm α ⟶ tm α ⟶ tm ο ❘= [α,x,y,z] ((((tripequals α) @ x) @ y) @ z) ❘# 2 === 3 === 4❙
+
+    forall_alonzo  : { α : tp } (tm α ⟶ tm ο) ⟶ tm ο ❘= [α, A] ((λ [x : tm α] T₀) == (λ [x : tm α] (A x))) ❘# ∀ᴬ 2 prec 20❙
+    forsome_alonzo : { α : tp } (tm α ⟶ tm ο) ⟶ tm ο ❘= [α, A] ¬(∀ᴬ [x : tm α] (¬(A x))) ❘# ∃ᴬ 2 prec 20❙
+    forone_alonzo  : { α : tp } (tm α ⟶ tm ο) ⟶ tm ο ❘= [α, A] ∃ᴬ [y : tm α] ((λ [x : tm α] (A x)) == (λ [x : tm α] (x == y))) ❘# ∃!ᴬ 2 prec 20❙
+
+    /T Definedness ❙
+
+    bot_omicron   : tm ο ❘= F₀ ❘# ⊥₀❙
+    bot_alpha     : { α : tp } tm α❘= [α] I [x : tm α] x == x ❘# ⊥ 1 prec -10❙
+    delta_alonzo  : { α : tp, β : tp } tm (α → β)❘= [α,β] (λ [x : tm α] (⊥ β)) ❘# Δ 1 2 prec -11❙
+
+    def_alonzo    : { α : tp, A : tm α} tm ο ❘= [α,A] A == A ❘# 2 ⇩❙
+    undef_alonzo  : { α : tp, A : tm α} tm ο ❘= [α,A] ¬ (A ⇩) ❘# 2 ⇧❙
+
+    simeq_alonzo  : { α : tp, A : tm α, B : tm α } tm ο ❘= [α,A,B] ((A ⇩) ∨ (B ⇩)) ⇒ (A == B)❘# 2 ≃ 3❙
+    nsimeq_alonzo : { α : tp, A : tm α, B : tm α } tm ο ❘= [α,A,B] ¬ (A ≃ B)❘# 2 ≄ 3❙
+
+    t_def : ⊢ (T₀ ⇩)❙
+    f_def : ⊢ (F₀ ⇩)❙
+
+    /T Sets ❙
+
+    set : { α : tp } tp❘= [α] α → ο❘# ❴ 1 ❵ prec -99❙
+
+    elem  : { α : tp } tm α ⟶ tm ❴α❵ ⟶ tm ο❘= [α,A,B] (B@A)❘# 2 ∈ 3❙
+    nelem : { α : tp } tm α ⟶ tm ❴α❵ ⟶ tm ο❘= [α,A,B] ¬(A ∈ B)❘# 2 ∉ 3❙
+
+    /T ⦅ = jlwparen, ⦆ = jrwparen ❙
+    setcomp : { α : tp } (tm α ⟶ tm ο) ⟶ tm ❴α❵ ❘= [α,A] λ [x : tm α] (A x)❘# ⦅ 2 ⦆ prec -90❙
+
+    emptys : { α : tp } tm (α → ο)❘= [α] λ [x : tm α] F₀ ❘# ∅ ❙
+    fulls  : { α : tp } tm (α → ο)❘= [α] λ [x : tm α] T₀ ❘# U ❙
+
+    one_alpha_set   : { α : tp } tm (α → (α → ο))❘= [α] λ [x1 : tm α] (λ [x : tm α] (x == x1))❙
+    one_alpha_set_a : { α : tp } tm α ⟶ tm α ⟶ tm ο❘= [α,x1,x] (((one_alpha_set α)@x1)@x)❘# ①-SET 2 3❙
+
+    two_alpha_set   : { α : tp } tm (α → (α → (α → ο)))❘= [α] λ [x1 : tm α] (λ [x2 : tm α] (λ [x : tm α] (x == x1) ∨ (x == x2)))❙
+    two_alpha_set_a : { α : tp } tm α ⟶ tm α ⟶ tm α ⟶ tm ο❘= [α,x1,x2,x] ((((two_alpha_set α)@x1)@x2)@x)❘# ②-SET 2 3 4❙
+
+    three_alpha_set   : { α : tp } tm (α → (α → (α → (α → ο))))❘= [α] λ [x1 : tm α] (λ [x2 : tm α] (λ [x3 : tm α] (λ [x : tm α] (x == x1) ∨ (x == x2) ∨ (x == x3))))❙
+    three_alpha_set_a : { α : tp } tm α ⟶ tm α ⟶ tm α ⟶ tm α ⟶ tm ο❘= [α,x1,x2,x3,x] (((((three_alpha_set α)@x1)@x2)@x3)@x)❘# ③-SET 2 3 4 5❙
+
+    /T ... for more, we would need LFS ... ❙
+
+    subseteq   : { α : tp } tm (❴α❵ → (❴α❵ → ο))❘= [α : tp] λ [a : tm ❴α❵] (λ [b : tm ❴α❵] (∀ᴬ [x : tm α] ((x ∈ a) ⇒ (x ∈ b))))❙
+    subseteq_a : { α : tp } tm ❴α❵ ⟶ tm ❴α❵ ⟶ tm ο❘= [α,a,b] (((subseteq α)@a)@b)❘# 2 ⊑ 3❙
+
+    subset     : { α : tp } tm (❴α❵ → (❴α❵ → ο))❘= [α : tp] λ [a : tm ❴α❵] (λ [b : tm ❴α❵] (a ⊑ b) ∧ (¬(a == b)))❙
+    subset_a   : { α : tp } tm ❴α❵ ⟶ tm ❴α❵ ⟶ tm ο❘= [α,a,b] (((subset α)@a)@b)❘# 2 ⊂ 3❙
+
+    union   : { α : tp } tm (❴α❵ → (❴α❵ → ❴α❵))❘= [α : tp] λ [a : tm ❴α❵] (λ [b : tm ❴α❵] (⦅([x : tm α] ((x ∈ a) ∨ (x ∈ b)))⦆))❙
+    union_a : { α : tp } tm ❴α❵ ⟶ tm ❴α❵ ⟶ tm ❴α❵❘= [α,a,b] (((union α)@a)@b)❘# 2 ∪ 3 ❙
+
+    intersection   : { α : tp } tm (❴α❵ → (❴α❵ → ❴α❵))❘= [α : tp] λ [a : tm ❴α❵] (λ [b : tm ❴α❵] (⦅([x : tm α] ((x ∈ a) ∧ (x ∈ b)))⦆))❙
+    intersection_a : { α : tp } tm ❴α❵ ⟶ tm ❴α❵ ⟶ tm ❴α❵❘= [α,a,b] (((intersection α)@a)@b)❘# 2 ∩ 3❙
+
+    bar   : { α : tp } tm (❴α❵ → ❴α❵) ❘= [α] λ [a : tm ❴α❵] ⦅([x : tm α] x ∉ a)⦆❙
+    bar_a : { α : tp } tm ❴α❵ ⟶ tm ❴α❵❘= [α,A] (bar α)@A❘# 2ͨ ❙
+
+    /T Tuples ❙
+
+    tuple : { α : tp, β : tp } tm α ⟶ tm β ⟶ tm (α × β)❘= simppair ❘# 3 ; 4 prec 50❙
+
+    fst   : { α : tp, β : tp } tm ((α × β) → α)  ❘= [α,β] λ [p : tm (α × β)] (I [x : tm α] (∃ᴬ [y : tm β] (p == (x ; y))))❙
+    fst_a : { α : tp, β : tp } tm (α × β) ⟶ tm α ❘= [α,β,p] ((fst α β)@p) ❘# fst 3❙
+
+    snd   : { α : tp, β : tp } tm ((α × β) → β)  ❘= [α,β] λ [p : tm (α × β)] (I [y : tm β] (∃ᴬ [x : tm α] (p == (x ; y))))❙
+    snd_a : { α : tp, β : tp } tm (α × β) ⟶ tm β ❘= [α,β,p] ((snd α β)@p) ❘# snd 3❙
+
+    /T Misc ❙
+
+    total_alonzo  : { α : tp, β : tp } tm (α → β) ⟶ tm ο ❘= [α,β,F] ∀ᴬ [x : tm α] ((F@x)⇩) ❘# TOTAL 3 ❙
+    total2_alonzo : { α : tp, β : tp, γ : tp } tm (α → (β → γ)) ⟶ tm ο ❘= [α,β,γ,F] ∀ᴬ [x : tm α] (∀ᴬ [y : tm β] (((F@x)@y)⇩)) ❘# TOTAL2 3 ❙
+
+    surj_alonzo  : { α : tp, β : tp } tm (α → β) ⟶ tm ο ❘= [α,β,F] ∀ᴬ [y : tm β] (∃ᴬ [x : tm α] ((F@x) == y)) ❘# SURJ 3 ❙
+    surj2_alonzo : { α : tp, β : tp, γ : tp } tm (α → (β → γ)) ⟶ tm ο ❘= [α,β,γ,F] ∀ᴬ [z : tm γ] (∃ᴬ [x : tm α] (∃ᴬ [y : tm β] (((F@x)@y) == z))) ❘# SURJ2 3 ❙
+
+    inj_alonzo : { α : tp, β : tp } tm (α → β) ⟶ tm ο ❘= [α,β,F] ∀ᴬ [x : tm α] (∀ᴬ [xp : tm α] (((F@x) == (F@xp)) ⇒ (x == xp))) ❘# INJ 3 ❙
+    bij_alonzo : { α : tp, β : tp } tm (α → β) ⟶ tm ο ❘= [α,β,F] (TOTAL F) ∧ (SURJ F) ∧ (INJ F) ❘# BIJ 3❙
+
+    /T Again, we'd need LFS for more. So add as many of these as you like ...❙
+    distinct2 : { α : tp } tm α ⟶ tm α ⟶ tm ο❘= [α,F1,F2] F1 ≠ F2 ❘# DISTINCT_2 2 3 ❙
+    distinct3 : { α : tp } tm α ⟶ tm α ⟶ tm α ⟶ tm ο❘= [α,F1,F2,F3] (F1 ≠ F2) ∧ (F1 ≠ F3) ∧ (DISTINCT_2 F2 F3) ❘# DISTINCT_3 2 3 4 ❙
+    distinct4 : { α : tp } tm α ⟶ tm α ⟶ tm α ⟶ tm α ⟶ tm ο❘= [α,F1,F2,F3,F4] (F1 ≠ F2) ∧ (F1 ≠ F3) ∧ (F1 ≠ F4) ∧ (DISTINCT_3 F2 F3 F4) ❘# DISTINCT_4 2 3 4 5 ❙
+    distinct5 : { α : tp } tm α ⟶ tm α ⟶ tm α ⟶ tm α ⟶ tm α ⟶ tm ο❘= [α,F1,F2,F3,F4,F5] (F1 ≠ F2) ∧ (F1 ≠ F3) ∧ (F1 ≠ F4) ∧ (F1 ≠ F5) ∧ (DISTINCT_4 F2 F3 F4 F5) ❘# DISTINCT_5 2 3 4 5 6 ❙
+
+    /T Quasitypes 𝒬 (jcalQ) ❙
+
+    quasitype : { α : tp } tp❘= [α] α → ο❘# 𝒬 1 ❙
+
+    qt_lambda   : { α : tp, β : tp, Q : tm (𝒬 α) } (tm α ⟶ tm β) ⟶ tm (α → β)❘= [α,β,Q,B] λ [x : tm α] ((x ∈ Q) ↦ (B x) | (⊥ β))❙
+    qt_forall   : { α : tp, Q : tm (𝒬 α) } (tm α ⟶ tm ο) ⟶ tm ο❘= [α,Q,B] ∀ᴬ [x : tm α] ((x ∈ Q) ⇒ (B x))❙
+    qt_exists   : { α : tp, Q : tm (𝒬 α) } (tm α ⟶ tm ο) ⟶ tm ο❘= [α,Q,B] ∃ᴬ [x : tm α] ((x ∈ Q) ∧ (B x))❙
+    qt_definite : { α : tp, Q : tm (𝒬 α) } (tm α ⟶ tm ο) ⟶ tm α❘= [α,Q,B] I [x : tm α] ((x ∈ Q) ∧ (B x))❙
+
+    qt_def      : { α : tp, Q : tm (𝒬 α) } tm α ⟶ tm ο ❘= [α,Q,A] (A ⇩) ∧ (A ∈ Q) ❘# 3 ⇩∈ 2❙
+    qt_ndef     : { α : tp, Q : tm (𝒬 α) } tm α ⟶ tm ο ❘= [α,Q,A] ¬ (A ⇩∈ Q)❘# 3 ⇧∈ 2❙
+
+    qt_arr      : { α : tp, β : tp } tm (❴α❵ → (❴β❵ → ❴α → β❵))❘
+                = [α,β] λ [s : tm ❴α❵] (λ [t : tm ❴β❵] ⦅([f : tm (α → β)] ∀ᴬ [x : tm α] (((f@x)⇩) ⇒ ((x ∈ s) ∧ ((f@x) ∈ t))))⦆)❙
+    qt_pair     : { α : tp, β : tp } tm (❴α❵ → (❴β❵ → ❴α × β❵))❘
+                = [α,β] λ [s : tm ❴α❵] (λ [t : tm ❴β❵] ⦅([p : tm (α × β)] ((fst p) ∈ s) ∧ ((snd p) ∈ t))⦆)❙
+
+    // FIXME: add notations, maybe ❙
+    arr_qarb    : { α : tp, β : tp, Q : tm (𝒬 α), R : tm (𝒬 β) } tm (𝒬 (α → β))❘= [α,β,Q,R] ((qt_arr α β)@Q@R)❙
+    arr_arb     : { α : tp, β : tp, R : tm (𝒬 β) } tm (𝒬 (α → β))❘= [α,β,R] ((qt_arr α β)@(U α)@R)❙
+    arr_qab     : { α : tp, β : tp, Q : tm (𝒬 α) } tm (𝒬 (α → β))❘= [α,β,Q] ((qt_arr α β)@Q@(U β))❙
+
+    pair_qarb   : { α : tp, β : tp, Q : tm (𝒬 α), R : tm (𝒬 β) } tm (𝒬 (α × β))❘= [α,β,Q,R] ((qt_pair α β)@Q@R)❙
+    pair_arb    : { α : tp, β : tp, R : tm (𝒬 β) } tm (𝒬 (α × β))❘= [α,β,R] ((qt_pair α β)@(U α)@R)❙
+    pair_qab    : { α : tp, β : tp, Q : tm (𝒬 α) } tm (𝒬 (α × β))❘= [α,β,Q] ((qt_pair α β)@Q@(U β))❙
+
+    al_totalon  : { α : tp, β : tp, F : tm (α → β), Q : tm (𝒬 α), R : tm (𝒬 β) } tm ο❘
+                = [α,β,F,Q,R] ∀ᴬ [x : tm α] ((x ∈ Q) ⇒ ((F@x) ⇩∈ R))❘# TOTAL_ON 3 4 5❙
+
+    al_totalon2 : { α : tp, β : tp, γ : tp, F : tm (α → (β → γ)), Q : tm (𝒬 α), R : tm (𝒬 β), S : tm (𝒬 γ) } tm ο❘
+                = [α,β,γ,F,Q,R,S] ∀ᴬ [x : tm α] (x ∈ Q) ⇒ (∀ᴬ [y : tm β] (y ∈ R) ⇒ ((F@x@y) ⇩∈ S))❘
+                # TOTAL_ON2 4 5 6 7❙
+
+    al_SURJon   : { α : tp, β : tp, F : tm (α → β), Q : tm (𝒬 α), R : tm (𝒬 β) } tm ο❘
+                = [α,β,F,Q,R] ∀ᴬ [y : tm β] ((y ∈ R) ⇒ (∃ᴬ [x : tm α] ((x ∈ Q) ⇒ ((F@x) == y))))❘
+                # SURJ_ON 3 4 5❙
+
+    al_SURJon2  : { α : tp, β : tp, γ : tp, F : tm (α → (β → γ)), Q : tm (𝒬 α), R : tm (𝒬 β), S : tm (𝒬 γ) } tm ο❘
+                = [α,β,γ,F,Q,R,S] ∀ᴬ [z : tm γ] ((z ∈ S) ⇒ (∃ᴬ [x : tm α] ((x ∈ Q) ⇒ (∃ᴬ [y : tm β] ((y ∈ R) ⇒ ((F@x@y) == z))))))❘
+                # SURJ_ON2 4 5 6 7❙
+
+    al_INJon    : { α : tp, β : tp, F : tm (α → β), Q : tm (𝒬 α) } tm ο❘
+                = [α,β,F,Q] ∀ᴬ [x : tm α] ((x ∈ Q) ⇒ (∀ᴬ [xp : tm α] ((xp ∈ Q) ⇒ ((F@x == F@xp) ⇒ (x == xp)))))❘
+                # INJ_ON 3 4❙
+
+    al_BIJon    : { α : tp, β : tp, F : tm (α → β), Q : tm (𝒬 α), R : tm (𝒬 β) } tm ο❘
+                = [α,β,F,Q,R] (TOTAL_ON F Q R) ∧ (SURJ_ON F Q R) ∧ (INJ_ON F Q)❘
+                # BIJ_ON 3 4 5❙
+
+    al_INF      : { α : tp, Q : tm (𝒬 α) } tm ο❘
+                = [α,Q] ∃ᴬ [u : tm ❴α❵ ] ((u ⊂ Q) ∧ (∃ᴬ [f : tm (α → α)] (BIJ_ON f u Q)))❘
+                # INF 2❙
+
+    al_FIN      : { α : tp, Q : tm (𝒬 α) } tm ο❘= [α,Q] ¬ (INF Q)❘# FIN 2❙
+
+    al_COUNT    : { α : tp, Q : tm (𝒬 α) } tm ο❘
+                = [α,Q] ∀ᴬ [u : tm ❴α❵] ((u ⊂ Q) ∧ ((INF u) ⇒ (∃ᴬ [f : tm (α → α)] (BIJ_ON f u Q))))❘
+                # COUNT 2❙
+
+    /T Dependent QuasiTypes ❙
+
+    alonzo_pi    : { α : tp, β : tp } tm (❴α❵ → ((α → ❴β❵) → ❴α → β❵))❘# Π ❘
+                 = [α,β] λ [s : tm ❴α❵] (λ [t : tm (α → ❴β❵)] (⦅([f : tm (α → β)] (∀ᴬ [x : tm α] (((f@x) ⇩) ⇒ ((x ∈ s) ∧ ((f@x) ∈ (t@x))))))⦆))❙
+
+    alonzo_sigma : { α : tp, β : tp } tm (❴α❵ → ((α → ❴β❵) → ❴α × β❵))❘# Σ ❘
+                 = [α,β] λ [s : tm ❴α❵] (λ [t : tm (α → ❴β❵)] (⦅([p : tm (α × β)] (((fst p) ∈ s) ∧ ((snd p) ∈ (t@(fst p)))))⦆))❙
+
+    qt_pi        : { α : tp, β : tp, Q : tm (𝒬 α), R : tm (𝒬 β) } tm (𝒬 (α → β))❘
+                 = [α,β,Q,R] (Π α β)@Q@(λ [x : tm α] R)❙
+
+    qt_sigma     : { α : tp, β : tp, Q : tm (𝒬 α), R : tm (𝒬 β) } tm (𝒬 (α × β))❘
+                 = [α,β,Q,R] (Σ α β)@Q@(λ [x : tm α] R)❙
+
+❚
+
+/T 𝕬 (jfrakA) is a proof system for Alonzo. ❚
+
+theory 𝕬 =
+    include ?Alonzo❙
+
+    /T A1 Truth Values❙
+    a1 : { g : tm (ο → ο) } ⊢ (((g @ T₀) ∧ (g @ F₀)) ⇔ (∀ᴬ [x : tm ο] (g@x)))❙
+
+    /T A2 Leibniz' Law / Indiscernibility of Identicals ❙
+    a2 : { α : tp, x : tm α, y : tm α, h : tm (α → ο) } ⊢ ((x == y) ⇒ ((h@x) ⇔ (h@y)))❙
+
+    /T A3 Extensionality❙
+    a3 : { α : tp, β : tp, f : tm (α → β), g : tm (α → β) } ⊢ ((f == g) ⇔ (∀ᴬ [x : tm α] ((f@x) ≃ (g@x))))❙
+
+    /T A4 Beta Reduction❙
+    a4 ❙ /T ??? ❙
+
+    /T A5 Definedness❙
+    a5_1 ❙ /T ??? ❙
+    a5_2 ❙ /T ??? ❙
+    a5_3  : { α : tp, A : tm α, B : tm α } ⊢ ((A == B)⇩)❙
+    a5_4  : { α : tp, A : tm α, B : tm α } ⊢ (((A⇧) ∨ (B⇧)) ⇒ (¬(A == B)))❙
+    a5_5  : { α : tp, A : tm α, F : tm (α → ο) } ⊢ ((F@A)⇩)❙
+    a5_6  : { α : tp, A : tm α, F : tm (α → ο) } ⊢ (((F⇧) ∨ (A⇧)) ⇒ (¬(F@A)))❙
+    a5_7  : { α : tp, β : tp, A : tm α, F : tm (α → β) } (⊦ (β ≠τ ο)) ⟶ (⊢ (((F⇧) ∨ (A⇧)) ⇒ ((F@A)⇧)))❙
+    a5_8  : { α : tp, β : tp, B : (tm α ⟶ tm β) } ⊢ ((λ [x : tm α] (B x))⇩) ❙
+    a5_9  : { α : tp, A : tm α, B : tm α } ⊢ ((A⇩) ⇒ ((B⇩) ⇒ ((A ≃ B) ≃ (A == B)))) ❙
+    a5_10 : { α : tp, A : tm α, B : tm α } ⊢ ((A == B) ⇒ ((A ≃ B) ≃ (A == B))) ❙
+
+    /T A6 Definite Description ❙
+    a6_1 : { α : tp, A : (tm α ⟶ tm ο)} (⊦ (α ≠τ ο)) ⟶ ⊢ ((∃!ᴬ [x : tm α] (A x)) ⇒ ((I [x : tm α] (A x)) ∈ (⦅ ([x : tm α] (A x)) ⦆))) ❙
+    a6_2 : { α : tp, A : (tm α ⟶ tm ο)} (⊦ (α ≠τ ο)) ⟶ ⊢ (¬(∃!ᴬ [x : tm α] (A x))) ⇒ ((I [x : tm α] (A x))⇧) ❙
+
+    /T A7 Pairs ❙
+    a7_1 : { α : tp, β : tp } ⊢ (∀ᴬ [x : tm α] (∀ᴬ [y : tm β] ((x ; y)⇩))) ❙
+    a7_2 : { α : tp, β : tp, A : tm α, B : tm β } ⊢ (((A⇧) ∨ (B⇧)) ⇒ ((A ; B)⇧)) ❙
+    a7_3 : { α : tp, β : tp } ⊢ (∀ᴬ [p : tm (α × β)] (p == ((fst p) ; (snd p)))) ❙
+    a7_4 : { α : tp, β : tp } ⊢ (∀ᴬ [x : tm α] (∀ᴬ [xp : tm α] (∀ᴬ [y : tm β] (∀ᴬ [yp : tm β] (((x ; y) == (xp ; yp)) ⇒ ((x == xp) ∧ (y == yp))))))) ❙
+❚

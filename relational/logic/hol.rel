@@ -1,8 +1,0 @@
-document latin:/logic/hol.omdoc
-Declares latin:/logic/hol.omdoc latin:/?InternalEquality
-Declares latin:/logic/hol.omdoc latin:/?PropositionalExtensionality
-Declares latin:/logic/hol.omdoc latin:/?IHOL
-Declares latin:/logic/hol.omdoc latin:/?IHOLND
-Declares latin:/logic/hol.omdoc latin:/?HOL
-Declares latin:/logic/hol.omdoc latin:/?HOLND
-Declares latin:/logic/hol.omdoc latin:/?PowerHOLND

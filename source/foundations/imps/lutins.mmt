@@ -1,4 +1,5 @@
-namespace http://latin.omdoc.org/foundations/lutins❚
+/T namespace http://latin.omdoc.org/foundations/lutins❚
+namespace latin:/❚
 
 import rules scala://imps.mmt.kwarc.info❚
 
@@ -10,8 +11,8 @@ More details can be found at http://imps.mcmaster.ca/manual/node12.html❚
 
 theory Lutins : http://cds.omdoc.org/urtheories?LF =
 
-  rule rules?IntLiterals❙
-  rule rules?RatLiterals❙
+    rule rules?IntLiterals❙
+    rule rules?RatLiterals❙
 
     # Type System❙
 
@@ -61,11 +62,15 @@ theory Lutins : http://cds.omdoc.org/urtheories?LF =
    
    /T An ordinary if-then-else operator. Branches can be undefined.❙
    ifthenelse : {A, α : sort A} exp bool ⟶ exp α ⟶ exp α ⟶ exp α❘# if 3 then 4 else 5❙
-   
+
+   /T A theorem is a (boolean) expression T for which there exists a proof
+       (that is, an LF-term of type ⊢ T).❙
+   thm : exp bool ⟶ type❘# ⊢ 1 prec -1 ❘ role Judgment❙
+
    /T A generic undefined Term, independent of sort.
       Equal to false in ★, since booleans must always be defined.
       Undefined functions mapping into ★ are treated as if the returned false.❙
-   undefined : {A, α : sort A} exp α❘# ? 2❙
+   bottom : {A, α : sort A} exp α❘# ? 2❙
    
     # Logic❙
    
@@ -88,9 +93,7 @@ theory Lutins : http://cds.omdoc.org/urtheories?LF =
    forall   : {A, α : sort A} (exp α ⟶ exp bool) ⟶ exp bool❘# ∀ 3 prec 20❙
    forsome  : {A, α : sort A} (exp α ⟶ exp bool) ⟶ exp bool❘# ∃ 3 prec 20❙
    
-   /T A theorem is a (boolean) expression T for which there exists a proof
-      (that is, an LF-term of type ⊢ T).❙
-   thm : exp bool ⟶ type❘# ⊢ 1 prec -1❙
+
    
    /T Equality takes two expressions of the same type, though
       not necessarily the same sort. Evaluates to false if either
@@ -113,7 +116,7 @@ theory Lutins : http://cds.omdoc.org/urtheories?LF =
                = [A,a,b,x,y] (x↓ ∨ y↓) ⊃ x = y❙
                
    /T Predicate for checking a function for totality.❙
-   total       : {A, B, α : sort A, β : sort B} exp (α ⇒ β) ⟶ exp bool❘# total 5❘
+   totality    : {A, B, α : sort A, β : sort B} exp (α ⇒ β) ⟶ exp bool❘# total 5❘
                = [A,B,a,b,f] ∀[x: exp a] ((f@x)↓)❙
          
    /T A meta-predicate that checks if a predicate is empty.❙
@@ -152,17 +155,34 @@ theory Lutins : http://cds.omdoc.org/urtheories?LF =
   rationalType : sort indType❘# ℚ❙
   octetType    : sort indType❘# ⑧❙
 ❚
-  
+
+theory LutinsUndefinedness : http://latin.omdoc.org/foundations/lutins?Lutins =
+    include ?NonDenotingND❙
+    include ?UndefinedND❙
+
+    bottom_is_undef : ⊦ (? ↑)❙
+
+    /T Booleans and Definedness ❙
+    bool_is_def : { b : exp bool } ⊦ (b ↓)❙
+
+❚
+
 theory LutinsProofs : http://latin.omdoc.org/foundations/lutins?Lutins =
 
   magic : {e : exp bool} ⊢ e❘# ✓❙
+
+  /T proofof : exp bool -> type❙
+  /T proves  : {φ : exp bool} (⊢ φ) -> proofof φ
+
+  # See IMPS manual pg. 208 ❙
+  /T ant_inf_imp : { ψ : exp bool, φ : exp bool, ϑ : exp bool } (ψ proves ϑ) ⟶ ((¬ φ) proves ϑ) ⟶ ((φ ⊃ ψ) proves ϑ) ❙
 ❚
   
 theory QuasiLutins : http://latin.omdoc.org/foundations/lutins?Lutins =
 
   include ?LutinsProofs❙
 
-  # User-defined Quasi-Constructors
+  # User-defined Quasi-Constructors❙
   # Found in indicators.t❙
   
   /T "lambda(s:[uu,prop], lambda(x:uu, if(s(x), an%individual, ?unit%sort)))"❙

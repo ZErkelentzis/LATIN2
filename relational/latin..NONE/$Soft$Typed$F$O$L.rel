@@ -1,7 +1,0 @@
-theory latin:/?SoftTypedFOL
-HasMeta latin:/?SoftTypedFOL http://cds.omdoc.org/urtheories?LFS
-Includes latin:/?SoftTypedFOL latin:/?SoftTypedLogic
-Includes latin:/?SoftTypedFOL latin:/?IFOLEQ
-Includes latin:/?SoftTypedFOL latin:/?UniqueExistentialQuantification
-Includes latin:/?SoftTypedFOL latin:/?RelativizedExistentialQuantification
-Includes latin:/?SoftTypedFOL latin:/?RelativizedUniversalQuantification

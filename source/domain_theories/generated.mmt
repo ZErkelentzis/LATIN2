@@ -1,0 +1,29 @@
+namespace latin:/algebraic❚
+
+fixmeta powertypes?PowerSFOL❚
+
+theory GeneratedSets = 
+  include ?Set❙
+  structure generated : latin:/?ClosureOperator = 
+    X = universe❙
+    closure # ⟨ 1 ⟩ prec 10❙
+  ❚
+❚
+
+theory GeneratedMagmas =
+  include ?Magma❙
+  include ?GeneratedSets❙
+  closure_op: {S} ⊦ ∀ͭ[x]∀ͭ[y] x∈ͯ⟨S⟩ ⇒ y∈ͯ⟨S⟩ ⇒ (x∘y)∈ͯ⟨S⟩❙ 
+❚
+
+theory GeneratedPointed =
+  include ?Pointed❙
+  include ?GeneratedMagmas❙
+  closure_elem: {S} ⊦ point∈ͯ⟨S⟩❙ 
+❚
+
+theory GeneratedInverseFun =
+  include ?InverseFun❙
+  include ?GeneratedPointed❙
+  closure_inv: {S} ⊦ ∀ͭ[x] x∈ͯ⟨S⟩ ⇒ x⁻∈ͯ⟨S⟩❙ 
+❚

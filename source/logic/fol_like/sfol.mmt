@@ -1,8 +1,6 @@
 namespace latin:/❚
 fixmeta ur:?LF❚
 
-// See README.md for naming conventions ❚
-
 theory TypedUniversalQuantification =
   include ?TypedLogic❙
   tforall : {A} (tm A ⟶ prop) ⟶ prop❘# ∀ͭ 2❙
@@ -72,7 +70,7 @@ theory ISFOLEQND =
 theory TypedUniqueExistentialQuantification =
   include ?TypedExistentialQuantification❙
   include ?TypedEquality❙
-  texistsUnique  : {A} (tm A ⟶ prop) ⟶ prop❘# ∃ꜝͭ 2❙
+  texistsUnique  : {A} (tm A ⟶ prop) ⟶ prop❘# ∃ ꜝͭ 2❙
 ❚
 
 theory TypedUniqueExistentialQuantificationND =
@@ -84,13 +82,32 @@ theory TypedUniqueExistentialQuantificationND =
 theory TypedDescription =
   include ?TypedLogic❙
   include ?TypedUniqueExistentialQuantification❙
-  tthe : {A} {P:tm A ⟶ prop} ⊦ ∃ꜝͭ P ⟶ tm A❘# tthe 2 3❙
+  tthe : {A} {P:tm A ⟶ prop} ⊦ ∃ꜝͭ P ⟶ tm A❘# tthe 2 3 prec 50❙
   tthe_ax : {A,P: tm A ⟶ prop,p} ⊦ P (tthe P p)❘# tthe_ax 2 3❙
 ❚
 
 theory TypedChoice =
   include ?TypedLogic❙
   include ?TypedExistentialQuantification❙
-  tsome : {A} {P:tm A ⟶ prop} ⊦ ∃ͭ P ⟶ tm A❘# tsome 2 3❙
-  tsome_ax : {A,P: tm A ⟶ prop,p} ⊦ P (tsome P p)❘# tsome_ax 2 3❙
+  include ?TypedEquality❙
+  tsome : {A} {P:tm A ⟶ prop} ⊦ ∃ͭ P ⟶ tm A❘# %n 2 3 prec 50❙
+  tsome_ax : {A,P: tm A ⟶ prop,p} ⊦ P (tsome P p)❘# %n 2 3❙
+  tsome_eq: {A,P,Q,p,q} ({x: tm A} ⊦ P x ⟶ ⊦ Q x) ⟶ ({x: tm A} ⊦ Q x ⟶ ⊦ P x) ⟶
+            ⊦ tsome P p =ͭ tsome Q q❙
+❚
+
+// The variant of choice that always returns a value and whose defining axiom is relativized by existence; only sound if types are guaranteed to be non-empty.❚
+theory TypedTotalChoice =
+  include ?TypedLogic❙
+  include ?TypedExistentialQuantification❙
+  include ?TypedEquality❙
+  tany : {A} {P:tm A ⟶ prop} tm A❘# %n 2 prec 50❙
+  tany_ax : {A,P: tm A ⟶ prop} ⊦ ∃ͭ P ⟶ ⊦ P (tany P)❘# %n 2 3❙
+  tany_eq : {A,P,Q} ({x: tm A} ⊦ P x ⟶ ⊦ Q x) ⟶ ({x: tm A} ⊦ Q x ⟶ ⊦ P x) ⟶
+            ⊦ tany P =ͭ tany Q❙
+  
+  realize ?TypedChoice❙
+  tsome = [A,P,p] tany P❙
+  tsome_ax = [A,P,p] tany_ax P p❙
+  tsome_eq = [A,P,Q,p,q,r,s] tany_eq r s❙
 ❚

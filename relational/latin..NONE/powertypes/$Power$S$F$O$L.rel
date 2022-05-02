@@ -1,9 +1,0 @@
-theory latin:/powertypes?PowerSFOL
-HasMeta latin:/powertypes?PowerSFOL http://cds.omdoc.org/urtheories?LF
-Includes latin:/powertypes?PowerSFOL latin:/?SFOLEQND
-Includes latin:/powertypes?PowerSFOL latin:/powertypes?PowerTypes
-Includes latin:/powertypes?PowerSFOL latin:/powertypes?FiniteSets
-Includes latin:/powertypes?PowerSFOL latin:/powertypes?Map
-Includes latin:/powertypes?PowerSFOL latin:/powertypes?Lattice
-Includes latin:/powertypes?PowerSFOL latin:/powertypes?SubsetRules
-Includes latin:/powertypes?PowerSFOL latin:/powertypes?ComplementRules

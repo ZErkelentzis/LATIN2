@@ -9,7 +9,7 @@ theory EmptySet =
   // AS: These two could be in EmptyDefinitions as well. But they are mainly necessary to prove EmptySet
     therefore I put them here❙
   isempty_exists : ⊦ ∃ͧ isempty❙
-  isempty_unique : ⊦ ∃ꜝͧ isempty❘
+  isempty_unique : ⊦ ∃ ꜝͧ isempty❘
     = isempty_exists uexistsE ([X,px] uexistsUniqueI px ([y,py] extensionalityI
       ([x] equivI ([pa] px notE (uexistsI x pa) inconE)
       ([pb] py notE (uexistsI x pb) inconE))))❙

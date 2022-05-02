@@ -2,41 +2,24 @@ namespace latin:/❚
 
 fixmeta ur:?LF❚
 
-
 theory Flexary_and : ur:?LFS =
 			include ?IPLND ❙
-
-	
 			andF : {n} prop^n ⟶ prop❘# andF 1 2❙
-
-			
 			andFI : {n,A:prop^n} ⟨'(⊦A..i)| i:n'⟩ ⟶ ⊦ andF n A❘# andFI 1 2❙
-			
 			andFE:  {n:NAT ,A:prop^n,i:NAT} ⊦ andF n A ⟶  DED (succ i) LEQ n ⟶ ⊦A..i❘# 2 andFE 1❙
-
 ❚
-
-
 
 theory Flexary_or : ur:?LFS =
 	include ?IPLND ❙
-	
 		orF : {n} prop^n ⟶ prop❘# orF 1 2❙
-		
-		orFI : {n,i,A:prop^n} DED (succ i) LEQ n ⟶ ⊦ A..i ⟶ ⊦ orF n A❙
-		
+		orFI: {n,i,A:prop^n} DED (succ i) LEQ n ⟶ ⊦ A..i ⟶ ⊦ orF n A❙
 		orFE: {n,A:prop^n,B} ⊦ orF n A ⟶ ⟨'(⊦A..i ⟶ ⊦B )| i:n'⟩ ⟶ ⊦ B❙
-
 ❚
-
-
 
 theory Flexary_impl : ur:?LFS =
 	include ?IPLND ❙
 		implF : {n} prop^n ⟶ prop⟶ prop❘# implF 1 2❙
-		
 		implFI : {n,A:prop^n,C} (⊦ A ⟶ ⊦ C) ⟶ ⊦ implF n A C❙
-		
 		implFE : {n,A:prop^n,C} ⊦ implF n A C ⟶ ⟨'(⊦A..i)| i:n'⟩⟶ ⊦C❙
 
 ❚

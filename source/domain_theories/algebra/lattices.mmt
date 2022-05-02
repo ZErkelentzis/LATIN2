@@ -1,0 +1,71 @@
+namespace latin:/algebraic❚
+
+fixmeta latin:/?SFOLEQND❚
+ 
+theory MeetSemilattice =
+  include ?Set❙
+  structure meet : ?Semilattice =
+    include ?Set❙
+    op # 1 ⊓ 2 prec 50❙
+  ❚
+
+❚
+
+theory JoinSemilattice =
+  include ?Set❙
+  structure join : ?Semilattice =
+  include ?Set❙
+    op # 1 ⊔ 2 prec 50❙
+  ❚
+❚
+
+theory BoundedMeetSemilattice =
+  include ?MeetSemilattice❙
+  structure bmeet : ?Monoid =
+    include ?Semigroup❘ = ?MeetSemilattice?meet❙
+    unit # ⊤❙
+  ❚
+❚
+
+theory BoundedJoinSemilattice =
+  include ?JoinSemilattice❙
+  structure bjoin : ?Monoid =
+    include ?Semigroup❘ = ?JoinSemilattice?join❙
+    unit # ⊥❙
+  ❚
+❚
+
+theory LatticeAlgebra = 
+  include ?MeetSemilattice❙
+  include ?JoinSemilattice❙
+  absorbtion_meet_join: {x,y} ⊦ x⊓(x⊔y) =ͭ x❙
+  absorbtion_join_meet: {x,y} ⊦ x⊔(x⊓y) =ͭ x❙
+  
+  /T Each semilattice induces a preorder. These are dual:❙
+  absorbRelationsDual1 : {x,y} ⊦ meet/absorbRelation/rel x y ⟶ ⊦ join/absorbRelation/rel y x❘
+   = [x,y,p] meet/comm ttrans p tsym tcongT ([u]y⊔u) ttrans absorbtion_join_meet ❙
+  absorbRelationsDual2 : {x,y} ⊦ join/absorbRelation/rel x y ⟶ ⊦ meet/absorbRelation/rel y x❘
+   = [x,y,p] join/comm ttrans p tsym tcongT ([u]y⊓u) ttrans absorbtion_meet_join ❙
+
+  /T more generally, this yields a commuting diagram of
+     Preorder -Semilattice?absorbRelation meet-> LatticeAlgebra and
+     Preorder -Semilattice?absorbRelation join-> LatticeAlgebra
+     OppositePreorder
+     The diagram commutes only up to a logical equality relation that treats uses equivalence of predicates as equality❙
+
+  /T We pick one of the morphisms to make this an Order:❙
+  realize ?Order❘ = ?MeetSemilattice?meet/absorbRelation❙
+  realize ?Infimum❘ = ?MeetSemilattice?meet/absorbRelationInfimum❙
+  // the following fails due to incompleteness in MMT: it does not recognize the two morphisms mentioned as as equal❙
+  // realize ?Supremum❘ = COMPOSE ?OppositeSup ; ?JoinSemilattice?join/absorbRelationInfimum❙
+
+  /T An auxiliary constant to attach the usual notation.❙   
+  leq = meet/absorbRelation/rel❘ # 1 ≤ 2 prec 30❙ 
+❚
+
+
+theory BoundedLatticeAlgegra =
+  include ?LatticeAlgebra❙
+  include ?BoundedMeetSemilattice❙
+  include ?BoundedJoinSemilattice❙
+❚
