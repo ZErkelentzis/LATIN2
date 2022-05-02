@@ -62,10 +62,12 @@ file source/set-theoretical_semantics/build.msl
 suppressErrors file source/logic/drt/build.msl
 
 // generate Scala auxiliary code for all theories (which can be used by native Scala code in the archive)
+// Without this 'clear', MMT (due to a bug) thinks the only folders in the archive are 'fundamentals' and 'logic' and runs lf-scala only on those.
+clear
 build MMT/LATIN2 lf-scala
 
 // compile the generated Scala and all native Scala code
-build MMT/LATIN2 scala-bin scala
+build MMT/LATIN2 scala-bin
 
 // rebuild the files that need two rounds
 // The classloader does not pick up on the now created class files. So we need to clear before retrying.

@@ -3,7 +3,7 @@ package latin2.sfol
 import info.kwarc.mmt.api.{GlobalName, Path}
 import info.kwarc.mmt.api.frontend.Controller
 import info.kwarc.mmt.api.objects.{OMV, Term}
-import lf.{Conjunction, Disjunction, Equivalence, Implication, Nat, Negation}
+import lf.{Conjunction, Disjunction, Equivalence, Implication, Negation}
 
 object SFOLTermGeneratorTest {
   def main(args: Array[String]) {
