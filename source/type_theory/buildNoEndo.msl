@@ -1,27 +1,28 @@
 file ../../build_config.msl
 
-// type_theory
+// type theory
 // depends in general on fundamentals
 
 // no dependency
-build MMT/LATIN2 mmt-omdoc type_theory/empty_type.mmt
-build MMT/LATIN2 mmt-omdoc type_theory/unit_type.mmt
-build MMT/LATIN2 mmt-omdoc type_theory/function_types.mmt
-build MMT/LATIN2 mmt-omdoc type_theory/product_types.mmt
-build MMT/LATIN2 mmt-omdoc type_theory/coproduct_types.mmt
-build MMT/LATIN2 mmt-omdoc type_theory/predicate_subtypes.mmt
-build MMT/LATIN2 mmt-omdoc type_theory/quotient_types.mmt
+build MMT/LATIN2 mmt-omdoc ./empty_type.mmt
+build MMT/LATIN2 mmt-omdoc ./unit_type.mmt
+build MMT/LATIN2 mmt-omdoc ./function_types.mmt
+build MMT/LATIN2 mmt-omdoc ./product_types.mmt
+build MMT/LATIN2 mmt-omdoc ./coproduct_types.mmt
+build MMT/LATIN2 mmt-omdoc ./predicate_subtypes.mmt
+build MMT/LATIN2 mmt-omdoc ./quotient_types.mmt
+build MMT/LATIN2 mmt-omdoc ./singleton_types
 
 // non-canonical
-// build MMT/LATIN2 mmt-omdoc type_theory/quotient_types-equiv.mmt
+// build MMT/LATIN2 mmt-omdoc ./quotient_types-equiv.mmt
 
-build MMT/LATIN2 mmt-omdoc type_theory/undefinedness.mmt
+build MMT/LATIN2 mmt-omdoc ./undefinedness.mmt
 
 // depends on function_types
-build MMT/LATIN2 mmt-omdoc type_theory/type_erasure.mmt
+build MMT/LATIN2 mmt-omdoc ./type_erasure.mmt
 
 // depends on function_types and undefinedness
-build MMT/LATIN2 mmt-omdoc type_theory/quotation.mmt
+build MMT/LATIN2 mmt-omdoc ./quotation.mmt
 
 // depends on logic/fol_like
-build MMT/LATIN2 mmt-omdoc type_theory/power_types.mmt
+build MMT/LATIN2 mmt-omdoc ./power_types.mmt
