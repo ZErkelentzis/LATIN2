@@ -63,7 +63,7 @@ view PreservesClosenessToExpandsClosure : ?PreservesCloseness → ?ExpandsClosur
 
 view ExpandsClosureToPreimageExpandsInterior : ?ExpandsClosure → ?PreimageExpandsInterior =
   include ?TopologyMap❙
-  expandsClosure = tforallI [D] _❙
+  expandsClosure = _❙
 ❚
 
 view PreimageExpandsInteriorToReflectsNeighborhood : ?PreimageExpandsInterior → ?ReflectsNeighborhood =
