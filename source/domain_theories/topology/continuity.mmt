@@ -45,6 +45,8 @@ view ReflectsOpennessToReflectsClosedness : ?ReflectsOpenness → ?ReflectsClose
   					 (reflectsClosedness tforallE ∁ͯC implE (p pfilterE)))❙
 ❚
 
+// proof fails because some of the morphisms in topology.mmt had to be commented out ❙
+
 view ReflectsClosednessToPreservesCloseness : ?ReflectsClosedness → ?PreservesCloseness =
   include ?TopologyMap❙
   reflectsClosedness = tforallI [D] tforallI [d] implI [p] pfilterI tforallI [d] implI [q]
