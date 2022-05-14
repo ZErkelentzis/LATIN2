@@ -1,0 +1,42 @@
+namespace latin:/❚
+
+//   binary arithmetic ❚
+theory Binary : http://cds.omdoc.org/urtheories?LF =
+  num  : type❙
+  // the number 0❙
+  zero : num❘ # b❙
+  // double, i.e., append the digit 0❙
+  db: num ⟶ num❘ # 1 ₀ prec 10❙
+  // double and increment, i.e., append the digit 1❙
+  dbI: num ⟶ num❘ # 1 ₁ prec 10❙
+  
+  equal : num ⟶ num ⟶ type❘# 1 = 2 prec 0❘ role Eq❙
+  refl  : {n} n = n❘# refl %I1❙
+  
+  // successor and its rules❙
+  succ: num ⟶ num❘# 1 ' prec 5❙
+  succ_zero:      b ' = b ₁ ❘ role Simplify❙
+  succ_db:  {n} n ₀ ' = n ₁ ❘ role Simplify❙
+  succ_dbI: {n} n ₁ ' = n'₀❘ role Simplify❙
+
+  test : b₁₁' = b₁₀₀ ❘= refl❙
+  
+  // addition and its rules❙
+  plus: num ⟶ num ⟶ num❘# 1 + 2 prec 3❙
+  plus_zero_right: {n} n + b = n               ❘ role Simplify❙
+  plus_zero_left:  {n} b + n = n               ❘ role Simplify❙
+  // these rules cannot be picked up by the SimplificationRuleGenerator yet❙
+  plus_db_db:    {m,n} m ₀ + n ₀ = (m + n) ₀   ❘ // role Simplify❙
+  plus_db_dbI:   {m,n} m ₀ + n ₁ = (m + n) ₁   ❘ // role Simplify❙
+  plus_dbI_db:   {m,n} m ₁ + n ₀ = (m + n) ₁   ❘ // role Simplify❙
+  plus_dbI_dbI:  {m,n} m ₁ + n ₁ = ((m + n) ')₀❘ // role Simplify❙
+  
+  realize ?Nat❙
+  nat = num❙
+  zero = zero❙
+  succ = succ❙
+  even = _❙
+  uneven = _❙
+
+  // rules ❙
+❚
