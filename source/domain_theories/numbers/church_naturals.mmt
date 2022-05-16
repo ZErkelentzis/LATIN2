@@ -1,40 +1,42 @@
 namespace latin:/❚
 
 fixmeta http://cds.omdoc.org/urtheories?LF❚
+fixmeta latin:/?SFOLEQND❚
 
-// Church numerals use a trick to define natural numbers as certain functions relative to an arbitrary empty fixed type❚
+// Church numerals use a trick to define natural numbers as certain functions relative to an 
+   arbitrary empty fixed type❚
 theory ChurchNaturals =
+  
   // an arbitrary type; note that there are no functions that return n, i.e., n is empty❙
   I: type❙
   
   // the following function type allows capturing exactly the natural numbers:
-     The trick is that after binding [z:n,s:n⟶n], the only way to return something of type n is to use z and s - that amounts to the usual construction of the natural numbers using zero and successor.
-  ❙
+     The trick is that after binding [z:n,s:n⟶n], the only way to return something of type n is 
+     to use z and s - that amounts to the usual construction of the natural numbers using zero and 
+     successor.❙
+  
+  realize ?Nat❙
+
   nat : type❘ = I ⟶ (I ⟶ I) ⟶ I❙
 
   // intuition: for [n: nat], the term n a b is the result of applying function b n-times to a❙
   zero: I⟶(I⟶I)⟶I❘ = [z,s] z❙
-  one : nat❘ = [z,s] s z❙
-  two : nat❘ = [z,s] s (s z)❙
 
   // succ : nat ⟶ nat = λn:I⟶(I ⟶ I)⟶I. λz:I. λs:I⟶I. s (n z s)❙ 
   succ: nat ⟶ nat❘ = [n:I⟶(I ⟶ I)⟶I, z:I, s:I⟶I] s (n z s)❙
-  succ_alt: nat ⟶ nat❘ = [n:I⟶(I ⟶ I)⟶I, z:I, s:I⟶I] n (s z) s❙
-  
-  oneˈ = succ zero❙
-  twoˈ = succ one❙
-  threeˈ = succ_alt twoˈ❙
+❚
 
-  // Homework: fill in the missing definitions of double (without using plus or times), quad (without using times or exp), exp❙
-
-  double: nat ⟶ nat❘ = [n:I⟶(I ⟶ I)⟶I, z:I, s:I⟶I] n (n z s) s❙
+theory ChurchNaturalsPlus =
+  include ?ChurchNaturals❙
   
   // intuition: m+n is the result of applying s m-times to n❙
   plus : nat ⟶ nat ⟶ nat❘# 1 + 2❘
        = [m:I ⟶ (I ⟶ I) ⟶ I, n: I ⟶ (I ⟶ I) ⟶ I]
          [z:I, s:I ⟶ I] m (n z s) s❙
+❚
 
-  quad: nat ⟶ nat❘ = [n:I⟶(I ⟶ I)⟶I, z:I, s:I⟶I] n z ([u] n u s)❙
+theory ChurchNaturalsTimes =
+  include ?ChurchNaturals❙
 
   // intuition: m*n is the result of applying _+n m-times to z
      [u] n u s is the function that applies s n-times to u
@@ -42,28 +44,14 @@ theory ChurchNaturals =
      this results in m*n applications of s to z❙
   times: nat ⟶ nat ⟶ nat❘# 1 * 2❘
        = [m,n][z,s] m z ([u] n u s) ❙
+❚
 
-  six = threeˈ * twoˈ❙
+theory ChurchNaturalsInduction =
+  include ?ChurchNaturals❙
   
-  exp: nat ⟶ nat ⟶ nat❘# 1 ^ 2❙
-
   // induction: given a base case, and a step function, define an inductive function on nat
      unclear if this is possible❙
   iterate: nat ⟶ (nat ⟶ nat) ⟶ (nat ⟶ nat)❙ 
-  
-  // predecessor: unclear if this is possible❙
-  pred: nat ⟶ nat❙
-  
-  // start with m, iterate pred n-times❙
-  minus: nat ⟶ nat ⟶ nat❘# 1 - 2❘
-       = [m, n] iterate m pred n❙
-       
-  realize ?Nat❙
-  nat = nat❙
-  zero = zero❙
-  succ = succ❙
-  even = _❙
-  uneven = _❙
-
-  // rules ❙
 ❚
+
+

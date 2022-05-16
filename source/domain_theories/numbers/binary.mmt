@@ -1,6 +1,9 @@
 namespace latin:/❚
 
-//   binary arithmetic ❚
+// binary arithmetic ❚
+
+// Was bedeutet ...?LF = ❙
+
 theory Binary : http://cds.omdoc.org/urtheories?LF =
   num  : type❙
   // the number 0❙
@@ -18,9 +21,11 @@ theory Binary : http://cds.omdoc.org/urtheories?LF =
   succ_zero:      b ' = b ₁ ❘ role Simplify❙
   succ_db:  {n} n ₀ ' = n ₁ ❘ role Simplify❙
   succ_dbI: {n} n ₁ ' = n'₀❘ role Simplify❙
+❚
 
-  test : b₁₁' = b₁₀₀ ❘= refl❙
-  
+theory BinaryPlus : http://cds.omdoc.org/urtheories?LF =
+  include ?Binary❙
+
   // addition and its rules❙
   plus: num ⟶ num ⟶ num❘# 1 + 2 prec 3❙
   plus_zero_right: {n} n + b = n               ❘ role Simplify❙
@@ -30,13 +35,10 @@ theory Binary : http://cds.omdoc.org/urtheories?LF =
   plus_db_dbI:   {m,n} m ₀ + n ₁ = (m + n) ₁   ❘ // role Simplify❙
   plus_dbI_db:   {m,n} m ₁ + n ₀ = (m + n) ₁   ❘ // role Simplify❙
   plus_dbI_dbI:  {m,n} m ₁ + n ₁ = ((m + n) ')₀❘ // role Simplify❙
-  
-  realize ?Nat❙
-  nat = num❙
-  zero = zero❙
-  succ = succ❙
-  even = _❙
-  uneven = _❙
-
-  // rules ❙
 ❚
+
+view BinaryToNat : ?Binary → ?Nat =
+
+❚
+
+
