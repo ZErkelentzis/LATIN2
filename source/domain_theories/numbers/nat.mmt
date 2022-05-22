@@ -5,6 +5,7 @@ fixmeta latin:/?SFOLEQND❚
 import rules scala://lf.mmt.kwarc.info❚
 import uom scala://uom.api.mmt.kwarc.info❚
 
+// Natural Numbers❙
 theory Nat =
   nat   : tp❙
   Nat = tm nat❘# ℕ❙
@@ -12,22 +13,23 @@ theory Nat =
   succ  : ℕ ⟶ ℕ❘ # 1 ' prec 15❙
 ❚
 
+// Peano Axioms ❙
 theory NatPeano =
   include ?Nat❙
   
-  // ist es notwendig / moeglich, dies zu definieren?❙
-  p1 : ⊦ zero ∈ͯ ℕ❙
-  p2 : ⊦ ∀ͭ[n] n ∈ͯ ℕ ⇒ n' ∈ͯ ℕ❙
+  // is it necessary / possible to formulate p1, p2❙
+  // p1 : ⊦ zero ∈ͯ ℕ❙
+  // p2 : ⊦ ∀ͭ[n] n ∈ͯ ℕ ⇒ n' ∈ͯ ℕ❙
 
   p3 : ⊦ ∀ͭ[n : Nat] ¬(n' =ͭ zero)❙
   p4 : ⊦ ∀ͭ[m : Nat]∀ͭ[n : Nat] (m') =ͭ (n') ⇒ m =ͭ n❙
 
-  // wie formalisiert man das?❙
-
-  p5 : ⊦ ∀ͭ[X] zero ∈ͯ X ∧ (∀ͭ[n : Nat] n ∈ͯ X ⇒ n' ∈ͯ X) ⇒ ℕ ⊆ͯ X❙
+  // how can p5 be formulated?❙
+  // p5 : ⊦ ∀ͭ[X] zero ∈ͯ X ∧ (∀ͭ[n : Nat] n ∈ͯ X ⇒ n' ∈ͯ X) ⇒ ℕ ⊆ͯ X❙
 
 ❚
 
+// inductive definition of plus❙
 theory NatPlus =
   include ?Nat❙
   
@@ -37,6 +39,7 @@ theory NatPlus =
   plus_succ : ⊦ ∀ͭ[m]∀ͭ[n] n + (m') =ͭ ((n + m)')❙
 ❚
 
+// inductive definition of times❙
 theory NatPlusTimes =
   include ?NatPlus❙
   
@@ -47,12 +50,15 @@ theory NatPlusTimes =
 ❚
 
 view NatToBinary : ?Nat → ?Binary =
-  
+  // something doesn't work with the types❙
+  nat = num❙
+  zero = zero❙
+  succ = succ❙
 ❚
 
+// view : ?NatPeano → ?Binary❙
 
-// Sollen diese Theories uberhaupt drinbleiben? Denn fuer case study irrelevant❙
-
+// should these theories stay in here? they are irrelevant for our case study❙
 
 theory NatLiterals =
   include ?Nat❙
@@ -62,13 +68,11 @@ theory NatLiterals =
   rule rules?Realize succ uom?Arithmetic/Succ❙
 ❚
 
-// How do I define even and odd without using times?❙
-
 theory NatParity =
   include ?Nat❙
  
-  even: ℕ ⟶ prop❘ 
-  uneven: ℕ ⟶ prop ❙
+  even: ℕ ⟶ prop❙
+  uneven: ℕ ⟶ prop❙
 ❚
 
 // took out Int as it's not relevant for our case study❙
