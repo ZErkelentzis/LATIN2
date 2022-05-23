@@ -49,15 +49,6 @@ theory NatPlusTimes =
   times_succ : ⊦ ∀ͭ[m]∀ͭ[n] (n') * m =ͭ (n * m) + m❙
 ❚
 
-view NatToBinary : ?Nat → ?Binary =
-  // something doesn't work with the types❙
-  nat = num❙
-  zero = zero❙
-  succ = succ❙
-❚
-
-// view : ?NatPeano → ?Binary❙
-
 // should these theories stay in here? they are irrelevant for our case study❙
 
 theory NatLiterals =
