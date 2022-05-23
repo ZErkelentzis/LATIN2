@@ -17,16 +17,15 @@ theory Nat =
 theory NatPeano =
   include ?Nat❙
   
-  // is it necessary / possible to formulate p1, p2❙
-  // p1 : ⊦ zero ∈ͯ ℕ❙
-  // p2 : ⊦ ∀ͭ[n] n ∈ͯ ℕ ⇒ n' ∈ͯ ℕ❙
+  zero_succ_different : ⊦ ∀ͭ[n : Nat] ¬(n' =ͭ zero)❙
+  successor_injective : ⊦ ∀ͭ[m : Nat]∀ͭ[n : Nat] (m') =ͭ (n') ⇒ m =ͭ n❙
 
-  p3 : ⊦ ∀ͭ[n : Nat] ¬(n' =ͭ zero)❙
-  p4 : ⊦ ∀ͭ[m : Nat]∀ͭ[n : Nat] (m') =ͭ (n') ⇒ m =ͭ n❙
+  // the general case: the below could be derived from the following, which however requires polymorphic LF❙
+  // induction : {T: ℕ ⟶ type} T zero ⟶ ({n} T n ⟶ T (n')) ⟶ {n}T n❙
 
-  // how can p5 be formulated?❙
-  // p5 : ⊦ ∀ͭ[X] zero ∈ͯ X ∧ (∀ͭ[n : Nat] n ∈ͯ X ⇒ n' ∈ͯ X) ⇒ ℕ ⊆ͯ X❙
-
+  inductive_fun : {B, P: ℕ ⟶ tm B} ⊦ tm B ⟶ ({n} tm B ⟶ tm B) ⟶ ℕ ⟶ tm B❙
+  inductive_pred : {P: ℕ ⟶ prop} prop ⟶ ({n} prop ⟶ prop) ⟶ ℕ ⟶ prop❙
+  inductive_proof : {P: ℕ ⟶ prop} ⊦ P zero ⟶ ({n} ⊦ P n ⟶ ⊦ P (n')) ⟶ {n} ⊦ P n❙
 ❚
 
 // inductive definition of plus❙
@@ -49,8 +48,6 @@ theory NatPlusTimes =
   times_succ : ⊦ ∀ͭ[m]∀ͭ[n] (n') * m =ͭ (n * m) + m❙
 ❚
 
-// should these theories stay in here? they are irrelevant for our case study❙
-
 theory NatLiterals =
   include ?Nat❙
   
@@ -65,5 +62,3 @@ theory NatParity =
   even: ℕ ⟶ prop❙
   uneven: ℕ ⟶ prop❙
 ❚
-
-// took out Int as it's not relevant for our case study❙
