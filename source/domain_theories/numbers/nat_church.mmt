@@ -1,6 +1,5 @@
 namespace latin:/❚
 
-fixmeta http://cds.omdoc.org/urtheories?LF❚
 fixmeta latin:/?SFOLEQND❚
 
 // Church numerals use a trick to define natural numbers as certain functions relative to an 
@@ -27,11 +26,10 @@ theory ChurchNaturals =
   		= [n:I⟶(I ⟶ I)⟶I, z:I, s:I⟶I] s (n z s)❙
 ❚
 
-// view : ?NatPeano → ?ChurchNaturals❙
-
 theory ChurchNaturalsPlus =
   include ?ChurchNaturals❙
-  
+ 
+  // realize ... ❙
   // intuition: m+n is the result of applying s m-times to n❙
   plus : nat ⟶ nat ⟶ nat❘# 1 + 2 prec 50❘
        = [m:I ⟶ (I ⟶ I) ⟶ I, n: I ⟶ (I ⟶ I) ⟶ I]
@@ -40,7 +38,8 @@ theory ChurchNaturalsPlus =
 
 theory ChurchNaturalsTimes =
   include ?ChurchNaturals❙
-
+  // realize ... ❙
+  
   // intuition: m*n is the result of applying _+n m-times to z
      [u] n u s is the function that applies s n-times to u
      m z ([u] n u s) applies that function m-times to z
@@ -55,6 +54,8 @@ theory ChurchNaturalsInduction =
   // induction: given a base case, and a step function, define an inductive function on nat
      unclear if this is possible❙
   iterate: nat ⟶ (nat ⟶ nat) ⟶ (nat ⟶ nat)❙ 
+
+  // realize ... ❙
 ❚
 
 

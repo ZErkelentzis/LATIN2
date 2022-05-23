@@ -1,10 +1,10 @@
 namespace latin:/❚
 
-fixmeta ur:?LF❚
+fixmeta latin:/?SFOLEQND❚
 
-// Binary Numbers ❙
+// Binary Numbers❚
 theory Binary =
-  num  : type❙
+  num  : tp❙
   zero : num❘ # b❙
   
   // double, i.e., append the digit 0❙
@@ -13,17 +13,13 @@ theory Binary =
   dbI: num ⟶ num❘ # 1 ₁ prec 10❙
   
   // successor and its rules❙
-  succ: num ⟶ num❘# 1 ' prec 15❙
-  succ_zero:      b ' = b ₁ ❘ role Simplify❙
-  succ_db:  {n} n ₀ ' = n ₁ ❘ role Simplify❙
-  succ_dbI: {n} n ₁ ' = n'₀❘ role Simplify❙
-  
-  // equality relation❙
-  equal : num ⟶ num ⟶ type❘# 1 = 2 prec 0❘ role Eq❙
-  refl  : {n} n = n❘# refl %I1❙
+  succ: num ⟶ num❘# 1 ' prec 60❙
+  succ_zero:    ⊦   b ' =ͭ b ₁ ❘ role Simplify❙
+  succ_db:  {n} ⊦ n ₀ ' =ͭ n ₁ ❘ role Simplify❙
+  succ_dbI: {n} ⊦ n ₁ ' =ͭ n'₀❘ role Simplify❙
 ❚
 
-// addition of Binary numbers❙
+// addition of Binary numbers❚
 theory BinaryPlus =
   include ?Binary❙
 
@@ -38,18 +34,17 @@ theory BinaryPlus =
   plus_dbI_dbI:  {m,n} m ₁ + n ₁ = ((m + n) ')₀❘ // role Simplify❙
 ❚
 
-// multiplication of Binary numbers❙
+// multiplication of Binary numbers❚
 theory BinaryPlusTimes =
   include ?BinaryPlus❙
   
   times : num ⟶ num ⟶ num ❘ # 1 * 2 prec 60❙
   
   times_zero : ⊦ ∀ͭ[n] zero * n =ͭ zero❙
-  times_succ : ⊦ ∀ͭ[m]∀ͭ[n] (n') * m =ͭ (n * m) + m❙
+  times_succ : ⊦ ∀ͭ[m]∀ͭ[n] n' * m =ͭ (n * m) + m❙
 ❚
 
 view NatToBinary : ?Nat → ?Binary =
-  // something doesn't work with the types❙
   nat = num❙
   zero = zero❙
   succ = succ❙
