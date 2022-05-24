@@ -3,6 +3,7 @@
 log console
 log+ archive
 log+ mmt-omdoc
+log+ scala-bin
 
 mathpath archive ../urtheories
 mathpath archive .

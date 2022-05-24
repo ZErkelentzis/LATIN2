@@ -65,8 +65,9 @@ theory SoftTypedTerms =
   include ?Terms❙
   include ?Types❙
   include ?Propositions❙
-  // TODO change ⦂ to ∶? looks better with syntax highlight, but is hard to distinguish from : without❙
-  of : term ⟶ tp ⟶ prop❘# 1 ⦂ 2 prec 30❙
+  // The notation uses jcolon, which is a different unicode symbol than :.
+  Syntax highlighting should distinguish them because many fonts barely do.❙
+  of : term ⟶ tp ⟶ prop❘# 1 ∶ 2 prec 30❙
 ❚
 
 /T base theory for any language that has kinds, usually in addition to types but in the absence of a universe hierarchy❚
@@ -127,9 +128,9 @@ theory TypesAsPredicates =
 theory InternalTypes =
   include ?Terms❙
   include ?Propositions❙
-  // AS: I changed this, because otherwise I would have to change it every time in set theory❙
-  cin : term ⟶ term ⟶ prop❘# 1 ∈ͨ 2 prec 30❙
+  // Should be included/realized in set theory❙
+  iin : term ⟶ term ⟶ prop❘# 1 ⋵ 2 prec 30❙
   realize ?SoftTypedTerms❙
   tp = term❙
-  of = cin❙
+  of = iin❙
 ❚

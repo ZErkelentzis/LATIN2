@@ -25,7 +25,7 @@ diagram TypedTermsLogrels : ur:?DiagramOperators :=
 
    Concretely, the Basic Lemma for this logrel says:
      for all MMT terms t of MMT type `?TypedTerms?tm A` there is an MMT term wit
-     "in the soft-typed world" witnessing the MMT type `⊦ TypeErasure(t) ⦂ A`.
+     "in the soft-typed world" witnessing the MMT type `⊦ TypeErasure(t) ∶ A`.
 ❚
 theory TypePreservation =
   include ?SoftTypedTerms ❙
@@ -35,5 +35,5 @@ theory TypePreservation =
 
   realize ?TypedTerms_logrel ❙
   tp_r = [x] Unit ❙ // TODO @FR: if you write garbage in this definiens, MMT won't complain. ❙
-  tm_r = [A, x, t] ⊦ t ⦂ A ❙
+  tm_r = [A, x, t] ⊦ t ∶ A ❙
 ❚

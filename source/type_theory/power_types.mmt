@@ -1,11 +1,11 @@
 namespace latin:/powertypes❚
 
 import rules scala://parser.api.mmt.kwarc.info❚
-rule rules:?MMTURILexer❚
 
 fixmeta ur:?LF❚
-// AS: I decided to modify symbols with jcombx, because there is no jcombp.
-  This could be changed later❚ 
+// We modify symbols with jcombx, because there is no jcombp.❚ 
+
+// TODO: eventually show that this realizes EndoLattice (which itself should be generated using Polymorphify)❚
 
 theory PowerTypes =
   include ☞latin:/?TypedEqualityND❙
@@ -29,11 +29,21 @@ theory Map =
   include ☞latin:/?ConjunctionND❙
   include ☞latin:/?TypedExistentialQuantificationND❙
   map : {A,B} (tm A ⟶ tm B) ⟶ tm ℘ͯA ⟶ tm ℘ͯB❘
-      = [A,B,f,S] pfilter[b] ∃ͭ[a] a∈ͯS ∧ (b =ͭ f a)❘# 4 map 3 prec 40❙
+      = [A,B,f,S] pfilter [b] ∃ͭ[a] a∈ͯS ∧ (b =ͭ f a)❘# 4 map 3 prec 40❙
   mapI : {A,B,f:tm A ⟶ tm B,S,x} ⊦ x ∈ͯ S ⟶ ⊦ f x ∈ͯ S map f❘
        = [A,B,f,S,x,p] pfilterI texistsI x andI p trefl❙
   mapE : {A,B,f:tm A ⟶ tm B,S,x,C} ⊦ x ∈ͯ S map f ⟶ ({a} ⊦ a∈ͯS ⟶ ⊦ x =ͭ f a ⟶ ⊦C) ⟶ ⊦ C❘
        = [A,B,f,S,x,C,p,q] p pfilterE texistsE [a,r] q a (r andEl) (r andEr)❙
+❚
+
+theory Preimage =
+  include ?PowerTypes❙
+  preimage : {A,B} (tm A ⟶ tm B) ⟶ tm ℘ͯB ⟶ tm ℘ͯA❘
+  			= [A,B,f,S] pfilter [a] f a ∈ͯ S❘# 4 preimage 3 prec 40 ❙
+  preimageI : {A,B,f:tm A ⟶ tm B,S,x} ⊦ f x ∈ͯ S ⟶ ⊦ x ∈ͯ S preimage f❘
+       = [A,B,f,S,x,p] pfilterI p❙
+  preimageE : {A,B,f:tm A ⟶ tm B,S,x} ⊦ x ∈ͯ S preimage f ⟶ ⊦ f x ∈ͯ S❘
+       = [A,B,f,S,x,p] p pfilterE❙
 ❚
 
 theory Extensionality =
@@ -47,6 +57,10 @@ theory Extensionality =
         = [A,S,T,x,p,q] p tcongP ([u]x∈ͯu) q❙
   eq_in_right : {A,S,T,x:tm A} ⊦ S =ͭ T ⟶ ⊦ x∈ͯT ⟶ ⊦ x∈ͯS❘
         = [A,S,T,x,p,q] p tsym tcongP ([u]x∈ͯu) q❙
+
+  pfilter_eq : {A,P,Q} ({a: tm A} ⊦P a ⟶ ⊦ Q a) ⟶ ({a: tm A} ⊦ Q a ⟶ ⊦ P a) ⟶ ⊦ pfilter P =ͭ pfilter Q❘
+             = [A,P,Q,f,g] extensionalityI ([x,p] pfilterI f x (p pfilterE))
+                                           ([x,q] pfilterI g x (q pfilterE))❙
 ❚
 
 theory FiniteSets = 
@@ -82,6 +96,8 @@ theory Subset =
                = [A,R,S,T,p,q] subsetI [x,r] subsetE q (subsetE p r)❙
   subset_antisym : {A,S,T:tm ℘ͯA} ⊦ S⊆ͯT ⟶ ⊦ T⊆ͯS ⟶ ⊦ S =ͭ T❘
                  = [A,S,T,p,q] extensionalityI ([x,r] subsetE p r) ([x,r] subsetE q r)❙
+  subset_eq_left : {A,S,T:tm ℘ͯA} ⊦ S =ͭ T ⟶ ⊦ S ⊆ͯ T❘ = [A,S,T,p] subsetI [x,q] eq_in_left p q❙
+  subset_eq_right : {A,S,T:tm ℘ͯA} ⊦ S =ͭ T ⟶ ⊦ T ⊆ͯ S❘ = [A,S,T,p] subsetI [x,q] eq_in_right p q❙
 ❚
 
 theory FullSet =
@@ -162,7 +178,7 @@ theory BigIntersection =
   biginterI : {A,K,x:tm A} ({S}⊦S∈ͯK⟶⊦x∈ͯS) ⟶ ⊦ x∈ͯ⋂ͯK ❘ 
   				  = [A,K,x,f] pfilterI (tforallI [S] implI [p] f S p)❙
   biginterE : {A,K,x:tm A,S} ⊦ x∈ͯ⋂ͯK ⟶ ⊦S∈ͯK ⟶ ⊦x∈ͯS❘ 
-  				  = [A,K,x,S,p,q] p pfilterE tforallE S implE q❙
+  				  = [A,K,x,S,p,q] p pfilterE tforallE S implE q❙				
 ❚
 
 theory BigUnion =
@@ -180,6 +196,8 @@ theory BigUnion =
 ❚
 
 theory Lattice =
+  include ?Map❙
+  include ?Preimage❙
   include ?Extensionality❙
   include ?Subset❙
   include ?FullSet❙
@@ -198,37 +216,62 @@ theory SubsetRules =
               = [A,S] subsetI [x,p] fullI❙
   subset_empty : {A,S} ⊦ empty A ⊆ͯ S❘
                = [A,S] subsetI [x,p] (emptyE p) inconE❙
-
   subset_union_left : {A,S,T: tm ℘ͯA} ⊦ S ⊆ͯ S ∪ͯ T❘
                     = [A,S,T] subsetI [x,p] unionIl p❙
   subset_union_right : {A,S,T: tm ℘ͯA} ⊦ T ⊆ͯ S ∪ͯ T❘
                     = [A,S,T] subsetI [x,p] unionIr p❙
   subset_union_lub : {A,S,T,C: tm ℘ͯA} ⊦ S ⊆ͯ C ⟶ ⊦ T ⊆ͯ C ⟶ ⊦ S ∪ͯ T ⊆ͯ C❘
                    = [A,S,T,C,s,t] subsetI [x,st] unionE st ([xs] subsetE s xs) ([xt] subsetE t xt)❙
- 
+  union_subset_left : {A,S,T : tm ℘ͯA} ⊦ S ⊆ͯ T ⟶ ⊦ T =ͭ S ∪ͯ T❘
+							= [A,S,T,p] subset_antisym subset_union_right
+							   subset_union_lub p subset_refl❙
+  union_subset_right : {A,S,T : tm ℘ͯA} ⊦ S ⊆ͯ T ⟶ ⊦ T =ͭ T ∪ͯ S❘
+							= [A,S,T,p] subset_antisym subset_union_left
+							   subset_union_lub subset_refl p❙					
   subset_inter_left : {A,S,T: tm ℘ͯA} ⊦ S ∩ͯ T ⊆ͯ S❘
                     = [A,S,T] subsetI [x,p] interEl p❙
   subset_inter_right : {A,S,T: tm ℘ͯA} ⊦ S ∩ͯ T ⊆ͯ T❘
                     = [A,S,T] subsetI [x,p] interEr p❙
   subset_inter_glb : {A,S,T,C: tm ℘ͯA} ⊦ C ⊆ͯ S ⟶ ⊦ C ⊆ͯ T ⟶ ⊦ C ⊆ͯ S ∩ͯ T❘
                    = [A,S,T,C,s,t] subsetI [x,xc] interI (subsetE s xc) (subsetE t xc)❙
-
+  inter_subset_left : {A,S,T : tm ℘ͯA} ⊦ S ⊆ͯ T ⟶ ⊦ S =ͭ S ∩ͯ T❘
+							= [A,S,T,p] subset_antisym 
+							   (subsetI [x,q] interI q subsetE p q)
+								subset_inter_left❙
+  inter_subset_right : {A,S,T : tm ℘ͯA} ⊦ S ⊆ͯ T ⟶ ⊦ S =ͭ T ∩ͯ S❘
+							= [A,S,T,p] subset_antisym 
+							   (subsetI [x,q] interI (subsetE p q) q)
+								subset_inter_right❙							
   subset_bigunion : {A,K,S: tm ℘ͯA} ⊦ S ∈ͯ K ⟶ ⊦ S ⊆ͯ ⋃ͯ K❘
                   = [A,K,S,p] subsetI [x,q] bigunionI p q❙ 
   subset_bigunion_lub : {A,K,C: tm ℘ͯA} ({S} ⊦ S ∈ͯ K ⟶ ⊦ S ⊆ͯ C) ⟶ ⊦ ⋃ͯ K ⊆ͯ C❘
                       = [A,K,C,f] subsetI [x,p] bigunionE p [S,q,r] subsetE (f S q) r❙
-  
   subset_biginter : {A,K,S: tm ℘ͯA} ⊦ S ∈ͯ K ⟶ ⊦ ⋂ͯ K ⊆ͯ S❘
                   = [A,K,S,p] subsetI [x,q] biginterE q p❙ 
   subset_biginter_glb : {A,K,C: tm ℘ͯA} ({S} ⊦ S ∈ͯ K ⟶ ⊦ C ⊆ͯ S) ⟶ ⊦ C ⊆ͯ ⋂ͯ K❘
                       = [A,K,C,f] subsetI [x,p] biginterI [S,q] subsetE (f S q) p❙
   subset_compl : {A,S,T: tm ℘ͯA} ⊦ S⊆ͯT ⟶ ⊦ ∁ͯT⊆ͯ∁ͯS❘
                = [A,S,T,p] subsetI [x,q] complI [r] complE q (subsetE p r)❙
+  subset_preimage : {A,B,f:tm A ⟶ tm B,S,T} ⊦ S⊆ͯT ⟶ ⊦ S preimage f ⊆ͯ T preimage f❘
+  				= [A,B,f,S,T,p] subsetI [x,q] preimageI subsetE p preimageE q❙
+  subset_image_preimage : {A,B,f:tm A ⟶ tm B,S} ⊦ (S preimage f) map f⊆ͯS❘
+  							= [A,B,f,S] subsetI [y,p] 
+  							  mapE p [x,q,r] (r tsym) tcongP ([z] z ∈ͯ S) preimageE q❙
+  subset_preimage_image : {A,B,f:tm A ⟶ tm B,S} ⊦ S⊆ͯ (S map f) preimage f❘
+  							= [A,B,f,S] subsetI [x,p] preimageI mapI p❙
 ❚
 
 theory ComplementRules =
   include ?Lattice❙
   include ?SubsetRules❙
+  filter_not : {A,f,x: tm A} ⊦ ¬ (f x) ⟶ ⊦ ¬ x ∈ͯ pfilter [a] f a❘
+             = [A,f,x,p] notI [q] p notE (q pfilterE)❙
+  compl_pfilter : {A, f} ⊦ ∁ͯ (pfilter [a: tm A] f a) =ͭ pfilter [a] ¬(f a)❘
+               = [A,f] extensionalityI ([x,p] pfilterI notI [q] (p pfilterE) notE (pfilterI q))
+                                         ([x,p] complI [q] filter_not (p pfilterE) notE q)❙
+  pfilter_compl : {A,S: tm ℘ͯ A} ⊦ (pfilter [a] a ∈ͯ ∁ͯS) =ͭ (pfilter [a] ¬ a ∈ͯ S)❘
+               = [A,S] pfilter_eq ([x,p] notI [q] complE p q)
+                                  ([x,p] complI [q] p notE q)❙
   compl_empty : {A} ⊦ ∁ͯ(empty A) =ͭ full A❘
               = [A] extensionalityI ([x,p] fullI) ([x,p] complI [q] emptyE q)❙
   compl_full  : {A} ⊦ ∁ͯ(full A) =ͭ empty A❘
@@ -241,13 +284,11 @@ theory ComplementRules =
                     ([x,p] complI [q,C] unionE q ([r] complE (interEl p) r inconE)
                                                  ([r] complE (interEr p) r inconE)
                     )❙
-
   inter_compl : {A,S} ⊦ S ∩ͯ ∁ͯS =ͭ empty A❘
               = [A,S] extensionalityI ([x,p] (complE (interEr p) (interEl p)) inconE)
                                       ([x,p] (emptyE p) inconE)❙
 
   compl_not : {A,S,x:tm A} ⊦¬x∈ͯS ⟶ ⊦x∈ͯ∁ͯS❘= [A,S,x,p] complI [q] p notE q❙
-
   include ☞latin:/?PLND❙
   union_compl : {A,S} ⊦ S ∪ͯ ∁ͯS =ͭ full A❘
               = [A,S] extensionalityI
@@ -262,17 +303,63 @@ theory ComplementRules =
                     ([x,p] unionE p ([q] subsetE (subset_compl subset_inter_left) q)
                                     ([q] subsetE (subset_compl subset_inter_right) q)
                     )❙
-  
   compl_compl : {A, S:tm ℘ͯA} ⊦ ∁ͯ∁ͯS =ͭ S❘
               = [A,S] extensionalityI ([x,p] compl_tnd orE ([q] q) ([q] complE p q inconE)) ([x,p] complI [q] complE q p)❙
+  compl_bigunion : {A,K : tm ℘ͯ℘ͯA} ⊦ ∁ͯ ⋃ͯK =ͭ ⋂ͯ pfilter [B] ∁ͯB ∈ͯ K❘
+  					= [A,K] subset_antisym
+  					  (subset_biginter_glb [S,p] subsetI [x,q] indirect [r] 
+					  complE q bigunionI p pfilterE compl_not r)
+  					  subsetI [x,p] complI [q] (bigunionE q [S,r,s] 
+  					  complE (biginterE p pfilterI (compl_compl tsym tcongP ([U] U ∈ͯ K) r)) s 
+  					  inconE) notE q❙
+  compl_biginter : {A,K : tm ℘ͯ℘ͯA} ⊦ ∁ͯ(⋂ͯK) =ͭ ⋃ͯ(pfilter [B] ∁ͯB ∈ͯ K)❘				    
+  					= [A,K] subset_antisym
+  					  (subsetI [x,p] indirect [q] complE p biginterI [S,r] indirect [s] q notE
+  					   bigunionI (pfilterI (compl_compl tsym tcongP ([U] U ∈ͯ K) r)) compl_not s)
+  					  subset_bigunion_lub [S,p] subsetI [x,q] compl_not
+  				      notI [r] complE (biginterE r (p pfilterE)) q❙
+  compl_preimage : {A,B,f:tm A ⟶ tm B,S} ⊦ (∁ͯ S) preimage f =ͭ ∁ͯ (S preimage f)❘
+  					= [A,B,f,S] (pfilter_eq ([x,p] p pfilterE) ([x,p] pfilterI p)) ttrans (compl_pfilter tsym)❙
+
+❚
+
+theory EmptyRules =
+	include ?SubsetRules❙
+	inter_empty : {A,S: tm ℘ͯ A} ⊦ S ∩ͯ ∅ͯ =ͭ ∅ͯ❘
+				   = [A,S] inter_subset_right subset_empty tsym❙
+    union_empty : {A,S: tm ℘ͯ A} ⊦ S ∪ͯ ∅ͯ =ͭ S❘
+    			   = [A,S] union_subset_right subset_empty tsym❙
+	biginter_empty : {A} ⊦ ⋂ͯ ∅ͯ =ͭ full A❘
+					= [A] subset_antisym subset_full subset_biginter_glb [S,p] emptyE p inconE❙
+	bigunion_empty : {A} ⊦ ⋃ͯ ∅ͯ =ͭ empty A❘
+					= [A] subset_antisym  
+					      (subset_bigunion_lub [S,p] emptyE p inconE) subset_empty❙
+❚
+
+theory FullRules =
+	include ?SubsetRules❙
+	inter_full : {A,S: tm ℘ͯ A} ⊦ S ∩ͯ fullset =ͭ S❘
+				  = [A,S] inter_subset_left subset_full tsym❙
+	union_full : {A,S: tm ℘ͯ A} ⊦ S ∪ͯ fullset =ͭ fullset❘
+				  = [A,S] union_subset_left subset_full tsym❙
+	biginter_full : {A} ⊦ ⋂ͯ fullset =ͭ empty A❘
+				    = [A] subset_antisym (subset_biginter fullI) subset_empty❙
+	bigunion_full : {A} ⊦ ⋃ͯ fullset =ͭ full A❘
+					= [A] subset_antisym subset_full subset_bigunion fullI❙
 ❚
 
 theory PowerSFOL =
    include ☞latin:/?SFOLEQND❙
    include ?PowerTypes❙
    include ?FiniteSets❙
-   include ?Map❙
    include ?Lattice❙
    include ?SubsetRules❙
    include ?ComplementRules❙
+   include ?EmptyRules❙
+   include ?FullRules❙
+   
+   notemptyE : {A,S:tm ℘ͯA, C} ⊦ ¬ S =ͭ ∅ͯ ⟶ ({x} ⊦ x ∈ͯ S ⟶ ⊦ C) ⟶ ⊦ C❘
+       = [A,S,C,p,q] (indirect [r] p notE
+  		  subset_antisym (subsetI [B,s] r notE texistsI B s inconE) subset_empty)
+  		  texistsE q❙
 ❚

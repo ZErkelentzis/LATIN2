@@ -4,15 +4,15 @@ file ../../../build_config.msl
 // depends in general on fundamentals and other folders in logic
 
 // no dependency
-build MMT/LATIN2 mmt-omdoc logic_extensions/relevant.mmt
-build MMT/LATIN2 mmt-omdoc logic_extensions/sequent.mmt
+build MMT/LATIN2 mmt-omdoc ./relevant.mmt
+build MMT/LATIN2 mmt-omdoc ./sequent.mmt
 
 // depends on sequent
-build MMT/LATIN2 mmt-omdoc logic_extensions/linear.mmt
-build MMT/LATIN2 mmt-omdoc logic_extensions/refutation.mmt
+build MMT/LATIN2 mmt-omdoc ./linear.mmt
+build MMT/LATIN2 mmt-omdoc ./refutation.mmt
 
 // depends on sequent and refutation
-build MMT/LATIN2 mmt-omdoc logic_extensions/defaults.mmt
+build MMT/LATIN2 mmt-omdoc ./defaults.mmt
 
 // depends on sequent, refutation and defaults
-build MMT/LATIN2 mmt-omdoc logic_extensions/prolog.mmt
+build MMT/LATIN2 mmt-omdoc ./prolog.mmt

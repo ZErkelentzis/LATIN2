@@ -11,9 +11,9 @@ theory SEqual =
   include ?Proofs ❙
   /T Equality at a type ❙
   eq: tp ⟶ term ⟶ term ⟶ prop ❙
-  refl: {A, x: term} ⊦ x ⦂ A ⟶ ⊦ eq A x x ❘# refl 3 ❙
-  eqsub: {A, x: term, y: term} ⊦ x ⦂ A ⟶ ⊦ y ⦂ A ⟶ ⊦ eq A x y ⟶ {F: term ⟶ prop} ⊦ F x ⟶ ⊦ F y ❙
-  trans: {A, x, y, z} ⊦ x ⦂ A ⟶ ⊦ y ⦂ A ⟶ ⊦ z ⦂ A ⟶ ⊦ eq A x y ⟶ ⊦ eq A y z ⟶ ⊦ eq A x z ❙
+  refl: {A, x: term} ⊦ x ∶ A ⟶ ⊦ eq A x x ❘# refl 3 ❙
+  eqsub: {A, x: term, y: term} ⊦ x ∶ A ⟶ ⊦ y ∶ A ⟶ ⊦ eq A x y ⟶ {F: term ⟶ prop} ⊦ F x ⟶ ⊦ F y ❙
+  trans: {A, x, y, z} ⊦ x ∶ A ⟶ ⊦ y ∶ A ⟶ ⊦ z ∶ A ⟶ ⊦ eq A x y ⟶ ⊦ eq A y z ⟶ ⊦ eq A x z ❙
 ❚
 
 /T Partial type erasure from hard-typed to soft-typed equality. ❚
@@ -43,7 +43,7 @@ diagram HardTypedLogrel : ?DiagOpsMeta :=
 /T Step 2: state type preservation as one such partial logical relation ❚
 view TypePres : ?HEqual_logrel -> ?SEqual =
   include ?SEqual ❙
-  tm_r = [A: tp, t: term] ⊦ t ⦂ A ❙
+  tm_r = [A: tp, t: term] ⊦ t ∶ A ❙
 ❚
 
 /T Step 3: aggregate all type-theoretical features and morphisms on that we want (and can*) to apply the softening.

@@ -1,0 +1,64 @@
+namespace latin:/❚
+
+fixmeta latin:/?SFOLEQND❚
+
+import rules scala://lf.mmt.kwarc.info❚
+import uom scala://uom.api.mmt.kwarc.info❚
+
+// Natural Numbers❚
+theory Nat =
+  nat   : tp❙
+  Nat = tm nat❘# ℕ❙
+  zero  : ℕ❙
+  succ  : ℕ ⟶ ℕ❘ # 1 ' prec 60❙
+❚
+
+// Peano Axioms❚
+theory NatPeano =
+  include ?Nat❙
+  
+  zero_succ_different : ⊦ ∀ͭ[n : Nat] ¬(n' =ͭ zero)❙
+  successor_injective : ⊦ ∀ͭ[m : Nat]∀ͭ[n : Nat] m' =ͭ n' ⇒ m =ͭ n❙
+
+  // the general case: the below could be derived from the following, which however requires polymorphic LF❙
+  // induction : {T: ℕ ⟶ type} T zero ⟶ ({n} T n ⟶ T (n')) ⟶ {n}T n❙
+
+  inductive_fun : {B, P: ℕ ⟶ tm B} tm B ⟶ (ℕ ⟶ tm B ⟶ tm B) ⟶ ℕ ⟶ tm B❙
+  inductive_pred : {P: ℕ ⟶ prop} prop ⟶ (ℕ ⟶ prop ⟶ prop) ⟶ ℕ ⟶ prop❙
+  inductive_proof : {P: ℕ ⟶ prop} ⊦ P zero ⟶ ({n} ⊦ P n ⟶ ⊦ P (n')) ⟶ {n} ⊦ P n❙
+❚
+
+// inductive definition of plus❚
+theory NatPlus =
+  include ?Nat❙
+  
+  plus : ℕ ⟶ ℕ ⟶ ℕ ❘ # 1 + 2 prec 50❙
+  
+  plus_zero : ⊦ ∀ͭ[n] n + zero =ͭ n❙
+  plus_succ : ⊦ ∀ͭ[m]∀ͭ[n] n + m' =ͭ (n + m)'❙
+❚
+
+// inductive definition of times❚
+theory NatPlusTimes =
+  include ?NatPlus❙
+  
+  times : ℕ ⟶ ℕ ⟶ ℕ ❘ # 1 * 2 prec 60❙
+  
+  times_zero : ⊦ ∀ͭ[n] zero * n =ͭ zero❙
+  times_succ : ⊦ ∀ͭ[m]∀ͭ[n] n' * m =ͭ (n * m) + m❙
+❚
+
+theory NatLiterals =
+  include ?Nat❙
+  
+  rule rules?Realize ℕ uom?StandardNat❙
+  rule rules?Realize zero uom?Arithmetic/Zero❙
+  rule rules?Realize succ uom?Arithmetic/Succ❙
+❚
+
+theory NatParity =
+  include ?Nat❙
+ 
+  even: ℕ ⟶ prop❙
+  uneven: ℕ ⟶ prop❙
+❚

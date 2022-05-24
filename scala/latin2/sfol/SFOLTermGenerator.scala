@@ -2,33 +2,21 @@ package latin2.sfol
 
 import info.kwarc.mmt.api._
 import info.kwarc.mmt.api.utils._
-//import info.kwarc.mmt.api.uom._
 import objects._
-//import modules._
-//import symbols._
-//import libraries._
 import frontend._
 import info.kwarc.mmt.lf._
+
 import lf._
-//import lf._Option.map
 import TypedEquality.tequal
-//import Conjunction.and
-//import Disjunction.or
-//import Negation.not
-//import Equivalence.equiv
-//import Implication.impl
 import TypedExistentialQuantification.texists
 import TypedUniqueExistentialQuantification.texistsUnique
 import TypedUniversalQuantification.tforall
 import info.kwarc.mmt.moduleexpressions.operators.TypedTerms.tm
 
 import scala.collection.mutable
-//import scala.collection.mutable.{ArrayBuffer, ListBuffer}
 import scala.util.Random
-//import latin2.sfol.Complexity
 import scala.util.control.Breaks._
 
-//git@gl.mathhub.info:MMT/LATIN2.git
 class SFOLTermGenerator(controller: Controller, mp: MPath) {
   import SFOLPatterns._
 

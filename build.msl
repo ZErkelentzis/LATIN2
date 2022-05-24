@@ -42,20 +42,14 @@ file source/type_theory/endofunctors/build.msl
 file source/set_theory/build.msl
 
 // Logic extensions formalizes various less common logical features.
-file source/logic/other/build.msl
+// commented out due to errors
+// file source/logic/other/build.msl
 
 // Theory morphisms formalizing the Curry-Howard correspondence between logics and type theories.
 build MMT/LATIN2 mmt-omdoc curry-howard
 
 // various common domains
-file source/domain_theories/numbers/build.msl
-file source/domain_theories/algebra/build.msl
-// Topology formalizes the various definitions of closure operators and topologies.
-// These are interesting in their own and a case-study on theory morphisms, but also often used at the meta-level.
-// They depend on PowerHOL.
-build MMT/LATIN2 mmt-omdoc domain_theories/topology
-// depends on algebra, power types, and topology
-build MMT/LATIN2 mmt-omdoc domain_theories/generated.mmt
+file source/domain_theories/build.msl
 
 // Meta-theorems stating the algebraic properties of logic, formalized as theory morphisms from algebraic to logical theories.
 build MMT/LATIN2 mmt-omdoc algebraic_logic/pl_semilattice.mmt
@@ -65,18 +59,18 @@ file source/set-theoretical_semantics/build.msl
 
 // files containing Scala rules may need to be build twice: once to generate Scala code and then once again after compiling the rule
 // We ignore all errors thrown in the first run.
-log- error
-file source/logic/drt/build.msl
-log+ error
+suppressErrors file source/logic/drt/build.msl
 
 // generate Scala auxiliary code for all theories (which can be used by native Scala code in the archive)
+// Without this 'clear', MMT (due to a bug) thinks the only folders in the archive are 'fundamentals' and 'logic' and runs lf-scala only on those.
+clear
 build MMT/LATIN2 lf-scala
 
 // compile the generated Scala and all native Scala code
-build MMT/LATIN2 scala-bin scala
+build MMT/LATIN2 scala-bin
 
 // rebuild the files that need two rounds
-// TODO this doesn't seem to work. It's possible the classloader does not pick up on the now created class files. 'clear' should fix that, but it's not tested yet.
+// The classloader does not pick up on the now created class files. So we need to clear before retrying.
 clear
 file source/logic/drt/build.msl
 

@@ -2,7 +2,10 @@ file ../../../build_config.msl
 
 // numbers
 // depends in general on fundamentals
-build MMT/LATIN2 mmt-omdoc domain_theories/numbers/nat.mmt
+build MMT/LATIN2 mmt-omdoc ./nat_axiomatic.mmt
+build MMT/LATIN2 mmt-omdoc ./nat_binary.mmt
+build MMT/LATIN2 mmt-omdoc ./nat_church.mmt
+build MMT/LATIN2 mmt-omdoc ./nat_realm.mmt
 
 // non-canonical
-// build MMT/LATIN2 mmt-omdoc numbers/nat-induct.mmt
+// build MMT/LATIN2 mmt-omdoc numbers/nat_induct.mmt

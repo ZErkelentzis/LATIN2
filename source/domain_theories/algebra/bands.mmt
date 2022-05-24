@@ -102,7 +102,21 @@ implicit view LeftCommutative2Semilattice : ?LeftCommutative -> ?Semilattice =
 implicit view LeftNormal2Normal : ?LeftNormal -> ?Normal =
   include ?Band❙
   // zxzy = zxzyzxzy = zx yz zxzy = zxy zx zy = zxy xz zy = zxy zxy = zxy❙
-  leftregular1 = [x,y,z] ttrans3 (idem tsym) _ idem❙
+  leftregular1 = [x,y,z]
+     assoc ttrans (idem tsym)
+     ttrans
+     assocR ttrans (at ([u] u∘(z∘y)) tcongT normal ttrans assoc)
+     ttrans
+     (assoc4M ttrans (idem tcongT [u]y∘u∘x) tcongT [u] (z∘x)∘u∘(z∘y))
+     ttrans
+     assoc ttrans (at ([u] (z∘x)∘u) tcongT (assoc tcongT [u] u∘(z∘y)) ttrans assoc4M ttrans normal)
+     ttrans
+     (assocR ttrans (idem tcongT [u]u∘x) tcongT [u] (z∘x)∘((y∘u)∘y))
+     ttrans
+     (assoc tcongT [u] (z∘x)∘u) ttrans assocR
+     ttrans
+     idem
+    ❙
 ❚
 
 implicit view LeftRegular2RightCommutative : ?LeftRegular -> ?RightCommutative =
@@ -112,8 +126,18 @@ implicit view LeftRegular2RightCommutative : ?LeftRegular -> ?RightCommutative =
 
 implicit view RightNormal2Normal : ?RightNormal -> ?Normal =
   include ?Band❙
-  // xzyz = xzyz xzyz = x yz zxzyz = xy zxzyz = xyz zx yz = xyz xyz = xyz❙
-	rightregular1 = [x,y,z] ttrans3 (idem tsym) _ idem❙
+  	rightregular1 = [x,y,z]
+     assoc ttrans (idem tsym)
+     ttrans
+     assoc ttrans ((assocR ttrans normal) tcongT [u] (x∘z)∘u)
+     ttrans
+     (at ([u] (x∘z)∘(u∘(y∘z))) tcongT (assoc4M ttrans (idem tcongT [u]y∘u∘x)))
+     ttrans
+     assocR ttrans ((assoc4M ttrans normal) tcongT [u] u∘(y∘z))
+     ttrans
+     (at ([u] ((x∘u)∘x)∘(y∘z)) tcongT (assoc ttrans (idem tcongT [u]y∘u)))
+     ttrans
+     assoc ttrans idem ttrans assocR❙
 ❚
 
 implicit view RightRegular2LeftCommutative : ?RightRegular -> ?LeftCommutative =

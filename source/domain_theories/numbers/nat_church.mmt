@@ -1,0 +1,61 @@
+namespace latin:/❚
+
+fixmeta latin:/?SFOLEQND❚
+
+// Church numerals use a trick to define natural numbers as certain functions relative to an 
+   arbitrary empty fixed type❚
+theory ChurchNaturals =
+  
+  // an arbitrary type; note that there are no functions that return n, i.e., n is empty❙
+  I: type❙
+  
+  realize ?Nat❙
+
+  // the following function type allows capturing exactly the natural numbers:
+     The trick is that after binding [z:n,s:n⟶n], the only way to return something of type n is 
+     to use z and s - that amounts to the usual construction of the natural numbers using zero and 
+     successor.❙
+     
+  nat : type❘ = I ⟶ (I ⟶ I) ⟶ I❙
+
+  // intuition: for [n: nat], the term n a b is the result of applying function b n-times to a❙
+  zero: I⟶(I⟶I)⟶I❘ = [z,s] z❙
+
+  // succ : nat ⟶ nat = λn:I⟶(I ⟶ I)⟶I. λz:I. λs:I⟶I. s (n z s)❙ 
+  succ: nat ⟶ nat❘# 1 ' prec 15❘
+  		= [n:I⟶(I ⟶ I)⟶I, z:I, s:I⟶I] s (n z s)❙
+❚
+
+theory ChurchNaturalsPlus =
+  include ?ChurchNaturals❙
+ 
+  // realize ... ❙
+  // intuition: m+n is the result of applying s m-times to n❙
+  plus : nat ⟶ nat ⟶ nat❘# 1 + 2 prec 50❘
+       = [m:I ⟶ (I ⟶ I) ⟶ I, n: I ⟶ (I ⟶ I) ⟶ I]
+         [z:I, s:I ⟶ I] m (n z s) s❙
+❚
+
+theory ChurchNaturalsTimes =
+  include ?ChurchNaturals❙
+  // realize ... ❙
+  
+  // intuition: m*n is the result of applying _+n m-times to z
+     [u] n u s is the function that applies s n-times to u
+     m z ([u] n u s) applies that function m-times to z
+     this results in m*n applications of s to z❙
+  times: nat ⟶ nat ⟶ nat❘# 1 * 2 prec 60❘
+       = [m,n][z,s] m z ([u] n u s) ❙
+❚
+
+theory ChurchNaturalsInduction =
+  include ?ChurchNaturals❙
+  
+  // induction: given a base case, and a step function, define an inductive function on nat
+     unclear if this is possible❙
+  iterate: nat ⟶ (nat ⟶ nat) ⟶ (nat ⟶ nat)❙ 
+
+  // realize ... ❙
+❚
+
+

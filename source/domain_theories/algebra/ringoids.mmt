@@ -34,7 +34,7 @@ theory MonoidalRingoid =
   include ?Ringoid❙
   structure add : ?Monoid = 
     include ?BiMagma?add❙
-    constant unitelem/elem # zero❙
+    constant unit # zero❙
   ❚
 ❚
 
@@ -42,7 +42,7 @@ theory BiMonoid =
   include ?MonoidalRingoid❙
   structure mult : ?Monoid = 
     include ?BiMagma?mult❙
-    constant unitelem/elem # one❙
+    unit # one❙
   ❚
 ❚
 

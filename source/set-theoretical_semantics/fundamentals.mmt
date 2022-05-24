@@ -17,7 +17,6 @@ theory TypedTermsSet =
 ❚
 
 theory SoftTypedTermsSet =
-  // AS: Propositions and Terms are part of the fixmeta❙
   include ?Propositions❙
   include ?Terms❙
   include ?TypesSet❙
@@ -27,7 +26,6 @@ theory SoftTypedTermsSet =
 ❚
 
 theory TypedLogicSet =
-  // AS: Propositions and Proofs are part of the fixmeta❙
   include ?Propositions❙
   include ?Proofs❙
   include ?TypedTermsSet❙
@@ -36,7 +34,6 @@ theory TypedLogicSet =
 ❚
 
 theory SoftTypedLogicSet =
-  // AS: Propositions, Terms and Proofs are part of the fixmeta❙
   include ?Propositions❙
   include ?Terms❙
   include ?Proofs❙
@@ -46,7 +43,6 @@ theory SoftTypedLogicSet =
 ❚
 
 theory TypedEqualitySet =
-  // AS: Propositions and Proofs are part of the fixmeta❙
   include ?Propositions❙
   include ?Proofs❙
   include ?TypedLogicSet❙
@@ -56,7 +52,6 @@ theory TypedEqualitySet =
 ❚
 
 theory TypedEqualityNDSet =
-  // AS: Propositions and Proofs are part of the fixmeta❙
   include ?Propositions❙
   include ?Proofs❙
   include ?TypedEqualitySet❙
@@ -67,23 +62,18 @@ theory TypedEqualityNDSet =
 ❚
 
 theory TypeEqualityNDSet =
-  // AS: Propositions and Proofs are part of the fixmeta❙
   include ?Propositions❙
   include ?Proofs❙
   
   include ?TypesSet❙
   
   realize ?TypeEqualityND❙
-  // AS: a structure mapping untyped equality to types within the 
-    transformation of type theory into untyped set theory :D
-    → term = tp = set = term❙
   constant tpeq/uequal = [A,B] A =ͧ B❙
-  constant tpeq/urefl = [A] urefl❙
+  constant tpeq/urefl = [x] urefl ❙
   constant tpeq/ucongP = [A,B,p,P,q] p ucongP P q❙
 ❚
 
 theory DependentTypeEqualitySet =
-  // AS: Propositions and Proofs are part of the fixmeta❙
   include ?Propositions❙
   include ?Proofs❙
   
@@ -91,7 +81,7 @@ theory DependentTypeEqualitySet =
   include ?TypedEqualityNDSet❙
   
   realize ?DependentTypeEquality❙
-  transport = [A,B,p,e: Elem A] elem (which e) (p tpeq/ucongP ([T] which e∈T) (why e))❙
-  transport_refl = [A,e: Elem A] tpeq/urefl❙ 
-  transport_trans = [A,B,C,e: Elem A,p,q] uequal❙ 
+  transport = [A,B,p,e] elem (which e) (p tpeq/ucongP ([T] which e∈T) (why e))❙
+  transport_refl = [A,e] tpeq/urefl❙ 
+  transport_trans = [A,B,C,e,p,q] urefl❙ 
 ❚

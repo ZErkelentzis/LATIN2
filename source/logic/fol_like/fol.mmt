@@ -92,15 +92,15 @@ theory RelativizedUniversalQuantification =
   include ?SoftTypedTerms❙
   include ?FOLEQ❙
   rforall : tp ⟶ (term ⟶ prop) ⟶ prop❘# ∀ͬ 1 2❘
-  	= [A,P] ∀ͧ[x] x⦂A ⇒ P x❙
+  	= [A,P] ∀ͧ[x] x∶A ⇒ P x❙
 ❚
 
 theory RelativizedUniversalQuantificationND =
   include ?RelativizedUniversalQuantification❙
   include ?FOLEQND❙
-  rforallI : {A,F} ({x} ⊦x⦂A ⟶ ⊦ F x) ⟶ ⊦ ∀ͬ A F❘
+  rforallI : {A,F} ({x} ⊦x∶A ⟶ ⊦ F x) ⟶ ⊦ ∀ͬ A F❘
   	= [A,F,P] uforallI [x] implI [xa] P x xa❙
-  rforallE : {A,F} ⊦ ∀ͬ A F ⟶ {x} ⊦x⦂A ⟶ ⊦ F x❘
+  rforallE : {A,F} ⊦ ∀ͬ A F ⟶ {x} ⊦x∶A ⟶ ⊦ F x❘
   	= [A,F,p,x,xa] p uforallE x implE xa❙
 ❚
 
@@ -108,15 +108,15 @@ theory RelativizedExistentialQuantification =
   include ?SoftTypedTerms❙
   include ?FOLEQ❙
   rexists : tp ⟶ (term ⟶ prop) ⟶ prop❘# ∃ͬ 1 2❘
-  	= [A,P] ∃ͧ[x] x⦂A ∧ P x❙
+  	= [A,P] ∃ͧ[x] x∶A ∧ P x❙
 ❚
 
 theory RelativizedExistentialQuantificationND =
   include ?RelativizedExistentialQuantification❙
   include ?FOLEQND❙
-  rexistsI : {A,F} {x} ⊦x⦂A ⟶ ⊦ F x ⟶ ⊦ ∃ͬ A F❘
+  rexistsI : {A,F} {x} ⊦x∶A ⟶ ⊦ F x ⟶ ⊦ ∃ͬ A F❘
   	= [A,F,x,xa,p] uexistsI x andI xa p❙
-  rexistsE : {A,F,C} ⊦ ∃ͬ A F ⟶ ({x} ⊦x⦂A ⟶ ⊦ F x ⟶ ⊦ C) ⟶ ⊦ C❘
+  rexistsE : {A,F,C} ⊦ ∃ͬ A F ⟶ ({x} ⊦x∶A ⟶ ⊦ F x ⟶ ⊦ C) ⟶ ⊦ C❘
   	= [A,F,C,p,P] p uexistsE [x,q] P x (q andEl) (q andEr)❙
 ❚
 

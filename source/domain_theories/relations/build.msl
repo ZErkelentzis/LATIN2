@@ -1,0 +1,9 @@
+file ../../../build_config.msl
+
+// theories based on a single relation
+// depends in general on fundamentals and logic
+
+// basic properties
+build MMT/LATIN2 mmt-omdoc domain_theories/relations/basics.mmt
+build MMT/LATIN2 mmt-omdoc domain_theories/relations/orders.mmt
+build MMT/LATIN2 mmt-omdoc domain_theories/relations/lattices.mmt
