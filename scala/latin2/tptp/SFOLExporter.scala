@@ -180,10 +180,18 @@ object SFOLExporter {
     case OMV(x) =>
       // x: LocalName
       TFF.Variable("V_" + x.toString)
+
+    case default =>
+      currentFormulaComments +:= Comment(CommentFormat.LINE, CommentType.NORMAL, "Unknown term/op: " + default)
+      TFF.AtomicTerm("$true", Nil)
   }
 
   def translate_type(t: Term): TFF.Type = t match {
     case OMID(f) =>
       TFF.AtomicType("t_" + f.name.toString, Nil)
+
+    case default =>
+      currentFormulaComments +:= Comment(CommentFormat.LINE, CommentType.NORMAL, "Unknown type: " + default)
+      TFF.AtomicType("$type", Nil)
   }
 }

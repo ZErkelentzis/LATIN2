@@ -8,6 +8,7 @@ import info.kwarc.mmt.api.symbols.{Constant, PlainInclude}
 import info.kwarc.mmt.api.uom.SimplificationUnit
 import info.kwarc.mmt.lf.{ApplySpine, Lambda}
 import latin2.sfol.CommonSymbols.DedList
+import leo.datastructures.TPTP.Comment.{CommentFormat, CommentType}
 import leo.datastructures.TPTP.{AnnotatedFormula, Comment, FOF, FOFAnnotated, Include, Problem}
 import lf.Conjunction.and
 import lf.Disjunction.or
@@ -159,5 +160,9 @@ object FOLExporter {
     case OMV(x) =>
       // x: LocalName
       FOF.Variable("V_" + x.toString)
+
+    case default =>
+      currentFormulaComments +:= Comment(CommentFormat.LINE, CommentType.NORMAL, "Unknown term/op: " + default)
+      FOF.AtomicTerm("$true", Nil)
   }
 }
