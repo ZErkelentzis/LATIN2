@@ -1,0 +1,23 @@
+namespace latin:/❚
+
+fixmeta latin:/?SFOLEQND❚
+
+import rules scala://lf.mmt.kwarc.info❚
+import uom scala://uom.api.mmt.kwarc.info❚
+
+theory IntUnary =
+  include ?Nat❙
+  pred: tm num ⟶ tm num❙
+  // axioms for succ and pred inverse❙
+❚
+
+theory IntPlus =
+  include ?IntUnary❙
+  include ?NatPlus❙
+  
+  // axiom for + and pred❙
+❚
+
+theory Int =
+  include ?IntPlus❙
+❚

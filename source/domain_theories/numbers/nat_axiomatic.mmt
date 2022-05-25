@@ -7,10 +7,11 @@ import uom scala://uom.api.mmt.kwarc.info❚
 
 // Natural Numbers❚
 theory Nat =
-  nat   : tp❙
-  Nat = tm nat❘# ℕ❙
+  include ?Numbers❙
+  Nat = tm num❘# ℕ❙
   zero  : ℕ❙
   succ  : ℕ ⟶ ℕ❘ # 1 ' prec 60❙
+  successor_injective : ⊦ ∀ͭ[m : Nat]∀ͭ[n : Nat] m' =ͭ n' ⇒ m =ͭ n❙
 ❚
 
 // Peano Axioms❚
@@ -18,7 +19,6 @@ theory NatPeano =
   include ?Nat❙
   
   zero_succ_different : ⊦ ∀ͭ[n : Nat] ¬(n' =ͭ zero)❙
-  successor_injective : ⊦ ∀ͭ[m : Nat]∀ͭ[n : Nat] m' =ͭ n' ⇒ m =ͭ n❙
 
   // the general case: the below could be derived from the following, which however requires polymorphic LF❙
   // induction : {T: ℕ ⟶ type} T zero ⟶ ({n} T n ⟶ T (n')) ⟶ {n}T n❙
@@ -32,7 +32,7 @@ theory NatPeano =
 theory NatPlus =
   include ?Nat❙
   
-  plus : ℕ ⟶ ℕ ⟶ ℕ ❘ # 1 + 2 prec 50❙
+  include ?Plus❙
   
   plus_zero : ⊦ ∀ͭ[n] n + zero =ͭ n❙
   plus_succ : ⊦ ∀ͭ[m]∀ͭ[n] n + m' =ͭ (n + m)'❙

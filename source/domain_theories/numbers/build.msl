@@ -1,11 +1,16 @@
 file ../../../build_config.msl
 
 // numbers
-// depends in general on fundamentals
+build MMT/LATIN2 mmt-omdoc ./numbers.mmt
+
+// natural numbers
 build MMT/LATIN2 mmt-omdoc ./nat_axiomatic.mmt
 build MMT/LATIN2 mmt-omdoc ./nat_binary.mmt
 build MMT/LATIN2 mmt-omdoc ./nat_church.mmt
 build MMT/LATIN2 mmt-omdoc ./nat_realm.mmt
+
+// integers numbers
+build MMT/LATIN2 mmt-omdoc ./int_axiomatic.mmt
 
 // non-canonical
 // build MMT/LATIN2 mmt-omdoc numbers/nat_induct.mmt
