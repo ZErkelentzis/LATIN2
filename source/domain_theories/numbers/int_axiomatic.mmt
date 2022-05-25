@@ -6,7 +6,8 @@ import rules scala://lf.mmt.kwarc.info❚
 import uom scala://uom.api.mmt.kwarc.info❚
 
 theory IntUnary =
-  include ?Nat❙
+  include ?NatUnary❙
+  
   pred: tm num ⟶ tm num❙
   // axioms for succ and pred inverse❙
 ❚
@@ -18,6 +19,14 @@ theory IntPlus =
   // axiom for + and pred❙
 ❚
 
+theory IntPlusTimes =
+  include ?IntUnary❙
+  include ?NatPlusTimes❙
+  
+  // axiom for * and pred❙
+❚
+
+
 theory Int =
-  include ?IntPlus❙
+  include ?IntPlusTimes❙
 ❚

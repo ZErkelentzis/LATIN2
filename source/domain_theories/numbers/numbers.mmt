@@ -4,9 +4,25 @@ fixmeta latin:/?SFOLEQND❚
 
 theory Numbers =
   num   : tp❙
+  
+  zero  : tm num❙
+  succ  : tm num ⟶ tm num❘ # 1 ' prec 60❙
+  successor_injective : {m, n} ⊦ m' =ͭ n' ⇒ m =ͭ n❙
 ❚
 
 theory Plus =
   include ?Numbers❙
-  plus: tm num ⟶ tm num ⟶ tm num❘ # 1 + 2 prec 50❙
+  
+  plus : tm num ⟶ tm num ⟶ tm num❘ # 1 + 2 prec 50❙
+❚
+
+theory Times =
+  include ?Numbers❙
+  
+  times : tm num ⟶ tm num ⟶ tm num❘ # 1 * 2 prec 60❙
+❚
+
+theory PlusTimes =
+  include ?Plus❙
+  include ?Times❙
 ❚
