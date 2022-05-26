@@ -51,15 +51,4 @@ theory ChurchNaturalsPlusTimes =
   
   times_zero = _ ❙
   times_succ = _ ❙
-
 ❚
-
-theory ChurchNaturalsInduction =
-  include ?ChurchNaturals❙
-  
-  // induction: given a base case, and a step function, define an inductive function on nat
-     unclear if this is possible❙
-  iterate: tm num ⟶ (tm num ⟶ tm num) ⟶ (tm num ⟶ tm num)❙ 
-❚
-
-
