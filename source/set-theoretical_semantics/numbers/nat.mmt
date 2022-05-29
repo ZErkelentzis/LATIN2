@@ -6,21 +6,24 @@ fixmeta ?DependentFOLEQDescND❚
 theory NatZF =
   include ?Nats❙
   include ?TypedUniversalQuantificationNDSet❙
+  
 
-  realize ?Nat❙
-  nat = nats❙
-  Nat = Elem nats❙
+  include ?SFOLEQND❙
+  realize ?NatUnary❙
+  num = nats❙
+  Nat = Elem num❙
   
   zero = elem z peano_zero❙
   succ = [e: Elem nats] elem (s (which e)) (peano_succ uforallE (which e)
         implE (why e))❙
+  successor_injective = _ ❙
         
   // AS: even and uneven are missing❙
   
   // AS: I don't know what to do with rules❙
   
   // AS: I don't have lemma to proof this❙
-  peano_induction : {P} ⊦ P z ⟶ ({n} ⊦ n ∈ nat ⟶ ⊦ P n ⟶ ⊦ P (s n)) 
+  peano_induction : {P} ⊦ P z ⟶ ({n} ⊦ n ∈ num ⟶ ⊦ P n ⟶ ⊦ P (s n)) 
       ⟶ ⊦ ∀ͭ[n: Elem nats] P (which n)❙
 ❚
 
@@ -29,4 +32,7 @@ theory NatPlusZF =
   
   realize ?NatPlus❙
   // plus = [e: Elem nats, d: Elem nats] _ ❙
+  plus = _ ❙
+  plus_zero = _ ❙
+  plus_succ = _ ❙
 ❚

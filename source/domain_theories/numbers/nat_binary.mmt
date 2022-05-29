@@ -2,53 +2,44 @@ namespace latin:/❚
 
 fixmeta latin:/?SFOLEQND❚
 
-// Binary Numbers❚
-theory Binary =
-  num  : tp❙
-  zero : num❘ # b❙
+theory NumBinary =
+  include ?Numbers❙
+
+  start = zero❘ # b❙
   
   // double, i.e., append the digit 0❙
-  db: num ⟶ num❘ # 1 ₀ prec 10❙
+  db: tm num ⟶ tm num❘ # 1 ₀ prec 70❙
   // double and increment, i.e., append the digit 1❙
-  dbI: num ⟶ num❘ # 1 ₁ prec 10❙
+  dbI: tm num ⟶ tm num❘ # 1 ₁ prec 70❙
   
   // successor and its rules❙
-  succ: num ⟶ num❘# 1 ' prec 60❙
   succ_zero:    ⊦   b ' =ͭ b ₁ ❘ role Simplify❙
   succ_db:  {n} ⊦ n ₀ ' =ͭ n ₁ ❘ role Simplify❙
   succ_dbI: {n} ⊦ n ₁ ' =ͭ n'₀❘ role Simplify❙
 ❚
 
-// addition of Binary numbers❚
 theory BinaryPlus =
-  include ?Binary❙
+  include ?NumBinary❙
+  include ?Plus❙
 
-  plus: num ⟶ num ⟶ num❘# 1 + 2 prec 50❙
-  plus_zero_right: {n} n + b = n               ❘ role Simplify❙
-  plus_zero_left:  {n} b + n = n               ❘ role Simplify❙
+  plus_zero_right: {n} ⊦ n + b =ͭ n               ❘ role Simplify❙
+  plus_zero_left:  {n} ⊦ b + n =ͭ n               ❘ role Simplify❙
   
   // these rules cannot be picked up by the SimplificationRuleGenerator yet❙
-  plus_db_db:    {m,n} m ₀ + n ₀ = (m + n) ₀   ❘ // role Simplify❙
-  plus_db_dbI:   {m,n} m ₀ + n ₁ = (m + n) ₁   ❘ // role Simplify❙
-  plus_dbI_db:   {m,n} m ₁ + n ₀ = (m + n) ₁   ❘ // role Simplify❙
-  plus_dbI_dbI:  {m,n} m ₁ + n ₁ = ((m + n) ')₀❘ // role Simplify❙
+  plus_db_db:    {m,n} ⊦ m ₀ + n ₀ =ͭ (m + n) ₀   ❘ // role Simplify❙
+  plus_db_dbI:   {m,n} ⊦ m ₀ + n ₁ =ͭ (m + n) ₁   ❘ // role Simplify❙
+  plus_dbI_db:   {m,n} ⊦ m ₁ + n ₀ =ͭ (m + n) ₁   ❘ // role Simplify❙
+  plus_dbI_dbI:  {m,n} ⊦ m ₁ + n ₁ =ͭ ((m + n) ')₀❘ // role Simplify❙
 ❚
 
-// multiplication of Binary numbers❚
 theory BinaryPlusTimes =
   include ?BinaryPlus❙
+  include ?Times❙
   
-  times : num ⟶ num ⟶ num ❘ # 1 * 2 prec 60❙
-  
-  times_zero : ⊦ ∀ͭ[n] zero * n =ͭ zero❙
-  times_succ : ⊦ ∀ͭ[m]∀ͭ[n] n' * m =ͭ (n * m) + m❙
+  times_zero : {n} ⊦ b * n =ͭ b❙
+  times_succ : {m, n} ⊦ n' * m =ͭ (n * m) + m❙
 ❚
 
-view NatToBinary : ?Nat → ?Binary =
-  nat = num❙
-  zero = zero❙
-  succ = succ❙
+theory Binary =
+  include ?BinaryPlusTimes❙
 ❚
-
-// view : ?NatPeano → ?Binary❙
-
