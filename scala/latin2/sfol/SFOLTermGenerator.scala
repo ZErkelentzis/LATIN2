@@ -19,6 +19,7 @@ import scala.util.control.Breaks._
 
 class SFOLTermGenerator(controller: Controller, mp: MPath) {
   import SFOLPatterns._
+  val nat = Numbers.num.term
 
   //we save the criteria as a global variable and is fed on execution of the Generator() method
   //that means the generator can be resetted with new criterias, but within the same theory
@@ -792,7 +793,7 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
             }
             else if (op == TypedExistentialQuantification.texists.path) {
               //exist
-              newform = texists(nvar._2, Lambda(nvar._1.name, tm(nvar._2), f1._2)) //makeForall(nvar, Nat.nat.term, f1._2)
+              newform = texists(nvar._2, Lambda(nvar._1.name, tm(nvar._2), f1._2)) //makeForall(nvar, nat, f1._2)
             }
             else {
               //existU
@@ -1164,15 +1165,15 @@ class SFOLTermGenerator(controller: Controller, mp: MPath) {
 
   def generateTemplate(): (Term, List[(OMV, Term, Int, TermTemplate)]) = {
     var list = List[(OMV, Term, Int, TermTemplate)]()
-    list = (OMV("a"), Nat.nat.term, 0, null) :: list
-    list = (OMV("t"), Nat.nat.term, 1, null) :: list
-    list = (OMV("x"), Nat.nat.term, 3, null) :: list
+    list = (OMV("a"), nat, 0, null) :: list
+    list = (OMV("t"), nat, 1, null) :: list
+    list = (OMV("x"), nat, 3, null) :: list
 
     var op: Term = null
     var opname: GlobalName = null
     //the breakable loop here ensures that requested terms with a depth > 0 don't use functions without input
 
-    opname = fnamem(Nat.nat.term).toList(1)
+    opname = fnamem(nat).toList(1)
     op = funcs.getOrEmpty(opname).head //extract operators Globalname
 
     var inputs = List[Term]()
