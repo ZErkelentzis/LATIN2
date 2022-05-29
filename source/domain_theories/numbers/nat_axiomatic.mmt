@@ -47,16 +47,23 @@ theory NatParity =
   uneven: ℕ ⟶ prop❙
 ❚
 
-theory Nat =
+theory NatAx =
   include ?NatPeano❙
   include ?NatPlusTimes❙
   include ?NatParity❙
 ❚
 
 theory NatLiterals =
-  include ?Nat❙
-  
+  include ?NatUnary❙
+
   rule rules?Realize (tm num) uom?StandardNat❙
   rule rules?Realize zero uom?Arithmetic/Zero❙
   rule rules?Realize succ uom?Arithmetic/Succ❙
+❚
+
+theory Nat =
+  include ?NatPeano❙
+  include ?NatPlusTimes❙
+  include ?NatParity❙
+  include ?NatLiterals❙
 ❚

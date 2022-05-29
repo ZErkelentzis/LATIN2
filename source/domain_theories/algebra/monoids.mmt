@@ -45,7 +45,7 @@ theory LastNonNeutral =
 theory Powers = 
   include ?PowerAssociative❙
   include ?Unital❙
-  include ☞latin:/?Nat❙
+  include ☞latin:/?NatLiterals❙
   power : U ⟶ ℕ ⟶ U❘# 1 ^ 2 prec 60❙
   power_zero: {x} ⊦ x^0 =ͭ e❘ role Simplify❙
   power_succ: {x,n} ⊦ x^(n') =ͭ x^n∘x❘ role Simplify❙
