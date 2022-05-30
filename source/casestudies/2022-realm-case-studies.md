@@ -23,7 +23,7 @@ The isomorphisms:
 * https://gl.mathhub.info/MMT/LATIN2/-/blob/devel/source/domain_theories/topology/equivalences.mmt  
 
 The integration into a single theory:
-https://gl.mathhub.info/MMT/LATIN2/-/blob/devel/source/domain_theories/topology/topology.mmt  
+* https://gl.mathhub.info/MMT/LATIN2/-/blob/devel/source/domain_theories/topology/topology.mmt  
 
 ### Natural Numbers
 
@@ -40,5 +40,5 @@ The formulation using Church numerals:
 
 
 The formulation using set theory:
-* various files in the folder * https://gl.mathhub.info/MMT/LATIN2/-/blob/devel/source/set-theory in particular nats.mmt
+* various files in the folder https://gl.mathhub.info/MMT/LATIN2/-/blob/devel/source/set-theory in particular nats.mmt
 * https://gl.mathhub.info/MMT/LATIN2/-/blob/devel/source/set-theoretical_semantics/numbers/nat.mmt
