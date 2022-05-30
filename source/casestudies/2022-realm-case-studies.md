@@ -1,7 +1,7 @@
 # Three Case Studies on Realms
 
 This file provides an entry point for the formalizations that are part of the paper Three Case Studies on Realms.
-The formulations are integrated with the heaily modular LATIN2 library and are split over the following files.
+The formulations are integrated with the heavily modular LATIN2 library and are split over the following files.
 
 ### Lattices
 
