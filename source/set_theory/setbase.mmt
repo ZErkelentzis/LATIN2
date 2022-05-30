@@ -29,7 +29,6 @@ theory ExtensionalityAx =
 theory SubsetDefinitions =
   include ?SetDefinitions❙
   
-  // symbol: jsubseteq❙
   subset : set ⟶ set ⟶ prop❘# 1 ⊆ 2 prec 30❘
     = [A,B] ∀ͧ[x] x∈A ⇒ x∈B❙
   subsetI : {A,B} ({x} ⊦ x∈A ⟶ ⊦ x∈B) ⟶ ⊦ A⊆B❘
@@ -43,9 +42,8 @@ theory SubsetDefinitions =
     = [A,B,C,p,q] subsetI ([x,pa] (pa subsetE p) subsetE q)❙
 ❚
 
-// AS: This could be written in SubsetDefinitions, but then subset would be dependent
-  on ExtensionalityAx. Because both theories are part of SetBase, this would be irrelevant.
-  For consistency reasons, I decided to make an extra theory which can be included if needed.❚
+// This could be written in SubsetDefinitions, but then subset would be dependent
+  on ExtensionalityAx. Because both theories are part of SetBase, this would be irrelevant.❚
 theory SubsetExtensionality =
   include ?SubsetDefinitions❙
   include ?ExtensionalityAx❙

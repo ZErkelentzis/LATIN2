@@ -3,27 +3,28 @@ namespace latin:/❚
 fixmeta ?DependentFOLEQDescND❚
 
 theory NatNums =
-  // AS: The include of the view should not be needed. But for performance
-    reasons I had to remove it from ZFFeatures❙
   include ?UnionSingleton❙
-  include ?Adjoin❘ = ?AdjoinUnion❙
+  include ?BigIntersectionUnorderedPairs❙
+  include ?Intersection❘ = ?IntersectionAsBigIntersection❙
+  include ?Adjoin❘ = ?AdjoinUnion❙ // These could already be included in ZFFeatures.❙ 
   include ?ZFFeatures❙
-	
+	include ?SubsetExtensionality❙
+
   // successor function❙
-  s : set ⟶ set❘ = [X] adjoin X X❙
+  usucc : set ⟶ set❘ = [X] adjoin X X❙
 
   // some numbers❙
-  zero : set❘# z❘ = ∅❙
-  one : set❘ = s z❙
-  two : set❘ = s one❙
+  uzero : set❘ = ∅❙
+  uone : set❘ = usucc uzero❙
+  utwo : set❘ = usucc uone❙
 
   // properties of the numbers❙
   include ?UnionEmpty❙
-  one_prop : ⊦ one =ͧ (singleton ∅)❘
+  one_prop : ⊦ uone =ͧ (singleton ∅)❘
     = union_comm ucongP ([x] x =ͧ (singleton ∅)) union_empty❙
-  zero_neq_one : ⊦ z =ͧ one ⟶ ⊦ false❘
+  zero_neq_one : ⊦ uzero =ͧ uone ⟶ ⊦ false❘
     = [p] empty_prop isemptyE (in_eq adjoinIr (eq/sym p)) inconE❙
-  two_eq : ⊦ two =ͧ uopair z one❘
+  two_eq : ⊦ utwo =ͧ uopair uzero uone❘
     = extensionalityI ([x] equivI ([p] p adjoinE 
       ([pa] eq_in ((in_eq pa one_prop) singletonE) uopairIl) 
       ([pb] eq_in pb uopairIr))
@@ -32,7 +33,7 @@ theory NatNums =
   
   // A contains the (intended) natural numbers❙
   has_nats : set ⟶ prop❘
-    = [A] z∈A ∧ ∀ͧ[X] X∈A ⇒ (s X) ∈A❙
+    = [A] uzero∈A ∧ ∀ͧ[X] X∈A ⇒ (usucc X) ∈A❙
     
   exists_infinite : ⊦ ∃ͧ[X] has_nats X❘
     = infinity_axiom❙
@@ -59,8 +60,28 @@ theory Nats =
       (p biginterE q)))))❙
   
   // there is a smallest set containing zero and all successors❙
-  // AS: no proof cause I don't have lemma❙
-  minimum_has_nats : ⊦ ∃ͧ[X] is_minimum X has_nats❙
+  minimum_has_nats : ⊦ ∃ͧ[X] is_minimum X has_nats❘
+    = exists_infinite uexistsE [x][p: ⊦ has_nats x] (
+                     lemma (nonempty ((℘ x) | has_nats))
+                           (uexistsI x (filterI (vpowersetI subset_refl) p))
+                     [lem] uexistsI (intersect_all x) (andI
+                       (intersect_has_nats lem [a][q: ⊦ a ∈ ℘ x | has_nats] q filterEr)
+                       (uforallI [z] implI [q: ⊦ has_nats z]
+                         subset_trans
+                           (biginter_sub
+                             (filterI (vpowersetI inter_subl)
+                                      (intersect_has_nats (uexistsI x uopairIl) (
+                                         [a][r: ⊦ a ∈ uopair x z]
+                                            r uopairE ([s: ⊦ a =ͧ x] (s ucongPr has_nats p))
+                                                      ([s: ⊦ a =ͧ z] (s ucongPr has_nats q))
+                                         )
+                                      )
+                             )
+                           : ⊦ (intersect_all x) ⊆ (x ∩ z))
+                           (inter_subr : ⊦ (x ∩ z) ⊆ z)
+                       )
+                     )
+                   )❙
   
   // set for natural numbers❙
   nats : set❘
@@ -69,15 +90,29 @@ theory Nats =
     = the_ax ([X] is_minimum X has_nats) (minimum_unique minimum_has_nats)❙
     
   // Peano axioms❙
-  peano_zero : ⊦ z ∈ nats❘
+  peano_zero : ⊦ uzero ∈ nats❘
     = nats_prop andEl andEl❙
-  peano_succ : ⊦ ∀ͧ[n] n∈nats ⇒ (s n) ∈ nats❘
+  peano_succ : ⊦ ∀ͧ[n] n∈nats ⇒ (usucc n) ∈ nats❘
     = nats_prop andEl andEr❙
-  peano_wellfounded : ⊦ ¬ ∃ͧ[n] (s n) =ͧ z❘
+  peano_wellfounded : ⊦ ¬ ∃ͧ[n] (usucc n) =ͧ uzero❘
     = notI ([pf] pf uexistsE ([n,p] empty_prop notE (uexistsI n (in_eq adjoinIr p)) inconE) falseE)❙
   // uses regularity❙
-  peano_linear : {n,m} ⊦ (s n) =ͧ (s m) ⟶ ⊦ n =ͧ m❘
+  peano_linear : {n,m} ⊦ (usucc n) =ͧ (usucc m) ⟶ ⊦ n =ͧ m❘
     = [n,m,p] (in_eq adjoinIr p) adjoinE ([pa] (in_eq adjoinIr (eq/sym p)) adjoinE
     ([qa] in_acyclic pa qa falseE inconE) ([qb] eq/sym qb)) ([pb] pb)❙
-  // Peano 5 depends on Elem!❙
+
+  peano_induction : {Phi} ⊦ Phi uzero ⟶ ({n} ⊦ n∈nats ⟶ ⊦ Phi n ⟶ ⊦ Phi (usucc n))
+                       ⟶ ⊦ ∀ͧ[n] n∈nats ⇒ Phi n❘
+     = [Phi,p,f]
+       lemma (has_nats (nats | Phi))
+             (andI (filterI peano_zero p)
+                  (uforallI [y] implI [q: ⊦ y ∈ (nats | Phi)]
+                    filterI (peano_succ uforallE y implE (q filterEl)) (f y (q filterEl) (q filterEr))
+                  )
+             )
+       [lem1]
+          lemma (nats ⊆ (nats | Phi)) (nats_prop andEr uforallE (nats | Phi) implE lem1)
+          [lem2] 
+            lemma (nats =ͧ (nats | Phi)) (subset_eq lem2 filter_sub)
+            [lem3] uforallI [n] implI [nE] (in_eq nE lem3) filterEr❙
 ❚

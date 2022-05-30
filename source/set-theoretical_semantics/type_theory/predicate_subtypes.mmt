@@ -19,7 +19,7 @@ theory TypedPredicateSubtypesSet =
   predsubEl = [A,P,e] elem (which e) ((why e) filterEl)❙
   predsubEr = [A,P,e] (why e) filterEr dandEr❙
   
-  predsubElBeta = [A,P,a: Elem A,p: ⊦ P a] urefl❙
+  predsubElBeta = [A,P,a: Elem A,p: ⊦ P a] eq/refl ❙
   // [A,P,a: Elem A,p: ⊦ P a] (eq_which ((why (elem (which a) 
     filterI (why a) (dandI (why a) (ceq_which EqcongEr P p)))) filterEl)) eq/trans
     (eq_which (filterI (why a) (dandI (why a) (ceq_which EqcongEr P p))))❙
