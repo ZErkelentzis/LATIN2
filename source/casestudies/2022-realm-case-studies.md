@@ -7,6 +7,7 @@ The formulations are integrated with the heavily modular LATIN2 library and are 
 
 The algebraic formulation:
 * https://gl.mathhub.info/MMT/LATIN2/-/tree/devel/source/domain_theories/algebra/magmas.mmt  
+* https://gl.mathhub.info/MMT/LATIN2/-/tree/devel/source/domain_theories/algebra/monoids.mmt  
 * https://gl.mathhub.info/MMT/LATIN2/-/tree/devel/source/domain_theories/algebra/lattices.mmt  
 
 The order-based formulation:
