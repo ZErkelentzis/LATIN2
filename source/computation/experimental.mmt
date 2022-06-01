@@ -1,0 +1,90 @@
+namespace latin:/❚
+
+import rules scala://computation.latin2❚
+fixmeta ur:?PLF❚
+import lfRules scala://lf.mmt.kwarc.info❚
+import uom scala://uom.api.mmt.kwarc.info❚
+
+theory CF =
+    include ?NatPlusTimes ❙ 
+   constant instance # instance 1❙
+   // rule rules?DefinedRun ❙ 
+   // this doesn't seem to work for some reason ❙
+   // rule lfRules?Realize succ uom?Arithmetic/Plus❙
+   new    # new 1❙
+   // rule rules?NewInstance❙
+   field    # 1 . 2❙
+
+   // declare  # var V1;… in 2  prec 10❙
+   rule rules?DeclareRun❙
+   declare: {a:type ,b : type} a ⟶ (a⟶b) ⟶b ❘# var 3  4 ❙   
+   // rule rules?DeclareTerm❙
+   rule rules?SequenceRun❙
+   sequence : {a : type} {b : type} a ⟶b ⟶b ❘ #  3 ;  4❙
+   define : {a :type} a ⟶ a ⟶type ❘ #  1 has 2 ≐ 3 ❙ 
+   rule rules?DefinedRun ❙
+   
+
+   Unit: type❙
+   unit: Unit❙
+   // ℕ: type❙ 
+   // zero: ℕ❙
+   // succ : ℕ ⟶ ℕ ❙  
+   // one = succ zero❙
+   // rule lfRules?Realize ℕ uom?StandardNat❙
+   // rule lfRules?Realize zero uom?Arithmetic/Zero❙
+   // rule lfRules?Realize succ uom?Arithmetic/Succ❙
+   
+   bool: type❙
+   true : bool ❙
+   false : bool ❙
+   assign : {a : type} a ⟶ a ⟶ Unit ❘ # 2 = 3 prec 11❙
+   ifte : {a : type}bool ⟶ a ⟶ a ⟶ a ❘ # if 2 then 3 else 4 ❙
+   rule rules?IfteRun ❙
+   rule rules?AssignmentRun❙
+   rule lfRules?Realize plus uom?Arithmetic/Plus❙
+   
+   
+   // plus : ℕ ⟶ ℕ ⟶ ℕ❘ # 1 + 2❙
+   // rule rules?PlusRun ❙ 
+   
+   minus: ℕ ⟶ ℕ ⟶ ℕ❘ # 1 - 2❙
+   // rule rules?MinusRun ❙ 
+   times : ℕ⟶ℕ⟶ℕ ❘# 1 * 2 ❙
+      
+   print : {a : type}  a⟶ Unit❘ # print 2❙
+   
+   ge: ℕ ⟶ ℕ ⟶ bool❘ # 1 > 2❙
+   rule rules?GeRun ❙ 
+   while : bool ⟶ Unit ⟶ Unit❘ # while 1 do 2❙
+   rule rules?PrintRun❙
+   eq : ℕ ⟶ ℕ ⟶ bool ❘# 1 ≐ 2 ❙
+   rule rules?EqRun❙
+❚
+
+theory Counter : ?CF =
+  counter: ℕ❘= zero❙
+   // add: nat ⟶ Unit❘= [n] counter = counter + n❙
+❚  
+  
+theory Program : ?CF =
+  main  = print zero❙
+  one = succ zero ❙
+  mainInt = print(zero + one) ; print(one + one)❙
+  mainIFTE : ℕ⟶ℕ⟶Unit ❙ 
+  m : ℕ⟶ℕ⟶Unit ❘= [m : ℕ] [ n : ℕ ] print(m) ❙
+  mainIFTE_def :   define (ℕ⟶ℕ⟶Unit) mainIFTE m❙
+  mainIFTE_def2 :  (ℕ⟶ℕ⟶Unit) has mainIFTE ≐ m ❙ 
+  tmp = mainIFTE one (one + one + one) ❙
+ // mainIFTE n has .... :=  mainIFTE n has XYZ := ❙
+  // This one is still experimental. ;…❙
+  // main2 =
+     var c = new examples?Counter in
+    c.add 3;
+    print c.add
+  ❙
+   // main3 =   [ x  ] (var y in ((y = x);	(while (y > zero) do ( (print y); (y = (y - one)) ) )))❙
+   // main5 : Unit ❘= var (y) in  (y = zero) ❙
+   // main6 = [y] (y = zero; y = one) ❙
+   main4 =  var 17 [x]	( x=x+one;	print x; x = zero; print x)❙
+❚
