@@ -1,4 +1,4 @@
-namespace latin:/casestudies/2022-tptp❚
+namespace latin:/casestudies/_2022-tptp❚
 
 theory Peano : latin:/?HOLND =
     N : tp❙
@@ -13,7 +13,7 @@ theory Peano : latin:/?HOLND =
     axiom4 : ⊦ ∀ͭ[n: tm N] ∀ͭ[m: tm N] ((successor @ n =ͭ successor @ m) ⇒ (n =ͭ m))❙
 
     //Induction Axiom❙
-    axiom5 : ⊦ ∀ͭ[X: tm N → bool] X @ zero ∧ (∀ͭ[n : tm N] X @ n ⇒ X @ (successor @ n)) ⇒ ∀ͭ[x: tm N] X @ x❙
+    //axiom5 : ⊦ ∀ͭ[X: tm N → bool] X @ zero ∧ (∀ͭ[n : tm N] X @ n ⇒ X @ (successor @ n)) ⇒ ∀ͭ[x: tm N] X @ x❙
 
     // Conjecture❙
     conj : ⊦ ∀ͭ[x: tm N] (x =ͭ zero) ∨ (∃ͭ[y: tm N] successor @ y =ͭ x) ❘ = PROVE❙

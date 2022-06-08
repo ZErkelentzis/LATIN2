@@ -130,7 +130,7 @@ object HOLExporter {
     val tpD = THFAnnotated(thfaName, "type", THF.Typing("t_" + name.toString, ty), None)
     add_formula_comment(thfaName)
     val dfT = df match {
-      case FunTerm(args, d) =>
+      case FunTerm(args, d) => //FIXME
         val argssome = args.map(x => (Some(x._1), x._2))
         Some(FunType(argssome, ded(inner(args, d))))
       case _ => None

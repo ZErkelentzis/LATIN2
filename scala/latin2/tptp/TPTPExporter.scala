@@ -151,6 +151,7 @@ class TPTPExporter extends StructurePresenter with AutomatedProver { //TODO: doe
       case Some(proof) => outputTo(proof_path) {
         rh(metadata_line(problem_path) + "\n" + proof)
       }
+      case _ => {}
     }
 
     (result._1, result._2.map(proof => UnknownTerm(OMSemiFormal(Text("tptp", proof)))))
