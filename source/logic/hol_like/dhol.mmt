@@ -1,0 +1,51 @@
+namespace latin:/❚
+
+fixmeta ur:?LF❚
+
+
+theory InternalEqualityD =
+  include ?InternalLogic❙
+  include ?TypedEquality❙
+  include ?DependentFunctions❙
+❚
+
+/T HOL with pi-types and predicate subtypes ❚
+theory DHOL =
+	/T for this and the next include: 
+	This includes the theory Propositions and hence includes a type of propositions
+	However this type should just be tm bool
+	But this applies also for other parts of LATIN2, including HOL itself
+	TODO: Check if this is ok ❙
+  include ?InternalEqualityD ❙
+  include ?ISFOL ❙
+  include ?BooleanExtensionality❙
+❚
+
+theory DHOLND =
+	include ?DHOL❙
+  include ?ISFOLND❙
+  include ?PropositionalExtensionality❙
+  eq_equiv: {F,G} ⊦F =ͭ G ⟶ ⊦F⇔G❘
+  	= [F,G,p] equivI ([q] p tcongP ([u]u) q) ([q] (p tsym) tcongP ([u]u) q)❙
+  equiv_eq: {F,G} ⊦F⇔G ⟶ ⊦F =ͭ G❘
+  	= [F,G,p] propext ([q] p equivEl q) ([q] p equivEr q)❙
+
+  eq_thm : {F,G} ⊦F =ͭ G ⟶ ⊦F ⟶ ⊦G❘
+  	= [F,G,p,q] (eq_equiv p) equivEl q❙
+  thm_true : {F} ⊦F ⟶ ⊦F =ͭ true❘
+  	= [F,p] propext ([q] trueI) ([q] p)❙
+  true_thm: {F} ⊦F =ͭ true ⟶ ⊦F❘
+  	= [F,p] eq_thm (p tsym) trueI❙
+❚
+
+
+theory DPHOL =
+	include ?DHOL ❙
+	include ?TypedPredicateSubtypes❙	
+❚
+
+
+theory DPHOLND =
+	include ?DHOLND ❙
+	include ?TypedPredicateSubtypes❙
+❚

@@ -11,7 +11,7 @@ import info.kwarc.mmt.api.utils.File
 import info.kwarc.mmt.api.utils.File.read
 import info.kwarc.mmt.api.{GeneralError, MPath, RuleSet, StructuralElement}
 import leo.datastructures.TPTP.{Include, Problem}
-import lf.{FOL, HOL, SFOL}
+import lf.{DHOL, FOL, HOL, SFOL}
 
 import java.security.DigestInputStream
 import java.util.Base64
@@ -31,7 +31,10 @@ class TPTPExporter extends StructurePresenter with AutomatedProver { //TODO: doe
     //TODO: check if FOL and SFOL at the same time
 
     var output_string = ""
-    if (controller.library.hasImplicit(HOL._path, thy.path)) {
+    if (controller.library.hasImplicit(DHOL._path, thy.path)) {
+      println("detected DHOL")
+      output_string = DHOLExporter.export_theory(thy)(controller).pretty + "\n"
+    } else if (controller.library.hasImplicit(HOL._path, thy.path)) {
       println("detected HOL")
       output_string = HOLExporter.exportStub(thy)(controller).pretty + "\n"
     } else if (controller.library.hasImplicit(SFOL._path, thy.path)) {
