@@ -26,7 +26,7 @@ theory Monad =
   
   identLeft: {a,b,f:tm a ⟶ tm &b,x} ⊦ Return x >>= f =ͭ f x❙
   identRight: {a,X: tm &a} ⊦ X >>= ([x] Return x) =ͭ X❙
-  assoc : {a,b,c,f:tm a ⟶ tm &b, g:tm b ⟶ tm &c,X} ⊦ X >>= f >>= g =ͭ X >>= [x] (f x) >>= g❙
+  assoc : {a,b,c,f:tm a ⟶ tm &b, g:tm b ⟶ tm &c,X} ⊦ (X >>= f) >>= g =ͭ X >>= [x] ((f x) >>= g)❙
   
   // The remaining implementation is missing ❙
   // realize ?EndoFunctor❙

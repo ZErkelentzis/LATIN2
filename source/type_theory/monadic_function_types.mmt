@@ -1,0 +1,22 @@
+namespace latin:/❚
+
+fixmeta ur:?LF❚
+
+theory MonadicLambdaCalculus =
+  include ?SimpleFunctions❙
+  include ?SimpleFunctionsEta❙
+  include ?Monad❙
+  monfun: tp ⟶ tp ⟶ tp❘
+    = [A,B] A → &B❘# 1 %R→ͫ 2❙
+  monlambda: {A,B} (tm A ⟶ tm &B) ⟶ tm &(A→ͫB)❘# λͫ 3 prec 40❘
+    = [A,B,T:tm A ⟶ tm &B] Return λ[x] T x❙
+  monapply: {A,B} tm &(A→ͫB) ⟶ tm &A ⟶ tm &B❘ # 3 @ͫ 4 prec 50❘
+    = [A,B,fM,aM] fM >>= [f] aM >>= [a] f@a❙
+
+  // We do not get a view from SimpleFunctions with tm = [A] tm &A because beta-reduction is restricted to pure terms, i.e., those in the image of Return.❙
+  monbeta : {A,B,T:tm A ⟶ tm &B,a} ⊦ (λͫ T) @ͫ (Return a) =ͭ T a❘
+    = [A,B,T,a] identLeft ttrans identLeft❙
+    
+  moneta: {A,B,F:tm A→ͫB} ⊦ Return F =ͭ λͫ[x](Return F)@ͫ(Return x)❘
+    = [A,B,F] eta ttrans (simpxi [x] (identLeft ttrans identLeft) tsym) tcongT ([u] Return u) ❙
+❚
