@@ -1,0 +1,142 @@
+namespace latin:/❚
+
+import rules scala://computation.latin2❚
+fixmeta ur:?PLF❚
+import lfRules scala://lf.mmt.kwarc.info❚
+import uom scala://uom.api.mmt.kwarc.info❚
+
+theory IOOps =
+	include ?UnitType ❙
+	print :  {a : type} a ⟶ tm unitType❘ # print 2❙
+    rule rules?PrintRun❙
+❚
+
+theory Exceptions = 
+	include ?EmptyType ❙
+	
+	exception  :  tp ❙
+	throw : tm exception⟶ tm void ❘ # throw 1❙
+	tryCatch: {a : tp} tm a ⟶ (tm exception ⟶ tm a) ⟶ (tm a) ❘#  try 2 catch 3 ❙
+	// rule rules?MkExceptionRun ❙
+	rule rules?ThrowRun ❙
+	rule rules?TryCatchRun ❙
+❚
+
+theory MutableVariables = 
+	include ?UnitType ❙
+	rule rules?DeclareRun❙
+    declare: {a:type ,b : type} a ⟶ (a⟶b) ⟶b ❘# var 3  4 ❙
+     assign : {a : type} a ⟶ a ⟶ tm unitType ❘ # 2 = 3 ❙
+❚
+
+theory IfteOps = 
+	include ?BooleanExtensionality ❙ 
+	 // ifte : {a : type} tm bool ⟶ a ⟶ a ⟶ a ❘// # if 2 then 3 else 4 ❙
+   	 rule rules?IfRun ❙
+❚
+
+
+theory WhileOps = 
+    // This theory only really makes sense with mutation for the while-loop ❙
+    include ?Booleans ❙
+    include ?MutableVariables ❙
+    while :  tm bool ⟶ tm unitType ⟶ tm unitType❘ # while 1 do 2  prec 5❙
+    rule rules?WhileRun ❙
+❚
+
+theory RecurseableDefinitions = 
+	// If we ever make a true "Computational Framework" this declaring functions will be part of it... ❙
+   define :  {a : type} a ⟶ a ⟶type ❘ #  2 ↦ 3 ❙
+   rule rules?DefinedRun ❙
+❚
+
+theory SequencingOps = 
+	// This theory only really makes sense with mutation for the while-loop ❙
+	include ?MutableVariables ❙
+	rule rules?SequenceRun❙
+   sequence : {a : type} {b : type} a ⟶b ⟶b ❘ #  3 ;  4❙
+❚
+
+theory CF =
+    include ?NatPlusTimes ❙
+    include ?MutableVariables ❙
+    include ?IOOps ❙
+    include ?IfteOps ❙
+    include ?SequencingOps ❙
+    include ?RecurseableDefinitions ❙
+    include ?WhileOps ❙
+    include ?Exceptions ❙
+   
+    constant instance # instance 1❙
+   new    # new 1❙
+   // rule rules?NewInstance❙
+   field    # 1 . 2❙
+
+
+   // var 17 [ x ] ( x = 18; print x; x = 0; print x) ❙
+   // rule rules?DeclareTerm❙
+
+  
+   rule rules?AssignmentRun❙
+   rule lfRules?Realize plus uom?Arithmetic/Plus❙
+
+
+   // plus : ℕ ⟶ ℕ ⟶ ℕ❘ # 1 + 2❙
+   // rule rules?PlusRun ❙
+
+   minus: ℕ ⟶ ℕ ⟶ ℕ❘ # 1 - 2❙
+   rule rules?MinusRun ❙
+   times : ℕ⟶ℕ⟶ℕ ❘# 1 * 2 ❙
+
+
+   ge: ℕ ⟶ ℕ ⟶ tm bool❘ # 1 > 2 ❙
+   rule rules?GeRun ❙
+
+   eq : ℕ ⟶ ℕ ⟶ tm bool ❘# 1 ≐ 2 ❙
+   rule rules?EqRun❙
+❚
+
+theory Counter : ?CF =
+  counter: ℕ❘= zero❙
+   // add: nat ⟶ Unit❘= [n] counter = counter + n❙
+❚
+
+theory Program : ?CF =
+  main  = print zero❙
+  one = succ zero ❙
+  mainInt = print(zero + one) ; print(one + one)❙
+  mainIFTE : ℕ⟶ℕ⟶ tm unitType ❘# prec 1000 ❙
+  mainIFTE_def :  (mainIFTE  ↦  [m : ℕ] [ n : ℕ ] print(m) ) ❘role Execute❙
+  tmp = mainIFTE one (one + one + one) ❙
+
+   // test recursion ❙
+   fibonacci :  ℕ ⟶ ℕ ❙
+   fibonacci_def :  fibonacci ↦ [depth] if (depth > 1) then (fibonacci (depth - 1) + fibonacci (depth - 2)) else 1 ❘role Execute❙
+   mainFibonacci = print (fibonacci 16) ❙
+   
+   ex : tm exception ❙
+   mainException : ℕ ❘ = try (throw ex) catch ([ x ] 1) ❙
+
+
+   // greater than ❙
+   greaterThan : ℕ⟶ ℕ⟶ tm bool ❙
+   greaterThan_def : greaterThan ↦ [ m ] [ n ] if (n ≐ 0) then (if (m ≐0) then ff else tt) else greaterThan (m - 1) (n - 1)  ❙
+ // mainIFTE n has .... :=  mainIFTE n has XYZ := ❙
+  // This one is still experimental. ;…❙
+  // main2 =
+     var c = new examples?Counter in
+    c.add 3;
+    print c.add
+  ❙
+
+   // throw : Exception ⟶Empty ❙
+   // try-catch : a ⟶ (Exception ⟶ a) ⟶a ❙
+
+
+   // test partial application of a mutable variable ❙
+   print_first :ℕ ⟶ ℕ ⟶ tm unitType ❘= [ m ] [ n ] print( m) ❙
+   mutableContext = var 17 [ x : ℕ ] ( var (print_first  x) [ y ] (x = x +1 ; y 0; (y = [p]  print p); (y 12))) ❙
+
+   main6 = var 17 [y] (while( y> 3 ) do (y = (y - 1); print y) )❙
+   main4 =  var 17 [x]	(( x=x+one);	print x; (x = zero); print x)❙
+❚
