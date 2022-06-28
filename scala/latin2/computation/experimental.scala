@@ -65,9 +65,7 @@ class DefinedRule(override val head: GlobalName, val targetTerm : OMBINDC) exten
    override def apply(controller:Controller, callback: ExecutionCallback, env: RuntimeEnvironment, prog: Term) : Term = {
       prog match {
          case ApplyGeneral(OMID(head), ls) => {
-            // execute children
-            // only execute the downstream if we have every term (i.e. before that we only beta-reduce the term)
-            // TODO: double check this for soundness bugs
+            OMSemiFormal
             val lsE = ls map callback.execute
             val app = ApplyGeneral(targetTerm,lsE)
             //val theory = controller.getTheory(head.module)
@@ -127,7 +125,11 @@ object MinusRun extends ExecutionRule(CF.minus.path){
                case (OMLIT(vl:BigInt,tp1),OMLIT(vr:BigInt,tp2)) => {
                   return OMLIT((vl-vr), tp1)
                }
+               //case (OMSemiFormal((t1:Text)::_),OMSemiFormal((t2:Text)::_)) => {
+               //   return OMLIT(t1.obj.toInt-t2.obj.toInt,NatNums.)
+               //}
             }
+
       }
    }
 }
@@ -182,7 +184,6 @@ object GeRun extends ExecutionRule(CF.ge.path){
                   }
                   return Booleans.ff
                }
-
             }
       }
    }

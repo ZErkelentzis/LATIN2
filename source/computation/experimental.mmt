@@ -16,7 +16,7 @@ theory Exceptions =
 	
 	exception  :  tp ❙
 	throw : tm exception⟶ tm void ❘ # throw 1❙
-	tryCatch: {a : tp} tm a ⟶ (tm exception ⟶ tm a) ⟶ (tm a) ❘#  try 2 catch 3 ❙
+	tryCatch: {a : type} a ⟶ (tm exception ⟶ a) ⟶ a ❘#  try 2 catch 3 ❙
 	// rule rules?MkExceptionRun ❙
 	rule rules?ThrowRun ❙
 	rule rules?TryCatchRun ❙
@@ -54,11 +54,11 @@ theory SequencingOps =
 	// This theory only really makes sense with mutation for the while-loop ❙
 	include ?MutableVariables ❙
 	rule rules?SequenceRun❙
-   sequence : {a : type} {b : type} a ⟶b ⟶b ❘ #  3 ;  4❙
+    sequence : {a : type} {b : type} a ⟶b ⟶b ❘ #  3 ;  4❙
 ❚
 
 theory CF =
-    include ?NatPlusTimes ❙
+    include ?Nat❙
     include ?MutableVariables ❙
     include ?IOOps ❙
     include ?IfteOps ❙
@@ -115,7 +115,7 @@ theory Program : ?CF =
    mainFibonacci = print (fibonacci 16) ❙
    
    ex : tm exception ❙
-   mainException : ℕ ❘ = try (throw ex) catch ([ x ] 1) ❙
+   // mainException : ℕ ❘// = try (throw ex) catch ([ x ] 1) ❙
 
 
    // greater than ❙
