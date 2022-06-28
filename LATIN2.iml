@@ -12,6 +12,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="mmt-api" />
     <orderEntry type="module" module-name="mmt-lf" />
-    <orderEntry type="library" name="scala-sdk-2.13.8" level="application" />
+    <orderEntry type="library" exported="" name="scala-sdk-2.13.8" level="application" />
+    <orderEntry type="library" name="sbt: org.scala-lang:scala-library:2.13.4:jar" level="project" />
   </component>
 </module>

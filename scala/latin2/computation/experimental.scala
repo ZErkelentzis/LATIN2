@@ -2,7 +2,7 @@ package latin2.computation
 
 import info.kwarc.mmt.api.objects._
 import info.kwarc.mmt.api.uom._
-import info.kwarc.mmt.api.execution.{ExecutionRule,ExecutionCallback,RuntimeEnvironment, RulePreprocessor}
+import info.kwarc.mmt.api.execution.{ExecutionCallback, ExecutionRule, RulePreprocessor, RuntimeEnvironment}
 import info.kwarc.mmt.lf.LFConstantScala._
 import info.kwarc.mmt.lf._
 import info.kwarc.mmt.api._
@@ -10,49 +10,72 @@ import info.kwarc.mmt.api.frontend.Controller
 import objects._
 import lf._
 import info.kwarc.mmt.api.checking._
+import info.kwarc.mmt.api.ontology.MMTExtractor
 import info.kwarc.mmt.lf.Common.isTypeLike
 import objects.Conversions._
 import uom._
 import info.kwarc.mmt.api.symbols.Constant
 
-
-object PrintRun  extends ExecutionRule(CF.print.path) {
+object PrintRun  extends ExecutionRule(IOOps.print.path) {
    override def under: List[GlobalName] =List(Apply.path)
    
    def apply(controller:Controller, callback: ExecutionCallback, env: RuntimeEnvironment, prog: Term): Term = {
       prog match {
-         case CF.print(c ,a ) =>
+         case IOOps.print(c ,a ) =>
             val aE = callback.execute(a)
             println(controller.presenter.asString(aE))
-            CF.unit
+            UnitType.unit
       }
    }
 }
 
 
-
+/*
 object DefinedRun extends RulePreprocessor(CF.define.path){
    override def under: List[GlobalName]= List(Apply.path)
-   def apply(const : Constant) : ExecutionRule = {
+   def apply(const : Constant) : Option[ExecutionRule] = {
       const.tp match {
-         case Some(CF.define(tp,OMID(gname : GlobalName),target)) => {
-            new DefinedRule(const.path, target)
+         case Some(TypedEquality.tequal(tp,x,target)) => {
+            x match {
+               case OMID(gname: GlobalName) => Some(new DefinedRule(gname, target))
+            }
          }
          // case _=> None
       }
    }
+   override def applicable(tp : Constant): Boolean = tp.rl == Some("Execute")
+}*/
+object DefinedRun extends RulePreprocessor(RecurseableDefinitions.define.path){
+   override def under: List[GlobalName]= List(Apply.path)
+   def apply(const : Constant) : Option[ExecutionRule] = {
+      const.tp match {
+         case Some(RecurseableDefinitions.define(tp,OMID(gname: GlobalName),target : OMBINDC)) => {
+            Some(new DefinedRule(gname, target))
+
+         }
+         // case _=> None
+      }
+   }
+   // override def applicable(tp : Constant): Boolean = tp.rl == Some("Execute")
 }
 
 
-
-class DefinedRule(override val head: GlobalName, val targetTerm : Term) extends ExecutionRule(head){
+class DefinedRule(override val head: GlobalName, val targetTerm : OMBINDC) extends ExecutionRule(head){
    override def under: List[GlobalName]= List(Apply.path)
    override def apply(controller:Controller, callback: ExecutionCallback, env: RuntimeEnvironment, prog: Term) : Term = {
       prog match {
          case ApplyGeneral(OMID(head), ls) => {
-            // lazy evaluation to prevent infinite loops
-            lazy val executed = ls map callback.execute
-            ApplyGeneral(targetTerm,executed)
+            // execute children
+            // only execute the downstream if we have every term (i.e. before that we only beta-reduce the term)
+            // TODO: double check this for soundness bugs
+            val lsE = ls map callback.execute
+            val app = ApplyGeneral(targetTerm,lsE)
+            //val theory = controller.getTheory(head.module)
+            //val simple = controller.simplifier(app, SimplificationUnit(theory.getInnerContext, expandConDefs = false, expandVarDefs = false, fullRecursion = false))
+
+            // fibonacci i = if i>1 then fib i-1 + fib i-2 else print(i); return 1
+            // execute myself
+            callback.execute(app)
          }
       }
    }
@@ -70,8 +93,28 @@ object PlusRun extends ExecutionRule(CF.plus.path){
           CF.plus(t1E, t2E)
       }
    }
+}*/
+
+object WhileRun extends ExecutionRule(WhileOps.`while`.path){
+   override def under = List(Apply.path)
+   def apply(controller:Controller, callback: ExecutionCallback, env: RuntimeEnvironment, prog: Term): Term= {
+      prog match {
+         case WhileOps.`while`(cond,body) =>{
+            while(term_to_bool(callback.execute(cond))){
+               callback.execute(body)
+            }
+            UnitType.unit
+         }
+      }
+   }
+   def term_to_bool(term:Term)={
+      term match {
+         case Booleans.tt(_) => true
+         case Booleans.ff(_) => false
+      }
+   }
 }
-*/
+
 object MinusRun extends ExecutionRule(CF.minus.path){
    override def under = List(Apply.path)
    def apply(controller:Controller, callback: ExecutionCallback, env: RuntimeEnvironment, prog: Term): Term={
@@ -80,30 +123,44 @@ object MinusRun extends ExecutionRule(CF.minus.path){
             val t1E = callback.execute(t1)
             val t2E = callback.execute(t2)
             // t1E+t2E
-            t1E match {
-               case OMLIT(v1 : BigInt,rt1) => t2E match {
-                  case OMLIT(v2 : BigInt,rt2) => {
-                     if(v1 > v2) {
-                        OMLIT(v1 - v2, rt1)
-                     }
-                     else {
-                        OMLIT(BigInt(0),rt1)}
-                  }
+            (t1E, t2E) match {
+               case (OMLIT(vl:BigInt,tp1),OMLIT(vr:BigInt,tp2)) => {
+                  return OMLIT((vl-vr), tp1)
                }
             }
       }
    }
 }
+/*
+object NewRun extends SyntaxDrivenRule{
+   def apply(...){
+      prog match{
+         case OMPMOD(p, args) =>{
+            val i = new MMTInstance(p,args)
+            OMLIT(tp,tm)
+         }
+      }
+   }
+}
 
-object IfteRun extends ExecutionRule(CF.ifte.path){
+object NewRule extends SyntaxDrivenRule{
+   def apply(...){
+      prog match{
+         case OMPMOD(p, args) =>
+         CF.instance(p)
+      }
+   }
+}*/
+
+object IfRun extends ExecutionRule(BooleanExtensionality.`if`.path){
    override def under = List(Apply.path)
    def apply(controller:Controller, callback: ExecutionCallback, env: RuntimeEnvironment, prog: Term): Term={
       prog match{
-         case CF.ifte(tp,b,t1,t2) =>
+         case BooleanExtensionality.`if`(tp,b,t1,t2) =>
             val cond = callback.execute(b)
             cond match {
-               case CF._true(_) => callback.execute(t1)
-               case CF._false(_) => callback.execute(t2)
+               case Booleans.tt(_) => callback.execute(t1)
+               case Booleans.ff(_) => callback.execute(t2)
             }
       }
    }
@@ -114,16 +171,18 @@ object GeRun extends ExecutionRule(CF.ge.path){
    def apply(controller:Controller, callback: ExecutionCallback, env: RuntimeEnvironment, prog: Term): Term={
       prog match{
          case CF.ge(l,r) =>
-            val lE = callback.execute(l)
-            val rE = callback.execute(r)
-            lE match {
-               case OMLIT(v1 : BigInt,rt1) => rE match {
-                  case OMLIT(v2 : BigInt,rt2) => {
-                     if(v1 > v2)
-                        CF._true
-                     else CF._false
+            val lE  = callback.execute(l)
+            val rE  = callback.execute(r)
+            (lE, rE) match{
+               case (OMLIT(vl:BigInt,tp1),OMLIT(vr:BigInt,tp2)) => {
+                  // val vl = vl_string.toInt
+                  // val vr = vr_string.toInt
+                  if(vl > vr){
+                     return Booleans.tt
                   }
+                  return Booleans.ff
                }
+
             }
       }
    }
@@ -140,8 +199,8 @@ object EqRun extends ExecutionRule(CF._eq.path){
                case OMLIT(v1 : BigInt,rt1) => rE match {
                   case OMLIT(v2 : BigInt,rt2) => {
                      if(v1 == v2)
-                        CF._true
-                     else CF._false
+                        Booleans.tt
+                     else Booleans.ff
                   }
                }
             }
@@ -149,25 +208,65 @@ object EqRun extends ExecutionRule(CF._eq.path){
    }
 }
 
-object AssignmentRun extends ExecutionRule(CF.assign.path){
+case class MMTException(tm : Term) extends Exception
+
+/*
+object MkExceptionRun extends ExecutionRule(Exceptions.`throw`){
+   override def under = List(Apply.path)
+   def apply(controller:Controller, callback: ExecutionCallback, env: RuntimeEnvironment, prog: Term): Term={
+      prog match {
+         case Exceptions.`throw`(tp,tm) => {
+            throw new MMTException(tm,tp)
+         }
+      }
+   }
+}*/
+
+object ThrowRun extends ExecutionRule(Exceptions.`throw`.path){
+   override def under = List(Apply.path)
+   def apply(controller:Controller, callback: ExecutionCallback, env: RuntimeEnvironment, prog: Term): Term={
+      prog match {
+         case Exceptions.`throw`(tm) => {
+            throw new MMTException(tm)
+         }
+      }
+   }
+}
+
+object TryCatchRun extends ExecutionRule(Exceptions.tryCatch.path){
+   override def under = List(Apply.path)
+   def apply(controller:Controller, callback: ExecutionCallback, env: RuntimeEnvironment, prog: Term): Term={
+      prog match {
+         case Exceptions.tryCatch(tp,term, handler) => {
+            try{
+               callback.execute(term)
+            }catch{
+               case MMTException(exc) => callback.execute(ApplyGeneral(handler, exc::Nil))
+            }
+         }
+      }
+   }
+}
+
+object AssignmentRun extends ExecutionRule(MutableVariables.assign.path){
    override def under = List(Apply.path)
    def apply(controller:Controller, callback: ExecutionCallback, env: RuntimeEnvironment, prog: Term): Term={
       prog match{
-         case CF.assign(tp,v1 :OMV,t2) =>
+         case MutableVariables.assign(tp,v1 :OMV,t2) =>
             val t2E = callback.execute(t2)
             env.stack.assign(v1.name, t2E)
-            CF.unit
-         case CF.assign(tp,n,t2) => ???
+            UnitType.unit
+         case MutableVariables.assign(tp,n,t2) => ???
       }
    }
 }
 
 
-object DeclareRun extends ExecutionRule(CF.declare.path){
+object DeclareRun extends ExecutionRule(MutableVariables.declare.path){
    override def under = List(Apply.path)
    def apply(controller:Controller, callback:ExecutionCallback,env:RuntimeEnvironment,prog: Term):Term={
       prog match{
-         case CF.declare(tp1,tp2,initVal, OMBINDC(term, con, scope::Nil)) => {
+         case MutableVariables.declare(tp1,tp2,initVal, OMBINDC(term, con, scope::Nil)) => {
             // val first_arg = OMV(localName)
             env.stack.newVariable(con.variables.head)
             env.stack.assign(con.variables.head.name,initVal)
@@ -182,11 +281,11 @@ object DeclareRun extends ExecutionRule(CF.declare.path){
    }
 }
 
-object SequenceRun extends ExecutionRule(CF.sequence.path){
+object SequenceRun extends ExecutionRule(SequencingOps.sequence.path){
    override def under = List(Apply.path)
    def apply(controller:Controller, callback: ExecutionCallback, env: RuntimeEnvironment, prog: Term) : Term = {
       prog match {
-         case CF.sequence(tp1,tp2,fst,snd) =>
+         case SequencingOps.sequence(tp1,tp2,fst,snd) =>
           val fstE = callback.execute(fst)
           val sndE = callback.execute(snd)
           sndE
