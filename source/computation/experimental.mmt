@@ -67,10 +67,29 @@ theory CF =
     include ?WhileOps ❙
     include ?Exceptions ❙
    
-    constant instance # instance 1❙
-   new    # new 1❙
-   // rule rules?NewInstance❙
-   field    # 1 . 2❙
+    // the meta-level type of all instances❙
+    anyInstance❙
+    // legalizes literals representing runtime instances
+       Their MMT type is anyInstance, which is not an LF type
+       so that instances are not immediately usable.
+       Instead, languages represented in MMT can use these literals to build terms.❙
+    lfRules?Realize anyInstance InstanceType❙
+
+    // the above two declarations are not LATIN-specific and should be moved to a theory CF in urtheories that is included here❙
+    
+    // the type of all instances of a given theory❙ 
+    typedInstances # %n 1❙
+    // embeds a runtime instance represented as a literal into the appropriate type❙
+    typedInstance # %n 1❙
+    
+    // the typing rule for typedInstances❙
+    rule InstancesTyping❙
+    // the typing rule for typedInstance❙
+    rule InstanceTyping❙
+    
+    new    # new 1❙
+    // rule rules?NewInstance❙
+    field    # 1 . 2❙
 
 
    // var 17 [ x ] ( x = 18; print x; x = 0; print x) ❙

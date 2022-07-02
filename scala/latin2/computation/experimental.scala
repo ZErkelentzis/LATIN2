@@ -1,20 +1,16 @@
 package latin2.computation
 
-import info.kwarc.mmt.api.objects._
-import info.kwarc.mmt.api.uom._
-import info.kwarc.mmt.api.execution.{ExecutionCallback, ExecutionRule, RulePreprocessor, RuntimeEnvironment}
-import info.kwarc.mmt.lf.LFConstantScala._
-import info.kwarc.mmt.lf._
 import info.kwarc.mmt.api._
-import info.kwarc.mmt.api.frontend.Controller
-import objects._
-import lf._
+import info.kwarc.mmt.api.objects._
+import info.kwarc.mmt.api.execution._
 import info.kwarc.mmt.api.checking._
-import info.kwarc.mmt.api.ontology.MMTExtractor
-import info.kwarc.mmt.lf.Common.isTypeLike
-import objects.Conversions._
-import uom._
+import info.kwarc.mmt.api.uom._
+import info.kwarc.mmt.api.frontend.Controller
 import info.kwarc.mmt.api.symbols.Constant
+import objects._
+
+import info.kwarc.mmt.lf._
+import lf._
 
 object PrintRun  extends ExecutionRule(IOOps.print.path) {
    override def under: List[GlobalName] =List(Apply.path)
@@ -315,5 +311,35 @@ object DeclareTerm extends InferenceRule(CF.declare.path, OfType.path) {
         case _ => None // should be impossible
       }
    }
+}
+*/
+
+/* commented out because it is a sketch for Alex to finish
+/**
+  * |- typedInstance OMLIT(instance of theory p) : typedInstances(p)
+  */
+object InstanceTyping extends InferenceRule(CF.typedInstance.path, OfType.path) {
+  val instType = RealizedType(CF.anyInstance.term, InstanceType)
+  def apply(solver: Solver)(tm: Term, covered: Boolean)(implicit stack: Stack, history: History): Option[Term] = {
+    tm match {
+      case CF.instanceOf(instType(inst)) =>
+        Some(CF.typedInstances(OMMOD(inst.theory.path)))
+    }
+  }
+}
+
+/**
+  * p is a theory that is allowed to be used as a type --->  |- typedInstances p : tp
+  */
+object InstancesTyping extends InferenceRule(CF.typedInstances.path, OfType.path) {
+  def apply(solver: Solver)(tm: Term, covered: Boolean)(implicit stack: Stack, history: History): Option[Term] = {
+    tm match {
+      case CF.typedInstances(OMMOD(p)) =>
+        if (!covered) {
+          // check that theory p exists, and is allowed to have instances
+        }
+        Some(Types.tp.term)
+    }
+  }
 }
 */
