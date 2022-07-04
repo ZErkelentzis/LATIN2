@@ -1,0 +1,22 @@
+namespace latin:/❚
+
+fixmeta latin:/?SFOLEQND❚
+
+theory UptoNatTypes =
+  include ?Nat❙
+  // {0,...,n-1}❙
+  Upto: ℕ ⟶ tp❙
+  // n in Upto n❙ 
+  last: {n} tm Upto (n')❙
+  // embed Upto n into Upto n'❙
+  lift: {n} tm Upto n ⟶ tm Upto (n')❘# %n 2❙
+  
+  rule ☞scala://numbers.latin2?UptoLiterals❙
+  
+  test : tm Upto 4 ❘= 1❙
+  
+  // embed Upto n into ℕ❙
+  fulllift: {n} tm Upto n ⟶ ℕ❘# %n 2 prec 50❙
+  fulllift_last: {n} ⊦ fulllift (last n) =ͭ n❘ role Simplify❙
+  fulllift_lift: {n,i:tm Upto n} ⊦ fulllift (lift i) =ͭ fulllift i❘# role Simplify❙
+❚

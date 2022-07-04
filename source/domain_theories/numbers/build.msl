@@ -8,6 +8,7 @@ build MMT/LATIN2 mmt-omdoc ./nat_axiomatic.mmt
 build MMT/LATIN2 mmt-omdoc ./nat_binary.mmt
 build MMT/LATIN2 mmt-omdoc ./nat_church.mmt
 build MMT/LATIN2 mmt-omdoc ./nat_realm.mmt
+build MMT/LATIN2 mmt-omdoc ./upto.mmt
 
 // integer numbers
 build MMT/LATIN2 mmt-omdoc ./int_axiomatic.mmt

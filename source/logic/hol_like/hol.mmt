@@ -83,11 +83,11 @@ theory ClassicalViaChoice =
 theory IfThenElseViaChoice =
   include ?HOLND❙
   include ?TypedTotalChoice❙
+  realize ?IfThenElse❙
   
   ifte_prop : {A} prop ⟶ tm A ⟶ tm A ⟶ (tm A ⟶ prop)❘# %%prefix 1 4❘
             = [A,b,x,y] [u] (b ∧ (u =ͭ x)) ∨ (¬ b ∧ (u =ͭ y))❙
-  ifte : {A} prop ⟶ tm A ⟶ tm A ⟶ tm A❘ # if 2 then 3 else 4 prec 50❘
-       = [A,b,x,y] tany [u] ifte_prop b x y u❙
+  ifte = [A,b,x,y] tany [u] ifte_prop b x y u❙
   
   ifte_exists : {A,B,X,Y: tm A} ⊦ ∃ͭ [u] ifte_prop B X Y u❘
      = [A,B,X,Y: tm A] tnd orE
@@ -102,15 +102,12 @@ theory IfThenElseViaChoice =
                               q orE ([s: ⊦   B ∧ (v =ͭ X)] (r andEl) notE_done (s andEl))
                                     ([s: ⊦ ¬ B ∧ (v =ͭ Y)] (r andEr) ttrans ((s andEr) tsym))
                             )❙
- 
-  ifte_then : {A,B,X,Y:tm A} ⊦   B ⟶ ⊦ if B then X else Y =ͭ X❘
-     = [A,B,X,Y,p] ifte_exists texistsE [x][q: ⊦ ifte_prop B X Y x]
+  ifte_true = [A,B,X,Y,p] ifte_exists texistsE [x][q: ⊦ ifte_prop B X Y x]
          (tany_ax ([u] ifte_prop B X Y u) ifte_exists) orE
             ([r: ⊦   B ∧ (if B then X else Y =ͭ X)] r andEr)
             ([r: ⊦ ¬ B ∧ (if B then X else Y =ͭ Y)] (r andEl) notE_done p)❙
-   ifte_else : {A,B,X,Y:tm A} ⊦ ¬ B ⟶ ⊦ if B then X else Y =ͭ Y❘
-     = [A,B,X,Y,p] ifte_exists texistsE [y][q: ⊦ ifte_prop B X Y y]
+  ifte_false = [A,B,X,Y,P] ifte_exists texistsE [y][q: ⊦ ifte_prop B X Y y]
          (tany_ax  ([u] ifte_prop B X Y u) ifte_exists) orE
-            ([r: ⊦   B ∧ (if B then X else Y =ͭ X)] p notE_done (r andEl))
+            ([r: ⊦   B ∧ (if B then X else Y =ͭ X)] (P (r andEl)) inconE)
             ([r: ⊦ ¬ B ∧ (if B then X else Y =ͭ Y)] r andEr)❙
 ❚

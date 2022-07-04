@@ -2,25 +2,12 @@ namespace latin:/❚
 
 fixmeta ur:?LF❚
 
-theory UptoNatTypes =
-  include ?Nat❙
-  lnat: tp❙ // should be nat but need to order dependencies first❙
-  lzero: tm lnat❙
-  lsucc: tm lnat ⟶ tm lnat❘# 1 '❙
-  Upto: tm lnat ⟶ tp❙
-  last: {n} tm Upto (n')❙
-  lift: {n} tm Upto n ⟶ tm Upto (n')❘# %n 2❙
-  
-  fulllift: {n} tm Upto n ⟶ tm lnat❘# %n 2 prec 50❙
-  fulllift_last: {n} ⊦ fulllift (last n) =ͭ n❘ role Simplify❙
-  fulllift_lift: {n,i:tm Upto n} ⊦ fulllift (lift i) =ͭ fulllift i❘# role Simplify❙
-❚
-
 theory VectorTypes =
   include ?Types❙
   include ?UptoNatTypes❙
-  vector : tp ⟶ tm lnat ⟶ tp❘# 1 ^ͭ 2 prec 50❙
-  empty_vector: {a} tm a^ͭlzero❙
+
+  vector : tp ⟶ ℕ ⟶ tp❘# 1 ^ͭ 2 prec 50❙
+  empty_vector: {a} tm a^ͭ0❙
   snoc_vector: {a,n} tm a^ͭn ⟶ tm a ⟶ tm a^ͭ(n')❘# 3 snoc 4 prec 50❙
   
   vector_proj: {a,n} tm a^ͭn ⟶ tm Upto n ⟶ tm a❘ # 3 proj 4 prec 50❙
