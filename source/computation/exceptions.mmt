@@ -1,0 +1,15 @@
+namespace latin:/❚
+
+import rules scala://computation.latin2❚
+fixmeta ur:?PLF❚
+
+theory Exceptions = 
+	include ?EmptyType ❙
+	
+	exception  :  tp ❙
+	throw : tm exception⟶ tm void ❘ # throw 1❙
+	tryCatch: {a : type} a ⟶ (tm exception ⟶ a) ⟶ a ❘#  try 2 catch 3 ❙
+	// rule rules?MkExceptionRun ❙
+	rule rules?ThrowRun ❙
+	rule rules?TryCatchRun ❙
+❚

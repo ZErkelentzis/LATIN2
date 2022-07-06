@@ -1,14 +1,12 @@
 package latin2.computation
 
 import info.kwarc.mmt.api._
-import info.kwarc.mmt.api.objects._
+import objects.{Stack, _}
 import info.kwarc.mmt.api.execution._
 import info.kwarc.mmt.api.checking._
 import info.kwarc.mmt.api.uom._
 import info.kwarc.mmt.api.frontend.Controller
 import info.kwarc.mmt.api.symbols.Constant
-import objects._
-
 import info.kwarc.mmt.lf._
 import lf._
 
@@ -140,25 +138,36 @@ object NewRun extends SyntaxDrivenRule{
       }
    }
 }
-
-object NewRule extends SyntaxDrivenRule{
-   def apply(...){
-      prog match{
-         case OMPMOD(p, args) =>
-         CF.instance(p)
+*/
+object NewRule extends InferenceRule(TheoriesAsClasses.`new`.path,OfType.path){
+   def apply(solver: Solver)(tm: Term, covered: Boolean)(implicit stack: Stack, history: History) : Option[Term] = {
+      tm match{
+         case TheoriesAsClasses.`new`(OMPMOD(p, args))=>
+         Some(TheoriesAsClasses.instance(toTerm(p, args)))
       }
    }
-}*/
+   def toTerm(p :MPath,args : List[Term]):Term = {
+      OMA(OMID(p),args)
+   }
+   /*tm match {
+      case CF.typedInstances(OMMOD(p)) =>
+         if (!covered) {
+            // check that theory p exists, and is allowed to have instances
+         }
+         Some(Types.tp.term)
+   }*/
 
-object IfRun extends ExecutionRule(BooleanExtensionality.`if`.path){
+}
+
+object IfRun extends ExecutionRule(IfThenElse.ifte.path){
    override def under = List(Apply.path)
    def apply(controller:Controller, callback: ExecutionCallback, env: RuntimeEnvironment, prog: Term): Term={
       prog match{
-         case BooleanExtensionality.`if`(tp,b,t1,t2) =>
+         case IfThenElse.ifte(tp,b,t1,t2) =>
             val cond = callback.execute(b)
             cond match {
-               case Booleans.tt(_) => callback.execute(t1)
-               case Booleans.ff(_) => callback.execute(t2)
+               case Truth._true(_) => callback.execute(t1)
+               case Falsity._false(_) => callback.execute(t2)
             }
       }
    }
@@ -207,18 +216,6 @@ object EqRun extends ExecutionRule(CF._eq.path){
 
 case class MMTException(tm : Term) extends Exception
 
-/*
-object MkExceptionRun extends ExecutionRule(Exceptions.`throw`){
-   override def under = List(Apply.path)
-   def apply(controller:Controller, callback: ExecutionCallback, env: RuntimeEnvironment, prog: Term): Term={
-      prog match {
-         case Exceptions.`throw`(tp,tm) => {
-            throw new MMTException(tm,tp)
-         }
-      }
-   }
-}*/
-
 object ThrowRun extends ExecutionRule(Exceptions.`throw`.path){
    override def under = List(Apply.path)
    def apply(controller:Controller, callback: ExecutionCallback, env: RuntimeEnvironment, prog: Term): Term={
@@ -264,9 +261,12 @@ object DeclareRun extends ExecutionRule(MutableVariables.declare.path){
    def apply(controller:Controller, callback:ExecutionCallback,env:RuntimeEnvironment,prog: Term):Term={
       prog match{
          case MutableVariables.declare(tp1,tp2,initVal, OMBINDC(term, con, scope::Nil)) => {
-            // val first_arg = OMV(localName)
+            // we need to execute the initVal, in case it is not ground yet and contains
+            // mutable values
+            // TODO: check this later in case you want something like call-by reference
+            val eInitVal = callback.execute(initVal)
             env.stack.newVariable(con.variables.head)
-            env.stack.assign(con.variables.head.name,initVal)
+            env.stack.assign(con.variables.head.name,eInitVal)
             // execute everything below the declaration with the variable in context
             val executed = callback.execute(scope)
             // now the context is over, we can remove the variable again
@@ -313,8 +313,7 @@ object DeclareTerm extends InferenceRule(CF.declare.path, OfType.path) {
    }
 }
 */
-
-/* commented out because it is a sketch for Alex to finish
+// commented out because it is a sketch for Alex to finish
 /**
   * |- typedInstance OMLIT(instance of theory p) : typedInstances(p)
   */
@@ -322,7 +321,7 @@ object InstanceTyping extends InferenceRule(CF.typedInstance.path, OfType.path) 
   val instType = RealizedType(CF.anyInstance.term, InstanceType)
   def apply(solver: Solver)(tm: Term, covered: Boolean)(implicit stack: Stack, history: History): Option[Term] = {
     tm match {
-      case CF.instanceOf(instType(inst)) =>
+      case CF.typedInstance(instType(Some(inst: InstanceOfTheory))) =>
         Some(CF.typedInstances(OMMOD(inst.theory.path)))
     }
   }
@@ -337,9 +336,65 @@ object InstancesTyping extends InferenceRule(CF.typedInstances.path, OfType.path
       case CF.typedInstances(OMMOD(p)) =>
         if (!covered) {
           // check that theory p exists, and is allowed to have instances
+           // first check whether the theory exists
+           val module = solver.getModule(p) match{
+              case None => return None
+              case Some(module) => module
+           }
+           // solver.solve(p,CF.anyInstance)
         }
         Some(Types.tp.term)
     }
   }
+}
+
+/*
+/**
+ * "init" fully initializes the definienses in theory --->  |- new theory init : typedInstances theory
+ */
+object NewInstance extends InferenceRule(CF.`new`.path, OfType.path) {
+   def apply(solver: Solver)(tm: Term, covered: Boolean)(implicit stack: Stack, history: History): Option[Term] = {
+      tm match {
+         case CF.`new`(theory, initfun: Term) =>
+            val funterm = solver.inferType(initfun) match {
+               case Some(tp) => tp
+               case None => return None
+            }
+
+            if (!covered) {
+               // check that theory p exists, and is allowed to have instances
+               // first check whether the theory exists
+               val module = solver.getModule(theory.toMPath) match{
+                  case None => return None
+                  case Some(module) => module
+               }
+               // solver.solve(p,CF.anyInstance)
+            }
+            Some(CF.typedInstances(theory))
+      }
+   }
+}*/
+/*
+object DeclareTerm extends InferenceRule(CF.declare.path, OfType.path) {
+   def apply(solver: Solver)(tm: Term, covered: Boolean)(implicit stack: Stack, history: History) : Option[Term] = {
+      println(tm)
+      tm match {
+        case CF.declare(con, body)  =>
+           val x = con.getDeclarations.head.name
+           val a = con.getDeclarations.head.tp.get
+           if (!covered) isTypeLike(solver,a)
+           val (xn,sub) = Common.pickFresh(solver, x)
+           solver.inferType(body ^? sub, covered)(stack ++ xn % a, history) flatMap {bT =>
+              if (bT.freeVars contains xn) {
+                 // usually an error, but xn may disappear later, especially when unknown in b are not solved yet
+                 solver.error("type of Declare-scope has been inferred, but contains free variable " + xn + ": " + solver.presentObj(bT))
+                 None
+              } else {
+                 Some(bT)
+              }
+           }
+        case _ => None // should be impossible
+      }
+   }
 }
 */
