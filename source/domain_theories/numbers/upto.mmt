@@ -1,19 +1,29 @@
 namespace latin:/❚
 
-fixmeta latin:/?SFOLEQND❚
+fixmeta ur:?LF❚
 
 theory UptoNatTypes =
   include ?Nat❙
   // {0,...,n-1}❙
-  Upto: ℕ ⟶ tp❙
+  Upto: ℕ ⟶ tp❘# %n 1 prec 30❙
   // n in Upto n❙ 
   last: {n} tm Upto (n')❙
   // embed Upto n into Upto n'❙
-  lift: {n} tm Upto n ⟶ tm Upto (n')❘# %n 2❙
+  lift: {n} tm Upto n ⟶ tm Upto n'❘# %n 2 prec 30❙
   
+  // all elements in Upto n are different❙
+  lift_last_injective: {n,i} ⊦ lift i =ͭ last n ⟶ ↯❙
+  lift_lift_injective: {n,i,j: tm Upto n} ⊦ lift i =ͭ lift j ⟶ ⊦ i =ͭ j❙
+
+  // Upto zero is empty.❙
+  induction_zero: {F: tm Upto zero ⟶ prop, i: tm Upto zero} ⊦ F i❙
+  // Upto n' consists of n and the liftings of the elements of Upto n❙
+  induction_succ: {n, F: tm Upto n' ⟶ prop} ({i: tm Upto n} ⊦ F (lift i)) ⟶ ⊦ F (last n) ⟶
+                  {i: tm Upto n'} ⊦ F i❙
+  
+  // The following rules makes every natural number literal i a literal of type Upto n for a literal n with i<n.
+  It does not introduce any kind of subtyping between Upto types or ℕ.❙
   rule ☞scala://numbers.latin2?UptoLiterals❙
-  
-  test : tm Upto 4 ❘= 1❙
   
   // embed Upto n into ℕ❙
   fulllift: {n} tm Upto n ⟶ ℕ❘# %n 2 prec 50❙

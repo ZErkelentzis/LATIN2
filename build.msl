@@ -51,6 +51,9 @@ build MMT/LATIN2 mmt-omdoc curry-howard
 // various common domains
 file source/domain_theories/build.msl
 
+// depends on natural numbers
+build MMT/LATIN2 mmt-omdoc type_theory/vector_types.mmt
+
 // Meta-theorems stating the algebraic properties of logic, formalized as theory morphisms from algebraic to logical theories.
 build MMT/LATIN2 mmt-omdoc algebraic_logic/pl_semilattice.mmt
 
