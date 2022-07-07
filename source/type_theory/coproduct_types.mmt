@@ -23,4 +23,8 @@ theory CoproductsExpand =
   expand : {A,B,c: tm A ⊎ͭ B} ⊦ c cases ([a] inj1 a) ([b] inj2 b) =ͭ c❙
 ❚
 
-
+theory CoproductsExtensionality =
+  include ?Coproducts❙
+  extensionality: {A,B,C,u,v: tm A⊎ͭB}
+                  ({f: tm A ⟶ tm C, g:tm B ⟶ tm C} ⊦ (u cases f g) =ͭ (v cases f g)) ⟶ ⊦ u =ͭ v❙
+❚
