@@ -7,7 +7,7 @@ import info.kwarc.mmt.api.objects.Context.context2list
 import info.kwarc.mmt.api.objects.{Term, _}
 import info.kwarc.mmt.api.symbols.{Constant, PlainInclude}
 import info.kwarc.mmt.api.uom.SimplificationUnit
-import info.kwarc.mmt.api.{ContentPath, GlobalName, LocalName, MPath}
+import info.kwarc.mmt.api.{ContentPath, GlobalName, ImplementationError, LocalName, MPath}
 import info.kwarc.mmt.lf._
 import latin2.sfol.SFOLPatterns.{FuncDecl, PredDecl, TypeDecl}
 import leo.datastructures.TPTP.Comment.{CommentFormat, CommentType}
@@ -24,15 +24,16 @@ import lf.SimpleFunctions.{simpapply, simplambda}
 import lf.TypedEquality.tequal
 import lf.TypedExistentialQuantification.texists
 import lf.TypedUniversalQuantification.tforall
-import lf.{Falsity, InternalPropositions, SimpleFunctionTypes, Truth}
-
+import lf.{Falsity, InternalPropositions, SimpleFunctionTypes, Truth, TypedEquality}
 import info.kwarc.mmt.api
-import latin2.tptp.ExporterUtil._
+import info.kwarc.mmt.api.checking.{History, Solver, TypeBasedEqualityRule}
+import info.kwarc.mmt.api.objects.Conversions.localName2OMV
+import latin2.tptp.DHOLExporterUtil._
+import latin2.tptp.THFExporterUtil._
 
 object DHOLExporter {
   var comments = Map[String, Seq[Comment]]() //TODO: use this instead of returning comments, don't forget to clear after each run
   var currentFormulaComments = Seq[Comment]()
-  var pathMap: List[(GlobalName, String)] = Nil
 
  def export_theory(theory: Theory)(implicit ctrl: Controller): Problem = {
     val formulas = translate_theory(theory).map(x => if (x.role == "") {
@@ -50,6 +51,7 @@ object DHOLExporter {
     // paths in the translation and in order to define the typing predicate for booleans using case distinctions
     val decls = theory.getConstants
     var predDecls: List[(Constant, VarDecl)] = Nil
+    implicit var pathMap: List[(GlobalName, String)] = Nil
 
     decls flatMap { c =>
       val simplicationUnit = SimplificationUnit(Context(c.path.module), expandDefinitions = true, fullRecursion = true)
@@ -61,7 +63,12 @@ object DHOLExporter {
       val declTranslated = simplifiedTp match {
         case Some(lf.Types.tp.term) | Some(Univ(1)) | Some(TypeDecl(Nil)) =>
           pathMap ::= (path, translated_type_name(name))
-          List(THFAnnotated("type_" + name.toString, "type", THF.Typing(translated_type_name(name), THFType), None))
+          pathMap ::= (path, translated_type_name(name))
+          val tpDecl = THFAnnotated("type_" + name.toString, "type", THF.Typing(translated_type_name(name), THFType), None)
+          val predTp = THF.BinaryFormula(FunTyConstructor, translate_type(OMS(path)), THFBool)
+          val tpPred = THFAnnotated(name.toString + "_pred", "type",
+            THF.Typing(type_pred_name(name), predTp), None)
+          List(tpDecl, tpPred)
         case Some(piTp@Pi(_, _, _)) => unapplyPi(piTp) match {
           case Some((dependentArgs, bdy)) if (bdy == Univ(1) || bdy == lf.Types.tp.term) =>
             pathMap ::= (path, translated_type_name(name))
@@ -126,7 +133,7 @@ object DHOLExporter {
     }
   }
 
-  def translate_term(t: Term)(implicit predDecls: List[(Constant, VarDecl)] = Nil): THF.Formula = t match {
+  def translate_term(t: Term)(implicit pathMap: List[(GlobalName, String)] = Nil, predDecls: List[(Constant, VarDecl)] = Nil): THF.Formula = t match {
     case Lambda(v, ty, body) => THF.QuantifiedFormula(THF.^, Seq((translate_var(v), translate_term(ty))), translate_term(body))
     case simplambda(_, _, f) => translate_term(f)
     case simpapply(_, _, f, x) => translate_term(ApplySpine(f, x))
@@ -223,6 +230,8 @@ object DHOLExporter {
       p a && p b                        if t == a => b
       a? x                              if t == p y and p:a -> bool in the theory
       true                              if t == b? r1 ... rn y for any dep. type b and arguments r1, ..., rn, y
+      true                              if t == x
+      true                              if t == c for a boolean constant (including true and false)
        */
       case lf.Booleans.bool(()) => x match {
         case lf.TypedEquality.tequal(tp, r, s) => THF.BinaryFormula(THF.&, typing_pred(tp, r), typing_pred(tp, s))
@@ -233,10 +242,12 @@ object DHOLExporter {
           THF.QuantifiedFormula(THF.!, Seq((translate_var(v), translate_term(ty))), ImplIfNonTriv(ass, tpconcl))
         case ApplySpine(OMS(p), args) => predDecls.find(_._1.path == p) match {
           case Some((c, arg)) => typing_pred(arg.tp.get(), arg.toTerm)
-          case None => THFTrue // in this case p must be a typing predicate and there is nothing we have to check
+          case None => THFTrue  // in this case p must be a typing predicate
         }
+        case OMV(x) => THFTrue  // can not occur on the right of an =>
       }
-      case OMS(p) => THFTrue // ignoring trivial typing predicates of simple types
+      case Truth._true(()) | Falsity._false(()) | OMS(_) => THFTrue
+      // This only makes sense if we have a boolean constant, in that case it can not occur on the right of an =>
       case Pi(n, tp, ret) =>
         def binder(t:THF.Formula): THF.Formula = THF.QuantifiedFormula(THF.?, Seq((translate_var(n), translate_term(tp))), t)
         // we can ignore trivial assumptions
@@ -249,17 +260,9 @@ object DHOLExporter {
   }
 }
 
-object ExporterUtil {
+object DHOLExporterUtil {
   def unapplyPi(tm: Term) : Option[(Context, Term)] = tm match {
     case Pi(n, tp, x) => unapplyPi(x) match {
-      case Some((ctx, body)) => Some(OMV(n) % tp::ctx, body)
-      case None => Some(OMV(n) % tp, x)
-    }
-    case _ => None
-  }
-
-  def unapplyDepFun(tm: Term) : Option[(Context, Term)] = tm match {
-    case lf.DependentFunctionTypes.depfun(tp, Lambda(n, lf.TypedTerms.tm(tp2), x)) if tp == tp2 => unapplyDepFun(x) match {
       case Some((ctx, body)) => Some(OMV(n) % tp::ctx, body)
       case None => Some(OMV(n) % tp, x)
     }
@@ -271,6 +274,14 @@ object ExporterUtil {
   val THFTrue = THFTerm("$true")
   val THFFalse = THFTerm("$false")
   def THFOMS(p:ContentPath) = THF.FunctionTerm(p.name.toString, Nil)
+
+  def unapplyDepFun(tm: Term) : Option[(Context, Term)] = tm match {
+    case lf.DependentFunctionTypes.depfun(tp, Lambda(n, lf.TypedTerms.tm(tp2), x)) if tp == tp2 => unapplyDepFun(x) match {
+      case Some((ctx, body)) => Some(OMV(n) % tp::ctx, body)
+      case None => Some(OMV(n) % tp, x)
+    }
+    case _ => None
+  }
   def ImplIfNonTriv(ass: THF.Formula, concl: THF.Formula) =
     if (ass == THFTrue) concl else THF.BinaryFormula(THF.Impl, ass, concl)
 
@@ -287,4 +298,65 @@ object ExporterUtil {
 
   def translate_var(n:LocalName) = "V_" + n
   def default_name(p: ContentPath) = "t_" + p.name.toString
+  def IMPOSSIBLE = throw ImplementationError("This case should be impossible.")
+}
+
+
+// Should probably be moved to lf
+object ProverBasedTypeEquality extends TypeBasedEqualityRule(Nil, lf.Types.tp.path) {
+  private def normalizeAppl(funAppl: Term): (Term, List[Term]) = funAppl match {
+    case ApplySpine(fun, args) => fun match {
+      case OMS(p) => (fun, args)
+      case ApplySpine(f, xs) =>
+        val (head, tail) = normalizeAppl(f)
+        (head, tail ::: xs ::: args)
+    }
+  }
+  /**
+   * @param solver provides callbacks to the currently solved system of judgments
+   * @param tm1    the first term
+   * @param tm2    the second term
+   * @param tp     their type
+   * @param stack  their context
+   * @return true iff the judgment holds; None if the solver should proceed with term-based equality checking
+   */
+  override def apply(solver: Solver)(tm1: Term, tm2: Term, tp: Term)(implicit stack: Stack, history: History): Option[Boolean] = (tm1, tm2, tp) match {
+    // do we want to consider generalizations of this rule (e.g. if f != g but f eq g or maybe f x1 ... xm == g)?
+    // also what if the arguments contain unsolved terms
+    case (ApplySpine(OMS(fp), xs), ApplySpine(OMS(gp), ys), lf.Types.tp.term) => {
+      if (fp != gp) {
+        solver.error("different heads")
+        return Some(false)
+      }
+      solver.inferType(OMS(fp)) match {
+        case Some(FunType(argTps, _)) =>
+          var subs = Substitution()
+          val requal = argTps.zip(xs).zip(ys) forall {
+            case (((nO, a), x), y) =>
+              val xtp = a ^ subs
+              nO foreach { n =>
+                subs ++= Sub(n, x)
+                xtp
+              }
+              val j = Equality(stack, x, y, Some(xtp))
+              if (solver.isDirectlySolvable(j) || solver.isDirectlySolvable(j.swap)) {
+                solver.check(j)
+              } else {
+                val pO = lf.Proofs.ded(TypedEquality.tequal(xtp, x, y))
+                solver.addUnknowns(Context(solver.freshUnknown() % pO), None)
+                true
+              }
+          }
+          Some(requal)
+        case _ => None
+      }
+    }
+    case _ => None
+  }
+
+  /**
+   * type-based equality reasoning often uses extensionality, which can be inefficient or even lead to cycles.
+   * Therefore, these rules are only applied to tm1 = tm2 : tp if tm1 or tm2 satisfies this predicate.
+   */
+  override def applicableToTerm(solver: Solver, tm: Term): Boolean = true
 }
