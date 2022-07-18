@@ -7,7 +7,7 @@ import info.kwarc.mmt.api.objects.Context.{context2list, makeFresh}
 import info.kwarc.mmt.api.objects.{Term, _}
 import info.kwarc.mmt.api.symbols.{Constant, PlainInclude}
 import info.kwarc.mmt.api.uom.SimplificationUnit
-import info.kwarc.mmt.api.{ContentPath, GlobalName, ImplementationError, LocalName, MPath}
+import info.kwarc.mmt.api.{ContentPath, GeneralError, GlobalName, ImplementationError, LocalName, MPath}
 import info.kwarc.mmt.lf._
 import latin2.sfol.SFOLPatterns.{FuncDecl, PredDecl, TypeDecl}
 import leo.datastructures.TPTP.Comment.{CommentFormat, CommentType}
@@ -24,7 +24,7 @@ import lf.SimpleFunctions.{simpapply, simplambda}
 import lf.TypedEquality.tequal
 import lf.TypedExistentialQuantification.texists
 import lf.TypedUniversalQuantification.tforall
-import lf.{Falsity, InternalPropositions, SimpleFunctionTypes, Truth, TypedEquality}
+import lf.{DependentFunctionTypes, Falsity, InternalPropositions, SimpleFunctionTypes, Truth, TypedEquality, TypedTerms}
 import info.kwarc.mmt.api
 import info.kwarc.mmt.api.checking.{History, Solver, TypeBasedEqualityRule}
 import info.kwarc.mmt.api.objects.Conversions.localName2OMV
@@ -62,7 +62,7 @@ object DHOLExporter {
       } catch {
         // this shouldn't happen, but it makes more sense to continue anyways, as simplifying is not really necessary
         // TODO: add some error handling
-        case e: Throwable => tp
+        case e: GeneralError => tp
       }
 
       val name = path.name
@@ -87,7 +87,7 @@ object DHOLExporter {
           val tpPred = THFAnnotated(name.toString + "_pred", "type",
             THF.Typing(type_pred_name(name), predTp), None)
           List(tpDecl, tpPred)
-        case depFun@lf.DependentFunctionTypes.depfun(_, _) => unapplyDepFun(depFun) match { // declaration of function
+        case TypedTerms.tm(DependentFunctionTypes.depfun(s, t)) => unapplyDepFun(DependentFunctionTypes.depfun(s, t)) match { // declaration of function
           case Some((dependentArgs, ret)) =>
             pathMap ::= (path, translated_fun_name(name))
             ret match {
@@ -101,7 +101,7 @@ object DHOLExporter {
               THF.Logical(retPred), None)
             List(funDecl, tpAx)
         }
-        case ftp@ApplyGeneral(OMS(p), args) =>
+        case ftp@ApplyGeneral(OMS(p), args) if pathMap.exists(_._1 == p) =>
           pathMap ::= (path, translated_fun_name(name))
           val constDecl = THFAnnotated("type_" + name.toString, "type",
             THF.Typing(translated_fun_name(name), translate_type(ftp)), None)
@@ -115,7 +115,6 @@ object DHOLExporter {
         case OMBINDC(binder, context, List(scopes)) if binder.toStr(true) == "unknown" => // this case shouldn't be necessary
           scopes match {
             case lf.Proofs.ded(ax) =>
-              println(ax.toStr(true))
               val tax = translate_term(ax)
               List(THFAnnotated(name + "_ax", "axiom", THF.Logical(tax), None))
             case _ => ???
@@ -223,7 +222,7 @@ object DHOLExporter {
       translate_type(Pi(depArgs, bdy))
     }
     case FunType(args, ret) if args.nonEmpty => funty_builder(argContext(args) map (_.tp.get) map translate_type, translate_type(ret))
-    case lf.TypedTerms.tm(tp) => translate_type(tp)
+    case TypedTerms.tm(tp) => translate_type(tp)
     case ApplySpine(tp, _) => translate_type(tp)
     case OMS(gn) => THFOMS(translated_type_path(gn).path)
   }
@@ -251,15 +250,15 @@ object DHOLExporter {
           case Some((c, arg)) => typing_pred(arg.tp.get(), arg.toTerm)
           case None => THFTrue  // in this case p must be a typing predicate
         }
-        case OMV(x) => THFTrue  // can not occur on the right of an =>
+        case OMV(x) => ???  // can not occur
       }
-      case Truth._true(()) | Falsity._false(()) | OMS(_) => THFTrue
+      case Truth._true(()) | Falsity._false(()) => THFTrue
       // This only makes sense if we have a boolean constant, in that case it can not occur on the right of an =>
       case Pi(n, tp, ret) =>
         def binder(t:THF.Formula): THF.Formula = THF.QuantifiedFormula(THF.?, Seq((translate_var(n), translate_term(tp))), t)
         // we can ignore trivial assumptions
         binder(THF.BinaryFormula(THF.Impl, typing_pred(tp, OMV(n)), typing_pred(ret, x)))
-      case ApplySpine(OMS(a), args) => (args:+x).map(translate_term)
+      case ApplyGeneral(OMS(a), args) => (args:+x).map(translate_term)
         .foldLeft[THF.Formula](type_pred(a))((g, arg) =>
           THF.BinaryFormula(THF.App, g, arg))
       case _ =>
@@ -351,7 +350,7 @@ object ProverBasedTypeEquality extends TypeBasedEqualityRule(Nil, lf.Types.tp.pa
               if (solver.isDirectlySolvable(j) || solver.isDirectlySolvable(j.swap)) {
                 solver.check(j)
               } else {
-                val pO = lf.Proofs.ded(TypedEquality.tequal(xtp, x, y))
+                val pO = Pi(stack.context, lf.Proofs.ded(TypedEquality.tequal(xtp, x, y)))
                 solver.addUnknowns(Context(solver.freshUnknown() % pO), None)
                 true
               }

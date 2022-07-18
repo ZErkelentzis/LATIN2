@@ -10,10 +10,10 @@ theory Cat : latin:/?DHOL =
     // ax0: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[m: tm (mor x y)] (id @ x) =ͭ id @ x ❙
     
     // actually this should be ((((comp @ x) @ y) @ y) @ m) @ (id @ y) =ͭ m but that triggers an obscure error in the simplifier ❙
-    ax1: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[m: tm (mor x y)] (id @ y) ◦ m =ͭ m ❙
+    ax1: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[m: tm (mor x y)] ((((comp @ x) @ y) @ y) @ m) @ (id @ y) =ͭ m ❙
     
     // actually this should be ((((comp @ x) @ x) @ y) @ (id @ x)) @ m =ͭ m but that triggers an obscure error in the simplifier ❙
-    ax2: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[m: tm (mor x y)] m ◦ (id @ x) =ͭ m ❙
+    ax2: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[m: tm (mor x y)] ((((comp @ x) @ x) @ y) @ (id @ x)) @ m =ͭ m ❙
 
     // finally the conjecture to prove, might need prover to show well-typedness ❙
     conj: ⊦ ∀ͭ[x: tm obj] ∀ͭ[y: tm obj] x =ͭ y ⇒ (id @ x) =ͭ (id @ y) ❘ = PROVE ❙
