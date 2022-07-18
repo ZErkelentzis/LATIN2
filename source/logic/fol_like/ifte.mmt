@@ -1,0 +1,11 @@
+namespace latin:/❚
+
+fixmeta ur:/?LF❚
+
+theory IfThenElse =
+  include ?TypedEquality❙
+  include ?Classical❙
+  ifte: {A} prop ⟶ tm A ⟶ tm A ⟶ tm A❘# if 2 then 3 else 4 prec 50❙
+  ifte_true : {A,c,x,y:tm A} ⊦ c ⟶ ⊦ if c then x else y =ͭ x❙
+  ifte_false: {A,c,x,y:tm A} (⊦ c ⟶ ↯) ⟶ ⊦ if c then x else y =ͭ y❙
+❚

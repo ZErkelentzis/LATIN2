@@ -8,12 +8,12 @@ theory CBooleansZF =
   include ?NatZF❙
   
   realize ?Booleans❙
-  bool = uopair z one❙
-  tt = elem one uopairIr❘# ⊤ͨ❙
-  ff = elem z uopairIl❘# ⊥ͨ❙
+  bool = uopair uzero uone❙
+  tt = elem uone uopairIr❘# ⊤ͨ❙
+  ff = elem uzero uopairIl❘# ⊥ͨ❙
   bool_nontrivial = notI ([pf] zero_neq_one pf falseE)❙
   
-  cbool_tnd : {b: Elem bool} ⊦ (b Eq (elem z uopairIl)) ∨ (b Eq (elem one uopairIr))❘# ctnd 1❘
+  cbool_tnd : {b: Elem bool} ⊦ (b Eq (elem uzero uopairIl)) ∨ (b Eq (elem uone uopairIr))❘# ctnd 1❘
     = [b] (why b) uopairE ([p] p orIl) ([q] q orIr)❙
 ❚
 

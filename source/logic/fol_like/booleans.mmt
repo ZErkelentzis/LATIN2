@@ -16,8 +16,4 @@ theory BooleanExtensionality =
 
    bool_tnd : ⊦ ∀ͭ[b] b =ͭ tt ∨ b =ͭ ff❘
             = tforallI [b] boolext ([x]x =ͭ tt ∨ x =ͭ ff) (trefl orIl) (trefl orIr) b❙
-   
-   if: {S} tm bool ⟶ tm S ⟶ tm S ⟶ tm S❘# if 2 then 3 else 4 prec 50❙
-   if_tt : {s,x,y:tm s} ⊦ if tt then x else y =ͭ x❙
-   if_ff : {s,x,y:tm s} ⊦ if ff then x else y =ͭ y❙
 ❚

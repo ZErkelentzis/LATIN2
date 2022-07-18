@@ -58,7 +58,6 @@ theory DependentFunctions =
 
 theory SoftTypedFunctions =
   include ?Terms❙
-  // AS: why is this UntypedEquality and not SoftTypedEquality?❙
   include ?UntypedEquality❙
   lambda: (term ⟶ term) ⟶ term❘# λ 1 prec 40❙
   apply : term ⟶ term ⟶ term❘# 1 @ 2 prec 50❙

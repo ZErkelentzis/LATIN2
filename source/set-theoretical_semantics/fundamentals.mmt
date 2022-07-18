@@ -48,7 +48,7 @@ theory TypedEqualitySet =
   include ?TypedLogicSet❙
   
   realize ?TypedEquality❙
-  tequal = Eq❙ 
+  tequal = [A,x,y] x Eq y❙ 
 ❚
 
 theory TypedEqualityNDSet =
@@ -57,7 +57,7 @@ theory TypedEqualityNDSet =
   include ?TypedEqualitySet❙
   
   realize ?TypedEqualityND❙
-  trefl = [A,e: Elem A] Refl❙
+  trefl = [A,e: Elem A] EqRefl❙
   tcongB = EqcongB❙
 ❚
 

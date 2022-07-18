@@ -7,40 +7,48 @@ theory TypeBase =
   
   // Class P is the class of all sets satisfying P❙
   Class : (set ⟶ prop) ⟶ type❙
-  celem : {P,x} ⊦ P x ⟶ Class P❙
-  cwhich : {P} Class P ⟶ set❙
-  cwhy : {P,c:Class P} ⊦ (P (cwhich P c))❘# cwhy 1 2❙ 
+  celem : {P,x} ⊦ P x ⟶ Class P❘ # %n 2 3❙
+  cwhich : {P} Class P ⟶ set❘ # %n 2 prec 50❙
+  cwhy : {P,c:Class P} ⊦ P (cwhich c)❘# %n 2 prec 50❙
+
+  Eq : {P} Class P ⟶ Class P ⟶ prop❘# 2 Eq 3❘
+    = [P,c,d] cwhich c =ͧ cwhich d❙
 
   // rules for Classes❙
-  // A term with a proof is equal to the original term❙
-  ceq_which : {P,x,p} ⊦ (cwhich P (celem P x p)) =ͧ x❙
+  // a term with a proof is equal to the original term❙
+  ceq_which : {P,x,p} ⊦ (cwhich (celem P x p)) =ͧ x❘role Simplify❙
   // Elements of classes are equal if their first components are (proof irrelevance)❙
-  EqcongEl : {P,c,d,F: Class P ⟶ prop} ⊦ (cwhich P c =ͧ cwhich P d) ⟶ ⊦ F c ⟶ ⊦ F d❘# 5 EqcongEl 4 6❙
+  EqcongEl : {P,c,d,F: Class P ⟶ prop} ⊦ c Eq d ⟶ ⊦ F c ⟶ ⊦ F d❘# 5 EqcongEl 4 6❙
   
-  // Elem❙
+  EqcongEr : {P,c,d,F: Class P ⟶ prop} ⊦ c Eq d ⟶ ⊦ F d ⟶ ⊦ F c❘# 5 EqcongEr 4 6❘
+    = [P,c,d,F,p,q] (eq/sym p) EqcongEl F q❙
+  EqcongS : {P,c,d,F: Class P ⟶ set} ⊦ c Eq d ⟶ ⊦ (F c) =ͧ (F d)❘
+    = [P,c,d,F,p] p EqcongEl ([u] F c =ͧ F u) eq/refl❙
+  EqCongC : {P,Q,c,d,F: Class P ⟶ Class Q} ⊦ c Eq d ⟶ ⊦ (cwhich (F c) =ͧ cwhich (F d))❘
+    = [P,Q,c,d,F,p] p EqcongEl ([u] cwhich F c =ͧ cwhich F u) eq/refl❙
+  EqRefl : {P,c: Class P} ⊦ c Eq c❘ = [P,e] eq/refl❙
+
+  Class_repr : {P,c:Class P} ⊦ c Eq celem (cwhich c) (cwhy c)❘
+    = [P,c] eq/refl❙
+  Class_irrel : {P,x,p,q: ⊦ P x} ⊦ celem x p Eq celem x q❘
+    = [P,x,p,q] eq/refl❘# %n %I4❙
+  
+
+  // specialization for the classes of elements of a set A❙
   Elem : set ⟶ type❘ = [A] Class [x] x∈A❙
   elem : {A,x} ⊦ x∈A ⟶ Elem A❘
     = [A,x,p] celem ([u] u∈A) x p❘# elem 2 3❙
   which : {A} Elem A ⟶ set❘
-    = [A,e] cwhich ([x] x∈A) e❘# which 2 prec 50❙
+    = [A,e] cwhich e❘# which 2 prec 50❙
   why : {A,e:Elem A} ⊦ which e ∈ A❘
-    = [A,e] cwhy ([x] x∈A) e❘# why 2❙
+    = [A,e] cwhy e❘# why 2❙
   eq_which : {A,x,p: ⊦ x∈A} ⊦ which (elem x p) =ͧ x❘
-    = [A,x,p] ceq_which❘ role Simplify❙
+    = [A,x,p] eq/refl❘ role Simplify❙
   
-  // AS: some proofs are missing here❙  
-  Eq : {A} Elem A ⟶ Elem A ⟶ prop❘# 2 Eq 3❘
-    = [A,e,d] which e =ͧ which d❙
-  EqcongEr : {P,c,d,F: Class P ⟶ prop} ⊦ (cwhich P c =ͧ cwhich P d) ⟶ ⊦ F d ⟶ ⊦ F c❘# 5 EqcongEr 4 6❘
-    = [P,c,d,F,p,q] (eq/sym p) EqcongEl F q❙
-  EqcongF : {P,c,d,F: Class P ⟶ set} ⊦ (cwhich P c =ͧ cwhich P d) ⟶ ⊦ (F c) =ͧ (F d)❙
-  EqCongF : {P,Q,c,d,F: Class P ⟶ Class Q} ⊦ (cwhich P c =ͧ cwhich P d) ⟶ ⊦ (cwhich Q (F c) =ͧ cwhich Q (F d))❙
-  
-  Refl : {A,e} ⊦ Eq A e e❘ = [A,e] urefl❙
-
+  // some proofs are missing here❙  
   EqcongB : {A,B,F: Elem A ⟶ Elem B,G: Elem A ⟶ Elem B} ({e} ⊦ (F e) Eq (G e)) ⟶ {P: (Elem A ⟶ Elem B) ⟶ prop} ⊦ P F ⟶ ⊦ P G❙
   
-  // AS: trying to solve the simplify problem❙
+  // trying to solve the simplify problem❙
   simpP : {A,e: Elem A, P: Elem A ⟶ prop} ⊦ P e ⇔ P (elem (which e) (why e))❘# simpP 3❙
   simpF : {A,e: Elem A, F: Elem A ⟶ set} ⊦ F e =ͧ F (elem (which e) (why e))❘# simpF 3❙
 ❚

@@ -51,11 +51,17 @@ build MMT/LATIN2 mmt-omdoc curry-howard
 // various common domains
 file source/domain_theories/build.msl
 
+// depends on natural numbers
+build MMT/LATIN2 mmt-omdoc type_theory/vector_types.mmt
+
 // Meta-theorems stating the algebraic properties of logic, formalized as theory morphisms from algebraic to logical theories.
 build MMT/LATIN2 mmt-omdoc algebraic_logic/pl_semilattice.mmt
 
 // The set-theoretical semantics of logical and type-theoretical features, formalized as theory morphisms into set theory.
 file source/set-theoretical_semantics/build.msl
+
+// basics of the experimental computation system in mmt
+file source/computation/build.msl
 
 // files containing Scala rules may need to be build twice: once to generate Scala code and then once again after compiling the rule
 // We ignore all errors thrown in the first run.

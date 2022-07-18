@@ -18,7 +18,6 @@ theory DependentProductTypesSet =
 ❚
 
 theory SoftDependentProductTypesSet =
-  // AS: Propositions and Terms are part of the fixmeta❙
   include ?Propositions❙
   include ?Terms❙
   include ?SoftTypedTermsSet❙
@@ -29,7 +28,6 @@ theory SoftDependentProductTypesSet =
 ❚
 
 theory SimpleProductsSet =
-  // AS: Propositions and Proofs are part of the fixmeta❙
   include ?Propositions❙
   include ?Proofs❙
   include ?TypedEqualitySet❙
@@ -41,23 +39,11 @@ theory SimpleProductsSet =
   simppi1 = [A,B,e: Elem (A×ͧB)] elem ((which e)₁ͧ) ((why e) prodEl)❙
   simppi2 = [A,B,e: Elem (A×ͧB)] elem ((which e)₂ͧ) ((why e) prodEr)❙
   
-  compute1 = [A,B,a: Elem A,b: Elem B] compL❙
-  // AS: without role Simplify❙
-  // compute1 = [A,B,a: Elem A,b: Elem B] ((eq_which (prodI (why a) (why b)))
-    ucongP ([x] which (elem ((which (elem (which a,ͧwhich b) (prodI (why a) (why b))))₁ͧ)
-    ((why elem (which a,ͧwhich b) (prodI (why a) (why b))) prodEl)) =ͧ (x₁ͧ))
-    (eq_which (why (elem (which a,ͧwhich b) (prodI (why a) (why b))) prodEl))) eq/trans compL❙
-  
-  compute2 = [A,B,a: Elem A,b: Elem B] compR❙
-  // AS: without role Simplify❙
-  // compute2 = [A,B,a: Elem A,b: Elem B] ((eq_which (prodI (why a) (why b)))
-    ucongP ([x] which (elem ((which (elem (which a,ͧwhich b) (prodI (why a) (why b))))₂ͧ)
-    ((why elem (which a,ͧwhich b) (prodI (why a) (why b))) prodEr)) =ͧ (x₂ͧ))
-    (eq_which (why (elem (which a,ͧwhich b) (prodI (why a) (why b))) prodEr))) eq/trans compR❙
+  compute1 = [A,B,a: Elem A,b: Elem B] compL ❙
+  compute2 = [A,B,a: Elem A,b: Elem B] compR ❙
 ❚
 
 theory DependentProductsSet =
-  // AS: Propositions and Proofs are part of the fixmeta❙
   include ?Propositions❙
   include ?Proofs❙
   
@@ -71,13 +57,12 @@ theory DependentProductsSet =
   deppi1 = [A,B: (Elem A ⟶ set),e] elem ((which e)₁ͧ) ((why e) sigmaModEl)❙
   deppi2 = [A,B: (Elem A ⟶ set),e] elem ((which e)₂ͧ) ((why e) sigmaModEr)❙
   
-  compute1 = [A,B,a: Elem A,b] compL❙
+  compute1 = [A,B,a: Elem A,b] compL ❙
   // AS: probably this error is related to DependentTypeEqualitySet❙
-  // compute2 = [A,B: (Elem A ⟶ set),a,b] compR❙
+  // compute2 = [A,B: (Elem A ⟶ set),a,b] _ ❙
 ❚
 
 theory SoftTypedProductsSet =
-  // AS: Propositions, Proofs, Terms and UntypedEquality are part of the fixmeta❙
   include ?Propositions❙
   include ?Proofs❙
   include ?Terms❙
@@ -96,7 +81,6 @@ theory SoftTypedProductsSet =
 ❚
 
 theory SoftTypedSimpleProductsSet =
-  // AS: Propositions, Proofs, Terms and UntypedEquality are part of the fixmeta❙
   include ?Propositions❙
   include ?Proofs❙
   include ?Terms❙
@@ -111,7 +95,6 @@ theory SoftTypedSimpleProductsSet =
 ❚
 
 theory SoftTypedDependentProductsSet =
-  // AS: Propositions, Proofs, Terms and UntypedEquality are part of the fixmeta❙
   include ?Propositions❙
   include ?Proofs❙
   include ?Terms❙
@@ -126,13 +109,12 @@ theory SoftTypedDependentProductsSet =
 ❚
 
 theory SimpleProductsExpandSet =
-  // AS: Propositions and Proofs are part of the fixmeta❙
   include ?Propositions❙
   include ?Proofs❙
   include ?SimpleProductsSet❙
   
   realize ?SimpleProductsExpand❙
-  expand = [A,B,u: Elem (A×ͧB)] eq/sym (repr ((why u) prodE))❙
+  expand = [A,B,u: Elem (A×ͧB)] expand ❙
 ❚
 
 theory DependentProductsExpandSet =
@@ -142,7 +124,7 @@ theory DependentProductsExpandSet =
   include ?DependentProductsSet❙
   
   realize ?DependentProductsExpand❙
-  expand = [A,B,u] eq/sym (repr ((why u) sigmaModE))❙
+  expand = [A,B,u] expand ❙
 ❚
 
 theory SoftTypedProductsExpandSet =
@@ -160,7 +142,6 @@ theory SoftTypedProductsExpandSet =
 ❚
 
 theory SimpleProductsExtensionalitySet =
-  // AS: Propositions and Proofs are part of the fixmeta❙
   include ?Propositions❙
   include ?Proofs❙
   
@@ -171,7 +152,6 @@ theory SimpleProductsExtensionalitySet =
 ❚
 
 theory DependentProductsExtensionalitySet =
-  // AS: Propositions and Proofs are part of the fixmeta❙
   include ?Propositions❙
   include ?Proofs❙
   
@@ -183,7 +163,6 @@ theory DependentProductsExtensionalitySet =
 ❚
 
 theory SoftTypedProductsExtensionalitySet =
-  // AS: Propositions, Proofs, Terms and UntypedEquality are part of the fixmeta❙
   include ?Propositions❙
   include ?Proofs❙
   include ?Terms❙

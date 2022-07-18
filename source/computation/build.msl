@@ -1,0 +1,3 @@
+file ../../build_config.msl
+
+build MMT/LATIN2 mmt-omdoc computation/experimental.mmt

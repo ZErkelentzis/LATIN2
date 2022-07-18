@@ -1,0 +1,68 @@
+namespace latin:/❚
+
+fixmeta latin:/?SFOLEQND❚
+
+import rules scala://lf.mmt.kwarc.info❚
+import uom scala://uom.api.mmt.kwarc.info❚
+
+theory Nat =
+  nat   : tp❙
+  Nat = tm nat❘# ℕ❙
+  zero  : ℕ❙
+  succ  : ℕ ⟶ ℕ❘ # 1 ' prec 15❙
+  
+  even: ℕ ⟶ prop ❙
+  uneven: ℕ ⟶ prop ❙
+  
+  rule rules?Realize ℕ uom?StandardNat❙
+  rule rules?Realize zero uom?Arithmetic/Zero❙
+  rule rules?Realize succ uom?Arithmetic/Succ❙
+❚
+  
+theory NatPlus =
+  include ?Nat❙
+  plus : ℕ ⟶ ℕ ⟶ ℕ ❘ # 1 + 2 prec 50❙
+  
+  plus_zero : ⊦ ∀ͭ[n] n+zero =ͭ n❙
+  plus_succ : ⊦ ∀ͭ[m]∀ͭ[n] n+(succ m) =ͭ succ(n+m)❙
+  
+  plus_zero_left: ⊦ ∀ͭ[n] zero+n =ͭ n❘
+               // = proof ommited❘
+  ❙
+
+  assoc : ⊦ ∀ͭ[l]∀ͭ[m]∀ͭ[n] (l+m)+n =ͭ l+(m+n)❘
+               // = proof ommited❘  
+  ❙
+  
+  comm : ⊦ ∀ͭ[m]∀ͭ[n] m+n =ͭ n+m❘
+               // = proof ommited❘  
+  ❙
+  
+  // realization rules ommited❙
+❚
+
+theory NatPlusTimes =
+  include ?NatPlus❙
+  times : ℕ ⟶ ℕ ⟶ ℕ ❘ # 1 * 2 prec 60❙
+  
+  // axioms and realization rules ommited❙
+❚
+
+theory Int =
+	include ?NatPlusTimes❙
+	int   : tp❙
+  Int = tm int❘# ℤ❙
+  
+  inclusion: ℕ ⟶ ℤ❘# int 1 prec 10❙
+  isucc: ℤ ⟶ ℤ❘ # s 1 prec 15❙
+  ipred: ℤ ⟶ ℤ❘ # p 1 prec 15❙
+  ineg: ℤ ⟶ ℤ❘ # - 1 prec 15❙
+  iplus: ℤ ⟶ ℤ ⟶ ℤ❘ # 1 + 2 prec 50❙
+  iminus: ℤ ⟶ ℤ ⟶ ℤ❘= [a,b] a + (- b)❘ # 1 - 2 prec 50 ❙
+  itimes: ℤ ⟶ ℤ ⟶ ℤ❘ # 1 * 2 prec 60❙
+  
+  ieven: ℤ ⟶ prop ❘ # even 1 prec 70❙
+  iuneven: ℤ ⟶ prop ❘ # uneven 1 prec 70❙
+  
+  // axioms and realization rules ommited❙
+❚

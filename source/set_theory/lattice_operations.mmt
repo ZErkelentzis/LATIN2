@@ -48,7 +48,6 @@ theory UnionEmpty =
 theory Intersection =
   include ?SetBase❙
   
-  // symbol: jcap❙
   inter : set ⟶ set ⟶ set❘# 1 ∩ 2 prec 40❙
   interI : {A,B,x} ⊦ x∈A ⟶ ⊦ x∈B ⟶ ⊦ x∈A∩B❙
   interEl : {A,B,x} ⊦ x∈A∩B ⟶ ⊦ x∈A❘# 4 interEl❙
@@ -71,7 +70,6 @@ theory Intersection =
       ([p] interI (p interEl interEl) (interI (p interEl interEr) (p interEr)))
       ([q] interI (interI (q interEl) (q interEr interEl)) (q interEr interEr)))❙
 
-  // This is only true, if A is a subset of U❙
   inter_universe : {U,A} ({x} ⊦ x∈A ⟶ ⊦ x∈U) ⟶ ⊦ A∩U =ͧ A❘
     = [U,A,Q] extensionalityI ([x] equivI 
       ([p] p interEl) ([q] interI q (Q x q)))❙
@@ -95,8 +93,7 @@ theory IntersectionEmpty =
 
 theory BigUnion =
   include ?SetBase❙
-  
-  // symbol: jbigcup❙
+
   bigunion : set ⟶ set❘# ⋃ 1 prec 45❙
   bigunionI : {A,X,x} ⊦ X∈A ⟶ ⊦ x∈X ⟶ ⊦ x∈ ⋃A❙
   bigunionE : {A,x,C} ⊦ x∈⋃A ⟶ ({X}⊦X∈A ⟶ ⊦ x∈X ⟶ ⊦C) ⟶ ⊦C❘# 4 bigunionE 5❙
@@ -110,8 +107,7 @@ theory BigUnion =
 theory BigIntersection =
   include ?SetBase❙
   include ?EmptyDefinitions❙
-  
-  // symbol: jbigcap❙
+
   biginter : set ⟶ set❘# ⋂ 1 prec 45❙
   // A must be nonempty because otherwise intersection would produce the set of all sets❙
   biginterI : {A,x} ⊦ nonempty A ⟶ ({X} ⊦ X∈A ⟶ ⊦ x∈X) ⟶ ⊦ x∈⋂A❙
