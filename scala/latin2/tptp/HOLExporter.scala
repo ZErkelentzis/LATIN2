@@ -27,54 +27,12 @@ import lf.{Falsity, InternalPropositions, SimpleFunctionTypes, Truth}
 
 import scala.collection.mutable.ArrayBuffer
 
-object HOLExporter {
-  var comments = Map[String, Seq[Comment]]() //TODO: use this instead of returning comments, don't forget to clear after each run
-  var currentFormulaComments = Seq[Comment]()
+class HOLExporter extends logicExporter {
+  val priority: Int = 3
+  val theoryPath: info.kwarc.mmt.api.MPath = lf.DHOL._path
+  def tptp_conjecture(conj: info.kwarc.mmt.api.objects.Term) = THFAnnotated("conjecture", "conjecture", THF.Logical(translate_formula(conj)), None)
 
-  def combineStubs(p: MPath, ctx: Context, t: Term)(implicit ctrl: Controller): Problem = {
-    var includes = ArrayBuffer[MPath]()
-    val formulas = ArrayBuffer[AnnotatedFormula]()
-
-    val decls = ctrl.getTheory(p).getDeclarations
-    //for (x <- ctrl.getTheory(p.module).getDeclarations.takeWhile(x => x.parent == p)) {
-    for (x <- decls.take(decls.length - 1)) {
-      x match {
-        case PlainInclude(t) => includes += t._1
-        case c: Constant => formulas ++= translate_constant(c)
-      }
-    }
-    val axioms = ctx.mapVarDecls {
-      case (ctx, vd: VarDecl) =>
-        translate_var_decl(p.module, vd, ctx)(ctrl)
-    }.flatten.distinct
-
-    formulas ++= axioms
-
-    val ded(conjecture) = t
-    formulas += THFAnnotated("conjecture", "conjecture", THF.Logical(translate_formula(conjecture)), None)
-    add_formula_comment("conjecture")
-
-    val tptp_exporter = ctrl.extman.get(classOf[TPTPExporter]).head
-
-    val ret = Problem(includes.map(i => tptp_exporter.translate_include(p.module, i)).toSeq, formulas.toList, comments)
-    comments = Map()
-    ret
-  }
-
-  def exportStub(theory: Theory)(implicit ctrl: Controller): Problem = {
-    export_theory(theory, Nil)
-  }
-
-  def export_theory(theory: Theory, includes: Seq[Include])(implicit ctrl: Controller): Problem = {
-    val formulas = translate_theory(theory).map(x => if (x.role == "") {
-      x.copy(role = "axiom")
-    } else x)
-    val ret = Problem(includes, formulas, comments)
-    comments = Map()
-    ret
-  }
-
-  def translate_theory(theory: Theory)(implicit ctrl: Controller): List[THFAnnotated] = {
+  def translate_theory(theory: Theory)(implicit ctrl: Controller) = {
     theory.getConstants.flatMap(translate_constant)
   }
 
@@ -140,20 +98,6 @@ object HOLExporter {
     dfD = dfD.map(x => x.copy(role = "definition"))
 
     tpD :: dfD
-  }
-
-  def translate_var_decl(thy_path: MPath, vd: VarDecl, ctx: Context)(implicit ctrl: Controller): List[THFAnnotated] =
-    translate_decl(thy_path ? vd.name, vd.tp, vd.df, ctx)
-
-  def translate_constant(c: Constant)(implicit ctrl: Controller): List[THFAnnotated] =
-    translate_decl(c.path, c.tp, c.df, Context(c.path.module))
-
-  // Needs to be added after each Annotated construction involving `translate_formula`
-  def add_formula_comment(name: String) = {
-    if (currentFormulaComments.nonEmpty) {
-      comments += (name -> currentFormulaComments)
-      currentFormulaComments = Seq()
-    }
   }
 
   def translate_formula(t: Term): THF.Formula = t match {

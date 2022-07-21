@@ -25,50 +25,12 @@ import lf.TypedUniversalQuantification.tforall
 
 import scala.collection.mutable.ArrayBuffer
 
-object SFOLExporter {
-  var comments = Map[String, Seq[Comment]]()
-  var currentFormulaComments = Seq[Comment]()
+class SFOLExporter extends logicExporter {
+  val priority: Int = 2
+  val theoryPath: info.kwarc.mmt.api.MPath = lf.DHOL._path
+  def tptp_conjecture(conj: info.kwarc.mmt.api.objects.Term) = TFFAnnotated("conjecture", "conjecture", TFF.Logical(translate_formula(conj)), None)
 
-  def combineStubs(p: MPath, ctx: Context, t: Term)(implicit ctrl: Controller): Problem = {
-    var includes = ArrayBuffer[MPath]()
-    var formulas = ArrayBuffer[AnnotatedFormula]()
-
-    val decls = ctrl.getTheory(p).getDeclarations
-    //for (x <- ctrl.getTheory(p.module).getDeclarations.takeWhile(x => x.parent == p)) {
-    for (x <- decls.take(decls.length - 1)) {
-      x match {
-        case PlainInclude(t) => includes += t._1
-        case c: Constant => formulas ++= translate_constant(c)
-      }
-    }
-    val axioms = ctx.mapVarDecls {
-      case (ctx, vd: VarDecl) =>
-        translate_var_decl(p.module, vd, ctx)(ctrl)
-    }.flatten.distinct
-
-    formulas ++= axioms
-
-    val ded(conjecture) = t
-    formulas += TFFAnnotated("conjecture", "conjecture", TFF.Logical(translate_formula(conjecture)), None)
-    add_formula_comment("conjecture")
-
-    val tptp_exporter = ctrl.extman.get(classOf[TPTPExporter]).head
-
-    Problem(includes.map(i => tptp_exporter.translate_include(p.module, i)).toSeq, formulas.toList, comments)
-  }
-
-  def exportStub(theory: Theory)(implicit ctrl: Controller): Problem = {
-    export_theory(theory, Nil)
-  }
-
-  def export_theory(theory: Theory, includes: Seq[Include])(implicit ctrl: Controller): Problem = {
-    val formulas = translate_theory(theory).map(x => if (x.role == "") {
-      x.copy(role = "axiom")
-    } else x)
-    Problem(includes, formulas, comments)
-  }
-
-  def translate_theory(theory: Theory)(implicit ctrl: Controller): List[TFFAnnotated] = {
+  def translate_theory(theory: Theory)(implicit ctrl: Controller) = {
     theory.getConstants.flatMap(translate_constant)
   }
 
@@ -97,20 +59,6 @@ object SFOLExporter {
           case in => TFF.MappingType(in.map(translate_type), TFF.AtomicType("$o", Nil))
         }), None))
       case _ => Nil
-    }
-  }
-
-  def translate_var_decl(thy_path: MPath, vd: VarDecl, ctx: Context)(implicit ctrl: Controller): List[TFFAnnotated] =
-    translate_decl(thy_path ? vd.name, vd.tp, vd.df, ctx)
-
-  def translate_constant(c: Constant)(implicit ctrl: Controller): List[TFFAnnotated] =
-    translate_decl(c.path, c.tp, c.df, Context(c.path.module))
-
-  // Needs to be added after each Annotated construction involving `translate_formula`
-  def add_formula_comment(name: String) = {
-    if (currentFormulaComments.nonEmpty) {
-      comments += (name -> currentFormulaComments)
-      currentFormulaComments = Seq()
     }
   }
 
