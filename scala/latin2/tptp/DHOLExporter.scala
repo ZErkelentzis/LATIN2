@@ -29,7 +29,6 @@ import info.kwarc.mmt.api
 import info.kwarc.mmt.api.checking.{History, Solver, TypeBasedEqualityRule}
 import info.kwarc.mmt.api.objects.Conversions.localName2OMV
 import latin2.tptp.DHOLExporterUtil._
-import latin2.tptp.THFExporterUtil._
 
 class DHOLExporter extends logicExporter {
   val priority: Int = 4
@@ -52,7 +51,7 @@ class DHOLExporter extends logicExporter {
    */
   def translate_decl(path: GlobalName, tpO: Option[Term], df: Option[Term], ctx: Context)(implicit ctrl: Controller): List[THFAnnotated] = {
     val Some(tp) = tpO
-    val simplicationUnit = SimplificationUnit(Context(path.module), expandDefinitions = true, fullRecursion = true)
+    val simplicationUnit = SimplificationUnit(Context(path.module), expandConDefs = true, expandVarDefs = true, fullRecursion = true)
     val simplifiedTp = try {
       ctrl.simplifier(tp, simplicationUnit)
     } catch {
@@ -199,10 +198,10 @@ class DHOLExporter extends logicExporter {
         THF.BinaryFormula(THF.Impl, typing_pred(ty, OMV(v)), translate_term(body))
       )
     case tforall(ty, body) =>
-      val varname = Context.pickFresh(body.allVars.map(VarDecl(_)), LocalName("x"))._1
+      val varname = Context.pickFresh(body.freeVars.map(VarDecl(_)), LocalName("x"))._1
       translate_term(tforall(ty, Lambda(varname, ty, ApplySpine(body, OMV(varname)))))
     case texists(ty, body) =>
-      val varname = Context.pickFresh(body.allVars.map(VarDecl(_)), LocalName("x"))._1
+      val varname = Context.pickFresh(body.freeVars.map(VarDecl(_)), LocalName("x"))._1
       translate_term(texists(ty, Lambda(varname, ty, ApplySpine(body, OMV(varname)))))
     case and(left, right) =>
       THF.BinaryFormula(THF.&, translate_term(left), translate_term(right))

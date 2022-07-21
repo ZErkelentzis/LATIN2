@@ -29,7 +29,7 @@ class FOLExporter  extends logicExporter {
   }
 
   def translate_var_decl(vd: VarDecl, ctx: Context)(implicit ctrl: Controller): Option[FOFAnnotated] = {
-    val simplicationUnit = SimplificationUnit(ctx, expandDefinitions = true, fullRecursion = true)
+    val simplicationUnit = SimplificationUnit(ctx, expandConDefs = true, expandVarDefs = true, fullRecursion = true)
 
     val newTp = vd.tp.map(ctrl.simplifier(_, simplicationUnit))
 
@@ -124,7 +124,7 @@ class FOLExporter  extends logicExporter {
    */
   override def translate_decl(path: GlobalName, tp: Option[Term], df: Option[Term], ctx: Context)(implicit ctrl: Controller): List[AnnotatedFormula] = {
     val ctx = Context(path.module)
-    val simplicationUnit = SimplificationUnit(ctx, expandDefinitions = true, fullRecursion = true)
+    val simplicationUnit = SimplificationUnit(ctx, expandConDefs = true, expandVarDefs = true, fullRecursion = true)
 
     val newTp = tp.map(ctrl.simplifier(_, simplicationUnit))
 

@@ -39,7 +39,7 @@ class HOLExporter extends logicExporter {
   def funty_builder(in: List[THF.Formula], out: THF.Formula) = in.foldRight(out)((g, arg) => THF.BinaryFormula(FunTyConstructor, g, arg))
 
   def translate_decl(path: GlobalName, tp: Option[Term], df: Option[Term], ctx: Context)(implicit ctrl: Controller): List[THFAnnotated] = {
-    val simplicationUnit = SimplificationUnit(ctx, expandDefinitions = true, fullRecursion = true)
+    val simplicationUnit = SimplificationUnit(ctx, expandConDefs = true, expandVarDefs = true, fullRecursion = true)
 
     val newTp = tp.map(ctrl.simplifier(_, simplicationUnit))
 
@@ -127,10 +127,10 @@ class HOLExporter extends logicExporter {
         translate_formula(body)
       )
     case tforall(ty, body) =>
-      val varname = Context.pickFresh(body.allVars.map(VarDecl(_)), LocalName("x"))._1
+      val varname = Context.pickFresh(body.freeVars.map(VarDecl(_)), LocalName("x"))._1
       translate_formula(tforall(ty, Lambda(varname, ty, ApplySpine(body, OMV(varname)))))
     case texists(ty, body) =>
-      val varname = Context.pickFresh(body.allVars.map(VarDecl(_)), LocalName("x"))._1
+      val varname = Context.pickFresh(body.freeVars.map(VarDecl(_)), LocalName("x"))._1
       translate_formula(texists(ty, Lambda(varname, ty, ApplySpine(body, OMV(varname)))))
     case and(left, right) =>
       THF.BinaryFormula(THF.&, translate_formula(left), translate_formula(right))
