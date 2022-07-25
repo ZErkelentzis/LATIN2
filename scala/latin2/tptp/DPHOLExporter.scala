@@ -3,31 +3,16 @@ package latin2.tptp
 import info.kwarc.mmt.api.frontend.Controller
 import info.kwarc.mmt.api.modules.Theory
 import info.kwarc.mmt.api.objects.Context.{context2list, makeFresh}
-import info.kwarc.mmt.api.objects.{Term, _}
+import info.kwarc.mmt.api.objects._
 import info.kwarc.mmt.api.uom.SimplificationUnit
-import info.kwarc.mmt.api.{ContentPath, GeneralError, GlobalName, ImplementationError, LocalName, MPath}
+import info.kwarc.mmt.api.{GeneralError, GlobalName, LocalName, MPath}
 import info.kwarc.mmt.lf._
-import latin2.sfol.SFOLPatterns.TypeDecl
-import leo.datastructures.TPTP.Comment.{CommentFormat, CommentType}
-import leo.datastructures.TPTP.THF.FunTyConstructor
 import leo.datastructures.TPTP._
-import lf.Conjunction.and
-import lf.Disjunction.or
-import lf.Equivalence.equiv
-import lf.Implication.impl
-import lf.Negation.not
-import lf.Proofs.ded
-import lf.SFOLEQ.notequal
-import lf.SimpleFunctions.{simpapply, simplambda}
-import lf.TypedEquality.tequal
-import lf.TypedExistentialQuantification.texists
-import lf.TypedUniversalQuantification.tforall
-import lf.{Booleans, DependentFunctionTypes, DependentFunctions, Falsity, InternalPropositions, SimpleFunctionTypes, SimpleFunctions, Truth, TypedEquality, TypedPredicateSubtypes, TypedTerms}
-import info.kwarc.mmt.api
+import lf.{Booleans, DependentFunctionTypes, Truth, TypedPredicateSubtypes, TypedTerms}
 import info.kwarc.mmt.api.checking.{History, Solver, TypeBasedEqualityRule}
-import info.kwarc.mmt.api.objects.Conversions.localName2OMV
-import info.kwarc.mmt.lf.subtypes.PredicateSubtypes
+import latin2.tptp.THFExporterUtil._
 import latin2.tptp.DHOLExporterUtil._
+
 class DPHOLExporter extends DHOLExporter {
   override val priority: Int = 5
   override val theoryPath: info.kwarc.mmt.api.MPath = lf.DPHOL._path
@@ -58,10 +43,10 @@ class DPHOLExporter extends DHOLExporter {
     simplifiedTp match {
       case TypedTerms.tm(predSub@TypedPredicateSubtypes.predsub(tp, pred)) =>
         pathMap ::= (path, translated_fun_name(name))
-        val funDecl = THFAnnotated("type_" + name.toString, "type",
+        val funDecl = THFAnnotated(type_decl_name(name), "type",
           THF.Typing(translated_fun_name(name), translate_type(tp)), None)
         val retPred = typing_pred(predSub, OMS(path))
-        lazy val tpAx = THFAnnotated(name.toString + "_ax", "axiom",
+        lazy val tpAx = THFAnnotated(tp_ax_decl_name(name), "axiom",
           THF.Logical(retPred), None)
         add_formula_comment(name.toString)
         List(funDecl, tpAx)
@@ -79,10 +64,10 @@ class DPHOLExporter extends DHOLExporter {
    */
   override def translate_var_decl(thy_path: MPath, vd: VarDecl, ctx: Context)(implicit ctrl: Controller): List[AnnotatedFormula] = vd match {
     case VarDecl(v, None, Some(TypedTerms.tm(pst@TypedPredicateSubtypes.predsub(tp, _))), _, _) =>
-      val funDecl = THFAnnotated("type_" + v.toString, "type",
+      val funDecl = THFAnnotated(type_decl_name(v), "type",
         THF.Typing(translate_var(v), translate_type(tp)), None)
       val retPred = typing_pred(pst, OMS(thy_path ? translate_var(v)))
-      lazy val tpAx = THFAnnotated(v.toString + "_ax", "axiom",
+      lazy val tpAx = THFAnnotated(tp_ax_decl_name(v), "axiom",
         THF.Logical(retPred), None)
       List(funDecl, tpAx)
     case _ => super.translate_var_decl(thy_path, vd, ctx)

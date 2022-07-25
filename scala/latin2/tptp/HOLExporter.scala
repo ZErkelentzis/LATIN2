@@ -3,9 +3,8 @@ package latin2.tptp
 import info.kwarc.mmt.api.frontend.Controller
 import info.kwarc.mmt.api.modules.Theory
 import info.kwarc.mmt.api.objects._
-import info.kwarc.mmt.api.symbols.{Constant, PlainInclude}
 import info.kwarc.mmt.api.uom.SimplificationUnit
-import info.kwarc.mmt.api.{GlobalName, LocalName, MPath}
+import info.kwarc.mmt.api.{ContentPath, GlobalName, ImplementationError, LocalName}
 import info.kwarc.mmt.lf._
 import latin2.sfol.SFOLPatterns.{FuncDecl, PredDecl, TypeDecl}
 import leo.datastructures.TPTP.Comment.{CommentFormat, CommentType}
@@ -24,8 +23,7 @@ import lf.TypedExistentialQuantification.texists
 import lf.TypedTerms.tm
 import lf.TypedUniversalQuantification.tforall
 import lf.{Falsity, InternalPropositions, SimpleFunctionTypes, Truth}
-
-import scala.collection.mutable.ArrayBuffer
+import latin2.tptp.THFExporterUtil._
 
 class HOLExporter extends logicExporter {
   val priority: Int = 3
@@ -35,8 +33,6 @@ class HOLExporter extends logicExporter {
   def translate_theory(theory: Theory)(implicit ctrl: Controller) = {
     theory.getConstants.flatMap(translate_constant)
   }
-
-  def funty_builder(in: List[THF.Formula], out: THF.Formula) = in.foldRight(out)((g, arg) => THF.BinaryFormula(FunTyConstructor, g, arg))
 
   def translate_decl(path: GlobalName, tp: Option[Term], df: Option[Term], ctx: Context)(implicit ctrl: Controller): List[THFAnnotated] = {
     val simplicationUnit = SimplificationUnit(ctx, expandConDefs = true, expandVarDefs = true, fullRecursion = true)
@@ -59,7 +55,7 @@ class HOLExporter extends logicExporter {
             case default => {
               val name = path.toString
               comments += (name -> Seq(Comment(CommentFormat.LINE, CommentType.NORMAL, "Unsupported Argument(s) for Deduction: " + default)))
-              return List(THFAnnotated(path.toString, "axiom", THF.Logical(THF.FunctionTerm("$true", Nil)), None))
+              return List(THFAnnotated(path.toString, "axiom", THF.Logical(THFTrue), None))
             }
           }
         }
@@ -68,7 +64,7 @@ class HOLExporter extends logicExporter {
         add_formula_comment(nameString)
         ret
       case Some(TypeDecl(Nil)) =>
-        List(THFAnnotated("type_" + name.toString, "type", THF.Typing("t_" + name.toString, THF.FunctionTerm("$tType", Nil)), None)) //is optional
+        List(THFAnnotated(type_decl_name(name), "type", THF.Typing("t_" + name.toString, THFType), None)) //is optional
       case newTp => definition_builder(newTp, path, name, df, ctx)
     }
   }
@@ -76,19 +72,19 @@ class HOLExporter extends logicExporter {
   def definition_builder(newTp: Option[Term], path: GlobalName, name: LocalName, df: Option[Term], ctx: Context)(implicit ctrl: Controller): List[THFAnnotated] = {
     val (ty, inner) = newTp match {
       case Some(PredDecl(in)) =>
-        (funty_builder(in.map(translate_formula), THF.FunctionTerm("$o", Nil)),
+        (THFArrow(in.map(translate_formula), THFTerm("$o")),
           (args: List[(LocalName, Term)], d: Term) => equiv(ApplyGeneral(OMS(path), args.map(x => OMV(x._1))), d))
       case Some(FuncDecl(in, out)) =>
-        (funty_builder(in.map(translate_formula), translate_formula(out)),
+        (THFArrow(in.map(translate_formula), translate_formula(out)),
           (args: List[(LocalName, Term)], d: Term) => tequal(out, ApplyGeneral(OMS(path), args.map(x => OMV(x._1))), d))
       case _ => //No known definition -> Comment
         return Nil //return THFAnnotated("")
     }
-    val thfaName = "type_" + name.toString
-    val tpD = THFAnnotated(thfaName, "type", THF.Typing("t_" + name.toString, ty), None)
+    val thfaName = type_decl_name(name)
+    val tpD = THFAnnotated(thfaName, "type", THF.Typing(translated_type_name(name), ty), None)
     add_formula_comment(thfaName)
     val dfT = df match {
-      case FunTerm(args, d) => //FIXME
+      case Some(FunTerm(args, d)) => //FIXME
         val argssome = args.map(x => (Some(x._1), x._2))
         Some(FunType(argssome, ded(inner(args, d))))
       case _ => None
@@ -101,12 +97,12 @@ class HOLExporter extends logicExporter {
   }
 
   def translate_formula(t: Term): THF.Formula = t match {
-    case Lambda(v, ty, body) => THF.QuantifiedFormula(THF.^, Seq(("V_" + v.toPath, translate_formula(ty))), translate_formula(body))
+    case Lambda(v, ty, body) => THF.QuantifiedFormula(THF.^, Seq((translate_var(v), translate_formula(ty))), translate_formula(body))
     case simplambda(_, _, f) => translate_formula(f)
     case simpapply(_, _, f, x) => translate_formula(ApplySpine(f, x))
 
-    case SimpleFunctionTypes.simpfun(a, b) => funty_builder(List(translate_formula(a)), translate_formula(b))
-    case InternalPropositions.bool.term => THF.FunctionTerm("$o", Nil)
+    case SimpleFunctionTypes.simpfun(a, b) => THFArrow(List(translate_formula(a)), translate_formula(b))
+    case InternalPropositions.bool.term => THFBool
     //TODO: Add term -> $i
     // TODO: product types, etc. still needed
 
@@ -114,7 +110,7 @@ class HOLExporter extends logicExporter {
       THF.QuantifiedFormula(
         THF.!,
         Seq(
-          ("V_" + v.toPath, translate_formula(ty))
+          (translate_var(v), translate_formula(ty))
         ),
         translate_formula(body)
       )
@@ -122,18 +118,18 @@ class HOLExporter extends logicExporter {
       THF.QuantifiedFormula(
         THF.?,
         Seq(
-          ("V_" + v.toPath, translate_formula(ty))
+          (translate_var(v), translate_formula(ty))
         ),
         translate_formula(body)
       )
     case tforall(ty, body) =>
-      val varname = Context.pickFresh(body.freeVars.map(VarDecl(_)), LocalName("x"))._1
+      val varname = Context.pickFresh(body.freeVars.map(VarDecl(_)), LocalName("X"))._1
       translate_formula(tforall(ty, Lambda(varname, ty, ApplySpine(body, OMV(varname)))))
     case texists(ty, body) =>
-      val varname = Context.pickFresh(body.freeVars.map(VarDecl(_)), LocalName("x"))._1
+      val varname = Context.pickFresh(body.freeVars.map(VarDecl(_)), LocalName("X"))._1
       translate_formula(texists(ty, Lambda(varname, ty, ApplySpine(body, OMV(varname)))))
     case and(left, right) =>
-      THF.BinaryFormula(THF.&, translate_formula(left), translate_formula(right))
+      THFAnd(translate_formula(left), translate_formula(right))
     case or(left, right) =>
       THF.BinaryFormula(THF.|, translate_formula(left), translate_formula(right))
     case impl(left, right) =>
@@ -150,25 +146,52 @@ class HOLExporter extends logicExporter {
       THF.UnaryFormula(THF.~, translate_formula(arg))
 
     case Truth._true(()) =>
-      THF.FunctionTerm("$true", Nil)
+      THFTrue
 
     case Falsity._false(()) =>
-      THF.FunctionTerm("$false", Nil)
+      THFFalse
 
     case OMID(f) =>
-      THF.FunctionTerm("t_" + f.name.toString, Nil)
+      THFOMS(f)
 
     case OMV(x) =>
-      THF.Variable("V_" + x.toString)
+      THF.Variable(translate_var(x))
 
     case ApplySpine(f, args) => args.map(translate_formula).foldLeft(translate_formula(f))((g, arg) => THF.BinaryFormula(THF.App, g, arg))
 
     case default =>
       currentFormulaComments +:= Comment(CommentFormat.LINE, CommentType.NORMAL, "Unknown term/op: " + default)
-      THF.FunctionTerm("$true", Nil)
+      THFTrue
     //return (
-    //  THF.FunctionTerm("$true", Nil),
+    //  THFTrue,
     //  List(Comment(CommentFormat.LINE, CommentType.NORMAL, "Unknown term/op: " + default))
     //) //FIXME: exception when unknown term or op, example "0" instead of "zero" or "=" instead of "=ͭ"
   }
+}
+
+
+object THFExporterUtil {
+  def THFTerm(n:String) = THF.FunctionTerm(n, Nil)
+  val THFType = THFTerm("$tType")
+  val THFBool = THFTerm("$o")
+  val THFTrue = THFTerm("$true")
+  val THFFalse = THFTerm("$false")
+  def THFOMS(p:ContentPath) = THF.FunctionTerm(p.name.toString, Nil)
+  def THFArrow(in: List[THF.Formula], out: THF.Formula) = in.foldRight(out)((g, arg) => THF.BinaryFormula(FunTyConstructor, g, arg))
+  def THFAnd(con1: THF.Formula, con2: THF.Formula): THF.Formula = THF.BinaryFormula(THF.&, con1, con2)
+  def THFApp(con1: THF.Formula, con2: THF.Formula): THF.Formula = THF.BinaryFormula(THF.App, con1, con2)
+
+  def translated_type_name(name:LocalName) = "t_" + name
+  def translated_type_path(path:GlobalName) = OMS(path.module ? translated_type_name(path.name))
+
+  def translated_fun_name(name:LocalName) = "t_" + name.toString
+  def translated_fun_path(path:GlobalName) = OMS(path.module ? translated_fun_name(path.name))
+  def translated_fun(path:GlobalName) = THFOMS(translated_fun_path(path).path)
+
+  def type_decl_name(ln: LocalName) = ln.toString+"_type"
+
+  def translate_var(n:LocalName) = "V_" + n.toString.toUpperCase
+  def default_name(p: ContentPath) = "t_" + p.name.toString
+  def IMPOSSIBLE = throw ImplementationError("This case should be impossible.")
+  def UNSUPPORTED(s:String) = throw ImplementationError("This feature is unsupported: " + s)
 }
