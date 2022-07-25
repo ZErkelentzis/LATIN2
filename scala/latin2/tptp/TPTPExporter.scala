@@ -236,6 +236,9 @@ trait logicExporter extends Extension {
     formulas ++= assumptions
 
     val ded(conjecture) = t
+    val conjStr = controller.presenter.asString(conjecture)
+    log("Trying to prove "+conjStr+" using tptp exporter and HOL prover.")
+
     formulas += tptp_conjecture(conjecture)
     add_formula_comment("conjecture")
 
