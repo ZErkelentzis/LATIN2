@@ -8,13 +8,9 @@ import info.kwarc.mmt.api.objects.{Context, OMSemiFormal, Obj, Term, Text, VarDe
 import info.kwarc.mmt.api.presentation.{RenderingHandler, StructurePresenter}
 import info.kwarc.mmt.api.proving.{AutomatedProver, ProvingUnit}
 import info.kwarc.mmt.api.symbols.{Constant, PlainInclude}
-import info.kwarc.mmt.api.utils.File
-import info.kwarc.mmt.api.utils.File.read
 import info.kwarc.mmt.api.{GeneralError, GlobalName, MPath, RuleSet, StructuralElement}
-import leo.datastructures.TPTP.AnnotatedFormula.FormulaType.FormulaType
-import leo.datastructures.TPTP.{AnnotatedFormula, CNFAnnotated, Comment, FOFAnnotated, Include, Problem, TCFAnnotated, TFFAnnotated, THF, THFAnnotated, TPIAnnotated}
+import leo.datastructures.TPTP.{AnnotatedFormula, Comment, FOFAnnotated, Include, Problem, TFFAnnotated, THFAnnotated}
 import lf.Proofs.ded
-import lf.{DHOL, FOL, HOL, SFOL}
 
 import java.security.DigestInputStream
 import java.util.Base64
@@ -22,6 +18,8 @@ import scala.collection.mutable.ArrayBuffer
 import scala.sys.process.Process
 
 class TPTPExporter extends StructurePresenter with AutomatedProver { //TODO: does TPTPExporter have to be class (MMT Extension)
+  override val priority: Int = 5
+
   override def apply(e : StructuralElement, standalone: Boolean = false)(implicit rh : RenderingHandler): Unit = {}
 
   /** a string identifying this build target, used for parsing commands, logging, error messages */

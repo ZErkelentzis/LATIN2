@@ -21,7 +21,7 @@ import lf.SFOLEQ.notequal
 import lf.TypedEquality.tequal
 import lf.TypedExistentialQuantification.texists
 import lf.TypedUniversalQuantification.tforall
-import lf.{DependentFunctionTypes, DependentFunctions, Falsity, InternalPropositions, SimpleFunctionTypes, Truth, TypedEquality, TypedTerms}
+import lf.{DependentConjunction, DependentFunctionTypes, DependentFunctions, DependentImplication, Falsity, InternalPropositions, SimpleFunctionTypes, Truth, TypedEquality, TypedTerms}
 import info.kwarc.mmt.api
 import info.kwarc.mmt.api.checking.{History, Solver, TypeBasedEqualityRule}
 import info.kwarc.mmt.api.objects.Conversions.localName2OMV
@@ -173,6 +173,9 @@ class DHOLExporter extends logicExporter {
     case lf.SimpleFunctions.simplambda(_, _, f) => translate_term(f)
     case lf.SimpleFunctions.simpapply(_, _, f, x) => translate_term(ApplySpine(f, x))
 
+    // possible since we remove tm @ _ from terms
+    case DependentFunctionTypes.depfun(f, arg) => translate_term(ApplySpine(f, arg))
+
     case InternalPropositions.bool.term => THFBool
     //TODO: Add term -> $i
     // TODO: product types, etc. still needed
@@ -195,6 +198,7 @@ class DHOLExporter extends logicExporter {
         ),
         THF.BinaryFormula(THF.Impl, typing_pred(ty, OMV(v)), translate_term(body))
       )
+    case TypedTerms.tm(tm) => translate_term(tm)
     case tforall(ty, body) =>
       val varname = Context.pickFresh(body.freeVars.map(VarDecl(_)), LocalName("x"))._1
       translate_term(tforall(ty, Lambda(varname, ty, ApplySpine(body, OMV(varname)))))
@@ -203,9 +207,13 @@ class DHOLExporter extends logicExporter {
       translate_term(texists(ty, Lambda(varname, ty, ApplySpine(body, OMV(varname)))))
     case and(left, right) =>
       THFAnd(translate_term(left), translate_term(right))
+    case DependentConjunction.dand(left, right) =>
+      THFAnd(translate_term(left), translate_term(right))
     case or(left, right) =>
       THF.BinaryFormula(THF.|, translate_term(left), translate_term(right))
     case impl(left, right) =>
+      THF.BinaryFormula(THF.Impl, translate_term(left), translate_term(right))
+    case DependentImplication.dimpl(left, right) =>
       THF.BinaryFormula(THF.Impl, translate_term(left), translate_term(right))
     case equiv(left, right) =>
       THF.BinaryFormula(THF.<=>, translate_term(left), translate_term(right))
@@ -226,14 +234,19 @@ class DHOLExporter extends logicExporter {
 
     case OMID(f) => THFTerm(api.utils.listmap(pathMap, f).getOrElse(default_name(f)))
 
-    case OMV(x) =>
-      THF.Variable(translate_var(x))
+    case OMV(x) => THF.Variable(translate_var(x))
 
     // after dependency-erasure dependent application becomes ordinary application
-    case lf.DependentFunctions.depapply(argTp, funTp, fun, arg) => translate_term(Apply(fun, arg))
+    case ApplyGeneral(DependentFunctions.depapply.term, argTp::funTp::fun::arg::args) =>
+      translate_term(ApplyGeneral(fun, arg::args))
 
     case ApplySpine(f, args) =>
-      args.map(translate_term).foldLeft(translate_term(f))((g, arg) => THFApp(g, arg))
+      val fTr = translate_term(f)
+      val argsTr = args map translate_term
+      fTr match {
+        case THF.FunctionTerm(n, xs) => THF.FunctionTerm(n, xs ++ argsTr)
+        case _ => args.map(translate_term).foldLeft(translate_term(f))((g, arg) => THFApp(g, arg))
+      }
 
     case OMA(OMV(i), args) if i.toString.startsWith("I/") && i.toString.stripPrefix("I/").toCharArray.forall(_.isDigit) =>
       currentFormulaComments +:= Comment(CommentFormat.LINE, CommentType.NORMAL, "Cannot resolve implicit argument: " + t)
@@ -251,8 +264,9 @@ class DHOLExporter extends logicExporter {
   def translate_type(t: Term): THF.Formula = t match {
     case depFun@lf.DependentFunctionTypes.depfun(_, _) => {
       val Some((depArgs, bdy)) = unapplyDepFun(depFun)
-      translate_type(Pi(depArgs, bdy))
+      translate_type(FunType(depArgs.map(vd => (Some(vd.name), vd.tp.get)), bdy))
     }
+
     case FunType(args, ret) if args.nonEmpty => THFArrow(argContext(args) map (_.tp.get) map translate_type, translate_type(ret))
     case TypedTerms.tm(tp) => translate_type(tp)
     case ApplySpine(tp, _) => translate_type(tp)
@@ -289,12 +303,13 @@ class DHOLExporter extends logicExporter {
         THFTrue
       // This only makes sense if we have a boolean constant, in that case it can not occur on the right of an =>
       case Pi(n, tp, ret) =>
-        def binder(t:THF.Formula): THF.Formula = THF.QuantifiedFormula(THF.?, Seq((translate_var(n), translate_term(tp))), t)
+        def binder(t:THF.Formula): THF.Formula = THF.QuantifiedFormula(THF.!, Seq((translate_var(n), translate_term(tp))), t)
         // we can ignore trivial assumptions
         binder(THF.BinaryFormula(THF.Impl, typing_pred(tp, OMV(n)), typing_pred(ret, x)))
-      case ApplyGeneral(OMS(a), args) => (args:+x).map(translate_term)
-        .foldLeft[THF.Formula](type_pred(a))((g, arg) =>
-          THFApp(g, arg))
+      case ApplyGeneral(OMS(a), args) =>
+        val argsTr = (args:+x).map(translate_term)
+        val pTr = type_pred_path(a).name.toString
+        THF.FunctionTerm(pTr, argsTr)
       case _ =>
         currentFormulaComments +:= Comment(CommentFormat.LINE, CommentType.NORMAL, "Cannot resolve implicit argument to find typing predicate for: " + t)
         THFTrue //IMPOSSIBLE // shouldn't happen
@@ -379,17 +394,8 @@ object ProverBasedTypeEquality extends TypeBasedEqualityRule(Nil, lf.Types.tp.pa
               if (solver.isDirectlySolvable(j) || solver.isDirectlySolvable(j.swap)) {
                 solver.check(j)
               } else {
-                // This is a mistake, to add the stack context as context to each proof obligation separately
-                // proving the proof obligations may require solutions to other proof obligations depending on the same stack context
-                // the proof obligations should have one shared context not separate contexts
-                //
-                // adding the stack context should ideally also not be necessary, the stack shouldn't get lost in the first place
                 val pO = Pi(stack.context, lf.Proofs.ded(TypedEquality.tequal(xtp, x, y)))
                 solver.addUnknowns(Context(solver.freshUnknown() % pO), None)
-                /*
-                This however also doesn't work (and doesn't ensure unknowns are solved before proving)
-                val proofO = solver.prove(lf.Proofs.ded(TypedEquality.tequal(xtp, x, y)))
-                proofO map (_ != false) getOrElse false*/
               }
           }
           Some(requal)
