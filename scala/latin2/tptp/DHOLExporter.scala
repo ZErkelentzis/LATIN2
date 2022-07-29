@@ -197,7 +197,7 @@ class DHOLExporter extends logicExporter {
         Seq(
           (translate_var(v), translate_type(ty))
         ),
-        THF.BinaryFormula(THF.Impl, typing_pred(ty, OMV(v)), translate_term(body))
+        THF.BinaryFormula(THF.|, typing_pred(ty, OMV(v)), translate_term(body))
       )
     case TypedTerms.tm(tm) => translate_term(tm)
     case tforall(ty, body) =>
@@ -282,7 +282,7 @@ class DHOLExporter extends logicExporter {
       a? t1 && a? t2                    if t == t1 eq t2
       p a && p b                        if t == a => b
       a? x                              if t == p y and p:a -> bool in the theory
-      T1? r1 && ... && T2? rn           if t == b? r1 ... rn y for b: {x1:T1, ..., xn:Tn} T
+      T1? r1 && ... && T2? rn           if t == b? r1 ... rn y for b: {x1:T1, ..., xn:Tn} T // not actually possible
       true                              if t == x
       true                              if t == c for a boolean constant (including true and false)
        */
@@ -294,7 +294,7 @@ class DHOLExporter extends logicExporter {
           val tpconcl = typing_pred(lf.Booleans.bool, body)
           THF.QuantifiedFormula(THF.!, Seq((translate_var(v), translate_term(ty))), THF.BinaryFormula(THF.Impl, ass, tpconcl))
         case ApplySpine(OMS(p), args) => predDecls.find(_._1 == p) match {
-          case Some((c, arg)) => typing_pred(arg.tp.get(), arg.toTerm)
+          case Some((c, arg)) => typing_pred(arg.tp.get(), arg.toTerm) // This should not be possible
           case None => THFTrue  // in this case p must be a typing predicate
         }
         case OMV(x) =>
