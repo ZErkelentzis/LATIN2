@@ -197,7 +197,7 @@ class DHOLExporter extends logicExporter {
         Seq(
           (translate_var(v), translate_type(ty))
         ),
-        THF.BinaryFormula(THF.|, typing_pred(ty, OMV(v)), translate_term(body))
+        THF.BinaryFormula(THF.&, typing_pred(ty, OMV(v)), translate_term(body))
       )
     case TypedTerms.tm(tm) => translate_term(tm)
     case tforall(ty, body) =>
