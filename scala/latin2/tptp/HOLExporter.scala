@@ -106,22 +106,8 @@ class HOLExporter extends logicExporter {
     //TODO: Add term -> $i
     // TODO: product types, etc. still needed
 
-    case tforall((ty, Lambda(v, _, body))) =>
-      THF.QuantifiedFormula(
-        THF.!,
-        Seq(
-          (translate_var(v), translate_formula(ty))
-        ),
-        translate_formula(body)
-      )
-    case texists((ty, Lambda(v, _, body))) =>
-      THF.QuantifiedFormula(
-        THF.?,
-        Seq(
-          (translate_var(v), translate_formula(ty))
-        ),
-        translate_formula(body)
-      )
+    case tforall((ty, Lambda(v, _, body))) => THFUniv(translate_var(v), translate_formula(ty), translate_formula(body))
+    case texists((ty, Lambda(v, _, body))) => THFExist(translate_var(v), translate_formula(ty), translate_formula(body))
     case tforall(ty, body) =>
       val varname = Context.pickFresh(body.freeVars.map(VarDecl(_)), LocalName("X"))._1
       translate_formula(tforall(ty, Lambda(varname, ty, ApplySpine(body, OMV(varname)))))
@@ -180,6 +166,9 @@ object THFExporterUtil {
   def THFArrow(in: List[THF.Formula], out: THF.Formula) = in.foldRight(out)((g, arg) => THF.BinaryFormula(FunTyConstructor, g, arg))
   def THFAnd(con1: THF.Formula, con2: THF.Formula): THF.Formula = THF.BinaryFormula(THF.&, con1, con2)
   def THFApp(con1: THF.Formula, con2: THF.Formula): THF.Formula = THF.BinaryFormula(THF.App, con1, con2)
+  def THFImpl(ass: THF.Formula, concl: THF.Formula): THF.Formula = THF.BinaryFormula(THF.Impl, ass, concl)
+  def THFUniv(name: String, tp: THF.Formula, body: THF.Formula) = THF.QuantifiedFormula(THF.!, Seq((name, tp)), body)
+  def THFExist(name: String, tp: THF.Formula, body: THF.Formula) = THF.QuantifiedFormula(THF.?, Seq((name, tp)), body)
 
   def translated_type_name(name:LocalName) = "t_" + name
   def translated_type_path(path:GlobalName) = OMS(path.module ? translated_type_name(path.name))

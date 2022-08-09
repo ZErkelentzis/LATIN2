@@ -182,23 +182,11 @@ class DHOLExporter extends logicExporter {
     // TODO: product types, etc. still needed
 
     case tforall((ty, Lambda(v, _, body))) =>
-      val ass = typing_pred(ty, OMV(v))
-      val concl = translate_term(body)
-      THF.QuantifiedFormula(
-        THF.!,
-        Seq(
-          (translate_var(v), translate_type(ty))
-        ),
-        THF.BinaryFormula(THF.Impl, ass, concl)
-      )
+      val tpCond = typing_pred(ty, OMV(v))
+      THFUniv(translate_var(v), translate_type(ty), THFImpl(tpCond, translate_term(body)))
     case texists((ty, Lambda(v, _, body))) =>
-      THF.QuantifiedFormula(
-        THF.?,
-        Seq(
-          (translate_var(v), translate_type(ty))
-        ),
-        THF.BinaryFormula(THF.&, typing_pred(ty, OMV(v)), translate_term(body))
-      )
+      val tpCond = typing_pred(ty, OMV(v))
+      THFExist(translate_var(v), translate_type(ty), THFAnd(tpCond, translate_term(body)))
     case TypedTerms.tm(tm) => translate_term(tm)
     case tforall(ty, body) =>
       val varname = Context.pickFresh(body.freeVars.map(VarDecl(_)), LocalName("X"))._1
@@ -218,8 +206,12 @@ class DHOLExporter extends logicExporter {
       THF.BinaryFormula(THF.Impl, translate_term(left), translate_term(right))
     case equiv(left, right) =>
       THF.BinaryFormula(THF.<=>, translate_term(left), translate_term(right))
-    case tequal(ty, left, right) => {
-      THF.BinaryFormula(THF.Eq, translate_term(left), translate_term(right))
+    case tequal(ty, left, right) => ty match {
+      case Pi(n, a, b) =>
+        val typingCond = typing_pred(a, OMV(n))
+        val eqAppls = tequal(b, Apply(left, OMV(n)), Apply(right, OMV(n)))
+        THFUniv(translate_var(n), translate_type(a), THFImpl(typingCond, translate_term(eqAppls)))
+      case _ => THF.BinaryFormula(THF.Eq, translate_term(left), translate_term(right))
     }
     case notequal(ty, left, right) => {
       THF.BinaryFormula(THF.Neq, translate_term(left), translate_term(right))
@@ -268,7 +260,8 @@ class DHOLExporter extends logicExporter {
       translate_type(FunType(depArgs.map(vd => (Some(vd.name), vd.tp.get)), bdy))
     }
 
-    case FunType(args, ret) if args.nonEmpty => THFArrow(argContext(args) map (_.tp.get) map translate_type, translate_type(ret))
+    case FunType(args, ret) if args.nonEmpty => 
+      THFArrow(argContext(args) map (_.tp.get) map translate_type, translate_type(ret))
     case TypedTerms.tm(tp) => translate_type(tp)
     case ApplySpine(tp, _) => translate_type(tp)
     case OMS(gn) => THFOMS(translated_type_path(gn).path)
@@ -280,7 +273,7 @@ class DHOLExporter extends logicExporter {
       bool? t :=
       forall x:a.a? r1 ... rn => a? y   if t == forall x:a r1 ... rn.F
       a? t1 && a? t2                    if t == t1 eq t2
-      p a && p b                        if t == a => b
+      p a && (a => p b)                        if t == a => b
       a? x                              if t == p y and p:a -> bool in the theory
       T1? r1 && ... && T2? rn           if t == b? r1 ... rn y for b: {x1:T1, ..., xn:Tn} T // not actually possible
       true                              if t == x
@@ -288,7 +281,7 @@ class DHOLExporter extends logicExporter {
        */
       case lf.Booleans.bool(()) => x match {
         case lf.TypedEquality.tequal(tp, r, s) => THFAnd(typing_pred(tp, r), typing_pred(tp, s))
-        case lf.Implication.impl(r, s) => THFAnd(typing_pred(t, r), typing_pred(t, s))
+        case lf.Implication.impl(r, s) => THFAnd(typing_pred(t, r), THFImpl(translate_term(r), typing_pred(t, s)))
         case tforall((ty, Lambda(v, _, body))) =>
           val ass = typing_pred(ty, OMV(v))
           val tpconcl = typing_pred(lf.Booleans.bool, body)
