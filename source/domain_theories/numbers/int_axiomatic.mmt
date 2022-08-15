@@ -8,14 +8,24 @@ import uom scala://uom.api.mmt.kwarc.info❚
 theory IntUnary =
   include ?NatUnary❙
   
-  pred: tm num ⟶ tm num❙
+  pred: tm num ⟶ tm num ❘# p 1❙
+  inv: tm num ⟶ tm num❘ # %n 1 prec 32❙
+
+  pred_succ: {x} ⊦ (p x') =ͭ x ❘ role Simplify ❙
+  succ_pred: {x} ⊦ (p x)'  =ͭ x ❘ role Simplify ❙
+  
+  inv_zero:  ⊦ inv zero =ͭ zero ❘ role Simplify ❙
+  inv_succ: {x} ⊦ (inv  x' )  =ͭ  p inv x ❘ role Simplify ❙
+  inv_pred: {x} ⊦ (inv p x)  =ͭ ( inv x)'  ❘ role Simplify ❙
   // axioms for succ and pred inverse❙
 ❚
 
 theory IntPlus =
   include ?IntUnary❙
   include ?NatPlus❙
-  
+   plus_pred_l : {x,y} ⊦ (p x + y) =ͭ p(x + y) ❘ role Simplify ❙
+   plus_pred_r : {x,y} ⊦ (x + p y) =ͭ p(x + y) ❘ role Simplify ❙
+   plus_inv : {x,y} ⊦ inv (x + y) =ͭ (inv x) + (inv y) ❘ role Simplify ❙
   // axiom for + and pred❙
 ❚
 
@@ -23,10 +33,55 @@ theory IntPlusTimes =
   include ?IntUnary❙
   include ?NatPlusTimes❙
   
+
+  times_pred_l : {x,y} ⊦ ( (p x) * y) =ͭ ((x*y)+ inv y) ❘ role Simplify ❙
+  times_pred_r : {x,y} ⊦ ( x* (p y)) =ͭ ((x*y)+ inv x) ❘ role Simplify ❙
+  
+  times_inv : {x,y} ⊦ inv (x*y) =ͭ (inv x)*y❘ role Simplify ❙
   // axiom for * and pred❙
 ❚
+theory IntSub =
+	include ?IntPlusTimes ❙
 
+	sub: tm num ⟶ tm num ⟶ tm num ❘ # 1 - 2 prec 31❙ 
+	
+	sub_zero_r : {x} ⊦ (x - zero) =ͭ  x ❘role Simplify❙
+  sub_zero_l: {y} ⊦ (zero - y) =ͭ  inv y ❘role Simplify❙ 
+  
+  sub_succ_l : {x,y} ⊦ x' - y =ͭ ( x - y )'❘role Simplify❙
+  sub_succ_r : {x,y} ⊦ x - (y') =ͭ p( x - y )❘role Simplify❙
+  
+  sub_pred_l : {x,y} ⊦ (p x) - y =ͭ  x - (p y)❘role Simplify❙
+  sub_pred_r : {x,y} ⊦  x - (p y) =ͭ  (x -  y)'❘role Simplify❙
+  
+  sub_inv: {x,y} ⊦ inv(x - y) =ͭ ( inv x) - (inv y )❘role Simplify❙
+❚
+
+theory IntSpec =
+	include ?NatSpec ❙
+	include ?IntSub❙
+
+  
+❚
 
 theory Int =
   include ?IntPlusTimes❙
+  
+❚
+
+theory Int_realization =
+ 	structure int : ?IntSpec =
+		num # integer ❙
+		Nat # ℤ ❙
+		zero # zero ❙
+		succ # S 1 prec 31 ❙
+		pred # Pre 1 prec 31 ❙
+		plus # 1 + 2 prec 40 ❙ 
+		times # 1 * 2 prec 45 ❙
+	❚
+	
+	rule rules?Realize int/Nat uom?StandardInt❙
+  rule rules?Realize zero uom?Arithmetic/Zero❙
+
+	
 ❚

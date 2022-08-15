@@ -9,9 +9,13 @@ build MMT/LATIN2 mmt-omdoc type_theory/endofunctors/endofunctors.mmt
 // dependent on endofunctors
 build MMT/LATIN2 mmt-omdoc type_theory/endofunctors/endomagmas.mmt
 
+// collection_types depends on programming/logicaloperations.mmt
+build MMT/LATIN2 mmt-omdoc programming/logicaloperations.mmt
 // dependent on endomagmas
 build MMT/LATIN2 mmt-omdoc type_theory/endofunctors/collection_types.mmt
 
+//monads depends on programming/Strings
+build MMT/LATIN2 mmt-omdoc programming/Strings.mmt
 // dependent on endofunctors and hol
 build MMT/LATIN2 mmt-omdoc type_theory/endofunctors/monads.mmt
 

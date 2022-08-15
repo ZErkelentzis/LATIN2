@@ -1,0 +1,11 @@
+file ../../build_config.msl
+
+// proggraming types
+
+//depends on collection types and natural numbers
+//build MMT/LATIN2 mmt-omdoc ./Strings.mmt
+
+//depends on first order logic and Boolean
+//build MMT/LATIN2 mmt-omdoc ./logicaloperations.mmt
+
+//String and logicaloperations are build in endofunctors

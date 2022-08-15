@@ -35,9 +35,6 @@ file source/logic/model_theory/build.msl
 // This is used in particular to obtain the theory of types and inherit abbreviations from it into typed languages.
 build MMT/LATIN2 mmt-omdoc category_theory
 
-// Multiple type theoretical features are based on endofunctors on the category of types, such as lists or sets over a type.
-file source/type_theory/endofunctors/build.msl
-
 // Set theory defines ZFC-style languages using FOL as the meta-theory.
 file source/set_theory/build.msl
 
@@ -53,6 +50,9 @@ file source/domain_theories/build.msl
 
 // depends on natural numbers
 build MMT/LATIN2 mmt-omdoc type_theory/vector_types.mmt
+
+// Multiple type theoretical features are based on endofunctors on the category of types, such as lists or sets over a type.
+file source/type_theory/endofunctors/build.msl
 
 // Meta-theorems stating the algebraic properties of logic, formalized as theory morphisms from algebraic to logical theories.
 build MMT/LATIN2 mmt-omdoc algebraic_logic/pl_semilattice.mmt

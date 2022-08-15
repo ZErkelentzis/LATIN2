@@ -1,0 +1,56 @@
+namespace latin:/❚
+
+fixmeta latin:/?SFOLEQND❚
+
+import rules scala://lf.mmt.kwarc.info❚
+import uom scala://uom.api.mmt.kwarc.info❚
+
+theory RatDiv =
+	include ?IntSub❙
+	div : tm num ⟶ tm num ⟶ tm num  ❘ # 1 / 2 prec 31 ❙
+
+	div_zero : {x} ⊦ zero / x =ͭ zero ❘# role Simplify ❙
+	div_one : {x} ⊦ x / (zero ') =ͭ x ❘# role Simplify ❙
+	
+	div_succ : {x,y} ⊦ (x / y)' =ͭ (x / y) + zero'❘# role Simplify ❙
+	div_pred: {x,y} ⊦ (p (x / y) ) =ͭ (x / y) - zero'❘# role Simplify ❙
+
+	div_1 : {x,y} ⊦ (x * y) / y =ͭ  x❘# role Simplify❙
+	div_2 : {x,y,z} ⊦ (x /y) / z =ͭ  x / (y*z)❘# role Simplify❙
+	div_3 : {x,y,z} ⊦ x / (y / z) =ͭ  (x*z)/y❘# role Simplify❙
+	
+
+	times_div: {w,x,y,z} ⊦ (w /x) * (y/ z) =ͭ (w*y)/(x*z) ❘# role Simplify❙
+	add_div : {x,y,z} ⊦ (x / z) + (y / z)=ͭ (x+y)/z❘# role Simplify❙
+	sub_div: {x,y,z} ⊦ (x / z) - (y / z)=ͭ (x-y)/z❘# role Simplify❙
+	
+	inv_div: {x,y} ⊦ inv (x / y) =ͭ (inv x)/y❘# role Simplify❙
+
+❚
+
+theory RatSpec =
+	include ?IntSpec ❙
+	include ?RatDiv ❙
+	
+	sin: tm num ⟶ tm num ⟶ tm num ❘# %n ❙
+	cos: tm num ⟶ tm num ⟶ tm num ❘# %n ❙
+	tan: tm num ⟶ tm num ⟶ tm num ❘# %n ❙
+	
+❚
+
+theory Rat =
+	structure rat : ?RatSpec =
+		num # rationalnumber ❙
+		Nat # ℤ ❙
+		zero # zero ❙
+		succ # S 1 prec 31 ❙
+		pred # Pre 1 prec 31 ❙
+		plus # 1 + 2 prec 40 ❙ 
+		times # 1 * 2 prec 45 ❙
+		div# 1 / 2 prec 50 ❙
+	❚
+	
+	rule rules?Realize rat/Nat uom?StandardRat❙
+  rule rules?Realize zero uom?Arithmetic/Zero❙
+
+❚

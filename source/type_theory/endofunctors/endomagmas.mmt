@@ -30,9 +30,9 @@ theory EndoCommutative =
 
 theory EndoNeutral =
   include ?EndoMagma❙
-  e  : {a} tm &a❘# e %I1❙
-  neutLeft: {a,x:tm &a} ⊦ e∘x =ͭ x❙
-  neutRight: {a,x:tm &a} ⊦ x∘e =ͭ x❙
+  neutral : {a} tm &a❘# neutral %I1❙
+  neutLeft: {a,x:tm &a} ⊦ neutral∘x =ͭ x❙
+  neutRight: {a,x:tm &a} ⊦ x∘neutral =ͭ x❙
 ❚
 
 theory EndoIdempotent =
@@ -42,7 +42,7 @@ theory EndoIdempotent =
 
 theory EndoFirstNonNeutral =
   include ?EndoNeutral❙
-  firstNonNeutral: {a,x,y:tm &a} (⊦ x =ͭ e ⟶ ↯) ⟶ ⊦ x∘y =ͭ x❙
+  firstNonNeutral: {a,x,y:tm &a} (⊦ x =ͭ neutral ⟶ ↯) ⟶ ⊦ x∘y =ͭ x❙
 ❚
 
 theory EndoMonoid =

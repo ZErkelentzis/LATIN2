@@ -1,0 +1,40 @@
+namespace latin:/❚
+
+fixmeta ?TypedEquality❚
+
+
+theory If_then_else =
+  include ?TypedTerms❙
+  include ?Negation❙
+  include ?IPL ❙
+  
+	if: {a} prop ⟶ tm a ⟶ tm a ⟶ tm a ❘ # if 2 then 3 else 4 prec 30❙
+	if_true : {a, b: prop, f1, f2: tm a}  ⊦ if ⊤ then f1 else f2 =ͭ f1❘role Simplify❙
+	if_false : {a, b: prop ,f1 ,f2: tm a}   ⊦ if ⊥ then f1 else f2 =ͭ f2❘role Simplify❙
+
+❚
+
+theory Booleanooperations =
+	include ?Booleans ❙
+	include ?If_then_else ❙
+	
+	prop_to_bolean: prop ⟶ tm bool ❘# %n 1 ❘
+		= [x] if x then tt else ff❙
+	bolean_to_prop: tm bool ⟶ prop ❘# %n 1 ❘
+		= [x] x =ͭ tt ❙
+	
+❚
+
+theory lazy_prop =
+	include ?PLND ❙
+	include ?If_then_else ❙
+	include ?Booleanooperations❙ 
+	lazy_and : prop⟶ prop⟶prop ❘# 1 AND 2 ❘
+		= [x,y] bolean_to_prop if x then (prop_to_bolean y) else ff❙
+
+	lazy_or : prop⟶ prop⟶prop ❘# 1 OR 2 ❘
+		= [x,y] bolean_to_prop if x then tt else prop_to_bolean y ❙
+❚
+
+
+
