@@ -1,0 +1,40 @@
+namespace latin:/❚
+
+import rules scala://computation.latin2❚
+import instance scala://execution.api.mmt.kwarc.info ❚
+fixmeta ur:?PLF❚
+import lfRules scala://lf.mmt.kwarc.info❚
+
+
+theory VectorComputation = 
+	// include ?anyVector ❙
+	include ?VectorTypes ❙
+     // rule lfRules?Realize (tm vector) instance?ArrayType❙
+     
+❚
+
+theory ListComputation = 
+     include ?Types❙
+     include ?Nat❙
+     include ?OptionTypes ❙
+
+	list : tp ⟶ tp ❘ # list 1 ❙
+	empty : {a} tm (list a) ❘ # empty 1❙
+	rule rules?emptyRun❙
+	cons : {a} tm a ⟶ tm (list a) ⟶ tm (list a) ❘ # cons 2 3 ❙
+	rule rules?consRun ❙
+	
+	take : {a}  ℕ ⟶tm (list a) ⟶ tm (list a)  ❘ # take 2 3❙
+	rule rules?takeRun ❙
+	drop : {a}  ℕ ⟶tm (list a) ⟶ tm (list a)  ❘ # drop 2 3❙
+	rule rules?dropRun❙
+	
+	fold : {a} {b}  tm b⟶ (tm b ⟶ tm a ⟶tm b)  ⟶ tm (list a) ⟶ tm b ❘# fold 3 4 5 ❙
+	rule rules?foldRun ❙
+	get : {a} tm (list a) ⟶ ℕ ⟶ tm (option a) ❘ # get 2 3 ❙
+	rule rules?getRun ❙
+	
+
+	// rule lfRules?Realize ({a : type}tm (list a)) instance?ListType ❙
+❚
+

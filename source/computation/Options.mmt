@@ -1,0 +1,21 @@
+namespace latin:/❚
+
+import rules scala://computation.latin2❚
+fixmeta ur:?PLF❚
+
+theory OptionTypes = 
+     include ?SFOLEQND❙
+	option : tp ⟶ tp ❙
+	just : {a} tm a ⟶ tm (option a) ❘ # just 2❙
+	none : {a} tm (option a) ❘ # none 1❙
+	fold : {a} {b} tm b ⟶ (tm a ⟶ tm b) ⟶tm (option a) ⟶ tm b ❘# fold 3 4 5 ❙
+	rule rules?foldOptionRun ❙
+❚
+
+theory UnsafeOptions = 
+	include ?OptionTypes ❙
+	include ?Exceptions ❙
+	// converts just into its underlying type, throwing an exception on none ❙
+	unsafeFromJust : {a} tm (option a) ⟶ tm a ❘ # !! 2 ❙ 	
+	rule rules?unsafeFromJustRun ❙
+❚

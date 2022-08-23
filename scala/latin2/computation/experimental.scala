@@ -6,9 +6,16 @@ import info.kwarc.mmt.api.execution._
 import info.kwarc.mmt.api.checking._
 import info.kwarc.mmt.api.uom._
 import info.kwarc.mmt.api.frontend.Controller
+import info.kwarc.mmt.api.modules.Theory
 import info.kwarc.mmt.api.symbols.Constant
 import info.kwarc.mmt.lf._
+import info.kwarc.mmt.lf.structuralfeatures.StructuralFeatureUtils.{NONE, getConstants}
+import latin2.computation.consRun.listType
+import latin2.computation.takeRun.listType
 import lf._
+
+import scala.::
+
 
 object PrintRun  extends ExecutionRule(IOOps.print.path) {
    override def under: List[GlobalName] =List(Apply.path)
@@ -59,7 +66,6 @@ class DefinedRule(override val head: GlobalName, val targetTerm : OMBINDC) exten
    override def apply(controller:Controller, callback: ExecutionCallback, env: RuntimeEnvironment, prog: Term) : Term = {
       prog match {
          case ApplyGeneral(OMID(head), ls) => {
-            OMSemiFormal
             val lsE = ls map callback.execute
             val app = ApplyGeneral(targetTerm,lsE)
             //val theory = controller.getTheory(head.module)
@@ -101,8 +107,8 @@ object WhileRun extends ExecutionRule(WhileOps.`while`.path){
    }
    def term_to_bool(term:Term)={
       term match {
-         case Booleans.tt(_) => true
-         case Booleans.ff(_) => false
+         case Truth._true(_) => true
+         case Falsity._false(_) => false
       }
    }
 }
@@ -139,6 +145,7 @@ object NewRun extends SyntaxDrivenRule{
    }
 }
 */
+/*
 object NewRule extends InferenceRule(TheoriesAsClasses.`new`.path,OfType.path){
    def apply(solver: Solver)(tm: Term, covered: Boolean)(implicit stack: Stack, history: History) : Option[Term] = {
       tm match{
@@ -156,17 +163,23 @@ object NewRule extends InferenceRule(TheoriesAsClasses.`new`.path,OfType.path){
          }
          Some(Types.tp.term)
    }*/
-
-}
+}*/
 
 object IfRun extends ExecutionRule(IfThenElse.ifte.path){
    override def under = List(Apply.path)
    def apply(controller:Controller, callback: ExecutionCallback, env: RuntimeEnvironment, prog: Term): Term={
       prog match{
          case IfThenElse.ifte(tp,b,t1,t2) =>
-            val cond = callback.execute(b)
+            val cond = callback.execute(b) match {
+               case Conjunction.and(Truth._true(_),Truth._true(_)) =>
+                  Truth._true.term
+               case Conjunction.and(_,_) =>
+                  Falsity._false.term
+               case x => x
+            }
             cond match {
-               case Truth._true(_) => callback.execute(t1)
+               case Truth._true(_) =>
+                  callback.execute(t1)
                case Falsity._false(_) => callback.execute(t2)
             }
       }
@@ -185,9 +198,9 @@ object GeRun extends ExecutionRule(CF.ge.path){
                   // val vl = vl_string.toInt
                   // val vr = vr_string.toInt
                   if(vl > vr){
-                     return Booleans.tt
+                     return Truth._true.term
                   }
-                  return Booleans.ff
+                  Falsity._false.term
                }
             }
       }
@@ -244,13 +257,24 @@ object TryCatchRun extends ExecutionRule(Exceptions.tryCatch.path){
 
 object AssignmentRun extends ExecutionRule(MutableVariables.assign.path){
    override def under = List(Apply.path)
+   val instType = new RepresentedRealizedType(instanceMeta.anyInstance.term, InstanceType)
+
    def apply(controller:Controller, callback: ExecutionCallback, env: RuntimeEnvironment, prog: Term): Term={
       prog match{
-         case MutableVariables.assign(tp,v1 :OMV,t2) =>
+         case MutableVariables.assign(tp,v1 : OMV,t2) =>
             val t2E = callback.execute(t2)
             env.stack.assign(v1.name, t2E)
             UnitType.unit
-         case MutableVariables.assign(tp,n,t2) => ???
+         case MutableVariables.assign(tp,TheoriesAsClasses.field(v,OMID(nm)),t2)=>
+            val vE = callback.execute(v)
+            vE match{
+               case TheoriesAsClasses.typedInstance(instType(inst)) =>inst.set(GlobalName(inst.theory.path,nm.name),t2)
+            }
+
+            UnitType.unit
+         case MutableVariables.assign(tp,n,t2) => {
+            ???
+         }
       }
    }
 }
@@ -289,112 +313,339 @@ object SequenceRun extends ExecutionRule(SequencingOps.sequence.path){
       }
    }
 }
-/*
-object DeclareTerm extends InferenceRule(CF.declare.path, OfType.path) {
-   def apply(solver: Solver)(tm: Term, covered: Boolean)(implicit stack: Stack, history: History) : Option[Term] = {
-      println(tm)
-      tm match {
-        case CF.declare(con, body)  =>
-           val x = con.getDeclarations.head.name
-           val a = con.getDeclarations.head.tp.get
-           if (!covered) isTypeLike(solver,a)
-           val (xn,sub) = Common.pickFresh(solver, x)
-           solver.inferType(body ^? sub, covered)(stack ++ xn % a, history) flatMap {bT =>
-              if (bT.freeVars contains xn) {
-                 // usually an error, but xn may disappear later, especially when unknown in b are not solved yet
-                 solver.error("type of Declare-scope has been inferred, but contains free variable " + xn + ": " + solver.presentObj(bT))
-                 None
-              } else {
-                 Some(bT)
-              }
-           }
-        case _ => None // should be impossible
+
+case class ExecutionError(tm : Term) extends Exception
+
+object NewRun extends ExecutionRule(TheoriesAsClasses.`new`.path){
+   override def under = Nil
+   val instType = RealizedType(instanceMeta.anyInstance.term, InstanceType)
+
+   def apply(controller:Controller, callback: ExecutionCallback, env: RuntimeEnvironment, prog: Term) : Term = {
+      prog match {
+         case TheoriesAsClasses.`new`(OMMOD(p),initf) =>
+            val inst = new InstanceOfTheory(env, controller.getTheory(p))
+            val realized = OMLIT(inst,instType)
+            val theory = TheoriesAsClasses.typedInstance(realized)
+            // the initfun is supposed to mutate the theory for initialisation
+            callback.execute(ApplyGeneral(initf,theory::Nil))
+            if(check_fully_initialised(inst)) theory
+            else throw ExecutionError(theory)
+      }
+   }
+   def check_fully_initialised(theory: InstanceOfTheory): Boolean = {
+      // TODO: add an actualy runtime check if necessary
+      true
+      //theory.theory.getConstants.filter(p => p.df == None).length == 0
+   }
+}
+
+object FieldRun extends ExecutionRule(TheoriesAsClasses.field.path){
+   override def under = List() // Apply.path
+   val instType = new RepresentedRealizedType(instanceMeta.anyInstance.term, InstanceType)
+
+   def apply(controller:Controller, callback: ExecutionCallback, env: RuntimeEnvironment, prog: Term) : Term = {
+      prog match {
+         case TheoriesAsClasses.field(obj,OMID(name)) =>
+            val objE = callback.execute(obj)
+            objE match{
+               case TheoriesAsClasses.typedInstance(instType(inst))=>
+                  inst.get(GlobalName(inst.theory.path,name.name)).get
+            }
+            // this should always exist, since it typechecks
+
+      }
+   }
+
+}
+
+object emptyRun extends ExecutionRule(ListComputation.empty.path){
+   override def under = List(Apply.path)
+   val listType = new RepresentedRealizedType(TypedTerms.tm(ListComputation.list.term), execution.ListType)
+
+   def apply(controller:Controller, callback: ExecutionCallback, env: RuntimeEnvironment, prog: Term) : Term = {
+      prog match {
+         case ListComputation.empty(tp) =>
+            OMLIT(scala.List.empty[Term], listType)
+         // this should always exist, since it typechecks
+
       }
    }
 }
-*/
-// commented out because it is a sketch for Alex to finish
-/**
-  * |- typedInstance OMLIT(instance of theory p) : typedInstances(p)
-  */
-object InstanceTyping extends InferenceRule(CF.typedInstance.path, OfType.path) {
-  val instType = RealizedType(CF.anyInstance.term, InstanceType)
-  def apply(solver: Solver)(tm: Term, covered: Boolean)(implicit stack: Stack, history: History): Option[Term] = {
-    tm match {
-      case CF.typedInstance(instType(Some(inst: InstanceOfTheory))) =>
-        Some(CF.typedInstances(OMMOD(inst.theory.path)))
-    }
-  }
+
+object consRun extends ExecutionRule(ListComputation.cons.path){
+   override def under = List(Apply.path)
+   val listType = new RepresentedRealizedType(TypedTerms.tm(ListComputation.list),execution.ListType)
+
+   def apply(controller:Controller, callback: ExecutionCallback, env: RuntimeEnvironment, prog: Term) : Term = {
+      prog match {
+         case ListComputation.cons(tp,hd, rest) =>
+            val hdE = callback.execute(hd)
+            val restE = callback.execute(rest)
+            restE match{
+               case OMLIT(tail : List[Term],listType) =>  OMLIT(hdE :: tail, listType)
+            }
+      }
+   }
 }
 
-/**
-  * p is a theory that is allowed to be used as a type --->  |- typedInstances p : tp
-  */
-object InstancesTyping extends InferenceRule(CF.typedInstances.path, OfType.path) {
-  def apply(solver: Solver)(tm: Term, covered: Boolean)(implicit stack: Stack, history: History): Option[Term] = {
-    tm match {
-      case CF.typedInstances(OMMOD(p)) =>
-        if (!covered) {
-          // check that theory p exists, and is allowed to have instances
-           // first check whether the theory exists
-           val module = solver.getModule(p) match{
-              case None => return None
-              case Some(module) => module
-           }
-           // solver.solve(p,CF.anyInstance)
-        }
-        Some(Types.tp.term)
-    }
-  }
+object foldRun extends ExecutionRule(ListComputation.fold.path){
+   override def under = List(Apply.path)
+   val listType = new RepresentedRealizedType(TypedTerms.tm(ListComputation.list),execution.ListType)
+
+   def apply(controller:Controller, callback: ExecutionCallback, env: RuntimeEnvironment, prog: Term) : Term = {
+      prog match {
+         case ListComputation.fold(tpLs, tpOut, initVal, fun, ls) =>
+            val result = callback.execute(ls) match {
+               case OMLIT(lsE : List[Term], listType) =>
+                  lsE.foldLeft(initVal)((x : Term ,y)=>callback.execute(ApplyGeneral(fun,x:: y :: Nil )))
+            }
+            // now recurse on the overall result (i.e. simplify the stack of functions generated by the foldLeft
+            callback.execute(result)
+      }
+   }
 }
 
-/*
+object takeRun extends ExecutionRule(ListComputation.take.path){
+   override def under = List(Apply.path)
+   val listType = new RepresentedRealizedType(TypedTerms.tm(ListComputation.list),execution.ListType)
+
+   def apply(controller:Controller, callback: ExecutionCallback, env: RuntimeEnvironment, prog: Term) : Term = {
+      prog match {
+         case ListComputation.take(tpLs, num, ls) =>
+            val lsE = callback.execute(ls) match { case OMLIT(ls : List[Term],listType) => ls}
+            val numE = callback.execute(num) match{case OMLIT(num : BigInt, _) => num}
+            OMLIT(lsE.take(numE.intValue),listType)
+      }
+   }
+}
+
+object dropRun extends ExecutionRule(ListComputation.drop.path){
+   override def under = List(Apply.path)
+   val listType = new RepresentedRealizedType(TypedTerms.tm(ListComputation.list),execution.ListType)
+
+   def apply(controller:Controller, callback: ExecutionCallback, env: RuntimeEnvironment, prog: Term) : Term = {
+      prog match {
+         case ListComputation.drop(tpLs, num, ls) =>
+            val lsE = callback.execute(ls) match { case OMLIT(ls : List[Term],listType) => ls}
+            val numE = callback.execute(num) match{case OMLIT(num : BigInt, _) => num}
+            OMLIT(lsE.drop(numE.intValue),listType)
+      }
+   }
+}
+
+
+object getRun extends ExecutionRule(ListComputation.get.path){
+   override def under = List(Apply.path)
+   val listType = new RepresentedRealizedType(TypedTerms.tm(ListComputation.list),execution.ListType)
+
+   def apply(controller:Controller, callback: ExecutionCallback, env: RuntimeEnvironment, prog: Term) : Term = {
+      prog match {
+         case ListComputation.get(tpLs, ls, idx) =>
+            val idxE = callback.execute(idx) match {
+               case OMLIT(vl:BigInt,tp1) => vl.intValue
+            }
+            val returnOpt = callback.execute(ls) match {
+               case OMLIT(lsE : List[Term], listType) =>{
+                  lsE.lift(idxE)
+               }
+            }
+          returnOpt match {
+             case Some(res) => OptionTypes.just(tpLs,res)
+             case None => OptionTypes.none(tpLs)
+          }
+      }
+   }
+}
+object foldOptionRun extends ExecutionRule(OptionTypes.fold.path){
+   override def under = List(Apply.path)
+
+   def apply(controller:Controller, callback: ExecutionCallback, env: RuntimeEnvironment, prog: Term) : Term = {
+      prog match {
+         case OptionTypes.fold(tp1,tp2, noneElem, justMap, opt) => {
+            val optE = callback.execute(opt)
+            // Now we match
+            optE match {
+               case OptionTypes.just(tp, elem) => callback.execute(ApplyGeneral(callback.execute(justMap), List(optE)))
+               case OptionTypes.none(tp) =>  {
+                  callback.execute(noneElem)
+               }
+            }
+         }
+      }
+   }
+}
+
+
+
 /**
- * "init" fully initializes the definienses in theory --->  |- new theory init : typedInstances theory
+ * |- typedInstance OMLIT(instance of theory p) : typedInstances(p)
  */
-object NewInstance extends InferenceRule(CF.`new`.path, OfType.path) {
+object InstanceTyping extends InferenceRule(TheoriesAsClasses.typedInstance.path, OfType.path) {
+   val instType = RealizedType(instanceMeta.anyInstance.term, InstanceType)
    def apply(solver: Solver)(tm: Term, covered: Boolean)(implicit stack: Stack, history: History): Option[Term] = {
       tm match {
-         case CF.`new`(theory, initfun: Term) =>
-            val funterm = solver.inferType(initfun) match {
-               case Some(tp) => tp
-               case None => return None
-            }
+         case TheoriesAsClasses.typedInstance(instType(Some(inst: InstanceOfTheory))) =>
+            Some(TheoriesAsClasses.typedInstances(OMMOD(inst.theory.path)))
+      }
+   }
+}
 
+/**
+ * p is a theory that is allowed to be used as a type --->  |- typedInstances p : tp
+ */
+object InstancesTyping extends InferenceRule(TheoriesAsClasses.typedInstances.path, OfType.path) {
+   def apply(solver: Solver)(tm: Term, covered: Boolean)(implicit stack: Stack, history: History): Option[Term] = {
+      tm match {
+         case TheoriesAsClasses.typedInstances(OMMOD(p)) =>
             if (!covered) {
                // check that theory p exists, and is allowed to have instances
                // first check whether the theory exists
-               val module = solver.getModule(theory.toMPath) match{
+               val module = solver.getModule(p) match{
                   case None => return None
                   case Some(module) => module
                }
                // solver.solve(p,CF.anyInstance)
             }
-            Some(CF.typedInstances(theory))
-      }
-   }
-}*/
-/*
-object DeclareTerm extends InferenceRule(CF.declare.path, OfType.path) {
-   def apply(solver: Solver)(tm: Term, covered: Boolean)(implicit stack: Stack, history: History) : Option[Term] = {
-      println(tm)
-      tm match {
-        case CF.declare(con, body)  =>
-           val x = con.getDeclarations.head.name
-           val a = con.getDeclarations.head.tp.get
-           if (!covered) isTypeLike(solver,a)
-           val (xn,sub) = Common.pickFresh(solver, x)
-           solver.inferType(body ^? sub, covered)(stack ++ xn % a, history) flatMap {bT =>
-              if (bT.freeVars contains xn) {
-                 // usually an error, but xn may disappear later, especially when unknown in b are not solved yet
-                 solver.error("type of Declare-scope has been inferred, but contains free variable " + xn + ": " + solver.presentObj(bT))
-                 None
-              } else {
-                 Some(bT)
-              }
-           }
-        case _ => None // should be impossible
+            // Some(Types.tp.term)
+            Some(Types.tp.term)
       }
    }
 }
-*/
+
+
+
+/**
+ * "init" fully initializes the definienses in theory --->  |- new theory init : typedInstances theory
+ */
+object NewInstance extends InferenceRule(TheoriesAsClasses.`new`.path, OfType.path) {
+   def apply(solver: Solver)(tm: Term, covered: Boolean)(implicit stack: Stack, history: History): Option[Term] = {
+      tm match {
+         case TheoriesAsClasses.`new`(theory, initfun) => {
+            if (!covered) {
+               val tp: OMA = Arrow(TypedTerms.tm(TheoriesAsClasses.typedInstances(theory)), TypedTerms.tm(UnitType.unitType))
+               val check = solver.check(Typing(stack, initfun, tp))
+               if (!check)
+                  return None
+               // check that theory p exists, and is allowed to have instances
+               // first check whether the theory exists
+               val module = solver.getModule(theory.toMPath) match {
+                  case None => return None
+                  case Some(module: Theory) => module
+               }
+               val initialised  = check_initialised(solver,module,initfun).toSet // .map(x=>x.toPath)
+               val open_definienses = get_uninitialised(module).toSet//.map(x => x.toPath)
+               if(open_definienses != initialised )
+                  return None
+            }
+            Some(TypedTerms.tm(TheoriesAsClasses.typedInstances(theory)))
+         }
+      }
+   }
+   def check_initialised(solver:Solver,theory : Theory,f : Term)(implicit stack: Stack, history: History): List[GlobalName] ={
+      val result: List[GlobalName] = f match{
+         case MutableVariables.assign(_,TheoriesAsClasses.field(_,OMID(name)),_) => {
+            List(GlobalName(theory.path,name.name))
+         }
+         case SequencingOps.sequence(_,_,left,right) => check_initialised(solver,theory,left) ++ check_initialised(solver,theory,right)
+         case IfThenElse.ifte(_,cond,ifB,elseB) => {
+            // we could probably do something clever with the condition here
+            // to legalise more constructors
+            val ifBcheck = check_initialised(solver, theory,ifB)
+            val elseBcheck = check_initialised(solver,theory,elseB)
+            ifBcheck.intersect(elseBcheck)
+         }
+         case OMS(x) => solver.getDef(x) match{
+            case Some(tX) => check_initialised(solver,theory,tX)
+            case None => List()
+         }
+         case ComplexTerm(p, sub, con, args) =>
+            args flatMap (x => check_initialised(solver, theory, x))
+         // in the future we might want more cases here
+         case otherwise => List()
+      }
+      result
+   }
+   def get_uninitialised(thy : Theory): List[GlobalName] ={
+      thy.getConstants flatMap { x=>
+         x.df match{
+            case None => Some(GlobalName(thy.path,x.name))
+            case Some(_) => None
+         }
+      }
+   }
+}
+
+object FieldInstance extends InferenceRule(TheoriesAsClasses.field.path, OfType.path) {
+   val instType = new RepresentedRealizedType(instanceMeta.anyInstance.term, InstanceType)
+
+   def apply(solver: Solver)(tm: Term, covered: Boolean)(implicit stack: Stack, history: History): Option[Term] = {
+      //
+      tm match {
+         case TheoriesAsClasses.field(v, OMS(field)) =>
+            val inferred_theory = solver.inferType(v)
+            inferred_theory match{
+               /*case Some(TheoriesAsClasses.typedInstances(OMID(thy_type))) => {
+                  // thy_type.module
+                  val pth = thy_type.module ? field.toLocalName
+                  val thy = solver.getType(pth)
+                  thy
+                  // None
+               }*/
+               case Some(OMA(Apply.term,List(TypedTerms.tm.term,TheoriesAsClasses.typedInstances(OMID(thy_type))))) => {
+                  // thy_type.module
+                  val pth = thy_type.module ? field.toLocalName
+                  val thy = solver.getType(pth)
+                  thy
+                  // None
+               }
+               case _ => None
+            }
+         // throw GetError(tm.toMPath, " right branch with object " + theory.toString+ " and field "+ name.toString)
+         //solver.getType(inst.theory.path ? field.toLocalName)
+         //inst.theory.getO(field.name) match {
+         //   case None => None
+         //  case Some(tm:Constant) =>tm.tp
+         // }
+         case OMA(f,xs) =>
+            throw GetError(tm.toMPath, " OMA in field "+tm.toString+ " " + f.toString + " xs " + xs.toString)
+         case _=> throw GetError(tm.toMPath, " wrong branch in field "+tm.toString+ " " + tm.getClass.toString)
+            None
+      }
+   }
+}
+
+object tmVariance extends VarianceRule(TypedTerms.tm.path){
+   /**
+    * pre all arguments covered
+    *
+    * @return Some(b) if the judgment was proved/disproved, None if the result is inconclusive
+    */
+   override def apply(solver: Solver)(tp1: Term, tp2: Term)(implicit stack: Stack, history: History): Option[Boolean] = {
+      val TypedTerms.tm(a) = tp1
+      val TypedTerms.tm(b) = tp2
+      a match {
+         case EmptyType.void.term => Some(true)
+         case theory => ???//...//solver.check(Subtyping())
+         case _ => None
+      }
+   }
+}
+
+object unsafeFromJustRun extends ExecutionRule(UnsafeOptions.unsafeFromJust.path){
+   override def under = List(Apply.path)
+
+   def apply(controller:Controller, callback: ExecutionCallback, env: RuntimeEnvironment, prog: Term) : Term = {
+      prog match {
+         case UnsafeOptions.unsafeFromJust(tp1, opt) => {
+            val optE = callback.execute(opt)
+            // Now we match
+            optE match {
+               case OptionTypes.just(tp, elem) => elem
+               case OptionTypes.none(tp) =>  {
+                  throw MMTException(optE)
+               }
+            }
+         }
+      }
+   }
+}
