@@ -1,43 +1,41 @@
 namespace latin:/❚
 
-fixmeta ?TypedEquality❚
+fixmeta ?BigSFOL❚
 
 theory Collection =
   include ?EndoMagma❙
   include ?EndoNeutral❙
-  include ?Booleanooperations❙
-  include ?Nat_realization❙
-  include ?SFOL❙ 
+  include ?Nat❙
   
-  null_collection : {a} tm &a❘ # %n 1❘= [a] neutral❙
+  empty: {a} tm &a❘ # %n 1❘= [a] neutral❙
 
-  singleton : {a} tm a ⟶ tm &a❘# %n 2 prec 60❙
+  singleton : {a} tm a ⟶ tm &a❘# %n 2 prec 100❙
   cons : {a} tm a ⟶ tm &a ⟶ tm &a❘# %n 2 3 prec 60❘= [a,x,xs] singleton x ∘ xs❙
   
   
   inductive_proof: {a,P: tm & a ⟶ prop} ⊦ P neutral ⟶ ({x,xs} ⊦ P xs ⟶ ⊦ P (cons x xs)) ⟶ {xs} ⊦ P xs ❙
 
-  is_empty : {a} tm &a ⟶ prop❘# %n 2 prec 30❙
-  is_empty_neutral: {a} ⊦ is_empty (null_collection a)❙
+  is_empty : {a} tm &a ⟶ prop❘# %n 2 prec 40❙
+  is_empty_neutral: {a} ⊦ is_empty (empty a)❙
   is_empty_cons : {a,x,xs: tm & a} ⊦ ¬(is_empty (cons x xs))❙
   is_empty_singelton : {a,x: tm a} ⊦ ¬(is_empty (singleton x))❙
   is_empty_op : {a,l, m: tm &a} ⊦ is_empty l ⟶ ⊦ is_empty m ⟶ ⊦ is_empty l∘m❙
 
-  is_nonempty : {a} tm &a ⟶ prop❘# %n 2 prec 30❘
+  is_nonempty : {a} tm &a ⟶ prop❘# %n 2 prec 50❘
   	= [a,xs] ¬(is_empty xs)❙ 	         
   	 
-  length: {a} tm &a ⟶ tm naturalnumber❘# %n 2 prec 30❙
-  length_neutral : {a} ⊦ length (null_collection a) =ͭ zero ❙
-	length_cons : {a,x,xs: tm &a} ⊦(length (cons x xs)) =ͭ  (S (length xs))❙
-	length_singelton : {a,x: tm a} ⊦ length (singleton x) =ͭ (S zero)❙
+  length: {a} tm &a ⟶ ℕ❘# %n 2 prec 40❙
+  length_neutral : {a} ⊦ length (empty a) =ͭ zero ❙
+	length_cons : {a,x,xs: tm &a} ⊦(length (cons x xs)) =ͭ  (length xs)'❙
+	length_singelton : {a,x: tm a} ⊦ length (singleton x) =ͭ one❙
 	length_op : {a,l, m: tm &a} ⊦ length l∘m =ͭ (length l) + (length m)❙
 	
-	contain : {a} tm & a ⟶ tm a ⟶ prop❘# %n 2 3 prec 30❙
-	contain_neutral: {a,x: tm a} ⊦ ¬ contain (null_collection a) x❙
+	contain : {a} tm & a ⟶ tm a ⟶ prop❘# %n 2 3 prec 50❙
+	contain_neutral: {a,x: tm a} ⊦ ¬ contain (empty a) x❙
 	contain_cons : {a,x:tm a,xs} ⊦  contain (cons x xs) x ❙
 	contain_cons2 : {a,x,y,ys: tm & a} ⊦ contain (cons y ys) x  ⇔ contain ys x❙
 	
-	map2 : {a,b} (tm a ⟶ tm & b) ⟶ tm & a ⟶ tm & b❘# %n 3 4 prec 30❙
+	map2 : {a,b} (tm a ⟶ tm & b) ⟶ tm & a ⟶ tm & b❘# %n 3 4 prec 50❙
   map2_neutral : {a,b,f: tm a ⟶ tm  & b} ⊦ (map2 f neutral) =ͭ neutral ❙
   map2_cons : {a,b, f: tm a ⟶ tm & b,x,xs} ⊦ map2 f (cons x xs) =ͭ ((f x) ∘ (map2 f xs))❙
   map2_singleton1 : {a,b,f: tm a ⟶ tm & b,x} ⊦ map2 f (singleton x) =ͭ f x❙
@@ -79,19 +77,19 @@ theory ResultSpec =
 ❚
 
 theory Lists =
-	include ?Nat_realization ❙
+	include ?Nat❙
   structure list : ?ListSpec =
-  	include ?Nat_realization❙
+  	  include ?Nat❙
     applyType # List 1❙
-    op # 2 concat 3❙
-    neutral # nil %I1❙ 	
+    op # 2 concat 3 prec 50❙
+    neutral # nil %I1❙
  ❚ 	
 ❚
 
 theory Multisets =
-	include ?Nat_realization ❙
+	include ?Nat❙
   structure multiset : ?MultisetSpec =
-  	include ?Nat_realization ❙
+  	  include ?Nat❙
     applyType # Multiset 1❙
     op # 2 munion 3❙
     neutral # mempty %I1❙ 
@@ -100,15 +98,16 @@ theory Multisets =
 ❚
 
 theory FiniteSets =
-	include ?Nat_realization ❙
+	include ?Nat❙
   structure finset : ?FiniteSetSpec =
-  	include ?Nat_realization ❙
+    	include ?Nat❙
     applyType # FinSet 1❙
     op # 2 union 3❙
     neutral # empty %I1❙ 
     singleton # finset 2❙
  ❚
 ❚
+
 theory BinaryTree =
 	structure binarytree : ?BinaryTreeSpec =
 		applyType # BinaryTree 1❙
@@ -117,7 +116,6 @@ theory BinaryTree =
     singleton # leaf 2❙
     cons # node 2 3 ❙
 	❚
-
 ❚
 
 theory Options =
@@ -127,252 +125,4 @@ theory Options =
     neutral # none %I1❙ 
     singleton # option 2❙
  ❚
-❚
-
-
-
-theory List_operators =
-	include ?Lists❙ 
-	
-	hd : {a} tm List a ⟶ tm a❘# %n 2 prec 30❙
- 	hd_cons : {a,x: tm a,xs: tm List a} ⊦ hd (list/cons x xs) =ͭ  x❙
- 	hd_singleton : {a,x: tm a} ⊦ hd list/singleton x =ͭ  x❙
- 	hd_op1: {a,l, m: tm List a}⊦ list/is_empty l ⟶ ⊦ hd (l concat m) =ͭ hd m❙
- 	hd_op2: {a,l, m: tm List a}⊦ list/is_nonempty l ⟶ ⊦ hd (l concat m) =ͭ hd l❙
-
- 
- 	tl: {a} tm List a ⟶ tm List a❘# %n 2 prec 30❙
- 	tl_nil : {a} ⊦ tl (list/null_collection a) =ͭ nil ❙
- 	tl_cons : {a,x,xs: tm List a} ⊦ tl (list/cons x xs) =ͭ xs❙
- 	tl_singleton : {a,x: tm a} ⊦ tl list/singleton x =ͭ nil❙
-  tl_op1: {a,l, m: tm List a}⊦ tl (l concat m) =ͭ ((tl l) concat  m)❙
- 
-
-  drop: {a} tm List a ⟶ tm naturalnumber ⟶ tm List a❘# %n 2 3 prec 30❙ 
-  drop_nil : {a,n} ⊦ drop (list/null_collection a) n =ͭ nil ❙
-  drop_cons1 : {a, n,x,xs: tm List a} ⊦ n =ͭ zero  ⟶ ⊦ drop (list/cons x xs) n =ͭ (list/cons x xs) ❙
-  drop_cons2 : {a, n,x,xs: tm List a} ⊦ ¬ (S n) =ͭ (zero) ⟶ ⊦ drop (list/cons x xs) (S n) =ͭ drop xs n❙
-  drop_singleton1 : {a,n,x: tm a} ⊦ n =ͭ zero ⟶ ⊦ drop (list/singleton x) n =ͭ list/singleton x❙
-  drop_singleton2 : {a,n,x: tm a} ⊦ ¬ n =ͭ zero ⟶ ⊦ drop (list/singleton x) n =ͭ nil❙
-  drop_op1: {a,n,l, m: tm List a} ⊦ n =ͭ zero  ⟶ ⊦ (drop (l concat m) (S n)) =ͭ (l concat m)❙
-  drop_op2: {a,n,l, m: tm List a} ⊦ ¬ (S n) =ͭ (zero) ⟶ ⊦ list/is_empty l ⟶ ⊦ drop (l concat m) (S n) =ͭ drop l n❙
-  drop_op3: {a,n,l, m: tm List a} ⊦ ¬ (S n) =ͭ (zero) ⟶ ⊦ list/is_nonempty l ⟶ ⊦ drop (l concat m) (S n) =ͭ drop ((drop l (S n)) concat m) (S n)❙
- 
- 
-  add_last: {a} tm a ⟶ tm List a ⟶ tm List a❘# %n 2 3 prec 30❙
-  add_last_nil : {a,x: tm a} ⊦ add_last x nil =ͭ list/cons x nil ❙
-  add_last_cons : {a, y,x,xs: tm List a} ⊦ add_last y (list/cons x xs) =ͭ list/cons x add_last y xs❙
-  add_last_singleton : {a,y,x: tm a} ⊦ add_last y (list/singleton x) =ͭ list/cons x (list/singleton y)❙
-  add_last_op : {a,y,l, m: tm List a} ⊦ add_last y (l concat m) =ͭ (l concat  add_last y m)❙
-
- 
-	rev: {a} tm List a ⟶ tm List a❘# %n 2 prec 30❙
-	rev_nil: {a} ⊦ rev (list/null_collection a) =ͭ nil❙
-  rev_cons: {a,x,xs: tm List a} ⊦ rev (list/cons x xs) =ͭ add_last x (rev xs)❙ 
-  rev_singleton : {a,x: tm a} ⊦ rev (list/singleton x) =ͭ list/singleton x❙
-  rev_op: {a,l, m: tm List a} ⊦ rev (l concat m) =ͭ ((rev m)  concat  (rev l))❙
-
-  
-  list_match : {a,b} tm List a ⟶ tm b ⟶ ( tm a ⟶ tm List a ⟶ tm b) ⟶ tm b❘# 3 match_list case_nil 4 case_cons 5  prec 50❙
-  list_match_nil: {a,b,nilcase,conscase:tm a ⟶ tm List a ⟶ tm b}  
-  							⊦ (nil match_list case_nil nilcase case_cons conscase) 
-  								=ͭ nilcase❙
-  list_match_cons: {a,b,nilcase: tm b,conscase,x,xs:tm List a} 
-  							⊦ ((list/cons x xs) match_list case_nil nilcase case_cons conscase) 
-  								=ͭ (conscase x xs) ❙
-  list_match_singleton : {a,b,nilcase: tm b,conscase,x:tm a}
-  							⊦ ((list/singleton x) match_list case_nil nilcase case_cons conscase) 
-  								=ͭ (conscase x nil) ❙
-  
-❚
-
-theory List_Iterators =
-	include ?List_operators❙  
-	include ?SimpleProducts❙
-
-	
-	list_map : {a,b} (tm a ⟶ tm List b) ⟶ tm List a ⟶ tm List b❘# %n 3 4 prec 30❙
-  list_map_neutral : {a,b,f: tm a ⟶ tm List b} 
-  						⊦ (list_map f nil) =ͭ nil ❙
-  list_map_cons : {a:tp,b, f: tm a ⟶ tm List b,x,xs: tm List a} 
-  						⊦ list_map f (list/cons x xs) =ͭ ((f x) concat (list_map f xs))❙
-  list_map_singleton1 : {a,b,f: tm a ⟶ tm List b,x: tm a} 
-  						⊦ list_map f (list/singleton x) =ͭ f x❙
-  list_map_op: {a,b,f: tm a ⟶ tm List b,l, m: tm List a}
-  						⊦ list_map f (l concat m) =ͭ ((list_map f l)concat (list_map f m))❙
-  
-  
-  foldl : {a,b} (tm b ⟶ tm a ⟶ tm b) ⟶ tm b ⟶ tm List a ⟶ tm b❘# %n 3 4 5 prec 30❙
-  foldl_null : {a,b,f: tm b ⟶ tm a ⟶ tm b,y} 
-  						⊦ foldl f y nil =ͭ y ❙
-  foldl_cons : {a,b,f: tm b ⟶ tm a ⟶ tm b,y,x,xs} 
-  						⊦ foldl f y (list/cons x xs) =ͭ foldl f (f y x) xs ❙
-  foldl_singleton : {a,b,f: tm b ⟶ tm a ⟶ tm b,y,x} 
-  						⊦ foldl f y (list/singleton x) =ͭ f y x❙
-  fouldl_op: {a,b,f: tm b ⟶ tm a ⟶ tm b,y,l, m} 
-  						⊦foldl f y (l concat m) =ͭ foldl f (foldl f y l) m❙
- 
-  
-  foldr : {a,b} (tm a ⟶ tm b ⟶ tm b) ⟶ tm b ⟶ tm List a ⟶ tm b❘# %n 3 4 5 prec 30❙
-  foldr_null : {a,b,f: tm a ⟶ tm b ⟶ tm b,y} 
-  						⊦ foldr f y nil =ͭ y ❙
-  foldr_cons : {a,b,f: tm a ⟶ tm b ⟶ tm b,y,x,xs} 
-  						⊦ foldr f y (list/cons x xs) =ͭ f x (foldr f y xs) ❙
-  foldr_singleton : {a,b,f: tm a ⟶ tm b ⟶ tm b,y,x} 
-  						⊦ foldr f y (list/singleton x) =ͭ f x y❙
-  fouldr_op: {a,b,f: tm a ⟶ tm b ⟶ tm b,y: tm b,l,m} 
-  						⊦foldr f y (l concat m) =ͭ foldr f (foldr f y m) l❙
-  
-  						
-  lexists : {a} (tm a ⟶ prop) ⟶ tm List a ⟶ prop❘# %n 2 3 prec 30❙
-  lexists_cons1 : {a, f: tm a ⟶ prop,x,xs} ⊦ f x ⟶ ⊦ lexists f (list/cons x xs) ❙
-  lexists_cons2 : {a, f: tm a ⟶ prop,x,xs} ⊦lexists f xs ⟶ ⊦ lexists f (list/cons x xs) ❙
-  lexists_singleton1 : {a,f: tm a ⟶ prop,x} ⊦f x ⟶ ⊦ lexists f (list/singleton x)❙
-  lexists_op1: {a,f: tm a ⟶ prop,l, m} ⊦lexists f l ⟶ ⊦ lexists f (l concat m)❙
-  lexists_op2: {a,f: tm a ⟶ prop,l, m} ⊦lexists f m ⟶ ⊦ lexists f (l concat m)❙
-
-  
-  lall : {a} (tm a ⟶ prop) ⟶ tm List a ⟶ prop ❘# %n 2 3 prec 30❙
-  lall_neutral : {a,f: tm a ⟶ prop} ⊦ lall f nil  ❙
-  lall_cons1 : {a, f: tm a ⟶ prop,x,xs} ⊦ f x ⟶ ⊦lall f xs ⟶ ⊦ lall f (list/cons x xs) ❙
-  lall_singleton1 : {a,f: tm a ⟶ prop,x} ⊦f x ⟶ ⊦ lall f (list/singleton x)❙
-  lall_op: {a,f: tm a ⟶ prop,l, m} ⊦lall f l ⟶ ⊦lall f m ⟶ ⊦ lall f (l concat m)❙
-  
-  
-  filter : {a} (tm a ⟶ prop) ⟶ tm List a ⟶ tm List a❘# %n 2 3 prec 30❙
-  filter_neutral : {a,f: tm a ⟶ prop} 
-  						⊦ filter f nil =ͭ nil ❙
-  filter_cons1 : {a, f: tm a ⟶ prop,x,xs} 
-  						⊦ f x ⟶  ⊦ filter f (list/cons x xs) =ͭ list/cons x filter f xs❙
-  filter_cons2 : {a, f: tm a ⟶ prop,x,xs} 
-  						⊦ ¬(f x) ⟶  ⊦ filter f  (list/cons x xs) =ͭ filter f xs❙
-  filter_singleton1 : {a,f: tm a ⟶ prop,x} 
-  						⊦f x ⟶ ⊦ filter f (list/singleton x) =ͭ list/singleton x❙
-  filter_singleton2 : {a,f: tm a ⟶ prop,x} 
-  						⊦ ¬(f x) ⟶ ⊦ filter f (list/singleton x) =ͭ nil❙
-  filter_op: {a,f: tm a ⟶ prop,l, m}
-  						⊦ filter f (l concat m) =ͭ ((filter f l)concat (filter f m))❙
-  
-  						
-  zip : {a,b} tm List a ⟶ tm List b ⟶ tm List a ×ͭ b❘# %n 3 4 prec 30❙
-  zip_neutral : {a,b} 
-  						⊦ zip (list/null_collection a) (list/null_collection b) 
-  							=ͭ (list/null_collection a ×ͭ b)  ❙
-  zip_cons : {a,b,x:tm a,xs,y:tm b,ys} 
-  						⊦ zip (list/cons x xs) (list/cons y ys) 
-  							=ͭ list/cons (x ,ͭ y)(zip xs ys)❙
-  zip_singleton: {a,b,x:tm a,y: tm b} 
-  						⊦ zip (list/singleton x )(list/singleton y) 
-  							=ͭ list/singleton (x ,ͭ y)❙
-  zip_op: {a,b,l1,m1: tm List a,l2,m2: tm List b} 
-  						⊦ zip (l1 concat m1)(l2 concat m2) 
-  						  =ͭ ((zip l1 l2) concat (zip m1 m2))❙
-  
-  						  
-  unzip1 : {a,b}  tm List a ×ͭ b ⟶ tm List a❘# %n 3 prec 30❙
-  unzip1_neutral : {a,b} 
-  						⊦ unzip1 (list/null_collection a ×ͭ b) 
-  							=ͭ list/null_collection a ❙
-  unzip1_cons : {a,b,x: tm a, y : tm b, xys: tm List a ×ͭ b} 
-  						⊦ unzip1 (list/cons (x ,ͭ y) xys )
-  							=ͭ  (list/cons x (unzip1 xys))❙
-  unzip1_singleton : {a,b,x: tm a, y: tm b} 
-  						⊦ unzip1 list/singleton (x ,ͭ y) =ͭ list/singleton x ❙
-  unzip1_op : {a,b, xs: tm List a ×ͭ b, ys: tm List a ×ͭ b} 
-  						⊦ unzip1 (xs concat ys) =ͭ (unzip1 xs concat unzip1 ys)❙
-  
-  						
-  unzip2 : {a:tp,b:tp}  tm List a ×ͭ b ⟶ tm List b❘# %n 3 prec 30❙
-  unzip2_neutral : {a,b} 
-  						⊦ unzip2 (list/null_collection a ×ͭ b) =ͭ list/null_collection b ❙
-  unzip2_cons : {a,b, x: tm a  ,y: tm b, xys: tm List a ×ͭ b} 
-  						⊦ unzip2 list/cons (x ,ͭ y) xys 
-  							=ͭ (list/cons y unzip2 xys)❙
-  unzip2_singleton : {a,b,x: tm a, y: tm b} 
-  						⊦ unzip2 list/singleton (x ,ͭ y) 
-  							=ͭ list/singleton y ❙
-  unzip2_op : {a,b, xs: tm List a ×ͭ b, ys: tm List a ×ͭ b} 
-  						⊦ unzip2 (xs concat ys) =ͭ (unzip2 xs concat unzip2 ys)❙
-❚
-
-theory MultisetSpec_operations =
-	include ?Multisets❙		
-	
-	occur: {a} tm a ⟶ tm Multiset a ⟶ tm naturalnumber❘# %n 2 3 prec 30❙
-	occur_neutral : {a:tp,x:tm a} ⊦ occur x mempty =ͭ (S zero)❙
-	occur_cons_equal : {a,x:tm a,xs} ⊦ occur x (multiset/cons x xs) =ͭ (S zero) + occur x xs❙
-	occur_cons_unequal : {a,y:tm a,x:tm a,xs} ⊦ ¬ (y =ͭ x) ⟶ ⊦ occur y (multiset/cons x xs) =ͭ occur x xs ❙
-	ocuur_singleton : {a,x:tm a} ⊦ occur x (multiset x) =ͭ (S zero) ❙
-	
-	remove: {a} tm a ⟶tm Multiset a ⟶ tm Multiset a ❘# %n 2 3 prec 30❙
-	remove_neutral : {a:tp,x:tm a} ⊦  (remove x (multiset/null_collection a)) =ͭ mempty ❙
-	remove_cons_equal : {a,x:tm a,xs} ⊦ remove x (multiset/cons x xs) =ͭ xs ❙
-	remove_cons_unequal : {a,y: tm a,x,xs} ⊦ ¬ (y =ͭ x) ⟶ ⊦ remove y (multiset/cons x xs) =ͭ xs ❙
-	remove_singleton : {a,x} ⊦ remove x (multiset x) =ͭ (multiset/null_collection a) ❙
-	
-	removeall: {a} tm a ⟶tm Multiset a ⟶ tm Multiset a ❘# %n 2 3 prec 30❙
-	removeall_neutral : {a,x:tm a} ⊦  (removeall x (multiset/null_collection a)) =ͭ mempty ❙
-	removeall_cons_equal : {a,x:tm a,xs} ⊦ removeall x (multiset/cons x xs) =ͭ xs ❙
-	removeall_cons_unequal : {a,y,x:tm a,xs} ⊦ ¬ (y =ͭ x) ⟶ ⊦ removeall y (multiset/cons x xs) =ͭ  remove y xs ❙
-	removeall_singleton : {a,x} ⊦ removeall x (multiset x )=ͭ (multiset/null_collection a) ❙
-	
-
-	intersect: {a} tm Multiset a ⟶ tm Multiset a ⟶ tm Multiset a❘# %n 2 3 prec 30❙ 
-	intersect_neutral1 : {a, xs: tm Multiset a} ⊦ intersect mempty xs =ͭ mempty ❙
-	intersect_neutral2 : {a, xs: tm Multiset a} ⊦ intersect xs mempty =ͭ mempty ❙
-	intersect_cons1: {a,x: tm a,xs: tm Multiset a, ys : tm Multiset a} 
-									⊦ (occur x ys nat/> zero) ⟶ ⊦ intersect (multiset/cons x xs) ys 
-										=ͭ multiset/cons x intersect xs ( remove x ys)❙
-	intersect_cons2: {a,x: tm a,xs: tm Multiset a, ys : tm Multiset a} 
-									⊦ ¬ (occur x ys nat/> zero) ⟶ ⊦ intersect (multiset/cons x xs) ys 
-										=ͭ intersect xs  ys ❙
-	intersect_singelton: {a,x: tm a, ys : tm Multiset a} 
-									⊦ (occur x ys nat/> zero) ⟶ ⊦ intersect (multiset x) ys 
-										=ͭ multiset x❙
-	intersect_singelton2: {a,x: tm a,xs: tm Multiset a, ys : tm Multiset a} 
-									⊦ ¬ (occur x ys nat/> zero) ⟶ ⊦ intersect (multiset x ) ys 
-										=ͭ mempty❙
-						
-	distinctSize: {a} tm Multiset a ⟶ tm naturalnumber❘# %n 2 3 prec 30❙
-	
-❚
-
-theory FiniteSetSpec_operations =
-	include ?FiniteSets❙
-	
-	
-	occur : {a} tm a ⟶ tm FinSet a ⟶ prop ❘# %n 2 3 prec 30❙
-	occur_neutral: {a, x: tm a} ⊦ ¬ occur x empty ❙
-	occur_singelton: {a,x: tm a} ⊦ occur x (finset x) ❙
-	occur_cons : {a,x: tm a, xs:tm FinSet a} ⊦occur x (finset/cons x xs)❙
-	occur_cons2: {a,y:tm a,x: tm a, xs:tm FinSet a} ⊦ ¬( x =ͭ y) ⟶ ⊦occur y (finset/cons x xs) ⇔ occur y xs ❙
-	occur_op: {a,x,ys:tm FinSet a,xs:tm FinSet a} ⊦occur x  (xs union ys) ⇔ (occur x xs ) ∨ (occur x ys) ❙
-	
-	remove: {a} tm a ⟶tm FinSet a ⟶ tm FinSet a ❘# %n 2 3 prec 30❙
-	remove_neutral : {a:tp,x:tm a} ⊦  (remove x (finset/null_collection a)) =ͭ empty ❙
-	remove_cons_equal : {a,x:tm a,xs} ⊦ remove x (finset/cons x xs) =ͭ xs ❙
-	remove_cons_unequal : {a,y:tm a,x,xs:tm FinSet a} ⊦ ¬ (y =ͭ x) ⟶ ⊦ (remove y (finset/cons x xs)) =ͭ xs ❙
-	remove_singleton : {a,x} ⊦ (remove x finset x) =ͭ finset/null_collection a ❙
-	
-	
-❚
-
-
-theory BinaryTree_operation =
-	include ?BinaryTree ❙
-	include ?SFOL ❙
-	
-	left : {a} tm BinaryTree a ⟶ tm BinaryTree a ❘# %n 2 prec 30❙
-	left_neutral: {a} ⊦ (left binarytree/null_collection a) =ͭ none ❙
-	left_singelton : {a,x:tm a} ⊦ left (leaf x) =ͭ none ❙
-	left_cons : {a, x: tm BinaryTree a, xr} ⊦ left (node x xr) =ͭ none ❙
-	left_op : {a, xl: tm BinaryTree a, xr} ⊦ (left (xl union xr))=ͭ xl❙
-
-	
-	right: {a} tm BinaryTree a ⟶ tm BinaryTree a ❘# %n 2 prec 30❙
-	right_neutral: {a} ⊦ (left binarytree/null_collection a) =ͭ none ❙
-	richt_singelton: {a, y: tm a} ⊦ right (leaf y) =ͭ none ❙
-	right_cons: {a, x: tm BinaryTree a, xr} ⊦ right (node x xr) =ͭ xr ❙
-	right_op : {a, xl: tm BinaryTree a, xr} ⊦ (left (xl union xr)) =ͭ xr❙
-	
 ❚

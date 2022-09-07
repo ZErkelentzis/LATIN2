@@ -4,18 +4,17 @@ file ../../../build_config.msl
 // depends in general on fundamentals, type_theory and category_theory (these dependencies are not mentioned here)!
 
 // no dependency
-build MMT/LATIN2 mmt-omdoc type_theory/endofunctors/endofunctors.mmt
+build MMT/LATIN2 mmt-omdoc ./endofunctors.mmt
 
 // dependent on endofunctors
-build MMT/LATIN2 mmt-omdoc type_theory/endofunctors/endomagmas.mmt
+build MMT/LATIN2 mmt-omdoc ./endomagmas.mmt
 
-// collection_types depends on programming/logicaloperations.mmt
-build MMT/LATIN2 mmt-omdoc programming/logicaloperations.mmt
 // dependent on endomagmas
-build MMT/LATIN2 mmt-omdoc type_theory/endofunctors/collection_types.mmt
+build MMT/LATIN2 mmt-omdoc ./collection_types.mmt
 
-//monads depends on programming/Strings
-build MMT/LATIN2 mmt-omdoc programming/Strings.mmt
 // dependent on endofunctors and hol
 build MMT/LATIN2 mmt-omdoc type_theory/endofunctors/monads.mmt
+
+// collection types as monads, depends on monads and collection types as well as strings
+build MMT/LATIN2 mmt-omdoc type_theory/endofunctors/collection_monads.mmt
 

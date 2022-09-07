@@ -50,53 +50,10 @@ theory InternalMonad =
   // splat = [a,b,F,X] F >>= [f] X >>= [x] Return (f@x)❙
 ❚
 
-// Assignments to neutrality and associativity axioms missing
-// view KleisliCat : ?Category → ?InternalMonad =
+view KleisliCat : ?Category → ?InternalMonad =
   obj = tp❙
   hom = [a,b] a→&b❙
-  id = [a] return a❙
-  comp = [a,b,c,f,g] λ[x] Return x >>= ([x]f@x) >>= ([y]g@y)❘# 4 >=> 5 prec 50❙
+  ident = [a] return a❙
+  // comp = [a,b,c,f,g] λ[x] Return x >>= ([x]f@x) >>= ([y]g@y)❘# 4 >=> 5 prec 50❙
+  // assignments to neutrality and associativity axioms missing❙
 ❚
-
-
-view Collection_Monad : ?Monad → ?Collection =
-	applyType = [x] &x ❙
-	Return  = [a,x: tm a] singleton x  ❙
-	Bind = [a,b,X: tm & a,F: tm a ⟶ tm & b] map2 F X  ❙
-❚
-
-view Multiset_Monad : ?Monad → ?Multisets =
-	applyType = [x] Multiset x ❙
-	Return  = [a,x: tm a] multiset x  ❙
-	Bind = [a,b,X: tm Multiset a,F: tm a ⟶ tm Multiset b] multiset/map2 F X  ❙
-❚
-
-view FiniteSet_Monad : ?Monad → ?FiniteSets =
-	applyType = [x] FinSet x ❙
-	Return  = [a,x: tm a] finset x  ❙
-	Bind = [a,b,X: tm FinSet a,F: tm a ⟶ tm FinSet b] finset/map2 F X  ❙ 
-❚
-
-view List_Monad : ?Monad → ?Lists =
-	applyType = [x] List x ❙
-	Return  = [a,x: tm a] list/singleton x  ❙
-	Bind = [a,b,X: tm List a,F: tm a ⟶ tm List b] list/map2 F X  ❙
- 
-❚
-
-theory Fail_Monad =
-	include ?String ❙
-	include ?Coproducts❙
-	
-	failType = [a] a ⊎ͭ string ❙
-  structure failure : ?Monad =
-		applyType = failType ❙
-		Return  = [a,x: tm a] inj1 x  ❙
-		Bind = [a,b, X: tm failType a, F: tm a ⟶ tm failType b]  X cases F ([x] inj2 x)❙
-
-  ❚
-	
-❚
-
-
-
