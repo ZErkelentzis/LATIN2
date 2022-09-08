@@ -17,33 +17,98 @@ theory Collection =
 
   is_empty : {a} tm &a ⟶ prop❘# %n 2 prec 40❙
   is_empty_neutral: {a} ⊦ is_empty (empty a)❙
-  is_empty_cons : {a,x,xs: tm & a} ⊦ ¬(is_empty (cons x xs))❙
-  is_empty_singelton : {a,x: tm a} ⊦ ¬(is_empty (singleton x))❙
-  is_empty_op : {a,l, m: tm &a} ⊦ is_empty l ⟶ ⊦ is_empty m ⟶ ⊦ is_empty l∘m❙
+  is_empty_cons : {a,x,xs: tm & a} ⊦ ¬is_empty (cons x xs)❙
+  is_empty_singleton : {a,x: tm a} ⊦ ¬is_empty (singleton x)❙
+  is_empty_concat : {a,l, m: tm &a} ⊦ is_empty l ⟶ ⊦ is_empty m ⟶ ⊦ is_empty l∘m❙
 
-  is_nonempty : {a} tm &a ⟶ prop❘# %n 2 prec 50❘
-  	= [a,xs] ¬(is_empty xs)❙ 	         
-  	 
-  length: {a} tm &a ⟶ ℕ❘# %n 2 prec 40❙
-  length_neutral : {a} ⊦ length (empty a) =ͭ zero ❙
-	length_cons : {a,x,xs: tm &a} ⊦(length (cons x xs)) =ͭ  (length xs)'❙
-	length_singelton : {a,x: tm a} ⊦ length (singleton x) =ͭ one❙
-	length_op : {a,l, m: tm &a} ⊦ length l∘m =ͭ (length l) + (length m)❙
+  is_nonempty : {a} tm &a ⟶ prop❘# %n 2 prec 50❘	= [a,xs] ¬(is_empty xs)❙ 	         
+
+  size: {a} tm &a ⟶ ℕ❘# %n 2 prec 40❙
+  size_neutral : {a} ⊦ size (empty a) =ͭ zero ❙
+	size_singleton : {a,x: tm a} ⊦ size (singleton x) =ͭ one❙
 	
 	contain : {a} tm & a ⟶ tm a ⟶ prop❘# %n 2 3 prec 50❙
 	contain_neutral: {a,x: tm a} ⊦ ¬ contain (empty a) x❙
-	contain_cons : {a,x:tm a,xs} ⊦  contain (cons x xs) x ❙
-	contain_cons2 : {a,x,y,ys: tm & a} ⊦ contain (cons y ys) x  ⇔ contain ys x❙
+	contain_cons1 : {a,x:tm a,xs} ⊦  contain (cons x xs) x ❙
+	contain_cons2 : {a,x,y,ys: tm & a} ⊦ ¬ x=ͭy ⟶ ⊦ contain (cons y ys) x ⇔ contain ys x❙
+
+	count: {a} tm a ⟶ tm &a ⟶ ℕ❘# %n 2 3 prec 30❙
+	count_neutral : {a:tp,x:tm a} ⊦ count x (empty a) =ͭ zero❙
+	count_singleton : {a,x:tm a} ⊦ count x (singleton x) =ͭ one❙
 	
-	map2 : {a,b} (tm a ⟶ tm & b) ⟶ tm & a ⟶ tm & b❘# %n 3 4 prec 50❙
-  map2_neutral : {a,b,f: tm a ⟶ tm  & b} ⊦ (map2 f neutral) =ͭ neutral ❙
-  map2_cons : {a,b, f: tm a ⟶ tm & b,x,xs} ⊦ map2 f (cons x xs) =ͭ ((f x) ∘ (map2 f xs))❙
-  map2_singleton1 : {a,b,f: tm a ⟶ tm & b,x} ⊦ map2 f (singleton x) =ͭ f x❙
-  map2_op: {a,b,f: tm a ⟶ tm & b,l, m} ⊦ map2 f (l ∘ m) =ͭ ((map2 f l)∘ (map2 f m))❙
+	remove: {a} tm a ⟶ tm &a ⟶ tm &a ❘# %n 2 3 prec 50❙
+	remove_neutral : {a:tp,u:tm a} ⊦ remove u neutral =ͭ neutral❙
+	remove_cons1 : {a,x:tm a,xs} ⊦ remove x (cons x xs) =ͭ xs ❙
+	remove_cons2 : {a,u: tm a,x,xs} ⊦ ¬ (u =ͭ x) ⟶ ⊦ remove u (cons x xs) =ͭ cons x (remove u xs)❙
+	
+	removeAll: {a} tm a ⟶ tm &a ⟶ tm &a❘ # %n 2 3 prec 50❙
+	removeAll_neutral : {a:tp,u:tm a} ⊦ removeAll u neutral =ͭ neutral❙
+	removeAll_cons1 : {a,x:tm a,xs} ⊦ removeAll x (cons x xs) =ͭ removeAll x xs ❙
+	removeAll_cons2 : {a,u: tm a,x,xs} ⊦ ¬ (u =ͭ x) ⟶ ⊦ removeAll u (cons x xs) =ͭ cons x (removeAll u xs)❙
+
+  filter : {a} (tm a ⟶ prop) ⟶ tm &a ⟶ tm &a❘# %n 2 3 prec 50❙
+  filter_neutral : {a,f: tm a ⟶ prop} 
+  						⊦ filter f neutral =ͭ neutral❙
+  filter_cons1 : {a, f: tm a ⟶ prop,x,xs} 
+  						⊦   f x  ⟶ ⊦ filter f (cons x xs) =ͭ cons x (filter f xs)❙
+  filter_cons2 : {a, f: tm a ⟶ prop,x,xs} 
+  						⊦ ¬(f x) ⟶ ⊦ filter f (cons x xs) =ͭ filter f xs❙
+  filter_singleton1 : {a,f: tm a ⟶ prop,x} 
+  						⊦   f x  ⟶ ⊦ filter f (singleton x) =ͭ singleton x❙
+  filter_singleton2 : {a,f: tm a ⟶ prop,x} 
+  						⊦ ¬(f x) ⟶ ⊦ filter f (singleton x) =ͭ neutral❙
+  filter_op: {a,f: tm a ⟶ prop,l, m}
+  						⊦ filter f (l∘m) =ͭ (filter f l) ∘ (filter f m)❙
+
+  	map : {a,b} (tm a ⟶ tm &b) ⟶ tm &a ⟶ tm &b❘# %n 3 4 prec 50❙
+  map_neutral : {a,b,f: tm a ⟶ tm  & b} ⊦ map f neutral =ͭ neutral ❙
+  map_cons : {a,b, f: tm a ⟶ tm & b,x,xs} ⊦ map f (cons x xs) =ͭ (f x) ∘ (map f xs)❙
+  map_singleton : {a,b,f: tm a ⟶ tm & b,x} ⊦ map f (singleton x) =ͭ f x❙
+  map_op: {a,b,f: tm a ⟶ tm & b,l, m} ⊦ map f (l∘m) =ͭ (map f l)∘ (map f m)❙
+
+  	flatmap : {a,b} (tm a ⟶ tm &b) ⟶ tm &a ⟶ tm &b❘# %n 3 4 prec 50❙
+  flatmap_neutral : {a,b,f: tm a ⟶ tm &b} ⊦ flatmap f neutral =ͭ neutral ❙
+  flatmap_cons : {a,b, f: tm a ⟶ tm &b,x,xs: tm &a} 
+  						⊦ flatmap f (cons x xs) =ͭ (f x) ∘ (flatmap f xs)❙
+  flatmap_singleton : {a,b,f: tm a ⟶ tm &b,x: tm a} 
+  						⊦ flatmap f (singleton x) =ͭ f x❙
+  flatmap_op: {a,b,f: tm a ⟶ tm &b,l, m: tm &a}
+  						⊦ flatmap f (l∘m) =ͭ (flatmap f l) ∘ (flatmap f m)❙
+
+  exists : {a} (tm a ⟶ prop) ⟶ tm &a ⟶ prop❘# %n 2 3 prec 30❙
+  exists_empty : {a, f: tm a ⟶ prop} ⊦ ¬ exists f (empty a)❙
+  exists_cons1 : {a, f: tm a ⟶ prop,x,xs} ⊦ exists f (cons x xs) ⇔ f x ∨ (exists f xs)❙
+  exists_singleton : {a,f: tm a ⟶ prop,x} ⊦ exists f (singleton x) ⇔ f x❙
+  exists_op: {a,f: tm a ⟶ prop,l, m} ⊦ exists f (l∘m) ⇔ (exists f l ∨ exists f m)❙
+
+  forall : {a} (tm a ⟶ prop) ⟶ tm &a ⟶ prop❘# %n 2 3 prec 30❙
+  forall_empty : {a, f: tm a ⟶ prop} ⊦ forall f (empty a)❙
+  forall_cons1 : {a, f: tm a ⟶ prop,x,xs} ⊦ forall f (cons x xs) ⇔ f x ∧ (forall f xs)❙
+  forall_singleton : {a,f: tm a ⟶ prop,x} ⊦ forall f (singleton x) ⇔ f x❙
+  forall_op: {a,f: tm a ⟶ prop,l, m} ⊦ forall f (l∘m) ⇔ (forall f l ∧ forall f m)❙
+❚
+
+theory NonIdempotentCollection =
+  include ?Collection❙
+	size_cons : {a,x,xs: tm &a} ⊦ size (cons x xs) =ͭ (size xs)'❙
+	size_op : {a,l, m: tm &a} ⊦ size (l∘m) =ͭ (size l) + (size m)❙
+
+	count_cons1 : {a,x:tm a,xs} ⊦ count x (cons x xs) =ͭ (count x xs)'❙
+	count_cons2 : {a,y:tm a,x:tm a,xs} ⊦ ¬ y =ͭ x ⟶ ⊦ count y (cons x xs) =ͭ count x xs❙
+  count_op : {a,x:tm a,xs,ys} ⊦ count x (xs∘ys) =ͭ (count x xs)+(count x ys)❙
+❚
+
+theory CommutativeCollection =
+	include ?Collection❙		
+
+❚
+
+theory BinaryTreeSpec =
+	include ?Collection ❙
 ❚
 
 theory ListSpec =
-  include ?Collection❙
+  include ?NonIdempotentCollection❙
   include ?EndoMonoid❙
 ❚
 
@@ -51,6 +116,16 @@ theory ListSpec =
 theory MultisetSpec =
   include ?ListSpec❙
   include ?EndoCommutative❙
+
+  	intersect: {a} tm &a ⟶ tm &a ⟶ tm &a❘# %n 2 3 prec 30❙ 
+	intersect_neutral1 : {a, xs: tm &a} ⊦ intersect neutral xs =ͭ neutral❙
+	intersect_neutral2 : {a, xs: tm &a} ⊦ intersect xs neutral =ͭ neutral❙
+	intersect_cons1: {a,x: tm a, xs,ys: tm &a} 
+									⊦ (contain ys x) ⟶ ⊦ intersect (cons x xs) ys 
+										=ͭ cons x (intersect xs (remove x ys))❙
+	intersect_cons2: {a,x: tm a, xs,ys: tm &a} 
+									⊦ ¬ (contain ys x) ⟶ ⊦ intersect (cons x xs) ys 
+										=ͭ intersect xs ys ❙
 ❚
 
 
@@ -58,11 +133,6 @@ theory FiniteSetSpec =
   include ?MultisetSpec❙
   include ?EndoIdempotent❙
 ❚
-
-theory BinaryTreeSpec =
-	include ?Collection ❙
-❚
-
 
 theory OptionSpec =
   include ?ListSpec❙
@@ -108,7 +178,7 @@ theory FiniteSets =
  ❚
 ❚
 
-theory BinaryTree =
+theory BinaryTrees =
 	structure binarytree : ?BinaryTreeSpec =
 		applyType # BinaryTree 1❙
     op # 2 union 3❙
