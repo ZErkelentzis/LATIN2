@@ -24,9 +24,9 @@ theory SoftDependentProductTypes =
 theory SimpleProducts =
   include ?SimpleProductTypes❙
   include ?TypedEqualityND❙
-  simppair: {A,B} tm A ⟶ tm B ⟶ tm A ×ͭ B❘# 3 ,ͭ 4 prec 50❙
-  simppi1 : {A,B} tm A ×ͭ B ⟶ tm A❘# 3 ₁ͭ prec 60❙
-  simppi2 : {A,B} tm A ×ͭ B ⟶ tm B❘# 3 ₂ͭ prec 60❙
+  simppair: {A,B} tm A ⟶ tm B ⟶ tm A ×ͭ B❘# 3 ,ͭ 4 prec 40❙
+  simppi1 : {A,B} tm A ×ͭ B ⟶ tm A❘# 3 ₁ͭ prec 100❙
+  simppi2 : {A,B} tm A ×ͭ B ⟶ tm B❘# 3 ₂ͭ prec 100❙
   
   compute1 : {A,B,a:tm A,b:tm B} ⊦ (a,ͭb)₁ͭ =ͭ a❘role Simplify❙
   compute2 : {A,B,a:tm A,b:tm B} ⊦ (a,ͭb)₂ͭ =ͭ b❘role Simplify❙
@@ -37,9 +37,9 @@ theory DependentProducts =
   include ?TypedEquality❙
   include ?DependentTypeEquality❙
   // maybe ascribe these ͩͭ, but this would look pretty bad❙
-  deppair: {A,B, a: tm A} tm B a ⟶ tm Σͭ B❘# 3 , 4 prec 50❙
-  deppi1 : {A,B: tm A ⟶ tp} tm Σͭ B ⟶ tm A ❘# 3 ₁ prec 60❙
-  deppi2 : {A,B, u: tm Σͭ [x: tm A] B x} tm B (u₁)❘# 3 ₂ prec 60❙
+  deppair: {A,B, a: tm A} tm B a ⟶ tm Σͭ B❘# 3 , 4 prec 40❙
+  deppi1 : {A,B: tm A ⟶ tp} tm Σͭ B ⟶ tm A ❘# 3 ₁ prec 100❙
+  deppi2 : {A,B, u: tm Σͭ [x: tm A] B x} tm B (u₁)❘# 3 ₂ prec 100❙
 
   compute1 : {A, B, a: tm A, b} ⊦ ((a,b):tm Σͭ B)₁ =ͭ a❘role Simplify❙
   compute2 : {A, B: tm A ⟶ tp, a, b} ⊦ (a,b: tm Σͭ B)₂↑(compute1 congType B) =ͭ b❘role Simplify❙

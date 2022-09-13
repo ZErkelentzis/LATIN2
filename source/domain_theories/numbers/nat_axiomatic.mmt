@@ -7,7 +7,6 @@ import uom scala://uom.api.mmt.kwarc.info❚
 
 theory NatUnary =
   include ?Numbers❙
-  
   Nat = tm num❘# ℕ❙
 ❚
 
@@ -15,6 +14,7 @@ theory NatPeano =
   include ?NatUnary❙
   
   zero_succ_different : {n} ⊦ ¬(n' =ͭ zero)❙
+  succ_injective : {m,n} ⊦ m' =ͭ n' ⟶ ⊦ m =ͭ n❙
 
   // the general case: the below could be derived from the following, which however requires polymorphic LF❙
   // induction : {T: ℕ ⟶ type} T zero ⟶ ({n} T n ⟶ T (n')) ⟶ {n}T n❙
@@ -28,23 +28,38 @@ theory NatPlus =
   include ?NatUnary❙
   include ?Plus❙
   
-  plus_zero : {n} ⊦ n + zero =ͭ n❙
-  plus_succ : {m, n} ⊦ n + m' =ͭ (n + m)'❙
+  plus_zero : {n} ⊦ n + zero =ͭ n❘role Simplify ❙  
+  plus_zero_r : {n} ⊦ zero + n =ͭ n❘role Simplify ❙  
+  plus_succ : {m, n} ⊦ n + m' =ͭ (n + m)'❘role Simplify❙              
+  plus_succ_l : {m, n} ⊦ n' + m =ͭ (n + m)'❘role Simplify❙
+  
+  assoc_plus : {l,m,n} ⊦ (l+m)+n =ͭ l+(m+n) ❙  
+  comm_plus : {m,n} ⊦ m+n =ͭ n+m ❙ 
 ❚
+
 
 theory NatPlusTimes =
   include ?NatPlus❙
   include ?Times❙
   
-  times_zero : {n} ⊦ zero * n =ͭ zero❙
-  times_succ : {m,n} ⊦ n' * m =ͭ (n * m) + m❙
+  times_zero : {n} ⊦ zero * n =ͭ zero ❘role Simplify ❙
+  times_zero_l : {n} ⊦ n * zero =ͭ zero ❘role Simplify ❙
+  times_succ : {m,n} ⊦ n' * m =ͭ (n * m) + m❘role Simplify ❙
+  times_succ_r : {m,n} ⊦ n * m' =ͭ (n * m) + n❘role Simplify ❙
+  
+  assoc_times: {l,m,n} ⊦ (l*m)*n =ͭ l*(m*n) ❙  
+  comm_times : {m,n} ⊦ m*n =ͭ n*m ❙
 ❚
 
 theory NatParity =
   include ?NatUnary❙
  
-  even: ℕ ⟶ prop❙
-  uneven: ℕ ⟶ prop❙
+  even: ℕ ⟶ prop❘ # %n 1 prec 50❙
+  odd: ℕ ⟶ prop❘ # %n 1 prec 50❙
+  even_zero: ⊦ even zero❙
+  even_succ: {n} ⊦ even n ⟶ ⊦ odd n'❙
+  odd_zero: ⊦ ¬ odd zero❙
+  odd_succ: {n} ⊦ odd n ⟶ ⊦ even n'❙
 ❚
 
 theory NatAx =
@@ -66,4 +81,20 @@ theory Nat =
   include ?NatPlusTimes❙
   include ?NatParity❙
   include ?NatLiterals❙
+ 
+  lesser: tm num ⟶ tm num ⟶ prop❘# 1 < 2 prec 30❙ 
+  lesser_zero_r: {n} ⊦ ¬(n < zero)❘role Simplify ❙ 
+  lesser_zero_l: {n} ⊦ (zero <  n')❘role Simplify ❙ 
+  lesser_succ: {x,y} ⊦ (x < y) ⇔  ( x' < y')❘role Simplify ❙ 
+
+  greater: tm num ⟶ tm num⟶ prop ❘# 1 > 2 prec 30❘
+  	= [x,y] y < x❙
+  lesserequal: tm num ⟶ tm num ⟶ prop ❘# 1 %n 2 prec 30❘
+    	= [x,y] ¬ (x < y) ❙
+  greaterequal:  tm num ⟶ tm num ⟶ prop ❘# 1 ≥ 2 prec 30❘
+  	= [x,y] ¬ (x < y ) ❙
+
+  distributive: {l,m,n} ⊦ (l+m)*n =ͭ (l*n)+(m*n)❙
+
 ❚
+

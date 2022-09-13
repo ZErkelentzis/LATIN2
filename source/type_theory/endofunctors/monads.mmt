@@ -50,10 +50,10 @@ theory InternalMonad =
   // splat = [a,b,F,X] F >>= [f] X >>= [x] Return (f@x)❙
 ❚
 
-// Assignments to neutrality and associativity axioms missing
-// view KleisliCat : ?Category → ?InternalMonad =
+view KleisliCat : ?Category → ?InternalMonad =
   obj = tp❙
   hom = [a,b] a→&b❙
-  id = [a] return a❙
-  comp = [a,b,c,f,g] λ[x] Return x >>= ([x]f@x) >>= ([y]g@y)❘# 4 >=> 5 prec 50❙
+  ident = [a] return a❙
+  // comp = [a,b,c,f,g] λ[x] Return x >>= ([x]f@x) >>= ([y]g@y)❘# 4 >=> 5 prec 50❙
+  // assignments to neutrality and associativity axioms missing❙
 ❚

@@ -1,0 +1,51 @@
+namespace latin:/❚
+
+fixmeta ?TypedEquality❚
+
+import rules scala://lf.mmt.kwarc.info❚
+import uom scala://uom.api.mmt.kwarc.info❚
+
+theory String =
+	
+	char: tp ❘# %n ❙
+	string: tp ❘# %n ❙ 
+	
+
+	Char = tm char ❘# %n ❙
+	String = tm string ❘# %n❙
+	rule rules?Realize String uom?StandardString❙
+
+❚
+
+theory String_operators =
+	include ?String ❙
+	include ?List_operators❙
+	
+	string_to_char : tm string ⟶ tm List char ❘# %n 1 ❙
+	char_to_string : tm List char ⟶ tm string ❘# %n 1 ❙
+	
+	empty: tm string  ❙ 
+	
+	String_concat: tm string ⟶ tm string ⟶ tm string ❘# %n 1 2 prec 30 ❘
+		= [x,y] char_to_string((string_to_char x) concat (string_to_char y)) ❙
+
+	rule rules?Realize empty uom?StringOperations/Empty❙
+
+	
+	size: tm string ⟶ tm naturalnumber ❘# %n 1 prec 30 ❘
+		= [s] list/length (string_to_char s)❙
+			
+	charAt: tm string ⟶ tm naturalnumber ⟶ tm char❘# %n 1 2 prec 30 ❘
+		= [s,n] hd drop(string_to_char s) n ❙
+	
+
+	substring : tm string ⟶ tm naturalnumber ⟶ tm naturalnumber ⟶ tm string ❘# %n 1 2 3 prec 30 ❙
+
+	less : tm string ⟶ tm string ⟶ prop❘# %n 1 2 prec 30 ❙
+	
+	greater : tm string ⟶ tm string ⟶ prop❘# %n 1 2 prec 30 ❘
+		= [l,m] ¬ (l =ͭ m) ∧ ¬ less  l m ❙
+	less_equal : tm string ⟶ tm string ⟶ prop❘# %n 1 2 prec 30 ❘
+		= [l,m] less l m ∨ (l =ͭ m)❙
+
+❚
