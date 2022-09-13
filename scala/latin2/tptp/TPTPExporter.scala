@@ -4,11 +4,11 @@ import info.kwarc.mmt.api.archives.BuildTask
 import info.kwarc.mmt.api.checking.UnknownTerm
 import info.kwarc.mmt.api.frontend.{Controller, Extension}
 import info.kwarc.mmt.api.modules.Theory
-import info.kwarc.mmt.api.objects.{Context, OMSemiFormal, Obj, Term, Text, VarDecl}
+import info.kwarc.mmt.api.objects.{Context, OMSemiFormal, OMV, Obj, Sub, Substitution, Term, Text, VarDecl}
 import info.kwarc.mmt.api.presentation.{RenderingHandler, StructurePresenter}
 import info.kwarc.mmt.api.proving.{AutomatedProver, ProvingUnit}
 import info.kwarc.mmt.api.symbols.{Constant, PlainInclude}
-import info.kwarc.mmt.api.{GeneralError, GlobalName, MPath, RuleSet, StructuralElement}
+import info.kwarc.mmt.api.{GeneralError, GlobalName, LocalName, MPath, RuleSet, StructuralElement, objects}
 import leo.datastructures.TPTP.{AnnotatedFormula, Comment, FOFAnnotated, Include, Problem, TFFAnnotated, THFAnnotated}
 import lf.Proofs.ded
 
@@ -187,6 +187,8 @@ class TPTPExporter extends StructurePresenter with AutomatedProver { //TODO: doe
 trait logicExporter extends Extension {
   var comments = Map[String, Seq[Comment]]()
   var currentFormulaComments = Seq[Comment]()
+  var assSubstitution: List[Sub] = Nil
+
   val theoryPath: MPath
   // to ensure the correct exporter is applied at the right time
   val priority: Int
@@ -226,19 +228,24 @@ trait logicExporter extends Extension {
         case c: Constant => formulas ++= translate_constant(c)
       }
     }
-    val assumptions = ctx.mapVarDecls {// Context(ctx.variables.filter(_.feature.isEmpty):_*).mapVarDecls {
+    val assumptions = Context(ctx.variables.filter(_.feature.isEmpty):_*).mapVarDecls {//ctx.mapVarDecls {//
       case (ctx, vd: VarDecl) =>
-        translate_var_decl(p.module, vd, ctx)
+        val vdRenamed = vd ^ assSubstitution
+        translate_var_decl(p.module, vdRenamed, ctx)
     }.flatten.distinct
 
     formulas ++= assumptions
 
-    val ded(conjecture) = t
+    val ded(conjecture) = t ^ assSubstitution
     val conjStr = controller.presenter.asString(conjecture)
     log("Trying to prove "+conjStr+" using tptp exporter and HOL prover.")
 
     formulas += tptp_conjecture(conjecture)
     add_formula_comment("conjecture")
+    log("The overall problem is: ")
+    formulas foreach { form =>
+      log(form.pretty)
+    }
 
     val tptp_exporter = ctrl.extman.get(classOf[TPTPExporter]).head
 

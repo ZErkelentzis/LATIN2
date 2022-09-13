@@ -10,6 +10,16 @@ theory InternalEqualityD =
   include ?DependentFunctions❙
 ❚
 
+theory DependentLogic =
+  include ?InternalEqualityD❙
+  
+  include ?DependentImplication ❙
+  include ?DependentConjunction ❙
+  rule rules?DependentImplicationInferenceRule ❙
+  rule rules?DependentConjunctionInferenceRule ❙
+❚
+
+
 /T HOL with pi-types and predicate subtypes ❚
 theory DHOL =
 	/T for this and the next include: 
@@ -17,10 +27,7 @@ theory DHOL =
 	However this type should just be tm bool
 	But this applies also for other parts of LATIN2, including HOL itself
 	TODO: Check if this is ok ❙
-  include ?InternalEqualityD ❙
-  
-  include ?DependentImplication ❙
-  include ?DependentConjunction ❙
+  include ?DependentLogic ❙
 
   include ?ISFOL❙
   

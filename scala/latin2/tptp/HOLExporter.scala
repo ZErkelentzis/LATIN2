@@ -117,19 +117,19 @@ class HOLExporter extends logicExporter {
     case and(left, right) =>
       THFAnd(translate_formula(left), translate_formula(right))
     case or(left, right) =>
-      THF.BinaryFormula(THF.|, translate_formula(left), translate_formula(right))
+      THFOr(translate_formula(left), translate_formula(right))
     case impl(left, right) =>
-      THF.BinaryFormula(THF.Impl, translate_formula(left), translate_formula(right))
+      THFImpl(translate_formula(left), translate_formula(right))
     case equiv(left, right) =>
-      THF.BinaryFormula(THF.<=>, translate_formula(left), translate_formula(right))
+      THFEquiv(translate_formula(left), translate_formula(right))
     case tequal(ty, left, right) => {
-      THF.BinaryFormula(THF.Eq, translate_formula(left), translate_formula(right))
+      THFEq(translate_formula(left), translate_formula(right))
     }
     case notequal(ty, left, right) => {
-      THF.BinaryFormula(THF.Neq, translate_formula(left), translate_formula(right))
+      THFNeq(translate_formula(left), translate_formula(right))
     }
     case not(arg) =>
-      THF.UnaryFormula(THF.~, translate_formula(arg))
+      THFNeg(translate_formula(arg))
 
     case Truth._true(()) =>
       THFTrue
@@ -165,22 +165,28 @@ object THFExporterUtil {
   def THFOMS(p:ContentPath) = THF.FunctionTerm(p.name.toString, Nil)
   def THFArrow(in: List[THF.Formula], out: THF.Formula) = in.foldRight(out)((g, arg) => THF.BinaryFormula(FunTyConstructor, g, arg))
   def THFAnd(con1: THF.Formula, con2: THF.Formula): THF.Formula = THF.BinaryFormula(THF.&, con1, con2)
+  def THFOr(disj1: THF.Formula, disj2: THF.Formula): THF.Formula = THF.BinaryFormula(THF.|, disj1, disj2)
   def THFApp(con1: THF.Formula, con2: THF.Formula): THF.Formula = THF.BinaryFormula(THF.App, con1, con2)
   def THFImpl(ass: THF.Formula, concl: THF.Formula): THF.Formula = THF.BinaryFormula(THF.Impl, ass, concl)
+  def THFEq(form1: THF.Formula, form2: THF.Formula): THF.Formula = THF.BinaryFormula(THF.Eq, form1, form2)
+  def THFNeg(form: THF.Formula): THF.Formula = THF.UnaryFormula(THF.~, form)
+  def THFEquiv(a: THF.Formula, b: THF.Formula): THF.Formula = THF.BinaryFormula(THF.<=>, a, b)
+  def THFNeq(form1: THF.Formula, form2: THF.Formula): THF.Formula = THF.BinaryFormula(THF.Neq, form1, form2)
   def THFUniv(name: String, tp: THF.Formula, body: THF.Formula) = THF.QuantifiedFormula(THF.!, Seq((name, tp)), body)
   def THFExist(name: String, tp: THF.Formula, body: THF.Formula) = THF.QuantifiedFormula(THF.?, Seq((name, tp)), body)
 
-  def translated_type_name(name:LocalName) = "t_" + name
+  def translated_type_name(name:LocalName) = translate_var_decl_name(name)
   def translated_type_path(path:GlobalName) = OMS(path.module ? translated_type_name(path.name))
 
-  def translated_fun_name(name:LocalName) = "t_" + name.toString
+  def translated_fun_name(name:LocalName) = translate_var_decl_name(name)
   def translated_fun_path(path:GlobalName) = OMS(path.module ? translated_fun_name(path.name))
   def translated_fun(path:GlobalName) = THFOMS(translated_fun_path(path).path)
 
   def type_decl_name(ln: LocalName) = ln.toString+"_type"
 
   def translate_var(n:LocalName) = "V_" + n.toString.toUpperCase
-  def default_name(p: ContentPath) = "t_" + p.name.toString
+  def translate_var_decl_name(n:LocalName) = "t_" + n.toString
+  def default_name(p: ContentPath) = translate_var_decl_name(p.name)
   def IMPOSSIBLE = throw ImplementationError("This case should be impossible.")
   def UNSUPPORTED(s:String) = throw ImplementationError("This feature is unsupported: " + s)
 }

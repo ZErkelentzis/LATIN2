@@ -16,5 +16,10 @@ theory Cat : latin:/?DHOL =
     ax2: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[m: tm (mor x y)] ((((comp @ x) @ x) @ y) @ (id @ x)) @ m =ͭ m ❙
 
     // finally the conjecture to prove, might need prover to show well-typedness ❙
-    conj: ⊦ ∀ͭ[x: tm obj] ∀ͭ[y: tm obj] x =ͭ y ⇒ͩ (id @ x) =ͭ (id @ y) ❘ = PROVE ❙
+    conj: ⊦ ∀ͭ[x: tm obj] ∀ͭ[y: tm obj] x =ͭ y ⇒ͩ [p] (id @ x) =ͭ (id @ y) ❘ = PROVE ❙
+    // the following should also work, but doesn't, as the solver for some 
+    reason doesn't use the rule DependentImplicationInferenceRule
+    In any case, the above is closer to what the prover will actually use
+    since the prover also takes p as a named assumption
+    // conj: ⊦ ∀ͭ[x: tm obj] ∀ͭ[y: tm obj] x =ͭ y ⇒ (id @ x) =ͭ (id @ y)  = PROVE ❙
 ❚
