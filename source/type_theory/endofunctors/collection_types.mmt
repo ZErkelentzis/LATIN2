@@ -60,11 +60,11 @@ theory Collection =
   filter_op: {a,f: tm a ⟶ prop,l, m}
   						⊦ filter f (l∘m) =ͭ (filter f l) ∘ (filter f m)❙
 
-  	map : {a,b} (tm a ⟶ tm &b) ⟶ tm &a ⟶ tm &b❘# %n 3 4 prec 50❙
-  map_neutral : {a,b,f: tm a ⟶ tm  & b} ⊦ map f neutral =ͭ neutral ❙
-  map_cons : {a,b, f: tm a ⟶ tm & b,x,xs} ⊦ map f (cons x xs) =ͭ (f x) ∘ (map f xs)❙
-  map_singleton : {a,b,f: tm a ⟶ tm & b,x} ⊦ map f (singleton x) =ͭ f x❙
-  map_op: {a,b,f: tm a ⟶ tm & b,l, m} ⊦ map f (l∘m) =ͭ (map f l)∘ (map f m)❙
+  	map : {a,b} (tm a ⟶ tm b) ⟶ tm &a ⟶ tm &b❘# %n 3 4 prec 50❙
+  map_neutral : {a,b,f: tm a ⟶ tm b} ⊦ map f neutral =ͭ neutral ❙
+  map_cons : {a,b, f: tm a ⟶ tm b,x,xs} ⊦ map f (cons x xs) =ͭ cons (f x) (map f xs)❙
+  map_singleton : {a,b,f: tm a ⟶ tm b,x} ⊦ map f (singleton x) =ͭ singleton (f x)❙
+  map_op: {a,b,f: tm a ⟶ tm b,l, m} ⊦ map f (l∘m) =ͭ (map f l)∘(map f m)❙
 
   	flatmap : {a,b} (tm a ⟶ tm &b) ⟶ tm &a ⟶ tm &b❘# %n 3 4 prec 50❙
   flatmap_neutral : {a,b,f: tm a ⟶ tm &b} ⊦ flatmap f neutral =ͭ neutral ❙

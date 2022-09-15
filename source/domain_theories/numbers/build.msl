@@ -11,7 +11,7 @@ build MMT/LATIN2 mmt-omdoc ./nat_church.mmt
 build MMT/LATIN2 mmt-omdoc ./nat_realm.mmt
 
 // finite types, as prefixes of the natural numbers
-build MMT/LATIN2 mmt-omdoc ./upto.mmt
+suppressErrors build MMT/LATIN2 mmt-omdoc ./upto.mmt
 
 // integers
 build MMT/LATIN2 mmt-omdoc ./int_axiomatic.mmt

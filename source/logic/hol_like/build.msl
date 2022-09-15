@@ -5,6 +5,6 @@ file ../../../build_config.msl
 
 build MMT/LATIN2 mmt-omdoc ./hol.mmt
 build MMT/LATIN2 mmt-omdoc ./hol_andrews.mmt
-build MMT/LATIN2 mmt-omdoc ./dhol.mmt
+suppressErrors build MMT/LATIN2 mmt-omdoc ./dhol.mmt
 
 

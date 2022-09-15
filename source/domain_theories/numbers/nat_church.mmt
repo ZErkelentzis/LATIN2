@@ -24,7 +24,6 @@ theory ChurchNaturals =
 
   // succ : num ⟶ num = λn:I⟶(I ⟶ I)⟶I. λz:I. λs:I⟶I. s (n z s)❙ 
   succ = [n]λ[z]λ[s] s @ (n @ z @ s)❙
-  successor_injective = _ ❙
 ❚
 
 theory ChurchNaturalsPlus =

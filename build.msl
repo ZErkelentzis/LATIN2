@@ -79,6 +79,9 @@ build MMT/LATIN2 scala-bin
 // The classloader does not pick up on the now created class files. So we need to clear before retrying.
 clear
 file source/logic/drt/build.msl
+build MMT/LATIN2 mmt-omdoc logic/hol_like/dhol.mmt
+build MMT/LATIN2 mmt-omdoc domain_theories/numbers/upto.mmt
+build MMT/LATIN2 mmt-omdoc computation/experimental.mmt
 
 // build MMT/LATIN2 present-text-notations-flat
 

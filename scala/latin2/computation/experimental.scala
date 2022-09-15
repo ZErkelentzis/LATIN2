@@ -150,11 +150,11 @@ object NewRule extends SyntaxDrivenRule{
    }
 }*/
 
-object IfRun extends ExecutionRule(BooleanExtensionality.`if`.path){
+object IfRun extends ExecutionRule(IfThenElse.ifte.path){
    override def under = List(Apply.path)
    def apply(controller:Controller, callback: ExecutionCallback, env: RuntimeEnvironment, prog: Term): Term={
       prog match{
-         case BooleanExtensionality.`if`(tp,b,t1,t2) =>
+         case IfThenElse.ifte(tp,b,t1,t2) =>
             val cond = callback.execute(b)
             cond match {
                case Booleans.tt(_) => callback.execute(t1)

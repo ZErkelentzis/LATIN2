@@ -19,5 +19,6 @@
     <orderEntry type="library" name="scala-2.13" level="project" />
     <orderEntry type="module" module-name="scala-tptp-parser" />
     <orderEntry type="module" module-name="Leo III" />
+    <orderEntry type="library" name="scala-sdk-2.12.3" level="application" />
   </component>
 </module>

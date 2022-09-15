@@ -4,27 +4,11 @@ fixmeta ?HOLND❚
 
 view CollectionMonad : ?Monad → ?Collection =
 	applyType = [x] &x ❙
-	Return  = [a,x: tm a] singleton x  ❙
-	Bind = [a,b,X: tm & a,F: tm a ⟶ tm & b] map2 F X  ❙
-❚
-
-view MultisetMonad : ?Monad → ?Multisets =
-	applyType = [x] Multiset x ❙
-	Return  = [a,x: tm a] multiset x  ❙
-	Bind = [a,b,X: tm Multiset a,F: tm a ⟶ tm Multiset b] multiset/map2 F X  ❙
-❚
-
-view FiniteSetMonad : ?Monad → ?FiniteSets =
-	applyType = [x] FinSet x ❙
-	Return  = [a,x: tm a] finset x  ❙
-	Bind = [a,b,X: tm FinSet a,F: tm a ⟶ tm FinSet b] finset/map2 F X  ❙ 
-❚
-
-view ListMonad : ?Monad → ?Lists =
-	applyType = [x] List x ❙
-	Return  = [a,x: tm a] list/singleton x  ❙
-	Bind = [a,b,X: tm List a,F: tm a ⟶ tm List b] list/map2 F X  ❙
- 
+	Return  = [a,x: tm a] singleton x❙
+	Bind = [a,b,X: tm &a,F: tm a ⟶ tm &b] flatmap F X❙
+	identLeft = _ ❙
+  identRight = _ ❙
+  assoc = _ ❙
 ❚
 
 theory FailMonad =
