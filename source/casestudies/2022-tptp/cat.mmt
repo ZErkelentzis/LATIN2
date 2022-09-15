@@ -1,0 +1,25 @@
+namespace latin:/casestudies/_2022-tptp❚
+
+theory Cat : latin:/?DHOL =
+    obj : tp❙
+    mor : {x:tm obj,y:tm obj} tp ❙
+    id: tm Πͭ [x] mor x x ❙
+    comp: tm Πͭ [x] Πͭ [y] Πͭ [z] Πͭ [f:tm mor x y] Πͭ [g:tm mor y z] mor x z ❘# 5 ◦ 4 prec 50 ❙    
+    
+    // sanity check: ❙
+    // ax0: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[m: tm (mor x y)] (id @ x) =ͭ id @ x ❙
+    
+    // actually this should be ((((comp @ x) @ y) @ y) @ m) @ (id @ y) =ͭ m but that triggers an obscure error in the simplifier ❙
+    ax1: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[m: tm (mor x y)] ((((comp @ x) @ y) @ y) @ m) @ (id @ y) =ͭ m ❙
+    
+    // actually this should be ((((comp @ x) @ x) @ y) @ (id @ x)) @ m =ͭ m but that triggers an obscure error in the simplifier ❙
+    ax2: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[m: tm (mor x y)] ((((comp @ x) @ x) @ y) @ (id @ x)) @ m =ͭ m ❙
+
+    // finally the conjecture to prove, might need prover to show well-typedness ❙
+    conj: ⊦ ∀ͭ[x: tm obj] ∀ͭ[y: tm obj] x =ͭ y ⇒ͩ [p] (id @ x) =ͭ (id @ y) ❘ = PROVE ❙
+    // the following should also work, but doesn't, as the solver for some 
+    reason doesn't use the rule DependentImplicationInferenceRule
+    In any case, the above is closer to what the prover will actually use
+    since the prover also takes p as a named assumption
+    // conj: ⊦ ∀ͭ[x: tm obj] ∀ͭ[y: tm obj] x =ͭ y ⇒ (id @ x) =ͭ (id @ y)  = PROVE ❙
+❚

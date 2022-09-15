@@ -2,7 +2,7 @@ namespace latin:/❚
 
 fixmeta ?DependentFOLEQDescND❚
 
-// AS: I commented the definitions, cause it ruins the performance❚
+// Some definitions are commented because they slow down type-checking.❚
 
 // ZFBase now contains all standard axioms of ZF instead of just Extensionality
   and Existence.❚
@@ -30,7 +30,7 @@ theory ZF =
   // include ?RegularityUopair❙
   include ?Acyclic❙// = ?AcyclicUopair❙
   
-  // AS: Since empty is necessary for InfinityAx, this is added here❙
+  // Empty is necessary for InfinityAx.❙
   // include ?ExistFilter❙
   include ?EmptySet❙// = ?EmptyExistFilter❙
   
@@ -67,7 +67,7 @@ theory ZFFeatures =
   
   include ?Image❙// = ?ImageReplace❙ 
   
-  // AS: pairs and so on. KuratowskiPairs lead to errors❙
+  // pairs and so on. KuratowskiPairs lead to errors❙
   // include ?KuratowskiPairs❙
   
   // include ?OrderedBigUnionImage❙

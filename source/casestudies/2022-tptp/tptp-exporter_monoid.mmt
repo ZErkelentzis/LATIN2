@@ -1,0 +1,92 @@
+/T Examples of SFOL formalizations that should be TPTP-exportable.
+   Written/compiled from LATIN2 by Navid for XBagon. ❚
+namespace latin:/casestudies/_2022-tptp ❚
+rule scala://parser.api.mmt.kwarc.info?MMTURILexer ❚
+
+theory Meta =
+  include ☞latin:/?SFOLEQND ❙
+  include ☞latin:/?PropositionsATP❙
+❚
+fixmeta ?Meta ❚
+
+theory Set =
+  U : tp❙
+❚
+
+theory Magma =
+  include ?Set ❙
+  op : tm U ⟶ tm U ⟶ tm U ❘# 1 ∘ 2 prec 50❙
+❚
+
+theory UnitElement =
+  include ?Magma❙
+  e: tm U ❙
+❚
+
+theory Unital =
+  include ?UnitElement❙
+  neutralR : ⊦ ∀ͭ[x] x∘e =ͭ x❙
+  neutralL : ⊦ ∀ͭ[x] e∘x =ͭ x❙
+❚
+
+theory Semigroup =
+  include ?Magma ❙
+  assoc_ax : ⊦ ∀ͭ[x]∀ͭ[y]∀ͭ[z] (x∘y)∘z =ͭ x∘(y∘z)❙
+
+  // assoc: {x,y,z} ⊦ (x∘y)∘z ≐ x∘(y∘z)❘
+       = [x,y,z] assoc_ax forallE x forallE y forallE z❙
+  // assocR: {x,y,z} ⊦ x∘(y∘z) ≐ (x∘y)∘z❘
+        = [x,y,z] assoc sym❙
+  // assoc4:  {w,x,y,z} ⊦ ((w∘x)∘y)∘z ≐ w∘(x∘(y∘z))❘
+        =  [w,x,y,z] trans3 (assoc congT [u]u∘z) assoc (assoc congT [u]w∘u)❙
+❚
+
+theory Monoid =
+  include ?Semigroup❙
+  include ?Unital❙
+
+  function : tm U ⟶ tm U ❘ = [u: tm U] u❙
+❚
+
+// ATP_PROOF in action
+   ============================
+
+   Note that we have to circumvent implicit arguments and omitted types everywhere.
+   That is, we have to state every type of every bound variable, and circumvent implicit
+   arguments by employing fully-qualified-URIs. See below.
+❚
+
+theory ATPExamples =
+  include ?Monoid❙
+  // expected type of example1 is `{F: prop} ⊦ F ⇒ F`
+     To prove this, we -- as a user -- already employ implication introduction
+     up until where `ATP_PROOF` is mentioned. There, we delegate the missing subgoal `⊦ F`
+     to ATP_PROOF.
+
+     In the code (where the debugging println line is), this leads to:
+     """invoked ATP on `F` in context `F : latin:/?Propositions?prop, pfF : (http://cds.omdoc.org/urtheories?LambdaPi?apply latin:/?Proofs?ded F)` for constant `latin:/playground/tptp-exporter?ATPExamples?example1`"""
+  ❙
+  // example1 = [F: prop] ☞latin:/?ImplicationNDI?implI F F [pfF: ⊦ F] ATP_PROOF F ❙
+
+  // expected type of example2 is `{F: prop, G: prop} ⊦ F ∧ G ⇒ G ∧ F`
+     To prove this, we -- as a user -- already employ implication introduction
+     up until where `ATP_PROOF` is mentioned. There, we delegate the missing subgoal `⊦ G ∧ F`
+     to ATP_PROOF.
+
+     In the code (where the debugging println line is), this leads to:
+     """invoked ATP on `(http://cds.omdoc.org/urtheories?LambdaPi?apply latin:/?Conjunction?and G F)` in context `F : latin:/?Propositions?prop, G : latin:/?Propositions?prop, pfFG : (http://cds.omdoc.org/urtheories?LambdaPi?apply latin:/?Proofs?ded (http://cds.omdoc.org/urtheories?LambdaPi?apply latin:/?Conjunction?and F G))` for constant `latin:/playground/tptp-exporter?ATPExamples?example2`"""
+  ❙
+  // example2 = [F: prop, G: prop] ☞latin:/?ImplicationNDI?implI (F ∧ G) (G ∧ F) [pfFG: ⊦ F ∧ G] ATP_PROOF G ∧ F ❙
+
+  example3 = [F: prop] ☞latin:/?ImplicationNDI?implI F F [pfF: ⊦ F] ATP_PROOF F ❙
+❚
+
+// theory ConjectureMonoid =
+  include ?Monoid❙
+
+  // Define some shorthands to circumvent implicit arguments due to some technical issues with MMT ❙
+  my_forall = ☞latin:/?TypedUniversalQuantification?forall U ❘ # ω 1 ❙
+  my_equal  = ☞latin:/?TypedEquality?equal U  ❘ # 1 ≡ 2 prec 30 ❙
+
+  // conj  = ATP_PROOF   ω [x: tm U] (e ∘ x) ∘ e ≡ x ❙
+❚

@@ -1,0 +1,3 @@
+file ../../build_config.msl
+
+suppressErrors build MMT/LATIN2 mmt-omdoc ./experimental.mmt

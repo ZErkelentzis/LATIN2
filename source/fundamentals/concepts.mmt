@@ -15,6 +15,7 @@ theory Proofs =
   include ?Propositions❙
   /T Judgement as types (enter notation by "!- or jder", not "jvdash") ❙
   ded   : prop ⟶ type❘# ⊦ 1 prec -5❘role Judgment ❙
+  lemma : {F,G} ⊦ F ⟶ (⊦ F ⟶ ⊦ G) ⟶ ⊦ G❘ = [F,G,p,Q] Q p❘ # lemma 1 3 4❙
 ❚
 
 /T base theory for any logic, i.e., a language with propositions and proofs❚

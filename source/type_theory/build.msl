@@ -6,3 +6,4 @@ file ../../build_config.msl
 file source/type_theory/buildNoEndo.msl
 file source/type_theory/endofunctors/build.msl
 
+build MMT/LATIN2 mmt-omdoc ./monadic_function_types.mmt

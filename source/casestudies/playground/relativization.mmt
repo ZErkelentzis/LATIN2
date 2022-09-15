@@ -6,9 +6,9 @@
    Usually, given an SFOL type `A: tp` and a predicate `Q: tm A -> prop`, we take the relativization
    of ... to be ... (read as a table):
 
-   - `∀[x] Q x`:  `∀[x] P x ⇒ Q x`
-   - `∃[x] Q x`:  `∃[x] P x ∧ Q x`
-   - `∃¹[x] Q x`: `∃¹[x] P x ∧ Q x`
+   - `∀  λx. Q x`:  `∀  λx. P x ⇒ Q x`
+   - `∃  λx. Q x`:  `∃  λx. P x ∧ Q x`
+   - `∃¹ λx. Q x`:  `∃¹ λx. P x ∧ Q x`
 
    We can use predicate subtypes (or, sigma types, in general) to overcome this apparent non-uniformity.
    Paolo G. Giarrusso <https://www.informatik.uni-marburg.de/~pgiarrusso/> told me this idea, thanks to them!

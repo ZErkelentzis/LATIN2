@@ -116,7 +116,6 @@ theory Adjoin =
 theory Remove =
   include ?SetBase❙
   
-  // AS: think of a notation❙
   remove : set ⟶ set ⟶ set❙
   removeI : {A,b,x} ⊦ x∈A ⟶ ⊦ ¬ x =ͧ b ⟶ ⊦ x∈(remove A b)❙
   removeE : {A,b,x} ⊦ x∈(remove A b) ⟶ ⊦ x∈A ∧ ¬ x =ͧ b❘# 4 removeE❙

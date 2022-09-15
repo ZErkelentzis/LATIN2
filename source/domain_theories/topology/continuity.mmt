@@ -45,14 +45,16 @@ view ReflectsOpennessToReflectsClosedness : ?ReflectsOpenness → ?ReflectsClose
   					 (reflectsClosedness tforallE ∁ͯC implE (p pfilterE)))❙
 ❚
 
+// proof fails because some of the morphisms in topology.mmt had to be commented out ❙
+
 view ReflectsClosednessToPreservesCloseness : ?ReflectsClosedness → ?PreservesCloseness =
   include ?TopologyMap❙
   reflectsClosedness = tforallI [D] tforallI [d] implI [p] pfilterI tforallI [d] implI [q]
    						preimageI 
-   						((p pfilterE) tforallE (homX d))
+   						(((p pfilterE) tforallE (homX d))
    						implE
    						(bigger_close subset_image_preimage
-   							((preservesCloseness tforallE (C preimage homX) d) implE q))❙
+   							((preservesCloseness tforallE (C preimage homX) d) implE q)))❙
 ❚
 
 view PreservesClosenessToExpandsClosure : ?PreservesCloseness → ?ExpandsClosure =

@@ -1,0 +1,14 @@
+namespace latin:/❚
+
+fixmeta ur:?LF❚
+
+theory SingletonTypes =
+  include ?TypedEqualityND❙
+  singletonType : {A} tm A ⟶ tp❘ # %n 2❙
+  singletonIntro: {A, x: tm A} tm singletonType x❘ # %n 2 prec 30❙
+  singletonElim: {A, x: tm A} tm singletonType x ⟶ tm A❘ # %n 3 prec 30❙
+  
+  singleton_compute : {A,x: tm A, e: tm singletonType x} ⊦ singletonElim e =ͭ x❙
+  singleton_expand  : {A,x: tm A, e: tm singletonType x} ⊦ e =ͭ singletonIntro x❙
+  singleton_exten   : {A,x: tm A, e,f: tm singletonType x} ⊦ e =ͭ f❙
+❚

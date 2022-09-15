@@ -1,0 +1,53 @@
+namespace latin:/❚
+
+fixmeta latin:/?HOLND❚
+
+// Church numerals use a trick to define natural numbers as certain functions relative to an 
+   arbitrary empty fixed type❚
+theory ChurchNaturals =
+  
+  // an arbitrary type; note that there are no functions that return n, i.e., n is empty❙
+  I: tp❙
+  
+  include ?SFOLEQND❙
+  realize ?NatUnary❙
+
+  // the following function type allows capturing exactly the natural numbers:
+     The trick is that after binding [z:n,s:n⟶n], the only way to return something of type n is 
+     to use z and s - that amounts to the usual construction of the natural numbers using zero and 
+     successor.❙
+     
+  num = I → (I → I) → I❙
+
+  // intuition: for [n: num], the term n a b is the result of applying function b n-times to a❙
+  zero = λ[z]λ[s] z❙
+
+  // succ : num ⟶ num = λn:I⟶(I ⟶ I)⟶I. λz:I. λs:I⟶I. s (n z s)❙ 
+  succ = [n]λ[z]λ[s] s @ (n @ z @ s)❙
+❚
+
+theory ChurchNaturalsPlus =
+  include ?ChurchNaturals❙
+ 
+  realize ?NatPlus❙
+  // intuition: m+n is the result of applying s m-times to n❙
+  plus = [m,n]λ[z]λ[s] m @ (n @ z @ s) @ s❙
+  
+  plus_zero = _ ❙
+  plus_succ = _ ❙
+❚
+
+theory ChurchNaturalsPlusTimes =
+  include ?ChurchNaturalsPlus❙
+  
+  realize ?NatPlusTimes❙
+  
+  // intuition: m*n is the result of applying _+n m-times to z
+     [u] n u s is the function that applies s n-times to u
+     m z ([u] n u s) applies that function m-times to z
+     this results in m*n applications of s to z❙
+  times = [m,n]λ[z]λ[s] m @ z @ (λ[u] n @ u @ s)❙
+  
+  times_zero = _ ❙
+  times_succ = _ ❙
+❚

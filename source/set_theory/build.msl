@@ -30,5 +30,4 @@ build MMT/LATIN2 mmt-omdoc set_theory/zfc.mmt
 
 build MMT/LATIN2 mmt-omdoc set_theory/nats.mmt
 
-// AS: ignore typed_features and delete it later
-// build MMT/LATIN2 mmt-omdoc set_theory/typed_features.mmt
+build MMT/LATIN2 mmt-omdoc set_theory/typed_features.mmt
