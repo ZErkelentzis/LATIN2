@@ -13,10 +13,17 @@ theory Peano : latin:/?HOLND =
     axiom4 : ⊦ ∀ͭ[n: tm N] ∀ͭ[m: tm N] ((successor @ n =ͭ successor @ m) ⇒ (n =ͭ m))❙
 
     //Induction Axiom❙
-    //axiom5 : ⊦ ∀ͭ[X: tm N → bool] X @ zero ∧ (∀ͭ[n : tm N] X @ n ⇒ X @ (successor @ n)) ⇒ ∀ͭ[x: tm N] X @ x❙
+    axiom5 : ⊦ ∀ͭ[X: tm N → bool] X @ zero ∧ (∀ͭ[n : tm N] X @ n ⇒ X @ (successor @ n)) ⇒ ∀ͭ[x: tm N] X @ x❙
 
     // Conjecture❙
     conj : ⊦ ∀ͭ[x: tm N] (x =ͭ zero) ∨ (∃ͭ[y: tm N] successor @ y =ͭ x) ❘ = PROVE❙
+
+    // simpler conjecture❙
+    conj2 : ⊦ ∀ͭ[x: tm N] ([z: tm N] z =ͭ x) zero ∨ (∃ͭ[y: tm N] ([z: tm N] z =ͭ x) (successor @ y)) ❘ = PROVE❙
+
+    // even simpler conjecture❙
+    p = [x: tm N] [z: tm N] z =ͭ x ❙
+    conj3 : ⊦ ∀ͭ[x: tm N] (p x) zero ∨ (∃ͭ[y: tm N] (p x) (successor @ y)) ❘ = PROVE❙
 
     //decl2 = successor @ (successor @ zero)❙
 

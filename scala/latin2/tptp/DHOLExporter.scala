@@ -47,75 +47,94 @@ class DHOLExporter extends logicExporter {
    * @precondition We need to call this method on the declaration in the theory in the order in which they appear in it
    * @return the translation of the declaration
    */
-  def translate_decl(path: GlobalName, tpO: Option[Term], df: Option[Term], ctx: Context)(implicit ctrl: Controller): List[THFAnnotated] = {
-    val Some(tp) = tpO
-    val simplicationUnit = SimplificationUnit(Context(path.module), expandConDefs = true, expandVarDefs = true, fullRecursion = true)
-    val simplifiedTp = try {
-      ctrl.simplifier(tp, simplicationUnit)
-    } catch {
-      // this shouldn't happen, but it makes more sense to continue anyways, as simplifying is not really necessary
-      // TODO: add some error handling
-      case e: GeneralError => tp
-    }
+  def translate_decl(path: GlobalName, tpO: Option[Term], dfO: Option[Term], ctx: Context)(implicit ctrl: Controller): List[THFAnnotated] = {
+    (tpO, dfO) match {
+      case (_, Some(df)) =>
+        definitionSubstituents ::= (path, df)
+        Nil
+      case (Some(tp), None) =>
+        val simplicationUnit = SimplificationUnit(Context(path.module), expandConDefs = true, expandVarDefs = true, fullRecursion = true)
+        val simplifiedTp = try {
+          ctrl.simplifier(tp, simplicationUnit)
+        } catch {
+          // this shouldn't happen, but it makes more sense to continue anyways, as simplifying is not really necessary
+          // TODO: add some error handling
+          case e: GeneralError => tp
+        }
 
-    val name = path.name
+        val name = path.name
 
-    val declTranslated = simplifiedTp match {
-      case lf.Types.tp.term | Univ(1) | TypeDecl(Nil) =>
-        pathMap ::= (path, translated_type_name(name))
-        pathMap ::= (path, translated_type_name(name))
-        val tpDecl = THFAnnotated(type_decl_name(name), "type", THF.Typing(translated_type_name(name), THFType), None)
-        val predTp = THF.BinaryFormula(FunTyConstructor, translate_type(OMS(path)), THFBool)
-        val tpPred = THFAnnotated(type_pred_decl_name(name), "type",
-          THF.Typing(type_pred_name(name), predTp), None)
-        List(tpDecl, tpPred)
-      case FunType(args, bdy) if (bdy == Univ(1) || bdy == lf.Types.tp.term) && args.nonEmpty =>
-        val dependentArgs = argContext(args)
-        pathMap ::= (path, translated_type_name(name))
-        pathMap ::= (type_pred_path(path), type_pred_name(name))
-        val tpDecl = THFAnnotated(type_decl_name(name), "type",
-          THF.Typing(translated_type_name(name), THFType), None)
-        val translated_args = dependentArgs.map(_.tp.get) :+ OMS(path)
-        val predTp = THFArrow(translated_args map translate_type, THFBool)
-        val tpPred = THFAnnotated(type_pred_decl_name(name), "type",
-          THF.Typing(type_pred_name(name), predTp), None)
-        List(tpDecl, tpPred)
-      case TypedTerms.tm(DependentFunctionTypes.depfun(s, t)) => unapplyDepFun(DependentFunctionTypes.depfun(s, t)) match { // declaration of function
-        case Some((dependentArgs, ret)) =>
-          pathMap ::= (path, translated_fun_name(name))
-          ret match {
-            case lf.Booleans.bool(()) => predDecls ::= (path, dependentArgs.last)
-            case _ => ()
+        val declTranslated = simplifiedTp match {
+          case lf.Types.tp.term | Univ(1) | TypeDecl(Nil) =>
+            pathMap ::= (path, translated_type_name(name))
+            pathMap ::= (path, translated_type_name(name))
+            val tpDecl = THFAnnotated(type_decl_name(name), "type", THF.Typing(translated_type_name(name), THFType), None)
+            val predTp = THF.BinaryFormula(FunTyConstructor, translate_type(OMS(path)), THFBool)
+            val tpPred = THFAnnotated(type_pred_decl_name(name), "type",
+              THF.Typing(type_pred_name(name), predTp), None)
+            List(tpDecl, tpPred)
+          case FunType(args, bdy) if (bdy == Univ(1) || bdy == lf.Types.tp.term) && args.nonEmpty =>
+            val dependentArgs = argContext(args)
+            pathMap ::= (path, translated_type_name(name))
+            pathMap ::= (type_pred_path(path), type_pred_name(name))
+            val tpDecl = THFAnnotated(type_decl_name(name), "type",
+              THF.Typing(translated_type_name(name), THFType), None)
+            val translated_args = dependentArgs.map(_.tp.get) :+ OMS(path)
+            val predTp = THFArrow(translated_args map translate_type, THFBool)
+            val tpPred = THFAnnotated(type_pred_decl_name(name), "type",
+              THF.Typing(type_pred_name(name), predTp), None)
+            List(tpDecl, tpPred)
+          case TypedTerms.tm(DependentFunctionTypes.depfun(s, t)) => unapplyDepFun(DependentFunctionTypes.depfun(s, t)) match { // declaration of function
+            case Some((dependentArgs, ret)) =>
+              pathMap ::= (path, translated_fun_name(name))
+              ret match {
+                case lf.Booleans.bool(()) => predDecls ::= (path, dependentArgs.last)
+                case _ => ()
+              }
+              val funDecl = THFAnnotated(type_decl_name(name), "type",
+                THF.Typing(translated_fun_name(name), translate_type(Pi(dependentArgs, ret))), None)
+              val retPred = typing_pred(Pi(dependentArgs, ret), ApplyGeneral(OMS(path), dependentArgs.map(_.toTerm)))
+              lazy val tpAx = THFAnnotated(tp_ax_decl_name(name), "axiom",
+                THF.Logical(retPred), None)
+              List(funDecl, tpAx)
           }
-          val funDecl = THFAnnotated(type_decl_name(name), "type",
-            THF.Typing(translated_fun_name(name), translate_type(Pi(dependentArgs, ret))), None)
-          val retPred = typing_pred(Pi(dependentArgs, ret), ApplyGeneral(OMS(path), dependentArgs.map(_.toTerm)))
-          lazy val tpAx = THFAnnotated(tp_ax_decl_name(name), "axiom",
-            THF.Logical(retPred), None)
-          List(funDecl, tpAx)
-      }
-      case ftp@ApplyGeneral(OMS(p), args) if pathMap.exists(_._1 == p) =>
-        pathMap ::= (path, translated_fun_name(name))
-        val constDecl = THFAnnotated(type_decl_name(name), "type",
-          THF.Typing(translated_fun_name(name), translate_type(ftp)), None)
-        val retPred = typing_pred(OMS(p), OMS(path))
-        val tpAx = THFAnnotated(tp_ax_decl_name(name), "axiom",
-          THF.Logical(retPred), None)
-        List(constDecl, tpAx)
-      case lf.Proofs.ded(ax) =>
-        val tax = translate_term(ax)
-        List(THFAnnotated(ax_decl_name(name), "axiom", THF.Logical(tax), None))
-      case OMBINDC(binder, context, List(scopes)) if binder.toStr(true) == "unknown" => // this case shouldn't be necessary
-        scopes match {
+          case TypedTerms.tm(DependentFunctionTypes.depfun(s, t)) => unapplyDepFun(DependentFunctionTypes.depfun(s, t)) match { // declaration of function
+            case Some((dependentArgs, ret)) =>
+              pathMap ::= (path, translated_fun_name(name))
+              ret match {
+                case lf.Booleans.bool(()) => predDecls ::= (path, dependentArgs.last)
+                case _ => ()
+              }
+              val funDecl = THFAnnotated(type_decl_name(name), "type",
+                THF.Typing(translated_fun_name(name), translate_type(Pi(dependentArgs, ret))), None)
+              val retPred = typing_pred(Pi(dependentArgs, ret), ApplyGeneral(OMS(path), dependentArgs.map(_.toTerm)))
+              lazy val tpAx = THFAnnotated(tp_ax_decl_name(name), "axiom",
+                THF.Logical(retPred), None)
+              List(funDecl, tpAx)
+          }
+          case TypedTerms.tm(ftp@ApplyGeneral(OMS(p), args)) if pathMap.map(_._1).contains(p) =>
+            pathMap ::= (path, translated_fun_name(name))
+            val constDecl = THFAnnotated(type_decl_name(name), "type",
+              THF.Typing(translated_fun_name(name), translate_type(ftp)), None)
+            val retPred = typing_pred(OMS(p), OMS(path))
+            val tpAx = THFAnnotated(tp_ax_decl_name(name), "axiom",
+              THF.Logical(retPred), None)
+            List(constDecl, tpAx)
           case lf.Proofs.ded(ax) =>
             val tax = translate_term(ax)
             List(THFAnnotated(ax_decl_name(name), "axiom", THF.Logical(tax), None))
-          case _ => ???
+          case OMBINDC(binder, context, List(scopes)) if binder.toStr(true) == "unknown" => // this case shouldn't be necessary
+            scopes match {
+              case lf.Proofs.ded(ax) =>
+                val tax = translate_term(ax)
+                List(THFAnnotated(ax_decl_name(name), "axiom", THF.Logical(tax), None))
+              case _ => ???
+            }
+          case _ => ??? // should be impossible
         }
-      case _ => ??? // should be impossible
+        add_formula_comment(name.toString)
+        declTranslated
     }
-    add_formula_comment(name.toString)
-    declTranslated
   }
 
   /**
@@ -140,9 +159,7 @@ class DHOLExporter extends logicExporter {
       translate_var_decl(thy_path, vdNew, ctx)
     case VarDecl(name, None, Some(ded(formula)), _, _) =>
       List(THFAnnotated(vd.name.toString, "axiom", THF.Logical(translate_term(formula)), None))
-    case VarDecl(v, None, Some(TypedTerms.tm(tp)), _, _) =>
-      translate_var_decl(thy_path, v % tp, ctx)
-    case VarDecl(v, None, Some(df@DependentFunctionTypes.depfun(s, t)), _, _) => unapplyDepFun(df) match {
+    case VarDecl(v, None, Some(TypedTerms.tm(df@DependentFunctionTypes.depfun(s, t))), _, _) => unapplyDepFun(df) match {
       case Some((dependentArgs, ret)) =>
         val varTr = OMS(thy_path ? v)
         assSubstitution ::= v / varTr
@@ -153,7 +170,7 @@ class DHOLExporter extends logicExporter {
           THF.Logical(retPred), None)
         List(funDecl, tpAx)
     }
-    case VarDecl(v, None, Some(ftp@ApplyGeneral(OMS(p), args)), _, _) =>
+    case VarDecl(v, None, Some(TypedTerms.tm(ftp@ApplyGeneral(OMS(p), args))), _, _) =>
       val varTr = OMS(thy_path ? v)
       assSubstitution ::= v / varTr
       val constDecl = THFAnnotated(type_decl_name(v), "type",

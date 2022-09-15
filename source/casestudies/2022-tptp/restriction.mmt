@@ -1,0 +1,19 @@
+namespace latin:/casestudies/_2022-tptp❚
+
+theory RestrictionExample : latin:/?DPHOL =
+    N : tp ❙
+    0: tm N❙
+    N2: tp ❙
+    makePair: tm Πͭ [first: tm N] Πͭ [second: tm N] N2 ❘# 1 x 2 ❙
+    proj1: tm Πͭ [pair: tm N2] N ❙
+    proj2: tm Πͭ [pair: tm N2] N ❙
+    
+    p = [p:tm N2] ( makePair @ (proj1 @ p) @ 0 ) =ͭ p ❙
+    S = N2 | p ❙
+    f: tm Πͭ [phi:tm Πͭ [y:tm S] N2] Πͭ [y:tm S] N2 
+    		❘ = λ [phi: tm Πͭ [y:tm S] N2] λ [y: tm S] makePair @ (proj1 @ (phi @ y)) @ 0 ❙
+    g: tm Πͭ [phi:tm Πͭ [y:tm S] N2] Πͭ [y:tm S] N2 
+    		❘ = λ [phi] λ [y] phi @ y ❙
+    
+    conj: ⊦ f =ͭ g ❘ = PROVE ❙
+❚

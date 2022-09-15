@@ -1,14 +1,15 @@
 package latin2.tptp
 
-import info.kwarc.mmt.api.archives.BuildTask
-import info.kwarc.mmt.api.checking.UnknownTerm
-import info.kwarc.mmt.api.frontend.{Controller, Extension}
-import info.kwarc.mmt.api.modules.Theory
-import info.kwarc.mmt.api.objects.{Context, OMSemiFormal, OMV, Obj, Sub, Substitution, Term, Text, VarDecl}
-import info.kwarc.mmt.api.presentation.{RenderingHandler, StructurePresenter}
-import info.kwarc.mmt.api.proving.{AutomatedProver, ProvingUnit}
-import info.kwarc.mmt.api.symbols.{Constant, PlainInclude}
-import info.kwarc.mmt.api.{GeneralError, GlobalName, LocalName, MPath, RuleSet, StructuralElement, objects}
+import info.kwarc.mmt.api._
+import archives.BuildTask
+import checking.UnknownTerm
+import frontend.{Controller, Extension}
+import modules.Theory
+import objects.{Context, OMSReplacer, OMSemiFormal, OMV, Obj, Sub, Substitution, Term, Text, VarDecl}
+import presentation.{RenderingHandler, StructurePresenter}
+import proving.{AutomatedProver, ProvingUnit}
+import symbols.{Constant, PlainInclude}
+import utils.listmap
 import leo.datastructures.TPTP.{AnnotatedFormula, Comment, FOFAnnotated, Include, Problem, TFFAnnotated, THFAnnotated}
 import lf.Proofs.ded
 
@@ -141,7 +142,8 @@ class TPTPExporter extends StructurePresenter with AutomatedProver { //TODO: doe
     val mod = MPath(pu.component.get.parent.toTriple._1.get, pu.component.get.parent.toTriple._2.get)
 
     //TODO: build stubs, before combining
-    val problem_path = combineStubs(mod, pu.context, pu.tp)(this.controller) match {
+    val combinedStubs = combineStubs(mod, pu.context, pu.tp)(this.controller)
+    val problem_path = combinedStubs match {
       case Some(problem) => exportProblem(problem, mod)
       case None => return (true, None)
     }
@@ -187,7 +189,12 @@ class TPTPExporter extends StructurePresenter with AutomatedProver { //TODO: doe
 trait logicExporter extends Extension {
   var comments = Map[String, Seq[Comment]]()
   var currentFormulaComments = Seq[Comment]()
+
+  // used to replace assumptions in the conjecture with references to declarations stating them
   var assSubstitution: List[Sub] = Nil
+  // used for a definition expansions before the translation
+  var definitionSubstituents: List[(GlobalName, Term)] = Nil
+  def replacer: OMSReplacer = OMSReplacer.apply(listmap(definitionSubstituents, _))
 
   val theoryPath: MPath
   // to ensure the correct exporter is applied at the right time
@@ -225,13 +232,14 @@ trait logicExporter extends Extension {
     for (x <- decls.take(decls.length - 1)) {
       x match {
         case PlainInclude(t) => includes += t._1
-        case c: Constant => formulas ++= translate_constant(c)
+        case c: Constant => formulas ++= translate_constant(c.translate(replacer.toTranslator(), ctx))
       }
     }
     val assumptions = Context(ctx.variables.filter(_.feature.isEmpty):_*).mapVarDecls {//ctx.mapVarDecls {//
       case (ctx, vd: VarDecl) =>
         val vdRenamed = vd ^ assSubstitution
-        translate_var_decl(p.module, vdRenamed, ctx)
+        val vdTr = replacer.toTranslator().applyVarDecl(ctx, vdRenamed)
+        translate_var_decl(p.module, vdTr, ctx)
     }.flatten.distinct
 
     formulas ++= assumptions
