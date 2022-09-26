@@ -10,7 +10,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="sbt: org.scala-lang:scala-library:2.13.4:jar" level="project" />
     <orderEntry type="module" module-name="mmt-api" />
     <orderEntry type="module" module-name="mmt-lf" />
     <orderEntry type="module-library">
@@ -26,15 +25,6 @@
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/lib/leo3.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../../github.com/UniFormal/MMT/deploy/lib/scala-xml.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
