@@ -2,6 +2,18 @@ namespace latin:/❚
 
 fixmeta ur:?LF❚
 
+theory PurityLambdaCalculus =
+  include ?TypedEquality❙
+  include ?SimpleFunctionTypes❙
+  include ?UndefinedTypedTerms❙
+  plambda: {A,B} ({x:tm A} ⊦ x↓ͭ ⟶ tm B) ⟶ tm A→B❘# λ 3 prec 40❙
+  papply: {A,B} tm A→B ⟶ tm A ⟶ tm B❘ # 3 @ 4 prec 50❙
+
+  // beta is restricted to pure terms❙
+  pbeta : {A,B,T:{x:tm A} ⊦ x↓ͭ ⟶ tm B,a, ap} ⊦ (λ T) @ a =ͭ T a ap❙
+❚
+// there could now be a view LambdaCalculus → PurityLambdaCalculus+Monad❚
+
 theory MonadicLambdaCalculus =
   include ?SimpleFunctions❙
   include ?SimpleFunctionsEta❙

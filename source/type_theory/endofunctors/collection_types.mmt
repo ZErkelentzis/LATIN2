@@ -11,9 +11,8 @@ theory Collection =
 
   singleton : {a} tm a ⟶ tm &a❘# %n 2 prec 100❙
   cons : {a} tm a ⟶ tm &a ⟶ tm &a❘# %n 2 3 prec 60❘= [a,x,xs] singleton x ∘ xs❙
-  
-  
-  inductive_proof: {a,P: tm & a ⟶ prop} ⊦ P neutral ⟶ ({x,xs} ⊦ P xs ⟶ ⊦ P (cons x xs)) ⟶ {xs} ⊦ P xs ❙
+
+  inductive_proof: {a,P: tm &a ⟶ prop} ⊦ P neutral ⟶ ({x,xs} ⊦ P xs ⟶ ⊦ P (cons x xs)) ⟶ {xs} ⊦ P xs ❙
 
   is_empty : {a} tm &a ⟶ prop❘# %n 2 prec 40❙
   is_empty_neutral: {a} ⊦ is_empty (empty a)❙

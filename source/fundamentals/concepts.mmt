@@ -18,12 +18,21 @@ theory Proofs =
   lemma : {F,G} ⊦ F ⟶ (⊦ F ⟶ ⊦ G) ⟶ ⊦ G❘ = [F,G,p,Q] Q p❘ # lemma 1 3 4❙
 ❚
 
+/T base theory for any logic with a judgment for disprovable propositions❚
+theory Disproofs =
+  include ?Propositions❙
+  disproof : prop ⟶ type❘# ∦ 1 prec -5❙
+❚
+
 /T base theory for any logic, i.e., a language with propositions and proofs❚
 theory Logic =
   include ?Propositions❙
   include ?Proofs❙
-  inconsistent : type❘= {a} ⊦ a❘# ↯❘role Judgment❙
-  inconsistentE : inconsistent ⟶ {a} ⊦ a❘= [p,a] p a❘# 1 inconE %I2❙
+  inconsistent : type❘= {F} ⊦ F❘# ↯❘role Judgment❙
+  inconsistentE : inconsistent ⟶ {F} ⊦ F❘= [p,F] p F❘# 1 inconE %I2❙
+
+  realize ?Disproofs❙
+  disproof = [F] ⊦ F ⟶ ↯❙
 ❚
 
 /T base theory for any language that has terms that do not carry a type
