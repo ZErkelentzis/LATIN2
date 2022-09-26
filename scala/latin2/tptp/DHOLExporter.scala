@@ -335,11 +335,23 @@ class DHOLExporter extends logicExporter {
           THFOr(THFEq(THF.Variable(translate_var(x)), THFTrue), THFEq(THF.Variable(translate_var(x)), THFFalse))
       }
       case TypedTerms.tm(tp) => typing_pred(tp, x)
-      // This only makes sense if we have a boolean constant, in that case it can not occur on the right of an =>
       case Pi(n, tp, ret) =>
-        def binder(t:THF.Formula): THF.Formula = THFUniv(translate_var(n), translate_type(tp), t)
-        // we can ignore trivial assumptions
-        binder(THFImpl(typing_pred(tp, OMV(n)), typing_pred(ret, x)))
+        tp match {
+          case FunType(ls, _) if ls.length > 0 => //otherwise, this is equivalent to the simpler default case
+            val var1 = OMV(n)
+            val var2 = OMV(n + "'")
+
+            def binder(t: THF.Formula): THF.Formula =
+              THFUniv(translate_var(n), translate_type(tp),
+                THFUniv(translate_var(n) + "'", translate_type(tp),
+                  THFImpl(translate_term(tequal(tp, var1, var2)), t)))
+
+            binder(translate_term(tequal(ret, ApplySpine(x, var1), ApplySpine(x, var2))))
+          case _ =>
+            def binder(t: THF.Formula): THF.Formula = THFUniv(translate_var(n), translate_type(tp), t)
+            // we can ignore trivial assumptions
+            binder(THFImpl(typing_pred(tp, OMV(n)), typing_pred(ret, x)))
+        }
       case ApplyGeneral(OMS(a), args) =>
         val argsTr = (args:+x).map(translate_term)
         val pTr = type_pred_path(a).name.toString
