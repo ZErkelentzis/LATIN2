@@ -120,8 +120,11 @@ class DHOLExporter extends logicExporter {
             val tpAx = THFAnnotated(tp_ax_decl_name(name), "axiom",
               THF.Logical(retPred), None)
             List(constDecl, tpAx)
-          case lf.Proofs.ded(ax) =>
-            val tax = translate_term(ax)
+          case FunType(ctxArgs, lf.Proofs.ded(ax)) =>
+            val ctx = argContext(ctxArgs)
+            val ax_body = translate_term(ax)
+            val tax = ctx.variables.foldRight(ax_body)((vd, bdy) =>
+              THFUniv(translate_var(vd.name), translate_type(vd.tp.get), bdy))
             List(THFAnnotated(ax_decl_name(name), "axiom", THF.Logical(tax), None))
           case OMBINDC(binder, context, List(scopes)) if binder.toStr(true) == "unknown" => // this case shouldn't be necessary
             scopes match {
@@ -209,12 +212,31 @@ class DHOLExporter extends logicExporter {
     //TODO: Add term -> $i
     // TODO: product types, etc. still needed
 
-    case tforall((ty, Lambda(v, _, body))) =>
-      val tpCond = typing_pred(ty, OMV(v))
-      THFUniv(translate_var(v), translate_type(ty), THFImpl(tpCond, translate_term(body)))
-    case texists((ty, Lambda(v, _, body))) =>
-      val tpCond = typing_pred(ty, OMV(v))
+    case tforall((ty, Lambda(v, _, body))) => /*ty match {
+      case FunType(args, body) if args.length > 0 =>
+        val aTr = translate_type(ty)
+        val eqArgs = tequal(ty, v, v)
+        THFUniv(translate_var(v), aTr, THFImpl(
+          translate_term(eqArgs),
+          translate_term(body)
+        ))
+      case _ =>*/
+        val tpCond = typing_pred(ty, OMV(v))
+        THFUniv(translate_var(v), translate_type(ty), THFImpl(tpCond, translate_term(body)))
+    //}
+    case texists((ty, Lambda(v, _, body))) => /*ty match {
+      case FunType(args, body) if args.length > 0 =>
+        val aTr = translate_type(ty)
+        val eqArgs = tequal(ty, v, v)
+        THFUniv(translate_var(v), aTr, THFAnd(
+          translate_term(eqArgs),
+          translate_term(body)
+        ))
+      case _ =>*/
+			val tpCond = typing_pred(ty, OMV(v))
       THFExist(translate_var(v), translate_type(ty), THFAnd(tpCond, translate_term(body)))
+    //}
+      
     case TypedTerms.tm(tm) => translate_term(tm)
     case tforall(ty, body) =>
       val varname = Context.pickFresh(body.freeVars.map(VarDecl(_)), LocalName("X"))._1
@@ -234,17 +256,11 @@ class DHOLExporter extends logicExporter {
       THFImpl(translate_term(left), translate_term(right))
     case equiv(left, right) =>
       THFEquiv(translate_term(left), translate_term(right))
-    case tequal(ty, left, right) => ty match {
+    case tequal(ty, left, right) =>
+      ty match {
       case Pi(n, a, b) =>
-        val (n1, n2) = (n + "_1", n + "_2")
-        val (v1, v2) = (OMV(n1), OMV(n2))
-        val aTr = translate_type(a)
-        val eqArgs = tequal(a, v1, v2)
-        val eqAppls = tequal(b, ApplySpine(left, v1), ApplySpine(right, v2))
-        THFUniv(n1, aTr, THFUniv(n2, aTr, THFImpl(
-          translate_term(eqArgs),
-          translate_term(eqAppls)
-        )))
+        val eqAppls = tequal (b, ApplySpine (left, n), ApplySpine (right, n) )
+        translate_term(tforall(ty, Lambda(n, a, eqAppls)))
       case FunType(args, body) if args.length > 0 =>
         val argsCon = argContext(args)
         translate_term(tequal(Pi(argsCon, body), left, right))
