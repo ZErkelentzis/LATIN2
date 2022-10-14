@@ -1,0 +1,15 @@
+namespace latin:/casestudies/_2022-tptp❚
+
+theory PredicateExample : latin:/?DHOL =
+    a : {x: tm bool} tp ❙
+    c_0: tm a true ❙
+    c_1: tm a false ❙
+    c_2: tm a false ❙
+    ax0: ⊦ ∀ͭ[x:tm a true] x =ͭ c_0 ❙
+		p: tm Πͭ [x: tm a false] bool ❙
+    ax1: ⊦ p c_1 ❙
+    ax2: ⊦ ¬ p c_2 ❙
+    ax3: ⊦ ∀ͭ[f:tm Πͭ [x:tm a true] bool] ∀ͭ[g:tm Πͭ [x:tm a true] bool] (f @ c_0 =ͭ g @ c_0) ⇒ f =ͭ g ❘ = PROVE ❙
+ 
+    conj: ⊦ p c_2 ❘ = PROVE ❙
+❚
