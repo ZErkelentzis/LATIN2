@@ -14,10 +14,10 @@ theory PredicateExample : latin:/?DHOL =
     	[B,F,G] exten (a true) B F G ❙
     A: tp ❘ = a true ❙
     B: {x:tm A} tp ❘ = [x:tm (a true)] bool ❙
-    lem1a: ⊦ ∀ͭ[f:tm Πͭ [x:tm A] B x] ∀ͭ[g:tm Πͭ [x:tm A] B x]
-    	∀ͭ[x:tm A] (f @ x =ͭ g @ x) ⇒ͩ [p] f =ͭ g ❘ = ?DHOL?exten2 A B ❙
+    // lem1a: ⊦ ∀ͭ[f:tm Πͭ [x:tm A] B x] ∀ͭ[g:tm Πͭ [x:tm A] B x]
+    	∀ͭ[x:tm A] (f @ x =ͭ g @ x) ⇒ͩ [p] f =ͭ g ❘ // = ?DHOL?exten2 A B ❙
     lem2: ⊦ ∀ͭ[f:tm Πͭ [x:tm a true] bool] ∀ͭ[g:tm Πͭ [x:tm a true] bool] 
-    	(f @ c_0 =ͭ g @ c_0) ⇒ͩ [p] f =ͭ g ❘ = PROVE ❙
+    	(f @ c_0 =ͭ g @ c_0) ⇒ͩ [p] f =ͭ g ❙
  
     /T The following should NOT be provable❙
     conj: ⊦ p @ c_2 ❘ = PROVE ❙
