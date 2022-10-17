@@ -97,7 +97,7 @@ class HOLExporter extends logicExporter {
   }
 
   def translate_formula(t: Term): THF.Formula = t match {
-    case Lambda(v, ty, body) => THF.QuantifiedFormula(THF.^, Seq((translate_var(v), translate_formula(ty))), translate_formula(body))
+    case Lambda(v, ty, body) => THF.QuantifiedFormula(THF.^, Seq((translate_var_name(v), translate_formula(ty))), translate_formula(body))
     case simplambda(_, _, f) => translate_formula(f)
     case simpapply(_, _, f, x) => translate_formula(ApplySpine(f, x))
 
@@ -106,8 +106,8 @@ class HOLExporter extends logicExporter {
     //TODO: Add term -> $i
     // TODO: product types, etc. still needed
 
-    case tforall((ty, Lambda(v, _, body))) => THFUniv(translate_var(v), translate_formula(ty), translate_formula(body))
-    case texists((ty, Lambda(v, _, body))) => THFExist(translate_var(v), translate_formula(ty), translate_formula(body))
+    case tforall((ty, Lambda(v, _, body))) => THFUniv(translate_var_name(v), translate_formula(ty), translate_formula(body))
+    case texists((ty, Lambda(v, _, body))) => THFExist(translate_var_name(v), translate_formula(ty), translate_formula(body))
     case tforall(ty, body) =>
       val varname = Context.pickFresh(body.freeVars.map(VarDecl(_)), LocalName("X"))._1
       translate_formula(tforall(ty, Lambda(varname, ty, ApplySpine(body, OMV(varname)))))
@@ -141,7 +141,7 @@ class HOLExporter extends logicExporter {
       THFOMS(f)
 
     case OMV(x) =>
-      THF.Variable(translate_var(x))
+      THF.Variable(translate_var_name(x))
 
     case ApplySpine(f, args) => args.map(translate_formula).foldLeft(translate_formula(f))((g, arg) => THF.BinaryFormula(THF.App, g, arg))
 
@@ -184,7 +184,8 @@ object THFExporterUtil {
 
   def type_decl_name(ln: LocalName) = ln.toString+"_type"
 
-  def translate_var(n:LocalName) = "V_" + n.toString.toUpperCase
+  def translate_var_name(n:LocalName) = "V_" + n.toString.toUpperCase
+  def translate_var(n:LocalName) = LocalName(translate_var_name(n))
   def translate_var_decl_name(n:LocalName) = "t_" + n.toString
   def default_name(p: ContentPath) = translate_var_decl_name(p.name)
   def IMPOSSIBLE = throw ImplementationError("This case should be impossible.")

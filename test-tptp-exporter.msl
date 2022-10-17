@@ -35,6 +35,8 @@ extension latin2.tptp.DPHOLExporter
 // test DHOL exporter
 build MMT/LATIN2 mmt-omdoc casestudies/2022-tptp/cat.mmt
 build MMT/LATIN2 tptp casestudies/2022-tptp/cat.omdoc
+build MMT/LATIN2 mmt-omdoc casestudies/2022-tptp/predicate_exam.mmt
+build MMT/LATIN2 tptp casestudies/2022-tptp/predicate_exam.omdoc
 
 // test HOL exporter
 build MMT/LATIN2 mmt-omdoc casestudies/2022-tptp/peano.mmt

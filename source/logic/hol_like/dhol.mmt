@@ -19,6 +19,30 @@ theory DependentLogic =
   rule rules?DependentConjunctionInferenceRule ❙
 ❚
 
+theory InternalBooleanExtensionality =
+	include ?InternalLogic ❙
+  include ?Truth ❙
+  include ?Falsity ❙
+  
+  boolext : {F} ⊦ F ⊤ ⟶ ⊦ F ⊥ ⟶ {x:prop} ⊦ F x❘# boolext 1 2 3 4❙
+  include ?DependentFunctionsExtensionality❙
+❚
+
+/T HOL with pi-types and predicate subtypes ❚
+theory DIHOL =
+	/T for this and the next include: 
+	This includes the theory Propositions and hence includes a type of propositions
+	However this type should just be tm bool
+	But this applies also for other parts of LATIN2, including HOL itself
+	TODO: Check if this is ok ❙
+  include ?DependentLogic ❙
+
+  include ?ISFOL❙
+  
+  include ?PropositionalExtensionality ❙
+  rule rules?ProverBasedTypeEquality ❙
+❚
+
 
 /T HOL with pi-types and predicate subtypes ❚
 theory DHOL =
@@ -31,7 +55,9 @@ theory DHOL =
 
   include ?ISFOL❙
   
-  include ?BooleanExtensionality❙
+  include ?InternalBooleanExtensionality❙
+  exten2: {A:tp,B:{x:tm A} tp} ⊦ ∀ͭ[f:tm Πͭ [x:tm A] B x] ∀ͭ[g:tm Πͭ [x:tm A] B x]
+    	∀ͭ[x:tm A] (f @ x =ͭ g @ x) ⇒ͩ [p] f =ͭ g ❙
   rule rules?ProverBasedTypeEquality ❙
 ❚
 
@@ -55,6 +81,12 @@ theory DHOLND =
 
 theory DPHOL =
 	include ?DHOL ❙
+	include ?TypedPredicateSubtypes❙	
+  rule rules?ProverBasedPredicateSubtypeEquality ❙
+❚
+
+theory DPIHOL =
+	include ?DIHOL ❙
 	include ?TypedPredicateSubtypes❙	
   rule rules?ProverBasedPredicateSubtypeEquality ❙
 ❚
