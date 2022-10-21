@@ -13,9 +13,9 @@ import info.kwarc.mmt.api.checking.{History, Solver, TypeBasedEqualityRule}
 import latin2.tptp.THFExporterUtil._
 import latin2.tptp.DHOLExporterUtil._
 
-class DPHOLExporter extends DHOLExporter {
+class DPIHOLExporter extends DIHOLExporter {
   override val priority: Int = 5
-  override val theoryPath: info.kwarc.mmt.api.MPath = lf.DPHOL._path
+  override val theoryPath: info.kwarc.mmt.api.MPath = lf.DPIHOL._path
 
   /**
    *
