@@ -21,7 +21,7 @@ import lf.SFOLEQ.notequal
 import lf.TypedEquality.tequal
 import lf.TypedExistentialQuantification.texists
 import lf.TypedUniversalQuantification.tforall
-import lf.{DependentConjunction, DependentFunctionTypes, DependentFunctions, DependentImplication, Falsity, InternalPropositions, SimpleFunctionTypes, Truth, TypedEquality, TypedTerms}
+import lf.{DependentConjunction, DependentFunctionTypes, DependentFunctions, DependentImplication, Falsity, Booleans, SimpleFunctionTypes, Truth, TypedEquality, TypedTerms}
 import info.kwarc.mmt.api
 import info.kwarc.mmt.api.checking.{History, InferenceAndTypingRule, InferenceRule, Solver, TypeBasedEqualityRule}
 import info.kwarc.mmt.api.objects.Conversions.localName2OMV
@@ -88,7 +88,7 @@ class DIHOLExporter extends logicExporter {
             case Some((dependentArgs, ret)) =>
               pathMap ::= (path, translated_fun_name(name))
               ret match {
-                case lf.InternalPropositions.bool(()) => predDecls ::= (path, dependentArgs.last)
+                case lf.Booleans.bool(()) => predDecls ::= (path, dependentArgs.last)
                 case _ => ()
               }
               val funDecl = THFAnnotated(type_decl_name(name), "type",
@@ -202,7 +202,7 @@ class DIHOLExporter extends logicExporter {
 		  // possible since we remove tm @ _ from terms
 		  case DependentFunctionTypes.depfun(f, arg) => translate_term(ApplySpine(f, arg))
 
-		  case InternalPropositions.bool.term => THFBool
+		  case Booleans.bool.term => THFBool
 		  //TODO: Add term -> $i
 		  // TODO: product types, etc. still needed
 
@@ -297,6 +297,7 @@ class DIHOLExporter extends logicExporter {
     case TypedTerms.tm(tp) => translate_type(tp)
     case ApplySpine(tp, _) => translate_type(tp)
     case OMS(gn) => THFOMS(translated_type_path(gn).path)
+    case _ => ???
   }
 
   def typing_pred(t:Term, x:Term): THF.Formula = {
@@ -311,16 +312,16 @@ class DIHOLExporter extends logicExporter {
       x == true || x == false           if t == x
       true                              if t == c for a boolean constant (including true and false)
        */
-      case lf.InternalPropositions.bool(()) => x match {
+      case lf.Booleans.bool(()) => x match {
         case lf.TypedEquality.tequal(tp, r, s) => THFAnd(typing_pred(tp, r), typing_pred(tp, s))
         case lf.Implication.impl(r, s) => THFAnd(typing_pred(t, r), THFImpl(translate_term(r), typing_pred(t, s)))
         case tforall((ty, Lambda(v, _, body))) =>
           val ass = typing_pred(ty, OMV(v))
-          val tpconcl = typing_pred(lf.InternalPropositions.bool, body)
+          val tpconcl = typing_pred(lf.Booleans.bool, body)
           THFUniv(translate_var_name(v), translate_type(ty), THFImpl(ass, tpconcl))
         case texists((ty, Lambda(v, _, body))) =>
           val ass = typing_pred(ty, OMV(v))
-          val tpconcl = typing_pred(lf.InternalPropositions.bool, body)
+          val tpconcl = typing_pred(lf.Booleans.bool, body)
           THFExist(translate_var_name(v), translate_type(ty), THFAnd(ass, tpconcl))
         case ApplySpine(OMS(a), args) =>
           val argsTr = (args:+x).map(translate_term)
@@ -356,7 +357,7 @@ object DHOLExporterUtil {
     dependentArgs
   }
   def unapplyDepFun(tm: Term)(implicit ctx: Context = Context.empty) : Option[(Context, Term)] = tm match {
-    case lf.DependentFunctionTypes.depfun(tp, Lambda(n, lf.TypedTerms.tm(tp2), x)) if tp == tp2 => unapplyDepFun(x) match {
+    case lf.DependentFunctionTypes.depfun(tp, Lambda(n, lf.TypedTerms.tm(tp2), x)) => unapplyDepFun(x) match {
       case Some((ctx, body)) =>
         val suggestedName = translate_var(n)
         val ln = Context.pickFresh(ctx, suggestedName)._1
@@ -434,12 +435,12 @@ abstract class ConnectiveTypingRule(path: GlobalName) extends InferenceRule(path
   def apply(solver: Solver)(tm: Term, covered: Boolean)(implicit stack: Stack, history: History): (Option[Term]) = tm match {
     case lf.Implication.impl(a, b) =>
       if (!covered) {
-        val aTyped = solver.check(Typing(stack, a, lf.InternalPropositions.bool))(history + "Checking first argument of dependent implication.")
+        val aTyped = solver.check(Typing(stack, a, lf.Booleans.bool))(history + "Checking first argument of dependent implication.")
         if (aTyped) {
-          solver.check(Typing(stack ++ OMV.anonymous % lf.Proofs.ded(a), b, InternalPropositions.bool))(history + "Checking second argument of dependent implication.")
+          solver.check(Typing(stack ++ OMV.anonymous % lf.Proofs.ded(a), b, Booleans.bool))(history + "Checking second argument of dependent implication.")
         }
       }
-      Some(InternalPropositions.bool)
+      Some(Booleans.bool)
   }
 }
 

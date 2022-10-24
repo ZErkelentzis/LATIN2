@@ -18,8 +18,8 @@ theory RestrictionExample : latin:/?DPHOL =
     
     t1p: {x:tm N2} ⊦ p (makePair @ (proj1 @ x) @ 0) ❘ = PROVE ❙
     t2p: {x:tm N2} ⊦ p (makePair @ (add @ (proj1 @ x) @ (proj2 @ x)) @ 0) ❘ = PROVE ❙
-    t1: Πͭ [x:tm N2] S ❘ = λ [x] (makePair @ (proj1 @ x) @ 0) ↓ (t1p x) ❙
-    t2: Πͭ [x:tm N2] S ❘ = λ [x] (makePair @ (add @ (proj1 @ x) @ (proj2 @ x)) @ 0) ↓ (t2p x) ❙
+    t1: tm Πͭ [x:tm N2] S ❘ = λ [x] (makePair @ (proj1 @ x) @ 0) ↓ (t1p x) ❙
+    t2: tm Πͭ [x:tm N2] S ❘ = λ [x] (makePair @ (add @ (proj1 @ x) @ (proj2 @ x)) @ 0) ↓ (t2p x) ❙
     
     f: tm Πͭ [phi:tm Πͭ [y:tm S] N2] Πͭ [y:tm N2] N2 
     	❘ = λ [phi] λ [y] makePair @ (proj1 @ (phi @ (t1 @ y))) @ 0 ❙

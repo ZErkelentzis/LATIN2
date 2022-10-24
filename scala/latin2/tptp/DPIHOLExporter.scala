@@ -8,7 +8,7 @@ import info.kwarc.mmt.api.uom.SimplificationUnit
 import info.kwarc.mmt.api.{GeneralError, GlobalName, LocalName, MPath}
 import info.kwarc.mmt.lf._
 import leo.datastructures.TPTP._
-import lf.{InternalPropositions, DependentFunctionTypes, Truth, TypedPredicateSubtypes, TypedTerms}
+import lf.{Booleans, DependentFunctionTypes, Truth, TypedPredicateSubtypes, TypedTerms}
 import info.kwarc.mmt.api.checking.{History, Solver, TypeBasedEqualityRule}
 import latin2.tptp.THFExporterUtil._
 import latin2.tptp.DHOLExporterUtil._
@@ -111,7 +111,7 @@ object ProverBasedPredicateSubtypeEquality extends TypeBasedEqualityRule(Nil, lf
       val domainsMatch = solver.check(j)            // this can use the type based equality rule for DHOL
 
       if (!domainsMatch) return Some(false)
-      val predType = DependentFunctionTypes.depfun(t1, Lambda(LocalName("v"), TypedTerms.tm(t1), InternalPropositions.bool))
+      val predType = DependentFunctionTypes.depfun(t1, Lambda(LocalName("v"), TypedTerms.tm(t1), Booleans.bool))
 
       val predEqJ = Equality(stack, p, q, Some(predType))
       Some(solver.check(predEqJ))
@@ -121,7 +121,7 @@ object ProverBasedPredicateSubtypeEquality extends TypeBasedEqualityRule(Nil, lf
       val domainsMatch = solver.check(j)            // this can use the type based equality rule for DHOL
 
       if (!domainsMatch) return Some(false)
-      val predType = DependentFunctionTypes.depfun(t1, Lambda(LocalName("v"), TypedTerms.tm(t1), InternalPropositions.bool))
+      val predType = DependentFunctionTypes.depfun(t1, Lambda(LocalName("v"), TypedTerms.tm(t1), Booleans.bool))
       val trivPred = Lambda(LocalName("v"), TypedTerms.tm(t2), Truth._true)
 
       val predEqJ = Equality(stack, p, trivPred, Some(predType))
@@ -132,7 +132,7 @@ object ProverBasedPredicateSubtypeEquality extends TypeBasedEqualityRule(Nil, lf
       val domainsMatch = solver.check(j)            // this can use the type based equality rule for DHOL
 
       if (!domainsMatch) return Some(false)
-      val predType = DependentFunctionTypes.depfun(t1, Lambda(LocalName("v"), TypedTerms.tm(t1), InternalPropositions.bool))
+      val predType = DependentFunctionTypes.depfun(t1, Lambda(LocalName("v"), TypedTerms.tm(t1), Booleans.bool))
       val trivPred = Lambda(LocalName("v"), TypedTerms.tm(t1), Truth._true)
 
       val predEqJ = Equality(stack, trivPred, q, Some(predType))

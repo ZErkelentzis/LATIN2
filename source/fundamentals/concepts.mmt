@@ -94,9 +94,14 @@ theory KindedTypes =
    
    Extending languages can be soft-typed but are usually hard-typed, most importantly higher-order logic.
 ❚
-theory InternalPropositions =
+
+theory Booleans =
   include ?TypedTerms❙
   bool: tp❙
+  ❚
+
+theory InternalPropositions =
+  include ?Booleans❙
   realize ?Propositions❙
   prop = tm bool❙
 ❚

@@ -21,7 +21,7 @@ import lf.SFOLEQ.notequal
 import lf.TypedEquality.tequal
 import lf.TypedExistentialQuantification.texists
 import lf.TypedUniversalQuantification.tforall
-import lf.{DependentConjunction, DependentFunctionTypes, DependentFunctions, DependentImplication, Falsity, InternalPropositions, SimpleFunctionTypes, Truth, TypedEquality, TypedTerms}
+import lf.{DependentConjunction, DependentFunctionTypes, DependentFunctions, DependentImplication, Falsity, Booleans, SimpleFunctionTypes, Truth, TypedEquality, TypedTerms}
 import info.kwarc.mmt.api
 import info.kwarc.mmt.api.checking.{History, InferenceAndTypingRule, InferenceRule, Solver, TypeBasedEqualityRule}
 import info.kwarc.mmt.api.objects.Conversions.localName2OMV
@@ -66,14 +66,15 @@ class DHOLExporter extends DIHOLExporter {
 
         val name = path.name
 
-        val declTranslated = simplifiedTp match {
+        val declTranslated: Unit = simplifiedTp match {
           case TypedTerms.tm(DependentFunctionTypes.depfun(s, t)) => unapplyDepFun(DependentFunctionTypes.depfun(s, t)) match { // declaration of function
             case Some((dependentArgs, ret)) =>
               pathMap ::= (path, translated_fun_name(name))
-              if (ret == TypedTerms.tm(InternalPropositions.bool)) {
+              if (ret == TypedTerms.tm(Booleans.bool)) {
                 theoryPredsList.::=(OMS(path), dependentArgs)
               }
           }
+          case _ =>
         }
         super.translate_decl(path, tpO, dfO, ctx)
     }
@@ -96,7 +97,7 @@ class DHOLExporter extends DIHOLExporter {
 
   def addToPredicatesIfApplicable(tm:Term, tp:Term, contextPred: Boolean = true): Unit = {
     val FunType(args, ret) = tp
-    if (ret == TypedTerms.tm(InternalPropositions.bool))
+    if (ret == TypedTerms.tm(Booleans.bool))
 			if (contextPred) {		
     		predsList.::=(tm, argContext(args))
         val simplicationUnit = SimplificationUnit(Context.empty, expandConDefs = true, expandVarDefs = true, fullRecursion = true)
@@ -111,7 +112,7 @@ class DHOLExporter extends DIHOLExporter {
         simplifiedTp match {
           case TypedTerms.tm(DependentFunctionTypes.depfun(s, t)) => unapplyDepFun(DependentFunctionTypes.depfun(s, t)) match { // declaration of function
             case Some((dependentArgs, ret)) if dependentArgs.variables.nonEmpty =>
-              if (ret == TypedTerms.tm(InternalPropositions.bool)) {
+              if (ret == TypedTerms.tm(Booleans.bool)) {
                 throw UNSUPPORTED("Cannot quantify over type " + controller.presenter.asString(simplifiedTp) + " in DHOL.")
               }
           }
@@ -148,7 +149,7 @@ class DHOLExporter extends DIHOLExporter {
 
   override def typing_pred(t:Term, x:Term): THF.Formula = {
     t match {
-      case InternalPropositions.bool(()) => x match {
+      case Booleans.bool(()) => x match {
         case ApplySpine(OMS(p), args) =>
           def addDisjunct(currentForm: THF.Formula, nextPred: (Term, Context)) = {
             val (pred, argCon) = nextPred

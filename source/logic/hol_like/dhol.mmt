@@ -24,7 +24,6 @@ theory InternalBooleanExtensionality =
   include ?Truth ❙
   include ?Falsity ❙
   
-  boolext : {F} ⊦ F ⊤ ⟶ ⊦ F ⊥ ⟶ {x:prop} ⊦ F x❘# boolext 1 2 3 4❙
   include ?DependentFunctionsExtensionality❙
 ❚
 
@@ -48,8 +47,9 @@ theory DIHOL =
 theory DHOL =
   include ?DIHOL ❙
   
-  include ?InternalBooleanExtensionality❙
-  exten2: {A:tp,B:{x:tm A} tp} ⊦ ∀ͭ[f:tm Πͭ [x:tm A] B x] ∀ͭ[g:tm Πͭ [x:tm A] B x]
+  include ?BooleanExtensionality❙
+  include ?DependentFunctionsExtensionality ❙
+  // exten2: {A:tp,B:{x:tm A} tp} ⊦ ∀ͭ[f:tm Πͭ [x:tm A] B x] ∀ͭ[g:tm Πͭ [x:tm A] B x]
     	∀ͭ[x:tm A] (f @ x =ͭ g @ x) ⇒ͩ [p] f =ͭ g ❙
 ❚
 

@@ -2,15 +2,15 @@ namespace latin:/❚
 
 fixmeta latin:/?SFOLEQND❚
 
-theory Booleans =
-  bool: tp❙
-  tt: tm bool❙
+theory TrueFalse =
+	include ?Booleans ❙
+	tt: tm bool❙
   ff: tm bool❙
   bool_nontrivial : ⊦ ¬ ff =ͭ tt❙
 ❚
 
 theory BooleanExtensionality =
-   include ?Booleans❙
+   include ?TrueFalse❙
    
    boolext : {F} ⊦ F tt ⟶ ⊦ F ff ⟶ {x:tm bool} ⊦ F x❘# boolext 1 2 3 4❙
 
