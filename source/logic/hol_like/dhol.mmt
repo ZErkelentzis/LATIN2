@@ -46,19 +46,11 @@ theory DIHOL =
 
 /T HOL with pi-types and predicate subtypes ❚
 theory DHOL =
-	/T for this and the next include: 
-	This includes the theory Propositions and hence includes a type of propositions
-	However this type should just be tm bool
-	But this applies also for other parts of LATIN2, including HOL itself
-	TODO: Check if this is ok ❙
-  include ?DependentLogic ❙
-
-  include ?ISFOL❙
+  include ?DIHOL ❙
   
   include ?InternalBooleanExtensionality❙
   exten2: {A:tp,B:{x:tm A} tp} ⊦ ∀ͭ[f:tm Πͭ [x:tm A] B x] ∀ͭ[g:tm Πͭ [x:tm A] B x]
     	∀ͭ[x:tm A] (f @ x =ͭ g @ x) ⇒ͩ [p] f =ͭ g ❙
-  rule rules?ProverBasedTypeEquality ❙
 ❚
 
 theory DHOLND =

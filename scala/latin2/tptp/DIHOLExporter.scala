@@ -5,7 +5,7 @@ import info.kwarc.mmt.api.modules.Theory
 import info.kwarc.mmt.api.objects.Context.{context2list, makeFresh}
 import info.kwarc.mmt.api.objects._
 import info.kwarc.mmt.api.uom.SimplificationUnit
-import info.kwarc.mmt.api.{ContentPath, GeneralError, GlobalName, ImplementationError, LocalName, MPath}
+import info.kwarc.mmt.api.{GeneralError, GlobalName, LocalName, MPath}
 import info.kwarc.mmt.lf._
 import latin2.sfol.SFOLPatterns.TypeDecl
 import leo.datastructures.TPTP.Comment.{CommentFormat, CommentType}
@@ -88,7 +88,7 @@ class DIHOLExporter extends logicExporter {
             case Some((dependentArgs, ret)) =>
               pathMap ::= (path, translated_fun_name(name))
               ret match {
-                case lf.Booleans.bool(()) => predDecls ::= (path, dependentArgs.last)
+                case lf.InternalPropositions.bool(()) => predDecls ::= (path, dependentArgs.last)
                 case _ => ()
               }
               val funDecl = THFAnnotated(type_decl_name(name), "type",
@@ -311,16 +311,16 @@ class DIHOLExporter extends logicExporter {
       x == true || x == false           if t == x
       true                              if t == c for a boolean constant (including true and false)
        */
-      case lf.Booleans.bool(()) => x match {
+      case lf.InternalPropositions.bool(()) => x match {
         case lf.TypedEquality.tequal(tp, r, s) => THFAnd(typing_pred(tp, r), typing_pred(tp, s))
         case lf.Implication.impl(r, s) => THFAnd(typing_pred(t, r), THFImpl(translate_term(r), typing_pred(t, s)))
         case tforall((ty, Lambda(v, _, body))) =>
           val ass = typing_pred(ty, OMV(v))
-          val tpconcl = typing_pred(lf.Booleans.bool, body)
+          val tpconcl = typing_pred(lf.InternalPropositions.bool, body)
           THFUniv(translate_var_name(v), translate_type(ty), THFImpl(ass, tpconcl))
         case texists((ty, Lambda(v, _, body))) =>
           val ass = typing_pred(ty, OMV(v))
-          val tpconcl = typing_pred(lf.Booleans.bool, body)
+          val tpconcl = typing_pred(lf.InternalPropositions.bool, body)
           THFExist(translate_var_name(v), translate_type(ty), THFAnd(ass, tpconcl))
         case ApplySpine(OMS(a), args) =>
           val argsTr = (args:+x).map(translate_term)
@@ -434,12 +434,12 @@ abstract class ConnectiveTypingRule(path: GlobalName) extends InferenceRule(path
   def apply(solver: Solver)(tm: Term, covered: Boolean)(implicit stack: Stack, history: History): (Option[Term]) = tm match {
     case lf.Implication.impl(a, b) =>
       if (!covered) {
-        val aTyped = solver.check(Typing(stack, a, lf.Booleans.bool))(history + "Checking first argument of dependent implication.")
+        val aTyped = solver.check(Typing(stack, a, lf.InternalPropositions.bool))(history + "Checking first argument of dependent implication.")
         if (aTyped) {
-          solver.check(Typing(stack ++ OMV.anonymous % lf.Proofs.ded(a), b, lf.Booleans.bool))(history + "Checking second argument of dependent implication.")
+          solver.check(Typing(stack ++ OMV.anonymous % lf.Proofs.ded(a), b, InternalPropositions.bool))(history + "Checking second argument of dependent implication.")
         }
       }
-      Some(lf.Booleans.bool)
+      Some(InternalPropositions.bool)
   }
 }
 

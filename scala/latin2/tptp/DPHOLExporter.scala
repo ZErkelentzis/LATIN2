@@ -1,15 +1,11 @@
 package latin2.tptp
 
 import info.kwarc.mmt.api.frontend.Controller
-import info.kwarc.mmt.api.modules.Theory
-import info.kwarc.mmt.api.objects.Context.{context2list, makeFresh}
 import info.kwarc.mmt.api.objects._
 import info.kwarc.mmt.api.uom.SimplificationUnit
-import info.kwarc.mmt.api.{GeneralError, GlobalName, LocalName, MPath}
-import info.kwarc.mmt.lf._
+import info.kwarc.mmt.api.{GeneralError, GlobalName, MPath}
 import leo.datastructures.TPTP._
-import lf.{Booleans, DependentFunctionTypes, Truth, TypedPredicateSubtypes, TypedTerms}
-import info.kwarc.mmt.api.checking.{History, Solver, TypeBasedEqualityRule}
+import lf.{TypedPredicateSubtypes, TypedTerms}
 import latin2.tptp.THFExporterUtil._
 import latin2.tptp.DHOLExporterUtil._
 

@@ -148,7 +148,7 @@ class DHOLExporter extends DIHOLExporter {
 
   override def typing_pred(t:Term, x:Term): THF.Formula = {
     t match {
-      case lf.Booleans.bool(()) => x match {
+      case InternalPropositions.bool(()) => x match {
         case ApplySpine(OMS(p), args) =>
           def addDisjunct(currentForm: THF.Formula, nextPred: (Term, Context)) = {
             val (pred, argCon) = nextPred
