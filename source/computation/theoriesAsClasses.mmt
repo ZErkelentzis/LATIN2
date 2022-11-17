@@ -30,7 +30,7 @@ theory TheoriesAsClasses =
     rule rules?NewRun ❙
     rule rules?NewInstance❙
     
-     field    # 1 . 2❙
+     field    # 1 . L2❙
     rule rules?FieldRun ❙
     rule rules?FieldInstance ❙
  ❚
@@ -38,6 +38,8 @@ theory TheoriesAsClasses =
 
  
  theory instanceMeta =
-     // the meta-level type of all instances❙
+     // the meta-level type of all instances
+     This has to be separate due to part of this being expressable in LF, while the above are not LF terms
+     ❙
     anyInstance :  type❙
   ❚

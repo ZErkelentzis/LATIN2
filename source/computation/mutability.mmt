@@ -7,6 +7,9 @@ fixmeta ur:?PLF❚
 theory MutableVariables = 
 	include ?UnitType ❙
 	rule rules?DeclareRun❙
+    rule rules?AssignmentRun❙
+
     declare: {a:type ,b : type} a ⟶ (a⟶b) ⟶b ❘# var 3  4 ❙
-     assign : {a : type} a ⟶ a ⟶ tm unitType ❘ # 2 = 3 ❙
+    assign : {a : type} a ⟶ a ⟶ tm unitType ❘ # 2 = 3 prec -1 ❙
+
 ❚

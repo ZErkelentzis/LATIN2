@@ -15,12 +15,12 @@ theory VectorComputation =
 
 theory ListComputation = 
      include ?Types❙
-     include ?Nat❙
+     include ?NatPlusTimes❙
      include ?OptionTypes ❙
 
 	list : tp ⟶ tp ❘ # list 1 ❙
 	empty : {a} tm (list a) ❘ # empty 1❙
-	rule rules?emptyRun❙
+	// rule rules?emptyRun❙
 	cons : {a} tm a ⟶ tm (list a) ⟶ tm (list a) ❘ # cons 2 3 ❙
 	rule rules?consRun ❙
 	

@@ -7,7 +7,7 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/export/lf-scala" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/scala" isTestSource="false" />
-      <excludeFolder url="file://$MODULE_DIR$/scala/latin2/computation" />
+      <excludeFolder url="file://$MODULE_DIR$/scala/latin2/tptp" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -19,5 +19,6 @@
     <orderEntry type="library" name="scala-2.13" level="project" />
     <orderEntry type="module" module-name="scala-tptp-parser" />
     <orderEntry type="module" module-name="Leo III" />
+    <orderEntry type="library" name="sbt: org.scala-lang:scala-library:2.13.4:jar" level="project" />
   </component>
 </module>

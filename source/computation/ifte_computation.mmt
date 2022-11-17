@@ -8,7 +8,7 @@ theory IfteOps =
      include ?UnitType ❙
 	include ?IfThenElse ❙ 
 	 // ifte : {a : type} tm bool ⟶ a ⟶ a ⟶ a ❘ // # if 2 then 3 else 4 ❙
-	 // ifonesided :  prop ⟶ tm unitType ⟶  tm unitType ❘= [cond] [ifbranch ] if cond then ifbranch else unit ❘// # if 1 then 2❙ 
+	 // ifonesided :  prop ⟶ tm unitType ⟶  tm unitType ❘// = [cond] [ifbranch ] if cond then ifbranch else unit ❘// # if 1 then 2❙ 
    	 rule rules?IfRun ❙
 ❚
 

@@ -20,11 +20,16 @@ theory CF =
     include ?TheoriesAsClasses ❙
     include ?ListComputation ❙
     include ?UnsafeOptions ❙
+    /T This is the core rule that "fixes" beta-reduction to also maintain side effects.
+    If we don't do this, beta-reduction would e.g. move mutable variables to the leaves rather than executing them.
+    ❙
+    rule rules?BetaRun ❙
 
    minus: ℕ ⟶ ℕ ⟶ ℕ❘ # 1 - 2❙
    rule rules?MinusRun ❙
    times : ℕ⟶ℕ⟶ℕ ❘# 1 * 2 ❙
-
+   plus : ℕ ⟶ ℕ ⟶ℕ ❘ # 1 + 2 prec 10 ❙
+   rule rules?PlusRun ❙
 
    ge: ℕ ⟶ ℕ ⟶  prop❘ # 1 > 2 ❙
    rule rules?GeRun ❙
@@ -36,8 +41,11 @@ theory CF =
    // var 17 [ x ] ( x = 18; print x; x = 0; print x) ❙
    // rule rules?DeclareTerm❙
 
-   rule rules?AssignmentRun❙
-   rule lfRules?Realize plus uom?Arithmetic/Plus❙
+   rule lfRules?Realize ℕ uom?StandardNat❙
+   rule lfRules?Realize zero uom?Arithmetic/Zero❙
+   // rule lfRules?Realize succ uom?Arithmetic/Succ❙
+   // rule lfRules?Realize plus uom?Arithmetic/Plus❙
+   // rule rules?tmVariance ❙
    ex : tm exception ❙
 
    len : {a}tm (list a) ⟶ ℕ ❘ = [a] [x] fold 0 ([count] [elem] count+1)  x ❘# len 2❙
@@ -45,58 +53,75 @@ theory CF =
    			[start] [end] [body] var start [i](
    					while (end > i) do (
    						body i;
-   						(i = i + 1)
+   						i = i + 1
    					)
    				)  ❘ # for 1 to 2 do 3❙
-	range : ℕ ⟶ tm (list nat) ❘= [size]
-		var (empty nat) [ls]
+	range : ℕ ⟶ tm (list num) ❘= [size]
+		var (empty num) [ls]
 			for 0 to (size+1) do ([i] 
 						ls = cons (size-i) ls
 					)
 			; ls
 	❙	
-	rule rules?tmVariance ❙
-    append : {a} tm (list a) ⟶tm (list a) ⟶tm (list a) ❘   = 
+	getU : {a: tp} tm list a ⟶ ℕ ⟶ tm a ❘ = [a] [ls] [idx] !!(get ls idx ) ❘ # getU 2 3 ❙
+    // append : {a} tm (list a) ⟶tm (list a) ⟶tm (list a) ❘  // = 
    		[a] [fst] [snd]
-		var snd [running] ( (
+		var snd [running: tm (list a)] ( (
 		for 1 to (len fst) +1 do
-			([i] running = cons (!!(get fst ((len fst) - i))) running)
+			([i] running = cons (getU fst ((len fst) - i)) running)
 		)
-		 ; running) ❘ # append 2 3❙
-	head : {a} tm (list a) ⟶ tm a ❘= [a] [x] !!(get x 0) ❘# head 2 ❙
+		 ; running) ❘ // # append 2 3❙
+		 snoc : {a} tm a ⟶ tm (list a) ⟶ tm (list a) ❘# snoc 2 3❙
+		 tail : {a} tm (list a) ⟶ tm (list a) ❘ = [a] [ls] drop 1 ls❘ # tail 2❙
+		 head : {a} tm (list a) ⟶ tm a ❘= [a] [x] !!(get x 0) ❘# head 2 ❙
+		 snoc_def : (snoc) ↦  [p] [a] [b] 
+		 		if (len b > 0) then(
+		 				cons (head b) (snoc a (tail b))
+		 		)else(
+		 				cons a (empty p)
+		 		)❙
+		 append: {a} tm (list a) ⟶tm (list a) ⟶tm (list a) ❘ # append 2 3 ❙
+		 append_def : (append) ↦ [a] [fst] [snd]
+		 		if (len fst > 0) then( 
+		 			cons (head fst) (append (tail fst) snd)
+		 		)else(
+		 			snd
+				)❙
 	
-
 	
-	insertIntoList : tm (list nat) ⟶ ℕ ⟶ tm (list nat) ❘ = [x] [elem]  
+	insertIntoList : tm (list num) ⟶ ℕ ⟶ tm (list num) ❘ = [x] [elem]  
 	var x[first_half]
-		 var (empty nat) [second_half]
-		 var true [picked]
-		 (for 0 to len(x) do [i]
-				if (((!!get x i) > elem) ∧ picked) then(
-					(first_half = take i x);
-					(second_half = drop i x);
-					(picked = false)	) else unit
-		); append ( first_half) (cons elem second_half) ❙
+		 var (empty num) [second_half]
+		 var true [picked](
+		 	for 0 to len(x) do [i]
+				if (((getU x i) > elem) ∧ picked) then(
+					first_half = take i x;
+					second_half = drop i x;
+					picked = false
+				)else(
+						unit
+				)
+		); 
+		append (first_half) (cons elem second_half) ❙
 		
-		sort : tm (list nat) ⟶ tm (list nat) ❘ = [ls]
+		sort : tm (list num) ⟶ tm (list num) ❘ = [ls]
 				var ls [tmp]
-				var (empty nat) [output]
+				var (empty num) [output]
 						for 0 to len(ls) do ([i]
-								(output = insertIntoList output (head tmp));
-								(tmp = drop 1 tmp)
+								output = insertIntoList output (head tmp);
+								tmp = tail tmp
 						);
 						output
 		❙
 ❚
 theory Counter : ?CF =
   value: ℕ❙
-   // add: nat ⟶ Unit❘// = [n] counter = counter + n❙
 ❚
 
 theory Program : ?CF =
   include ?Booleans ❙ 
-  include ?Counter ❙
-
+  // include ?Counter ❙
+   
   // realize ?Propositions ❙
   // prop = tm bool ❙
   // realize ?Truth ❙
@@ -105,9 +130,9 @@ theory Program : ?CF =
   // false = ff ❙
   //  : tm (typedInstances  ?Counter)⟶ℕ❘ ❙
   // init   = [x] ((x . value) = 25; print 1)  ❙
-  fieldTest  :  tm (typedInstances  ?Counter) ⟶ tm unitType  ❘ = [x] x . value = 64 ❙
-  simpleTaC = (new ?Counter fieldTest) . value  ❙
-  complexTaC = var (new ?Counter fieldTest) [tmp]
+    fieldTest  :  tm (typedInstances  ?Counter) ⟶ tm unitType  ❘ = [x] x . value = 64 ❙
+    simpleTaC = (new ?Counter fieldTest) . value  ❙
+   complexTaC = var (new ?Counter fieldTest) [tmp]
 	  (tmp . value =11);
   	  print(tmp.value) ❙
    // fakeTaC = var (new ?Counter ([x] unit)) [tmp]
@@ -115,34 +140,30 @@ theory Program : ?CF =
   	  print(tmp.value) ❙
   main  = print zero❙
   one = succ zero ❙
+  test_add = 55 + 25 + 6 ❙
   mainInt = print(zero + one) ; print(one + one)❙
   mainIFTE : ℕ⟶ℕ⟶ tm unitType ❘# prec 1000 ❙
   mainIFTE_def :  (mainIFTE  ↦  [m : ℕ] [ n : ℕ ] print(m) ) ❘role Execute❙
  //  tmp = mainIFTE one (one + one + one) ❙
- 	test_list : tm (list nat) ❘= cons 1 cons 3 cons 8 cons 54 cons 4 cons 0 cons 9 cons 5 cons 2 (cons 3 (empty nat) ) ❙
+ 	test_list : tm (list num) ❘= cons 77 cons 3 cons 8 cons 54 cons 4 cons 0 cons 9 cons 5 cons 2 (cons 3 (empty num) ) ❙
  	test_len = len test_list ❙
  	test_get = print ( get test_list 1); print (get test_list 100) ❙
  	foldOpt :  {a} tm (option a) ⟶ ℕ❘ = [a] [opt] fold 55 ([x : tm a] 64) opt ❘ # foldOpt 2 ❙
- 	test_foldOption = print (foldOpt (get test_list 1)); print (foldOpt (get test_list 100)) ❙
-
+ 	// test_foldOption = print (foldOpt (get test_list 1)); print (foldOpt (get test_list 100)) ❙
    // test recursion ❙
    fibonacci :  ℕ ⟶ ℕ ❙
    fibonacci_def :  fibonacci ↦ [depth] if (depth > 1) then (fibonacci (depth - 1) + fibonacci (depth - 2)) else 1 ❘role Execute❙
    mainFibonacci = print (fibonacci 16) ❙
-   
-   // typechecking doesn't work because of the lack of subtyping, but execution already does ❙
-   // mainException = try (throw ex) catch ([ x ] 1) ❙
-
+   mainException = try (throwE ex) catch ([ x ] 1) ❙
+    test_subtype : ℕ ❘  = throwE ex ❙
    // greater than ❙
    greaterThan : ℕ⟶ ℕ⟶ tm bool❙
    greaterThan_def : greaterThan ↦ [ m ] [ n ] if (n ≐ 0) then  (if (m ≐ 0) then ff else tt) else (greaterThan (m - 1) (n - 1) ) ❙
-   
    test_range = range 15 ❙
-   
-   append_test = append test_range test_list ❙
-   insert_into_list_test = insertIntoList test_range 0 ❙
+   append_test : tm list num ❘ = append  test_list test_range ❙
+   insert_into_list_test = insertIntoList test_range 8 ❙
 
-   sort_test = sort test_list ❙      
+   sort_test : tm (list num) ❘ = sort test_list ❙      
 
 
   // ls_elem = cons 2 (empty ℕ) ❙
@@ -160,8 +181,7 @@ theory Program : ?CF =
    			y 0; 
    			(y = [p]  print p); 
    			y 12
-   		) ❙
-
+   		) ❙     
    // main6 = var 17 [y] (while( y > 3 ) do (y = (y - 1); print y) )❙
    main4 =  var 17 [x]	(( x=x+one);	print x; (x = zero); print x)❙
 ❚

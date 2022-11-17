@@ -5,8 +5,7 @@ fixmeta ur:?PLF❚
 
 
 theory SequencingOps = 
-	// This theory only really makes sense with mutation for the while-loop ❙
-	include ?MutableVariables ❙
+	// include ?MutableVariables ❙
 	rule rules?SequenceRun❙
-    sequence : {a : type} {b : type} a ⟶b ⟶b ❘ #  3 ;  4❙
+    sequence : {a : type} {b : type} a ⟶b ⟶b ❘ #  3 ;  4 prec -2❙
 ❚
