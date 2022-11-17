@@ -1,0 +1,88 @@
+namespace latin:/❚
+
+fixmeta ?BigSFOL❚
+
+theory ListOperations =
+	include ?Lists❙ 
+	
+	hd : {a} tm List a ⟶ tm a❘# %n 2 prec 40❙
+ 	hd_cons : {a,x: tm a,xs: tm List a} ⊦ hd (list/cons x xs) =ͭ  x❙
+ 	hd_singleton : {a,x: tm a} ⊦ hd list/singleton x =ͭ  x❙
+ 	hd_concat: {a,l, m: tm List a} ⊦ list/is_nonempty l ⟶ ⊦ hd (l concat m) =ͭ hd l❙
+ 
+ 	tl: {a} tm List a ⟶ tm List a❘# %n 2 prec 40❙
+ 	tl_cons : {a,x,xs: tm List a} ⊦ tl (list/cons x xs) =ͭ xs❙
+ 	tl_singleton : {a,x: tm a} ⊦ tl list/singleton x =ͭ nil❙
+  tl_concat: {a,l, m: tm List a} ⊦ list/is_nonempty l ⟶ ⊦ tl (l concat m) =ͭ ((tl l) concat  m)❙
+ 
+  snoc: {a} tm List a ⟶ tm a ⟶ tm List a❘# %n 2 3 prec 50❙
+  snoc_nil : {a,x: tm a} ⊦ snoc nil x =ͭ list/singleton x❙
+  snoc_cons : {a, y,x,xs: tm List a} ⊦ snoc (list/cons x xs) x =ͭ list/cons x (snoc xs y)❙
+  snoc_singleton : {a,y,x: tm a} ⊦ snoc (list/singleton x) y =ͭ list/cons x (list/singleton y)❙
+  snoc_op : {a,y,l, m: tm List a} ⊦ snoc (l concat m) y =ͭ l concat (snoc m y)❙
+
+	rev: {a} tm List a ⟶ tm List a❘# %n 2 prec 30❙
+	rev_nil: {a} ⊦ rev (list/empty a) =ͭ nil❙
+  rev_cons: {a,x,xs: tm List a} ⊦ rev (list/cons x xs) =ͭ snoc (rev xs) x❙ 
+  rev_singleton : {a,x: tm a} ⊦ rev (list/singleton x) =ͭ list/singleton x❙
+  rev_concat: {a,l, m: tm List a} ⊦ rev (l concat m) =ͭ (rev m) concat (rev l)❙
+
+  drop: {a} tm List a ⟶ ℕ ⟶ tm List a❘# %n 2 3 prec 50❙ 
+  drop_zero : {a,xs: tm List a} ⊦ drop xs zero =ͭ xs❙
+  drop_succ: {a,n,x,xs: tm List a} ⊦ drop (list/cons x xs) (n') =ͭ drop xs n❙
+  drop_nil : {a,n} ⊦ drop (nil: tm List a) n =ͭ nil ❙
+  drop_singleton : {a,n,x: tm a} ⊦ drop (list/singleton x) n =ͭ nil❙
+ 
+  list_match : {a,b} tm List a ⟶ tm b ⟶ (tm a ⟶ tm List a ⟶ tm b) ⟶ tm b❘
+             # 3 match_list case_nil 4 case_cons 5  prec 50❙
+  list_match_nil: {a,b,nilcase,conscase:tm a ⟶ tm List a ⟶ tm b}  
+  							⊦ nil match_list case_nil nilcase case_cons conscase =ͭ nilcase❙
+  list_match_cons: {a,b,nilcase: tm b,conscase,x,xs:tm List a} 
+  							⊦ (list/cons x xs) match_list case_nil nilcase case_cons conscase =ͭ conscase x xs ❙
+
+  	foldl : {a,b} (tm b ⟶ tm a ⟶ tm b) ⟶ tm b ⟶ tm List a ⟶ tm b❘# %n 3 4 5 prec 50❙
+  foldl_nil : {a,b,f: tm b ⟶ tm a ⟶ tm b,y}
+            ⊦ foldl f y nil =ͭ y ❙
+  foldl_cons : {a,b,f: tm b ⟶ tm a ⟶ tm b,y,x,xs} 
+  						⊦ foldl f y (list/cons x xs) =ͭ foldl f (f y x) xs ❙
+  foldl_singleton : {a,b,f: tm b ⟶ tm a ⟶ tm b,y,x} 
+  						⊦ foldl f y (list/singleton x) =ͭ f y x❙
+  foldl_concat: {a,b,f: tm b ⟶ tm a ⟶ tm b,y,l, m} 
+  						⊦ foldl f y (l concat m) =ͭ foldl f (foldl f y l) m❙
+
+  foldr : {a,b} (tm a ⟶ tm b ⟶ tm b) ⟶ tm b ⟶ tm List a ⟶ tm b❘# %n 3 4 5 prec 50❙
+  foldr_nil : {a,b,f: tm a ⟶ tm b ⟶ tm b,y} 
+  						⊦ foldr f y nil =ͭ y ❙
+  foldr_cons : {a,b,f: tm a ⟶ tm b ⟶ tm b,y,x,xs} 
+  						⊦ foldr f y (list/cons x xs) =ͭ f x (foldr f y xs) ❙
+  foldr_singleton : {a,b,f: tm a ⟶ tm b ⟶ tm b,y,x} 
+  						⊦ foldr f y (list/singleton x) =ͭ f x y❙
+  foldr_concat: {a,b,f: tm a ⟶ tm b ⟶ tm b,y: tm b,l,m} 
+  						⊦foldr f y (l concat m) =ͭ foldr f (foldr f y m) l❙
+❚
+
+theory ListZip =
+	include ?ListOperations❙  
+	include ?SimpleProducts❙
+  
+  zip : {a,b} tm List a ⟶ tm List b ⟶ tm List a ×ͭ b❘# %n 3 4 prec 50❙
+  zip_neutral : {a,b} 
+  						⊦ zip (nil: tm List a) (nil: tm List b) =ͭ nil❙
+  zip_cons : {a,b,x:tm a,xs,y:tm b,ys} 
+  						⊦ zip (list/cons x xs) (list/cons y ys) =ͭ list/cons (x,ͭy) (zip xs ys)❙
+  zip_singleton: {a,b,x:tm a,y: tm b} 
+  						⊦ zip (list/singleton x) (list/singleton y) =ͭ list/singleton (x,ͭy)❙
+  zip_concat: {a,b,l1,m1: tm List a,l2,m2: tm List b} 
+  						⊦ zip (l1 concat m1) (l2 concat m2) =ͭ (zip l1 l2) concat (zip m1 m2)❙
+  						  
+  unzip : {a,b} tm List (a ×ͭ b) ⟶ tm (List a)×ͭ(List b)❘# %n 3 prec 50❙
+  unzip_nil : {a,b} 
+  						⊦ unzip (nil: tm List (a×ͭb)) =ͭ (nil,ͭnil)❙
+  unzip_cons : {a,b,x: tm a, y : tm b, xys: tm List a ×ͭ b} 
+  						⊦ unzip (list/cons (x,ͭy) xys)	=ͭ ([u] (list/cons x (u₁ͭ)),ͭ(list/cons y (u₂ͭ))) (unzip xys)❙
+  unzip_singleton : {a,b,x: tm a, y: tm b}
+  						⊦ unzip list/singleton (x,ͭy) =ͭ (list/singleton x,ͭ list/singleton y)❙
+  unzip_concat : {a,b, xs,ys: tm List a×ͭb} 
+  						⊦ unzip (xs concat ys) =ͭ
+  						  ([u,v:tm (List a)×ͭ(List b)] u₁ͭ concat v₁ͭ ,ͭ u₂ͭ concat v₂ͭ) (unzip xs) (unzip ys)❙
+❚

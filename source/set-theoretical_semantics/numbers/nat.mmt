@@ -14,8 +14,6 @@ theory NatZF =
   zero = elem uzero peano_zero❙
   succ = [e] elem (usucc (which e)) (peano_succ uforallE (which e) implE (why e))❙
   
-  successor_injective = _ ❙
-
   peano_induction : {P} ⊦ P zero ⟶ ({m} ⊦ P m ⟶ ⊦ P (succ m)) ⟶ {n} ⊦ P n❘
        = [P,p,Q,n] lemma (∀ͧ[x] x∈nats ⇒ (x∈nats ⇒ͩ[q] P (elem x q)))
           (peano_induction

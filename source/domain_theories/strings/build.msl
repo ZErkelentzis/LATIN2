@@ -1,0 +1,4 @@
+file ../../../build_config.msl
+
+//depends on collection types and natural numbers
+build MMT/LATIN2 mmt-omdoc ./strings.mmt

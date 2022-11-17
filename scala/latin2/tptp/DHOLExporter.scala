@@ -23,7 +23,7 @@ import lf.TypedExistentialQuantification.texists
 import lf.TypedUniversalQuantification.tforall
 import lf.{DependentConjunction, DependentFunctionTypes, DependentFunctions, DependentImplication, Falsity, InternalPropositions, SimpleFunctionTypes, Truth, TypedEquality, TypedTerms}
 import info.kwarc.mmt.api
-import info.kwarc.mmt.api.checking.{History, Solver, TypeBasedEqualityRule}
+import info.kwarc.mmt.api.checking.{History, InferenceAndTypingRule, InferenceRule, Solver, TypeBasedEqualityRule}
 import info.kwarc.mmt.api.objects.Conversions.localName2OMV
 import latin2.tptp.DHOLExporterUtil._
 import latin2.tptp.THFExporterUtil._
@@ -36,6 +36,10 @@ class DHOLExporter extends logicExporter {
 
   var pathMap: List[(GlobalName, String)] = Nil
   var predDecls: List[(GlobalName, VarDecl)] = Nil
+	
+  var predsList: List[(Term, Context)] = Nil
+  var theoryPredsList: List[(Term, Context)] = Nil
+	private allPredsList: List[(Term, Context)] = theoryPredsList++predsList
 
   /**
    *
@@ -47,75 +51,106 @@ class DHOLExporter extends logicExporter {
    * @precondition We need to call this method on the declaration in the theory in the order in which they appear in it
    * @return the translation of the declaration
    */
-  def translate_decl(path: GlobalName, tpO: Option[Term], df: Option[Term], ctx: Context)(implicit ctrl: Controller): List[THFAnnotated] = {
-    val Some(tp) = tpO
-    val simplicationUnit = SimplificationUnit(Context(path.module), expandConDefs = true, expandVarDefs = true, fullRecursion = true)
-    val simplifiedTp = try {
-      ctrl.simplifier(tp, simplicationUnit)
-    } catch {
-      // this shouldn't happen, but it makes more sense to continue anyways, as simplifying is not really necessary
-      // TODO: add some error handling
-      case e: GeneralError => tp
+  def translate_decl(path: GlobalName, tpO: Option[Term], dfO: Option[Term], ctx: Context)(implicit ctrl: Controller): List[THFAnnotated] = {
+    ctx.variables .filter (_.tp.isDefined) .foreach {
+      vd => addToPredicatesIfApplicable(vd.toTerm, vd.tp.get, false)
     }
-
-    val name = path.name
-
-    val declTranslated = simplifiedTp match {
-      case lf.Types.tp.term | Univ(1) | TypeDecl(Nil) =>
-        pathMap ::= (path, translated_type_name(name))
-        pathMap ::= (path, translated_type_name(name))
-        val tpDecl = THFAnnotated(type_decl_name(name), "type", THF.Typing(translated_type_name(name), THFType), None)
-        val predTp = THF.BinaryFormula(FunTyConstructor, translate_type(OMS(path)), THFBool)
-        val tpPred = THFAnnotated(type_pred_decl_name(name), "type",
-          THF.Typing(type_pred_name(name), predTp), None)
-        List(tpDecl, tpPred)
-      case FunType(args, bdy) if (bdy == Univ(1) || bdy == lf.Types.tp.term) && args.nonEmpty =>
-        val dependentArgs = argContext(args)
-        pathMap ::= (path, translated_type_name(name))
-        pathMap ::= (type_pred_path(path), type_pred_name(name))
-        val tpDecl = THFAnnotated(type_decl_name(name), "type",
-          THF.Typing(translated_type_name(name), THFType), None)
-        val translated_args = dependentArgs.map(_.tp.get) :+ OMS(path)
-        val predTp = THFArrow(translated_args map translate_type, THFBool)
-        val tpPred = THFAnnotated(type_pred_decl_name(name), "type",
-          THF.Typing(type_pred_name(name), predTp), None)
-        List(tpDecl, tpPred)
-      case TypedTerms.tm(DependentFunctionTypes.depfun(s, t)) => unapplyDepFun(DependentFunctionTypes.depfun(s, t)) match { // declaration of function
-        case Some((dependentArgs, ret)) =>
-          pathMap ::= (path, translated_fun_name(name))
-          ret match {
-            case lf.Booleans.bool(()) => predDecls ::= (path, dependentArgs.last)
-            case _ => ()
-          }
-          val funDecl = THFAnnotated(type_decl_name(name), "type",
-            THF.Typing(translated_fun_name(name), translate_type(Pi(dependentArgs, ret))), None)
-          val retPred = typing_pred(Pi(dependentArgs, ret), ApplyGeneral(OMS(path), dependentArgs.map(_.toTerm)))
-          lazy val tpAx = THFAnnotated(tp_ax_decl_name(name), "axiom",
-            THF.Logical(retPred), None)
-          List(funDecl, tpAx)
-      }
-      case ftp@ApplyGeneral(OMS(p), args) if pathMap.exists(_._1 == p) =>
-        pathMap ::= (path, translated_fun_name(name))
-        val constDecl = THFAnnotated(type_decl_name(name), "type",
-          THF.Typing(translated_fun_name(name), translate_type(ftp)), None)
-        val retPred = typing_pred(OMS(p), OMS(path))
-        val tpAx = THFAnnotated(tp_ax_decl_name(name), "axiom",
-          THF.Logical(retPred), None)
-        List(constDecl, tpAx)
-      case lf.Proofs.ded(ax) =>
-        val tax = translate_term(ax)
-        List(THFAnnotated(ax_decl_name(name), "axiom", THF.Logical(tax), None))
-      case OMBINDC(binder, context, List(scopes)) if binder.toStr(true) == "unknown" => // this case shouldn't be necessary
-        scopes match {
-          case lf.Proofs.ded(ax) =>
-            val tax = translate_term(ax)
-            List(THFAnnotated(ax_decl_name(name), "axiom", THF.Logical(tax), None))
-          case _ => ???
+    (tpO, dfO) match {
+      case (_, Some(df)) =>
+        definitionSubstituents ::= (path, df)
+        Nil
+      case (Some(tp), None) =>
+        val simplicationUnit = SimplificationUnit(Context(path.module), expandConDefs = true, expandVarDefs = true, fullRecursion = true)
+        val simplifiedTp = try {
+          ctrl.simplifier(tp, simplicationUnit)
+        } catch {
+          // this shouldn't happen, but it makes more sense to continue anyways, as simplifying is not really necessary
+          // TODO: add some error handling
+          case e: GeneralError => tp
         }
-      case _ => ??? // should be impossible
+
+        val name = path.name
+
+        val declTranslated = simplifiedTp match {
+          case lf.Types.tp.term | Univ(1) | TypeDecl(Nil) =>
+            pathMap ::= (path, translated_type_name(name))
+            pathMap ::= (path, translated_type_name(name))
+            val tpDecl = THFAnnotated(type_decl_name(name), "type", THF.Typing(translated_type_name(name), THFType), None)
+            val predTp = THF.BinaryFormula(FunTyConstructor, translate_type(OMS(path)), THFBool)
+            val tpPred = THFAnnotated(type_pred_decl_name(name), "type",
+              THF.Typing(type_pred_name(name), predTp), None)
+            List(tpDecl, tpPred)
+          case FunType(args, bdy) if (bdy == Univ(1) || bdy == lf.Types.tp.term) && args.nonEmpty =>
+            val dependentArgs = argContext(args)
+            pathMap ::= (path, translated_type_name(name))
+            pathMap ::= (type_pred_path(path), type_pred_name(name))
+            val tpDecl = THFAnnotated(type_decl_name(name), "type",
+              THF.Typing(translated_type_name(name), THFType), None)
+            val translated_args = dependentArgs.map(_.tp.get) :+ OMS(path)
+            val predTp = THFArrow(translated_args map translate_type, THFBool)
+            val tpPred = THFAnnotated(type_pred_decl_name(name), "type",
+              THF.Typing(type_pred_name(name), predTp), None)
+            List(tpDecl, tpPred)
+          case TypedTerms.tm(DependentFunctionTypes.depfun(s, t)) => unapplyDepFun(DependentFunctionTypes.depfun(s, t)) match { // declaration of function
+            case Some((dependentArgs, ret)) =>
+              pathMap ::= (path, translated_fun_name(name))
+              if (ret == TypedTerms.tm(InternalPropositions.bool)) {
+                theoryPredsList.::=(OMS(path), dependentArgs)
+              }
+              ret match {
+                case lf.Booleans.bool(()) => predDecls ::= (path, dependentArgs.last)
+                case _ => ()
+              }
+              val funDecl = THFAnnotated(type_decl_name(name), "type",
+                THF.Typing(translated_fun_name(name), translate_type(Pi(dependentArgs, ret))), None)
+              val retPred = typing_pred(Pi(dependentArgs, ret), ApplyGeneral(OMS(path), dependentArgs.map(_.toTerm)))
+              lazy val tpAx = THFAnnotated(tp_ax_decl_name(name), "axiom",
+                THF.Logical(retPred), None)
+              List(funDecl, tpAx)
+          }
+          case TypedTerms.tm(DependentFunctionTypes.depfun(s, t)) => unapplyDepFun(DependentFunctionTypes.depfun(s, t)) match { // declaration of function
+            case Some((dependentArgs, ret)) =>
+              pathMap ::= (path, translated_fun_name(name))
+              if (ret == TypedTerms.tm(InternalPropositions.bool)) {
+                theoryPredsList.::=(OMS(path), dependentArgs)
+              }
+              ret match {
+                case lf.Booleans.bool(()) => predDecls ::= (path, dependentArgs.last)
+                case _ => ()
+              }
+              val funDecl = THFAnnotated(type_decl_name(name), "type",
+                THF.Typing(translated_fun_name(name), translate_type(Pi(dependentArgs, ret))), None)
+              val retPred = typing_pred(Pi(dependentArgs, ret), ApplyGeneral(OMS(path), dependentArgs.map(_.toTerm)))
+              lazy val tpAx = THFAnnotated(tp_ax_decl_name(name), "axiom",
+                THF.Logical(retPred), None)
+              List(funDecl, tpAx)
+          }
+          case TypedTerms.tm(ftp@ApplyGeneral(OMS(p), args)) if pathMap.map(_._1).contains(p) =>
+            pathMap ::= (path, translated_fun_name(name))
+            val constDecl = THFAnnotated(type_decl_name(name), "type",
+              THF.Typing(translated_fun_name(name), translate_type(ftp)), None)
+            val retPred = typing_pred(OMS(p), OMS(path))
+            val tpAx = THFAnnotated(tp_ax_decl_name(name), "axiom",
+              THF.Logical(retPred), None)
+            List(constDecl, tpAx)
+          case FunType(ctxArgs, lf.Proofs.ded(ax)) =>
+            val ctx = argContext(ctxArgs)
+            val ax_body = translate_term(ax)
+            val tax = ctx.variables.foldRight(ax_body)((vd, bdy) =>
+              THFUniv(translate_var_name(vd.name), translate_type(vd.tp.get), bdy))
+            List(THFAnnotated(ax_decl_name(name), "axiom", THF.Logical(tax), None))
+          case OMBINDC(binder, context, List(scopes)) if binder.toStr(true) == "unknown" => // this case shouldn't be necessary
+            scopes match {
+              case lf.Proofs.ded(ax) =>
+                val tax = translate_term(ax)
+                List(THFAnnotated(ax_decl_name(name), "axiom", THF.Logical(tax), None))
+              case _ => ???
+            }
+          case _ => ??? // should be impossible
+        }
+        add_formula_comment(name.toString)
+        declTranslated
     }
-    add_formula_comment(name.toString)
-    declTranslated
   }
 
   /**
@@ -126,34 +161,48 @@ class DHOLExporter extends logicExporter {
    * @param ctrl the controller
    * @return
    */
-  override def translate_var_decl(thy_path: MPath, vd: VarDecl, ctx: Context)(implicit ctrl: Controller): List[AnnotatedFormula] = vd match {
-    case VarDecl(v, None, None, Some(df), _) =>
-      Nil
-    //UNSUPPORTED("Untyped but defined context variables are unsupported by the DHOL exporter.")
-    case VarDecl(v, None, None, dfO, _) =>
-      Nil
-      //UNSUPPORTED("Untyped context variables are unsupported by the DHOL exporter.")
-    case VarDecl(name, None, Some(ded(formula)), _, _) =>
-      List(THFAnnotated(vd.name.toString, "", THF.Logical(translate_term(formula)), None))
-    case VarDecl(v, None, Some(TypedTerms.tm(df@DependentFunctionTypes.depfun(s, t))), _, _) => unapplyDepFun(df) match {
-      case Some((dependentArgs, ret)) =>
-        val funDecl = THFAnnotated(type_decl_name(v), "type",
-          THF.Typing(translate_var(v), translate_type(Pi(dependentArgs, ret))), None)
-        val retPred = typing_pred(Pi(dependentArgs, ret), OMS(thy_path ? translate_var(v)))
-        lazy val tpAx = THFAnnotated(tp_ax_decl_name(v), "axiom",
-          THF.Logical(retPred), None)
-        List(funDecl, tpAx)
+  override def translate_var_decl(thy_path: MPath, vd: VarDecl, ctx: Context)(implicit ctrl: Controller): List[AnnotatedFormula] = {
+    ctx.variables .filter (_.tp.isDefined) .foreach {
+      vd => addToPredicatesIfApplicable(vd.toTerm, vd.tp.get, false)
     }
-    case VarDecl(v, None, Some(ftp@ApplyGeneral(OMS(p), args)), _, _) =>
-      val constDecl = THFAnnotated(type_decl_name(v), "type",
-      THF.Typing(translate_var(v), translate_type(ftp)), None)
-      val retPred = typing_pred(OMS(p), OMV(v))
-      val tpAx = THFAnnotated(tp_ax_decl_name(LocalName(translate_var(v))), "axiom",
-        THF.Logical(retPred), None)
-      List(constDecl, tpAx)
-    case VarDecl(v, None, Some(t), _, _) => UNSUPPORTED("Unsupported context variable type for variable" + v + " of type "+ ctrl.presenter.asString(t) +". ")
-    case VarDecl(name, Some("include"), tp, _, _) => Nil
-    case VarDecl(name, Some(f), tp, _, _) => ???
+    vd match {
+      case VarDecl(v, None, None, Some(df), _) =>
+        Nil
+      //UNSUPPORTED("Untyped but defined context variables are unsupported by the DHOL exporter.")
+      case VarDecl(v, None, None, dfO, _) =>
+        Nil
+        //UNSUPPORTED("Untyped context variables are unsupported by the DHOL exporter.")
+      case vd@VarDecl(OMV.anonymous, None, tp, df, _) =>
+        val assNames = assSubstitution.l .map (_.name) .map (translate_var_decl_name)
+        val namesUsed = (pathMap.map(_._2):::assNames) map (LocalName(_))
+        val Context(vdNew) = Context.makeFresh(vd.copy(name = LocalName("p")), namesUsed)._1
+        translate_var_decl(thy_path, vdNew, ctx)
+      case VarDecl(name, None, Some(ded(formula)), _, _) =>
+        List(THFAnnotated(vd.name.toString, "axiom", THF.Logical(translate_term(formula)), None))
+      case VarDecl(v, None, Some(TypedTerms.tm(df@DependentFunctionTypes.depfun(s, t))), _, _) => unapplyDepFun(df) match {
+        case Some((dependentArgs, ret)) =>
+          val varTr = OMS(thy_path ? v)
+          assSubstitution ::= v / varTr
+          val funDecl = THFAnnotated(type_decl_name(v), "type",
+            THF.Typing(translate_var_decl_name(v), translate_type(Pi(dependentArgs, ret))), None)
+          val retPred = typing_pred(Pi(dependentArgs, ret), varTr)
+          lazy val tpAx = THFAnnotated(tp_ax_decl_name(v), "axiom",
+            THF.Logical(retPred), None)
+          List(funDecl, tpAx)
+      }
+      case VarDecl(v, None, Some(TypedTerms.tm(ftp@ApplyGeneral(OMS(p), args))), _, _) =>
+        val varTr = OMS(thy_path ? v)
+        assSubstitution ::= v / varTr
+        val constDecl = THFAnnotated(type_decl_name(v), "type",
+        THF.Typing(translate_var_decl_name(v), translate_type(ftp)), None)
+        val retPred = typing_pred(OMS(p), varTr)
+        val tpAx = THFAnnotated(tp_ax_decl_name(LocalName(translate_var_decl_name(v))), "axiom",
+          THF.Logical(retPred), None)
+        List(constDecl, tpAx)
+      case VarDecl(v, None, Some(t), _, _) => UNSUPPORTED("Unsupported context variable type for variable" + v + " of type "+ ctrl.presenter.asString(t) +". ")
+      case VarDecl(name, Some("include"), tp, _, _) => Nil
+      case VarDecl(name, Some(f), tp, _, _) => ???
+    }
   }
 
   def translate_theory(theory: Theory)(implicit ctrl: Controller): List[THFAnnotated] = {
@@ -167,92 +216,121 @@ class DHOLExporter extends logicExporter {
     decls .map (c => (c.path, c.tp, c.df)) flatMap { case (p, tp, df) => translate_decl(p, tp, df, Context(p.module))}
   }
 
-  def translate_term(t: Term): THF.Formula = t match {
-    case Lambda(v, ty, body) => THF.QuantifiedFormula(THF.^, Seq((translate_var(v), translate_term(ty))), translate_term(body))
-    case DependentFunctions.deplambda(_, _, f) => translate_term(f)
-    case DependentFunctions.depapply(_, _, f, x) => translate_term(ApplySpine(f, x))
-    case lf.SimpleFunctions.simplambda(_, _, f) => translate_term(f)
-    case lf.SimpleFunctions.simpapply(_, _, f, x) => translate_term(ApplySpine(f, x))
-
-    // possible since we remove tm @ _ from terms
-    case DependentFunctionTypes.depfun(f, arg) => translate_term(ApplySpine(f, arg))
-
-    case InternalPropositions.bool.term => THFBool
-    //TODO: Add term -> $i
-    // TODO: product types, etc. still needed
-
-    case tforall((ty, Lambda(v, _, body))) =>
-      val tpCond = typing_pred(ty, OMV(v))
-      THFUniv(translate_var(v), translate_type(ty), THFImpl(tpCond, translate_term(body)))
-    case texists((ty, Lambda(v, _, body))) =>
-      val tpCond = typing_pred(ty, OMV(v))
-      THFExist(translate_var(v), translate_type(ty), THFAnd(tpCond, translate_term(body)))
-    case TypedTerms.tm(tm) => translate_term(tm)
-    case tforall(ty, body) =>
-      val varname = Context.pickFresh(body.freeVars.map(VarDecl(_)), LocalName("X"))._1
-      translate_term(tforall(ty, Lambda(varname, ty, ApplySpine(body, OMV(varname)))))
-    case texists(ty, body) =>
-      val varname = Context.pickFresh(body.freeVars.map(VarDecl(_)), LocalName("X"))._1
-      translate_term(texists(ty, Lambda(varname, ty, ApplySpine(body, OMV(varname)))))
-    case and(left, right) =>
-      THFAnd(translate_term(left), translate_term(right))
-    case DependentConjunction.dand(left, right) =>
-      THFAnd(translate_term(left), translate_term(right))
-    case or(left, right) =>
-      THF.BinaryFormula(THF.|, translate_term(left), translate_term(right))
-    case impl(left, right) =>
-      THF.BinaryFormula(THF.Impl, translate_term(left), translate_term(right))
-    case DependentImplication.dimpl(left, right) =>
-      THF.BinaryFormula(THF.Impl, translate_term(left), translate_term(right))
-    case equiv(left, right) =>
-      THF.BinaryFormula(THF.<=>, translate_term(left), translate_term(right))
-    case tequal(ty, left, right) => ty match {
-      case Pi(n, a, b) =>
-        val typingCond = typing_pred(a, OMV(n))
-        val eqAppls = tequal(b, Apply(left, OMV(n)), Apply(right, OMV(n)))
-        THFUniv(translate_var(n), translate_type(a), THFImpl(typingCond, translate_term(eqAppls)))
-      case _ => THF.BinaryFormula(THF.Eq, translate_term(left), translate_term(right))
-    }
-    case notequal(ty, left, right) => {
-      THF.BinaryFormula(THF.Neq, translate_term(left), translate_term(right))
-    }
-    case not(arg) =>
-      THF.UnaryFormula(THF.~, translate_term(arg))
-
-    case Truth._true(()) =>
-      THFTrue
-
-    case Falsity._false(()) =>
-      THFFalse
-
-    case OMID(f) => THFTerm(api.utils.listmap(pathMap, f).getOrElse(default_name(f)))
-
-    case OMV(x) => THF.Variable(translate_var(x))
-
-    // after dependency-erasure dependent application becomes ordinary application
-    case ApplyGeneral(DependentFunctions.depapply.term, argTp::funTp::fun::arg::args) =>
-      translate_term(ApplyGeneral(fun, arg::args))
-
-    case ApplySpine(f, args) =>
-      val fTr = translate_term(f)
-      val argsTr = args map translate_term
-      fTr match {
-        case THF.FunctionTerm(n, xs) => THF.FunctionTerm(n, xs ++ argsTr)
-        case _ => args.map(translate_term).foldLeft(translate_term(f))((g, arg) => THFApp(g, arg))
-      }
-
-    case OMA(OMV(i), args) if i.toString.startsWith("I/") && i.toString.stripPrefix("I/").toCharArray.forall(_.isDigit) =>
-      currentFormulaComments +:= Comment(CommentFormat.LINE, CommentType.NORMAL, "Cannot resolve implicit argument: " + t)
-      THFTrue
-
-    case default =>
-      currentFormulaComments +:= Comment(CommentFormat.LINE, CommentType.NORMAL, "Unknown term/op: " + default)
-      THFTrue
-    //return (
-    //  THF.FunctionTerm("$true", Nil),
-    //  List(Comment(CommentFormat.LINE, CommentType.NORMAL, "Unknown term/op: " + default))
-    //) //FIXME: exception when unknown term or op, example "0" instead of "zero" or "=" instead of "=ͭ"
+  def relativized_forall(v: LocalName, ty: Term, body: Term): THF.Formula = {
+    val tpCond = typing_pred(ty, OMV(v))
+    THFUniv(translate_var_name(v), translate_type(ty), THFImpl(tpCond, translate_term(body)))
   }
+  def addToPredicatesIfApplicable(tm:Term, tp:Term, contextPred: bool = true): Unit = {
+    val FunType(args, ret) = tp
+    if (ret == TypedTerms.tm(InternalPropositions.bool))
+			if (contextPred) {		
+    		predsList.::=(tm, argContext(args))
+			} else {	
+    		theoryPredsList.::=(tm, argContext(args))
+			}
+  }
+
+  def translate_term(t: Term): THF.Formula = {
+		predsList = Nil
+		t match {
+		  case Lambda(v, ty, body) =>
+		    addToPredicatesIfApplicable(OMV(translate_var(v)), ty)
+		    THF.QuantifiedFormula(THF.^, Seq((translate_var_name(v), translate_term(ty))), translate_term(body))
+		  case DependentFunctions.deplambda(_, _, f) => translate_term(f)
+		  case DependentFunctions.depapply(_, _, f, x) => translate_term(ApplySpine(f, x))
+		  case lf.SimpleFunctions.simplambda(_, _, f) => translate_term(f)
+		  case lf.SimpleFunctions.simpapply(_, _, f, x) => translate_term(ApplySpine(f, x))
+
+		  // possible since we remove tm @ _ from terms
+		  case DependentFunctionTypes.depfun(f, arg) => translate_term(ApplySpine(f, arg))
+
+		  case InternalPropositions.bool.term => THFBool
+		  //TODO: Add term -> $i
+		  // TODO: product types, etc. still needed
+
+		  case tforall((ty, Lambda(v, _, body))) =>
+		    addToPredicatesIfApplicable(OMV(translate_var(v)), ty)
+		    relativized_forall(v, ty, body)
+		  case texists((ty, Lambda(v, _, body))) =>
+		    addToPredicatesIfApplicable(OMV(translate_var(v)), ty)
+				val tpCond = typing_pred(ty, OMV(v))
+		    THFExist(translate_var_name(v), translate_type(ty), THFAnd(tpCond, translate_term(body)))
+		  case TypedTerms.tm(tm) => translate_term(tm)
+		  case tforall(ty, body) =>
+		    val varname = Context.pickFresh(body.freeVars.map(VarDecl(_)), LocalName("X"))._1
+		    addToPredicatesIfApplicable(OMV(translate_var(varname)), ty)
+		    translate_term(tforall(ty, Lambda(varname, ty, ApplySpine(body, OMV(varname)))))
+		  case texists(ty, body) =>
+		    val varname = Context.pickFresh(body.freeVars.map(VarDecl(_)), LocalName("X"))._1
+		    addToPredicatesIfApplicable(OMV(translate_var(varname)), ty)
+		    translate_term(texists(ty, Lambda(varname, ty, ApplySpine(body, OMV(varname)))))
+		  case and(left, right) =>
+		    THFAnd(translate_term(left), translate_term(right))
+		  case DependentConjunction.dand(left, right) =>
+		    THFAnd(translate_term(left), translate_term(right))
+		  case or(left, right) =>
+		    THFOr(translate_term(left), translate_term(right))
+		  case impl(left, right) =>
+		    THFImpl(translate_term(left), translate_term(right))
+		  case DependentImplication.dimpl(left, Lambda(prf, _, right)) =>
+		    THFImpl(translate_term(left), translate_term(right))
+		  case equiv(left, right) =>
+		    THFEquiv(translate_term(left), translate_term(right))
+		  case tequal(ty, left, right) =>
+		    ty match {
+		    case Pi(n, a, b) =>
+		      val eqAppls = tequal (b, ApplySpine (left, n), ApplySpine (right, n) )
+		      relativized_forall(n, a, eqAppls)
+		    case FunType(args, body) if args.length > 0 =>
+		      val argsCon = argContext(args)
+		      translate_term(tequal(Pi(argsCon, body), left, right))
+		    case _ =>
+		      val typingL = typing_pred(ty, left)
+		      val typingR = typing_pred(ty, right)
+		      val transEq = THFEq(translate_term(left), translate_term(right))
+		      THFAnd(transEq, THFAnd(typingL, typingR))
+		  }
+		  case notequal(ty, left, right) => {
+		    THFNeq(translate_term(left), translate_term(right))
+		  }
+		  case not(arg) =>
+		    THFNeg(translate_term(arg))
+
+		  case Truth._true(()) =>
+		    THFTrue
+
+		  case Falsity._false(()) =>
+		    THFFalse
+
+		  case OMID(f) => THFTerm(api.utils.listmap(pathMap, f).getOrElse(default_name(f)))
+
+		  case OMV(x) => THF.Variable(translate_var_name(x))
+
+		  // after dependency-erasure dependent application becomes ordinary application
+		  case ApplyGeneral(DependentFunctions.depapply.term, argTp::funTp::fun::arg::args) =>
+		    translate_term(ApplyGeneral(fun, arg::args))
+
+		  case ApplySpine(f, args) =>
+		    val fTr = translate_term(f)
+		    val argsTr = args map translate_term
+		    fTr match {
+		      case THF.FunctionTerm(n, xs) => THF.FunctionTerm(n, xs ++ argsTr)
+		      case _ => args.map(translate_term).foldLeft(translate_term(f))((g, arg) => THFApp(g, arg))
+		    }
+
+		  case OMA(OMV(i), args) if i.toString.startsWith("I/") && i.toString.stripPrefix("I/").toCharArray.forall(_.isDigit) =>
+		    currentFormulaComments +:= Comment(CommentFormat.LINE, CommentType.NORMAL, "Cannot resolve implicit argument: " + t)
+		    THFTrue
+
+		  case default =>
+		    currentFormulaComments +:= Comment(CommentFormat.LINE, CommentType.NORMAL, "Unknown term/op: " + default)
+		    THFTrue
+		  //return (
+		  //  THF.FunctionTerm("$true", Nil),
+		  //  List(Comment(CommentFormat.LINE, CommentType.NORMAL, "Unknown term/op: " + default))
+		  //) //FIXME: exception when unknown term or op, example "0" instead of "zero" or "=" instead of "=ͭ"
+		}
+	}
 
   def translate_type(t: Term): THF.Formula = t match {
     case depFun@lf.DependentFunctionTypes.depfun(_, _) => {
@@ -260,7 +338,7 @@ class DHOLExporter extends logicExporter {
       translate_type(FunType(depArgs.map(vd => (Some(vd.name), vd.tp.get)), bdy))
     }
 
-    case FunType(args, ret) if args.nonEmpty => 
+    case FunType(args, ret) if args.nonEmpty =>
       THFArrow(argContext(args) map (_.tp.get) map translate_type, translate_type(ret))
     case TypedTerms.tm(tp) => translate_type(tp)
     case ApplySpine(tp, _) => translate_type(tp)
@@ -276,7 +354,7 @@ class DHOLExporter extends logicExporter {
       p a && (a => p b)                        if t == a => b
       a? x                              if t == p y and p:a -> bool in the theory
       T1? r1 && ... && T2? rn           if t == b? r1 ... rn y for b: {x1:T1, ..., xn:Tn} T // not actually possible
-      true                              if t == x
+      x == true || x == false           if t == x
       true                              if t == c for a boolean constant (including true and false)
        */
       case lf.Booleans.bool(()) => x match {
@@ -285,21 +363,30 @@ class DHOLExporter extends logicExporter {
         case tforall((ty, Lambda(v, _, body))) =>
           val ass = typing_pred(ty, OMV(v))
           val tpconcl = typing_pred(lf.Booleans.bool, body)
-          THF.QuantifiedFormula(THF.!, Seq((translate_var(v), translate_term(ty))), THF.BinaryFormula(THF.Impl, ass, tpconcl))
-        case ApplySpine(OMS(p), args) => predDecls.find(_._1 == p) match {
-          case Some((c, arg)) => typing_pred(arg.tp.get(), arg.toTerm) // This should not be possible
-          case None => THFTrue  // in this case p must be a typing predicate
-        }
+          THFUniv(translate_var_name(v), translate_type(ty), THFImpl(ass, tpconcl))
+        case texists((ty, Lambda(v, _, body))) =>
+          val ass = typing_pred(ty, OMV(v))
+          val tpconcl = typing_pred(lf.Booleans.bool, body)
+          THFExist(translate_var_name(v), translate_type(ty), THFAnd(ass, tpconcl))
+        case ApplySpine(OMS(p), args) =>
+          def addDisjunct(currentForm: THF.Formula, nextPred: (Term, Context)) = {
+            val (pred, argCon) = nextPred
+            val appl = translate_term(ApplyGeneral(pred, argCon.map(_.name)))
+            val nextDisjunct = argCon.variables.foldRight(appl)({
+              case (vd, tm) =>
+                val tpCond = typing_pred(vd.tp.get, OMV(vd.name))
+                THFExist(vd.name.toString, translate_type(vd.tp.get), THFAnd(tpCond, tm))
+            })
+            THFOr(currentForm, nextDisjunct)
+          }
+          allPredsList.foldLeft(THFFalse.asInstanceOf[THF.Formula])(addDisjunct)
         case OMV(x) =>
-          ???  // can not occur
+          THFOr(THFEq(THF.Variable(translate_var_name(x)), THFTrue), THFEq(THF.Variable(translate_var_name(x)), THFFalse))
       }
-      case Truth._true(()) | Falsity._false(()) =>
-        THFTrue
-      // This only makes sense if we have a boolean constant, in that case it can not occur on the right of an =>
+      case TypedTerms.tm(tp) => typing_pred(tp, x)
       case Pi(n, tp, ret) =>
-        def binder(t:THF.Formula): THF.Formula = THF.QuantifiedFormula(THF.!, Seq((translate_var(n), translate_type(tp))), t)
-        // we can ignore trivial assumptions
-        binder(THF.BinaryFormula(THF.Impl, typing_pred(tp, OMV(n)), typing_pred(ret, x)))
+        val tpCond = typing_pred(tp, OMV(n))
+        THFUniv(translate_var_name(n), translate_type(tp), THFImpl(tpCond, typing_pred(ret, n)))
       case ApplyGeneral(OMS(a), args) =>
         val argsTr = (args:+x).map(translate_term)
         val pTr = type_pred_path(a).name.toString
@@ -316,14 +403,18 @@ object DHOLExporterUtil {
     var dependentArgs = Context.empty
     args .zipWithIndex foreach {
       case ((nOpt, t), i) =>
-        val ln = Context.pickFresh(dependentArgs, nOpt getOrElse LocalName("X_"+i))._1
+        val nameSuggestionO = nOpt map translate_var
+        val ln = Context.pickFresh(dependentArgs, nameSuggestionO getOrElse LocalName("X_"+i))._1
         dependentArgs :+= ln % t
     }
     dependentArgs
   }
-  def unapplyDepFun(tm: Term) : Option[(Context, Term)] = tm match {
+  def unapplyDepFun(tm: Term)(implicit ctx: Context = Context.empty) : Option[(Context, Term)] = tm match {
     case lf.DependentFunctionTypes.depfun(tp, Lambda(n, lf.TypedTerms.tm(tp2), x)) if tp == tp2 => unapplyDepFun(x) match {
-      case Some((ctx, body)) => Some(OMV(n) % tp::ctx, body)
+      case Some((ctx, body)) =>
+        val suggestedName = translate_var(n)
+        val ln = Context.pickFresh(ctx, suggestedName)._1
+        Some(OMV(ln) % tp::ctx, body)
       case None => Some(OMV(n) % tp, x)
     }
     case _ => None
@@ -392,3 +483,19 @@ object ProverBasedTypeEquality extends TypeBasedEqualityRule(Nil, lf.Types.tp.pa
    */
   override def applicableToTerm(solver: Solver, tm: Term): Boolean = true
 }
+
+abstract class ConnectiveTypingRule(path: GlobalName) extends InferenceRule(path, info.kwarc.mmt.lf.OfType.path) {
+  def apply(solver: Solver)(tm: Term, covered: Boolean)(implicit stack: Stack, history: History): (Option[Term]) = tm match {
+    case lf.Implication.impl(a, b) =>
+      if (!covered) {
+        val aTyped = solver.check(Typing(stack, a, lf.Booleans.bool))(history + "Checking first argument of dependent implication.")
+        if (aTyped) {
+          solver.check(Typing(stack ++ OMV.anonymous % lf.Proofs.ded(a), b, lf.Booleans.bool))(history + "Checking second argument of dependent implication.")
+        }
+      }
+      Some(lf.Booleans.bool)
+  }
+}
+
+object DependentImplicationInferenceRule extends ConnectiveTypingRule(lf.Implication.impl.path)
+object DependentConjunctionInferenceRule extends ConnectiveTypingRule(lf.Conjunction.and.path)

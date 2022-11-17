@@ -1,0 +1,30 @@
+namespace latin:/casestudies/_2022-tptp❚
+
+theory RestrictionExample : latin:/?DPHOL =
+    N : tp ❙
+    add: tm Πͭ [x: tm N] Πͭ [x: tm N] N ❙
+    0: tm N❙
+    
+    N2: tp ❙
+    makePair: tm Πͭ [first: tm N] Πͭ [second: tm N] N2 ❙
+    proj1: tm Πͭ [pair: tm N2] N ❙
+    proj2: tm Πͭ [pair: tm N2] N ❙
+    proj1_ax: {x:tm N, y:tm N} ⊦ (proj1 @ (makePair @ x @ y)) =ͭ x ❙
+    proj2_ax: {x:tm N, y:tm N} ⊦ (proj2 @ (makePair @ x @ y)) =ͭ y ❙
+    makePair_ax: {x:tm N2} ⊦ makePair @ (proj1 @ x) @ (proj2 @ x) =ͭ x ❙
+    
+    p = [x:tm N2] ( makePair @ (proj1 @ x) @ 0 ) =ͭ x ❙
+    S = N2 | p ❙
+    
+    t1p: {x:tm N2} ⊦ p (makePair @ (proj1 @ x) @ 0) ❘ = PROVE ❙
+    t2p: {x:tm N2} ⊦ p (makePair @ (add @ (proj1 @ x) @ (proj2 @ x)) @ 0) ❘ = PROVE ❙
+    t1: Πͭ [x:tm N2] S ❘ = λ [x] (makePair @ (proj1 @ x) @ 0) ↓ (t1p x) ❙
+    t2: Πͭ [x:tm N2] S ❘ = λ [x] (makePair @ (add @ (proj1 @ x) @ (proj2 @ x)) @ 0) ↓ (t2p x) ❙
+    
+    f: tm Πͭ [phi:tm Πͭ [y:tm S] N2] Πͭ [y:tm N2] N2 
+    	❘ = λ [phi] λ [y] makePair @ (proj1 @ (phi @ (t1 @ y))) @ 0 ❙
+    g: tm Πͭ [phi:tm Πͭ [y:tm S] N2] Πͭ [y:tm N2] N2 
+    	❘ = λ [phi] λ [y] phi @ (t2 @ y) ❙
+    
+    conj: ⊦ f =ͭ g ❘ = PROVE ❙
+❚

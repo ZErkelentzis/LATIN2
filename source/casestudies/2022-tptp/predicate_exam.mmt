@@ -1,0 +1,24 @@
+namespace latin:/❚
+
+theory PredicateExample : latin:/?DHOL =
+    a : {x: tm bool} tp ❙
+    c_0: tm a true ❙
+    c_1: tm a false ❙
+    c_2: tm a false ❙
+    ax0: ⊦ ∀ͭ[x:tm a true] x =ͭ c_0 ❙
+		p: tm Πͭ [x: tm a false] ?InternalPropositions?bool ❙
+    ax1: ⊦ p @ c_1 ❙
+    ax2: ⊦ ¬ p @ c_2 ❙
+// [f,g] ?DependentFunctionsExtensionality?exten (a true) ({x:tm (a true)} bool) f g ❙
+    // lem1: {B, F:tm Πͭ[x:tm (a true)] B x, G:tm Πͭ[x:tm (a true)] B x} ({x} ⊦ F@x =ͭ G@x) ⟶ ⊦ F =ͭ G ❘// = 
+    	[B,F,G] exten (a true) B F G ❙
+    A: tp ❘ = a true ❙
+    B: {x:tm A} tp ❘ = [x:tm (a true)] bool ❙
+    // lem1a: ⊦ ∀ͭ[f:tm Πͭ [x:tm A] B x] ∀ͭ[g:tm Πͭ [x:tm A] B x]
+    	∀ͭ[x:tm A] (f @ x =ͭ g @ x) ⇒ͩ [p] f =ͭ g ❘ // = ?DHOL?exten2 A B ❙
+    lem2: ⊦ ∀ͭ[f:tm Πͭ [x:tm a true] bool] ∀ͭ[g:tm Πͭ [x:tm a true] bool] 
+    	(f @ c_0 =ͭ g @ c_0) ⇒ͩ [p] f =ͭ g ❙
+ 
+    /T The following should NOT be provable❙
+    conj: ⊦ p @ c_2 ❘ = PROVE ❙
+❚

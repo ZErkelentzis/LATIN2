@@ -28,29 +28,12 @@ theory RatDiv =
 
 ❚
 
-theory RatSpec =
-	include ?IntSpec ❙
+theory Rat =
+	include ?Int❙
 	include ?RatDiv ❙
 	
 	sin: tm num ⟶ tm num ⟶ tm num ❘# %n ❙
 	cos: tm num ⟶ tm num ⟶ tm num ❘# %n ❙
 	tan: tm num ⟶ tm num ⟶ tm num ❘# %n ❙
 	
-❚
-
-theory Rat =
-	structure rat : ?RatSpec =
-		num # rationalnumber ❙
-		Nat # ℤ ❙
-		zero # zero ❙
-		succ # S 1 prec 31 ❙
-		pred # Pre 1 prec 31 ❙
-		plus # 1 + 2 prec 40 ❙ 
-		times # 1 * 2 prec 45 ❙
-		div# 1 / 2 prec 50 ❙
-	❚
-	
-	rule rules?Realize rat/Nat uom?StandardRat❙
-  rule rules?Realize zero uom?Arithmetic/Zero❙
-
 ❚

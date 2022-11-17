@@ -57,31 +57,7 @@ theory IntSub =
   sub_inv: {x,y} ⊦ inv(x - y) =ͭ ( inv x) - (inv y )❘role Simplify❙
 ❚
 
-theory IntSpec =
-	include ?NatSpec ❙
-	include ?IntSub❙
-
-  
-❚
-
 theory Int =
-  include ?IntPlusTimes❙
-  
-❚
-
-theory Int_realization =
- 	structure int : ?IntSpec =
-		num # integer ❙
-		Nat # ℤ ❙
-		zero # zero ❙
-		succ # S 1 prec 31 ❙
-		pred # Pre 1 prec 31 ❙
-		plus # 1 + 2 prec 40 ❙ 
-		times # 1 * 2 prec 45 ❙
-	❚
-	
-	rule rules?Realize int/Nat uom?StandardInt❙
-  rule rules?Realize zero uom?Arithmetic/Zero❙
-
-	
+	include ?Nat ❙
+	include ?IntSub❙
 ❚

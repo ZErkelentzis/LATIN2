@@ -65,8 +65,8 @@ class DPHOLExporter extends DHOLExporter {
   override def translate_var_decl(thy_path: MPath, vd: VarDecl, ctx: Context)(implicit ctrl: Controller): List[AnnotatedFormula] = vd match {
     case VarDecl(v, None, Some(TypedTerms.tm(pst@TypedPredicateSubtypes.predsub(tp, _))), _, _) =>
       val funDecl = THFAnnotated(type_decl_name(v), "type",
-        THF.Typing(translate_var(v), translate_type(tp)), None)
-      val retPred = typing_pred(pst, OMS(thy_path ? translate_var(v)))
+        THF.Typing(translate_var_name(v), translate_type(tp)), None)
+      val retPred = typing_pred(pst, OMS(thy_path ? translate_var_name(v)))
       lazy val tpAx = THFAnnotated(tp_ax_decl_name(v), "axiom",
         THF.Logical(retPred), None)
       List(funDecl, tpAx)

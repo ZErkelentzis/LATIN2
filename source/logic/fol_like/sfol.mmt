@@ -55,16 +55,15 @@ theory SFOLEQ =
   	= [A,x,y] ¬x =ͭ y❙
 ❚
 
-theory SFOLEQND =
-  include ?SFOLEQ❙
-  include ?SFOLND❙
-  include ?TypedEqualityND❙
-❚
-
 theory ISFOLEQND =
   include ?SFOLEQ ❙
   include ?ISFOLND ❙
   include ?TypedEqualityND❙
+❚
+
+theory SFOLEQND =
+  include ?ISFOLEQND❙
+  include ?SFOLND❙
 ❚
 
 theory TypedUniqueExistentialQuantification =
@@ -111,3 +110,10 @@ theory TypedTotalChoice =
   tsome_ax = [A,P,p] tany_ax P p❙
   tsome_eq = [A,P,Q,p,q,r,s] tany_eq r s❙
 ❚
+
+theory BigSFOL =
+  include ?SFOLEQND❙
+  include ?TypedDescription❙
+  include ?IfThenElse❙
+❚
+

@@ -30,7 +30,7 @@ theory EndoCommutative =
 
 theory EndoNeutral =
   include ?EndoMagma❙
-  neutral : {a} tm &a❘# neutral %I1❙
+  neutral : {a} tm &a❘# %n %I1❙
   neutLeft: {a,x:tm &a} ⊦ neutral∘x =ͭ x❙
   neutRight: {a,x:tm &a} ⊦ x∘neutral =ͭ x❙
 ❚

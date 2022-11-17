@@ -7,7 +7,6 @@ import uom scala://uom.api.mmt.kwarc.info❚
 
 theory NatUnary =
   include ?Numbers❙
-  
   Nat = tm num❘# ℕ❙
 ❚
 
@@ -15,6 +14,7 @@ theory NatPeano =
   include ?NatUnary❙
   
   zero_succ_different : {n} ⊦ ¬(n' =ͭ zero)❙
+  succ_injective : {m,n} ⊦ m' =ͭ n' ⟶ ⊦ m =ͭ n❙
 
   // the general case: the below could be derived from the following, which however requires polymorphic LF❙
   // induction : {T: ℕ ⟶ type} T zero ⟶ ({n} T n ⟶ T (n')) ⟶ {n}T n❙
@@ -22,10 +22,7 @@ theory NatPeano =
   inductive_fun : {B, P: ℕ ⟶ tm B} tm B ⟶ (ℕ ⟶ tm B ⟶ tm B) ⟶ ℕ ⟶ tm B❙
   inductive_pred : {P: ℕ ⟶ prop} prop ⟶ (ℕ ⟶ prop ⟶ prop) ⟶ ℕ ⟶ prop❙
   inductive_proof : {P: ℕ ⟶ prop} ⊦ P zero ⟶ ({n} ⊦ P n ⟶ ⊦ P (n')) ⟶ {n} ⊦ P n❙
-  
- 
 ❚
-
 
 theory NatPlus =
   include ?NatUnary❙
@@ -57,8 +54,12 @@ theory NatPlusTimes =
 theory NatParity =
   include ?NatUnary❙
  
-  even: ℕ ⟶ prop❙
-  uneven: ℕ ⟶ prop❙
+  even: ℕ ⟶ prop❘ # %n 1 prec 50❙
+  odd: ℕ ⟶ prop❘ # %n 1 prec 50❙
+  even_zero: ⊦ even zero❙
+  even_succ: {n} ⊦ even n ⟶ ⊦ odd n'❙
+  odd_zero: ⊦ ¬ odd zero❙
+  odd_succ: {n} ⊦ odd n ⟶ ⊦ even n'❙
 ❚
 
 theory NatAx =
@@ -80,11 +81,6 @@ theory Nat =
   include ?NatPlusTimes❙
   include ?NatParity❙
   include ?NatLiterals❙
-❚
-
-theory NatSpec =
-	include ?NatPlusTimes❙
-  include ?NatParity❙ 
  
   lesser: tm num ⟶ tm num ⟶ prop❘# 1 < 2 prec 30❙ 
   lesser_zero_r: {n} ⊦ ¬(n < zero)❘role Simplify ❙ 
@@ -102,19 +98,3 @@ theory NatSpec =
 
 ❚
 
-theory Nat_realization =
-	structure nat : ?NatSpec =
-		num # naturalnumber ❙
-		Nat # ℕ ❙
-		zero # zero ❙
-		succ # S 1 prec 31 ❙
-		plus # 1 + 2 prec 40 ❙ 
-		times # 1 * 2 prec 45 ❙
-	❚
-	
-	include ?NatPeano ❙
-
-	rule rules?Realize nat/Nat uom?StandardNat❙
-  rule rules?Realize zero uom?Arithmetic/Zero❙
-  
-❚
