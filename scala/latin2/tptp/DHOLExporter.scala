@@ -32,6 +32,7 @@ class DHOLExporter extends DIHOLExporter {
   override val priority: Int = 6
   override val theoryPath: info.kwarc.mmt.api.MPath = lf.DHOL._path
 
+  override implicit val allowBoolValuedQuantification: Boolean = false
   var predsList: List[(Term, Context)] = Nil
   var theoryPredsList: List[(Term, Context)] = Nil
 	private def allPredsList: List[(Term, Context)] = theoryPredsList++predsList
@@ -126,22 +127,22 @@ class DHOLExporter extends DIHOLExporter {
 		predsList = Nil
 		t match {
 		  case Lambda(v, ty, body) =>
-		    addToPredicatesIfApplicable(OMV(translate_var(v)), ty)
+		    addToPredicatesIfApplicable(OMV(v), ty)
 		    THF.QuantifiedFormula(THF.^, Seq((translate_var_name(v), translate_type(ty))), translate_term(body))
 		  case tforall((ty, Lambda(v, _, body))) =>
-		    addToPredicatesIfApplicable(OMV(translate_var(v)), ty)
+		    addToPredicatesIfApplicable(OMV(v), ty)
 		    relativized_forall(v, ty, body)
 		  case texists((ty, Lambda(v, _, body))) =>
-		    addToPredicatesIfApplicable(OMV(translate_var(v)), ty)
+		    addToPredicatesIfApplicable(OMV(v), ty)
 				val tpCond = typing_pred(ty, OMV(v))
 		    THFExist(translate_var_name(v), translate_type(ty), THFAnd(tpCond, translate_term(body)))
 		  case tforall(ty, body) =>
 		    val varname = Context.pickFresh(body.freeVars.map(VarDecl(_)), LocalName("X"))._1
-		    addToPredicatesIfApplicable(OMV(translate_var(varname)), ty)
+		    addToPredicatesIfApplicable(OMV(varname), ty)
 		    translate_term(tforall(ty, Lambda(varname, ty, ApplySpine(body, OMV(varname)))))
 		  case texists(ty, body) =>
 		    val varname = Context.pickFresh(body.freeVars.map(VarDecl(_)), LocalName("X"))._1
-		    addToPredicatesIfApplicable(OMV(translate_var(varname)), ty)
+		    addToPredicatesIfApplicable(OMV(varname), ty)
 		    translate_term(texists(ty, Lambda(varname, ty, ApplySpine(body, OMV(varname)))))
       case _ => super.translate_term(t)
 		}

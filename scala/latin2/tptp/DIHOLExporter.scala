@@ -31,6 +31,9 @@ import latin2.tptp.THFExporterUtil._
 class DIHOLExporter extends logicExporter {
   val priority: Int = 4
   val theoryPath: info.kwarc.mmt.api.MPath = lf.DIHOL._path
+
+  // to get correct behaviour for the classical translation which extends this class, switch this to true
+  implicit val allowBoolValuedQuantification = true
   def tptp_conjecture(conj: info.kwarc.mmt.api.objects.Term) =
     THFAnnotated("conjecture", "conjecture", THF.Logical(translate_term(conj)), None)
 
@@ -190,9 +193,11 @@ class DIHOLExporter extends logicExporter {
     val tpCond = typing_pred(ty, OMV(v))
     THFUniv(translate_var_name(v), translate_type(ty), THFImpl(tpCond, translate_term(body)))
   }
+
   def translate_term(t: Term): THF.Formula = {
 		t match {
 		  case Lambda(v, ty, body) =>
+        check_fragment(ty)
 		    THF.QuantifiedFormula(THF.^, Seq((translate_var_name(v), translate_type(ty))), translate_term(body))
 		  case DependentFunctions.deplambda(_, _, f) => translate_term(f)
 		  case DependentFunctions.depapply(_, _, f, x) => translate_term(ApplySpine(f, x))
@@ -207,8 +212,10 @@ class DIHOLExporter extends logicExporter {
 		  // TODO: product types, etc. still needed
 
 		  case tforall((ty, Lambda(v, _, body))) =>
+        check_fragment(ty)
 		    relativized_forall(v, ty, body)
 		  case texists((ty, Lambda(v, _, body))) =>
+        check_fragment(ty)
 				val tpCond = typing_pred(ty, OMV(v))
 		    THFExist(translate_var_name(v), translate_type(ty), THFAnd(tpCond, translate_term(body)))
 		  case TypedTerms.tm(tm) => translate_term(tm)
@@ -233,6 +240,7 @@ class DIHOLExporter extends logicExporter {
 		  case tequal(ty, left, right) =>
 		    ty match {
 		    case Pi(n, a, b) =>
+          check_fragment(a)
 		      val eqAppls = tequal (b, ApplySpine (left, n), ApplySpine (right, n) )
 		      relativized_forall(n, a, eqAppls)
 		    case FunType(args, body) if args.length > 0 =>
@@ -291,7 +299,6 @@ class DIHOLExporter extends logicExporter {
       val Some((depArgs, bdy)) = unapplyDepFun(depFun)
       translate_type(FunType(depArgs.map(vd => (Some(vd.name), vd.tp.get)), bdy))
     }
-
     case FunType(args, ret) if args.nonEmpty =>
       THFArrow(argContext(args) map (_.tp.get) map translate_type, translate_type(ret))
     case TypedTerms.tm(tp) => translate_type(tp)
@@ -333,7 +340,7 @@ class DIHOLExporter extends logicExporter {
       case TypedTerms.tm(tp) => typing_pred(tp, x)
       case Pi(n, tp, ret) =>
         val tpCond = typing_pred(tp, OMV(n))
-        THFUniv(translate_var_name(n), translate_type(tp), THFImpl(tpCond, typing_pred(ret, n)))
+        THFUniv(translate_var_name(n), translate_type(tp), THFImpl(tpCond, typing_pred(ret, x)))
       case ApplyGeneral(OMS(a), args) =>
         val argsTr = (args:+x).map(translate_term)
         val pTr = type_pred_path(a).name.toString
@@ -346,11 +353,28 @@ class DIHOLExporter extends logicExporter {
 }
 
 object DHOLExporterUtil {
-  def argContext(args: List[(Option[LocalName], Term)]): Context = {
+  def is_bool_valued(ty: Term): Boolean = ty match {
+    case depFun@lf.DependentFunctionTypes.depfun(_, _) => {
+      val Some((depArgs, bdy)) = unapplyDepFun(depFun)
+      is_bool_valued(bdy)
+    }
+    case FunType(args, bdy) => is_bool_valued(bdy)
+    case Booleans.bool.term => true
+    case _ => false
+  }
+  def check_fragment(ty: Term)(implicit allowBoolValuedQuantification: Boolean): Unit = {
+    if (!allowBoolValuedQuantification) {
+      if (is_bool_valued(ty))
+        UNSUPPORTED("Quantification over bool-valued typed is unsupported.")
+    }
+  }
+
+  def argContext(args: List[(Option[LocalName], Term)])(implicit checkInFragment: Boolean): Context = {
     var dependentArgs = Context.empty
     args .zipWithIndex foreach {
       case ((nOpt, t), i) =>
-        val nameSuggestionO = nOpt map translate_var
+          check_fragment(t)
+        val nameSuggestionO = nOpt
         val ln = Context.pickFresh(dependentArgs, nameSuggestionO getOrElse LocalName("X_"+i))._1
         dependentArgs :+= ln % t
     }
@@ -359,8 +383,7 @@ object DHOLExporterUtil {
   def unapplyDepFun(tm: Term)(implicit ctx: Context = Context.empty) : Option[(Context, Term)] = tm match {
     case lf.DependentFunctionTypes.depfun(tp, Lambda(n, lf.TypedTerms.tm(tp2), x)) => unapplyDepFun(x) match {
       case Some((ctx, body)) =>
-        val suggestedName = translate_var(n)
-        val ln = Context.pickFresh(ctx, suggestedName)._1
+        val ln = Context.pickFresh(ctx, n)._1
         Some(OMV(ln) % tp::ctx, body)
       case None => Some(OMV(n) % tp, x)
     }

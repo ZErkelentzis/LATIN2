@@ -185,7 +185,6 @@ object THFExporterUtil {
   def type_decl_name(ln: LocalName) = ln.toString+"_type"
 
   def translate_var_name(n:LocalName) = "V_" + n.toString.toUpperCase
-  def translate_var(n:LocalName) = LocalName(translate_var_name(n))
   def translate_var_decl_name(n:LocalName) = "t_" + n.toString
   def default_name(p: ContentPath) = translate_var_decl_name(p.name)
   def IMPOSSIBLE = throw ImplementationError("This case should be impossible.")
