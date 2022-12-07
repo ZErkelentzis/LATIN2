@@ -11,10 +11,8 @@ theory InternalEquality =
 
 theory IHOL =
   include ?InternalEquality❙
+  include ?InternalTruthValues❙
   include ?ISFOL❙
-  realize ?TrueFalse ❙
-  tt = true ❙
-  ff = false ❙
 ❚
 
 theory IHOLND =

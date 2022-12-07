@@ -1,16 +1,26 @@
 namespace latin:/❚
 
-fixmeta latin:/?SFOLEQND❚
+fixmeta ?TypedTerms❚
 
 theory TrueFalse =
 	include ?Booleans ❙
 	tt: tm bool❙
   ff: tm bool❙
-  bool_nontrivial : ⊦ ¬ ff =ͭ tt❙
 ❚
 
-theory BooleanExtensionality =
+theory InternalTruthValues =
+  include ?InternalPropositions❙
+  include ?TrueFalse❙
+  realize ?Truth❙
+  true = tt❙
+  realize ?Falsity❙
+  false = ff❙
+❚
+
+theory BooleanExtensionality : ?SFOLEQND =
    include ?TrueFalse❙
+
+   bool_nontrivial : ⊦ ¬ ff =ͭ tt❙
    
    boolext : {F} ⊦ F tt ⟶ ⊦ F ff ⟶ {x:tm bool} ⊦ F x❘# boolext 1 2 3 4❙
 

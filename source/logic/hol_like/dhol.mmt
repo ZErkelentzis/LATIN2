@@ -56,7 +56,7 @@ theory DHOL =
 theory DHOLND =
 	include ?DHOL❙
   include ?ISFOLND❙
-  include ?PropositionalExtensionality❙
+  // include ?PropositionalExtensionality❙
   eq_equiv: {F,G} ⊦F =ͭ G ⟶ ⊦F⇔G❘
   	= [F,G,p] equivI ([q] p tcongP ([u]u) q) ([q] (p tsym) tcongP ([u]u) q)❙
   equiv_eq: {F,G} ⊦F⇔G ⟶ ⊦F =ͭ G❘
