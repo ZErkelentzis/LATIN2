@@ -1,0 +1,31 @@
+namespace latin:/casestudies/_2022-tptp❚
+
+theory SetTheoryExample : latin:/?DPHOL =
+	set: tp  ❙
+	of:  tm Πͭ [a: tm set] Πͭ [x: tm set] bool ❘ # 2 ∈ 1 ❙
+	subs: tm Πͭ [a: tm set] Πͭ [x: tm set] bool ❘ # 2 ⊂ 1 ❙
+	subs_defn: ⊦ ∀ͭ[a:tm set] ∀ͭ[s:tm set] ((subs@s)@a) =ͭ (∀ͭ[y:tm set] (of@s)@y ⇒ (of@a)@y)  ❙
+	Class = [p: tm Πͭ [y:tm set] bool] set | ([s:tm set] p@s) ❙
+	Elem:  {X:tm set} tp ❘ = [X: tm set] Class (λ[x: tm set] of @ X @ x)  ❙
+	Subset: {X:tm set} tp ❘ = [X: tm set] Class (λ[x: tm set] subs @ X @ x)  ❙
+	func:  tm Πͭ [a:tm set] Πͭ [b:tm set] set ❙
+	appl:  tm Πͭ [a:tm set] Πͭ [b:tm set] Πͭ [f:tm (Elem (func @ a @ b))] Πͭ [x:tm (Elem a)] Elem (b) ❘ # 3 ^ 4 ❙
+	appl_ax: ⊦ ∀ͭ[a:tm set] ∀ͭ[b:tm set] ∀ͭ[f:tm (Elem (func @ a @ b))] ∀ͭ[g:tm (Elem (func @ a @ b))]
+		∀ͭ[x:tm (Elem a)] (appl @ a @ b @ f @ x =ͭ appl @ a @ b @ g @ x) ⇒ f =ͭ g  ❙
+	funcRestr: tm Πͭ [a:tm set] Πͭ [b:tm set] Πͭ [f:tm (Elem (func @ a @ b))] 
+		Πͭ [s: tm (Subset a)] Elem (func @ (predsubEl s) @ b) ❘ # 3 | 4 ❙
+	funcRestr_ax: ⊦ ∀ͭ[a:tm set] ∀ͭ[b:tm set] ∀ͭ[f:tm (Elem (func @ a @ b))] ∀ͭ[s:tm (Subset a)]
+		∀ͭ[x:tm (Elem (predsubEl s))] appl @ a @ b @ f @ x =ͭ appl @ (predsubEl s) @ b @ (funcRestr @ a @ b @ f @ s) @ x ❙
+		// (predsubEl s) : tm set
+		// funcRestr @ a @ b @ f @ s: tm (Elem (func @ (predsubEl s) @ b))
+		// appl @ (predsubEl s) @ b @ (funcRestr @ a @ b @ f @ s) @ x: tm (Elem b)
+		// appl @ a @ b @ f @ x =ͭ appl @ (predsubEl s) @ b @ (funcRestr @ a @ b @ f @ s) @ x: tm bool ❙
+	// In this theory we can formalize the conjecture: ❙
+	
+	conj: ⊦ ∀ͭ[a:tm set] ∀ͭ[b:tm set] ∀ͭ[s:tm (Subset a)] ∀ͭ[f:tm (Elem (func @ a @ b))]
+	∀ͭ[g:tm (Elem (func @ a @ b))] ∀ͭ[x:tm (Elem (predsubEl s))] 
+	(appl @ (predsubEl s) @ b @ (funcRestr @ a @ b @ f @ s) @ x =ͭ appl @ (predsubEl s) @ b @ (funcRestr @ a @ b @ g @ s) @ x)
+	⇒ (funcRestr @ a @ b @ f @ s =ͭ funcRestr @ a @ b @ g @ s) ❘ = PROVE ❙
+	// conj: ⊦ ∀ͭ[a:tm set] ∀ͭ[d:tm set] ∀ͭ[b:tm (Subset a)] ∀ͭ[s:tm (Subset (predsubEl b))] 
+		∀ͭ[f:tm (Elem (func @ a @ d))] f | b | s =ͭ f | s ❘ = PROVE ❙
+❚

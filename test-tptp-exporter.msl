@@ -46,3 +46,6 @@ build MMT/LATIN2 tptp casestudies/2022-tptp/peano.omdoc
 // test DPHOL exporter
 build MMT/LATIN2 mmt-omdoc casestudies/2022-tptp/restriction.mmt
 build MMT/LATIN2 tptp casestudies/2022-tptp/restriction.omdoc
+
+build MMT/LATIN2 mmt-omdoc casestudies/2022-tptp/set_theory.mmt
+build MMT/LATIN2 tptp casestudies/2022-tptp/set_theory.omdoc
