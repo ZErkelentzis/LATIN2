@@ -14,7 +14,7 @@ import latin2.tptp.THFExporterUtil._
 import latin2.tptp.DHOLExporterUtil._
 
 class DPIHOLExporter extends DIHOLExporter {
-  override val priority: Int = 5
+  override val priority: Int = 7
   override val theoryPath: info.kwarc.mmt.api.MPath = lf.DPIHOL._path
 
   /**

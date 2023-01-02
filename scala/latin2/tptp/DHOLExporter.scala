@@ -29,7 +29,7 @@ import latin2.tptp.DHOLExporterUtil._
 import latin2.tptp.THFExporterUtil._
 
 class DHOLExporter extends DIHOLExporter {
-  override val priority: Int = 6
+  override val priority: Int = 4
   override val theoryPath: info.kwarc.mmt.api.MPath = lf.DHOL._path
 
   override implicit val allowBoolValuedQuantification: Boolean = false

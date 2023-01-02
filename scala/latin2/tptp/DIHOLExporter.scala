@@ -29,7 +29,7 @@ import latin2.tptp.DHOLExporterUtil._
 import latin2.tptp.THFExporterUtil._
 
 class DIHOLExporter extends logicExporter {
-  val priority: Int = 4
+  val priority: Int = 6
   val theoryPath: info.kwarc.mmt.api.MPath = lf.DIHOL._path
 
   // to get correct behaviour for the classical translation which extends this class, switch this to true
