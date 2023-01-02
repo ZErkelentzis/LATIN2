@@ -14,20 +14,21 @@ mathpath archive ../urtheories
 mathpath archive ../LFX
 mathpath archive .
 
-//log+ debug
+log+ debug
 //log+ object-checker
 //log+ object-simplifier
 //log+ structure-simplifier
 //log+ structure-checker
 //log+ object-parser
 //log+ tptp
-//log+ DHOLExporter
+log+ DHOLExporter
+log+ TPTPExporter
 
 extension latin2.tptp.TPTPExporter
 extension latin2.tptp.SFOLExporter
 extension latin2.tptp.HOLExporter
-extension latin2.tptp.DHOLExporter
-extension latin2.tptp.DPHOLExporter
+extension latin2.tptp.DIHOLExporter
+extension latin2.tptp.DPIHOLExporter
 
 //build MMT/LATIN2 mmt-omdoc logic/hol_like
 // build MMT/LATIN2 lf-scala logic/hol_like

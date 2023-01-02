@@ -22,7 +22,7 @@ import lf.TypedEquality.tequal
 import lf.TypedExistentialQuantification.texists
 import lf.TypedTerms.tm
 import lf.TypedUniversalQuantification.tforall
-import lf.{Falsity, InternalPropositions, SimpleFunctionTypes, Truth}
+import lf.{Booleans, Falsity, SimpleFunctionTypes, Truth}
 import latin2.tptp.THFExporterUtil._
 
 class HOLExporter extends logicExporter {
@@ -102,7 +102,7 @@ class HOLExporter extends logicExporter {
     case simpapply(_, _, f, x) => translate_formula(ApplySpine(f, x))
 
     case SimpleFunctionTypes.simpfun(a, b) => THFArrow(List(translate_formula(a)), translate_formula(b))
-    case InternalPropositions.bool.term => THFBool
+    case Booleans.bool.term => THFBool
     //TODO: Add term -> $i
     // TODO: product types, etc. still needed
 
