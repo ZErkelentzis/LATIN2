@@ -1,0 +1,17 @@
+file ../../build_config.msl
+
+
+build MMT/LATIN2 mmt-omdoc computation/theoriesAsClasses.mmt
+build MMT/LATIN2 mmt-omdoc computation/ifte_computation.mmt
+build MMT/LATIN2 mmt-omdoc computation/IO.mmt
+build MMT/LATIN2 mmt-omdoc computation/loops.mmt
+build MMT/LATIN2 mmt-omdoc computation/recursable_definitions.mmt
+build MMT/LATIN2 mmt-omdoc computation/exceptions.mmt
+build MMT/LATIN2 mmt-omdoc computation/Options.mmt
+build MMT/LATIN2 mmt-omdoc computation/ContainerTypes.mmt
+
+
+build MMT/LATIN2 mmt-omdoc computation/mutability.mmt
+build MMT/LATIN2 mmt-omdoc computation/sequences.mmt
+
+build MMT/LATIN2 mmt-omdoc computation/ComputationalFoundation.mmt

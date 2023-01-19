@@ -1,0 +1,26 @@
+file ../../../build_config.msl
+
+// algebra
+// depends in general on fundamentals and logic
+
+// fixed order
+build MMT/LATIN2 mmt-omdoc ./magmas.mmt
+build MMT/LATIN2 mmt-omdoc ./monoids.mmt
+
+// depend on magmas
+build MMT/LATIN2 mmt-omdoc ./lattices.mmt
+build MMT/LATIN2 mmt-omdoc ./groups.mmt
+build MMT/LATIN2 mmt-omdoc ./bands.mmt
+build MMT/LATIN2 mmt-omdoc ./algebra_to_order.mmt
+
+// depend on magmas, sets and groups
+build MMT/LATIN2 mmt-omdoc ./ringoids.mmt
+
+// depend on power_types, groups and ringoids
+// needs complete redesign
+// build MMT/LATIN2 mmt-omdoc ./modules.mmt
+
+// independent of the rest
+// build MMT/LATIN2 mmt-omdoc ./diagop-theories.mmt
+// dependent on informal and others (not completely checked by now)
+// build MMT/LATIN2 mmt-omdoc ./diagop-test.mmt

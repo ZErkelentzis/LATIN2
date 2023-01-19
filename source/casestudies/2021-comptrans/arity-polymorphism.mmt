@@ -112,13 +112,13 @@ theory InternalCumTypes =
 
   univ: nat ⟶ type ❙
   inj: {n: nat} univ n ⟶ tp ❘ # τ 2 ❙
-  has_type : {n: nat} univ n ⟶ term ⟶ prop ❘ = [n,U,t] t ⦂ τ U ❘# 3 ∈ 2 ❙
+  has_type : {n: nat} univ n ⟶ term ⟶ prop ❘ = [n,U,t] t ∶ τ U ❘# 3 ∈ 2 ❙
 
   castp: {n,U: univ n} univ (s n) ❘ # 2 ↑ prec 20 ❙
   castm: {n,U: univ n,t: term} ⊦ (t ∈ U) ⇒ (t ∈ U↑) ❘# 3 ⇑ 2 ❙
 
   base: univ z ❙
-  // can_cast_to_all: {n,m,U: univ n,t: term} ⊦ (t ⦂ τ U) ⇒ (t ⦂ τ (n + m))
+  // can_cast_to_all: {n,m,U: univ n,t: term} ⊦ (t ∶ τ U) ⇒ (t ∶ τ (n + m))
                ❘ = [n,m,t] sketch "provable via induction on m (ignoring the issue that Nat is an LF-level formalization)" ❙
 ❚
 
@@ -142,7 +142,7 @@ view TypeEras : ?CumTypes -> ?InternalCumTypes =
 
    Basic Lemma yields:
           |- U : univ n  /\  |- t : tm U
-     ===> |- TE(t) : ⊦ t ⦂ (τ U)
+     ===> |- TE(t) : ⊦ t ∶ (τ U)
 ❚
 theory TypePres =
   include ?InternalCumTypes ❙

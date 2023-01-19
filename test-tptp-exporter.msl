@@ -1,0 +1,51 @@
+// Build MMT/OMDoc and Scala parts of LATIN2
+// To be precise, this build script only builds the parts of LATIN2
+// which can actually be built successfully at time of writing.
+
+server on 8080
+
+log console
+log html build.html
+log+ archive
+log+ mmt-omdoc
+log+ TPTPExporter
+
+mathpath archive ../urtheories
+mathpath archive ../LFX
+mathpath archive .
+
+log+ debug
+//log+ object-checker
+//log+ object-simplifier
+//log+ structure-simplifier
+//log+ structure-checker
+//log+ object-parser
+//log+ tptp
+log+ DHOLExporter
+log+ TPTPExporter
+
+extension latin2.tptp.TPTPExporter
+extension latin2.tptp.SFOLExporter
+extension latin2.tptp.HOLExporter
+extension latin2.tptp.DIHOLExporter
+extension latin2.tptp.DPIHOLExporter
+
+//build MMT/LATIN2 mmt-omdoc logic/hol_like
+// build MMT/LATIN2 lf-scala logic/hol_like
+
+// test DHOL exporter
+build MMT/LATIN2 mmt-omdoc casestudies/2022-tptp/cat.mmt
+build MMT/LATIN2 tptp casestudies/2022-tptp/cat.omdoc
+build MMT/LATIN2 mmt-omdoc casestudies/2022-tptp/predicate_exam.mmt
+build MMT/LATIN2 tptp casestudies/2022-tptp/predicate_exam.omdoc
+
+// test HOL exporter
+build MMT/LATIN2 mmt-omdoc casestudies/2022-tptp/peano.mmt
+build MMT/LATIN2 tptp casestudies/2022-tptp/peano.omdoc
+
+// test DPHOL exporter
+build MMT/LATIN2 mmt-omdoc casestudies/2022-tptp/restriction.mmt
+build MMT/LATIN2 tptp casestudies/2022-tptp/restriction.omdoc
+
+build MMT/LATIN2 mmt-omdoc casestudies/2022-tptp/set_theory.mmt
+build MMT/LATIN2 tptp casestudies/2022-tptp/set_theory.omdoc

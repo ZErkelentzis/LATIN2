@@ -1,9 +1,11 @@
+// This file contains common configuration options for all build scripts.
+
 log console
 log+ archive
 log+ mmt-omdoc
+log+ scala-bin
 
 mathpath archive ../urtheories
-mathpath archive ../LFX
 mathpath archive .
 
 

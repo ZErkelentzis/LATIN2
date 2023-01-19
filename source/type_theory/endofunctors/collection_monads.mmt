@@ -1,0 +1,28 @@
+namespace latin:/❚
+
+fixmeta ?HOLND❚
+
+view CollectionMonad : ?Monad → ?Collection =
+	applyType = [x] &x ❙
+	Return  = [a,x: tm a] singleton x❙
+	Bind = [a,b,X: tm &a,F: tm a ⟶ tm &b] flatmap F X❙
+	identLeft = _ ❙
+  identRight = _ ❙
+  assoc = _ ❙
+❚
+
+theory FailMonad =
+	include ?String ❙
+	include ?Coproducts❙
+	
+	failType = [a] a ⊎ͭ string ❙
+  structure failure : ?Monad =
+		applyType = failType ❙
+		Return  = [a,x: tm a] inj1 x  ❙
+		Bind = [a,b, X: tm failType a, F: tm a ⟶ tm failType b]  X cases F ([x] inj2 x)❙
+
+  ❚
+❚
+
+
+

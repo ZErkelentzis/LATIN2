@@ -1,0 +1,175 @@
+namespace latin:/❚
+
+fixmeta ?DependentFOLEQDescND❚
+
+theory SimpleProductTypesSet =
+  include ?TypesSet❙
+  include ?CartesianProduct❙
+  realize ?SimpleProductTypes❙
+  simpprod = [A,B] A ×ͧ B❙
+❚
+
+theory DependentProductTypesSet =
+  include ?TypedTermsSet❙
+  include ?SigmaMod❙
+  
+  realize ?DependentProductTypes❙
+  depprod = [A,B: (Elem A ⟶ set)] sigmaMod A ([x,p: ⊦ x∈A] B (elem x p))❙
+❚
+
+theory SoftDependentProductTypesSet =
+  include ?Propositions❙
+  include ?Terms❙
+  include ?SoftTypedTermsSet❙
+  include ?Sigma❙
+  
+  realize ?SoftDependentProductTypes❙
+  softprod = [A,B] sigma A B❙
+❚
+
+theory SimpleProductsSet =
+  include ?Propositions❙
+  include ?Proofs❙
+  include ?TypedEqualitySet❙
+  include ?SimpleProductTypesSet❙
+ 
+  realize ?SimpleProducts❙
+
+  simppair = [A,B,a: Elem A,b: Elem B] elem (which a,ͧwhich b) (prodI (why a) (why b))❙
+  simppi1 = [A,B,e: Elem (A×ͧB)] elem ((which e)₁ͧ) ((why e) prodEl)❙
+  simppi2 = [A,B,e: Elem (A×ͧB)] elem ((which e)₂ͧ) ((why e) prodEr)❙
+  
+  compute1 = [A,B,a: Elem A,b: Elem B] compL ❙
+  compute2 = [A,B,a: Elem A,b: Elem B] compR ❙
+❚
+
+theory DependentProductsSet =
+  include ?Propositions❙
+  include ?Proofs❙
+  
+  include ?DependentProductTypesSet❙
+  include ?TypedEqualitySet❙
+  include ?DependentTypeEqualitySet❙
+  
+  realize ?DependentProducts❙
+  deppair = [A,B: (Elem A ⟶ set),a: Elem A,b: Elem (B a)] elem (which a,ͧ which b)
+    (sigmaModI (why a) (in_eq (why b) (simpF B)))❙
+  deppi1 = [A,B: (Elem A ⟶ set),e] elem ((which e)₁ͧ) ((why e) sigmaModEl)❙
+  deppi2 = [A,B: (Elem A ⟶ set),e] elem ((which e)₂ͧ) ((why e) sigmaModEr)❙
+  
+  compute1 = [A,B,a: Elem A,b] compL ❙
+  // AS: probably this error is related to DependentTypeEqualitySet❙
+  // compute2 = [A,B: (Elem A ⟶ set),a,b] _ ❙
+❚
+
+theory SoftTypedProductsSet =
+  include ?Propositions❙
+  include ?Proofs❙
+  include ?Terms❙
+  include ?UntypedEquality❙
+  
+  include ?CartesianProduct❙
+  
+  realize ?SoftTypedProducts❙
+  pair = [a,b] a,ͧb❙
+  pi1 = [p] p₁ͧ❙
+  pi2 = [p] p₂ͧ❙
+  
+  compute1 = [a,b] compL❙
+  compute2 = [a,b] compR❙
+  // TODO: Simplify and Solve❙
+❚
+
+theory SoftTypedSimpleProductsSet =
+  include ?Propositions❙
+  include ?Proofs❙
+  include ?Terms❙
+  include ?UntypedEquality❙
+  
+  include ?SoftTypedTermsSet❙
+  include ?SoftTypedProductsSet❙
+  include ?SimpleProductTypesSet❙
+  
+  realize ?SoftTypedSimpleProducts❙
+  fun_typing = [A,B,a,b,p: ⊦ a∈A,q: ⊦ b∈B] prodI p q❙
+❚
+
+theory SoftTypedDependentProductsSet =
+  include ?Propositions❙
+  include ?Proofs❙
+  include ?Terms❙
+  include ?UntypedEquality❙
+  
+  include ?SoftTypedTermsSet❙
+  include ?SoftTypedProductsSet❙
+  include ?SoftDependentProductTypesSet❙
+  
+  realize ?SoftTypedDependentProducts❙
+  fun_typing = [A,B,a,b,p: ⊦ a∈A,q: ⊦ b∈(B a)] sigmaI p q❙
+❚
+
+theory SimpleProductsExpandSet =
+  include ?Propositions❙
+  include ?Proofs❙
+  include ?SimpleProductsSet❙
+  
+  realize ?SimpleProductsExpand❙
+  expand = [A,B,u: Elem (A×ͧB)] expand ❙
+❚
+
+theory DependentProductsExpandSet =
+  // AS: Propositions and Proofs are part of the fixmeta❙
+  include ?Propositions❙
+  include ?Proofs❙
+  include ?DependentProductsSet❙
+  
+  realize ?DependentProductsExpand❙
+  expand = [A,B,u] expand ❙
+❚
+
+theory SoftTypedProductsExpandSet =
+  // AS: Propositions, Proofs, Terms and UntypedEquality are part of the fixmeta❙
+  include ?Propositions❙
+  include ?Proofs❙
+  include ?Terms❙
+  include ?UntypedEquality❙
+  
+  include ?SoftTypedProductsSet❙
+  
+  realize ?SoftTypedProductsExpand❙
+  // AS: repr cannot be used, since u does not have to be a pair❙
+  // expand = [u] _❙
+❚
+
+theory SimpleProductsExtensionalitySet =
+  include ?Propositions❙
+  include ?Proofs❙
+  
+  include ?SimpleProductsSet❙
+  
+  realize ?SimpleProductsExtensionality❙
+  exten = [A,B,u: Elem (A×ͧB),v: Elem (A×ͧB),p,q] ext ((why u) prodE) ((why v) prodE) p q❙
+❚
+
+theory DependentProductsExtensionalitySet =
+  include ?Propositions❙
+  include ?Proofs❙
+  
+  include ?DependentProductsSet❙
+  
+  realize ?DependentProductsExtensionality❙
+  // AS: probably this error is related to DependentTypeEqualitySet❙
+  // exten = [A,B,u,v,p,q] ext ((why u) sigmaE) ((why v) sigmaE) p q❙ 
+❚
+
+theory SoftTypedProductsExtensionalitySet =
+  include ?Propositions❙
+  include ?Proofs❙
+  include ?Terms❙
+  include ?UntypedEquality❙
+  
+  include ?SoftTypedProductsSet❙
+  
+  realize ?SoftTypedProductsExtensionality❙
+  // AS: u and v do not have to be pairs❙
+❚

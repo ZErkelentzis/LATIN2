@@ -13,16 +13,26 @@ theory Propositions =
 /T base theory for any language that has proofs of propositions❚
 theory Proofs =
   include ?Propositions❙
-  /T Judgement as types (enter notation by "jder", not "jvdash") ❙
+  /T Judgement as types (enter notation by "!- or jder", not "jvdash") ❙
   ded   : prop ⟶ type❘# ⊦ 1 prec -5❘role Judgment ❙
+  lemma : {F,G} ⊦ F ⟶ (⊦ F ⟶ ⊦ G) ⟶ ⊦ G❘ = [F,G,p,Q] Q p❘ # lemma 1 3 4❙
+❚
+
+/T base theory for any logic with a judgment for disprovable propositions❚
+theory Disproofs =
+  include ?Propositions❙
+  disproof : prop ⟶ type❘# ∦ 1 prec -5❙
 ❚
 
 /T base theory for any logic, i.e., a language with propositions and proofs❚
 theory Logic =
   include ?Propositions❙
   include ?Proofs❙
-  inconsistent : type❘= {a} ⊦ a❘# ↯❘role Judgment❙
-  inconsistentE : inconsistent ⟶ {a} ⊦ a❘= [p,a] p a❘# 1 inconE %I2❙
+  inconsistent : type❘= {F} ⊦ F❘# ↯❘role Judgment❙
+  inconsistentE : inconsistent ⟶ {F} ⊦ F❘= [p,F] p F❘# 1 inconE %I2❙
+
+  realize ?Disproofs❙
+  disproof = [F] ⊦ F ⟶ ↯❙
 ❚
 
 /T base theory for any language that has terms that do not carry a type
@@ -65,8 +75,9 @@ theory SoftTypedTerms =
   include ?Terms❙
   include ?Types❙
   include ?Propositions❙
-  // TODO change ⦂ to ∶? looks better with syntax highlight, but is hard to distinguish from : without❙
-  of : term ⟶ tp ⟶ prop❘# 1 ⦂ 2 prec 30❙
+  // The notation uses jcolon, which is a different unicode symbol than :.
+  Syntax highlighting should distinguish them because many fonts barely do.❙
+  of : term ⟶ tp ⟶ prop❘# 1 ∶ 2 prec 30❙
 ❚
 
 /T base theory for any language that has kinds, usually in addition to types but in the absence of a universe hierarchy❚
@@ -92,12 +103,22 @@ theory KindedTypes =
    
    Extending languages can be soft-typed but are usually hard-typed, most importantly higher-order logic.
 ❚
-theory InternalPropositions =
+
+theory Booleans =
   include ?TypedTerms❙
   bool: tp❙
+❚
+
+theory InternalPropositions =
+  include ?Booleans❙
   realize ?Propositions❙
   prop = tm bool❙
 ❚
+
+theory Test = 
+  include ?InternalPropositions❙
+❚
+
 
 /T base theory for any language in which soft typing is an emergent feature
    obtained from unary predicates on terms
@@ -127,9 +148,9 @@ theory TypesAsPredicates =
 theory InternalTypes =
   include ?Terms❙
   include ?Propositions❙
-  // AS: I changed this, because otherwise I would have to change it every time in set theory❙
-  cin : term ⟶ term ⟶ prop❘# 1 ∈ͨ 2 prec 30❙
+  // Should be included/realized in set theory❙
+  iin : term ⟶ term ⟶ prop❘# 1 ⋵ 2 prec 30❙
   realize ?SoftTypedTerms❙
   tp = term❙
-  of = cin❙
+  of = iin❙
 ❚

@@ -19,8 +19,8 @@ theory SubtypingPreorder =
 theory SoftSubtyping = 
   include ?SoftTypedTerms❙
   include ?Subtyping❙
-  subtypeI : {A,B} ({x} ⊦ x⦂A ⟶ ⊦x⦂B) ⟶ ⊦ A⪽B❙
-  subtypeE : {A,B} ⊦ A⪽B ⟶ {x}⊦ x⦂A ⟶ ⊦x⦂B❘ # 5 subtypeE 3❙
+  subtypeI : {A,B} ({x} ⊦ x∶A ⟶ ⊦x∶B) ⟶ ⊦ A⪽B❙
+  subtypeE : {A,B} ⊦ A⪽B ⟶ {x}⊦ x∶A ⟶ ⊦x∶B❘ # 5 subtypeE 3❙
 
   realize ?SubtypingPreorder ❙
   constant sub/refl = [A] subtypeI [x,p] p❙

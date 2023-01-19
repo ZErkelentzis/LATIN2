@@ -1,0 +1,23 @@
+file ../../../build_config.msl
+
+// base theory for numbers
+build MMT/LATIN2 mmt-omdoc ./numbers.mmt
+
+// various ways to build the natural numbers
+build MMT/LATIN2 mmt-omdoc ./nat_axiomatic.mmt
+build MMT/LATIN2 mmt-omdoc ./nat_binary.mmt
+build MMT/LATIN2 mmt-omdoc ./nat_church.mmt
+// morphisms between the above
+build MMT/LATIN2 mmt-omdoc ./nat_realm.mmt
+
+// finite types, as prefixes of the natural numbers
+suppressErrors build MMT/LATIN2 mmt-omdoc ./upto.mmt
+
+// integers
+build MMT/LATIN2 mmt-omdoc ./int_axiomatic.mmt
+
+//rationals
+build MMT/LATIN2 mmt-omdoc ./rat_axiomatic.mmt
+
+// experimental
+// build MMT/LATIN2 mmt-omdoc ./nat_induct.mmt

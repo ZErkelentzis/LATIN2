@@ -1,0 +1,17 @@
+namespace latin:/❚
+
+fixmeta ur:?LF❚
+
+theory VectorTypes =
+  include ?Types❙
+  include ?UptoNatTypes❙
+
+  vector : tp ⟶ ℕ ⟶ tp❘# 1 ^ͭ 2 prec 50❙
+  empty_vector: {a} tm a^ͭ0❙
+  snoc_vector: {a,n} tm a^ͭn ⟶ tm a ⟶ tm a^ͭ(n')❘# 3 snoc 4 prec 50❙
+  
+  vector_proj: {a,n} tm a^ͭn ⟶ tm Upto n ⟶ tm a❘ # 3 proj 4 prec 50❙
+  
+  vector_proj_last: {a,n,x,v:tm a^ͭn} ⊦ (v snoc x) proj (last n) =ͭ x❙
+  vector_proj_lift: {a,n,x,v:tm a^ͭn,i} ⊦ (v snoc x) proj (lift i) =ͭ v proj i❙
+❚

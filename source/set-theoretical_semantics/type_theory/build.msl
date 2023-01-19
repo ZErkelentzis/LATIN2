@@ -1,0 +1,10 @@
+file ../../../build_config.msl
+
+// type_to_set
+// within this folder there should not be any dependencies.
+// However, it is dependent on set_theory and type_theory
+
+build MMT/LATIN2 mmt-omdoc set-theoretical_semantics/type_theory/function_types.mmt
+build MMT/LATIN2 mmt-omdoc set-theoretical_semantics/type_theory/product_types.mmt
+build MMT/LATIN2 mmt-omdoc set-theoretical_semantics/type_theory/predicate_subtypes.mmt
+build MMT/LATIN2 mmt-omdoc set-theoretical_semantics/type_theory/power_types.mmt

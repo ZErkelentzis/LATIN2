@@ -1,0 +1,45 @@
+namespace latin:/❚
+
+fixmeta latin:/?SFOLEQND❚
+
+theory NumBinary =
+  include ?Numbers❙
+
+  start = zero❘ # b❙
+  
+  // double, i.e., append the digit 0❙
+  db: tm num ⟶ tm num❘ # 1 ₀ prec 70❙
+  // double and increment, i.e., append the digit 1❙
+  dbI: tm num ⟶ tm num❘ # 1 ₁ prec 70❙
+  
+  // successor and its rules❙
+  succ_zero:    ⊦   b ' =ͭ b ₁ ❘ role Simplify❙
+  succ_db:  {n} ⊦ n ₀ ' =ͭ n ₁ ❘ role Simplify❙
+  succ_dbI: {n} ⊦ n ₁ ' =ͭ n'₀❘ role Simplify❙
+❚
+
+theory BinaryPlus =
+  include ?NumBinary❙
+  include ?Plus❙
+
+  plus_zero_right: {n} ⊦ n + b =ͭ n               ❘ role Simplify❙
+  plus_zero_left:  {n} ⊦ b + n =ͭ n               ❘ role Simplify❙
+  
+  // these rules cannot be picked up by the SimplificationRuleGenerator yet❙
+  plus_db_db:    {m,n} ⊦ m ₀ + n ₀ =ͭ (m + n) ₀   ❘ // role Simplify❙
+  plus_db_dbI:   {m,n} ⊦ m ₀ + n ₁ =ͭ (m + n) ₁   ❘ // role Simplify❙
+  plus_dbI_db:   {m,n} ⊦ m ₁ + n ₀ =ͭ (m + n) ₁   ❘ // role Simplify❙
+  plus_dbI_dbI:  {m,n} ⊦ m ₁ + n ₁ =ͭ ((m + n) ')₀❘ // role Simplify❙
+❚
+
+theory BinaryPlusTimes =
+  include ?BinaryPlus❙
+  include ?Times❙
+  
+  times_zero : {n} ⊦ b * n =ͭ b❙
+  times_succ : {m, n} ⊦ n' * m =ͭ (n * m) + m❙
+❚
+
+theory Binary =
+  include ?BinaryPlusTimes❙
+❚

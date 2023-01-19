@@ -11,7 +11,7 @@ theory DependentProductTypes =
   include ?TypedTerms❙
   depprod : {A} (tm A ⟶ tp) ⟶ tp❘# Σͭ 2 prec 40❙
   
-  // AS: maybe do a total structure here❙
+  // maybe do a total structure here❙
   realize ?SimpleProductTypes❙
   simpprod = [A,B] Σͭ [x: tm A] B❙
 ❚
@@ -23,10 +23,10 @@ theory SoftDependentProductTypes =
 
 theory SimpleProducts =
   include ?SimpleProductTypes❙
-  include ?TypedEquality❙
-  simppair: {A,B} tm A ⟶ tm B ⟶ tm A ×ͭ B❘# 3 ,ͭ 4 prec 50❙
-  simppi1 : {A,B} tm A ×ͭ B ⟶ tm A❘# 3 ₁ͭ prec 60❙
-  simppi2 : {A,B} tm A ×ͭ B ⟶ tm B❘# 3 ₂ͭ prec 60❙
+  include ?TypedEqualityND❙
+  simppair: {A,B} tm A ⟶ tm B ⟶ tm A ×ͭ B❘# 3 ,ͭ 4 prec 40❙
+  simppi1 : {A,B} tm A ×ͭ B ⟶ tm A❘# 3 ₁ͭ prec 100❙
+  simppi2 : {A,B} tm A ×ͭ B ⟶ tm B❘# 3 ₂ͭ prec 100❙
   
   compute1 : {A,B,a:tm A,b:tm B} ⊦ (a,ͭb)₁ͭ =ͭ a❘role Simplify❙
   compute2 : {A,B,a:tm A,b:tm B} ⊦ (a,ͭb)₂ͭ =ͭ b❘role Simplify❙
@@ -36,10 +36,10 @@ theory DependentProducts =
   include ?DependentProductTypes❙
   include ?TypedEquality❙
   include ?DependentTypeEquality❙
-  // AS: probably give these ͩͭ. However, this would look pretty bad.❙
-  deppair: {A,B, a: tm A} tm B a ⟶ tm Σͭ B❘# 3 , 4 prec 50❙
-  deppi1 : {A,B: tm A ⟶ tp} tm Σͭ B ⟶ tm A ❘# 3 ₁ prec 60❙
-  deppi2 : {A,B, u: tm Σͭ [x: tm A] B x} tm B (u₁)❘# 3 ₂ prec 60❙
+  // maybe ascribe these ͩͭ, but this would look pretty bad❙
+  deppair: {A,B, a: tm A} tm B a ⟶ tm Σͭ B❘# 3 , 4 prec 40❙
+  deppi1 : {A,B: tm A ⟶ tp} tm Σͭ B ⟶ tm A ❘# 3 ₁ prec 100❙
+  deppi2 : {A,B, u: tm Σͭ [x: tm A] B x} tm B (u₁)❘# 3 ₂ prec 100❙
 
   compute1 : {A, B, a: tm A, b} ⊦ ((a,b):tm Σͭ B)₁ =ͭ a❘role Simplify❙
   compute2 : {A, B: tm A ⟶ tp, a, b} ⊦ (a,b: tm Σͭ B)₂↑(compute1 congType B) =ͭ b❘role Simplify❙
@@ -47,7 +47,6 @@ theory DependentProducts =
 
 theory SoftTypedProducts =
   include ?Terms❙
-  // AS: why is UntypedEquality used and not SoftTypedEquality?❙
   include ?UntypedEquality❙
   pair: term ⟶ term ⟶ term❘# 1 ,ͬ 2 prec 50❙
   pi1 : term ⟶ term❘# 1 ₁ͬ prec 60❙
@@ -61,14 +60,14 @@ theory SoftTypedSimpleProducts =
   include ?SoftTypedTerms❙
   include ?SoftTypedProducts❙
   include ?SimpleProductTypes❙
-  fun_typing : {A,B,a,b} ⊦ a⦂A ⟶ ⊦ b⦂B ⟶ ⊦ (a,ͬb) ⦂ A ×ͭ B❙
+  fun_typing : {A,B,a,b} ⊦ a∶A ⟶ ⊦ b∶B ⟶ ⊦ (a,ͬb) ∶ A ×ͭ B❙
 ❚
 
 theory SoftTypedDependentProducts =
   include ?SoftTypedTerms❙
   include ?SoftTypedProducts❙
   include ?SoftDependentProductTypes❙
-  fun_typing : {A,B,a,b} ⊦ a⦂A ⟶ ⊦ b⦂(B a) ⟶ ⊦ (a,ͬb) ⦂ Σͬ A B❙
+  fun_typing : {A,B,a,b} ⊦ a∶A ⟶ ⊦ b∶(B a) ⟶ ⊦ (a,ͬb) ∶ Σͬ A B❙
 ❚
 
 theory SimpleProductsExpand =

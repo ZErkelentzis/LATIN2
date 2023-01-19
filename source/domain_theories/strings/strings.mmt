@@ -1,0 +1,26 @@
+namespace latin:/❚
+
+fixmeta ?TypedEquality❚
+
+import rules scala://lf.mmt.kwarc.info❚
+import uom scala://uom.api.mmt.kwarc.info❚
+
+theory String =
+  include ?Nat❙
+	
+	char: tp ❘# %n ❙
+	string: tp ❘# %n ❙ 
+	
+	Char = tm char ❘# %n ❙
+	String = tm string ❘# %n❙
+
+	rule rules?Realize String uom?StandardString❙
+
+	empty: tm string❙
+	rule rules?Realize empty uom?StringOperations/Empty❙
+	
+	concat: tm string ⟶ tm string ⟶ tm string ❘# %n 1 2 prec 50❙
+	size: tm string ⟶ ℕ❙
+	charAt: tm string ⟶ ℕ ⟶ tm char❘# %n 1 2 prec 50❙
+	substring : tm string ⟶ ℕ ⟶ ℕ ⟶ tm string ❘# %n 1 2 3 prec 50 ❙
+❚

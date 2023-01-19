@@ -1,0 +1,26 @@
+namespace latin:/algebraic❚
+
+fixmeta latin:/?SFOLEQND❚
+
+view InfimumIsSemilattice : ?Semilattice → ?Order + ?Infimum =
+  include ?Set❙
+  op = inf❙
+  assoc_ax = tforallI [x]tforallI [y]tforallI [z] antisym
+    (infimumE infimum_ax
+      (infimum_smallerL trans infimum_smallerL)
+      (infimumE infimum_ax (infimum_smallerL trans infimum_smallerR) infimum_smallerR))
+    (infimumE infimum_ax
+      (infimumE infimum_ax infimum_smallerL (infimum_smallerR trans infimum_smallerL))
+      (infimum_smallerR trans infimum_smallerR))❙
+  comm_ax = tforallI [x] tforallI [y] antisym
+    (infimumE infimum_ax infimum_smallerR infimum_smallerL)
+    (infimumE infimum_ax infimum_smallerR infimum_smallerL)❙
+  idem_ax = tforallI [x] antisym (infimum_ax andEl andEl) (infimumE infimum_ax refl refl) ❙
+❚
+
+view CartesianIsBoundedSemilattice : ?BoundedSemilattice → ?Cartesian =
+  include ?InfimumIsSemilattice❙
+  unit = top❙
+  neutralL = tforallI [x] antisym infimum_smallerR (infimumE infimum_ax top_ax refl)❙
+  neutralR = tforallI [x] antisym infimum_smallerL (infimumE infimum_ax refl top_ax)❙
+❚

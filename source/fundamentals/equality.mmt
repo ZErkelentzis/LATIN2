@@ -1,6 +1,5 @@
 namespace latin:/❚
 
-import lfx http://gl.mathhub.info/MMT/LFX ❚
 fixmeta ur:?LF❚
 
 theory UntypedEquality =
@@ -11,8 +10,7 @@ theory UntypedEquality =
 theory UntypedEqualityND =
   include ?UntypedEquality❙
   urefl  : {x} ⊦ x =ͧ x❘# urefl %I1❙
-  /T use the alias congP_ when inference of implicit arguments fails when using congP ❙
-  ucongP : {x,y} ⊦ x =ͧ y ⟶ {P: term ⟶ prop} ⊦ P x ⟶ ⊦ P y❘# 3 ucongP  4 5 ❘@ ucongP_ ❙
+  ucongP : {x,y} ⊦ x =ͧ y ⟶ {P: term ⟶ prop} ⊦ P x ⟶ ⊦ P y❘# 3 ucongP 4 5❙
   
   total structure eq : ?EquivalenceCongruence =
     carrier = term❙
@@ -22,21 +20,9 @@ theory UntypedEqualityND =
     trans = [x,y,z,p,q] q ucongP ([u]x =ͧ u) p❘# 4 %n 5❙
     congT = [x,y,p,T] p ucongP ([u] T x =ͧ T u) urefl❙
   ❚
-❚
-
-/T Equality on proofs, mainly used for proof simplification in ./logic.
-
-   As such it is the Curry-Howard analog of program execution / reduction in lambda calculi. ❚
-theory ProofEquality =
-  include ?Proofs ❙
-  proofeq: {p} ⊦ p ⟶ ⊦ p ⟶ type ❘ # 2 ⟺ 3 prec 10 ❘ role Eq ❙
-❚
-
-theory UntypedEqualityNDS =
-  include ?UntypedEqualityND❙
-  include ?ProofEquality ❙
-  ucongP_s : {x, P: term ⟶ prop, pf: ⊦ P x}
-              (ucongP_ x x urefl P pf) ⟺ pf ❘ role Simplify ❙
+  
+  ucongPr : {x,y} ⊦ x =ͧ y ⟶ {P: term ⟶ prop} ⊦ P y ⟶ ⊦ P x❘# 3 ucongPr 4 5❘
+          = [x,y,p,P,q] (eq/sym p) ucongP P q❙
 ❚
 
 /T A relative equality for a typed language, in which the equality of objects may depend on the type at which it is taken.
@@ -48,16 +34,16 @@ theory UntypedEqualityNDS =
 theory SoftTypedEquality =
   include ?SoftTypedLogic❙
   requal : tp ⟶ term ⟶ term ⟶ prop❘# 2 =ͬ 1 3 prec 30❙
-  as : {x,A} ⊦ x⦂A ⟶ term❘ # ↑ 3 prec 50❙
+  as : {x,A} ⊦ x∶A ⟶ term❘ # ↑ 3 prec 50❙
 ❚
 
 theory SoftTypedEqualityND =
   include ?SoftTypedEquality❙
   rrefl  : {A,x} ⊦ x =ͬ A x❘# rrefl 1 %I2❙
-  requal_tp : {A,x} ⊦ x =ͬ A x ⟶ ⊦ x ⦂ A❙
+  requal_tp : {A,x} ⊦ x =ͬ A x ⟶ ⊦ x ∶ A❙
   rsym   : {A,x,y} ⊦ x =ͬ A y ⟶ ⊦ y =ͬ A x❘ # 4 rsym❙
   rtrans : {A,x,y,z} ⊦ x =ͬ A y ⟶ ⊦ y =ͬ A z ⟶ ⊦ x =ͬ A z❘ # 5 rtrans 6❙
-  requal_any_tp : {A,x,y} ⊦ x =ͬ A y ⟶ ⊦ x ⦂ A❘
+  requal_any_tp : {A,x,y} ⊦ x =ͬ A y ⟶ ⊦ x ∶ A❘
                = [A,x,y,p] requal_tp (p rtrans (p rsym))❙
   requal_as : {A,x,y} ⊦ x =ͬ A y ⟶ term❘ = [A,x,y,p] ↑(requal_any_tp p)❘ # requal_as 4❙ 
   rcongP : {A,x,y,p:⊦ x =ͬ A y, P: term ⟶ prop} ⊦ P (requal_as p) ⟶ ⊦ P (requal_as (p rsym))❘# 4 rcongP 5 6❙
@@ -72,26 +58,19 @@ theory TypedEqualityND =
   include ?TypedEquality❙
   trefl   : {A,x: tm A} ⊦ x =ͭ x❙
 
-  /T Explanation:
-     Let `P: (tm A ⟶ tm B) ⟶ prop` be a predicate, which by HOAS we can interpret as a predicate that is
-     allowed to apply a function `tm A ⟶ tm B`.
-     Now the axiom asserts that if `X,Y: tm A ⟶ tm B` are two functions that are extensionally equal,
-     then `⊦ P X` implies `⊦ P Y`.
+  // We use an unusual congruence in order to be able to perform congruence under an arbitrary binder.
+     The rule captures a |- X a = Y a ---> P [a] X a ⇔ P [a] Y a.
+     That suffices to derive the xi rule for λ later. 
   ❙
   tcongB : {A,B, X,Y: tm A ⟶ tm B} ({a}⊦X a =ͭ Y a) ⟶ {P: (tm A ⟶ tm B) ⟶ prop} ⊦ P X ⟶ ⊦ P Y❙
 
-  /T
-    Explanation of definiens:
-    We instantiate `congB` with (i) two constant functions `λ_. x` and `λ_. y` (inferred implicit arguments)
-    and (ii) the predicate `(tm A ⟶ tm A) ⟶ prop` given by `λU. P (U x)`. Here, it is irrelevant whether
-    we would have written `U x` (as-is) or `U y` (since we are using constant functions anyway).
-  ❙
+  /T The usual congruence rule arises as a special case.❙
   tcongP  : {A,x,y} ⊦ x =ͭ y ⟶ {P: tm A ⟶ prop} ⊦ P x ⟶ ⊦ P y❘# 4 tcongP 5 6❘
          = [A,x,y,p,P,q] tcongB ([a]p) ([U] P (U x)) q❙
   
-  
   tcongT  : {A,B,x,y} ⊦ x =ͭ y ⟶ {T: tm A ⟶ tm B} ⊦ T x =ͭ T y ❘# 5 tcongT 6❘
          = [A,B,x,y,p,T] p tcongP ([u] T x =ͭ T u) trefl❙
+  tcongTAt = tcongT❘# at 6 tcongT 5 prec -5❙
   tsym    : {A, x,y: tm A} ⊦ x =ͭ y ⟶ ⊦ y =ͭ x❘# 4 tsym❘
          = [A,x,y,p] p tcongP ([u]u =ͭ x) trefl❙
   ttrans  : {A,x,y,z: tm A} ⊦ x =ͭ y ⟶ ⊦ y =ͭ z ⟶ ⊦ x =ͭ z❘# 5 ttrans 6❘
@@ -102,4 +81,14 @@ theory TypedEqualityND =
          = [A, v,w,x,y,z,p,q,r,s] p ttrans q ttrans r ttrans s❙
   tcongT2 : {A,B,C,x,y,xˈ,yˈ} ⊦ x =ͭ y ⟶ ⊦xˈ =ͭ yˈ⟶ {T: tm A ⟶ tm B ⟶ tm C} ⊦ T x xˈ =ͭ T y yˈ❘# 8 9 tcongT2 10❘
          = [A,B,C,x,y,xˈ,yˈ,p,q,T] (p tcongT [u] T u xˈ) ttrans (q tcongT [u] T y u)❙
+  
+  eqChain : {A,X:tm A} ⊦ X =ͭ X❘ = [A,X] trefl❘ # eqChain 2❙
+  equalToVia : {A,T,X: tm A} ⊦ T =ͭ X ⟶ {Y} ⊦ X =ͭ Y ⟶ ⊦ T =ͭ Y❘= [A,T,X,p,Y,q] p ttrans q❘# 4 ⟪ 6 ⟫ 5❙
+❚
+
+theory PropositionalExtensionality =
+  include ?InternalPropositions❙
+  include ?TypedEquality❙
+  propext: {F,G} (⊦ F ⟶ ⊦ G) ⟶ (⊦ G ⟶ ⊦ F) ⟶ ⊦ F =ͭ G❙
+  top_unique: {F,G} ⊦ F ⟶ ⊦ G ⟶ ⊦ F =ͭ G❘ = [F,G,p,q] propext ([u] q) ([u] p)❙
 ❚

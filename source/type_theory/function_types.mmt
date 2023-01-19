@@ -11,7 +11,7 @@ theory DependentFunctionTypes =
   include ?TypedTerms❙
   depfun : {A} (tm A ⟶ tp) ⟶ tp❘# Πͭ 2 prec 40❙
   
-  // AS: Maybe change realize to a total structure❙
+  // maybe change realize to a total structure❙
   realize ?SimpleFunctionTypes❙
   simpfun = [A,B] Πͭ [x: tm A] B❙
 ❚
@@ -58,7 +58,6 @@ theory DependentFunctions =
 
 theory SoftTypedFunctions =
   include ?Terms❙
-  // AS: why is this UntypedEquality and not SoftTypedEquality?❙
   include ?UntypedEquality❙
   lambda: (term ⟶ term) ⟶ term❘# λ 1 prec 40❙
   apply : term ⟶ term ⟶ term❘# 1 @ 2 prec 50❙
@@ -69,14 +68,14 @@ theory SoftTypedSimpleFunctions =
   include ?SoftTypedTerms❙
   include ?SoftTypedFunctions❙
   include ?SimpleFunctionTypes❙
-  fun_typing : {A,B,F} ({x} ⊦ x⦂A ⟶ ⊦ (F x)⦂B) ⟶ ⊦ λ F ⦂ A → B❙
+  fun_typing : {A,B,F} ({x} ⊦ x∶A ⟶ ⊦ (F x)∶B) ⟶ ⊦ λ F ∶ A → B❙
 ❚
 
 theory SoftTypedDependentFunctions =
   include ?SoftTypedTerms❙
   include ?SoftTypedFunctions❙
   include ?SoftDependentFunctionTypes❙
-  fun_typing : {A,B,F} ({x} ⊦ x⦂A ⟶ ⊦ (F x)⦂(B x)) ⟶ ⊦ λ F ⦂ Πͬ A B❙
+  fun_typing : {A,B,F} ({x} ⊦ x∶A ⟶ ⊦ (F x)∶(B x)) ⟶ ⊦ λ F ∶ Πͬ A B❙
 ❚
 
 theory SimpleFunctionsEta =
@@ -116,5 +115,5 @@ view FE : ?SimpleFunctionsExtensionality -> ?SimpleFunctionsEta =
 
 view EF : ?SimpleFunctionsEta -> ?SimpleFunctionsExtensionality =
    include ?SimpleFunctions❙
-   eta = [A,B,F] exten [x] trefl❙
+   eta = [A,B,F] exten [x] trefl ❙
 ❚

@@ -1,0 +1,14 @@
+namespace latin:/❚
+
+fixmeta ur:?LF❚
+
+theory UnitType =
+  include ?TypedEqualityND❙
+  unitType : tp❙
+  unit: tm unitType❙
+  unitArrow: {A} tm A ⟶ tm unitType❘ = [A,a] unit❙
+
+  unitUnique: {u} ⊦ u =ͭ unit❙
+  unitUniversal: {A,B,F: tm A ⟶ tm B, a} ⊦ unitArrow B (F a) =ͭ unitArrow A a❘
+               = [A,B,F,a] unitUnique ttrans (unitUnique tsym)❙
+❚

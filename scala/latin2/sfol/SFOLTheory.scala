@@ -66,6 +66,7 @@ object SFOLPatterns {
     }
     def unapply(t: Term) =  t match {
       case TmFunType(in,prop.term) => Some(in)
+      case TmFunType(in,TypedTerms.tm(Booleans.bool.term)) => Some(in)
       case _ => None
     }
   }

@@ -1,0 +1,34 @@
+namespace latin:/❚
+
+fixmeta ?DependentFOLEQDescND❚
+
+theory NatZF =
+  include ?Nats❙
+  include ?TypedUniversalQuantificationNDSet❙
+  
+  include ?SFOLEQND❙
+  realize ?NatUnary❙
+  num = nats❙
+  
+  nat = nats❙
+  zero = elem uzero peano_zero❙
+  succ = [e] elem (usucc (which e)) (peano_succ uforallE (which e) implE (why e))❙
+  
+  peano_induction : {P} ⊦ P zero ⟶ ({m} ⊦ P m ⟶ ⊦ P (succ m)) ⟶ {n} ⊦ P n❘
+       = [P,p,Q,n] lemma (∀ͧ[x] x∈nats ⇒ (x∈nats ⇒ͩ[q] P (elem x q)))
+          (peano_induction
+            (dimplI [d] p)
+            ([m,q,r] dimplI [d] Q (elem m q) (r dimplE q)))
+         [lem]
+         Class_repr EqcongEl P (lem uforallE (which n) implE (why n) dimplE (why n))❙
+❚
+
+theory NatPlusZF =
+  include ?NatZF❙
+  
+  realize ?NatPlus❙
+  // plus = [e: Elem nats, d: Elem nats] _ ❙
+  plus = _ ❙
+  plus_zero = _ ❙
+  plus_succ = _ ❙
+❚

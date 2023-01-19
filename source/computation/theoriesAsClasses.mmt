@@ -1,0 +1,45 @@
+namespace latin:/❚
+import rules scala://computation.latin2❚
+
+import lfRules scala://lf.mmt.kwarc.info❚
+import instance scala://execution.api.mmt.kwarc.info ❚
+
+theory TheoriesAsClasses =
+	include ?instanceMeta ❙
+     // legalizes literals representing runtime instances
+       Their MMT type is anyInstance, which is not an LF type
+       so that instances are not immediately usable.
+       Instead, languages represented in MMT can use these literals to build terms.❙
+    rule lfRules?Realize anyInstance instance?InstanceType❙
+
+    // the above two declarations are not LATIN-specific and should be moved to a theory CF in urtheories that is included here❙
+    
+
+    // value constructor: embeds a runtime instance represented as a literal into the appropriate type❙
+    typedInstance # %n 1❙
+    // type constructor: the type of all instances of a given theory❙ 
+    typedInstances # %n 1❙
+    // the typing rule for typedInstances❙
+    rule rules?InstancesTyping❙
+    
+
+    // the typing rule for typedInstance❙
+    rule rules?InstanceTyping❙
+    
+    new    # new 1 2❙
+    rule rules?NewRun ❙
+    rule rules?NewInstance❙
+    
+     field    # 1 . L2❙
+    rule rules?FieldRun ❙
+    rule rules?FieldInstance ❙
+ ❚
+ fixmeta ur:?PLF❚
+
+ 
+ theory instanceMeta =
+     // the meta-level type of all instances
+     This has to be separate due to part of this being expressable in LF, while the above are not LF terms
+     ❙
+    anyInstance :  type❙
+  ❚

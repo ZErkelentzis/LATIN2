@@ -1,0 +1,19 @@
+namespace latin:/❚
+
+import rules scala://computation.latin2❚
+fixmeta ur:?PLF❚
+
+
+theory WhileOps = 
+    // This theory only really makes sense with mutation for the while-loop ❙
+      include ?TypedEquality❙
+      include ?Classical❙
+      include ?MutableVariables ❙
+      while :  prop ⟶ tm unitType ⟶ tm unitType❘ # while 1 do 2  prec 5❙
+      rule rules?WhileRun ❙
+❚
+
+theory ForLoop = 
+	include ?WhileOps ❙
+	include ?Nat ❙
+❚
