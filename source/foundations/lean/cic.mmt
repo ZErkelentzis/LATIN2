@@ -1,0 +1,77 @@
+namespace latin:/lean❚
+
+theory Lean : ur:?LF =
+  /T universe hiearchy: Prop, Type, Type 2, ...
+     Semantically, there are no other universes.
+     But because declarations may use universe-polymorphism, there are universe variables, whose values are not known.
+     Universe variables, polymorphism, and instantiation are represented as LF variables, Pi, resp. lambda.❙
+  level: type❙
+  Zero: level❙
+  Succ: level ⟶ level❘ # Succ 1 prec 50❙
+  // maximum of two universes (irreducible only in the presence of universe variables)❙
+  Max: level ⟶ level ⟶ level❙
+  // impredicative maximum: like Max but Zero if second argument is Zero
+     (this is used for Π types)❙
+  IMax: level ⟶ level ⟶ level❙
+  
+  /T expressions: terms, types, universes❙
+  expr: type❙
+  /T injection of universes❙
+  Sort: level ⟶ expr❙
+  /T application❙
+  App:  expr ⟶ expr ⟶ expr❘ # 1 @ 2 prec 50❘ ## 1 %w 2 prec 50❙
+  /T lambda abstraction❙
+  Lam:  expr ⟶ (expr ⟶ expr) ⟶ expr❘ # λ 1 2 prec 50❙
+  /T Pi function types❙
+  Pi:   expr ⟶ (expr ⟶ expr) ⟶ expr❘ # Π 1 2 prec 50❙
+  /T let binder❙
+  Let:  expr ⟶ expr ⟶ (expr ⟶ expr) ⟶ expr❘ # let 1 % 2 in 3 prec 5❙
+
+  /T binary typing judgment |- a : A, and its rules❙
+  typing : expr ⟶ expr ⟶ type❘ # 1 % 2 prec 10❙
+  
+  typing_Sort: {l} Sort l % Sort (Succ l)❙
+  typing_App:  {A,B,f,a} f % (Π A [x] B x) ⟶ a % A ⟶ f@a % B a❙
+  typing_Lam:  {l,A,B,F} A % Sort l ⟶ ({x} x%A ⟶ F x % B x) ⟶ (λ A [x] F x) % Π A [x] B x❙
+  typing_Pi:   {l,m,A,B} A % Sort l ⟶ ({x} x%A ⟶ B x % Sort m) ⟶ (Π A [x] B x) % Sort (IMax l m)❙
+  typing_Let:  {A,B,a,F} a % A ⟶ ({x} x%A ⟶ F x % B x) ⟶ (let a % A in [x] F x) % B a❙
+
+  /T equality of level, needed to reduce the maximum operation❙
+  equalLevel : level ⟶ level ⟶ type❘ # 1 == 2 prec 0❙
+
+  equalLevel_refl : {l} l == l❙
+  equalLevel_cong : {F,l,m} l == m ⟶ F l == F m❙
+
+  equalLevel_Max_Zero_right: {l} Max l Zero == l❙
+  equalLevel_Max_Zero_left:  {l} Max Zero l == l❙
+  equalLevel_Max_Succ:       {l,m} Max (Succ l) (Succ m) == Succ (Max l m)❙
+  equalLevel_IMax_Zero_right: {l} IMax l Zero == Zero❙
+  equalLevel_IMax_Succ_right: {l,m} IMax l (Succ m) == Max l (Succ m)❙
+
+  /T The above reduction rules are sufficient to eliminate Max and IMax from closed universe expressions.
+     Max is commutative, associative, idempotent, and IMax is idempotent.
+     Those properties could be proved by induction on universes.❙ 
+  
+  /T equality of expressions❙
+  equal : expr ⟶ expr ⟶ type❘ # 1 = 2 prec 0❙
+
+  equal_refl:  {a} a = a❙
+  equal_cong:  {F,a,b} a = b ⟶ F a = F b❙
+  
+  equal_Sort:  {l,m} l == m ⟶ Sort l = Sort m❙
+  equal_Let:   {a,A,F} let a % A in F = F a❙
+  equal_Beta:  {a,A,F} (λ A F) @ a = F a❙
+  equal_Eta:   {A,f} (λ A [x] f@x) = f❙
+  
+  /T Lean's kernel declarations are
+     * typed universe-polymorphic constants c: expr, c_typing: {l1, ..., lm: level} c % A
+     * conditional rewrite rules: r: {G} a1 = b1 ⟶ ... ⟶ an = bn ⟶ a = b
+       where a is a constant applied to universe variables and some arguments
+     
+     Lean's surface declarations are
+     * axioms: like constants abovec: expr, c_typing: c % A
+     * definitions: a constant plus a rewrite rule
+     * inductive type definitions
+     * quotient type definitions
+  ❚
+❚
