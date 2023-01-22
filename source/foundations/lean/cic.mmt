@@ -1,10 +1,6 @@
 namespace latin:/lean❚
 
 theory Lean : ur:?LF =
-  /T universe hiearchy: Prop, Type, Type 2, ...
-     Semantically, there are no other universes.
-     But because declarations may use universe-polymorphism, there are universe variables, whose values are not known.
-     Universe variables, polymorphism, and instantiation are represented as LF variables, Pi, resp. lambda.❙
   level: type❙
   Zero: level❙
   Succ: level ⟶ level❘ # Succ 1 prec 50❙
@@ -24,6 +20,8 @@ theory Lean : ur:?LF =
   Lam:  expr ⟶ (expr ⟶ expr) ⟶ expr❘ # λ 1 2 prec 50❙
   /T Pi function types❙
   Pi:   expr ⟶ (expr ⟶ expr) ⟶ expr❘ # Π 1 2 prec 50❙
+  /T Pi function types❙
+  arrow:   expr ⟶ expr ⟶ expr❘ = [a,b] Π a [x] b❘ # 1 %R→ 2 prec 50❙
   /T let binder❙
   Let:  expr ⟶ expr ⟶ (expr ⟶ expr) ⟶ expr❘ # let 1 % 2 in 3 prec 5❙
 
@@ -74,4 +72,10 @@ theory Lean : ur:?LF =
      * inductive type definitions
      * quotient type definitions
   ❚
+  
+  /T For Church-typing: Expr A is the subtype of expr holding the terms T such that T%A❙
+  Expr : expr ⟶ type❙
+  Expr_in : {A,T} T%A ⟶ Expr A❙
+  Expr_out: {A} Expr A ⟶ expr❘ # ! 2 prec 100❙
+  Expr_out_typing: {A,E:Expr A} ! E % A❙
 ❚
