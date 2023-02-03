@@ -1,0 +1,25 @@
+namespace latin:/algebraic❚
+
+fixmeta latin:/?SFOLEQND❚
+
+theory DivGroup =
+	include ?Set❙
+	
+	div : U ⟶ U ⟶ U ❘# 1 ÷ 2 prec 50❙
+	
+	ax1 : {x, y} ⊦ x ÷ x =ͭ y ÷ y❙
+	ax2 : {x, y} ⊦ x ÷ (y ÷ y) =ͭ x❙
+	ax3 : {x, y, z} ⊦ (x ÷ x) ÷ (y ÷ z) =ͭ z ÷ y❙
+	ax4 : {x, y, z} ⊦ (x ÷ z) ÷ (y ÷ z) =ͭ x ÷ y❙
+❚
+
+view GroupToDivGroup : ?Group → ?DivGroup =
+	include ?Set❙
+	
+	unit = [a] a ÷ a❙
+❚
+
+view DivGroupToGroup : ?DivGroup → ?Group =
+	include ?Set❙
+	div = [x, y] x∘y⁻❙
+❚
