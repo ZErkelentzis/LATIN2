@@ -7,22 +7,27 @@ theory DivGroup =
 	
 	div : U ⟶ U ⟶ U ❘# 1 ÷ 2 prec 50❙
 	
-	ax1 : {x, y} ⊦ x ÷ x =ͭ y ÷ y❙
-	ax2 : {x, y} ⊦ x ÷ (y ÷ y) =ͭ x❙
-	ax3 : {x, y, z} ⊦ (x ÷ x) ÷ (y ÷ z) =ͭ z ÷ y❙
+	unit_unique : {x, y} ⊦ x ÷ x =ͭ y ÷ y❙
+	unit_neutral : {x, y} ⊦ x ÷ (y ÷ y) =ͭ x❙
+	reciprocal : {x, y, z} ⊦ (x ÷ x) ÷ (y ÷ z) =ͭ z ÷ y❙
 	ax4 : {x, y, z} ⊦ (x ÷ z) ÷ (y ÷ z) =ͭ x ÷ y❙
 ❚
 
-view GroupToDivGroup : ?Group → ?DivGroup =
-	include ?Set❙
+//view GroupToDivGroup : ?Group → ?DivGroup =
+//	include ?Set❙
 	
-	unit = [a] a ÷ a❙
-❚
+//	unit = [a] a ÷ a❙
+//❚
 
 view DivGroupToGroup : ?DivGroup → ?Group =
 	include ?Set❙
 	div = [x, y] x∘y⁻❙
 	
-	ax1 = [x, y] invR ttrans (invR tsym)❙
+	unit_unique = [x, y] invR ttrans (invR tsym)❙
+	unit_neutral = [x, y] inv_op tsym tcongP ([u] x∘u =ͭ x) (invL tsym tcongP ([u] x∘u =ͭ x) neutR)❙
+	// reciprocal = [x, y, z] (inv_inv tsym) tcongP ([u] (x∘x⁻)∘(y∘z⁻)⁻ =ͭ u∘y⁻)
+						   (((invR tsym) tcongP ([u] (u∘((y∘z⁻)⁻) =ͭ (y∘z⁻)⁻)) neutL) ttrans inv_op)❙
+
+
 
 ❚
