@@ -45,7 +45,6 @@ theory InverseFun =
   inv_op : {x,y} ⊦ (x∘y)⁻ =ͭ y⁻∘x⁻❘
          = [x,y] inverse_unique inverse_inv (inverse_op inverse_inv inverse_inv)❙
 ❚
-
 theory InverseExistence = 
   include ?Monoid ❙
   inverseLeft:  ⊦ ∀ͭ[x]∃ͭ[i] i∘x =ͭ e ❙
