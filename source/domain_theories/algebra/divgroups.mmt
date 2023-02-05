@@ -5,27 +5,33 @@ fixmeta latin:/?SFOLEQND❚
 theory DivGroup =
 	include ?Set❙
 	
+	a : U❙
 	div : U ⟶ U ⟶ U ❘# 1 ÷ 2 prec 50❙
 	
 	unit_unique : {x, y} ⊦ x ÷ x =ͭ y ÷ y❙
 	unit_neutral : {x, y} ⊦ x ÷ (y ÷ y) =ͭ x❙
 	reciprocal : {x, y, z} ⊦ (x ÷ x) ÷ (y ÷ z) =ͭ z ÷ y❙
-	ax4 : {x, y, z} ⊦ (x ÷ z) ÷ (y ÷ z) =ͭ x ÷ y❙
+	reduce : {x, y, z} ⊦ (x ÷ z) ÷ (y ÷ z) =ͭ x ÷ y❙
 ❚
 
-//view GroupToDivGroup : ?Group → ?DivGroup =
-//	include ?Set❙
-	
-//	unit = [a] a ÷ a❙
-//❚
+view GroupToDivGroup : ?Group → ?DivGroup =
+    include ?Set❙
+    unit = a ÷ a❙
+    op = [x, y] x ÷ ((a ÷ a) ÷ y)❙
+    
+    assoc_ax = _❙
+
+❚
 
 view DivGroupToGroup : ?DivGroup → ?Group =
 	include ?Set❙
+	a = e❙
 	div = [x, y] x∘y⁻❙
 	
 	unit_unique = [x, y] invR ttrans (invR tsym)❙
 	unit_neutral = [x, y] inv_op tsym tcongP ([u] x∘u =ͭ x) (invL tsym tcongP ([u] x∘u =ͭ x) neutR)❙
 	reciprocal = [x, y, z] invR tsym tcongP ([u] u∘(y∘z⁻)⁻ =ͭ (y∘z⁻)⁻) neutL ttrans inv_op 
 						   ttrans (inv_inv tsym tcongP ([u] u∘y⁻=ͭz∘y⁻) trefl)❙
-	ax4 = [x, y, z] _❙
+	reduce = [x, y, z] (inv_op tsym) tcongP ([u] x∘z⁻∘u=ͭx∘y⁻) (assoc4M ttrans 
+					   (invR tsym tcongP ([u] x∘u∘y⁻ =ͭ x∘y⁻)(neutL tcongP ([u] x∘u =ͭ x∘y⁻) trefl)))❙
 ❚
