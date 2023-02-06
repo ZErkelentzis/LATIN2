@@ -77,5 +77,6 @@ theory Lean : ur:?LF =
   Expr : expr ⟶ type❙
   Expr_in : {A,T} T%A ⟶ Expr A❙
   Expr_out: {A} Expr A ⟶ expr❘ # ! 2 prec 100❙
+  Expr_out_out: {A}{B: Expr A} Expr (!B) ⟶ expr❘ # !! 3 prec 100❙
   Expr_out_typing: {A,E:Expr A} ! E % A❙
 ❚
