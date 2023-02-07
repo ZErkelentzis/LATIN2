@@ -18,8 +18,16 @@ view GroupToDivGroup : ?Group → ?DivGroup =
     include ?Set❙
     unit = a ÷ a❙
     op = [x, y] x ÷ ((a ÷ a) ÷ y)❙
+    inv = [x] (a ÷ a) ÷ x❙
+
     
-    assoc_ax = _❙
+    assoc_ax = tforallI [x] tforallI [y] tforallI [z] _❙
+    neutralL = tforallI [x] reciprocal ttrans unit_neutral❙
+    neutL = [x] reciprocal ttrans unit_neutral❙
+    neutralR = tforallI [x] unit_neutral tsym tcongP ([u] x ÷ u =ͭ x) unit_neutral❙
+    inverseLeft = tforallI [x] unit_unique❙
+    // inverseRight = tforallI [x] (reciprocal tsym) tcongP ([u] x ÷ u =ͭ a ÷ a) 
+     							((unit_neutral tsym) ([u] x ÷ u =ͭ a ÷ a) unit_unique)❙
 
 ❚
 
