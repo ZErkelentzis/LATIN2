@@ -12,6 +12,8 @@ theory DivGroup =
 	unit_neutral : {x, y} ⊦ x ÷ (y ÷ y) =ͭ x❙
 	reciprocal : {x, y, z} ⊦ (x ÷ x) ÷ (y ÷ z) =ͭ z ÷ y❙
 	reduce : {x, y, z} ⊦ (x ÷ z) ÷ (y ÷ z) =ͭ x ÷ y❙
+	l1 : {x} ⊦ x ÷ (x ÷ (a ÷ a)) =ͭ a ÷ a❘ = [x] (unit_neutral tsym) ([u] x ÷ u =ͭ a ÷ a) unit_unique❙
+
 ❚
 
 view GroupToDivGroup : ?Group → ?DivGroup =
@@ -23,10 +25,9 @@ view GroupToDivGroup : ?Group → ?DivGroup =
     
     assoc_ax = tforallI [x] tforallI [y] tforallI [z] _❙
     neutralL = tforallI [x] reciprocal ttrans unit_neutral❙
-    neutL = [x] reciprocal ttrans unit_neutral❙
     neutralR = tforallI [x] unit_neutral tsym tcongP ([u] x ÷ u =ͭ x) unit_neutral❙
     inverseLeft = tforallI [x] unit_unique❙
-    // inverseRight = tforallI [x] (reciprocal tsym) tcongP ([u] x ÷ u =ͭ a ÷ a) 
+    inverseRight = tforallI [x] (reciprocal tsym) tcongP ([u] x ÷ u =ͭ a ÷ a) 
      							((unit_neutral tsym) ([u] x ÷ u =ͭ a ÷ a) unit_unique)❙
 
 ❚
