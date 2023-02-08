@@ -11,11 +11,7 @@ theory DivGroup =
 	unit_unique : {x, y} ⊦ x ÷ x =ͭ y ÷ y❙
 	unit_neutral : {x, y} ⊦ x ÷ (y ÷ y) =ͭ x❙
 	reciprocal : {x, y, z} ⊦ (x ÷ x) ÷ (y ÷ z) =ͭ z ÷ y❙
-	reduce : {x, y, z} ⊦ (x ÷ z) ÷ (y ÷ z) =ͭ x ÷ y❙
-	l1 : {x, y, z} ⊦(x ÷ ((a ÷ a) ÷ y)) ÷ ((a ÷ a) ÷ z) =ͭ (x ÷ ((a ÷ a) ÷ y)) ÷ (((a ÷ a) ÷ z) ÷ (a ÷ a))❘
-			= [x, y, z] unit_neutral tcongP 
-			([u] (x ÷ ((a ÷ a) ÷ y)) ÷ u =ͭ (x ÷ ((a ÷ a) ÷ y)) ÷ (((a ÷ a) ÷ z) ÷ (a ÷ a))) trefl❙
-
+	reduce : {x, y, z} ⊦ (x ÷ z) ÷ (y ÷ z) =ͭ x ÷ y❙                                                                                               
 ❚
 
 view GroupToDivGroup : ?Group → ?DivGroup =
@@ -24,7 +20,13 @@ view GroupToDivGroup : ?Group → ?DivGroup =
     op = [x, y] x ÷ ((a ÷ a) ÷ y)❙
     inv = [x] (a ÷ a) ÷ x❙
 
-    assoc_ax = tforallI [x] tforallI [y] tforallI [z] _❙
+    assoc_ax = tforallI [x] tforallI [y] tforallI [z] 
+    		   unit_neutral tcongP 
+    		   ([u] x ÷ (a ÷ a ÷ y) ÷ u =ͭ x ÷ (a ÷ a ÷ y) ÷ (a ÷ a ÷ z ÷ (a ÷ a))) trefl 
+    		   ttrans (reduce tcongP 
+    		   ([u] x ÷ (a ÷ a ÷ y) ÷ u =ͭ x ÷ (a ÷ a ÷ y) ÷ (a ÷ a ÷ z ÷ y ÷ (a ÷ a ÷ y))) trefl) 
+    		   ttrans reduce 
+    		   ttrans (reciprocal tcongP ([u] x ÷ u =ͭ x ÷ (a ÷ a ÷ (y ÷ (a ÷ a ÷ z)))) trefl)❙
     neutralL = tforallI [x] reciprocal ttrans unit_neutral❙
     neutralR = tforallI [x] unit_neutral tsym tcongP ([u] x ÷ u =ͭ x) unit_neutral❙
     inverseLeft = tforallI [x] unit_unique❙
@@ -45,3 +47,10 @@ view DivGroupToGroup : ?DivGroup → ?Group =
 	reduce = [x, y, z] (inv_op tsym) tcongP ([u] x∘z⁻∘u=ͭx∘y⁻) (assoc4M ttrans 
 					   (invR tsym tcongP ([u] x∘u∘y⁻ =ͭ x∘y⁻)(neutL tcongP ([u] x∘u =ͭ x∘y⁻) trefl)))❙
 ❚
+
+theory t =
+	include ?Group❙
+	// structure g2 : ?Group❘ = COMPOSE ?GroupToDivGroup;DivGroupToGroup❙
+
+❚
+
