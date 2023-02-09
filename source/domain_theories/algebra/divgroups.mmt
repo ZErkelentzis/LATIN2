@@ -50,7 +50,9 @@ view DivGroupToGroup : ?DivGroup → ?Group =
 
 theory t =
 	include ?Group❙
-	// structure g2 : ?Group❘ = COMPOSE ?GroupToDivGroup;DivGroupToGroup❙
+	structure g : ?Group❘ abbrev COMPOSE ?GroupToDivGroup; ?DivGroupToGroup❙
+	
+	opeq : {x,y} ⊦ x ∘ y =ͭ x (g/∘) y❙
 
 ❚
 
