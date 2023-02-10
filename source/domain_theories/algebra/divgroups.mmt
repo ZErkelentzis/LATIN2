@@ -8,8 +8,8 @@ theory DivGroup =
 	e : U❙
 	div : U ⟶ U ⟶ U ❘# 1 ÷ 2 prec 50❙
 	
-	unit_unique : {x,y} ⊦ x ÷ x =ͭ y ÷ y❙
-	unit_neutral : {x} ⊦ x ÷ e =ͭ x❙
+	self_div : {x} ⊦ x ÷ x =ͭ e❙
+	unit_neutR : {x} ⊦ x ÷ e =ͭ x❙
 	reciprocal : {x, y} ⊦ e ÷ (x ÷ y) =ͭ y ÷ x❙
 	reduce : {x, y, z} ⊦ (x ÷ z) ÷ (y ÷ z) =ͭ x ÷ y❙                                                                                               
 ❚
@@ -21,18 +21,17 @@ view GroupToDivGroup : ?Group → ?DivGroup =
     inv = [x] e ÷ x❙
 
     assoc_ax = tforallI [x] tforallI [y] tforallI [z] 
-    		   unit_neutral tcongP 
-    		   ([u] x ÷ (e ÷ y) ÷ u =ͭ x ÷ (e ÷ y) ÷ (e ÷ z)) trefl 
+    		   unit_neutR tcongP 
+    		   ([u] x ÷ (e ÷ y) ÷ u =ͭ x ÷ (e ÷ y) ÷ (e ÷ z ÷ e)) trefl
     		   ttrans (reduce tcongP 
     		   ([u] x ÷ (e ÷ y) ÷ u =ͭ x ÷ (e ÷ y) ÷ (e ÷ z ÷ y ÷ (e ÷ y))) trefl) 
     		   ttrans reduce 
-    		   ttrans (reciprocal tcongP ([u] x ÷ u =ͭ x ÷ (e ÷ (y ÷ (e ÷ z)))) trefl)❙
-    neutralL = tforallI [x] reciprocal ttrans unit_neutral❙
-    neutralR = tforallI [x] unit_neutral tsym tcongP ([u] x ÷ u =ͭ x) unit_neutral❙
-    inverseLeft = tforallI [x] unit_unique❙
+    		   ttrans (reciprocal tcongP ([u] x ÷ u =ͭ x ÷ (e ÷ (y ÷ (e ÷ z)))) trefl)  ❙
+    neutralL = tforallI [x] reciprocal ttrans unit_neutR❙
+    neutralR = tforallI [x] unit_neutR tsym tcongP ([u] x ÷ u =ͭ x) unit_neutR❙
+    inverseLeft = tforallI [x] self_div❙
     inverseRight = tforallI [x] reciprocal tsym tcongP ([u] x ÷ u =ͭ e) 
-     							(unit_neutral tsym tcongP ([u] x ÷ u =ͭ e) unit_unique)❙
-
+     							(unit_neutR tsym tcongP ([u] x ÷ u =ͭ e) self_div)❙
 ❚
 
 view DivGroupToGroup : ?DivGroup → ?Group =
@@ -40,10 +39,9 @@ view DivGroupToGroup : ?DivGroup → ?Group =
 	e = e❙
 	div = [x, y] x∘y⁻❙
 	
-	unit_unique = [x, y] invR ttrans (invR tsym)❙
-	unit_neutral = [x, y] inv_op tsym tcongP ([u] x∘u =ͭ x) (invL tsym tcongP ([u] x∘u =ͭ x) neutR)❙
-	reciprocal = [x, y, z] invR tsym tcongP ([u] u∘(y∘z⁻)⁻ =ͭ (y∘z⁻)⁻) neutL ttrans inv_op 
-						   ttrans (inv_inv tsym tcongP ([u] u∘y⁻=ͭz∘y⁻) trefl)❙
+	self_div = [x] invR❙
+	unit_neutR = [x] inv_unit tsym tcongP ([u] x∘u =ͭ x) neutR❙
+	reciprocal = [x, y] inv_op ttrans ((inv_inv tsym) tcongP ([u] u∘x⁻ =ͭ y∘x⁻) trefl)❙
 	reduce = [x, y, z] (inv_op tsym) tcongP ([u] x∘z⁻∘u=ͭx∘y⁻) (assoc4M ttrans 
 					   (invR tsym tcongP ([u] x∘u∘y⁻ =ͭ x∘y⁻)(neutL tcongP ([u] x∘u =ͭ x∘y⁻) trefl)))❙
 ❚
@@ -52,7 +50,6 @@ theory t =
 	include ?Group❙
 	structure g : ?Group❘ abbrev COMPOSE ?GroupToDivGroup; ?DivGroupToGroup❙
 	
-	opeq : {x,y} ⊦ x ∘ y =ͭ x g/∘ y❘ = [x,y] _ ❙
-
+	opeq : {x,y} ⊦ x ∘ y =ͭ x g/∘ y❘ = [x,y] _ ❙ 
 ❚
 
