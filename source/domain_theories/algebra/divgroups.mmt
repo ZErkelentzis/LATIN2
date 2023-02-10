@@ -5,39 +5,39 @@ fixmeta latin:/?SFOLEQND❚
 theory DivGroup =
 	include ?Set❙
 	
-	a : U❙
+	e : U❙
 	div : U ⟶ U ⟶ U ❘# 1 ÷ 2 prec 50❙
 	
-	unit_unique : {x, y} ⊦ x ÷ x =ͭ y ÷ y❙
-	unit_neutral : {x, y} ⊦ x ÷ (y ÷ y) =ͭ x❙
-	reciprocal : {x, y, z} ⊦ (x ÷ x) ÷ (y ÷ z) =ͭ z ÷ y❙
+	unit_unique : {x,y} ⊦ x ÷ x =ͭ y ÷ y❙
+	unit_neutral : {x} ⊦ x ÷ e =ͭ x❙
+	reciprocal : {x, y} ⊦ e ÷ (x ÷ y) =ͭ y ÷ x❙
 	reduce : {x, y, z} ⊦ (x ÷ z) ÷ (y ÷ z) =ͭ x ÷ y❙                                                                                               
 ❚
 
 view GroupToDivGroup : ?Group → ?DivGroup =
     include ?Set❙
-    unit = a ÷ a❙
-    op = [x, y] x ÷ ((a ÷ a) ÷ y)❙
-    inv = [x] (a ÷ a) ÷ x❙
+    unit = e❙
+    op = [x, y] x ÷ (e ÷ y)❙
+    inv = [x] e ÷ x❙
 
     assoc_ax = tforallI [x] tforallI [y] tforallI [z] 
     		   unit_neutral tcongP 
-    		   ([u] x ÷ (a ÷ a ÷ y) ÷ u =ͭ x ÷ (a ÷ a ÷ y) ÷ (a ÷ a ÷ z ÷ (a ÷ a))) trefl 
+    		   ([u] x ÷ (e ÷ y) ÷ u =ͭ x ÷ (e ÷ y) ÷ (e ÷ z)) trefl 
     		   ttrans (reduce tcongP 
-    		   ([u] x ÷ (a ÷ a ÷ y) ÷ u =ͭ x ÷ (a ÷ a ÷ y) ÷ (a ÷ a ÷ z ÷ y ÷ (a ÷ a ÷ y))) trefl) 
+    		   ([u] x ÷ (e ÷ y) ÷ u =ͭ x ÷ (e ÷ y) ÷ (e ÷ z ÷ y ÷ (e ÷ y))) trefl) 
     		   ttrans reduce 
-    		   ttrans (reciprocal tcongP ([u] x ÷ u =ͭ x ÷ (a ÷ a ÷ (y ÷ (a ÷ a ÷ z)))) trefl)❙
+    		   ttrans (reciprocal tcongP ([u] x ÷ u =ͭ x ÷ (e ÷ (y ÷ (e ÷ z)))) trefl)❙
     neutralL = tforallI [x] reciprocal ttrans unit_neutral❙
     neutralR = tforallI [x] unit_neutral tsym tcongP ([u] x ÷ u =ͭ x) unit_neutral❙
     inverseLeft = tforallI [x] unit_unique❙
-    inverseRight = tforallI [x] reciprocal tsym tcongP ([u] x ÷ u =ͭ a ÷ a) 
-     							(unit_neutral tsym tcongP ([u] x ÷ u =ͭ a ÷ a) unit_unique)❙
+    inverseRight = tforallI [x] reciprocal tsym tcongP ([u] x ÷ u =ͭ e) 
+     							(unit_neutral tsym tcongP ([u] x ÷ u =ͭ e) unit_unique)❙
 
 ❚
 
 view DivGroupToGroup : ?DivGroup → ?Group =
 	include ?Set❙
-	a = e❙
+	e = e❙
 	div = [x, y] x∘y⁻❙
 	
 	unit_unique = [x, y] invR ttrans (invR tsym)❙
@@ -52,7 +52,7 @@ theory t =
 	include ?Group❙
 	structure g : ?Group❘ abbrev COMPOSE ?GroupToDivGroup; ?DivGroupToGroup❙
 	
-	opeq : {x,y} ⊦ x ∘ y =ͭ x (g/∘) y❙
+	opeq : {x,y} ⊦ x ∘ y =ͭ x g/∘ y❘ = [x,y] _ ❙
 
 ❚
 
