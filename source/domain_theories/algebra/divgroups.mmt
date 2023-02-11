@@ -11,7 +11,7 @@ theory DivGroup =
 	self_div : {x} ⊦ x ÷ x =ͭ e❙
 	unit_neutR : {x} ⊦ x ÷ e =ͭ x❙
 	reciprocal : {x, y} ⊦ e ÷ (x ÷ y) =ͭ y ÷ x❙
-	reduce : {x, y, z} ⊦ (x ÷ z) ÷ (y ÷ z) =ͭ x ÷ y❙                                                                                               
+	reduce : {x, y, z} ⊦ (x ÷ z) ÷ (y ÷ z) =ͭ x ÷ y❙  
 ❚
 
 view GroupToDivGroup : ?Group → ?DivGroup =
@@ -46,10 +46,21 @@ view DivGroupToGroup : ?DivGroup → ?Group =
 					   (invR tsym tcongP ([u] x∘u∘y⁻ =ͭ x∘y⁻)(neutL tcongP ([u] x∘u =ͭ x∘y⁻) trefl)))❙
 ❚
 
-theory t =
+theory GroupDivGroupIsomorphism =
 	include ?Group❙
 	structure g : ?Group❘ abbrev COMPOSE ?GroupToDivGroup; ?DivGroupToGroup❙
 	
-	opeq : {x,y} ⊦ x ∘ y =ͭ x g/∘ y❘ = [x,y] _ ❙ 
+	unit_eq : ⊦ unit =ͭ g/unit❘ = trefl❙
+	op_eq : {x, y} ⊦ x∘y =ͭ x g/∘ y❘ = [x,y] inv_inv tcongP ([u] x∘u =ͭ x∘y⁻⁻) trefl❙
+	inv_eq : {x} ⊦ (x⁻ =ͭ x g/⁻)❘ = [x] trefl❙
+❚
+
+theory GroupDivGroupIsomorphism2 =
+	include ?DivGroup❙
+	structure d : ?DivGroup❘ abbrev COMPOSE ?DivGroupToGroup; ?GroupToDivGroup❙
+
+	e_eq : ⊦ e =ͭ d/e❘ = trefl❙
+	div_eq : {x, y} ⊦x÷y=ͭx d/÷ y❘ = [x, y] reciprocal ttrans unit_neutR tcongP 
+	 										([u] x ÷ u =ͭ x÷(e÷(e÷y))) trefl❙
 ❚
 
