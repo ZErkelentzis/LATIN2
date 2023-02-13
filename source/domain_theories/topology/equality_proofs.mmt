@@ -1,0 +1,26 @@
+namespace latin:/❚
+
+fixmeta latin:/powertypes?PowerSFOL❚
+
+theory ClosureSystem_Eq =
+	include ?ClosureSystem❙
+	structure cs : ?ClosureSystem❘ abbrev COMPOSE ?ClosureSystemToCloseness; ?ClosenessToClosureOperator; ?ClosureOperatorToClosureSystem❙
+	
+	CC_eq : ⊦ CC =ͭ cs/CC❘ = _❙
+
+❚
+
+
+theory Closeness_Eq =
+	include ?Closeness❙
+	structure cn : ?Closeness❘ abbrev COMPOSE ?ClosenessToClosureOperator; ?ClosureOperatorToClosureSystem; ?ClosureSystemToCloseness❙
+	
+	close_eq : {x, A} ⊦ x ⋶ A ⇔ x cn/⋶ A❘ = _❙
+❚
+
+theory ClosureOperator_Eq =
+	include ?ClosureOperator❙
+	structure co : ?ClosureOperator❘ abbrev COMPOSE ?ClosureOperatorToClosureSystem; ?ClosureSystemToCloseness; ?ClosenessToClosureOperator❙
+	
+	closure_eq : {A} ⊦ cl A =ͭ co/cl A❘ = [A] _❙
+❚

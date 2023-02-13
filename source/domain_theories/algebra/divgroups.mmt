@@ -46,7 +46,7 @@ view DivGroupToGroup : ?DivGroup → ?Group =
 					   (invR tsym tcongP ([u] x∘u∘y⁻ =ͭ x∘y⁻)(neutL tcongP ([u] x∘u =ͭ x∘y⁻) trefl)))❙
 ❚
 
-theory GroupDivGroupIsomorphism =
+theory GroupToGroup_Eq =
 	include ?Group❙
 	structure g : ?Group❘ abbrev COMPOSE ?GroupToDivGroup; ?DivGroupToGroup❙
 	
@@ -55,7 +55,7 @@ theory GroupDivGroupIsomorphism =
 	inv_eq : {x} ⊦ (x⁻ =ͭ x g/⁻)❘ = [x] trefl❙
 ❚
 
-theory GroupDivGroupIsomorphism2 =
+theory DivGroupToDivGroup_Eq =
 	include ?DivGroup❙
 	structure d : ?DivGroup❘ abbrev COMPOSE ?DivGroupToGroup; ?GroupToDivGroup❙
 
