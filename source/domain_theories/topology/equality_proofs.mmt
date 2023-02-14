@@ -6,10 +6,12 @@ theory ClosureSystem_Eq =
 	include ?ClosureSystem❙
 	structure cs : ?ClosureSystem❘ abbrev COMPOSE ?ClosureSystemToCloseness; ?ClosenessToClosureOperator; ?ClosureOperatorToClosureSystem❙
 	
-	CC_eq : ⊦ CC =ͭ cs/CC❘ = _❙
-
+	CC_eq : ⊦ CC =ͭ cs/CC❘ = subset_antisym 
+							 (subsetI [A, p] pfilterI tforallI [x] implI [q] 
+							  q pfilterE tforallE A implE pfilterI andI p tforallI [z] implI[r] r)
+							 (subsetI [A, p] (subset_antisym p pfilterE subset_biginter_glb [C, q] q pfilterE andEr) 
+							  tcongP ([B] B ∈ͯ CC) intersection_closed subsetI [C, q] q pfilterE andEl)❙
 ❚
-
 
 theory Closeness_Eq =
 	include ?Closeness❙
