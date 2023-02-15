@@ -18,6 +18,8 @@ theory Closeness_Eq =
 	structure cn : ?Closeness❘ abbrev COMPOSE ?ClosenessToClosureOperator; ?ClosureOperatorToClosureSystem; ?ClosureSystemToCloseness❙
 	
 	close_eq : {x, A} ⊦ x ⋶ A ⇔ x cn/⋶ A❘ = _❙
+	l1 : {x, A} ⊦ x ⋶ A ⇒ x cn/⋶ A❘ = [x, A] implI [p] biginterI [S, q]
+	 								 q pfilterE andEl pfilterE tforallE x implE bigger_close p (q pfilterE andEr)❙
 ❚
 
 theory ClosureOperator_Eq =
