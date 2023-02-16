@@ -20,11 +20,20 @@ theory Closeness_Eq =
 	close_eq : {x, A} ⊦ x ⋶ A ⇔ x cn/⋶ A❘ = _❙
 	l1 : {x, A} ⊦ x ⋶ A ⇒ x cn/⋶ A❘ = [x, A] implI [p] biginterI [S, q]
 	 								 q pfilterE andEl pfilterE tforallE x implE bigger_close p (q pfilterE andEr)❙
+	l2 : {x, A} ⊦ x cn/⋶ A ⇒ x ⋶ A❘ = _ ❙
+
 ❚
 
 theory ClosureOperator_Eq =
 	include ?ClosureOperator❙
 	structure co : ?ClosureOperator❘ abbrev COMPOSE ?ClosureOperatorToClosureSystem; ?ClosureSystemToCloseness; ?ClosenessToClosureOperator❙
 	
-	closure_eq : {A} ⊦ cl A =ͭ co/cl A❘ = [A] _❙
+	closure_eq : {A} ⊦ cl A =ͭ co/cl A❘ = [A] subset_antisym 
+											(subset_biginter_glb [S, p] subsetI [x, q] 
+											 p pfilterE andEl pfilterE tforallE x implE 
+											 subsetE (monotone_closure (p pfilterE andEr)) q)
+											(subset_biginter pfilterI andI
+											(pfilterI tforallI [x] implI [p] eq_in_left idempotent_closure p) 
+											 extensive_closure)❙
+
 ❚
