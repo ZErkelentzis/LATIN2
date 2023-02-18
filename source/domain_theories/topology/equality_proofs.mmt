@@ -17,11 +17,13 @@ theory Closeness_Eq =
 	include ?Closeness❙
 	structure cn : ?Closeness❘ abbrev COMPOSE ?ClosenessToClosureOperator; ?ClosureOperatorToClosureSystem; ?ClosureSystemToCloseness❙
 	
-	close_eq : {x, A} ⊦ x ⋶ A ⇔ x cn/⋶ A❘ = _❙
-	l1 : {x, A} ⊦ x ⋶ A ⇒ x cn/⋶ A❘ = [x, A] implI [p] biginterI [S, q]
-	 								 q pfilterE andEl pfilterE tforallE x implE bigger_close p (q pfilterE andEr)❙
-	l2 : {x, A} ⊦ x cn/⋶ A ⇒ x ⋶ A❘ = _ ❙
-
+	close_eq : {x, A} ⊦ x ⋶ A ⇔ x cn/⋶ A❘ = [x, A] equivI 
+	 											 ([p] biginterI [S, q] q pfilterE andEl pfilterE tforallE x 
+	 											  implE bigger_close p (q pfilterE andEr)) 
+	 											 ([p] biginterE p pfilterI andI
+	 											  (pfilterI tforallI [y] implI [q] pfilterI transitive_close q 
+	 											   tforallI [z] implI [r] r pfilterE)
+	 											  (subsetI [y, q] pfilterI in_close q) pfilterE)❙
 ❚
 
 theory ClosureOperator_Eq =
@@ -36,4 +38,79 @@ theory ClosureOperator_Eq =
 											(pfilterI tforallI [x] implI [p] eq_in_left idempotent_closure p) 
 											 extensive_closure)❙
 
+❚
+
+theory DiagramCommutes =
+❚
+
+theory ClosedTopology_Eq =
+	include ?ClosedTopology❙
+	structure ct : ?ClosedTopology❘ abbrev COMPOSE ?ClosedTopologyToClosenessTopology;
+												 ?ClosenessTopologyToClosureTopology;
+												 ?ClosureTopologyToInteriorTopology;
+												 ?InteriorTopologyToNeighborhoodTopology;
+												 ?NeighborhoodTopologyToOpenTopology;
+												 ?OpenTopologyToClosedTopology❙
+	
+	CC_eq : ⊦ CC =ͭ ct/CC❘ = _❙
+❚
+
+theory ClosenessTopology_Eq =
+	include ?ClosenessTopology❙
+	structure ct : ?ClosenessTopology❘ abbrev COMPOSE ?ClosenessTopologyToClosureTopology;
+												    ?ClosureTopologyToInteriorTopology;
+												    ?InteriorTopologyToNeighborhoodTopology;
+												    ?NeighborhoodTopologyToOpenTopology;
+												    ?OpenTopologyToClosedTopology;
+												    ?ClosedTopologyToClosenessTopology❙
+	
+	close_eq : {x, A} ⊦ close x A ⇔ ct/close x A❘ = [x, A] _ ❙
+❚
+
+theory ClosureTopology_Eq =
+	include ?ClosureTopology❙
+	structure ct : ?ClosureTopology❘ abbrev COMPOSE ?ClosureTopologyToInteriorTopology;
+												  ?InteriorTopologyToNeighborhoodTopology;
+												  ?NeighborhoodTopologyToOpenTopology;
+												  ?OpenTopologyToClosedTopology;
+												  ?ClosedTopologyToClosenessTopology;
+												  ?ClosenessTopologyToClosureTopology❙
+	
+	closure_eq : {A} ⊦ cl A =ͭ ct/cl A❘ = [A] _ ❙
+❚
+
+theory InteriorTopology_Eq =
+	include ?InteriorTopology❙
+	structure it : ?InteriorTopology❘ abbrev COMPOSE ?InteriorTopologyToNeighborhoodTopology;
+												   ?NeighborhoodTopologyToOpenTopology;
+												   ?OpenTopologyToClosedTopology;
+												   ?ClosedTopologyToClosenessTopology;
+												   ?ClosenessTopologyToClosureTopology;
+												   ?ClosureTopologyToInteriorTopology❙
+	
+	interior_eq : {A} ⊦ interior A =ͭ it/interior A❘ = [A] _ ❙
+❚
+
+theory NeighborhoodTopology_Eq =
+	include ?NeighborhoodTopology❙
+	structure nt : ?NeighborhoodTopology❘ abbrev COMPOSE ?NeighborhoodTopologyToOpenTopology;
+												   	   ?OpenTopologyToClosedTopology;
+												       ?ClosedTopologyToClosenessTopology;
+												       ?ClosenessTopologyToClosureTopology;
+												       ?ClosureTopologyToInteriorTopology;
+												       ?InteriorTopologyToNeighborhoodTopology❙
+	
+	NN_eq : {x} ⊦ NN x =ͭ nt/NN x❘ = [x] _ ❙
+❚
+
+theory OpenTopology_Eq =
+	include ?OpenTopology❙
+	structure ot : ?OpenTopology❘ abbrev COMPOSE ?OpenTopologyToClosedTopology;
+											   ?ClosedTopologyToClosenessTopology;
+											   ?ClosenessTopologyToClosureTopology;
+											   ?ClosureTopologyToInteriorTopology;
+											   ?InteriorTopologyToNeighborhoodTopology;
+											   ?NeighborhoodTopologyToOpenTopology❙
+	
+	OO_eq : ⊦ OO =ͭ ot/OO❘ = _ ❙
 ❚
