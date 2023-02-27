@@ -1,0 +1,19 @@
+namespace latin:/❚
+
+fixmeta latin:/powertypes?PowerSFOL❚
+
+theory DiagramCommutes =
+	include ?ClosureTopology❙
+	include ?ClosedTopology❙
+
+	structure co1 : ?ClosureOperator❘ abbrev ?ClosureOperatorToClosureSystem❙
+	structure co2 : ?ClosureOperator❘ abbrev COMPOSE ?ClosureTopologyToInteriorTopology ;
+										           ?InteriorTopologyToNeighborhoodTopology ;
+										           ?NeighborhoodTopologyToOpenTopology ;
+										           ?OpenTopologyToClosedTopology❙
+
+	diag_commutes : {A} ⊦ co1/cl A =ͭ co2/cl A❙
+
+
+❚
+

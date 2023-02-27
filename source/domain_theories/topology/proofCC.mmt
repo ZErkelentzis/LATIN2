@@ -1,0 +1,22 @@
+namespace latin:/❚
+
+fixmeta latin:/powertypes?PowerSFOL❚
+
+theory ClosedTopology_Eq =
+	include ?ClosedTopology❙
+	structure ct : ?ClosedTopology❘ abbrev COMPOSE ?ClosedTopologyToClosenessTopology;
+												 ?ClosenessTopologyToClosureTopology;
+												 ?ClosureTopologyToInteriorTopology;
+												 ?InteriorTopologyToNeighborhoodTopology;
+												 ?NeighborhoodTopologyToOpenTopology;
+												 ?OpenTopologyToClosedTopology❙	
+
+	
+CC_eq1 : ⊦ ct/CC ⊆ͯ CC❘ = (subsetI [A, p] (subset_antisym
+						    	 (subsetI [x, q1] subsetE p pfilterE complI [r] [a] 
+						    	  (r pfilterE pfilterE texistsE [O, s] complE
+							   (biginterE q1 pfilterI andI (s andEl andEl pfilterE)
+						        (compl_compl tcongP ([B] B ⊆ͯ (∁ͯO)) subset_compl (s andEr)))
+							   (s andEl andEr) inconE))
+						     (subset_biginter_glb [B, q2] (q2 pfilterE) andEr))
+						     tcongP ([B] B ∈ͯ CC) intersection_closed subsetI [B, q3] ((q3 pfilterE) andEl))❙

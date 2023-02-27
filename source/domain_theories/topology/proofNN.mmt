@@ -1,0 +1,34 @@
+namespace latin:/❚
+
+fixmeta latin:/powertypes?PowerSFOL❚
+
+theory NeighborhoodTopology_Eq =
+	include ?NeighborhoodTopology❙
+	structure nt : ?NeighborhoodTopology❘ abbrev COMPOSE ?NeighborhoodTopologyToOpenTopology;
+												   	   ?OpenTopologyToClosedTopology;
+												       ?ClosedTopologyToClosenessTopology;
+												       ?ClosenessTopologyToClosureTopology;
+												       ?ClosureTopologyToInteriorTopology;
+												       ?InteriorTopologyToNeighborhoodTopology❙
+	
+	l1 : {x} ⊦ NN x ⊆ͯ nt/NN x❘ = [x] _ ❙
+	l2 : {x} ⊦ nt/NN x ⊆ͯ NN x❘ = [x] _ ❙
+	NN_eq : {x} ⊦ NN x =ͭ nt/NN x❘ = [x] _ ❙
+	
+	CC_eq : ⊦ CC =ͭ ct/CC❘ = subset_antisym
+						    (subsetI [A, p] pfilterI subsetI [x, q] 
+						     compl_compl tcongP ([B] x ∈ͯ B) complI [r] complE q 
+						     pfilterI pfilterI texistsI (∁ͯA) 
+						     andI (andI (pfilterI (compl_compl tsym tcongP ([C] C ∈ͯ CC) p)) r) subset_refl)
+						    	(subsetI [A, p] subset_antisym
+						    	 (subsetI [x, q] subsetE p pfilterE complI [r] [a] 
+						    	  (r pfilterE pfilterE texistsE [O, s] complE
+							   (biginterE q pfilterI andI s andEl andEl pfilterE
+						        (compl_compl tcongP ([B] B ⊆ͯ (∁ͯO)) subset_compl (s andEr)))
+							   (s andEl andEr) inconE))
+						     (subset_biginter_glb [B, q] q pfilterE andEr)
+						     tcongP ([B] B ∈ͯ CC) intersection_closed subsetI [B, q] (q pfilterE andEl))❙
+❚
+	
+
+❚
