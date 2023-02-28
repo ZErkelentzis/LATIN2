@@ -11,8 +11,19 @@ theory DiagramCommutes =
 										           ?InteriorTopologyToNeighborhoodTopology ;
 										           ?NeighborhoodTopologyToOpenTopology ;
 										           ?OpenTopologyToClosedTopology❙
+   
 
-	diag_commutes : {A} ⊦ co1/cl A =ͭ co2/cl A❙
+    lemma1 : {A} ⊦ ∁ͯ(pfilter [x] ∃ͭ[O] ((O ∈ͯ pfilter [C] ∁ͯC ∈ͯ CC) ∧ x ∈ͯ O ∧ O ⊆ͯ ∁ͯA))
+    						⊆ͯ ⋂ͯ pfilter [C] (C ∈ͯ CC ∧ A ⊆ͯ C)❘
+					= [A] subsetI [x, p] biginterI [B, q] (compl_compl) tcongP ([C] x ∈ͯ C) (complI [r] complE p 
+					(pfilterI texistsI (∁ͯB) andI (andI (pfilterI (compl_compl tsym tcongP ([C] C ∈ͯ CC) (q pfilterE andEl)))
+																		   (r))
+																 (subset_compl (q pfilterE andEr))))❙
+
+	l1 : {A}⊦∀ͭ[x]x∈ͯpfilter [x]¬x∈ͯpfilter [x]pfilter [x]¬x∈ͯA∈ͯpfilter [A]∃ͭ[O]O∈ͯpfilter [A]pfilter [x]¬x∈ͯA∈ͯCC∧x∈ͯO∧∀ͭ[x]x∈ͯO⇒x∈ͯA⇒x∈ͯpfilter [x]∀ͭ[S]S∈ͯpfilter [C]C∈ͯCC∧∀ͭ[x]x∈ͯA⇒x∈ͯC⇒x∈ͯS❘ = [A] lemma1❙	
+										           
+
+    diag_commutes : {A} ⊦ co1/cl A =ͭ co2/cl A❙
 
 
 ❚

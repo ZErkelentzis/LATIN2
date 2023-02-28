@@ -23,7 +23,7 @@ theory ClosedTopology_Eq =
 							(s andEl andEr) inconE❙
 
   CC_subs2 : ⊦ ct/CC ⊆ͯ CC❘ = subsetI [A, p] (subset_antisym
-							 (subsetI [x, q] subsetE p pfilterE lemma1 q)
+							 (subsetI [x, q] subsetE p pfilterE (lemma1 q))
 							 (subset_biginter_glb [B, q] (q pfilterE) andEr))
 							 tcongP ([B] B ∈ͯ CC) intersection_closed subsetI [B, q] q pfilterE andEl❙
 
