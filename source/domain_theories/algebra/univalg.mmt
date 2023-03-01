@@ -29,7 +29,7 @@ theory Base =
     // LF type of function symbols ❙
     F: type ❙
     // arities of the function symbols ❙
-    ar: F ⟶ type ❙
+    ar: F ⟶ type ❘ # | 1 | ❙
   ❚
   // typed signatures of function symbols ❙
   theory TFunSig_ =
@@ -40,7 +40,7 @@ theory Base =
 
        Every function symbol `f: F` and argument index `a: ar f` gives the object type `argtp f i` of that very
        argument. ❙
-    argtp: {f: F} (ar f) ⟶ T ❙
+    argtp: {f: F} |f| ⟶ T ❘ # ⟨ 1 , 2 ⟩ ❙
     // return ("_res_ult") object type for every function symbol ❙
     restp: F ⟶ T ❙
   ❚
@@ -57,26 +57,34 @@ theory Base =
   TFunSig = Mod ☞?Base/TFunSig_ ❙
 
   theory UFunMod_ > sig: UFunSig ❘ =
+    // redefine a notation for sig . ar because notations are not kept with the Mod operator ❙
+    ar = sig . ar ❘ # | 1 | ❙
+
     // the model's universe ❙
-    univ: type ❙
+    U: type ❘ # 𝕌 ❙
     // the type of argument sets for every function symbol ❙
-    argset: sig . F ⟶ type ❘ = [f] (sig . ar) f ⟶ univ ❙
+    argset: sig . F ⟶ type ❘ = [f] |f| ⟶ 𝕌 ❙
     // the model's interpretation for every function symbol
 
        For every function symbol `f: sig . F`, the function `args: (sig . ar) f ⟶ univ`
        encodes a set of arguments, for which this model ought to interpret "f applied to it".❙
-    interp: {f: sig . F} argset f ⟶ univ ❙
+    interp: {f: sig . F} argset f ⟶ 𝕌 ❙
+    interp_shorthand = [f] interp f ❘ # ⟦ 1 ⟧ ❙
   ❚
   theory TFunMod_ > sig: TFunSig ❘ =
+    // redefine a notation for sig . ar because notations are not kept with the Mod operator ❙
+    ar = sig . ar ❘ # | 1 | ❙
+
     // the model's universes, one for each object type ❙
-    univ: (sig . T) ⟶ type ❙
+    U: (sig . T) ⟶ type ❘ # 𝕌 1 ❙
     // the type of argument sets for every function symbol ❙
-    argset: sig . F ⟶ type ❘ = [f] ({a: (sig . ar) f} univ ((sig . argtp) f a)) ❙
+    argset: sig . F ⟶ type ❘ = [f] ({a: |f|} 𝕌 ((sig . argtp) f a)) ❙
     // the model's interpretation for every function symbol
 
        For every function symbol f, we get a function g that encodes a set of arguments of the respective object types
        that the function expects. The encoding is a direct generalization of UFunMod_?interp. ❙
-    interp: {f: sig . F} argset f ⟶ univ ((sig . restp) f) ❙
+    interp: {f: sig . F} argset f ⟶ 𝕌 ((sig . restp) f) ❙
+    interp_shorthand = [f] interp f ❘ # ⟦ 1 ⟧ ❙
   ❚
   // would like to state: for every `sig: TFunSig` there is the view given below
 
@@ -90,18 +98,33 @@ theory Base =
   TFunMod = [sig: TFunSig] Mod ☞?Base/TFunMod_ sig ❙
 ❚
 
+// Test theory for jcombd, jcombc used for bracket notation ❚
+theory TestTest : ur:?LF =
+  A: type ❙
+  B: A ⟶ type ❘ # ⟦ 1 ⟧ͩ ❙
+  C: A ⟶ type ❘ # ⟦ 1 ⟧ͨ ❙
+
+  a: A ❙
+  x: (⟦ a ⟧ͩ) ⟶ (⟦ a ⟧ͨ) ❙
+❚
+
 theory Homomorphisms =
   include ?Base ❙
 
   theory UFunHom_ > sig: UFunSig, dom: (UFunMod sig), cod: (UFunMod sig) ❘ =
-    eq: (cod . univ) ⟶ (cod . univ) ⟶ type ❘ # 1 ≐ 2 prec 30 ❘ role Eq ❙
-    fun: (dom . univ) ⟶ (cod . univ) ❙
+    dom_interp = [f] (dom . interp) f ❘ # ⟦ 1 ⟧ͩͩ ❙ cod_interp = [f] (cod . interp) f ❘ # ⟦ 1 ⟧ͨ ❙
+    dom_U = dom . U ❘ # 𝕌ͩ ❙ cod_U = cod . U ❘ # 𝕌ͨ ❙
+
+    eq: 𝕌ͨ ⟶ 𝕌ͨ ⟶ type ❘ # 1 ≐ͨ 2 prec 30 ❘ role Eq ❙
+    h: 𝕌ͩ ⟶ 𝕌ͨ ❙
 
     // homomorphic extension of fun to argument sets ❙
-    fun_argset: {f: sig . F} ((dom . argset) f) ⟶ ((cod . argset) f) ❘ = [f, args, a] fun (args a) ❙
-    hom: {f: sig . F, args: (dom . argset) f}
-             fun ((dom . interp) f args) ≐ (cod . interp) f (fun_argset f args) ❙
+    fun_argset: {f: sig . F} ((dom . argset) f) ⟶ ((cod . argset) f) ❘ = [f, args, a] h (args a) ❘ # 2 ʰ ❙
+    hom: {f: sig . F, args: (dom . argset) f}    h (⟦ f ⟧ͩ args) ≐ͨ ⟦ f ⟧ͨ (args ʰ) ❙
   ❚
+
+  // Challenge: internalize the theory of homomorphisms even more, namely to a function
+       hom: {sig: UFunSig, dom cod: UFunMod sig} TFunSig ❙
 
   theory TFunHom_ > sig: TFunSig, dom: (TFunMod sig), cod: (TFunMod sig) ❘ =
     eq: {t: sig . T} (cod . univ) t ⟶ (cod . univ) t ⟶ type ❘ # 2 ≐ 3 prec 30 ❘ role Eq ❙
@@ -112,14 +135,14 @@ theory Homomorphisms =
     hom: {f: sig . F, args: (dom . argset) f}
              fun ((dom . interp) f args) ≐ (cod . interp) f (fun_argset f args) ❙
   ❚
-  UFunHom = [sig, dom: UFunMod sig, cod: UFunMod sig] Mod ☞?Homomorphisms/UFunHom_ sig dom cod ❙
-  TFunHom = [sig, dom: TFunMod sig, cod: TFunMod sig] Mod ☞?Homomorphisms/TFunHom_ sig dom cod ❙
+  // UFunHom = [sig, dom: UFunMod sig, cod: UFunMod sig] Mod ☞?Homomorphisms/UFunHom_ sig dom cod ❙
+  // TFunHom = [sig, dom: TFunMod sig, cod: TFunMod sig] Mod ☞?Homomorphisms/TFunHom_ sig dom cod ❙
 
   // ufun_identity_hom: {sig: UFunSig, mod: UFunMod sig} UFunHom sig mod mod
   ❘= // we can define this ❙
 ❚
 
-theory Examples =
+// theory Examples =
   include ?Base ❙
 
   magma : UFunSig ❘ = [' F := ENUM 1, ar := [x] ENUM 2'] ❙
@@ -168,17 +191,17 @@ theory Examples =
   // int_is_group = build_group ☞latin:/?Int?Int ☞latin:/?Int?ineg ☞latin:/?Int?plus ❙
 ❚
 
-theory ExamplesUsingWTypes =
+// theory ExamplesUsingWTypes =
   induct OneInduct ()❘ =
     One : type ❙
     one : One ❙
   ❚
-  induct TwoInduct ()❘=
+  // induct TwoInduct ()❘=
     Two : type ❙
     two1 : Two ❙
     two2 : Two ❙
   ❚
-  magma : UFunSig ❘ = [' F := One, ar := [x: One] Two '] ❙
+  // magma : UFunSig ❘ = [' F := One, ar := [x: One] Two '] ❙
   build_magma: {A: type} (A ⟶ A ⟶ A) ⟶ UFunMod magma ❘= [A,op] ['
     univ := A,
     interp := [f] [args] (f match x.

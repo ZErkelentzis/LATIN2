@@ -305,6 +305,10 @@ theory ComplementRules =
                     )❙
   compl_compl : {A, S:tm ℘ͯA} ⊦ ∁ͯ∁ͯS =ͭ S❘
               = [A,S] extensionalityI ([x,p] compl_tnd orE ([q] q) ([q] complE p q inconE)) ([x,p] complI [q] complE q p)❙
+  subset_compl_right : {A,S,T: tm ℘ͯA} ⊦ S⊆ͯ∁ͯT ⟶ ⊦ T⊆ͯ∁ͯS❘
+               		   = [A,S,T,p] compl_compl tcongP ([B] B⊆ͯ∁ͯS) subset_compl p❙
+  subset_compl_left : {A,S,T: tm ℘ͯA} ⊦ ∁ͯS⊆ͯT ⟶ ⊦ ∁ͯT⊆ͯS❘
+               		   = [A,S,T,p] compl_compl tcongP ([B] ∁ͯT⊆ͯB) subset_compl p❙
   compl_bigunion : {A,K : tm ℘ͯ℘ͯA} ⊦ ∁ͯ ⋃ͯK =ͭ ⋂ͯ pfilter [B] ∁ͯB ∈ͯ K❘
   					= [A,K] subset_antisym
   					  (subset_biginter_glb [S,p] subsetI [x,q] indirect [r] 

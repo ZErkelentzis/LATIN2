@@ -1,0 +1,20 @@
+namespace latin:/❚
+
+fixmeta latin:/powertypes?PowerSFOL❚
+
+theory OpenTopology_Eq =
+	include ?OpenTopology❙
+	structure ot : ?OpenTopology❘ abbrev COMPOSE ?OpenTopologyToClosedTopology;
+											   ?ClosedTopologyToClosenessTopology;
+											   ?ClosenessTopologyToClosureTopology;
+											   ?ClosureTopologyToInteriorTopology;
+											   ?InteriorTopologyToNeighborhoodTopology;
+											   ?NeighborhoodTopologyToOpenTopology❙
+	
+	OO_eq : ⊦ OO =ͭ ot/OO❘ = _ ❙
+	l1 : ⊦ OO ⊆ͯ ot/OO❘ = subsetI [A, p] pfilterI pfilterI tforallI [x] implI [q]
+						complI [r] complE q pfilterI pfilterI texistsI A
+											(andI (andI p r)
+												  (compl_compl tsym tcongP ([B] A ⊆ͯ B) subset_refl))❙
+	l2 : ⊦ ot/OO ⊆ͯ OO❘ = _ ❙
+❚

@@ -1,0 +1,18 @@
+namespace latin:/❚
+
+fixmeta latin:/powertypes?PowerSFOL❚
+
+theory NeighborhoodTopology_Eq =
+	include ?NeighborhoodTopology❙
+	structure nt : ?NeighborhoodTopology❘ abbrev COMPOSE ?NeighborhoodTopologyToOpenTopology;
+												   	   ?OpenTopologyToClosedTopology;
+												       ?ClosedTopologyToClosenessTopology;
+												       ?ClosenessTopologyToClosureTopology;
+												       ?ClosureTopologyToInteriorTopology;
+												       ?InteriorTopologyToNeighborhoodTopology❙
+	
+	l1 : {x} ⊦ NN x ⊆ͯ nt/NN x❘ = [x] _ ❙
+	l2 : {x} ⊦ nt/NN x ⊆ͯ NN x❘ = [x] _ ❙
+	NN_eq : {x} ⊦ NN x =ͭ nt/NN x❘ = [x] _ ❙	
+
+❚

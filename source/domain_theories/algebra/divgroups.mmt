@@ -1,0 +1,66 @@
+namespace latin:/algebraic❚
+
+fixmeta latin:/?SFOLEQND❚
+
+theory DivGroup =
+	include ?Set❙
+	
+	e : U❙
+	div : U ⟶ U ⟶ U ❘# 1 ÷ 2 prec 50❙
+	
+	self_div : {x} ⊦ x ÷ x =ͭ e❙
+	unit_neutR : {x} ⊦ x ÷ e =ͭ x❙
+	reciprocal : {x, y} ⊦ e ÷ (x ÷ y) =ͭ y ÷ x❙
+	reduce : {x, y, z} ⊦ (x ÷ z) ÷ (y ÷ z) =ͭ x ÷ y❙  
+❚
+
+view GroupToDivGroup : ?Group → ?DivGroup =
+    include ?Set❙
+    unit = e❙
+    op = [x, y] x ÷ (e ÷ y)❙
+    inv = [x] e ÷ x❙
+
+    assoc_ax = tforallI [x] tforallI [y] tforallI [z] 
+    		   unit_neutR tcongP 
+    		   ([u] x ÷ (e ÷ y) ÷ u =ͭ x ÷ (e ÷ y) ÷ (e ÷ z ÷ e)) trefl
+    		   ttrans (reduce tcongP 
+    		   ([u] x ÷ (e ÷ y) ÷ u =ͭ x ÷ (e ÷ y) ÷ (e ÷ z ÷ y ÷ (e ÷ y))) trefl) 
+    		   ttrans reduce 
+    		   ttrans (reciprocal tcongP ([u] x ÷ u =ͭ x ÷ (e ÷ (y ÷ (e ÷ z)))) trefl)  ❙
+    neutralL = tforallI [x] reciprocal ttrans unit_neutR❙
+    neutralR = tforallI [x] unit_neutR tsym tcongP ([u] x ÷ u =ͭ x) unit_neutR❙
+    inverseLeft = tforallI [x] self_div❙
+    inverseRight = tforallI [x] reciprocal tsym tcongP ([u] x ÷ u =ͭ e) 
+     							(unit_neutR tsym tcongP ([u] x ÷ u =ͭ e) self_div)❙
+❚
+
+view DivGroupToGroup : ?DivGroup → ?Group =
+	include ?Set❙
+	e = e❙
+	div = [x, y] x∘y⁻❙
+	
+	self_div = [x] invR❙
+	unit_neutR = [x] inv_unit tsym tcongP ([u] x∘u =ͭ x) neutR❙
+	reciprocal = [x, y] inv_op ttrans ((inv_inv tsym) tcongP ([u] u∘x⁻ =ͭ y∘x⁻) trefl)❙
+	reduce = [x, y, z] (inv_op tsym) tcongP ([u] x∘z⁻∘u=ͭx∘y⁻) (assoc4M ttrans 
+					   (invR tsym tcongP ([u] x∘u∘y⁻ =ͭ x∘y⁻)(neutL tcongP ([u] x∘u =ͭ x∘y⁻) trefl)))❙
+❚
+
+theory GroupToGroup_Eq =
+	include ?Group❙
+	structure g : ?Group❘ abbrev COMPOSE ?GroupToDivGroup; ?DivGroupToGroup❙
+	
+	unit_eq : ⊦ unit =ͭ g/unit❘ = trefl❙
+	op_eq : {x, y} ⊦ x∘y =ͭ x g/∘ y❘ = [x,y] inv_inv tcongP ([u] x∘u =ͭ x∘y⁻⁻) trefl❙
+	inv_eq : {x} ⊦ (x⁻ =ͭ x g/⁻)❘ = [x] trefl❙
+❚
+
+theory DivGroupToDivGroup_Eq =
+	include ?DivGroup❙
+	structure d : ?DivGroup❘ abbrev COMPOSE ?DivGroupToGroup; ?GroupToDivGroup❙
+
+	e_eq : ⊦ e =ͭ d/e❘ = trefl❙
+	div_eq : {x, y} ⊦x÷y=ͭx d/÷ y❘ = [x, y] reciprocal ttrans unit_neutR tcongP 
+	 										([u] x ÷ u =ͭ x÷(e÷(e÷y))) trefl❙
+❚
+

@@ -1,0 +1,28 @@
+namespace latin:/❚
+
+fixmeta latin:/powertypes?PowerSFOL❚
+
+theory DiagramCommutes =
+	include ?ClosureTopology❙
+	include ?ClosedTopology❙
+
+	structure co1 : ?ClosureOperator❘ abbrev ?ClosureOperatorToClosureSystem❙
+	structure co2 : ?ClosureOperator❘ abbrev COMPOSE ?ClosureTopologyToInteriorTopology ;
+										           ?InteriorTopologyToNeighborhoodTopology ;
+										           ?NeighborhoodTopologyToOpenTopology ;
+										           ?OpenTopologyToClosedTopology❙
+
+	l2: {A} ⊦ co2/cl A ⊆ͯ co1/cl A ❘ = [A] subsetI [x, p] biginterI [B, q] compl_compl tcongP ([C] x ∈ͯ C) 
+										   complI [r] complE p 
+										  	pfilterI pfilterI texistsI (∁ͯB) andI 
+										  	 (andI (pfilterI (compl_compl tsym tcongP ([C] C ∈ͯ CC) (q pfilterE andEl))) r)
+										      subset_compl (q pfilterE andEr)❙	
+										      
+	l1 : {A} ⊦ co1/cl A ⊆ͯ co2/cl A ❘ = [A] _ ❙
+
+										           
+    diag_commutes : {A} ⊦ co1/cl A =ͭ co2/cl A❙
+
+
+❚
+
