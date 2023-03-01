@@ -252,6 +252,10 @@ theory SubsetRules =
                       = [A,K,C,f] subsetI [x,p] biginterI [S,q] subsetE (f S q) p❙
   subset_compl : {A,S,T: tm ℘ͯA} ⊦ S⊆ͯT ⟶ ⊦ ∁ͯT⊆ͯ∁ͯS❘
                = [A,S,T,p] subsetI [x,q] complI [r] complE q (subsetE p r)❙
+  subset_compl_right : {A,S,T: tm ℘ͯA} ⊦ S⊆ͯ∁ͯT ⟶ ⊦ T⊆ͯ∁ͯS❘
+               		   = [A,S,T,p] _ ❙
+  subset_compl_left : {A,S,T: tm ℘ͯA} ⊦ ∁ͯS⊆ͯT ⟶ ⊦ ∁ͯT⊆ͯS❘
+               		   = [A,S,T,p] _ ❙
   subset_preimage : {A,B,f:tm A ⟶ tm B,S,T} ⊦ S⊆ͯT ⟶ ⊦ S preimage f ⊆ͯ T preimage f❘
   				= [A,B,f,S,T,p] subsetI [x,q] preimageI subsetE p preimageE q❙
   subset_image_preimage : {A,B,f:tm A ⟶ tm B,S} ⊦ (S preimage f) map f⊆ͯS❘
