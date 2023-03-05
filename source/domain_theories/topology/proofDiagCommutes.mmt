@@ -2,6 +2,8 @@ namespace latin:/❚
 
 fixmeta latin:/powertypes?PowerSFOL❚
 
+// proof that red and blue morphism are equal ❙
+
 theory DiagramCommutes =
 	include ?ClosureTopology❙
 	include ?ClosedTopology❙
@@ -11,18 +13,16 @@ theory DiagramCommutes =
 										           ?InteriorTopologyToNeighborhoodTopology ;
 										           ?NeighborhoodTopologyToOpenTopology ;
 										           ?OpenTopologyToClosedTopology❙
-
-	l2: {A} ⊦ co2/cl A ⊆ͯ co1/cl A ❘ = [A] subsetI [x, p] biginterI [B, q] compl_compl tcongP ([C] x ∈ͯ C) 
-										   complI [r] complE p 
-										  	pfilterI pfilterI texistsI (∁ͯB) andI 
-										  	 (andI (pfilterI (compl_compl tsym tcongP ([C] C ∈ͯ CC) (q pfilterE andEl))) r)
-										      subset_compl (q pfilterE andEr)❙	
-										      
-	l1 : {A} ⊦ co1/cl A ⊆ͯ co2/cl A ❘ = [A] _ ❙
-
-										           
-    diag_commutes : {A} ⊦ co1/cl A =ͭ co2/cl A❙
-
-
+								           
+    diag_commutes : {A} ⊦ co1/cl A =ͭ co2/cl A❘ = [A] subset_antisym
+    												(subsetI [x, p] complI [q] [a] q pfilterE pfilterE texistsE [O, r] complE
+    												 (biginterE p pfilterI andI r andEl andEl pfilterE
+											   		  subset_compl_right(r andEr))
+											   	 (r andEl andEr) inconE)
+    												(subsetI [x, p] biginterI [B, q] compl_compl tcongP ([C] x ∈ͯ C) 
+    												  complI [r] complE p 
+										  	       pfilterI pfilterI texistsI (∁ͯB) andI 
+										  	       (andI (pfilterI (compl_compl tsym tcongP ([C] C ∈ͯ CC) (q pfilterE andEl))) r)
+										            subset_compl (q pfilterE andEr))❙
 ❚
 
