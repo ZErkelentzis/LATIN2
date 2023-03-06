@@ -1,0 +1,17 @@
+namespace latin:/❚
+
+fixmeta latin:/powertypes?PowerSFOL❚
+
+theory ClosenessTopology_Eq =
+	include ?ClosenessTopology❙
+	structure ct : ?ClosenessTopology❘ abbrev COMPOSE ?ClosenessTopologyToClosureTopology;
+												    ?ClosureTopologyToInteriorTopology;
+												    ?InteriorTopologyToNeighborhoodTopology;
+												    ?NeighborhoodTopologyToOpenTopology;
+												    ?OpenTopologyToClosedTopology;
+												    ?ClosedTopologyToClosenessTopology❙
+	
+	close_impl1 : {x, A} ⊦ x ⋶ A ⇒ x ct/⋶ A❘ = [x, A] _ ❙
+	close_impl2 : {x, A} ⊦ x ct/⋶ A ⇒ x ⋶ A❘ = [x, A] _ ❙
+	close_eq : {x, A} ⊦ x ⋶ A ⇔ x ct/⋶ A❘ = [x, A] _ ❙
+❚
