@@ -1,0 +1,20 @@
+namespace latin:/❚
+
+fixmeta latin:/powertypes?PowerSFOL❚
+
+theory ClosureTopology_Eq =
+	include ?ClosureTopology❙
+	structure ct : ?ClosureTopology❘ abbrev COMPOSE ?ClosureTopologyToInteriorTopology;
+												  ?InteriorTopologyToNeighborhoodTopology;
+												  ?NeighborhoodTopologyToOpenTopology;
+												  ?OpenTopologyToClosedTopology;
+												  ?ClosedTopologyToClosenessTopology;
+												  ?ClosenessTopologyToClosureTopology❙
+	
+	closure_subs1 : {A} ⊦ cl A ⊆ͯ ct/cl A❘ = [A] subsetI [x, p] complI [q] [a] q pfilterE pfilterE texistsE [O, s] complE
+											    (s andEl andEl pfilterE pfilterE tforallE x implE subsetE
+											    	 (monotone_closure subset_compl_right (s andEr)) p)
+											    (s andEl andEr) inconE❙
+
+	closure_eq : {A} ⊦ cl A =ͭ ct/cl A❘ = [A] _ ❙
+❚
