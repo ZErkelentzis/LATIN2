@@ -41,6 +41,24 @@ theory ClosureOperator_Eq =
 ❚
 
 theory DiagramCommutes =
+	include ?ClosureTopology❙
+	include ?ClosedTopology❙
+	structure co1 : ?ClosureOperator❘ abbrev ?ClosureOperatorToClosureSystem❙
+	structure co2 : ?ClosureOperator❘ abbrev COMPOSE ?ClosureTopologyToInteriorTopology ;
+										           ?InteriorTopologyToNeighborhoodTopology ;
+										           ?NeighborhoodTopologyToOpenTopology ;
+										           ?OpenTopologyToClosedTopology❙
+								           
+    diag_commutes : {A} ⊦ co1/cl A =ͭ co2/cl A❘ = [A] subset_antisym
+    												(subsetI [x, p] complI [q] [a] q pfilterE pfilterE texistsE [O, r] complE
+    												 (biginterE p pfilterI andI r andEl andEl pfilterE
+											   		  subset_compl_right(r andEr))
+											   	 (r andEl andEr) inconE)
+    												(subsetI [x, p] biginterI [B, q] compl_compl tcongP ([C] x ∈ͯ C) 
+    												  complI [r] complE p 
+										  	       pfilterI pfilterI texistsI (∁ͯB) andI 
+										  	       (andI (pfilterI (compl_compl tsym tcongP ([C] C ∈ͯ CC) (q pfilterE andEl))) r)
+										            subset_compl (q pfilterE andEr))❙
 ❚
 
 theory ClosedTopology_Eq =
@@ -80,7 +98,21 @@ theory ClosenessTopology_Eq =
 												    ?OpenTopologyToClosedTopology;
 												    ?ClosedTopologyToClosenessTopology❙
 	
-	close_eq : {x, A} ⊦ close x A ⇔ ct/close x A❘ = [x, A] _ ❙
+	close_impl1 : {x, A} ⊦ x ⋶ A ⇒ x ct/⋶ A❘ = [x, A] implI [p] complI [q] [a] 
+													 q pfilterE pfilterE texistsE [O, r] complE
+													  (r andEl andEl pfilterE pfilterE tforallE x implE
+													   bigger_close p subset_compl_right (r andEr))
+													  (r andEl andEr) inconE❙
+													  
+	close_impl2 : {x, A} ⊦ x ct/⋶ A ⇒ x ⋶ A❘ = [x, A] implI [p] indirect [q] complE p 
+													 pfilterI pfilterI texistsI (∁ͯ pfilter [y] y ⋶ A)
+													  andI (andI (pfilterI pfilterI tforallI [y] implI [r]
+													   			  compl_compl tsym tcongP ([B] y ∈ͯ B) (pfilterI transitive_close r
+													   			   tforallI [z] implI [s] compl_compl tcongP ([B] z ∈ͯ B) s pfilterE))
+													    			 complI [r] q notE (r pfilterE))
+													   	    subset_compl subsetI [y, r] pfilterI in_close r❙
+													   	    
+	close_eq : {x, A} ⊦ x ⋶ A ⇔ x ct/⋶ A❘ = [x, A] equivI ([p] close_impl1 implE p) [p] close_impl2 implE p❙
 ❚
 
 theory ClosureTopology_Eq =
@@ -92,7 +124,20 @@ theory ClosureTopology_Eq =
 												  ?ClosedTopologyToClosenessTopology;
 												  ?ClosenessTopologyToClosureTopology❙
 	
-	closure_eq : {A} ⊦ cl A =ͭ ct/cl A❘ = [A] _ ❙
+	closure_subs1 : {A} ⊦ cl A ⊆ͯ ct/cl A❘ = [A] subsetI [x, p] complI [q] [a] q pfilterE pfilterE texistsE [O, s] complE
+											    (s andEl andEl pfilterE pfilterE tforallE x implE subsetE
+											    	 (monotone_closure subset_compl_right (s andEr)) p)
+											    (s andEl andEr) inconE❙
+											    
+	closure_subs2 : {A} ⊦ ct/cl A ⊆ͯ cl A❘ = [A] subsetI [x, p] indirect [q] complE p
+											    pfilterI pfilterI texistsI (∁ͯ cl A)
+											     andI (andI (pfilterI pfilterI tforallI [y] implI [r] 
+											      			 compl_compl tsym tcongP ([B] y ∈ͯ B) eq_in_left idempotent_closure
+											      			  (compl_compl tcongP ([B] y ∈ͯ cl B) r)) 
+											     		    complI [r] q notE r)
+											     	  subset_compl extensive_closure❙
+										  
+	closure_eq : {A} ⊦ cl A =ͭ ct/cl A❘ = [A] subset_antisym closure_subs1 closure_subs2❙
 ❚
 
 theory InteriorTopology_Eq =
@@ -128,5 +173,19 @@ theory OpenTopology_Eq =
 											   ?InteriorTopologyToNeighborhoodTopology;
 											   ?NeighborhoodTopologyToOpenTopology❙
 	
-	OO_eq : ⊦ OO =ͭ ot/OO❘ = _ ❙
+	OO_subs1 : ⊦ OO ⊆ͯ ot/OO❘ = subsetI [A, p] pfilterI pfilterI tforallI [x] implI [q] complI [r] complE q 
+											  pfilterI pfilterI texistsI A  
+											   andI (andI p r) (compl_compl tsym tcongP ([B] A ⊆ͯ B) subset_refl)❙
+												  
+	lemma1 : {A} ⊦ A ∈ͯ (pfilter [A2] (∁ͯA2) ∈ͯ pfilter [B] ∁ͯ(pfilter [y] (∁ͯB) ∈ͯ pfilter [D] (∃ͭ[O] O ∈ͯ OO ∧ y ∈ͯ O ∧ O ⊆ͯ D)) ⊆ͯ B)
+				⟶ ⊦ (⋃ͯ pfilter [O] O ∈ͯ OO ∧ O ⊆ͯ A) =ͭ A❘
+				= [A, p] subset_antisym
+					      (subset_bigunion_lub [S, q] q pfilterE andEr)
+					       subsetI [x, q] compl_compl tcongP ([B] x ∈ͯ B) complI [r] complE 
+						    (subsetE p pfilterE pfilterE complI [s] [a] s pfilterE pfilterE texistsE [O, t]
+							  complE r bigunionI (pfilterI andI t andEl andEl (compl_compl tcongP ([B] O ⊆ͯ B) (t andEr)))
+												(t andEl andEr) inconE) q❙
+	OO_subs2 : ⊦ ot/OO ⊆ͯ OO❘ = subsetI [A, p] lemma1 p tcongP ([B] B ∈ͯ OO) union_open subsetI [O, q] q pfilterE andEl❙
+	
+	OO_eq : ⊦ OO =ͭ ot/OO❘ = subset_antisym OO_subs1 OO_subs2❙
 ❚
