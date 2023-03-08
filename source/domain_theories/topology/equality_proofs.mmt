@@ -103,6 +103,7 @@ theory ClosenessTopology_Eq =
 													  (r andEl andEl pfilterE pfilterE tforallE x implE
 													   bigger_close p subset_compl_right (r andEr))
 													  (r andEl andEr) inconE❙
+													  
 	close_impl2 : {x, A} ⊦ x ct/⋶ A ⇒ x ⋶ A❘ = [x, A] implI [p] indirect [q] complE p 
 													 pfilterI pfilterI texistsI (∁ͯ pfilter [y] y ⋶ A)
 													  andI (andI (pfilterI pfilterI tforallI [y] implI [r]
@@ -110,6 +111,7 @@ theory ClosenessTopology_Eq =
 													   			   tforallI [z] implI [s] compl_compl tcongP ([B] z ∈ͯ B) s pfilterE))
 													    			 complI [r] q notE (r pfilterE))
 													   	    subset_compl subsetI [y, r] pfilterI in_close r❙
+													   	    
 	close_eq : {x, A} ⊦ x ⋶ A ⇔ x ct/⋶ A❘ = [x, A] equivI ([p] close_impl1 implE p) [p] close_impl2 implE p❙
 ❚
 
@@ -122,7 +124,20 @@ theory ClosureTopology_Eq =
 												  ?ClosedTopologyToClosenessTopology;
 												  ?ClosenessTopologyToClosureTopology❙
 	
-	closure_eq : {A} ⊦ cl A =ͭ ct/cl A❘ = [A] _ ❙
+	closure_subs1 : {A} ⊦ cl A ⊆ͯ ct/cl A❘ = [A] subsetI [x, p] complI [q] [a] q pfilterE pfilterE texistsE [O, s] complE
+											    (s andEl andEl pfilterE pfilterE tforallE x implE subsetE
+											    	 (monotone_closure subset_compl_right (s andEr)) p)
+											    (s andEl andEr) inconE❙
+											    
+	closure_subs2 : {A} ⊦ ct/cl A ⊆ͯ cl A❘ = [A] subsetI [x, p] indirect [q] complE p
+											    pfilterI pfilterI texistsI (∁ͯ cl A)
+											     andI (andI (pfilterI pfilterI tforallI [y] implI [r] 
+											      			 compl_compl tsym tcongP ([B] y ∈ͯ B) eq_in_left idempotent_closure
+											      			  (compl_compl tcongP ([B] y ∈ͯ cl B) r)) 
+											     		    complI [r] q notE r)
+											     	  subset_compl extensive_closure❙
+										  
+	closure_eq : {A} ⊦ cl A =ͭ ct/cl A❘ = [A] subset_antisym closure_subs1 closure_subs2❙
 ❚
 
 theory InteriorTopology_Eq =

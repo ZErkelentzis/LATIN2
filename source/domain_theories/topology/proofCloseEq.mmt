@@ -16,6 +16,7 @@ theory ClosenessTopology_Eq =
 													  (r andEl andEl pfilterE pfilterE tforallE x implE
 													   bigger_close p subset_compl_right (r andEr))
 													  (r andEl andEr) inconE❙
+													  
 	close_impl2 : {x, A} ⊦ x ct/⋶ A ⇒ x ⋶ A❘ = [x, A] implI [p] indirect [q] complE p 
 													 pfilterI pfilterI texistsI (∁ͯ pfilter [y] y ⋶ A)
 													  andI (andI (pfilterI pfilterI tforallI [y] implI [r]
@@ -23,5 +24,6 @@ theory ClosenessTopology_Eq =
 													   			   tforallI [z] implI [s] compl_compl tcongP ([B] z ∈ͯ B) s pfilterE))
 													    			 complI [r] q notE (r pfilterE))
 													   	    subset_compl subsetI [y, r] pfilterI in_close r❙
+													   	    
 	close_eq : {x, A} ⊦ x ⋶ A ⇔ x ct/⋶ A❘ = [x, A] equivI ([p] close_impl1 implE p) [p] close_impl2 implE p❙
 ❚
