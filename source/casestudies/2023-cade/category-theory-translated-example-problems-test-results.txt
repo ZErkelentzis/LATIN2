@@ -1,0 +1,111 @@
+Results of running the conjectures in the file category-theory-translated-example-problems.p through different HOL provers via https://www.tptp.org/cgi-bin/SystemOnTPTP:
+
+======
+= conj1 =
+======
+
+RESULT: SOT_LTdTU4 - agsyHOL---1.0 says Theorem - CPU = 0.00 WC = 0.49
+RESULT: SOT_LTdTU4 - cvc5---1.0 says Theorem - CPU = 0.00 WC = 0.08
+RESULT: SOT_LTdTU4 - cvc5-SAT---1.0 says Theorem - CPU = 0.00 WC = 0.23
+RESULT: SOT_LTdTU4 - E---3.0 says Theorem - CPU = 0.00 WC = 0.05
+RESULT: SOT_LTdTU4 - HOLyHammer---0.21 says Theorem - CPU = 0.00 WC = 0.15
+RESULT: SOT_LTdTU4 - Isabelle---2016 says Timeout - CPU = 61.20 WC = 19.55
+RESULT: SOT_LTdTU4 - Isabelle-HOT---2016 says Timeout - CPU = 61.31 WC = 20.40
+RESULT: SOT_LTdTU4 - Lash---1.12 says Theorem - CPU = 0.00 WC = 0.08
+RESULT: SOT_LTdTU4 - LEO-II---1.7.0 says Theorem - CPU = 0.00 WC = 0.24
+RESULT: SOT_LTdTU4 - Leo-III---1.7.3 says Theorem - CPU = 22.72 WC = 4.69
+RESULT: SOT_LTdTU4 - Leo-III-SAT---1.7.3 says Theorem - CPU = 24.12 WC = 4.87
+RESULT: SOT_LTdTU4 - Nitpick---2016 says Timeout - CPU = 62.27 WC = 20.17
+RESULT: SOT_LTdTU4 - Satallax---3.5 says Theorem - CPU = 0.91 WC = 1.46
+RESULT: SOT_LTdTU4 - TPS---3.120601S1b says Unknown - CPU = 2.06 WC = 2.42
+RESULT: SOT_LTdTU4 - Vampire---4.7 says Theorem - CPU = 0.00 WC = 0.18
+RESULT: SOT_LTdTU4 - Vampire-FMO---4.7 says Unknown - CPU = 0.00 WC = 0.05
+RESULT: SOT_LTdTU4 - Zipperpin---2.1 says Theorem - CPU = 0.42 WC = 0.95
+
+======
+= conj2 =
+======
+
+RESULT: SOT_PxHDOk - agsyHOL---1.0 says Timeout - CPU = 60 WC = 60.00
+RESULT: SOT_PxHDOk - cvc5---1.0 says Theorem - CPU = 0.00 WC = 0.11
+RESULT: SOT_PxHDOk - cvc5-SAT---1.0 says Theorem - CPU = 0.00 WC = 0.37
+RESULT: SOT_PxHDOk - E---3.0 says Theorem - CPU = 0.00 WC = 0.05
+RESULT: SOT_PxHDOk - HOLyHammer---0.21 says Theorem - CPU = 0.00 WC = 0.21
+RESULT: SOT_PxHDOk - Isabelle---2016 says Timeout - CPU = 62.59 WC = 21.07
+RESULT: SOT_PxHDOk - Isabelle-HOT---2016 says Timeout - CPU = 61.31 WC = 19.80
+RESULT: SOT_PxHDOk - Lash---1.12 says Theorem - CPU = 23.01 WC = 23.33
+RESULT: SOT_PxHDOk - LEO-II---1.7.0 says Theorem - CPU = 0.00 WC = 0.25
+RESULT: SOT_PxHDOk - Leo-III---1.7.3 says Timeout - CPU = 61.19 WC = 16.03
+RESULT: SOT_PxHDOk - Leo-III-SAT---1.7.3 says Timeout - CPU = 61.08 WC = 14.72
+RESULT: SOT_PxHDOk - Nitpick---2016 says Timeout - CPU = 61.62 WC = 20.34
+RESULT: SOT_PxHDOk - Satallax---3.5 says Unknown - CPU = 53.04 WC = 54.99
+RESULT: SOT_PxHDOk - TPS---3.120601S1b says Unknown - CPU = 2.02 WC = 2.54
+RESULT: SOT_PxHDOk - Vampire---4.7 says Theorem - CPU = 0.00 WC = 0.22
+RESULT: SOT_PxHDOk - Vampire-FMO---4.7 says Unknown - CPU = 0.00 WC = 0.04
+RESULT: SOT_PxHDOk - Zipperpin---2.1 says Theorem - CPU = 8.13 WC = 0.67
+
+======
+= conj3 =
+======
+
+RESULT: SOT_uf_DEP - agsyHOL---1.0 says Timeout - CPU = 60 WC = 60.00
+RESULT: SOT_uf_DEP - cvc5---1.0 says Theorem - CPU = 0.00 WC = 0.14
+RESULT: SOT_uf_DEP - cvc5-SAT---1.0 says Timeout - CPU = 60.60 WC = 60.82
+RESULT: SOT_uf_DEP - E---3.0 says Theorem - CPU = 0.00 WC = 0.09
+RESULT: SOT_uf_DEP - HOLyHammer---0.21 says Theorem - CPU = 0.47 WC = 0.52
+RESULT: SOT_uf_DEP - Isabelle---2016 says Timeout - CPU = 61.74 WC = 21.93
+RESULT: SOT_uf_DEP - Isabelle-HOT---2016 says Timeout - CPU = 61.51 WC = 21.05
+RESULT: SOT_uf_DEP - Lash---1.12 says Timeout - CPU = 60 WC = 60.61
+RESULT: SOT_uf_DEP - LEO-II---1.7.0 says Theorem - CPU = 0.48 WC = 0.52
+RESULT: SOT_uf_DEP - Leo-III---1.7.3 says Timeout - CPU = 71.60 WC = 22.52
+RESULT: SOT_uf_DEP - Leo-III-SAT---1.7.3 says Timeout - CPU = 61.92 WC = 13.28
+RESULT: SOT_uf_DEP - Nitpick---2016 says Timeout - CPU = 61.40 WC = 21.20
+RESULT: SOT_uf_DEP - Satallax---3.5 says Unknown - CPU = 53.93 WC = 54.28
+RESULT: SOT_uf_DEP - TPS---3.120601S1b says Unknown - CPU = 2.02 WC = 2.45
+RESULT: SOT_uf_DEP - Vampire---4.7 says Theorem - CPU = 0.00 WC = 0.28
+RESULT: SOT_uf_DEP - Vampire-FMO---4.7 says Unknown - CPU = 0.00 WC = 0.05
+RESULT: SOT_uf_DEP - Zipperpin---2.1 says Theorem - CPU = 0.87 WC = 1.40
+
+======
+= conj4 =
+======
+
+RESULT: SOT_vQvEdB - agsyHOL---1.0 says Theorem - CPU = 0.00 WC = 0.11
+RESULT: SOT_vQvEdB - cvc5---1.0 says Theorem - CPU = 0.00 WC = 0.06
+RESULT: SOT_vQvEdB - cvc5-SAT---1.0 says Timeout - CPU = 60.53 WC = 61.05
+RESULT: SOT_vQvEdB - E---3.0 says Theorem - CPU = 0.00 WC = 0.05
+RESULT: SOT_vQvEdB - HOLyHammer---0.21 says Theorem - CPU = 0.50 WC = 0.55
+RESULT: SOT_vQvEdB - Isabelle---2016 says Timeout - CPU = 61.24 WC = 20.58
+RESULT: SOT_vQvEdB - Isabelle-HOT---2016 says Timeout - CPU = 61.28 WC = 20.33
+RESULT: SOT_vQvEdB - Lash---1.12 says Theorem - CPU = 2.09 WC = 2.63
+RESULT: SOT_vQvEdB - LEO-II---1.7.0 says Theorem - CPU = 0.43 WC = 0.50
+RESULT: SOT_vQvEdB - Leo-III---1.7.3 says Theorem - CPU = 31.06 WC = 6.38
+RESULT: SOT_vQvEdB - Leo-III-SAT---1.7.3 says Theorem - CPU = 36.06 WC = 6.72
+RESULT: SOT_vQvEdB - Nitpick---2016 says Timeout - CPU = 61.36 WC = 20.00
+RESULT: SOT_vQvEdB - Satallax---3.5 says Theorem - CPU = 0.00 WC = 0.29
+RESULT: SOT_vQvEdB - TPS---3.120601S1b says Unknown - CPU = 1.92 WC = 2.64
+RESULT: SOT_vQvEdB - Vampire---4.7 says Theorem - CPU = 0.00 WC = 0.19
+RESULT: SOT_vQvEdB - Vampire-FMO---4.7 says Unknown - CPU = 0.00 WC = 0.05
+RESULT: SOT_vQvEdB - Zipperpin---2.1 says Theorem - CPU = 1.81 WC = 0.87
+
+======
+= conj5 =
+======
+
+RESULT: SOT_sQ0un_ - agsyHOL---1.0 says Timeout - CPU = 60 WC = 60.00
+RESULT: SOT_sQ0un_ - cvc5---1.0 says Theorem - CPU = 3.40 WC = 3.85
+RESULT: SOT_sQ0un_ - cvc5-SAT---1.0 says Timeout - CPU = 60.49 WC = 60.73
+RESULT: SOT_sQ0un_ - E---3.0 says Theorem - CPU = 0.00 WC = 0.14
+RESULT: SOT_sQ0un_ - HOLyHammer---0.21 says Timeout - CPU = 60 WC = 61.08
+RESULT: SOT_sQ0un_ - Isabelle---2016 says Timeout - CPU = 61.82 WC = 20.81
+RESULT: SOT_sQ0un_ - Isabelle-HOT---2016 says Timeout - CPU = 61.94 WC = 20.74
+RESULT: SOT_sQ0un_ - Lash---1.12 says Timeout - CPU = 60 WC = 60.19
+RESULT: SOT_sQ0un_ - LEO-II---1.7.0 says Timeout - CPU = 60 WC = 59.85
+RESULT: SOT_sQ0un_ - Leo-III---1.7.3 says Timeout - CPU = 62.11 WC = 14.09
+RESULT: SOT_sQ0un_ - Leo-III-SAT---1.7.3 says Timeout - CPU = 62.74 WC = 13.50
+RESULT: SOT_sQ0un_ - Nitpick---2016 says Timeout - CPU = 62.32 WC = 20.83
+RESULT: SOT_sQ0un_ - Satallax---3.5 says Unknown - CPU = 51.86 WC = 52.69
+RESULT: SOT_sQ0un_ - TPS---3.120601S1b says Unknown - CPU = 1.89 WC = 2.59
+RESULT: SOT_sQ0un_ - Vampire---4.7 says Theorem - CPU = 49.99 WC = 1.21
+RESULT: SOT_sQ0un_ - Vampire-FMO---4.7 says Unknown - CPU = 0.00 WC = 0.07
+RESULT: SOT_sQ0un_ - Zipperpin---2.1 says Timeout - CPU = 97.49 WC = 3.33
