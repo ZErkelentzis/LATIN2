@@ -178,7 +178,23 @@ theory NeighborhoodTopology_Eq =
 												       ?ClosureTopologyToInteriorTopology;
 												       ?InteriorTopologyToNeighborhoodTopology❙
 	
-	NN_eq : {x} ⊦ NN x =ͭ nt/NN x❘ = [x] _ ❙
+	NN_subs1 : {x} ⊦ NN x ⊆ͯ nt/NN x❘ = [x] subsetI [A, p] pfilterI texistsI (pfilter [y] y ∶ A) andI 
+										   (andI (pfilterI pfilterI tforallI [y] implI [q] complI [r] complE q
+										   		   (pfilterI ((compl_compl tsym) tcongP ([B] y ∶ B)
+										   		   	((openness_neighborhood (r pfilterE)) texistsE [M, s]
+										   		   	 superset_closed_neighborhood ((s tforallE y) andEl)
+										   		   	  (subsetI [z, t] pfilterI (((s tforallE z) andEr) implE t))))))
+										   		 (pfilterI p))
+										   (subsetI [y, q] in_neighborhood (q pfilterE))❙
+	
+	NN_subs2 : {x} ⊦ nt/NN x ⊆ͯ NN x❘ = [x] subsetI [A, p] p pfilterE texistsE [O, q] superset_closed_neighborhood
+										   (indirect [r] complE 
+										    (subsetE q andEl andEl pfilterE pfilterE complI [s] 
+											  r notE (compl_compl tcongP ([B] x ∶ B) (s pfilterE))) 
+											(q andEl andEr))
+										   (q andEr)❙
+										   
+	NN_eq : {x} ⊦ NN x =ͭ nt/NN x❘ = [x] subset_antisym NN_subs1 NN_subs2❙	
 ❚
 
 theory OpenTopology_Eq =
