@@ -15,6 +15,7 @@ build MMT/LATIN2 mmt-omdoc ./algebra_to_order.mmt
 
 // depend on magmas, sets and groups
 build MMT/LATIN2 mmt-omdoc ./ringoids.mmt
+build MMT/LATIN2 mmt-omdoc ./divgroups.mmt
 
 // depend on power_types, groups and ringoids
 // needs complete redesign
