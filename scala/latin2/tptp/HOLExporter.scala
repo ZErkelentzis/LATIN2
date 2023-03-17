@@ -167,6 +167,7 @@ object THFExporterUtil {
   def THFAnd(con1: THF.Formula, con2: THF.Formula): THF.Formula = THF.BinaryFormula(THF.&, con1, con2)
   def THFOr(disj1: THF.Formula, disj2: THF.Formula): THF.Formula = THF.BinaryFormula(THF.|, disj1, disj2)
   def THFApp(con1: THF.Formula, con2: THF.Formula): THF.Formula = THF.BinaryFormula(THF.App, con1, con2)
+  def THFAppl(func: THF.Formula, args: List[THF.Formula]) = args.foldLeft(func)({(f, arg) => THFApp(f, arg)})
   def THFImpl(ass: THF.Formula, concl: THF.Formula): THF.Formula = THF.BinaryFormula(THF.Impl, ass, concl)
   def THFEq(form1: THF.Formula, form2: THF.Formula): THF.Formula = THF.BinaryFormula(THF.Eq, form1, form2)
   def THFNeg(form: THF.Formula): THF.Formula = THF.UnaryFormula(THF.~, form)
@@ -182,10 +183,12 @@ object THFExporterUtil {
   def translated_fun_path(path:GlobalName) = OMS(path.module ? translated_fun_name(path.name))
   def translated_fun(path:GlobalName) = THFOMS(translated_fun_path(path).path)
 
-  def type_decl_name(ln: LocalName) = ln.toString+"_type"
+  def type_decl_name(ln: LocalName) = ln_to_TPTP_identifier(ln)+"_type"
 
-  def translate_var_name(n:LocalName) = "V_" + n.toString.toUpperCase
-  def translate_var_decl_name(n:LocalName) = "t_" + n.toString
+  def make_name_tptp_compatible(s: String) = s.replace("/", "__")
+  def ln_to_TPTP_identifier(ln: LocalName) = make_name_tptp_compatible(ln.toString)
+  def translate_var_name(n:LocalName) = "V_" + ln_to_TPTP_identifier(n).toUpperCase
+  def translate_var_decl_name(n:LocalName) = "t_" + ln_to_TPTP_identifier(n)
   def default_name(p: ContentPath) = translate_var_decl_name(p.name)
   def IMPOSSIBLE = throw ImplementationError("This case should be impossible.")
   def UNSUPPORTED(s:String) = throw ImplementationError("This feature is unsupported: " + s)

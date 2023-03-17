@@ -25,11 +25,11 @@ import lf.{DependentConjunction, DependentFunctionTypes, DependentFunctions, Dep
 import info.kwarc.mmt.api
 import info.kwarc.mmt.api.checking.{History, InferenceAndTypingRule, InferenceRule, Solver, TypeBasedEqualityRule}
 import info.kwarc.mmt.api.objects.Conversions.localName2OMV
-import latin2.tptp.DHOLExporterUtil._
+import latin2.tptp.DIHOLExporterUtil._
 import latin2.tptp.THFExporterUtil._
 
 class DIHOLExporter extends logicExporter {
-  val priority: Int = 6
+  val priority: Int = 4
   val theoryPath: info.kwarc.mmt.api.MPath = lf.DIHOL._path
 
   // to get correct behaviour for the classical translation which extends this class, switch this to true
@@ -38,7 +38,6 @@ class DIHOLExporter extends logicExporter {
     THFAnnotated("conjecture", "conjecture", THF.Logical(translate_term(conj)), None)
 
   var pathMap: List[(GlobalName, String)] = Nil
-  var predDecls: List[(GlobalName, VarDecl)] = Nil
 
   /**
    *
@@ -90,13 +89,9 @@ class DIHOLExporter extends logicExporter {
           case TypedTerms.tm(DependentFunctionTypes.depfun(s, t)) => unapplyDepFun(DependentFunctionTypes.depfun(s, t)) match { // declaration of function
             case Some((dependentArgs, ret)) =>
               pathMap ::= (path, translated_fun_name(name))
-              ret match {
-                case lf.Booleans.bool(()) => predDecls ::= (path, dependentArgs.last)
-                case _ => ()
-              }
               val funDecl = THFAnnotated(type_decl_name(name), "type",
                 THF.Typing(translated_fun_name(name), translate_type(Pi(dependentArgs, ret))), None)
-              val retPred = typing_pred(Pi(dependentArgs, ret), ApplyGeneral(OMS(path), dependentArgs.map(_.toTerm)))
+              val retPred = typing_pred(Pi(dependentArgs, ret), OMS(path))
               lazy val tpAx = THFAnnotated(tp_ax_decl_name(name), "axiom",
                 THF.Logical(retPred), None)
               List(funDecl, tpAx)
@@ -126,6 +121,15 @@ class DIHOLExporter extends logicExporter {
         }
         add_formula_comment(name.toString)
         declTranslated
+    }
+  }
+
+  def THFQuantifiedAxiom(ax: THF.Formula, dependentArgs: Context) = {
+    if (dependentArgs.nonEmpty) {
+      THF.Logical(THF.QuantifiedFormula(THF.!,
+        dependentArgs.map({vd => (translate_var_name(vd.name), translate_type(vd.tp.get()))}), ax))
+    } else {
+      THF.Logical(ax)
     }
   }
 
@@ -183,7 +187,6 @@ class DIHOLExporter extends logicExporter {
     // We need to remember the constants and what kind of constants they are in order to work out the correct
     // paths in the translation and in order to define the typing predicate for booleans using case distinctions
     val decls = theory.getConstants
-    predDecls = Nil
     pathMap = Nil
 
     decls .map (c => (c.path, c.tp, c.df)) flatMap { case (p, tp, df) => translate_decl(p, tp, df, Context(p.module))}
@@ -304,6 +307,7 @@ class DIHOLExporter extends logicExporter {
     case TypedTerms.tm(tp) => translate_type(tp)
     case ApplySpine(tp, _) => translate_type(tp)
     case OMS(gn) => THFOMS(translated_type_path(gn).path)
+    case OMA(f, Nil) => translate_type(f)
     case _ => ???
   }
 
@@ -352,7 +356,7 @@ class DIHOLExporter extends logicExporter {
   }
 }
 
-object DHOLExporterUtil {
+object DIHOLExporterUtil {
   def is_bool_valued(ty: Term): Boolean = ty match {
     case depFun@lf.DependentFunctionTypes.depfun(_, _) => {
       val Some((depArgs, bdy)) = unapplyDepFun(depFun)

@@ -1,20 +1,18 @@
 package latin2.tptp
 
+import info.kwarc.mmt.api.checking.{History, Solver, TypeBasedEqualityRule}
 import info.kwarc.mmt.api.frontend.Controller
-import info.kwarc.mmt.api.modules.Theory
-import info.kwarc.mmt.api.objects.Context.{context2list, makeFresh}
 import info.kwarc.mmt.api.objects._
 import info.kwarc.mmt.api.uom.SimplificationUnit
 import info.kwarc.mmt.api.{GeneralError, GlobalName, LocalName, MPath}
 import info.kwarc.mmt.lf._
-import leo.datastructures.TPTP._
-import lf.{Booleans, DependentFunctionTypes, Truth, TypedPredicateSubtypes, TypedTerms}
-import info.kwarc.mmt.api.checking.{History, Solver, TypeBasedEqualityRule}
+import latin2.tptp.DIHOLExporterUtil._
 import latin2.tptp.THFExporterUtil._
-import latin2.tptp.DHOLExporterUtil._
+import leo.datastructures.TPTP._
+import lf._
 
 class DPIHOLExporter extends DIHOLExporter {
-  override val priority: Int = 7
+  override val priority: Int = 5
   override val theoryPath: info.kwarc.mmt.api.MPath = lf.DPIHOL._path
 
   /**

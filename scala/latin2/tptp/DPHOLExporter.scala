@@ -4,13 +4,15 @@ import info.kwarc.mmt.api.frontend.Controller
 import info.kwarc.mmt.api.objects._
 import info.kwarc.mmt.api.uom.SimplificationUnit
 import info.kwarc.mmt.api.{GeneralError, GlobalName, MPath}
+import info.kwarc.mmt.lf.FunType
+import latin2.tptp.DHOLExporterUtil.newTypeRelVarName
 import leo.datastructures.TPTP._
 import lf.{TypedPredicateSubtypes, TypedTerms}
 import latin2.tptp.THFExporterUtil._
-import latin2.tptp.DHOLExporterUtil._
+import latin2.tptp.DIHOLExporterUtil._
 
 class DPHOLExporter extends DHOLExporter {
-  override val priority: Int = 5
+  override val priority: Int = 7
   override val theoryPath: info.kwarc.mmt.api.MPath = lf.DPHOL._path
 
   /**
@@ -24,31 +26,36 @@ class DPHOLExporter extends DHOLExporter {
    * @return the translation of the declaration
    */
  override def translate_decl(path: GlobalName, tpO: Option[Term], dfO: Option[Term], ctx: Context)(implicit ctrl: Controller): List[THFAnnotated] = {
-    val Some(tp) = tpO
-    val simplicationUnit = SimplificationUnit(Context(path.module), expandConDefs = true, expandVarDefs = true, fullRecursion = true)
-    val simplifiedTp = try {
-      ctrl.simplifier(tp, simplicationUnit)
-    } catch {
-      // this shouldn't happen, but it makes more sense to continue anyways, as simplifying is not really necessary
-      // TODO: add some error handling
-      case e: GeneralError => tp
-    }
+   (tpO, dfO) match {
+     case (_, Some(df)) =>
+       definitionSubstituents ::= (path, df)
+       Nil
+     case (Some(tp), None) =>
+       val simplicationUnit = SimplificationUnit(Context(path.module), expandConDefs = true, expandVarDefs = true, fullRecursion = true)
+       val simplifiedTp = try {
+         ctrl.simplifier(tp, simplicationUnit)
+       } catch {
+         // this shouldn't happen, but it makes more sense to continue anyways, as simplifying is not really necessary
+         // TODO: add some error handling
+         case e: GeneralError => tp
+       }
 
-    val name = path.name
+       val name = path.name
 
-    simplifiedTp match {
-      case TypedTerms.tm(predSub@TypedPredicateSubtypes.predsub(tp, pred)) =>
-        pathMap ::= (path, translated_fun_name(name))
-        val funDecl = THFAnnotated(type_decl_name(name), "type",
-          THF.Typing(translated_fun_name(name), translate_type(tp)), None)
-        val retPred = typing_pred(predSub, OMS(path))
-        lazy val tpAx = THFAnnotated(tp_ax_decl_name(name), "axiom",
-          THF.Logical(retPred), None)
-        add_formula_comment(name.toString)
-        List(funDecl, tpAx)
-      case _ => super.translate_decl(path, tpO, dfO, ctx)
-    }
-  }
+       simplifiedTp match {
+         case TypedTerms.tm(predSub@TypedPredicateSubtypes.predsub(tp, pred)) =>
+           pathMap ::= (path, translated_fun_name(name))
+           val funDecl = THFAnnotated(type_decl_name(name), "type",
+             THF.Typing(translated_fun_name(name), translate_type(tp)), None)
+           val retPred = typing_pred(predSub, OMS(path))
+           lazy val tpAx = THFAnnotated(tp_ax_decl_name(name), "axiom",
+             THF.Logical(retPred), None)
+           add_formula_comment(name.toString)
+           List(funDecl, tpAx)
+         case _ => super.translate_decl(path, tpO, dfO, ctx)
+       }
+   }
+ }
 
   /**
    * translate a context element (variable or assumption) by translating variable types, relativizing them and translating assumptions
@@ -74,11 +81,12 @@ class DPHOLExporter extends DHOLExporter {
     case _ => super.translate_type(t)
   }
 
-  override def typing_pred(t:Term, x:Term): THF.Formula = {
-    t match {
+  override def type_rel(tp: Term, left: THF.Formula, right: THF.Formula): THF.Formula = {
+    tp match {
       case TypedPredicateSubtypes.predsub(tp, pred) =>
-        THFAnd(THFApp(translate_term(pred), translate_term(x)), typing_pred(tp, x))
-      case _ => super.typing_pred(t, x)
+        THFAnd(THFAnd(type_rel(tp, left, right),
+          THFApp(translate_term(pred), left)), THFApp(translate_term(pred), right))
+      case _ => super.type_rel(tp, left, right)
     }
   }
 }

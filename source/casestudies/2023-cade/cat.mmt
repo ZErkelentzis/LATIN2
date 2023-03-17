@@ -1,4 +1,4 @@
-namespace latin:/casestudies/_2022-tptp❚
+namespace latin:/casestudies/_2023-cade❚
 
 theory Cat : latin:/?DHOL =
     obj : tp❙
@@ -10,4 +10,17 @@ theory Cat : latin:/?DHOL =
 
     // finally the conjecture to prove, needs prover to show well-typedness ❙
     conj: ⊦ ∀ͭ[x: tm obj] ∀ͭ[y: tm obj] x =ͭ y ⇒ͩ [p] (id @ x) =ͭ (id @ y) ❘ = PROVE ❙
+❚
+
+theory CatExtended : latin:/?DPHOL =
+    obj : tp❙
+    mor : {x:tm obj,y:tm obj} tp ❙
+    id: tm Πͭ [x] mor x x ❙
+    comp: tm Πͭ [x] Πͭ [y] Πͭ [z] Πͭ [f:tm mor x y] Πͭ [g:tm mor y z] mor x z ❘# 5 ◦ 4 prec 50 ❙ 
+    ax1: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[m: tm (mor x y)] ((((comp @ x) @ y) @ y) @ m) @ (id @ y) =ͭ m ❙    
+    ax2: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[m: tm (mor x y)] ((((comp @ x) @ x) @ y) @ (id @ x)) @ m =ͭ m ❙
+
+		p = [u: obj, m: mor u u] ∃ͭ [i: mor u u] ( ((((comp @ u) @ u) @ u) @ m) @ i =ͭ id @ u ) ∧ 
+		( ((((comp @ u) @ u) @ u) @ i) @ m =ͭ id @ u ) ❙
+		isomor = [u] mor u u | ( [m: mor u u] (p u) ) ❙
 ❚

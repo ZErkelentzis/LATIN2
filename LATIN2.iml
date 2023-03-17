@@ -31,6 +31,6 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="scala-sdk-2.12.3" level="application" />
+    <orderEntry type="library" name="scala-sdk-2.13.4" level="application" />
   </component>
 </module>
