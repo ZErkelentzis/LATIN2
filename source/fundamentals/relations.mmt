@@ -65,19 +65,13 @@ theory EqualityType =
   include ?OneTyped❙
   structure equalityRel : ?EquivalenceRelation =
     include ?OneTyped❙
-    rel # 1 = 2 prec 30❙
-    refl @ refl❙
-    sym @ sym❙
-    trans @ trans❙
-    trans3 @ trans3❙
-    trans4 @ trans4❙
   ❚
 ❚
 
 theory AntiSymmetry =
   include ?EqualityType❙
   include ?Relation❙
-  antisym : {x,y} x$y ⟶ y$x ⟶ x = y❙
+  antisym : {x,y} x$y ⟶ y$x ⟶ x equalityRel/$ y❙
 ❚
 
 theory Order =

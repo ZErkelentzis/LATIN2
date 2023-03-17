@@ -1,0 +1,189 @@
+namespace latin:/linear❚
+
+import rules scala://substructural.latin2❚
+
+// Linear logic
+   Syntax: intuitionistic linear logic
+   Proof theory: resource semantics based on Frank Pfenning's lecture notes
+   (http://www.cs.cmu.edu/~fp/courses/15816-s10/schedule.html, Lecture 23-24) resource semantics
+❚
+
+theory Syntax : ur:?LF =
+   o : type❙
+   ⊗ : o ⟶ o ⟶ o ❘# 1 ⊗ 2 prec 100❙
+   1 : o❙
+   & : o ⟶ o ⟶ o ❘# 1 & 2 prec 100❙
+   ⊤ : o❙
+   ⊕ : o ⟶ o ⟶ o ❘# 1 ⊕ 2 prec 100❙
+   0 : o❙
+   ⊸ : o ⟶ o ⟶ o ❘# 1 ⊸ 2 prec 80❙
+   ! : o ⟶ o      ❘# ! 1 prec 110❙
+   
+   ⇒ : o ⟶ o ⟶ o ❘# 1 ⇒ 2 prec 80❘
+     = [x,y] !x ⊸ y❙
+❚
+
+// We use untyped first-order logic with equality to define the semantics.
+   The values of the first-order universe are the worlds, and propositions may hold at different worlds.❚
+
+fixmeta latin:/?FOLEQND❚
+
+theory Worlds = 
+   include ?Syntax❙
+   // worlds contain resources ❙
+   world : type❘= term❙
+   // composition of worlds, corresponds to multiset union of resources ❙
+   union : world ⟶ world ⟶ world ❘# 1 * 2 prec 100❙
+   // empty world with no resources ❙
+   empty : world❘# ε❙
+
+   // * is a monoid❙
+   neutL  : {P} ⊦ ε*P ≐ͧ P❙
+   neutR  : {P} ⊦ P*ε ≐ P❙
+   assoc  : {P,Q,R} ⊦ (P*Q)*R ≐ P*(Q*R)❙
+   
+   // A @ P: A can be produced by using all resources available in world P❙
+   at : o ⟶ world ⟶ prop❙
+   At : o ⟶ world ⟶ type❘ = [p,w] ⊦ at p w❘# 1 @ 2 prec 50❘role Judgment❙
+   // a formula is valid if it holds in the empty world❙
+   valid : o ⟶ type ❘= [A] A @ ε❘# valid 1 prec -10❙
+❚
+
+// Apart from the monoid/multiset structure, there is no way to introduce worlds.
+   The set of worlds is the freely-generated T over the bound world variables.
+   Here T is the theory imposed on worlds, T is an extension of the monoid theory.
+
+   Different extensions allow modeling different structural rules.
+   The following gives three extensions, but only Exchange is used later on.❚
+
+// Exchange corresponds to commutativity.❚
+theory Exchange =
+  include ?Worlds❙
+   comm : {P,Q} ⊦ P*Q ≐ Q*P❙
+
+   // We add two special type-checking rules that mechanize the monoid+commutativity axiom.
+      Their implementations are given in the folder scala (sibling of source).❙
+   
+   // A simplification rule for *-terms: it normalizes bracketing of *, drops ε, and reorders the arguments❙
+   rule rules?NormalizeWorlds❙
+
+   test : {p,q,r} ⊦ r*(p*q)*ε*r ≐ r*(r*(q*p)) ❘= [p,q,r] refl❙
+
+   // An equality-checking rule for equations involving *: it normalizes both sides and solves meta-variables of type world.
+      For example, it can reduce v*w=v*w' to w=w'.
+      Situations like this came up in several of the examples below.
+      This rule is admissible for solving meta-variables but not derivable from the monoid+commutativity axioms.
+      Effectively, it works in the freely-generated commutative monoid.
+      Because it is only admissible, it breaks modularity: e.g., it cannot be easily combined with a corresponding rule for idempotence.❙
+   rule rules?EquateWorlds❙
+❚
+
+// Contraction corresponds to idempotence.❚
+theory Contraction =
+  include ?Worlds❙
+  idem : {P} ⊦ P*P ≐ P❙
+❚
+
+// Weakening corresponds to the empty world being the least element.❚
+theory Weakening : /examples?FOLEQNatDed =
+  include ?Worlds❙
+   // ordering with monotonicity❙
+   weaker : world ⟶ world ⟶ prop ❘ # 1 ≤ 2 prec 80❙
+   ≤_refl   : {P} ⊦ P ≤ P❙
+   ≤_antisym: {P,Q} ⊦ P ≤ Q ⟶ ⊦ Q ≤ P ⟶ ⊦ P≐Q❙
+   ≤_trans  : {P,Q,R} ⊦ P≤Q ⟶ ⊦ Q≤R ⟶ ⊦ P≤R ❙
+   ≤_monotone: {a,b,c,d} ⊦ a ≤ b ⟶ ⊦ c ≤ d ⟶ ⊦ a*c ≤ b*d❙ 
+
+   // least world (without this, the order is trivial, i.e., there is no weakening)❙
+   ≤_least : {P} ⊦ ε ≤ P❙
+
+   // TODO: This should be a subtyping rule so that it does not occur in proofs.❙
+   weaken: {A,v,w} A @ v ⟶ ⊦v≤w ⟶ A @ w❙
+   
+   divisibility: {P,Q} ⊦ P ≤ P*Q ❘
+               = [P,Q] congF neutR ([u]u≤P*Q) (≤_monotone ≤_refl ≤_least)❙ 
+❚
+
+// Now proofs of the linear sequent A1, ..., An |- A are represented as terms of type
+   (A1 ⊗ ... ⊗ An) ⊸ A  @  ε, where @ is the binary holds-at relation between propositions and worlds.❚
+theory ResourceSemantics =
+   include ?Worlds❙
+   include ?Exchange❙
+
+   ⊗_R  : {A,B,a,b} A @ a ⟶ B @ b ⟶ A ⊗ B @ a*b❙
+   ⊗_L  : {A,B,C,u,v} A ⊗ B @ u ⟶ ({a}{b} A @ a ⟶ B @ b ⟶ C @ a*b*v) ⟶ C @ u*v❘
+   # ⊗_L 6 7❙
+
+   1_R : 1 @ ε❙
+   1_L : {C,u,v} 1 @ u ⟶ C @ v ⟶ C @ u*v❙
+
+   &_R  : {A,B,w} A @ w ⟶ B @ w ⟶ A & B @ w❙
+   &_Ll : {A,B,C,u,v} A & B @ u ⟶ ({a} A @ a ⟶ C @ a*v) ⟶ C @ u*v❙
+   &_Lr : {A,B,C,u,v} A & B @ u ⟶ ({b} B @ b ⟶ C @ b*v) ⟶ C @ u*v❙
+
+   ⊤_R  : {w} ⊤ @ w❙
+   
+   ⊕_Rl : {A,B,w} A @ w ⟶ A ⊕ B @ w❙
+   ⊕_Rr : {A,B,w} B @ w ⟶ A ⊕ B @ w❙
+   ⊕_L  : {A,B,C,u,v} A ⊕ B @ u ⟶ ({a} A @ a ⟶ C @ a*v) ⟶ ({b} B @ b ⟶ C @ b*v) ⟶ C @ u*v❙  
+
+   0_L  : {C,u,v} 0 @ u ⟶ C @ u*v❙ 
+   
+   ⊸_R  : {A,B,w} ({a} A @ a ⟶ B @ a*w) ⟶ A ⊸ B @ w❙
+   ⊸_L  : {A,B,C,u,a,v} A ⊸ B @ u ⟶ A @ a ⟶ ({b} B @ b ⟶ C @ b*v) ⟶ C @ u*a*v❙
+   // alternatively
+   ⊸_E  : A ⊸ B @ P ⟶ A @ Q ⟶ B @ P*Q
+   ⊸_L : A ⊸ B @ H ⟶ A @ P ⟶ ({b} B @ b ⟶ C @ b*Q) ⟶ C @ H*P*Q
+      = [p][q][f] f (H*P) (⊸E p q)
+   ❙
+
+   !_R : {A} A @ ε ⟶ ! A @ ε❙
+   !_L : {A,C,u,v} ! A @ u ⟶ (A @ ε ⟶ C @ v) ⟶ C @ u*v❙
+   
+   
+   // In the remainder, we prove some derivable rules to exercise the calculus.❙
+   
+   ⊗_commute : {A,B} valid A⊗B ⊸ B⊗A❘
+      = [A,B] ⊸_R [ab,h] ⊗_L h [a,b,p,q] ⊗_R q p❙
+
+   // needs to solve abc * X = abc and ab * Y * X = ab * c, solution: X = epsilon, Y = c❙ 
+   ⊗_assoc1 : {A,B,C} valid (A⊗B)⊗C ⊸ A⊗(B⊗C)❘
+        = [A,B,C] ⊸_R [abc,h] ⊗_L h 
+              [ab,c,pq,r] ⊗_L pq
+                 ([a,b,p,q] ⊗_R p (⊗_R q r))❙
+      
+   ⊗_assoc2 : {A,B,C} valid A⊗(B⊗C) ⊸ (A⊗B)⊗C❘
+        = [A,B,C] ⊸_R [abc,h] ⊗_L h 
+              [a,bc,p,qr] ⊗_L qr
+                 ([b,c,q,r] ⊗_R (⊗_R p q) r)❙
+
+   ⊗_neutral1 : {A} valid A⊗1 ⊸ A❘
+      = [A] ⊸_R [ao,h] ⊗_L h [a,b,p,q] 1_L q p❙
+   ⊗_neutral2 : {A} valid A ⊸ A⊗1❘
+      = [A] ⊸_R [a,h] ⊗_R h 1_R❙
+      
+   ⊕_commute : {A,B} valid A⊕B ⊸ B⊕A❘
+      = [A,B] ⊸_R [ab,h] ⊕_L h ([a,p] ⊕_Rr p) ([b,q] ⊕_Rl q)❙
+
+   ⊕_neutral1 : {A} valid A⊕0 ⊸ A❘
+    = [A] ⊸_R [az,h] ⊕_L h ([a,p] p) ([z,q] 0_L q)❙
+   ⊕_neutral2 : {A} valid A ⊸ A⊕0❘
+      = [A] ⊸_R [a,h] ⊕_Rl h❙
+   
+      
+   !_over_⊕ : {A,B} valid (!A⊕!B) ⊸ !(A⊕B)❘
+            = [A,B] ⊸_R [ab,h] ⊕_L h ([a,p] !_L p ([pE] !_R (⊕_Rl pE)))
+                                     ([b,q] !_L q ([qE] !_R (⊕_Rr qE)))❙
+   !_over_& : {A,B} valid !(A&B) ⊸ (!A&!B)❘
+          // TODO: This proof unexpectedly does not type-check, eventually failing at a=ε and b=ε.
+             Further investigation is needed to determine if the proof is in fact wrong or
+             if the type-checker is led astray by the EquateWorlds rule.❙
+          //  = [A,B] ⊸_R [ab,h] &_R (!_L h [pqE] &_Ll pqE ([a,p] !_R p))
+                                   (!_L h [pqE] &_Lr pqE ([b,q] !_R q))❙
+   !_idempotent1 : {A} valid !!A ⊸ !A❘
+                 = [A] ⊸_R [a,h] !_L h [k] !_L k [l] !_R l❙ 
+   !_idempotent2 : {A} valid !A ⊸ !!A❘
+                 = [A] ⊸_R [a,h] !_L h [k] !_R (!_R k)❙
+   !_weaken : {A} valid !A ⊸ A❘
+            = [A] ⊸_R [a,h] !_L h [k] k❙
+❚
