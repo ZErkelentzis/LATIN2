@@ -1,9 +1,10 @@
 package latin2.tptp
 
 import info.kwarc.mmt.api._
-import archives.BuildTask
+import archives.{Archive, BuildTask, Dim}
 import checking.UnknownTerm
 import frontend.{Controller, Extension}
+import info.kwarc.mmt.api
 import modules.Theory
 import objects.{Context, OMSReplacer, OMSemiFormal, OMV, Obj, Sub, Substitution, Term, Text, VarDecl}
 import presentation.{RenderingHandler, StructurePresenter}
@@ -66,7 +67,7 @@ class TPTPExporter extends StructurePresenter with AutomatedProver { //TODO: doe
       case None => "% LOGIC UNSUPPORTED!\n"
     }
     if (output_string.nonEmpty) {
-      outputTo(getOutFileForModule(thy.path).get) {
+      outputTo(outFileForModule(thy.path)) {
         rh(output_string)
       }
     }
@@ -82,13 +83,25 @@ class TPTPExporter extends StructurePresenter with AutomatedProver { //TODO: doe
     }
   }
   def translate_include(home_path: MPath, in: MPath) : Include = {
-    val home = getOutFileForModule(home_path).get
-    val include = home.relativize(getOutFileForModule(in).get).toString
+    val home = outFileForModule(home_path)
+    val include = home.relativize(outFileForModule(in)).toString
     ((include, (Seq(), Seq())))
   }
 
+  private def defaultOutFileForModule(path: MPath) = {
+    val baseURI = utils.URI("latin:/casestudies/_2023-cade")
+    val basePath = DPath(baseURI)
+    val CatPath = basePath ? "Cat"
+    val catArchive = controller.backend.findOwningArchive(CatPath)
+    val latin2archive = catArchive.get
+    val owningArchive = controller.backend.findOwningArchive(path) getOrElse latin2archive
+    val outDim = Dim("export", key)
+    (owningArchive / outDim / archives.Archive.MMTPathToContentPath(path.mainModule)).setExtension(outExt)
+  }
+  def outFileForModule(path: MPath) = getOutFileForModule(path).getOrElse(defaultOutFileForModule(path))
+
   def exportProblem(problem: Problem, path: MPath) : String = {
-    val file_path = getOutFileForModule(path).get.setExtension("p")
+    val file_path = outFileForModule(path).setExtension("p")
     outputTo(file_path) {
       rh(problem.pretty)
     }
@@ -149,7 +162,7 @@ class TPTPExporter extends StructurePresenter with AutomatedProver { //TODO: doe
     }
 
     //check if proof cached
-    val proof_path = getOutFileForModule(mod).get.setExtension("proof.tptp")
+    val proof_path = outFileForModule(mod).setExtension("proof.tptp")
     if (proof_path.exists()) {
       import java.io.BufferedReader
       import java.io.FileReader

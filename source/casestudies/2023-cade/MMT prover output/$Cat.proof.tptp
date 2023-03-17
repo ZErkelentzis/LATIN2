@@ -1,0 +1,23 @@
+% moma/hKfnlt/gBCDgij1U6n5Z0h8UJWXFQyeoPCGEaA=
+thf(sk2_type, type, sk2: t_obj).
+thf(2529,conjecture,((! [A:t_obj]: ((obj_rel @ A @ A) => (! [B:t_obj]: ((obj_rel @ B @ B) => ((obj_rel @ A @ B) => (mor_rel @ A @ A @ (t_id @ A) @ (t_id @ B)))))))),file('/home/user/Erlangen/MMT/content/MathHub/MMT/LATIN2/export/tptp/content/latin..-/casestudies/_2023-cade/$Cat.p',conjecture)).
+thf(2530,negated_conjecture,((~ (! [A:t_obj]: ((obj_rel @ A @ A) => (! [B:t_obj]: ((obj_rel @ B @ B) => ((obj_rel @ A @ B) => (mor_rel @ A @ A @ (t_id @ A) @ (t_id @ B))))))))),inference(neg_conjecture,[status(cth)],[2529])).
+thf(2537,plain,((~ (! [A:t_obj]: ((obj_rel @ A @ A) => (! [B:t_obj]: ((obj_rel @ B @ B) => ((obj_rel @ A @ B) => (mor_rel @ A @ A @ (t_id @ A) @ (t_id @ B))))))))),inference(defexp_and_simp_and_etaexpand,[status(thm)],[2530])).
+thf(2541,plain,((obj_rel @ sk1 @ sk1)),inference(cnf,[status(esa)],[2537])).
+thf(2533,axiom,((! [A:t_obj,B:t_obj]: ((obj_rel @ A @ B) => (mor_rel @ A @ A @ (t_id @ A) @ (t_id @ A))))),file('/home/user/Erlangen/MMT/content/MathHub/MMT/LATIN2/export/tptp/content/latin..-/casestudies/_2023-cade/$Cat.p',id_tp_ax)).
+thf(2548,plain,((! [A:t_obj,B:t_obj]: ((obj_rel @ A @ B) => (mor_rel @ A @ A @ (t_id @ A) @ (t_id @ A))))),inference(defexp_and_simp_and_etaexpand,[status(thm)],[2533])).
+thf(2549,plain,((! [A:t_obj]: ((? [B:t_obj]: (obj_rel @ A @ B)) => (mor_rel @ A @ A @ (t_id @ A) @ (t_id @ A))))),inference(miniscope,[status(thm)],[2548])).
+thf(2550,plain,(! [B:t_obj,A:t_obj] : ((~ (obj_rel @ A @ B)) | (mor_rel @ A @ A @ (t_id @ A) @ (t_id @ A)))),inference(cnf,[status(esa)],[2549])).
+thf(2538,plain,((~ (mor_rel @ sk1 @ sk1 @ (t_id @ sk1) @ (t_id @ sk2)))),inference(cnf,[status(esa)],[2537])).
+thf(2539,plain,((obj_rel @ sk1 @ sk2)),inference(cnf,[status(esa)],[2537])).
+thf(2531,axiom,((! [A:t_obj,B:t_obj]: ((obj_rel @ A @ B) => (A = B)))),file('/home/user/Erlangen/MMT/content/MathHub/MMT/LATIN2/export/tptp/content/latin..-/casestudies/_2023-cade/$Cat.p',obj_per_ax)).
+thf(2542,plain,((! [A:t_obj,B:t_obj]: ((obj_rel @ A @ B) => (A = B)))),inference(defexp_and_simp_and_etaexpand,[status(thm)],[2531])).
+thf(2543,plain,(! [B:t_obj,A:t_obj] : ((~ (obj_rel @ A @ B)) | (A = B))),inference(cnf,[status(esa)],[2542])).
+thf(2544,plain,(! [B:t_obj,A:t_obj] : ((A = B) | (~ (obj_rel @ A @ B)))),inference(lifteq,[status(thm)],[2543])).
+thf(2688,plain,(! [B:t_obj,A:t_obj] : ((A = B) | ((obj_rel @ sk1 @ sk2) != (obj_rel @ A @ B)))),inference(paramod_ordered,[status(thm)],[2539,2544])).
+thf(2689,plain,((sk2 = sk1)),inference(pattern_uni,[status(thm)],[2688:[bind(A, $thf(sk1)),bind(B, $thf(sk2))]])).
+thf(2757,plain,((~ (mor_rel @ sk1 @ sk1 @ (t_id @ sk1) @ (t_id @ sk1)))),inference(rewrite,[status(thm)],[2538,2689])).
+thf(2999,plain,(! [B:t_obj,A:t_obj] : ((~ (obj_rel @ A @ B)) | ((mor_rel @ A @ A @ (t_id @ A) @ (t_id @ A)) != (mor_rel @ sk1 @ sk1 @ (t_id @ sk1) @ (t_id @ sk1))))),inference(paramod_ordered,[status(thm)],[2550,2757])).
+thf(3000,plain,(! [A:t_obj] : ((~ (obj_rel @ sk1 @ A)))),inference(pattern_uni,[status(thm)],[2999:[bind(A, $thf(sk1))]])).
+thf(3009,plain,(! [A:t_obj] : ((~ (obj_rel @ sk1 @ A)))),inference(simp,[status(thm)],[3000])).
+thf(3014,plain,(($false)),inference(rewrite,[status(thm)],[2541,3009])).

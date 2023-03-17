@@ -100,7 +100,7 @@ class DIHOLExporter extends logicExporter {
             pathMap ::= (path, translated_fun_name(name))
             val constDecl = THFAnnotated(type_decl_name(name), "type",
               THF.Typing(translated_fun_name(name), translate_type(ftp)), None)
-            val retPred = typing_pred(OMS(p), OMS(path))
+            val retPred = typing_pred(ftp, OMS(path))
             val tpAx = THFAnnotated(tp_ax_decl_name(name), "axiom",
               THF.Logical(retPred), None)
             List(constDecl, tpAx)
@@ -298,6 +298,7 @@ class DIHOLExporter extends logicExporter {
 	}
 
   def translate_type(t: Term): THF.Formula = t match {
+    case lf.Booleans.bool(()) => THFBool
     case depFun@lf.DependentFunctionTypes.depfun(_, _) => {
       val Some((depArgs, bdy)) = unapplyDepFun(depFun)
       translate_type(FunType(depArgs.map(vd => (Some(vd.name), vd.tp.get)), bdy))

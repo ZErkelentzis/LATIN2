@@ -1,0 +1,61 @@
+// Build MMT/OMDoc and Scala parts of LATIN2
+// To be precise, this build script only builds the parts of LATIN2
+// which can actually be built successfully at time of writing.
+
+server on 8080
+
+log console
+log+ archive
+log+ mmt-omdoc
+//log+ TPTPExporter
+
+file ../../../build_config.msl
+
+log+ debug
+//log+ object-checker
+//log+ object-simplifier
+//log+ structure-simplifier
+//log+ structure-checker
+//log+ object-parser
+//log+ tptp
+
+//log+ DHOLExporter
+//log+ DPHOLExporter
+log+ TPTPExporter
+
+extension latin2.tptp.TPTPExporter
+extension latin2.tptp.SFOLExporter
+extension latin2.tptp.HOLExporter
+extension latin2.tptp.DIHOLExporter
+extension latin2.tptp.DPIHOLExporter
+extension latin2.tptp.DHOLExporter
+extension latin2.tptp.DPHOLExporter
+
+
+define dependencies
+	build MMT/urtheories mmt-omdoc lf.mmt
+	//build MMT/urtheories mmt-omdoc sequences.mmt
+	//build MMT/urtheories mmt-omdoc primitive_types/bool.mmt
+	//build MMT/urtheories mmt-omdoc primitive_types/nat.mmt
+	build MMT/LATIN2 mmt-omdoc fundamentals/concepts.mmt
+	build MMT/LATIN2 mmt-omdoc fundamentals/base_languages.mmt
+	build MMT/LATIN2 mmt-omdoc fundamentals/equality.mmt
+	build MMT/LATIN2 mmt-omdoc logic/fol_like/booleans.mmt
+	build MMT/LATIN2 mmt-omdoc logic/fol_like/ifte.mmt
+	build MMT/LATIN2 mmt-omdoc logic/propositional/pl.mmt
+	build MMT/LATIN2 mmt-omdoc type_theory/function_types.mmt
+	build MMT/LATIN2 mmt-omdoc logic/fol_like/sfol.mmt
+	build MMT/LATIN2 mmt-omdoc logic/hol_like/hol.mmt
+	build MMT/LATIN2 mmt-omdoc logic/hol_like/dhol.mmt
+	//build MMT/LATIN2 mmt-omdoc logic/fol.mmt
+	//build MMT/LATIN2 mmt-omdoc logic/pl.mmt
+	//build MMT/LATIN2 mmt-omdoc logic/stfol.mmt
+	//build MMT/LATIN2 mmt-omdoc foundations/mizar.mmt
+	//build MMT/LATIN2 mmt-omdoc foundations/mizar-patterns.mmt
+end
+
+// do dependencies
+
+// test DPHOL exporter examples for CADE 2023 paper
+build MMT/LATIN2 mmt-omdoc .
+build MMT/LATIN2 tptp casestudies/2023-cade/
