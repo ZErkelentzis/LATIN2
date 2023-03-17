@@ -61,7 +61,7 @@ build MMT/LATIN2 mmt-omdoc algebraic_logic/pl_semilattice.mmt
 file source/set-theoretical_semantics/build.msl
 
 // basics of the experimental computation system in mmt
-file source/computation/build.msl
+suppressErrors file source/computation/build.msl
 
 // files containing Scala rules may need to be build twice: once to generate Scala code and then once again after compiling the rule
 // We ignore all errors thrown in the first run.
@@ -78,12 +78,13 @@ build MMT/LATIN2 scala-bin
 // rebuild the files that need two rounds
 // The classloader does not pick up on the now created class files. So we need to clear before retrying.
 clear
+file source/computation/build.msl
 file source/logic/drt/build.msl
 build MMT/LATIN2 mmt-omdoc logic/hol_like/dhol.mmt
 build MMT/LATIN2 mmt-omdoc domain_theories/numbers/upto.mmt
 
 // not part of release yet
-// build MMT/LATIN2 mmt-omdoc computation/experimental.mmt
+// build MMT/LATIN2 mmt-omdoc computation
 
 // build MMT/LATIN2 present-text-notations-flat
 

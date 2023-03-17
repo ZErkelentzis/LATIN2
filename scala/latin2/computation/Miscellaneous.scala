@@ -210,8 +210,8 @@ object EqRun extends ExecutionRule(CF._eq.path){
                case OMLIT(v1 : BigInt,rt1) => rE match {
                   case OMLIT(v2 : BigInt,rt2) => {
                      if(v1 == v2)
-                        Booleans.tt
-                     else Booleans.ff
+                        TrueFalse.tt
+                     else TrueFalse.ff
                   }
                }
             }

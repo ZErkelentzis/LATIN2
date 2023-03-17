@@ -7,7 +7,7 @@ theory CBooleansZF =
   include ?TypedEqualitySet❙
   include ?NatZF❙
   
-  realize ?Booleans❙
+  realize ?TrueFalse❙
   bool = uopair uzero uone❙
   tt = elem uone uopairIr❘# ⊤ͨ❙
   ff = elem uzero uopairIl❘# ⊥ͨ❙
