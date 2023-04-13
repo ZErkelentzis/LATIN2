@@ -1,0 +1,152 @@
+namespace latin:/casestudies/_2023-morpheq❚
+
+fixmeta latin:/powertypes?PowerSFOL❚
+
+morpheq isoClosureSystem : COMPOSE ?CsCn; ?CnCo; ?CoCs ≞ IDENTITY ?ClosureSystem : ?ClosureSystem ⟶ ?ClosureSystem =
+
+	CC = subset_antisym (subsetI [A, p] pfilterI tforallI [x] implI [q] 
+						q pfilterE tforallE A implE pfilterI andI p tforallI [z] implI[r] r)
+					    (subsetI [A, p] (subset_antisym p pfilterE subset_biginter_glb [C, q] q pfilterE andEr) 
+						 tcongP ([B] B ∈ͯ CC) intersection_closed subsetI [C, q] q pfilterE andEl)❙
+❚
+
+morpheq isoCloseness : COMPOSE ?CnCo; ?CoCs; ?CsCn ≞ IDENTITY ?Closeness : ?Closeness ⟶ ?Closeness =
+	
+	close = [x, A] equivI ([p] biginterI [S, q] q pfilterE andEl pfilterE tforallE x 
+	 					   implE bigger_close p (q pfilterE andEr)) 
+	 					 ([p] biginterE p pfilterI andI
+	 						(pfilterI tforallI [y] implI [q] pfilterI transitive_close q 
+	 						 tforallI [z] implI [r] r pfilterE)
+	 						(subsetI [y, q] pfilterI in_close q) pfilterE)❙
+❚
+
+morpheq isoClosureOperator : COMPOSE ?CoCs; ?CsCn; ?CnCo ≞ IDENTITY ?ClosureOperator : ?ClosureOperator ⟶ ?ClosureOperator =
+	
+	closure = [A] subset_antisym (subset_biginter_glb [S, p] subsetI [x, q] 
+								 p pfilterE andEl pfilterE tforallE x implE 
+								 subsetE (monotone_closure (p pfilterE andEr)) q)
+								(subset_biginter pfilterI andI
+								 (pfilterI tforallI [x] implI [p] eq_in_left idempotent_closure p) 
+								  extensive_closure)❙
+❚
+
+morpheq diagramCommutes : ?COMPOSE ?ClIn; ?InNb; ?NbOp; ?OpCd ≞ ?CoCs : ?ClosureOperator ⟶ ?ClosedTop =
+								           
+    cl = [A] subset_antisym (subsetI [x, p] complI [q] [a] q pfilterE pfilterE texistsE [O, r] complE
+    							(biginterE p pfilterI andI r andEl andEl pfilterE subset_compl_right(r andEr))
+							(r andEl andEr) inconE)
+    						   (subsetI [x, p] biginterI [B, q] compl_compl tcongP ([C] x ∈ͯ C) 
+    							 complI [r] complE p pfilterI pfilterI texistsI (∁ͯB) andI 
+							  (andI (pfilterI (compl_compl tsym tcongP ([C] C ∈ͯ CC) (q pfilterE andEl))) r)
+							   subset_compl (q pfilterE andEr))❙
+❚
+
+morpheq isoClosedTop : ?COMPOSE ?CdCn; ?CnCl; ?ClIn; ?InNb; ?NbOp; ?OpCd ≞ IDENTITY ?ClosedTop : ?ClosedTop ⟶ ?ClosedTop =
+	
+	CC_subs1 = subsetI [A, p] pfilterI subsetI [x, q] compl_compl tcongP ([B] x ∈ͯ B) complI [r] complE q 
+			   pfilterI pfilterI texistsI (∁ͯA) andI 
+ 				(andI (pfilterI (compl_compl tsym tcongP ([C] C ∈ͯ CC) p)) r) subset_refl❙
+						  
+	lemma1 = [x, A, q] complI [r] [a] r pfilterE pfilterE texistsE [O, s] complE
+						(biginterE q pfilterI andI s andEl andEl pfilterE
+						 (compl_compl tcongP ([B] B ⊆ͯ ∁ͯO) subset_compl (s andEr)))
+						(s andEl andEr) inconE❙
+
+    CC_subs2 = subsetI [A, p] (subset_antisym
+							   (subsetI [x, q] subsetE p pfilterE lemma1 q)
+							   (subset_biginter_glb [B, q] (q pfilterE) andEr))
+							  tcongP ([B] B ∈ͯ CC) intersection_closed subsetI [B, q] q pfilterE andEl❙
+
+    CC = subset_antisym CC_subs1 CC_subs2❙
+❚
+
+morpheq isoClosenessTop : ?COMPOSE ?CnCl; ?ClIn; ?InNb; ?NbOp; ?OpCd; ?CdCn  ≞ IDENTITY ?ClosenessTop : ?ClosenessTop ⟶ ?ClosenessTop =
+	
+	close_impl1 = [x, A] implI [p] complI [q] [a] q pfilterE pfilterE texistsE [O, r] complE
+												 (r andEl andEl pfilterE pfilterE tforallE x implE
+												   bigger_close p subset_compl_right (r andEr))
+												 (r andEl andEr) inconE❙
+													  
+	close_impl2 = [x, A] implI [p] indirect [q] complE p pfilterI pfilterI texistsI (∁ͯ pfilter [y] y ⋶ A)
+									andI (andI (pfilterI pfilterI tforallI [y] implI [r]
+												 compl_compl tsym tcongP ([B] y ∈ͯ B) (pfilterI transitive_close r
+												 tforallI [z] implI [s] compl_compl tcongP ([B] z ∈ͯ B) s pfilterE))
+											    complI [r] q notE (r pfilterE))
+										  subset_compl subsetI [y, r] pfilterI in_close r❙
+													   	    
+	close = [x, A] equivI ([p] close_impl1 implE p) [p] close_impl2 implE p❙
+❚
+
+morpheq isoClosureTop : ?COMPOSE ?ClIn; ?InNb; ?NbOp; ?OpCd; ?CdCn; ?CnCl ≞ IDENTITY ?ClosureTop : ?ClosureTop ⟶ ?ClosureTop =
+	
+	closure_subs1 = [A] subsetI [x, p] complI [q] [a] q pfilterE pfilterE texistsE [O, s] complE
+											    (s andEl andEl pfilterE pfilterE tforallE x implE subsetE
+											    	 (monotone_closure subset_compl_right (s andEr)) p)
+											    (s andEl andEr) inconE❙
+											    
+	closure_subs2 = [A] subsetI [x, p] indirect [q] complE p pfilterI pfilterI texistsI (∁ͯ cl A)
+										andI (andI (pfilterI pfilterI tforallI [y] implI [r] 
+											      	compl_compl tsym tcongP ([B] y ∈ͯ B) eq_in_left idempotent_closure
+											      	(compl_compl tcongP ([B] y ∈ͯ cl B) r)) complI [r] q notE r)
+											  subset_compl extensive_closure❙
+										  
+	closure = [A] subset_antisym closure_subs1 closure_subs2❙
+❚
+
+morpheq isoInteriorTop : ?COMPOSE ?InNb; ?NbOp; ?OpCd; ?CdCn; ?CnCl; ?ClIn ≞ IDENTITY ?InteriorTop : ?InteriorTop ⟶ ?InteriorTop =
+	
+	interior_subs1 = [A] subsetI [x, p] pfilterI pfilterI texistsI (interior A)
+							    andI (andI (pfilterI pfilterI tforallI [y] implI [r]
+									        eq_in_left (compl_compl tsym tcongP ([B] interior B =ͭ interior A) 
+									                   (idempotent_interior tsym) tcongP
+						                                ([B] ∁ͯ interior ∁ͯ∁ͯ interior A =ͭ ∁ͯB) trefl) r) 
+										    p)
+			                           extensive_interior❙
+											    
+	interior_subs2 = [A] subsetI [x, p] p pfilterE pfilterE texistsE [O, q] subsetE 
+						  	    (monotone_interior (q andEr))
+								indirect [s] complE 
+								 (q andEl andEl pfilterE pfilterE tforallE x implE complI [r] s notE
+								   (compl_compl tcongP ([B] x ∈ͯ interior B) r))
+								 (q andEl andEr)❙
+										  
+	interior = [A] subset_antisym interior_subs1 interior_subs2❙
+❚
+
+morpheq isoNeighborhoodTop : ?COMPOSE ?NbOp; ?OpCd; ?CdCn; ?CnCl; ?ClIn; ?InNb ≞ IDENTITY ?NeighborhoodTop : ?NeighborhoodTop ⟶ ?NeighborhoodTop =
+	
+	NN_subs1 = [x] subsetI [A, p] pfilterI texistsI (pfilter [y] y ∶ A) andI 
+										   (andI (pfilterI pfilterI tforallI [y] implI [q] complI [r] complE q
+										   		   (pfilterI ((compl_compl tsym) tcongP ([B] y ∶ B)
+										   		   	((openness_neighborhood (r pfilterE)) texistsE [M, s]
+										   		   	 superset_closed_neighborhood ((s tforallE y) andEl)
+										   		   	  (subsetI [z, t] pfilterI (((s tforallE z) andEr) implE t))))))
+										   		 (pfilterI p))
+										   (subsetI [y, q] in_neighborhood (q pfilterE))❙
+	
+	NN_subs2 = [x] subsetI [A, p] p pfilterE texistsE [O, q] superset_closed_neighborhood
+										   (indirect [r] complE 
+										    (subsetE q andEl andEl pfilterE pfilterE complI [s] 
+											  r notE (compl_compl tcongP ([B] x ∶ B) (s pfilterE))) 
+											(q andEl andEr))
+										   (q andEr)❙
+										   
+	NN = [x] subset_antisym NN_subs1 NN_subs2❙	
+❚
+
+morpheq isoOpenTop : ?COMPOSE ?OpCd; ?CdCn; ?CnCl; ?ClIn; ?InNb; ?NbOp ≞ IDENTITY ?OpenTop : ?OpenTop ⟶ ?OpenTop =
+	
+	OO_subs1 = subsetI [A, p] pfilterI pfilterI tforallI [x] implI [q] complI [r] complE q 
+											  pfilterI pfilterI texistsI A  
+											   andI (andI p r) (compl_compl tsym tcongP ([B] A ⊆ͯ B) subset_refl)❙
+												  
+	lemma1 = [A, p] subset_antisym
+					      (subset_bigunion_lub [S, q] q pfilterE andEr)
+					       subsetI [x, q] compl_compl tcongP ([B] x ∈ͯ B) complI [r] complE 
+						    (subsetE p pfilterE pfilterE complI [s] [a] s pfilterE pfilterE texistsE [O, t]
+							  complE r bigunionI (pfilterI andI t andEl andEl (compl_compl tcongP ([B] O ⊆ͯ B) (t andEr)))
+												(t andEl andEr) inconE) q❙
+	OO_subs2 = subsetI [A, p] lemma1 p tcongP ([B] B ∈ͯ OO) union_open subsetI [O, q] q pfilterE andEl❙
+	
+	OO = subset_antisym OO_subs1 OO_subs2❙
+❚
