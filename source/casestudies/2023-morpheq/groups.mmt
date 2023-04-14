@@ -1,0 +1,74 @@
+namespace latin:/casestudies/_2023-morpheq❚
+
+fixmeta latin:/?SFOLEQND❚
+
+theory Carrier =
+  	universe : tp❙
+  	U = tm universe❙
+❚
+
+theory Group =
+  	include ?Carrier❙
+  
+  	e : U❘
+  	op : U ⟶ U ⟶ U❘# 1 ∘ 2 prec 50❙
+  	inv : U ⟶ U❘# 1 ⁻ prec 60❙
+  
+  	assoc : {x, y, z} ⊦ (x ∘ y) ∘ z =ͭ x ∘ (y ∘ z)❙
+	unit_neutR : {x} ⊦ x ∘ e =ͭ x❙
+	invR : {x} ⊦ x ∘ x⁻ =ͭ e❙
+❚
+
+theory DivGroup =
+	include ?Carrier❙
+	
+	e : U❙
+	div : U ⟶ U ⟶ U ❘# 1 ÷ 2 prec 50❙
+	
+	self_div : {x} ⊦ x ÷ x =ͭ e❙
+	unit_neutR : {x} ⊦ x ÷ e =ͭ x❙
+	reciprocal : {x, y} ⊦ e ÷ (x ÷ y) =ͭ y ÷ x❙
+	reduce : {x, y, z} ⊦ (x ÷ z) ÷ (y ÷ z) =ͭ x ÷ y❙  
+❚
+
+view GroupToDivGroup : ?Group → ?DivGroup =
+    include ?Carrier❙
+    e = e❙
+    op = [x, y] x ÷ (e ÷ y)❙
+    inv = [x] e ÷ x❙
+
+    assoc = tforallI [x] tforallI [y] tforallI [z] 
+    		   unit_neutR tcongP 
+    		   ([u] x ÷ (e ÷ y) ÷ u =ͭ x ÷ (e ÷ y) ÷ (e ÷ z ÷ e)) trefl
+    		   ttrans (reduce tcongP 
+    		   ([u] x ÷ (e ÷ y) ÷ u =ͭ x ÷ (e ÷ y) ÷ (e ÷ z ÷ y ÷ (e ÷ y))) trefl) 
+    		   ttrans reduce 
+    		   ttrans (reciprocal tcongP ([u] x ÷ u =ͭ x ÷ (e ÷ (y ÷ (e ÷ z)))) trefl)  ❙
+    unit_neutR = tforallI [x] unit_neutR tsym tcongP ([u] x ÷ u =ͭ x) unit_neutR❙
+    invR = tforallI [x] reciprocal tsym tcongP ([u] x ÷ u =ͭ e) (unit_neutR tsym tcongP ([u] x ÷ u =ͭ e) self_div)❙
+❚
+
+view DivGroupToGroup : ?DivGroup → ?Group =
+	include ?Set❙
+	e = e❙
+	div = [x, y] x∘y⁻❙
+	
+	self_div = [x] invR❙
+	unit_neutR = [x] inv_unit tsym tcongP ([u] x∘u =ͭ x) neutR❙
+	reciprocal = [x, y] inv_op ttrans ((inv_inv tsym) tcongP ([u] u∘x⁻ =ͭ y∘x⁻) trefl)❙
+	reduce = [x, y, z] (inv_op tsym) tcongP ([u] x∘z⁻∘u=ͭx∘y⁻) (assoc4M ttrans 
+					   (invR tsym tcongP ([u] x∘u∘y⁻ =ͭ x∘y⁻)(neutL tcongP ([u] x∘u =ͭ x∘y⁻) trefl)))❙
+❚
+
+morpheq isoGroup : COMPOSE ?GroupToDivGroup; ?DivGroupToGroup ≞ IDENTITY ?Group : ?Group ⟶ ?Group =
+	
+	e = trefl❙
+	op = [x,y] inv_inv tcongP ([u] x∘u =ͭ x∘y⁻⁻) trefl❙
+	inv = [x] trefl❙
+❚
+
+morpheq isoDivGroup : COMPOSE ?DivGroupToGroup; ?GroupToDivGroup ≞ IDENTITY ?DivGroup : ?DivGroup ⟶ ?DivGroup =
+
+	e = trefl❙
+	div = [x, y] reciprocal ttrans unit_neutR tcongP ([u] x ÷ u =ͭ x÷(e÷(e÷y))) trefl❙
+❚
