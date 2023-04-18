@@ -1,0 +1,106 @@
+namespace latin:/casestudies/_2023-morpheq❚
+
+fixmeta latin:/?SFOLEQND❚
+
+theory Carrier =
+  universe : tp❙
+  U = tm universe❙
+❚
+
+theory Order =
+  include ?Carrier❙
+  rel : U ⟶ U ⟶ prop❘# 1 $ 2 prec 30❙
+  
+  refl : {x} ⊦ x$x❘# %n %I1❙
+  trans    : {x,y,z} ⊦ x$y ⟶ ⊦ y$z ⟶ ⊦ x$z❘# 4 %n 5❙
+  antisym : {x,y} ⊦ x$y ⟶ ⊦ y$x ⟶ ⊦ x =ͭ y❘# %n 3 4❙
+❚
+
+theory Supremum =
+  include ?Order❙
+  
+  sup: U ⟶ U ⟶ U❙
+  supremum_ax: {x,y} ⊦ supremumOf x y (sup x y)❙
+❚
+
+theory Infimum =
+  include ?Order❙
+  
+  inf : U ⟶ U ⟶ U❙
+  infimum_ax : {x,y} ⊦ infimumOf x y (inf x y)❙
+❚
+
+view OpSup : ?Supremum → ?Infimum =
+  include ?Carrier❙
+  rel = [x,y] y$x
+  sup = inf❙
+  supremum_ax = [x,y] infimum_ax❙
+❚
+
+theory LatticeOrder =
+  include ?Infimum❙
+  include ?Supremum❙
+❚
+
+theory Semilattice = 
+  include ?Carrier❙
+  op : U ⟶ U ⟶ U ❘# 1 ∘ 2 prec 50❙
+  
+  assoc_ax : ⊦ ∀ͭ[x]∀ͭ[y]∀ͭ[z] (x∘y)∘z =ͭ x∘(y∘z)❙
+  idem_ax: ⊦ ∀ͭ[x] x∘x =ͭ x❙
+  comm_ax : ⊦ ∀ͭ[x]∀ͭ[y] x∘y =ͭ y∘x❙
+  
+  total structure absorbRelation : ?Order =
+    include ?Carrier❙
+    rel = [x,y] x∘y =ͭ x❙
+    refl = [x] idem ❙
+    trans = [x,y,z,p,q] (p tsym) tcongT ([u]u∘z) ttrans assoc ttrans (q tcongT [u]x∘u) ttrans p❙
+    antisym = [x,y,p,q] p tsym ttrans comm ttrans q❙
+  ❚
+  total structure absorb : ?Infimum =
+    include ?Order❘ = ?Semilattice?absorbRelation❙
+    inf = [x,y]x∘y❙
+    infimum_ax = [x,y]
+       andI
+         (andI ((assoc ttrans (comm tcongT [u]x∘u)) ttrans assocR ttrans (idem tcongT [u]u∘y))
+               (assoc ttrans (idem tcongT [u]x∘u)))
+         tforallI [z] implI [p] assocR ttrans (p andEl tcongT ([u]u∘y)) ttrans (p andEr) ❙
+  ❚
+❚
+
+theory MeetSemilattice =
+  include ?Carrier❙
+  structure meet : ?Semilattice =
+    include ?Carrier❙
+    op # 1 ⊓ 2 prec 50❙
+  ❚
+❚
+
+theory JoinSemilattice =
+  include ?Carrier❙
+  structure join : ?Semilattice =
+  include ?Carrier❙
+    op # 1 ⊔ 2 prec 50❙
+  ❚
+❚
+
+theory LatticeAlgebra = 
+  include ?MeetSemilattice❙
+  include ?JoinSemilattice❙
+  absorbtion_meet_join: {x,y} ⊦ x⊓(x⊔y) =ͭ x❙
+  absorbtion_join_meet: {x,y} ⊦ x⊔(x⊓y) =ͭ x❙
+  
+  /T An auxiliary constant to attach the usual notation.❙   
+  leq = meet/absorbRelation/rel❘ # 1 ≤ 2 prec 30❙
+  geq = join/absorbRelation/rel❘ # 1 ≥ 2 prec 30❙
+
+  /T We pick one of the morphisms to make this an Order. This yields the morphism OrdAlg:❙
+  realize ?Order❘ = ?MeetSemilattice?meet/absorbRelation❙
+  realize ?Infimum❘ = ?MeetSemilattice?meet/absorb❙
+  realize ?Supremum❘ = COMPOSE ?OpSup; ?JoinSemilattice?join/absorb❙ 
+❚
+
+morpheq ordersAgree : COMPOSE absorb; meet ≞ COMPOSE OpSup; absorb; join : ?Order ⟶ ?LatticeAlgebra =
+  rel = equivI ([x, y, p] meet/comm ttrans p tsym tcongT ([u]y⊔u) ttrans absorbtion_join_meet)
+  			  ([x,y,p] join/comm ttrans p tsym tcongT ([u]y⊓u) ttrans absorbtion_meet_join)❙
+❚

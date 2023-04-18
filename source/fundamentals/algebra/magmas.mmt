@@ -9,24 +9,24 @@ theory Magma =
 
 theory Semigroup =
   include ?Magma❙
-  assoc: {x,y,z} (x∘y)∘z = x∘(y∘z)❙
+  assoc: {x,y,z} (x∘y)∘z equalityRel/$ x∘(y∘z)❙
 ❚
 
 theory Commutative =
   include ?Magma❙
-  comm: {x,y} x∘y = y∘x❙
+  comm: {x,y} x∘y equalityRel/$ y∘x❙
 ❚
 
 theory Neutral =
   include ?Magma❙
   e  : carrier ❙  
-  neutLeft: {x} e∘x = x❙
-  neutRight: {x} x∘e = x❙
+  neutLeft: {x} e∘x equalityRel/$ x❙
+  neutRight: {x} x∘e equalityRel/$ x❙
 ❚
 
 theory Idempotent =
   include ?Magma❙
-  idempotent: {x} x∘x = x❙
+  idempotent: {x} x∘x equalityRel/$ x❙
 ❚
 
 theory Monoid =

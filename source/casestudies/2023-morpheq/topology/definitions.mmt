@@ -1,0 +1,109 @@
+namespace latin:/casestudies/_2023-morpheq❚
+
+fixmeta latin:/powertypes?PowerSFOL❚
+
+theory Carrier =
+  	universe : tp❙
+  	X = tm universe❙
+❚
+
+// isomorphic axiomatizations of closure systems/operators❚
+theory ClosureSystem =
+  include ?Carrier❙  
+  CC : tm ℘ͯ℘ͯX❙
+  
+  intersection_closed : {Q: tm ℘ͯ℘ͯX} ⊦ Q ⊆ͯ CC ⟶ ⊦ ⋂ͯ Q ∈ͯ CC❙
+  full_closed  : ⊦ fullset ∈ͯ CC❘
+  				= biginter_empty tcongP ([A] A ∈ͯ CC) intersection_closed subset_empty❙
+❚
+
+theory ClosureOperator =
+  include ?Carrier❙  
+  closure : tm ℘ͯX ⟶ tm ℘ͯX❘ # cl 1 prec 50❙
+  
+  extensive_closure    : {A} ⊦ A ⊆ͯ cl A❙
+  monotone_closure     : {A,B} ⊦ A ⊆ͯ B ⟶ ⊦ cl A ⊆ͯ cl B❙
+  idempotent_closure   : {A} ⊦ cl cl A =ͭ cl A❙
+  
+  closureFixI : {A} ⊦ cl A ⊆ͯ A ⟶ ⊦ cl A =ͭ A❘ 
+  				= [A,p] subset_antisym p extensive_closure❙     
+❚
+
+theory Closeness =
+  include ?Carrier❙  
+  close : tm X ⟶ tm ℘ͯX ⟶ prop❘ # 1 ⋶ 2 prec 40❙
+
+  in_close          : {x,A} ⊦ x ∈ͯ A ⟶ ⊦ x ⋶ A❙
+  bigger_close      : {x,A,B} ⊦ x ⋶ A ⟶ ⊦ A ⊆ͯ B ⟶ ⊦ x ⋶ B❙
+  transitive_close  : {A,B,x} ⊦ x ⋶ B ⟶ ⊦ (∀ͭ [y] y ∈ͯ B ⇒ y ⋶ A) ⟶ ⊦ x ⋶ A❙
+❚
+
+// isomorphic axiomatizations of topologies❚
+
+theory InteriorTop = 
+  include ?Carrier❙  
+  interior : tm ℘ͯX ⟶ tm ℘ͯX❘# interior 1 prec 50 ❙
+
+  extensive_interior    : {A} ⊦ interior A ⊆ͯ A❙
+  idempotent_interior   : {A} ⊦ interior A =ͭ interior interior A❙
+  bin_inters_interior   : {A, B} ⊦ interior (A ∩ͯ B) =ͭ interior A ∩ͯ interior B❙
+  preservation_interior : ⊦ interior full X =ͭ full X❙
+  monotone_interior     : {A,B} ⊦ A ⊆ͯ B ⟶ ⊦ interior A ⊆ͯ interior B❘
+								= [A,B,p] subset_trans
+								(subset_trans (subset_eq_left (inter_subset_left p tcongT interior)) 
+						                       subset_eq_left bin_inters_interior)
+						         subset_inter_right❙
+❚
+
+theory ClosureTop =
+  include ?ClosureOperator❙
+
+  empty_closure    : ⊦ cl empty X =ͭ empty X❙
+  union_closure    : {A,B} ⊦ cl (A ∪ͯ B) =ͭ cl A ∪ͯ cl B❙
+  
+  // monotone_closure provable from union_closure❚
+❚
+
+theory ClosenessTop =
+  include ?Closeness❙
+
+  empty_union_close  : {x} ⊦ ¬ x ⋶ empty X❙
+  finite_union_close : {x,A,B} ⊦ x ⋶ (A ∪ͯ B) ⟶ ⊦ x ⋶ A ∨ x ⋶ B❙
+
+  // bigger_close provable from union ❙
+❚
+
+theory OpenTop =
+  include ?Carrier❙  
+  OO    : tm ℘ͯ℘ͯX❙
+  
+  full_open  : ⊦ full X ∈ͯ OO❙
+  union_open : {Q: tm ℘ͯ℘ͯX} ⊦ Q ⊆ͯ OO ⟶ ⊦ ⋃ͯ Q ∈ͯ OO❙
+  finite_intersection_open : {A,B} ⊦ A ∈ͯ OO ⟶ ⊦ B ∈ͯ OO ⟶ ⊦ A ∩ͯ B ∈ͯ OO❙
+
+  empty_open : ⊦ empty X ∈ͯ OO❘
+   			    = bigunion_empty tcongP ([A] A ∈ͯ OO) union_open subset_empty❙
+❚
+
+// axioms/theorems are dual to OpenTopology❚
+theory ClosedTop =
+  include ?ClosureSystem❙  
+  empty_closed : ⊦ empty X ∈ͯ CC❙
+  finite_union_closed : {A,B} ⊦ A ∈ͯ CC ⟶ ⊦ B ∈ͯ CC ⟶ ⊦ A ∪ͯ B ∈ͯ CC❙
+❚
+
+theory NeighborhoodTop =
+  include ?Carrier❙  
+  NN    : tm X ⟶ tm ℘ͯ℘ͯX❙
+  neighborhood: tm X ⟶ tm ℘ͯX ⟶ prop❘
+              = [x,N] N ∈ͯ NN x❘# 1 ∶ 2 prec 30❙
+  
+  nonempty_neighborhood : {x} ⊦ ¬ NN x =ͭ ∅ͯ❙
+  in_neighborhood : {x: tm X,N} ⊦ x ∶ N ⟶ ⊦ x ∈ͯ N❙
+  superset_closed_neighborhood : {M,N,x} ⊦ x ∶ M ⟶ ⊦ M ⊆ͯ N ⟶ ⊦ x ∶ N❙
+  intersection_closed_neighborhood : {M,N,x} ⊦ x ∶ M ⟶ ⊦ x ∶ N ⟶ ⊦ x ∶ M ∩ͯ N❙
+  openness_neighborhood : {N,x} ⊦ x ∶ N ⟶ ⊦ ∃ͭ[M]∀ͭ[y] x ∶ M ∧ (y∈ͯM ⇒ y ∶ N)❙
+  fullset_neighborhood : {x} ⊦ x ∶ full X❘
+           = [x] notemptyE 
+             nonempty_neighborhood [N,p] superset_closed_neighborhood p subset_full❙
+❚
