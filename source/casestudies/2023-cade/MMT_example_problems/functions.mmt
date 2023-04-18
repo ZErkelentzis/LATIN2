@@ -1,0 +1,18 @@
+namespace latin:/casestudies/_2023-cade❚
+
+theory FunctionExample : latin:/?DHOL =
+		set: tp ❙
+		
+    functType : tm Πͭ [a: tm set] Πͭ [b: tm set] set ❙
+		funcAppl : tm Πͭ [a: tm set] Πͭ [b: tm set] Πͭ [f: tm set] Πͭ [x: tm set] set ❙
+		functionHood: ⊦ ∀ͭ[a:tm set] ∀ͭ[b:tm set] ∀ͭ[f:tm set] ∀ͭ[x:tm set] ∀ͭ[y:tm set] x =ͭ y ⇒ (funcAppl @ a @ b @ f @ x) =ͭ (funcAppl @ a @ b @ f @ y) ❙
+		
+		functExt: ⊦ ∀ͭ[a:tm set] ∀ͭ[b:tm set] ∀ͭ[f:tm set] ∀ͭ[g:tm set] ((∀ͭ[x:tm set] (funcAppl @ a @ b @ f @ x) =ͭ (funcAppl @ a @ b @ g @ x)) ⇒ f =ͭ g) ❙
+
+		concat : tm Πͭ [a: tm set] Πͭ [b: tm set] Πͭ [c: tm set] Πͭ [f: tm set] Πͭ [g: tm set] set ❙
+		concatAppl: ⊦ ∀ͭ[a:tm set] ∀ͭ[b:tm set] ∀ͭ[c:tm set] ∀ͭ[f:tm set] ∀ͭ[g:tm set] ∀ͭ[x:tm set]
+								(funcAppl @ a @ c @ (concat @ a @ b @ c @ f @ g) @ x) =ͭ (funcAppl @ b @ c @ f @ (funcAppl @ a @ b @ g @ x)) ❙
+
+    conj: ⊦ ∀ͭ[a:tm set] ∀ͭ[b:tm set] ∀ͭ[c:tm set] ∀ͭ[d:tm set] ∀ͭ[f:tm set] ∀ͭ[g:tm set] ∀ͭ[h:tm set]
+						((((concat @ a) @ c) @ d) @ f) @ (((((concat @ a) @ b) @ c) @ g) @ h) =ͭ ((((concat @ a) @ b) @ d) @ (((((concat @ b) @ c) @ d) @ f) @ g)) @ h ❘ = PROVE ❙
+❚

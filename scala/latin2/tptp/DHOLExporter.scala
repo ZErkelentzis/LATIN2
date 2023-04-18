@@ -130,7 +130,7 @@ class DHOLExporter extends DIHOLExporter {
 
     def typeRelFuncType(x: String, tp: Term, codomain: Term) = {
       val convertedTp = translate_type(tp)
-      val innerEq = type_rel(codomain, THFApp(left, THF.Variable(x)), THFApp(right, THF.Variable(x)))
+      val innerEq = type_rel(codomain, THFApp(left, THF.Variable(x)), THFApp(right, THF.Variable(primedName(x))))
 
       THF.QuantifiedFormula(THF.!, Seq((x, convertedTp), (primedName(x), convertedTp)),
         THF.BinaryFormula(THF.Impl, type_rel(tp, THF.Variable(x), THF.Variable(primedName(x))),
