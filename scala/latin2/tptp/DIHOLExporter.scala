@@ -278,10 +278,7 @@ class DIHOLExporter extends logicExporter {
 		  case ApplySpine(f, args) =>
 		    val fTr = translate_term(f)
 		    val argsTr = args map translate_term
-		    fTr match {
-		      case THF.FunctionTerm(n, xs) => THF.FunctionTerm(n, xs ++ argsTr)
-		      case _ => args.map(translate_term).foldLeft(translate_term(f))((g, arg) => THFApp(g, arg))
-		    }
+        THFAppl(translate_term(f), argsTr)
 
 		  case OMA(OMV(i), args) if i.toString.startsWith("I/") && i.toString.stripPrefix("I/").toCharArray.forall(_.isDigit) =>
 		    currentFormulaComments +:= Comment(CommentFormat.LINE, CommentType.NORMAL, "Cannot resolve implicit argument: " + t)
@@ -338,7 +335,7 @@ class DIHOLExporter extends logicExporter {
         case ApplySpine(OMS(a), args) =>
           val argsTr = (args:+x).map(translate_term)
           val pTr = type_pred_path(a).name.toString
-          THF.FunctionTerm(pTr, argsTr)
+          THFAppl(THFTerm(pTr), argsTr)
         case OMV(x) =>
           THFOr(THFEq(THF.Variable(translate_var_name(x)), THFTrue), THFEq(THF.Variable(translate_var_name(x)), THFFalse))
       }
@@ -349,7 +346,7 @@ class DIHOLExporter extends logicExporter {
       case ApplyGeneral(OMS(a), args) =>
         val argsTr = (args:+x).map(translate_term)
         val pTr = type_pred_path(a).name.toString
-        THF.FunctionTerm(pTr, argsTr)
+        THFAppl(THFTerm(pTr), argsTr)
       case _ =>
         currentFormulaComments +:= Comment(CommentFormat.LINE, CommentType.NORMAL, "Cannot resolve implicit argument to find typing predicate for: " + t)
         THFTrue //IMPOSSIBLE // shouldn't happen
