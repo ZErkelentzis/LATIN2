@@ -28,16 +28,19 @@ class DPHOLExporter extends DHOLExporter {
  override def translate_decl(path: GlobalName, tpO: Option[Term], dfO: Option[Term], ctx: Context)(implicit ctrl: Controller): List[THFAnnotated] = {
    (tpO, dfO) match {
      case (_, Some(df)) =>
-       definitionSubstituents ::= (path, df)
+       // in case of nested abbreviations
+       val replacedDf = replacer.toTranslator().apply(ctx, df)
+       definitionSubstituents ::= (path, replacedDf)
        Nil
      case (Some(tp), None) =>
+       val translatedTp = replacer.toTranslator().applyType(ctx, tp)
        val simplicationUnit = SimplificationUnit(Context(path.module), expandConDefs = true, expandVarDefs = true, fullRecursion = true)
        val simplifiedTp = try {
-         ctrl.simplifier(tp, simplicationUnit)
+         ctrl.simplifier(translatedTp, simplicationUnit)
        } catch {
          // this shouldn't happen, but it makes more sense to continue anyways, as simplifying is not really necessary
          // TODO: add some error handling
-         case e: GeneralError => tp
+         case e: GeneralError => translatedTp
        }
 
        val name = path.name

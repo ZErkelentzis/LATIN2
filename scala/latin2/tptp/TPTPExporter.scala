@@ -42,7 +42,6 @@ class TPTPExporter extends StructurePresenter with AutomatedProver { //TODO: doe
         println("no known Logic detected")
         None
       case List(exp) =>
-        println("detected "+exp.theoryPath.name)
         Some(exp)
       case exp::tl =>
         var maxPriority = exp.priority
@@ -53,7 +52,6 @@ class TPTPExporter extends StructurePresenter with AutomatedProver { //TODO: doe
             used_exporter = lE
           }
         }
-        println("detected "+used_exporter.theoryPath.name)
         Some(used_exporter)
     }
   }
@@ -182,7 +180,7 @@ class TPTPExporter extends StructurePresenter with AutomatedProver { //TODO: doe
       case Some(proof) => outputTo(proof_path) {
         rh(metadata_line(problem_path) + "\n" + proof)
       }
-      case _ => {}
+      case _ => log("Failed to prove conjecture.")
     }
 
     (result._1, result._2.map(proof => UnknownTerm(OMSemiFormal(Text("tptp", proof)))))
@@ -257,16 +255,19 @@ trait logicExporter extends Extension {
 
     formulas ++= assumptions
 
-    val ded(conjecture) = t ^ assSubstitution
+    val ded(origConjecture) = t ^ assSubstitution
+    val conjecture = replacer.toTranslator().apply(ctx, origConjecture)
     val conjStr = controller.presenter.asString(conjecture)
     log("Trying to prove "+conjStr+" using tptp exporter and HOL prover.")
+    if (conjecture != origConjecture)
+      log("The unreplaced conjecture is: " + controller.presenter.asString(origConjecture))
 
     formulas += tptp_conjecture(conjecture)
     add_formula_comment("conjecture")
-    log("The overall problem is: ")
+    /*    log("The overall problem is: ")
     formulas foreach { form =>
       log(form.pretty)
-    }
+    }*/
 
     val tptp_exporter = ctrl.extman.get(classOf[TPTPExporter]).head
 

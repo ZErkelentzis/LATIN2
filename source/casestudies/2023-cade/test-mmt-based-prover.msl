@@ -17,11 +17,11 @@ log+ debug
 //log+ structure-simplifier
 //log+ structure-checker
 //log+ object-parser
-//log+ tptp
+log+ tptp
 
-//log+ DHOLExporter
+log+ DHOLExporter
 //log+ DPHOLExporter
-log+ TPTPExporter
+//log+ TPTPExporter
 
 extension latin2.tptp.TPTPExporter
 extension latin2.tptp.SFOLExporter

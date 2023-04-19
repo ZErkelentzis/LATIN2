@@ -48,6 +48,7 @@ theory CatExtended : latin:/?DPHOL =
 				∃ͭ [i: tm (mor y x)] (((comp @ y @ x @ y @ m @ i) =ͭ (id @ y)) ∧ ((comp @ x @ y @ x @ i @ m) =ͭ (id @ x))) ❙
 		isoObjPred : tm Πͭ [x:tm obj] Πͭ [y:tm obj] bool ❘ = λ[x: tm obj] λ[y: tm obj] ∃ͭ [i: tm (mor x y)] isomorphPred @ x @ y @ i ❙
 		
-		universalPropertyProd: ⊦ ∀ͭ[x: tm obj] ∀ͭ[y: tm obj] ∀ͭ[z: tm obj]
-				prodPred @ x @ y @ z ⇒ isoObjPred @ z @ (prod @ x @ y) ❘ = PROVE ❙
+		uniquenessProd: ⊦ ∀ͭ[x: tm obj] ∀ͭ[y: tm obj] ∀ͭ[z: tm obj]
+				prodPred @ x @ y @ z ⇒ isoObjPred @ z @ (prod @ x @ y) ❙
+		symmetricProd: ⊦ ∀ͭ[x: tm obj] ∀ͭ[y: tm obj] isoObjPred @ (prod @ x @ y) @ (prod @ y @ x) ❙
 ❚
