@@ -20,7 +20,7 @@ theory CatExtended : latin:/?DPHOL =
     ax1: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[m: tm (mor x y)] ((((comp @ x) @ y) @ y) @ m) @ (id @ y) =ͭ m ❙    
     ax2: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[m: tm (mor x y)] ((((comp @ x) @ x) @ y) @ (id @ x)) @ m =ͭ m ❙
 
-		p = [u: obj, m: mor u u] ∃ͭ [i: mor u u] ( ((((comp @ u) @ u) @ u) @ m) @ i =ͭ id @ u ) ∧ 
-		( ((((comp @ u) @ u) @ u) @ i) @ m =ͭ id @ u ) ❙
-		isomor = [u] mor u u | ( [m: mor u u] (p u) ) ❙
+		p : {u: tm obj, m: tm (mor u u)} prop ❘ = [u: tm obj, m: tm (mor u u)] ∃ͭ [i: tm (mor u u)] ( (((((comp @ u) @ u) @ u) @ m) @ i) =ͭ (id @ u) ) ∧ 
+		( (((((comp @ u) @ u) @ u) @ i) @ m) =ͭ (id @ u) ) ❙
+		isomor = [u: tm obj] (mor u u) | ( [m: mor u u] (p u m) ) ❙
 ❚

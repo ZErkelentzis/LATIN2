@@ -13,6 +13,32 @@ theory FunctionExample : latin:/?DHOL =
 		concatAppl: ⊦ ∀ͭ[a:tm set] ∀ͭ[b:tm set] ∀ͭ[c:tm set] ∀ͭ[f:tm set] ∀ͭ[g:tm set] ∀ͭ[x:tm set]
 								(funcAppl @ a @ c @ (concat @ a @ b @ c @ f @ g) @ x) =ͭ (funcAppl @ b @ c @ f @ (funcAppl @ a @ b @ g @ x)) ❙
 
-    conj: ⊦ ∀ͭ[a:tm set] ∀ͭ[b:tm set] ∀ͭ[c:tm set] ∀ͭ[d:tm set] ∀ͭ[f:tm set] ∀ͭ[g:tm set] ∀ͭ[h:tm set]
+    concatAssoc: ⊦ ∀ͭ[a:tm set] ∀ͭ[b:tm set] ∀ͭ[c:tm set] ∀ͭ[d:tm set] ∀ͭ[f:tm set] ∀ͭ[g:tm set] ∀ͭ[h:tm set]
 						((((concat @ a) @ c) @ d) @ f) @ (((((concat @ a) @ b) @ c) @ g) @ h) =ͭ ((((concat @ a) @ b) @ d) @ (((((concat @ b) @ c) @ d) @ f) @ g)) @ h ❘ = PROVE ❙
+
+		injective: tm Πͭ [a: tm set] Πͭ [b: tm set] Πͭ [f: tm set] bool ❙
+		injective_ax: ⊦ ∀ͭ[a:tm set] ∀ͭ[b:tm set] ∀ͭ[f:tm set] (injective @ a @ b @ f) ⇔ (∀ͭ[x:tm set] ∀ͭ[y:tm set] (funcAppl @ a @ b @ f @ x) =ͭ (funcAppl @ a @ b @ f @ y) ⇒ (x =ͭ y))  ❙
+
+		surjective: tm Πͭ [a: tm set] Πͭ [b: tm set] Πͭ [f: tm set] bool ❙
+		surjective_ax: ⊦ ∀ͭ[a:tm set] ∀ͭ[b:tm set] ∀ͭ[f:tm set] (surjective @ a @ b @ f) ⇔ (∀ͭ[y:tm set] ∃ͭ[x:tm set] (funcAppl @ a @ b @ f @ x) =ͭ y)  ❙
+
+		bijective: tm Πͭ [a: tm set] Πͭ [b: tm set] Πͭ [f: tm set] bool ❙
+		bijective_ax: ⊦ ∀ͭ[a:tm set] ∀ͭ[b:tm set] ∀ͭ[f:tm set] (bijective @ a @ b @ f) ⇔ ((injective @ a @ b @ f) ∧ (surjective @ a @ b @ f))  ❙
+		
+		left_inverse: tm Πͭ [a: tm set] Πͭ [b: tm set] Πͭ [f: tm set] Πͭ [g: tm set] bool ❙
+		left_inverse_ax: ⊦ ∀ͭ[a:tm set] ∀ͭ[b:tm set] ∀ͭ[f:tm set] ∀ͭ[g:tm set] (left_inverse @ a @ b @ f @ g) ⇔ (∀ͭ[x:tm set] ( (funcAppl @ a @ a @ (concat @ a @ b @ a @ g @ f) @ x) =ͭ x) )  ❙
+		
+		right_inverse: tm Πͭ [a: tm set] Πͭ [b: tm set] Πͭ [f: tm set] Πͭ [g: tm set] bool ❙
+		right_inverse_ax: ⊦ ∀ͭ[a:tm set] ∀ͭ[b:tm set] ∀ͭ[f:tm set] ∀ͭ[g:tm set] ((right_inverse @ a @ b @ f @ g) ⇔ (∀ͭ[x:tm set] ( (funcAppl @ b @ b @ (concat @ b @ a @ b @ f @ g) @ x) =ͭ x) ))  ❙
+
+		left_right_inverses: ⊦ ∀ͭ[a:tm set] ∀ͭ[b:tm set] ∀ͭ[f:tm set] ∀ͭ[g:tm set] (left_inverse @ a @ b @ f @ g) ⇔ (right_inverse @ b @ a @ g @ f) ❘ = PROVE ❙
+
+		left_inverse_injective: ⊦ ∀ͭ[a:tm set] ∀ͭ[b:tm set] ∀ͭ[f:tm set] (∃ͭ[g:tm set] left_inverse @ a @ b @ f @ g) ⇒ injective @ a @ b @ f ❘ = PROVE ❙
+		right_inverse_surjective: ⊦ ∀ͭ[a:tm set] ∀ͭ[b:tm set] ∀ͭ[f:tm set] (∃ͭ[g:tm set] right_inverse @ a @ b @ f @ g) ⇒ surjective @ a @ b @ f ❘ = PROVE ❙
+
+		inverse: tm Πͭ [a: tm set] Πͭ [b: tm set] Πͭ [f: tm set] Πͭ [g: tm set] bool ❙
+		inverse_ax: ⊦ ∀ͭ[a:tm set] ∀ͭ[b:tm set] ∀ͭ[f:tm set] ∀ͭ[g:tm set] (inverse @ a @ b @ f @ g) ⇔ ((left_inverse @ a @ b @ f @ g) ∧ (right_inverse @ a @ b @ f @ g))  ❙
+
+		
+		inverses_bijective: ⊦ ∀ͭ[a:tm set] ∀ͭ[b:tm set] ∀ͭ[f:tm set] (∃ͭ[g:tm set] inverse @ a @ b @ f @ g) ⇒ bijective @ a @ b @ f ❘ = PROVE ❙
 ❚
