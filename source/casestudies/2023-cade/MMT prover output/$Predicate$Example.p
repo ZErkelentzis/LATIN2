@@ -10,6 +10,6 @@ thf(c_2_tp_ax, axiom, (((a_rel @ $false) @ t_c_2) @ t_c_2)).
 thf(ax0_ax, axiom, (! [V_X:t_a]: (((((a_rel @ $true) @ V_X) @ V_X) => (((a_rel @ $true) @ V_X) @ t_c_0))))).
 thf(p_type, type, t_p: (t_a > $o)).
 thf(p_tp_ax, axiom, (! [V_X:t_a,V_X_PRIME:t_a]: (((((a_rel @ $false) @ V_X) @ V_X_PRIME) => ((t_p @ V_X) = (t_p @ V_X_PRIME)))))).
-thf(ax1_ax, axiom, t_p(t_c_1)).
-thf(ax2_ax, axiom, (~ (t_p(t_c_2)))).
-thf(conjecture, conjecture, $false).
+thf(ax1_ax, axiom, (t_p @ t_c_1)).
+thf(ax2_ax, axiom, (~ ((t_p @ t_c_2)))).
+thf(conjecture, conjecture, (t_p @ t_c_2)).

@@ -1,0 +1,9 @@
+At the moment there are 13 positive and one negative example (a false conjecture) for the translation based DHOL hammer.
+Some of the examples are in TPTP DHOL, some are written in MMT.
+  
+There are 6 positive examples in TPTP DHOL, 5 of them in the file DHOL_TPTP_example_problems/category-theory-lemmas.p and one in the file DHOL_TPTP_example_problems/function-composition-lemma.p. For the translations of the 5 category theory lemmas we give detailed test results for 13 different HOL ATPs in the file test-results-category-theory-lemmas.txt.
+
+There are 7 positive examples in MMT DHOL, 6 of them in the file MMT_example_problems/functions.mmt and one in the file MMT_example_problems/cat.mmt. For the translations of the 6 function composition lemmas we give detailed test results for the same 13 HOL ATPs in the file test-results-function-composition-lemmas.txt.
+There is also a false conjecture in the file MMT_example_problems/predicate_exam.mmt whoose translation indeed cannot be solved by any of the 13 HOL ATPs. 
+
+Out of the 11 different (two lemmas are given in both TPTP DHOL and MMT DHOL) positive examples only one has a translation that cannot be proven by some ATP. One of the ATPs (Vampire) proved 9 out of 11 of these lemmas. This indicates that our translation could be quite useful in practise. 
