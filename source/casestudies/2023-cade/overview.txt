@@ -13,7 +13,9 @@ There is also a false conjecture in the file MMT_example_problems/predicate_exam
 
 Reproducing the test results:
 The DHOL TPTP problems can be easily translated by the logic embedding tool which can be obtained at https://github.com/leoprover/logic-embedding.
-Using the MMT based prover requires installing the development version of MMT and various MMT archives. Once this is done the MMT theories with DHOL MMT problems can be type-checked, translated to HOL TPTP problems and passed to LEO-III using the build script at test-mmt-based-prover.msl. 
+Using the MMT based prover requires installing the development version of MMT and various MMT archives. 
+Once this is done the MMT theories with DHOL MMT problems can be type-checked, translated to HOL TPTP problems and passed to LEO-III using the build script at test-mmt-based-prover.msl. 
+This will get easier when the changes in the development version get integrated into the next MMT release. At that point, it would suffice to obtain the stable binary, download the urtheories, lf and LATIN2 archives and run the binary on the build script.
 
 Summary of test results:
 Out of the 11 different (two lemmas are given in both DHOL TPTP and DHOL MMT) positive examples only one has a translation that cannot be proven by some ATP. Furthermore, one of the tested ATPs (Vampire 4.7) proved 9 out of 11 of these lemmas. This indicates that our translation could be quite useful in practise. 

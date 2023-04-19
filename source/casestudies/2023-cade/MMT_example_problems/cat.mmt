@@ -17,10 +17,37 @@ theory CatExtended : latin:/?DPHOL =
     mor : {x:tm obj,y:tm obj} tp ❙
     id: tm Πͭ [x] mor x x ❙
     comp: tm Πͭ [x] Πͭ [y] Πͭ [z] Πͭ [f:tm mor x y] Πͭ [g:tm mor y z] mor x z ❘# 5 ◦ 4 prec 50 ❙ 
-    ax1: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[m: tm (mor x y)] ((((comp @ x) @ y) @ y) @ m) @ (id @ y) =ͭ m ❙    
-    ax2: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[m: tm (mor x y)] ((((comp @ x) @ x) @ y) @ (id @ x)) @ m =ͭ m ❙
+    ax1: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[m: tm (mor x y)] comp @ x @ y @ y @ m @ (id @ y) =ͭ m ❙    
+    ax2: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[m: tm (mor x y)] comp @ x @ x @ y @ (id @ x) @ m =ͭ m ❙
 
-		p : {u: tm obj, m: tm (mor u u)} prop ❘ = [u: tm obj, m: tm (mor u u)] ∃ͭ [i: tm (mor u u)] ( (((((comp @ u) @ u) @ u) @ m) @ i) =ͭ (id @ u) ) ∧ 
-		( (((((comp @ u) @ u) @ u) @ i) @ m) =ͭ (id @ u) ) ❙
-		isomor = [u: tm obj] (mor u u) | ( [m: mor u u] (p u m) ) ❙
+		isoPred : tm Πͭ [u: tm obj] Πͭ [m: tm (mor u u)] bool ❘ = λ[u: tm obj] λ[m: tm (mor u u)] ∃ͭ [i: tm (mor u u)] (comp @ u @ u @ u @ m @ i =ͭ id @ u ) ∧ 
+		( (comp @ u @ u @ u @ i @ m) =ͭ (id @ u) ) ❙
+		isomor = [u: tm obj] (mor u u) | ( [m: mor u u] (isoPred @ u @ m) ) ❙
+
+		prod: tm Πͭ [x:tm obj] Πͭ [y:tm obj] obj ❙
+		proj1: tm Πͭ [x:tm obj] Πͭ [y:tm obj] mor (prod @ x @ y) x ❙
+		proj2: tm Πͭ [x:tm obj] Πͭ [y:tm obj] mor (prod @ x @ y) y ❙
+		/T prodUnivMorph: tm Πͭ [x:tm obj] Πͭ [y:tm obj] Πͭ [z:tm obj] Πͭ [f:tm (mor z x)] Πͭ [g:tm (mor z y)] mor z (prod @ x @ y) ❙
+		
+		prodInMorphPred: tm Πͭ [x:tm obj] Πͭ [y:tm obj] Πͭ [z:tm obj] Πͭ [f:tm (mor z x)] Πͭ [g:tm (mor z y)] Πͭ [u:tm (mor z (prod @ x @ y))] bool ❘ =
+				λ[x: tm obj] (λ[y: tm obj] (λ[z: tm obj] (λ[f: tm (mor z x)] (λ[g: tm (mor z y)] (λ[u:tm (mor z (prod @ x @y))] (
+						( (comp @ z @ (prod @ x @y) @ x @ (proj1 @ x @ y) @ u) =ͭ f) ∧
+						( (comp @ z @ (prod @ x @y) @ y @ (proj2 @ x @ y) @ u) =ͭ g)
+				) ))))) ❙
+		univMorphPred: tm Πͭ [x:tm obj] Πͭ [y:tm obj] Πͭ [p: tm Πͭ [m:tm (mor x y)] bool] Πͭ [m:tm (mor x y)] bool ❘ =
+				λ[x: tm obj] (λ[y: tm obj] (λ[p: tm Πͭ [m:tm (mor x y)] bool] (λ[m:tm (mor x y)]
+						( (p @ m) ∧ (∀ͭ[u:tm (mor x y)] (p @ u) ⇒ m =ͭ u ) )  ))) ❙
+		prodUnivMorphPred: tm Πͭ [x:tm obj] Πͭ [y:tm obj] Πͭ [z:tm obj] Πͭ [f:tm (mor z x)] Πͭ [g:tm (mor z y)] Πͭ [u:tm (mor z (prod @ x @ y))] bool ❘ =
+				λ[x: tm obj] (λ[y: tm obj] (λ[z: tm obj] (λ[f: tm (mor z x)] (λ[g: tm (mor z y)] (λ[u:tm (mor z (prod @ x @ y))] 
+				(univMorphPred @ x @ y @ (λ[m:tm (mor x y)] prodInMorphPred @ x @ y @ z @ f @ g @ m) @ u) ))))) ❙
+		prodPred: tm Πͭ [x:tm obj] Πͭ [y:tm obj] Πͭ [xy: tm obj] bool ❘ = λ[x: tm obj] λ[y: tm obj] λ[xy: tm obj] 
+				∀ͭ[z: tm obj] ∀ͭ[f: tm (mor z x)] ∀ͭ[g: tm (mor z y)] ∃ͭ [u: tm (mor z xy)] prodUnivMorphPred @ x @ y @ z @ f @ g @ u ❙
+		prodUnivMorph_ax: ⊦ ∀ͭ[x: tm obj] ∀ͭ[y: tm obj] (prodPred @ x @ y @ (prod @ x @ y)) ❙
+		
+		isomorphPred : tm Πͭ [x:tm obj] Πͭ [y:tm obj] Πͭ [m: tm (mor x y)] bool ❘ = λ[x: tm obj] λ[y: tm obj] λ[m: tm (mor x y)] 
+				∃ͭ [i: tm (mor y x)] (((comp @ y @ x @ y @ m @ i) =ͭ (id @ y)) ∧ ((comp @ x @ y @ x @ i @ m) =ͭ (id @ x))) ❙
+		isoObjPred : tm Πͭ [x:tm obj] Πͭ [y:tm obj] bool ❘ = λ[x: tm obj] λ[y: tm obj] ∃ͭ [i: tm (mor x y)] isomorphPred @ x @ y @ i ❙
+		
+		universalPropertyProd: ⊦ ∀ͭ[x: tm obj] ∀ͭ[y: tm obj] ∀ͭ[z: tm obj]
+				prodPred @ x @ y @ z ⇒ isoObjPred @ z @ (prod @ x @ y) ❘ = PROVE ❙
 ❚
