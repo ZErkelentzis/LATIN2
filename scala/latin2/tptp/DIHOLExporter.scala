@@ -107,11 +107,13 @@ class DIHOLExporter extends logicExporter {
             val tpPred = THFAnnotated(type_pred_decl_name(name), "type",
               THF.Typing(type_pred_name(name), predTp), None)
             List(tpDecl, tpPred)
-          case (Context.empty, ctxTm, ret, true, false)  =>
+          case (ctxTp, ctxTm, ret, true, false)  =>
+              // ignore the difference to allow using LF Pis instead of depfun
+              val ctx = ctxTp ++ ctxTm
               pathMap ::= (path, translated_fun_name(name))
               val funDecl = THFAnnotated(type_decl_name(name), "type",
-                THF.Typing(translated_fun_name(name), translate_type(PiOrEmpty(ctxTm, ret))), None)
-              val retPred = typing_pred(PiOrEmpty(ctxTm, ret), OMS(path))
+                THF.Typing(translated_fun_name(name), translate_type(PiOrEmpty(ctx, ret))), None)
+              val retPred = typing_pred(PiOrEmpty(ctx, ret), OMS(path))
               lazy val tpAx = THFAnnotated(tp_ax_decl_name(name), "axiom",
                 THF.Logical(retPred), None)
               List(funDecl, tpAx)
