@@ -8,7 +8,8 @@ theory Cat : latin:/?DHOL =
     ax1: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[m: tm (mor x y)] ((((comp @ x) @ y) @ y) @ m) @ (id @ y) =ͭ m ❙    
     ax2: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[m: tm (mor x y)] ((((comp @ x) @ x) @ y) @ (id @ x)) @ m =ͭ m ❙
 
-    // finally the conjecture to prove, needs prover to show well-typedness ❙
+    /T finally the conjecture to prove, needs prover to show well-typedness ❙
+    // Here the type checker generates the proof obligation x =ͭ y ⇒ͩ [p] y =ͭ x ❙
     conj: ⊦ ∀ͭ[x: tm obj] ∀ͭ[y: tm obj] x =ͭ y ⇒ͩ [p] (id @ x) =ͭ (id @ y) ❘ = PROVE ❙
 ❚
 
@@ -21,10 +22,10 @@ theory CatExtended : latin:/?DPHOL =
     ax2: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[m: tm (mor x y)] m ◦ (id x) =ͭ m ❙
 
 		isIsomorphism : {x:tm obj, y:tm obj, m: tm mor x y} prop ❘ = [x: tm obj, y: tm obj, m: tm mor x y] 
-				∃ͭ [i: tm mor y x] i ◦ m =ͭ id y ∧ m ◦ i =ͭ id x ❘# isIso 3 ❙
-		areIsomorphic : {x:tm obj, y:tm obj} prop ❘ = [x: tm obj, y: tm obj] ∃ͭ [i: tm mor x y] isIso i ❙
+				∃ͭ [i: tm mor y x] i ◦ m =ͭ id y ∧ m ◦ i =ͭ id x ❙
+		areIsomorphic : {x:tm obj, y:tm obj} prop ❘ = [x: tm obj, y: tm obj] ∃ͭ [i: tm mor x y] isIsomorphism x y i ❙
 		
-		isomorphisms = [u: tm obj] mor u u | ( [m: mor u u] isIso m ) ❙
+		isomorphisms = [u: tm obj] mor u u | ( [m: mor u u] isIsomorphism u u m ) ❙
 
 		prod: {x:tm obj, y:tm obj} tm obj ❙
 		proj1: {x:tm obj, y:tm obj} tm mor (prod x y) x ❙
@@ -32,22 +33,70 @@ theory CatExtended : latin:/?DPHOL =
 		/T prodUnivMorph: tm Πͭ [x:tm obj] Πͭ [y:tm obj] Πͭ [z:tm obj] Πͭ [f:tm (mor z x)] Πͭ [g:tm (mor z y)] mor z (prod @ x @ y) ❙
 		
 		factorizesProjections: {x:tm obj, y:tm obj, z:tm obj, f:tm mor z x, g:tm mor z y, 
-				xy: tm obj, projX: tm mor xy x, projY: tm mor xy y, u:tm mor z (prod @ x @ y)} prop ❘ =
-				[x: tm obj, y: tm obj, z: tm obj, f: tm mor z x, g: tm mor z y, xy, projX, projY, u:tm mor z (prod x y)] 
-						u ◦ projX =ͭ f ∧ u ◦ projY =ͭ g ❘# factorizesProjs 4 5 7 8 9 ❙
-		isUniqueMorphismWith: {x:tm obj, y:tm obj, p: {m:tm mor x y} prop, m:tm mor x y} prop ❘ =
-				[x: tm obj, y: tm obj, p: tm Πͭ [m:tm (mor x y)] bool, m: tm (mor x y)]
-						p m ∧ ∀ͭ[u:tm mor x y] p u ⇒ m =ͭ u ❙
-		isUniversalMorphismOfAProduct: {x:tm obj, y:tm obj, z:tm obj, f:tm mor z x, g:tm mor z y, 
 				xy: tm obj, projX: tm mor xy x, projY: tm mor xy y, u:tm mor z xy} prop ❘ =
-				[x: tm obj, y: tm obj, z: tm obj, f: tm mor z x, g: tm mor z y, xy, projX, projY, u:tm mor z (prod x y)] 
-				isUniqueMorphismWith x y ([m:tm mor x y] factorizesProjections x y z f g xy projX projY m) u ❘# isUnivMorProd 4 5 7 8 9 ❙
-		isProduct: {x:tm obj, y:tm obj, xy: tm obj, projX: tm mor xy x, projY: tm mor xy y} bool ❘ = 
-				[x: tm obj, y: tm obj, xy: tm obj, projX, projY] ∀ͭ[z: tm obj] ∀ͭ[f: tm mor z x] ∀ͭ[g: tm mor z y] 
+				[x: tm obj, y: tm obj, z: tm obj, f: tm mor z x, g: tm mor z y, xy: tm obj, projX: tm mor xy x, projY: tm mor xy y, u:tm mor z xy] 
+						u ◦ projX =ͭ f ∧ u ◦ projY =ͭ g ❘# factorizesProjs 4 5 7 8 9 ❙
+		// isUniqueMorphismWith: {x:tm obj, y:tm obj, p: tm Πͭ [m:tm (mor x y)] bool, m:tm mor x y} prop ❘ =
+				[x: tm obj, y: tm obj, p: tm Πͭ [m:tm (mor x y)] bool, m: tm (mor x y)]
+						p @ m ∧ ∀ͭ[u:tm mor x y] p @ u ⇒ m =ͭ u ❙
+		// isUniversalMorphismOfAProduct: {x:tm obj, y:tm obj, z:tm obj, f:tm mor z x, g:tm mor z y, 
+				xy: tm obj, projX: tm mor xy x, projY: tm mor xy y, u:tm mor z xy} prop ❘ =
+				[x: tm obj, y: tm obj, z: tm obj, f: tm mor z x, g: tm mor z y, xy: tm obj, projX: tm mor xy x, projY: tm mor xy y, u:tm mor z xy] 
+				isUniqueMorphismWith x y (λ[m:tm mor x y] factorizesProjections x y z f g xy projX projY m) u ❘# isUnivMorProd 4 5 7 8 9 ❙
+		// isProduct: {x:tm obj, y:tm obj, xy: tm obj, projX: tm mor xy x, projY: tm mor xy y} prop ❘ = 
+				[x: tm obj, y: tm obj, xy: tm obj, projX: tm mor xy x, projY: tm mor xy y] ∀ͭ[z: tm obj] ∀ͭ[f: tm mor z x] ∀ͭ[g: tm mor z y] 
 						∃ͭ [u: tm mor z xy] isUniversalMorphismOfAProduct x y z f g xy projX projY u ❘# isProd 3 4 5 ❙
+		// prodUnivMorph_ax: ⊦ ∀ͭ[x: tm obj] ∀ͭ[y: tm obj] isProduct x y (prod x y) (proj1 x y) (proj2 x y) ❙
+		
+		// uniquenessProd: ⊦ ∀ͭ[x: tm obj] ∀ͭ[y: tm obj] ∀ͭ[z: tm obj] ∀ͭ[f: tm mor z x] ∀ͭ[g: tm mor z y] 
+				isProduct x y z f g ⇒ areIsomorphic z (prod x y) ❙
+		// symmetricProd: ⊦ ∀ͭ[x: tm obj] ∀ͭ[y: tm obj] areIsomorphic (prod x y) (prod y x) ❙
+		// assocProd: ⊦ ∀ͭ[x: tm obj] ∀ͭ[y: tm obj] ∀ͭ[z: tm obj] areIsomorphic (prod x (prod y z)) (prod (prod x y) z) ❘ = PROVE ❙
+❚
+
+theory CatExtendedHOL : latin:/?HOL =
+    obj : tp❙
+    mor : tp❙
+		id: tm obj ⟶ tm mor❙
+		comp :  tm mor ⟶ tm mor ⟶ tm mor❘ # 2 ◦ 1 prec 50 ❙
+		dom: tm mor ⟶ tm obj❙
+		cod: tm mor ⟶ tm obj❙
+		id_dom: ⊦ ∀ͭ[a: tm obj] dom (id a) =ͭ a❙
+		id_cod: ⊦ ∀ͭ[a: tm obj] cod (id a) =ͭ a❙
+		comp_dom: ⊦ ∀ͭ[x: tm obj] ∀ͭ[y: tm obj] ∀ͭ[f: tm mor] ∀ͭ[g: tm mor] cod f =ͭ dom g ⇒ dom (g ◦ f) =ͭ dom f ❙
+		comp_cod: ⊦ ∀ͭ[x: tm obj] ∀ͭ[y: tm obj] ∀ͭ[f: tm mor] ∀ͭ[g: tm mor] cod f =ͭ dom g ⇒ cod (g ◦ f) =ͭ cod g❙
+		
+		isIsomorphism : tm obj ⟶ tm obj ⟶ tm mor ⟶ prop ❘ = [a,b, f] ∃ͭ [inv: tm mor] 
+				dom f =ͭ a ∧ cod f =ͭ b ∧ dom inv =ͭ b ∧ cod inv =ͭ a ∧ f ◦ inv =ͭ id b ∧ inv ◦ f =ͭ id a ❙
+		areIsomorphic : tm obj ⟶ tm obj ⟶ prop ❘ = [a,b] ∃ͭ [f: tm mor] dom f =ͭ a ∧ cod f =ͭ b ∧ isIsomorphism a b f ❙
+
+		prod: tm obj ⟶ tm obj ⟶ tm obj ❙
+		proj1: tm obj ⟶ tm obj ⟶ tm mor ❙
+		proj1_dom: ⊦ ∀ͭ[x: tm obj] ∀ͭ[y: tm obj] dom (proj1 x y) =ͭ prod x y ❙
+		proj1_cod: ⊦ ∀ͭ[x: tm obj] ∀ͭ[y: tm obj] cod (proj1 x y) =ͭ x ❙
+		proj2: tm obj ⟶ tm obj ⟶ tm mor ❙
+		proj2_dom: ⊦ ∀ͭ[x: tm obj] ∀ͭ[y: tm obj] dom (proj2 x y) =ͭ prod x y ❙
+		proj2_cod: ⊦ ∀ͭ[x: tm obj] ∀ͭ[y: tm obj] cod (proj2 x y) =ͭ y ❙
+		
+		factorizesProjections: tm obj ⟶ tm obj ⟶ tm obj ⟶ tm mor ⟶ tm mor ⟶ tm obj ⟶ tm mor ⟶ tm mor ⟶ tm mor ⟶ prop ❘ =
+				[x: tm obj, y: tm obj, z: tm obj, f: tm mor, g: tm mor, xy: tm obj, projX: tm mor, projY: tm mor, u:tm mor] 
+						dom f =ͭ z ∧ cod f =ͭ x ∧ dom g =ͭ z ∧ cod g =ͭ y ∧ dom projX =ͭ xy ∧ cod projX =ͭ x ∧ dom projY =ͭ xy ∧ cod projY =ͭ y
+						∧ dom u =ͭ z ∧ cod u =ͭ xy ∧ u ◦ projX =ͭ f ∧ u ◦ projY =ͭ g ❙
+		isUniqueMorphismWith: tm obj ⟶ tm obj ⟶ (tm mor ⟶ prop) ⟶ tm mor ⟶ prop ❘ = [x: tm obj, y: tm obj, p: tm mor ⟶ prop, m: tm mor]
+				dom m =ͭ x ∧ cod m =ͭ y ∧ p m ∧ ∀ͭ[u:tm mor] dom u =ͭ x ∧ cod u =ͭ y ∧ p u ⇒ m =ͭ u ❙
+		isUniversalMorphismOfAProduct: tm obj ⟶ tm obj ⟶ tm obj ⟶ tm mor ⟶ tm mor ⟶ tm obj ⟶ tm mor ⟶ tm mor ⟶ tm mor ⟶ prop ❘ =
+				[x: tm obj, y: tm obj, z: tm obj, f: tm mor, g: tm mor, xy: tm obj, projX: tm mor, projY: tm mor, u:tm mor] 
+				dom f =ͭ z ∧ cod f =ͭ x ∧ dom g =ͭ z ∧ cod g =ͭ y ∧ dom projX =ͭ xy ∧ cod projX =ͭ x ∧ dom projY =ͭ xy ∧ cod projY =ͭ y
+						∧ dom u =ͭ z ∧ cod u =ͭ xy ∧  
+				isUniqueMorphismWith x y ([m:tm mor] dom m =ͭ x ∧ cod m =ͭ y ∧ factorizesProjections x y z f g xy projX projY m) u ❘# isUnivMorProd 4 5 7 8 9 ❙
+				isProduct: tm obj ⟶ tm obj ⟶ tm obj ⟶ tm mor ⟶ tm mor ⟶ prop ❘ = 
+				[x: tm obj, y: tm obj, xy: tm obj, projX: tm mor, projY: tm mor] dom projX =ͭ xy ∧ cod projX =ͭ x ∧ dom projY =ͭ xy ∧ cod projY =ͭ y ∧				
+				∀ͭ[z: tm obj] ∀ͭ[f: tm mor] dom f =ͭ z ∧ cod f =ͭ x ⇒ ∀ͭ[g: tm mor] dom f =ͭ z ∧ cod f =ͭ x ⇒
+						∃ͭ [u: tm mor] dom u =ͭ z ∧ cod u =ͭ xy ∧ isUniversalMorphismOfAProduct x y z f g xy projX projY u ❘# isProd 3 4 5 ❙
 		prodUnivMorph_ax: ⊦ ∀ͭ[x: tm obj] ∀ͭ[y: tm obj] isProduct x y (prod x y) (proj1 x y) (proj2 x y) ❙
 		
-		uniquenessProd: ⊦ ∀ͭ[x: tm obj] ∀ͭ[y: tm obj] ∀ͭ[z: tm obj] ∀ͭ[f: tm mor z x] ∀ͭ[g: tm mor z y] 
+		uniquenessProd: ⊦ ∀ͭ[x: tm obj] ∀ͭ[y: tm obj] ∀ͭ[z: tm obj] ∀ͭ[f: tm mor] dom f =ͭ z ∧ cod f =ͭ x ⇒ ∀ͭ[g: tm mor] dom f =ͭ z ∧ cod f =ͭ x ⇒
 				isProduct x y z f g ⇒ areIsomorphic z (prod x y) ❙
-		symmetricProd: ⊦ ∀ͭ[x: tm obj] ∀ͭ[y: tm obj] areIsomorphic (prod x y) (prod y x) ❘ = PROVE ❙
+		symmetricProd: ⊦ ∀ͭ[x: tm obj] ∀ͭ[y: tm obj] areIsomorphic (prod x y) (prod y x) ❙
+		assocProd: ⊦ ∀ͭ[x: tm obj] ∀ͭ[y: tm obj] ∀ͭ[z: tm obj] areIsomorphic (prod x (prod y z)) (prod (prod x y) z) ❙
 ❚

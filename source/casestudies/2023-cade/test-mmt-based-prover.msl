@@ -19,9 +19,10 @@ log+ debug
 //log+ object-parser
 log+ tptp
 
+log+ HOLExporter
 log+ DHOLExporter
 log+ DIHOLExporter
-//log+ DPHOLExporter
+log+ DPHOLExporter
 //log+ TPTPExporter
 
 extension latin2.tptp.TPTPExporter
