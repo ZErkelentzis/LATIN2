@@ -258,7 +258,7 @@ trait logicExporter extends Extension {
     val ded(origConjecture) = t ^ assSubstitution
     val conjecture = replacer.toTranslator().apply(ctx, origConjecture)
     val conjStr = controller.presenter.asString(conjecture)
-    log("Trying to prove "+conjStr+" using tptp exporter and HOL prover.")
+    log("Trying to prove "+conjStr+" using tptp exporter and HOL prover and in context: "+ctx.toStr(true))
     if (conjecture != origConjecture)
       log("The unreplaced conjecture is: " + controller.presenter.asString(origConjecture))
 
@@ -268,7 +268,8 @@ trait logicExporter extends Extension {
     /* log("The overall problem is: ")
     formulas foreach { form =>
       log(form.pretty)
-    } */
+    }
+    log("\n\n") */
 
     val tptp_exporter = ctrl.extman.get(classOf[TPTPExporter]).head
 

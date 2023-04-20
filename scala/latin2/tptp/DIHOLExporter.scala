@@ -239,12 +239,16 @@ class DIHOLExporter extends logicExporter {
 		    val argsTr = args map translate_term
         THFAppl(translate_term(f), argsTr)
 
-		  case OMA(OMV(i), args) if i.toString.startsWith("I/") && i.toString.stripPrefix("I/").toCharArray.forall(_.isDigit) =>
+		  case OMA(OMV(i), args) if (i.toString.startsWith("/I/")) && i.toString.stripPrefix("/I/").toCharArray.forall(_.isDigit) =>
 		    println ("Cannot resolve implicit argument: " + controller.presenter.asString(t))
         currentFormulaComments +:= Comment(CommentFormat.LINE, CommentType.NORMAL, "Cannot resolve implicit argument: " + t)
 		    ???
+
+      case unknown@OMBINDC(binder, context, List(scope)) if binder.toStr(true) == "unknown" => // this case shouldn't be necessary
+        //println("Cannot resolve unknown: " + controller.presenter.asString(unknown))
+        translate_term(scope)
 		  case default =>
-        println ("Cannot resolve unknown: " + controller.presenter.asString(default))
+        println ("Unsupported term: " + controller.presenter.asString(default))
         currentFormulaComments +:= Comment(CommentFormat.LINE, CommentType.NORMAL, "Unknown term/op: " + default)
 		    ???
 		  //return (
@@ -334,23 +338,23 @@ object DIHOLExporterUtil {
    */
   def parseDHOLDeclaration(path: GlobalName, tpO: Option[Term], dfO: Option[Term], ctx: Context, replacer: OMSReplacer)(implicit ctrl: Controller, allowBoolValuedQuantification: Boolean): DHOLAbbreviationOrDeclaration = {
     (tpO, dfO) match {
-      case (_, Some(df)) =>
-        // in case of nested abbreviations
-        val replacedDf = replacer.toTranslator().apply(ctx, df)
-        val defStr = ctrl.presenter.asString(replacedDf)
-        println ("Adding " + path.name.toString + " as a abbreviation for the definien: \n" + defStr)
-        DHOLAbbreviation(path, replacedDf)
-      case (Some(tp), None) =>
-        val translatedTp = replacer.toTranslator().applyType(ctx, tp)
-        val simplicationUnit = SimplificationUnit(Context(path.module), expandConDefs = true, expandVarDefs = true, fullRecursion = true)
-        val simplifiedTp = try {
-          ctrl.simplifier(translatedTp, simplicationUnit)
-        } catch {
-          // this shouldn't happen, but it makes more sense to continue anyways, as simplifying is not really necessary
-          // TODO: add some error handling
-          case e: GeneralError => translatedTp
-        }
-        unapplyPis(simplifiedTp)
+      case (_, Some(df)) if (! df.toString.contains("http://cds.omdoc.org/mmt?Errors?prove")) =>
+          // in case of nested abbreviations
+          val replacedDf = replacer.toTranslator().apply(ctx, df)
+          val defStr = ctrl.presenter.asString(replacedDf)
+          //println ("Adding " + path.name.toString + " as a abbreviation for the definien: \n" + defStr)
+          DHOLAbbreviation(path, replacedDf)
+        case (Some(tp), _) =>
+          val translatedTp = replacer.toTranslator().applyType(ctx, tp)
+          val simplicationUnit = SimplificationUnit(Context(path.module), expandConDefs = true, expandVarDefs = true, fullRecursion = true)
+          val simplifiedTp = try {
+            ctrl.simplifier(translatedTp, simplicationUnit)
+          } catch {
+            // this shouldn't happen, but it makes more sense to continue anyways, as simplifying is not really necessary
+            // TODO: add some error handling
+            case e: GeneralError => translatedTp
+          }
+          unapplyPis(simplifiedTp)
     }
   }
 
