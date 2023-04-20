@@ -50,82 +50,40 @@ class DIHOLExporter extends logicExporter {
    * @return the translation of the declaration
    */
   def translate_decl(path: GlobalName, tpO: Option[Term], dfO: Option[Term], ctx: Context)(implicit ctrl: Controller): List[THFAnnotated] = {
-    (tpO, dfO) match {
-      case (_, Some(df)) =>
-        // in case of nested abbreviations
-        val replacedDf = replacer.toTranslator().apply(ctx, df)
-        definitionSubstituents ::= (path, replacedDf)
+    val name = path.name
+    val declTranslated = parseDHOLDeclaration(path, tpO, dfO, ctx, replacer) match {
+      case DHOLAbbreviation(path, definien) =>
+        definitionSubstituents ::= (path, definien)
         Nil
-      case (Some(tp), None) =>
-        val translatedTp = replacer.toTranslator().applyType(ctx, tp)
-        val simplicationUnit = SimplificationUnit(Context(path.module), expandConDefs = true, expandVarDefs = true, fullRecursion = true)
-        val simplifiedTp = try {
-          ctrl.simplifier(translatedTp, simplicationUnit)
-        } catch {
-          // this shouldn't happen, but it makes more sense to continue anyways, as simplifying is not really necessary
-          // TODO: add some error handling
-          case e: GeneralError => translatedTp
-        }
-
-        val name = path.name
-
-        /**
-         * Unapply (potentially nested) type and termlevel Pis into
-         * @param tp the type for which to unapply Pis
-         * @return a list of Pi-bound types, a list of Pi-bound terms, a return type and
-         *         indicators whether we have a termlevel constructor, axiom or not
-         */
-        def unapplyPis(tp: Term): (Context, Context, Term, Boolean, Boolean) = tp match {
-          case FunType(args, bdy)  if args.nonEmpty =>
-            val dependentArgs = argContext(args)
-            val (ctxTp, ctxTm, ret, termLevel, axiom) = unapplyPis(bdy)
-            (dependentArgs++ctxTp, ctxTm, ret, termLevel, axiom)
-          case TypedTerms.tm(df@DependentFunctionTypes.depfun(s, t)) => unapplyDepFun(df) match { // declaration of function
-            case Some((dependentArgs, bdy)) =>
-              val tpBdy = TypedTerms.tm(bdy)
-              val (Context.empty, ctxTm, ret, _, _) = unapplyPis(tpBdy)
-              (Context.empty, dependentArgs++ctxTm, ret, true, false)
-          }
-          case TypedTerms.tm(a@ApplyGeneral(_, _)) =>
-            (Context.empty, Context.empty, a, true, false)
-          case lf.Types.tp.term | Univ(1) | TypeDecl(Nil) =>
-            (Context.empty, Context.empty, tp, false, false)
-          case conj@lf.Proofs.ded(ax) =>
-            (Context.empty, Context.empty, conj, false, true)
-          case OMBINDC(binder, context, List(scopes)) if binder.toStr(true) == "unknown" => // this case shouldn't be necessary
-            unapplyPis(lf.Proofs.ded(scopes))
-        }
-
-        val declTranslated = unapplyPis(simplifiedTp) match {
-          case (ctxTp, Context.empty, bdy, false, false) =>
-            pathMap ::= (path, translated_type_name(name))
-            pathMap ::= (type_pred_path(path), type_pred_name(name))
-            val tpDecl = THFAnnotated(type_decl_name(name), "type",
-              THF.Typing(translated_type_name(name), THFType), None)
-            val translated_args = ctxTp.map(_.tp.get) :+ OMS(path)
-            val predTp = THFArrow(translated_args map translate_type, THFBool)
-            val tpPred = THFAnnotated(type_pred_decl_name(name), "type",
-              THF.Typing(type_pred_name(name), predTp), None)
-            List(tpDecl, tpPred)
-          case (ctxTp, ctxTm, ret, true, false)  =>
-              // ignore the difference to allow using LF Pis instead of depfun
-              val ctx = ctxTp ++ ctxTm
-              pathMap ::= (path, translated_fun_name(name))
-              val funDecl = THFAnnotated(type_decl_name(name), "type",
-                THF.Typing(translated_fun_name(name), translate_type(PiOrEmpty(ctx, ret))), None)
-              val retPred = typing_pred(PiOrEmpty(ctx, ret), OMS(path))
-              lazy val tpAx = THFAnnotated(tp_ax_decl_name(name), "axiom",
-                THF.Logical(retPred), None)
-              List(funDecl, tpAx)
-          case (ctxTp, Context.empty, lf.Proofs.ded(ax), false, true) =>
-                val ax_body = translate_term(ax)
-                val tax = ctxTp.variables.foldRight(ax_body)((vd, bdy) =>
-                  THFUniv(translate_var_name(vd.name), translate_type(vd.tp.get), bdy))
-                List(THFAnnotated(ax_decl_name(name), "axiom", THF.Logical(tax), None))
-        }
-        add_formula_comment(name.toString)
-        declTranslated
-    }
+      case DHOLTypeDeclaration(ctxTp) =>
+        pathMap ::= (path, translated_type_name(name))
+        pathMap ::= (type_pred_path(path), type_pred_name(name))
+        val tpDecl = THFAnnotated(type_decl_name(name), "type",
+          THF.Typing(translated_type_name(name), THFType), None)
+        val translated_args = ctxTp.map(_.tp.get) :+ OMS(path)
+        val predTp = THFArrow(translated_args map translate_type, THFBool)
+        val tpPred = THFAnnotated(type_pred_decl_name(name), "type",
+          THF.Typing(type_pred_name(name), predTp), None)
+        List(tpDecl, tpPred)
+      case DHOLTermDeclaration(ctxTp, ctxTm, ret) =>
+        // ignore the difference to allow using LF Pis instead of depfun
+        val ctx = ctxTp ++ ctxTm
+        pathMap ::= (path, translated_fun_name(name))
+        val funDecl = THFAnnotated(type_decl_name(name), "type",
+          THF.Typing(translated_fun_name(name), translate_type(PiOrEmpty(ctx, ret))), None)
+        val retPred = typing_pred(PiOrEmpty(ctx, ret), OMS(path))
+        lazy val tpAx = THFAnnotated(tp_ax_decl_name(name), "axiom",
+          THF.Logical(retPred), None)
+        List(funDecl, tpAx)
+      case DHOLAxiom(ctxTp, claim) =>
+        pathMap ::= (path, ax_decl_name(name))
+        val ax_body = translate_term(claim)
+        val tax = ctxTp.variables.foldRight(ax_body)((vd, bdy) =>
+          THFUniv(translate_var_name(vd.name), translate_type(vd.tp.get), bdy))
+        List(THFAnnotated(ax_decl_name(name), "axiom", THF.Logical(tax), None))
+      }
+      add_formula_comment(name.toString)
+      declTranslated
   }
 
   def THFQuantifiedAxiom(ax: THF.Formula, dependentArgs: Context) = {
@@ -223,7 +181,6 @@ class DIHOLExporter extends logicExporter {
         check_fragment(ty)
 				val tpCond = typing_pred(ty, OMV(v))
 		    THFExist(translate_var_name(v), translate_type(ty), THFAnd(tpCond, translate_term(body)))
-		  //case TypedTerms.tm(tm) => translate_term(tm)
 		  case tforall(ty, body) =>
 		    val varname = Context.pickFresh(body.freeVars.map(VarDecl(_)), LocalName("X"))._1
 		    translate_term(tforall(ty, Lambda(varname, ty, ApplySpine(body, OMV(varname)))))
@@ -283,14 +240,15 @@ class DIHOLExporter extends logicExporter {
         THFAppl(translate_term(f), argsTr)
 
 		  case OMA(OMV(i), args) if i.toString.startsWith("I/") && i.toString.stripPrefix("I/").toCharArray.forall(_.isDigit) =>
-		    currentFormulaComments +:= Comment(CommentFormat.LINE, CommentType.NORMAL, "Cannot resolve implicit argument: " + t)
-		    THFTrue
-
+		    println ("Cannot resolve implicit argument: " + controller.presenter.asString(t))
+        currentFormulaComments +:= Comment(CommentFormat.LINE, CommentType.NORMAL, "Cannot resolve implicit argument: " + t)
+		    ???
 		  case default =>
-		    currentFormulaComments +:= Comment(CommentFormat.LINE, CommentType.NORMAL, "Unknown term/op: " + default)
-		    THFTrue
+        println ("Cannot resolve unknown: " + controller.presenter.asString(default))
+        currentFormulaComments +:= Comment(CommentFormat.LINE, CommentType.NORMAL, "Unknown term/op: " + default)
+		    ???
 		  //return (
-		  //  THF.FunctionTerm("$true", Nil),
+		  //  THFTrue,
 		  //  List(Comment(CommentFormat.LINE, CommentType.NORMAL, "Unknown term/op: " + default))
 		  //) //FIXME: exception when unknown term or op, example "0" instead of "zero" or "=" instead of "=ͭ"
 		}
@@ -338,8 +296,8 @@ class DIHOLExporter extends logicExporter {
           val argsTr = (args:+x).map(translate_term)
           val pTr = type_pred_path(a).name.toString
           THFAppl(THFTerm(pTr), argsTr)
-        case OMV(x) =>
-          THFOr(THFEq(THF.Variable(translate_var_name(x)), THFTrue), THFEq(THF.Variable(translate_var_name(x)), THFFalse))
+        case OMV(x) => THFTrue
+          //THFOr(THFEq(THF.Variable(translate_var_name(x)), THFTrue), THFEq(THF.Variable(translate_var_name(x)), THFFalse))
       }
       case TypedTerms.tm(tp) => typing_pred(tp, x)
       case Pi(n, tp, ret) =>
@@ -351,12 +309,84 @@ class DIHOLExporter extends logicExporter {
         THFAppl(THFTerm(pTr), argsTr)
       case _ =>
         currentFormulaComments +:= Comment(CommentFormat.LINE, CommentType.NORMAL, "Cannot resolve implicit argument to find typing predicate for: " + t)
-        THFTrue //IMPOSSIBLE // shouldn't happen
+        ??? //IMPOSSIBLE // shouldn't happen
     }
   }
 }
 
+sealed abstract class DHOLAbbreviationOrDeclaration
+case class DHOLAbbreviation(path: GlobalName, definien: Term) extends DHOLAbbreviationOrDeclaration
+sealed abstract class DHOLDeclaration(ctxTp: Context) extends DHOLAbbreviationOrDeclaration
+case class DHOLTypeDeclaration(ctxTp: Context) extends DHOLDeclaration(ctxTp)
+case class DHOLTermDeclaration(ctxTp: Context, ctxTm: Context, ret: Term) extends DHOLDeclaration(ctxTp)
+case class DHOLAxiom(ctxTp: Context, claim: Term) extends DHOLDeclaration(ctxTp)
+
 object DIHOLExporterUtil {
+  /**
+   * Parse a DHOL AbbreviationOrDeclaration
+   * @param path
+   * @param tpO
+   * @param dfO
+   * @param ctx
+   * @param replacer
+   * @param ctrl
+   * @return
+   */
+  def parseDHOLDeclaration(path: GlobalName, tpO: Option[Term], dfO: Option[Term], ctx: Context, replacer: OMSReplacer)(implicit ctrl: Controller, allowBoolValuedQuantification: Boolean): DHOLAbbreviationOrDeclaration = {
+    (tpO, dfO) match {
+      case (_, Some(df)) =>
+        // in case of nested abbreviations
+        val replacedDf = replacer.toTranslator().apply(ctx, df)
+        val defStr = ctrl.presenter.asString(replacedDf)
+        println ("Adding " + path.name.toString + " as a abbreviation for the definien: \n" + defStr)
+        DHOLAbbreviation(path, replacedDf)
+      case (Some(tp), None) =>
+        val translatedTp = replacer.toTranslator().applyType(ctx, tp)
+        val simplicationUnit = SimplificationUnit(Context(path.module), expandConDefs = true, expandVarDefs = true, fullRecursion = true)
+        val simplifiedTp = try {
+          ctrl.simplifier(translatedTp, simplicationUnit)
+        } catch {
+          // this shouldn't happen, but it makes more sense to continue anyways, as simplifying is not really necessary
+          // TODO: add some error handling
+          case e: GeneralError => translatedTp
+        }
+        unapplyPis(simplifiedTp)
+    }
+  }
+
+  /**
+   * Unapply (potentially nested) type and termlevel Pis of a DHOLDeclaration given by its type
+   *
+   * @param tp the type of the declaration
+   * @return a DHOLDeclaration containing a list of Pi-bound types,
+   *         (for TermDeclarations) a list of Pi-bound terms,
+   *         (for TermDeclarations) a return type, (for Axioms a claim)
+   */
+  private def unapplyPis(tp: Term)(implicit allowBoolValuedQuantification: Boolean): DHOLDeclaration = tp match {
+    case FunType(args, bdy) if args.nonEmpty =>
+      val dependentArgs = argContext(args)
+
+      unapplyPis(bdy) match {
+        case DHOLTypeDeclaration(ctxTp) => DHOLTypeDeclaration(dependentArgs ++ ctxTp)
+        case DHOLTermDeclaration(ctxTp, ctxTm, ret) => DHOLTermDeclaration(dependentArgs ++ ctxTp, ctxTm, ret)
+        case DHOLAxiom(ctxTp, claim) => DHOLAxiom(dependentArgs ++ ctxTp, claim)
+      }
+    case TypedTerms.tm(df@DependentFunctionTypes.depfun(s, t)) => unapplyDepFun(df) match { // declaration of function
+      case Some((dependentArgs, bdy)) =>
+        unapplyPis(TypedTerms.tm(bdy)) match {
+          case DHOLTermDeclaration(ctxTp, ctxTm, ret) => DHOLTermDeclaration(ctxTp, dependentArgs ++ ctxTm, ret)
+        }
+    }
+    case TypedTerms.tm(a@ApplyGeneral(_, _)) =>
+      DHOLTermDeclaration(Context.empty, Context.empty, a)
+    case lf.Types.tp.term | Univ(1) | TypeDecl(Nil) =>
+      DHOLTypeDeclaration(Context.empty)
+    case conj@lf.Proofs.ded(ax) =>
+      DHOLAxiom(Context.empty, ax)
+    case OMBINDC(binder, context, List(scopes)) if binder.toStr(true) == "unknown" => // this case shouldn't be necessary
+      unapplyPis(lf.Proofs.ded(scopes))
+  }
+
   def is_bool_valued(ty: Term): Boolean = ty match {
     case depFun@lf.DependentFunctionTypes.depfun(_, _) => {
       val Some((depArgs, bdy)) = unapplyDepFun(depFun)
@@ -372,12 +402,11 @@ object DIHOLExporterUtil {
         UNSUPPORTED("Quantification over bool-valued typed is unsupported.")
     }
   }
-
   def argContext(args: List[(Option[LocalName], Term)])(implicit checkInFragment: Boolean): Context = {
     var dependentArgs = Context.empty
     args .zipWithIndex foreach {
       case ((nOpt, t), i) =>
-          check_fragment(t)
+        check_fragment(t)
         val nameSuggestionO = nOpt
         val ln = Context.pickFresh(dependentArgs, nameSuggestionO getOrElse LocalName("X_"+i))._1
         dependentArgs :+= ln % t
@@ -424,6 +453,9 @@ object ProverBasedTypeEquality extends TypeBasedEqualityRule(Nil, lf.Types.tp.pa
       if (fp != gp) {
         solver.error("different heads")
         return Some(false)
+      }
+      if ((xs++ys).exists(_.toStr(true).contains("unknown"))) {
+        println("Calling prover-based type equality for terms with unknowns: "+tm1.toStr(true)+" = "+ tm2.toStr(true))
       }
       solver.inferType(OMS(fp)) match {
         case Some(FunType(argTps, _)) =>

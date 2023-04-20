@@ -26,38 +26,35 @@ class DPHOLExporter extends DHOLExporter {
    * @return the translation of the declaration
    */
  override def translate_decl(path: GlobalName, tpO: Option[Term], dfO: Option[Term], ctx: Context)(implicit ctrl: Controller): List[THFAnnotated] = {
-   (tpO, dfO) match {
-     case (_, Some(df)) =>
-       // in case of nested abbreviations
-       val replacedDf = replacer.toTranslator().apply(ctx, df)
-       definitionSubstituents ::= (path, replacedDf)
+   val name = path.name
+
+   val declTranslated = parseDHOLDeclaration(path, tpO, dfO, ctx, replacer) match {
+     case DHOLAbbreviation(path, definien) =>
+       definitionSubstituents ::= (path, definien)
        Nil
-     case (Some(tp), None) =>
-       val translatedTp = replacer.toTranslator().applyType(ctx, tp)
-       val simplicationUnit = SimplificationUnit(Context(path.module), expandConDefs = true, expandVarDefs = true, fullRecursion = true)
-       val simplifiedTp = try {
-         ctrl.simplifier(translatedTp, simplicationUnit)
-       } catch {
-         // this shouldn't happen, but it makes more sense to continue anyways, as simplifying is not really necessary
-         // TODO: add some error handling
-         case e: GeneralError => translatedTp
-       }
-
-       val name = path.name
-
-       simplifiedTp match {
-         case TypedTerms.tm(predSub@TypedPredicateSubtypes.predsub(tp, pred)) =>
-           pathMap ::= (path, translated_fun_name(name))
-           val funDecl = THFAnnotated(type_decl_name(name), "type",
-             THF.Typing(translated_fun_name(name), translate_type(tp)), None)
-           val retPred = typing_pred(predSub, OMS(path))
-           lazy val tpAx = THFAnnotated(tp_ax_decl_name(name), "axiom",
-             THF.Logical(retPred), None)
-           add_formula_comment(name.toString)
-           List(funDecl, tpAx)
-         case _ => super.translate_decl(path, tpO, dfO, ctx)
-       }
+     case DHOLTypeDeclaration(ctxTp) =>
+       pathMap ::= (path, translated_type_name(name))
+       pathMap ::= (type_pred_path(path), type_pred_name(name))
+       translateTypeDecl(path, ctxTp)
+     case DHOLTermDeclaration(ctxTp, ctxTm, ret) =>
+       // ignore the difference to allow using LF Pis instead of depfun
+       val ctx = ctxTp ++ ctxTm
+       pathMap ::= (path, translated_fun_name(name))
+       val funDecl = THFAnnotated(type_decl_name(name), "type",
+         THF.Typing(translated_fun_name(name), translate_type(PiOrEmpty(ctx, ret))), None)
+       val retPred = typing_pred(PiOrEmpty(ctx, ret), OMS(path))
+       lazy val tpAx = THFAnnotated(tp_ax_decl_name(name), "axiom",
+         THF.Logical(retPred), None)
+       List(funDecl, tpAx)
+     case DHOLAxiom(ctxTp, claim) =>
+       pathMap ::= (path, ax_decl_name(name))
+       val ax_body = translate_term(claim)
+       val tax = ctxTp.variables.foldRight(ax_body)((vd, bdy) =>
+         THFUniv(translate_var_name(vd.name), translate_type(vd.tp.get), bdy))
+       List(THFAnnotated(ax_decl_name(name), "axiom", THF.Logical(tax), None))
    }
+   add_formula_comment(name.toString)
+   declTranslated
  }
 
   /**

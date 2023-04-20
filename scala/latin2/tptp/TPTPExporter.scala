@@ -264,10 +264,11 @@ trait logicExporter extends Extension {
 
     formulas += tptp_conjecture(conjecture)
     add_formula_comment("conjecture")
-    /*    log("The overall problem is: ")
+
+    /* log("The overall problem is: ")
     formulas foreach { form =>
       log(form.pretty)
-    }*/
+    } */
 
     val tptp_exporter = ctrl.extman.get(classOf[TPTPExporter]).head
 
