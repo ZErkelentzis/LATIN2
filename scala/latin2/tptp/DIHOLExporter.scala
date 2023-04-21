@@ -259,7 +259,7 @@ class DIHOLExporter extends logicExporter {
 	}
 
   def translate_type(t: Term): THF.Formula = t match {
-    case lf.Booleans.bool(()) => THFBool
+    case lf.Booleans.bool(()) | lf.Propositions.prop(()) => THFBool
     case depFun@lf.DependentFunctionTypes.depfun(_, _) => {
       val Some((depArgs, bdy)) = unapplyDepFun(depFun)
       translate_type(FunType(depArgs.map(vd => (Some(vd.name), vd.tp.get)), bdy))

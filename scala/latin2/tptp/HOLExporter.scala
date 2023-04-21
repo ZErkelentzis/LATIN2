@@ -137,8 +137,7 @@ class HOLExporter extends logicExporter {
     case Falsity._false(()) =>
       THFFalse
 
-    case OMID(f) =>
-      THFOMS(f)
+    case OMID(f) => THF.FunctionTerm(translate_var_decl_name(f.name), Nil)
 
     case OMV(x) =>
       THF.Variable(translate_var_name(x))

@@ -54,9 +54,12 @@ define dependencies
 	//build MMT/LATIN2 mmt-omdoc logic/stfol.mmt
 	//build MMT/LATIN2 mmt-omdoc foundations/mizar.mmt
 	//build MMT/LATIN2 mmt-omdoc foundations/mizar-patterns.mmt
+	build MMT/LATIN2 lf-scala fundamentals/concepts.omdoc
 end
 
 // do dependencies
+
+//	build MMT/LATIN2 lf-scala fundamentals/concepts.omdoc
 
 // test DPHOL exporter examples for CADE 2023 paper
 build MMT/LATIN2 mmt-omdoc casestudies/2023-cade/MMT_example_problems
