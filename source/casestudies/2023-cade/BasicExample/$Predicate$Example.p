@@ -1,0 +1,15 @@
+thf(a_type, type, t_a: $tType).
+thf(a_rel, type, a_rel: ($o > (t_a > (t_a > $o)))).
+thf(a_per_ax, axiom, (! [V_X:$o]: ((! [V_X__R:t_a]: ((! [V_X__R_PRIME:t_a]: (((((a_rel @ V_X) @ V_X__R) @ V_X__R_PRIME) => (V_X__R = V_X__R_PRIME))))))))).
+thf(c_0_type, type, t_c_0: t_a).
+thf(c_0_tp_ax, axiom, (((a_rel @ $true) @ t_c_0) @ t_c_0)).
+thf(c_1_type, type, t_c_1: t_a).
+thf(c_1_tp_ax, axiom, (((a_rel @ $false) @ t_c_1) @ t_c_1)).
+thf(c_2_type, type, t_c_2: t_a).
+thf(c_2_tp_ax, axiom, (((a_rel @ $false) @ t_c_2) @ t_c_2)).
+thf(ax0_ax, axiom, (! [V_X:t_a]: (((((a_rel @ $true) @ V_X) @ V_X) => (((a_rel @ $true) @ V_X) @ t_c_0))))).
+thf(p_type, type, t_p: (t_a > $o)).
+thf(p_tp_ax, axiom, (! [V_X:t_a,V_X_PRIME:t_a]: (((((a_rel @ $false) @ V_X) @ V_X_PRIME) => ((t_p @ V_X) = (t_p @ V_X_PRIME)))))).
+thf(ax1_ax, axiom, (t_p @ t_c_1)).
+thf(ax2_ax, axiom, (~ ((t_p @ t_c_2)))).
+thf(conjecture, conjecture, (t_p @ t_c_2)).
