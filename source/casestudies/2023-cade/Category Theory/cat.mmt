@@ -1,18 +1,21 @@
 namespace latin:/casestudies/_2023-cade❚
 
+// A simple example that formalizes a category.❚ 
 theory Cat : latin:/?DHOL =
     obj : tp❙
-    mor : {x:tm obj,y:tm obj} tp ❙
+    mor : tm obj ⟶ tm obj ⟶ tp ❙
     id: tm Πͭ [x] mor x x ❙
     comp: tm Πͭ [x] Πͭ [y] Πͭ [z] Πͭ [f:tm mor x y] Πͭ [g:tm mor y z] mor x z ❘# 5 ◦ 4 prec 50 ❙ 
     ax1: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[m: tm (mor x y)] ((((comp @ x) @ y) @ y) @ m) @ (id @ y) =ͭ m ❙    
     ax2: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[m: tm (mor x y)] ((((comp @ x) @ x) @ y) @ (id @ x)) @ m =ͭ m ❙
-
-    /T finally the conjecture to prove, needs prover to show well-typedness ❙
-    // Here the type checker generates the proof obligation x =ͭ y ⇒ͩ [p] y =ͭ x ❙
+    // we omit the associativity axiom for brevity
+    
+    // An example conjecture that with non-trivial well-typedness.
+       The type checker generates the proof obligation x =ͭ y ⇒ͩ [p] y =ͭ x ❙
     conj: ⊦ ∀ͭ[x: tm obj] ∀ͭ[y: tm obj] x =ͭ y ⇒ͩ [p] (id @ x) =ͭ (id @ y) ❘ = PROVE ❙
 ❚
 
+// An extended version of the above.❚
 theory CatExtended : latin:/?DPHOL =
     obj : tp❙
     mor : {x:tm obj,y:tm obj} tp ❙
@@ -21,72 +24,110 @@ theory CatExtended : latin:/?DPHOL =
     ax1: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[m: tm (mor x y)] (id y) ◦ m =ͭ m ❙    
     ax2: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[m: tm (mor x y)] m ◦ (id x) =ͭ m ❙
 
-		isIsomorphism : {x, y, m: tm mor x y} prop ❘ = [x, y, m] 
+		isIsomorphism : {x, y} tm mor x y ⟶ prop ❘ = [x, y, m] 
 				∃ͭ [i: tm mor y x] i ◦ m =ͭ id x ∧ m ◦ i =ͭ id y ❙
-		areIsomorphic : {x:tm obj, y:tm obj} prop ❘ = [x, y] ∃ͭ [i: tm mor x y] isIsomorphism x y i ❙
+		areIsomorphic : tm obj ⟶ tm obj ⟶ prop ❘ = [x, y] ∃ͭ [i: tm mor x y] isIsomorphism x y i ❙
 		
-		/T Lemma 1: rather trivial but useful ❙
+		// Lemma 1: transitivity of isomorphic ❙
 		transitiveIsomorphic: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[z] areIsomorphic x y⇒ areIsomorphic y z ⇒ areIsomorphic y z ❙
 		
+		// an example of predicate subtypes: the endo-isomorphisms of an object❙
 		isomorphisms = [u: tm obj] mor u u | ( [m: mor u u] isIsomorphism u u m ) ❙
 
-		prod: {x:tm obj, y:tm obj} tm obj ❙
+		// a particular categorical product and projections❙
+		prod: tm obj ⟶ tm obj ⟶ tm obj ❙
 		proj1: {x:tm obj, y:tm obj} tm mor (prod x y) x ❙
 		proj2: {x:tm obj, y:tm obj} tm mor (prod x y) y ❙
 		
-		factorizesProjections: {x, y, z, f:tm mor z x, g:tm mor z y, 
-				xy, projX: tm mor xy x, projY: tm mor xy y, u:tm mor z xy} prop ❘ =
-				[x, y, z, f, g, xy, projX, projY, u] 
-						projX ◦ u =ͭ f ∧ projY ◦ u =ͭ g ❘# factorizesProjs 4 5 7 8 9 ❙
-		isUniqueMorphismWith: {x, y, p: tm (mor x y) ⟶ prop, m:tm mor x y} prop ❘ =
-				[x, y, p, m] p m ∧ ∀ͭ[u:tm mor x y] p u ⇒ m =ͭ u ❘# 4 isUniqueMorWith 3 ❙
-		isUniversalMorphismOfAProduct: {x, y, z, f:tm mor z x, g:tm mor z y, 
-				xy, projX: tm mor xy x, projY: tm mor xy y, u:tm mor z xy} prop ❘ = 
-				[x, y, z, f, g, xy, projX, projY, u] 
-				u isUniqueMorWith ([m] factorizesProjs f g projX projY m) ❘# isUnivMorProd 4 5 7 8 9 ❙
-		isProduct: {x, y, xy, projX: tm mor xy x, projY: tm mor xy y} prop ❘ = 
-				[x, y, xy, projX, projY] ∀ͭ[z] ∀ͭ[f: tm mor z x] ∀ͭ[g: tm mor z y] 
-						∃ͭ [u] isUnivMorProd f g projX projY u ❘# isProd 3 4 5 ❙
-		prodUnivMorph_ax: ⊦ ∀ͭ[x] ∀ͭ[y] isProduct x y (prod x y) (proj1 x y) (proj2 x y) ❙		
+		// A few abbreviations towards stating the universal property.
+		   Note that "# ..." introduces compact notations for these abbreviations.
+		   
+		   The definitions abstract over an arbitrary potential arbitrary product (xy, projX, projY) of two objects x and y.❙ 
 		
-		/T Lemma 2: this cannot be proven by any HOL prover even in the native HOL version ❙
+		// f and g factorize through projX and projY using universal morphism u❙
+		factorizesProjections:
+		   {x,y,z, f:tm mor z x, g:tm mor z y, xy, projX: tm mor xy x, projY: tm mor xy y, u:tm mor z xy} prop❘
+		 = [x, y, z, f, g, xy, projX, projY, u] projX ◦ u =ͭ f ∧ projY ◦ u =ͭ g ❘
+		 # factorizesProjs 4 5 7 8 9 ❙
+		 
+    // m is the unique morphism with property p❙
+		isUniqueMorphismWith: {x, y, p: tm (mor x y) ⟶ prop, m:tm mor x y} prop ❘
+		                    = [x, y, p, m]
+		                       p m ∧ ∀ͭ[u:tm mor x y] p u ⇒ m =ͭ u ❘
+		                    # 4 isUniqueMorWith 3 ❙
+	  // the uniqueness of the universal morphism❙
+		isUniversalMorphismOfAProduct:
+		   {x, y, z, f:tm mor z x, g:tm mor z y,
+		    xy, projX: tm mor xy x, projY: tm mor xy y, u:tm mor z xy} prop ❘
+		 = [x, y, z, f, g, xy, projX, projY, u] 
+				 u isUniqueMorWith ([m] factorizesProjs f g projX projY m) ❘
+		 # isUnivMorProd 4 5 7 8 9 ❙
+		
+		// the property of (xy, projX, projY) being a product: the universal morphism must exist uniquely❙  
+		isProduct: {x, y, xy, projX: tm mor xy x, projY: tm mor xy y} prop ❘
+		         = [x, y, xy, projX, projY] ∀ͭ[z] ∀ͭ[f: tm mor z x] ∀ͭ[g: tm mor z y]
+		                                    ∃ͭ [u] isUnivMorProd f g projX projY u ❘
+			       # isProd 3 4 5 ❙
+    
+    // finally the axiom that (prod, proj1, proj2) indeed returns a product for all arguments❙
+		prodUnivMorph_ax: ⊦ ∀ͭ[x] ∀ͭ[y] isProduct x y (prod x y) (proj1 x y) (proj2 x y)❙		
+		
+		// We (try to) prove some non-trivial properties of the product.❙
+		
+		// Lemma 2: Uniqueness of the product.
+		   This cannot be proven by any HOL prover even in the native HOL version below.❙
 		uniquenessProd: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[z] ∀ͭ[f: tm mor z x] ∀ͭ[g: tm mor z y] 
 				isProduct x y z f g ⇒ areIsomorphic z (prod x y) ❙
 
-		/T Lemma 3, a simpler version and the first step towards proving the 5th lemma ❙ 		
+		// Lemma 3: a simpler version and the first step towards proving the Lemma 5 below❙ 		
 		symmetricIsProd: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[z] ∀ͭ[f: tm mor z x] ∀ͭ[g: tm mor z y] 
 				isProduct x y z f g ⇒ isProduct y x z g f ❙
 
-		/T Lemma 4, the next step towards proving the symmetry of the product ❙
+		// Lemma 4: another stepping stone❙
 		isProdUnique: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[z] ∀ͭ[f: tm mor z x] ∀ͭ[g: tm mor z y] 
 				∀ͭ[xy] ∀ͭ[projX: tm mor xy x] ∀ͭ[projY: tm mor xy y] 
 				isProduct x y z f g ⇒ isProduct x y xy projX projY ⇒ areIsomorphic z xy ❙
 
-		/T Lemma 5, rather hard to prove on its own (even in the native version only proven by E),
-			 but using the previous lemmas it is much easier ❙
+		// Lemma 5: products are commutative up to isomorphism.
+		   This rather hard to prove on its own (even in the native version below, only E can prove it),
+			 but it becomes provable if the previous lemmas are included in the formalization.❙
 		symmetricProd: ⊦ ∀ͭ[x] ∀ͭ[y] areIsomorphic (prod x y) (prod y x) ❙
 
-		/T Lemma 6, can be proven by several ATPs in the native HOL version but not in the DHOL version ❙
+		// Lemma 6: associativity up to isomorphism.
+		   Without stepping stone lemmas, this cannot be proved although some provers can prove it in the native HOL version below.❙
 		assocProd: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[z] areIsomorphic (prod x (prod y z)) (prod (prod x y) z) ❘ = PROVE ❙
 ❚
 
+// An alternative formalization that uses only HOL instead of DHOL.
+   The formalization is much less elegant because no dependent types are available.
+   But ATP support is available without translation, which can make some proves easier.
+   See above for comments on how ATP results for these compare.❚
 theory CatExtendedHOL : latin:/?HOL =
     obj : tp❙
     mor : tp❙
 		id: tm obj ⟶ tm mor❙
+		// This makes all morphisms composable.
+		   So all domain/codomain information of morphisms must be provided
+		   by assumptions rather than types.❙ 
 		comp :  tm mor ⟶ tm mor ⟶ tm mor❘ # 2 ◦ 1 prec 50 ❙
-		dom: tm mor ⟶ tm obj❙
+		dom: tm mor ⟶ tm obj❙ // (co)domain of a morphism❙
 		cod: tm mor ⟶ tm obj❙
+		
+		// (co)domain axioms for identity and composition❙
 		id_dom: ⊦ ∀ͭ[a: tm obj] dom (id a) =ͭ a❙
 		id_cod: ⊦ ∀ͭ[a: tm obj] cod (id a) =ͭ a❙
 		comp_dom: ⊦ ∀ͭ[x: tm obj] ∀ͭ[y: tm obj] ∀ͭ[f: tm mor] ∀ͭ[g: tm mor] cod f =ͭ dom g ⇒ dom (g ◦ f) =ͭ dom f ❙
 		comp_cod: ⊦ ∀ͭ[x: tm obj] ∀ͭ[y: tm obj] ∀ͭ[f: tm mor] ∀ͭ[g: tm mor] cod f =ͭ dom g ⇒ cod (g ◦ f) =ͭ cod g❙
 		
+		// abbreviations for isomorphism❙
 		isIsomorphism : tm obj ⟶ tm obj ⟶ tm mor ⟶ prop ❘ = [a,b, f] ∃ͭ [inv: tm mor] 
 				dom f =ͭ a ∧ cod f =ͭ b ∧ dom inv =ͭ b ∧ cod inv =ͭ a ∧ f ◦ inv =ͭ id b ∧ inv ◦ f =ͭ id a ❙
 		areIsomorphic : tm obj ⟶ tm obj ⟶ prop ❘ = [a,b] ∃ͭ [f: tm mor] dom f =ͭ a ∧ cod f =ͭ b ∧ isIsomorphism a b f ❙
-		transitiveIsomorphic: ⊦ ∀ͭ[x: tm obj] ∀ͭ[y: tm obj] ∀ͭ[z: tm obj] areIsomorphic x y⇒ areIsomorphic y z ⇒ areIsomorphic y z ❙
+		// transitivity of isomorphism❙
+		transitiveIsomorphic: ⊦ ∀ͭ[x: tm obj] ∀ͭ[y: tm obj] ∀ͭ[z: tm obj]
+		  areIsomorphic x y ⇒ areIsomorphic y z ⇒ areIsomorphic y z ❙
 
+		// a product operator❙
 		prod: tm obj ⟶ tm obj ⟶ tm obj ❙
 		proj1: tm obj ⟶ tm obj ⟶ tm mor ❙
 		proj1_dom: ⊦ ∀ͭ[x: tm obj] ∀ͭ[y: tm obj] dom (proj1 x y) =ͭ prod x y ❙
@@ -95,14 +136,18 @@ theory CatExtendedHOL : latin:/?HOL =
 		proj2_dom: ⊦ ∀ͭ[x: tm obj] ∀ͭ[y: tm obj] dom (proj2 x y) =ͭ prod x y ❙
 		proj2_cod: ⊦ ∀ͭ[x: tm obj] ∀ͭ[y: tm obj] cod (proj2 x y) =ͭ y ❙
 		
-		factorizesProjections: tm obj ⟶ tm obj ⟶ tm obj ⟶ tm mor ⟶ tm mor ⟶ tm obj ⟶ tm mor ⟶ tm mor ⟶ tm mor ⟶ prop ❘ =
-				[x: tm obj, y: tm obj, z: tm obj, f: tm mor, g: tm mor, xy: tm obj, projX: tm mor, projY: tm mor, u:tm mor] 
+		// abbreviations corresponding to the above❙
+		factorizesProjections: tm obj ⟶ tm obj ⟶ tm obj ⟶ tm mor ⟶ tm mor ⟶ tm obj ⟶ tm mor ⟶ tm mor ⟶ tm mor ⟶ prop ❘
+		   = [x: tm obj, y: tm obj, z: tm obj, f: tm mor, g: tm mor, xy: tm obj, projX: tm mor, projY: tm mor, u:tm mor] 
 						dom f =ͭ z ∧ cod f =ͭ x ∧ dom g =ͭ z ∧ cod g =ͭ y ∧ dom projX =ͭ xy ∧ cod projX =ͭ x ∧ dom projY =ͭ xy ∧ cod projY =ͭ y
 						∧ dom u =ͭ z ∧ cod u =ͭ xy ∧ projX ◦ u =ͭ f ∧ projY ◦ u =ͭ g ❙
-		isUniqueMorphismWith: tm obj ⟶ tm obj ⟶ (tm mor ⟶ prop) ⟶ tm mor ⟶ prop ❘ = [x: tm obj, y: tm obj, p: tm mor ⟶ prop, m: tm mor]
+
+    isUniqueMorphismWith: tm obj ⟶ tm obj ⟶ (tm mor ⟶ prop) ⟶ tm mor ⟶ prop ❘
+       = [x: tm obj, y: tm obj, p: tm mor ⟶ prop, m: tm mor]
 				dom m =ͭ x ∧ cod m =ͭ y ∧ p m ∧ ∀ͭ[u:tm mor] dom u =ͭ x ∧ cod u =ͭ y ∧ p u ⇒ m =ͭ u ❙
-		isUniversalMorphismOfAProduct: tm obj ⟶ tm obj ⟶ tm obj ⟶ tm mor ⟶ tm mor ⟶ tm obj ⟶ tm mor ⟶ tm mor ⟶ tm mor ⟶ prop ❘ =
-				[x: tm obj, y: tm obj, z: tm obj, f: tm mor, g: tm mor, xy: tm obj, projX: tm mor, projY: tm mor, u:tm mor] 
+		
+    isUniversalMorphismOfAProduct: tm obj ⟶ tm obj ⟶ tm obj ⟶ tm mor ⟶ tm mor ⟶ tm obj ⟶ tm mor ⟶ tm mor ⟶ tm mor ⟶ prop ❘
+      = [x: tm obj, y: tm obj, z: tm obj, f: tm mor, g: tm mor, xy: tm obj, projX: tm mor, projY: tm mor, u:tm mor] 
 				dom f =ͭ z ∧ cod f =ͭ x ∧ dom g =ͭ z ∧ cod g =ͭ y ∧ dom projX =ͭ xy ∧ cod projX =ͭ x ∧ dom projY =ͭ xy ∧ cod projY =ͭ y
 						∧ dom u =ͭ z ∧ cod u =ͭ xy ∧  
 				isUniqueMorphismWith x y ([m:tm mor] dom m =ͭ x ∧ cod m =ͭ y ∧ factorizesProjections x y z f g xy projX projY m) u ❘# isUnivMorProd 4 5 7 8 9 ❙
@@ -110,6 +155,7 @@ theory CatExtendedHOL : latin:/?HOL =
 				[x: tm obj, y: tm obj, xy: tm obj, projX: tm mor, projY: tm mor] dom projX =ͭ xy ∧ cod projX =ͭ x ∧ dom projY =ͭ xy ∧ cod projY =ͭ y ∧				
 				∀ͭ[z: tm obj] ∀ͭ[f: tm mor] dom f =ͭ z ∧ cod f =ͭ x ⇒ ∀ͭ[g: tm mor] dom f =ͭ z ∧ cod f =ͭ x ⇒
 						∃ͭ [u: tm mor] dom u =ͭ z ∧ cod u =ͭ xy ∧ isUniversalMorphismOfAProduct x y z f g xy projX projY u ❘# isProd 3 4 5 ❙
+		
 		prodUnivMorph_ax: ⊦ ∀ͭ[x: tm obj] ∀ͭ[y: tm obj] isProduct x y (prod x y) (proj1 x y) (proj2 x y) ❙
 		
 		uniquenessProd: ⊦ ∀ͭ[x: tm obj] ∀ͭ[y: tm obj] ∀ͭ[z: tm obj] ∀ͭ[f: tm mor] dom f =ͭ z ∧ cod f =ͭ x ⇒ ∀ͭ[g: tm mor] dom f =ͭ z ∧ cod f =ͭ x ⇒
@@ -122,6 +168,8 @@ theory CatExtendedHOL : latin:/?HOL =
 				∀ͭ[xy: tm obj] ∀ͭ[projX: tm mor] dom projX =ͭ xy ∧ cod projX =ͭ x ⇒ ∀ͭ[projY: tm mor] dom projY =ͭ xy ∧ cod projY =ͭ y ⇒
 				isProduct x y z f g ⇒ isProduct x y xy projX projY ⇒ areIsomorphic z xy ❙
 
+		// commutativity up to isomorphism❙
 		symmetricProd: ⊦ ∀ͭ[x: tm obj] ∀ͭ[y: tm obj] areIsomorphic (prod x y) (prod y x) ❙
+		// associativity up to isomorphism❙
 		assocProd: ⊦ ∀ͭ[x: tm obj] ∀ͭ[y: tm obj] ∀ͭ[z: tm obj] areIsomorphic (prod x (prod y z)) (prod (prod x y) z) ❙
 ❚
