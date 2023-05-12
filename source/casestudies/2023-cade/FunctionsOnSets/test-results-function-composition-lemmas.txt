@@ -1,7 +1,10 @@
 Results from proving the translations of the 6 lemmas by different HOL provers via https://www.tptp.org/cgi-bin/SystemOnTPTP 
 5/6 lemmas are proved by some prover.
 
-Lemma 1:
+======
+= concatAssocAppl (lemma 1) =
+======
+
 % RESULT: SOT_DLMVIz - agsyHOL---1.0 says Timeout - CPU = 60 WC = 60.00 
 % RESULT: SOT_DLMVIz - cvc5---1.0 says Theorem - CPU = 0.00 WC = 0.14 
 % RESULT: SOT_DLMVIz - cvc5-SAT---1.0 says Timeout - CPU = 61.04 WC = 61.43 
@@ -20,7 +23,10 @@ Lemma 1:
 % RESULT: SOT_DLMVIz - Vampire-FMO---4.7 says Unknown - CPU = 0.00 WC = 0.06 
 % RESULT: SOT_DLMVIz - Zipperpin---2.1 says Theorem - CPU = 0.42 WC = 1.02 
 
-Lemma 2:
+======
+= concatAssoc (lemma 2) =
+======
+
 % RESULT: SOT_6ft6o7 - agsyHOL---1.0 says Timeout - CPU = 60 WC = 60.00 
 % RESULT: SOT_6ft6o7 - cvc5---1.0 says Timeout - CPU = 60.53 WC = 61.35 
 % RESULT: SOT_6ft6o7 - cvc5-SAT---1.0 says Timeout - CPU = 60.48 WC = 61.12 
@@ -39,7 +45,10 @@ Lemma 2:
 % RESULT: SOT_6ft6o7 - Vampire-FMO---4.7 says Unknown - CPU = 0.00 WC = 0.04 
 % RESULT: SOT_6ft6o7 - Zipperpin---2.1 says Timeout - CPU = 101.38 WC = 4.07 
 
-Lemma 3:
+======
+= left_right_inverses (lemma 3) =
+======
+
 % RESULT: SOT_QstGO0 - agsyHOL---1.0 says Theorem - CPU = 12.78 WC = 13.50 
 % RESULT: SOT_QstGO0 - cvc5---1.0 says Theorem - CPU = 0.00 WC = 0.30 
 % RESULT: SOT_QstGO0 - cvc5-SAT---1.0 says Timeout - CPU = 60.40 WC = 63.01 
@@ -57,7 +66,10 @@ Lemma 3:
 % RESULT: SOT_QstGO0 - Vampire---4.7 says Theorem - CPU = 0.00 WC = 0.15 
 % RESULT: SOT_QstGO0 - Zipperpin---2.1 says Timeout - CPU = 105.98 WC = 4.28 
 
-Lemma 4:
+======
+= left_inverse_injective (lemma 4) =
+======
+
 % RESULT: SOT_PsPB7S - agsyHOL---1.0 says Timeout - CPU = 60 WC = 60.00 
 % RESULT: SOT_PsPB7S - cvc5---1.0 says Timeout - CPU = 60.09 WC = 61.04 
 % RESULT: SOT_PsPB7S - cvc5-SAT---1.0 says Timeout - CPU = 60.17 WC = 60.97 
@@ -76,7 +88,10 @@ Lemma 4:
 % RESULT: SOT_PsPB7S - Vampire-FMO---4.7 says Unknown - CPU = 0.00 WC = 0.05 
 % RESULT: SOT_PsPB7S - Zipperpin---2.1 says Timeout - CPU = 90.61 WC = 3.93 
 
-Lemma 5:
+======
+= right_inverse_surjective (lemma 5) =
+======
+
 % RESULT: SOT_yfFfqb - agsyHOL---1.0 says Timeout - CPU = 60 WC = 60.00 
 % RESULT: SOT_yfFfqb - cvc5---1.0 says Timeout - CPU = 60.53 WC = 62.28 
 % RESULT: SOT_yfFfqb - cvc5-SAT---1.0 says Timeout - CPU = 62.63 WC = 64.43 
@@ -95,7 +110,10 @@ Lemma 5:
 % RESULT: SOT_yfFfqb - Vampire-FMO---4.7 says Unknown - CPU = 0.00 WC = 0.06 
 % RESULT: SOT_yfFfqb - Zipperpin---2.1 says Theorem - CPU = 0.40 WC = 1.41 
 
-Lemma 6:
+======
+= inverses_bijective (lemma 6) =
+======
+
 % RESULT: SOT_ALsefO - agsyHOL---1.0 says Timeout - CPU = 60 WC = 60.02 
 % RESULT: SOT_ALsefO - cvc5---1.0 says Theorem - CPU = 1.03 WC = 1.63 
 % RESULT: SOT_ALsefO - cvc5-SAT---1.0 says Timeout - CPU = 60.69 WC = 61.27 

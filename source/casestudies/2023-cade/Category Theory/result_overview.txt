@@ -5,7 +5,10 @@ Total:
 translated DHOL: 3/6 lemmas proved by some prover, 20 successful proofs found in total
 native HOL:	     5/6 lemmas proved by some prover, 25 successful proofs found in total
 
-Lemma 1:
+======
+= transitiveIsomorphic (lemma 1) =
+======
+
 translated DHOL - 13/18 HOL ATP prover succeed:
 % RESULT: SOT_BWCW6Y - agsyHOL---1.0 says Theorem - CPU = 0.00 WC = 0.05 
 % RESULT: SOT_BWCW6Y - cocATP---0.2.0 says Theorem - CPU = 0.00 WC = 1.24 
@@ -46,7 +49,10 @@ native HOL - 9/18 HOL ATP prover succeed:
 % RESULT: SOT_6WGjU7 - Vampire-FMO---4.7 says Unknown - CPU = 0.00 WC = 0.09 
 % RESULT: SOT_6WGjU7 - Zipperpin---2.1 says Theorem - CPU = 0.00 WC = 0.87 
 
-Lemma 2:
+======
+= uniquenessProd (lemma 2) =
+======
+
 translated DHOL - 0/18 HOL ATP prover succeed:
 % RESULT: SOT_aCz4z4 - agsyHOL---1.0 says Timeout - CPU = 60 WC = 60.00 
 % RESULT: SOT_aCz4z4 - cocATP---0.2.0 says Timeout - CPU = 62.50 WC = 62.66 
@@ -87,7 +93,11 @@ native HOL - 0/18 HOL ATP prover succeed:
 % RESULT: SOT_ooO59W - Vampire-FMO---4.7 says Unknown - CPU = 0.00 WC = 0.11 
 % RESULT: SOT_ooO59W - Zipperpin---2.1 says Timeout - CPU = 317.69 WC = 9.81 
 
-Lemma 3
+
+======
+= symmetricIsProd (lemma 3) =
+======
+
 translated DHOL - 5/18 HOL ATP prover succeed:
 % RESULT: SOT_nppqvU - agsyHOL---1.0 says Theorem - CPU = 0.00 WC = 0.12 
 % RESULT: SOT_nppqvU - cocATP---0.2.0 says Timeout - CPU = 62.63 WC = 62.72 
@@ -128,7 +138,11 @@ native HOL: - 4/18 HOL ATP prover succeed:
 % RESULT: SOT_0ceY90 - Vampire-FMO---4.7 says Unknown - CPU = 0.00 WC = 0.07 
 % RESULT: SOT_0ceY90 - Zipperpin---2.1 says Theorem - CPU = 0.00 WC = 1.27 
 
-Lemma 4
+
+======
+= isProdUnique (lemma 4) =
+======
+
 translated DHOL - 0/18 HOL ATP prover succeed:
 % RESULT: SOT_Rgt07Q - agsyHOL---1.0 says Timeout - CPU = 60 WC = 60.00 
 % RESULT: SOT_Rgt07Q - cocATP---0.2.0 says Timeout - CPU = 62.85 WC = 65.24 
@@ -169,7 +183,11 @@ native HOL - 5/18 HOL ATP prover succeed:
 % RESULT: SOT_sFKE0q - Vampire-FMO---4.7 says Unknown - CPU = 0.00 WC = 0.09 
 % RESULT: SOT_sFKE0q - Zipperpin---2.1 says Theorem - CPU = 0.00 WC = 3.61 
 
-Lemma 5:
+
+======
+= symmetricProd (lemma 5) =
+======
+
 translated DHOL - 2/18 HOL ATP prover succeed:
 % RESULT: SOT_SKb2Cd - agsyHOL---1.0 says Timeout - CPU = 60 WC = 60.00 
 % RESULT: SOT_SKb2Cd - cocATP---0.2.0 says Timeout - CPU = 63.56 WC = 63.81 
@@ -210,7 +228,11 @@ native HOL - 3/18 HOL ATP prover succeed:
 % RESULT: SOT_wUWHCv - Vampire-FMO---4.7 says Unknown - CPU = 0.00 WC = 0.08 
 % RESULT: SOT_wUWHCv - Zipperpin---2.1 says Theorem - CPU = 0.00 WC = 1.18 
 
-Lemma 6:
+
+======
+= assocProd (lemma 6) =
+======
+
 translated DHOL - 0/18 HOL ATP prover succeed:
 % RESULT: SOT_u5UrA4 - agsyHOL---1.0 says Timeout - CPU = 60 WC = 60.00 
 % RESULT: SOT_u5UrA4 - cocATP---0.2.0 says Timeout - CPU = 61.92 WC = 62.04 
