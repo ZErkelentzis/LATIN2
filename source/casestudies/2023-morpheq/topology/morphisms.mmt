@@ -2,7 +2,7 @@ namespace latin:/casestudies/_2023-morpheq❚
 
 fixmeta latin:/powertypes?PowerSFOL❚
 
-// views between the isomorphic axiomatizations of closure systems/operators:
+// theory morphisms that translate the isomorphic axiomatizations of closure systems/operators into each other:
 
    ClosureOperator ⟶ ClosureSystem: cl A = intersection of closed supersets of A
    ClosureSystem ⟶ Closeness: A closed if A contains all points close to it
@@ -40,14 +40,13 @@ view CnCo : ?Closeness → ?ClosureOperator =
 					 			   	   subset_eq_left idempotent_closure) p❙
 ❚
 
-// views between the isomorphic axiomatizations of topologies
+// theory morphisms that translate the isomorphic axiomatizations of topological spaces into each other:
 
    ClosedTopology ⟶ ClosenessTopology: A closed if A contains all points close to it
    ClosenessTopology ⟶ ClosureTopology: x is close to A if x ∈ cl A
    ClosureTopology ⟶ InteriorTopology: cl A = complement of the interior of the complement of A
    InteriorTopology ⟶ NeighborhoodTopology: interior A = the set of all x close to A
-   NeighborhoodTopology ⟶ OpenTopology: N is a neighborhood of x if there is an open subset O of A
-   										  with x ∈ O
+   NeighborhoodTopology ⟶ OpenTopology: N is a neighborhood of x if there is an open subset O of A with x ∈ O
    OpenTopology ⟶ ClosedTopology: A is open if its complement is closed
 ❚
 
