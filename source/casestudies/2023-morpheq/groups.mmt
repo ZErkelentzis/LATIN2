@@ -7,6 +7,7 @@ theory Carrier =
   	U = tm universe❙
 ❚
 
+// definition of a group as a set with a binary operation❚
 theory Group =
   	include ?Carrier❙
   
@@ -19,6 +20,7 @@ theory Group =
 	invR : {x} ⊦ x ∘ x⁻ =ͭ e❙
 ❚
 
+// definition of a group as a set with a binary division operation❚
 theory DivGroup =
 	include ?Carrier❙
 	
@@ -31,6 +33,7 @@ theory DivGroup =
 	reduce : {x, y, z} ⊦ (x ÷ z) ÷ (y ÷ z) =ͭ x ÷ y❙  
 ❚
 
+// theory morphism that translates a Group into a DivGroup❚
 view GroupToDivGroup : ?Group → ?DivGroup =
     include ?Carrier❙
     e = e❙
@@ -48,6 +51,7 @@ view GroupToDivGroup : ?Group → ?DivGroup =
     invR = tforallI [x] reciprocal tsym tcongP ([u] x ÷ u =ͭ e) (unit_neutR tsym tcongP ([u] x ÷ u =ͭ e) self_div)❙
 ❚
 
+// theory morphism that translates a DivGroup into a Group❚
 view DivGroupToGroup : ?DivGroup → ?Group =
 	include ?Set❙
 	e = e❙
@@ -60,6 +64,7 @@ view DivGroupToGroup : ?DivGroup → ?Group =
 					   (invR tsym tcongP ([u] x∘u∘y⁻ =ͭ x∘y⁻)(neutL tcongP ([u] x∘u =ͭ x∘y⁻) trefl)))❙
 ❚
 
+// proof that the theory morphism GroupToDivGroup; DivGroupToGroup is equal to the identity morphism of Group❚
 morpheq isoGroup : COMPOSE ?GroupToDivGroup; ?DivGroupToGroup ≞ IDENTITY ?Group : ?Group ⟶ ?Group =
 	
 	e = trefl❙
@@ -67,6 +72,7 @@ morpheq isoGroup : COMPOSE ?GroupToDivGroup; ?DivGroupToGroup ≞ IDENTITY ?Grou
 	inv = [x] trefl❙
 ❚
 
+// proof that the theory morphism DivGroupToGroup; GroupToDivGroup is equal to the identity morphism of DivGroup❚
 morpheq isoDivGroup : COMPOSE ?DivGroupToGroup; ?GroupToDivGroup ≞ IDENTITY ?DivGroup : ?DivGroup ⟶ ?DivGroup =
 
 	e = trefl❙

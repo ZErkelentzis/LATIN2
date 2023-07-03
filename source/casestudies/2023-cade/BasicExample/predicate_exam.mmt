@@ -1,0 +1,23 @@
+namespace latin:/casestudies/_2023-cade❚
+
+// A contrived example to test type guards introduced in the translation.❚
+theory PredicateExample : latin:/?DHOL =
+    a : tm bool ⟶ tp ❙
+    c_0: tm (a true) ❙
+    c_1: tm (a false) ❙
+    c_2: tm (a false) ❙
+    
+    // The type (a true) is a singleton.❙
+    ax0: ⊦ ∀ͭ[x:tm (a true)] x =ͭ c_0 ❙
+
+    // The type (a false) has at least two elements that are distinguished by p.❙
+    p: tm Πͭ [x: tm (a false)] bool ❙
+    ax1: ⊦ p @ c_1 ❙
+    ax2: ⊦ ¬ (p @ c_2) ❙
+ 
+    // The translation translate both (a true) and (a false) to the HOL type a.
+       The type guards must ensure that the following is NOT provable.
+       It becomes (wrongly) provable if the singleton-property of (a true) leaks into (a false) due to mis-implementation of the translation.
+    ❙
+    conj2: ⊦ p @ c_2 ❘ = PROVE ❙
+❚

@@ -7,7 +7,11 @@ theory Carrier =
   	X = tm universe❙
 ❚
 
-// isomorphic axiomatizations of closure systems/operators❚
+// isomorphic axiomatizations of closure systems/operators:
+- ClosureSystem: definition via a set of closed sets
+- ClosureOperator: definition via a closure operator
+- Closeness: definition via a closeness relation between points and sets❚
+
 theory ClosureSystem =
   include ?Carrier❙  
   CC : tm ℘ͯ℘ͯX❙
@@ -38,7 +42,13 @@ theory Closeness =
   transitive_close  : {A,B,x} ⊦ x ⋶ B ⟶ ⊦ (∀ͭ [y] y ∈ͯ B ⇒ y ⋶ A) ⟶ ⊦ x ⋶ A❙
 ❚
 
-// isomorphic axiomatizations of topologies❚
+// isomorphic axiomatizations of topological spaces:
+- InteriorTop: definition via an interior operator
+- ClosureTop: definition via a closure operator
+- ClosenessTop: definition via a closeness relation between points and sets
+- OpenTop: definition via a set of open sets
+- ClosedTop: definition via a set of closed sets
+- NeighbordhoodTop: definition via a neighborhood relation between points and sets❚
 
 theory InteriorTop = 
   include ?Carrier❙  
@@ -60,8 +70,6 @@ theory ClosureTop =
 
   empty_closure    : ⊦ cl empty X =ͭ empty X❙
   union_closure    : {A,B} ⊦ cl (A ∪ͯ B) =ͭ cl A ∪ͯ cl B❙
-  
-  // monotone_closure provable from union_closure❚
 ❚
 
 theory ClosenessTop =
@@ -69,8 +77,6 @@ theory ClosenessTop =
 
   empty_union_close  : {x} ⊦ ¬ x ⋶ empty X❙
   finite_union_close : {x,A,B} ⊦ x ⋶ (A ∪ͯ B) ⟶ ⊦ x ⋶ A ∨ x ⋶ B❙
-
-  // bigger_close provable from union ❙
 ❚
 
 theory OpenTop =
@@ -85,7 +91,6 @@ theory OpenTop =
    			    = bigunion_empty tcongP ([A] A ∈ͯ OO) union_open subset_empty❙
 ❚
 
-// axioms/theorems are dual to OpenTopology❚
 theory ClosedTop =
   include ?ClosureSystem❙  
   empty_closed : ⊦ empty X ∈ͯ CC❙

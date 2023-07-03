@@ -1,0 +1,65 @@
+namespace latin:/casestudies/_2023-cade❚
+
+// a fragment of a formalization of set theory❚
+theory FunctionExample : latin:/?DHOL =
+    // the type of sets❙
+    set: tp ❙
+
+    // the set of function from a to b❙
+    functType : tm Πͭ [a: tm set] Πͭ [b: tm set] set ❙
+    // function application❙
+    funcAppl : tm Πͭ [a: tm set] Πͭ [b: tm set] Πͭ [f: tm set] Πͭ [x: tm set] set ❙
+    // the property of being a function❙
+    functionHood_ax: ⊦ ∀ͭ[a:tm set] ∀ͭ[b:tm set] ∀ͭ[f:tm set] ∀ͭ[x:tm set] ∀ͭ[y:tm set] x =ͭ y ⇒ (funcAppl @ a @ b @ f @ x) =ͭ (funcAppl @ a @ b @ f @ y) ❙
+
+    // functional extensionality❙
+    functExt_ax: ⊦ ∀ͭ[a:tm set] ∀ͭ[b:tm set] ∀ͭ[f:tm set] ∀ͭ[g:tm set] ((∀ͭ[x:tm set] (funcAppl @ a @ b @ f @ x) =ͭ (funcAppl @ a @ b @ g @ x)) ⇒ f =ͭ g) ❙
+
+    // composition of functions❙
+    concat : tm Πͭ [a: tm set] Πͭ [b: tm set] Πͭ [c: tm set] Πͭ [f: tm set] Πͭ [g: tm set] set ❙
+    concatAppl_ax: ⊦ ∀ͭ[a:tm set] ∀ͭ[b:tm set] ∀ͭ[c:tm set] ∀ͭ[f:tm set] ∀ͭ[g:tm set] ∀ͭ[x:tm set]
+                (funcAppl @ a @ c @ (concat @ a @ b @ c @ f @ g) @ x) =ͭ (funcAppl @ b @ c @ f @ (funcAppl @ a @ b @ g @ x)) ❙
+
+    // Lemma 1: associativity of compositions a -f-> b -g-> c -h-> d when applied to an argument x❙
+    concatAssocAppl: ⊦ ∀ͭ[a:tm set] ∀ͭ[b:tm set] ∀ͭ[c:tm set] ∀ͭ[d:tm set] ∀ͭ[f:tm set] ∀ͭ[g:tm set] ∀ͭ[h:tm set] ∀ͭ[x:tm set] 
+            (funcAppl @ a @ d @ (funcAppl @ a @ c @ (concat @ a @ b @ c @ f @ g) @ x) @ x) =ͭ (funcAppl @ a @ d @ (funcAppl @ b @ c @ f @ (funcAppl @ a @ b @ g @ x)) @ x) ❘ = PROVE❙
+
+    // Lemma 2: as Lemma 1, but without the argument x❙
+    concatAssoc: ⊦ ∀ͭ[a:tm set] ∀ͭ[b:tm set] ∀ͭ[c:tm set] ∀ͭ[d:tm set] ∀ͭ[f:tm set] ∀ͭ[g:tm set] ∀ͭ[h:tm set]
+            ((((concat @ a) @ c) @ d) @ f) @ (((((concat @ a) @ b) @ c) @ g) @ h) =ͭ ((((concat @ a) @ b) @ d) @ (((((concat @ b) @ c) @ d) @ f) @ g)) @ h ❘ = PROVE❙
+
+    // basic definitions on functions (all stated as a primitive constant with a defining axiom)❙
+    injective: tm Πͭ [a: tm set] Πͭ [b: tm set] Πͭ [f: tm set] bool ❙
+    injective_ax: ⊦ ∀ͭ[a:tm set] ∀ͭ[b:tm set] ∀ͭ[f:tm set] (injective @ a @ b @ f) ⇔ (∀ͭ[x:tm set] ∀ͭ[y:tm set] (funcAppl @ a @ b @ f @ x) =ͭ (funcAppl @ a @ b @ f @ y) ⇒ (x =ͭ y))  ❙
+
+    surjective: tm Πͭ [a: tm set] Πͭ [b: tm set] Πͭ [f: tm set] bool ❙
+    surjective_ax: ⊦ ∀ͭ[a:tm set] ∀ͭ[b:tm set] ∀ͭ[f:tm set] (surjective @ a @ b @ f) ⇔ (∀ͭ[y:tm set] ∃ͭ[x:tm set] (funcAppl @ a @ b @ f @ x) =ͭ y)  ❙
+
+    bijective: tm Πͭ [a: tm set] Πͭ [b: tm set] Πͭ [f: tm set] bool ❙
+    bijective_ax: ⊦ ∀ͭ[a:tm set] ∀ͭ[b:tm set] ∀ͭ[f:tm set] (bijective @ a @ b @ f) ⇔ ((injective @ a @ b @ f) ∧ (surjective @ a @ b @ f))  ❙
+
+    left_inverse: tm Πͭ [a: tm set] Πͭ [b: tm set] Πͭ [f: tm set] Πͭ [g: tm set] bool ❙
+    left_inverse_ax: ⊦ ∀ͭ[a:tm set] ∀ͭ[b:tm set] ∀ͭ[f:tm set] ∀ͭ[g:tm set] (left_inverse @ a @ b @ f @ g) ⇔ (∀ͭ[x:tm set] ( (funcAppl @ a @ a @ (concat @ a @ b @ a @ g @ f) @ x) =ͭ x) )  ❙
+
+    right_inverse: tm Πͭ [a: tm set] Πͭ [b: tm set] Πͭ [f: tm set] Πͭ [g: tm set] bool ❙
+    right_inverse_ax: ⊦ ∀ͭ[a:tm set] ∀ͭ[b:tm set] ∀ͭ[f:tm set] ∀ͭ[g:tm set] ((right_inverse @ a @ b @ f @ g) ⇔ (∀ͭ[x:tm set] ( (funcAppl @ b @ b @ (concat @ b @ a @ b @ f @ g) @ x) =ͭ x) )) ❙
+
+    // f and g are inverse❙
+    inverse: tm Πͭ [a: tm set] Πͭ [b: tm set] Πͭ [f: tm set] Πͭ [g: tm set] bool ❙
+    inverse_ax: ⊦ ∀ͭ[a:tm set] ∀ͭ[b:tm set] ∀ͭ[f:tm set] ∀ͭ[g:tm set] (inverse @ a @ b @ f @ g) ⇔ ((left_inverse @ a @ b @ f @ g) ∧ (right_inverse @ a @ b @ f @ g)) ❙
+
+
+    // properties of the above❙
+
+    // Lemma 3: g is a left inverse of f iff f is a right inverse of g❙ 
+    left_right_inverses: ⊦ ∀ͭ[a:tm set] ∀ͭ[b:tm set] ∀ͭ[f:tm set] ∀ͭ[g:tm set] (left_inverse @ a @ b @ f @ g) ⇔ (right_inverse @ b @ a @ g @ f) ❘ = PROVE  ❙
+
+    // Lemma 4: functions with left-inverses are injective❙
+    left_inverse_injective: ⊦ ∀ͭ[a:tm set] ∀ͭ[b:tm set] ∀ͭ[f:tm set] (∃ͭ[g:tm set] left_inverse @ a @ b @ f @ g) ⇒ injective @ a @ b @ f ❘ = PROVE  ❙
+
+    // Lemma 5: functions with right-inverses are surjective❙
+    right_inverse_surjective: ⊦ ∀ͭ[a:tm set] ∀ͭ[b:tm set] ∀ͭ[f:tm set] (∃ͭ[g:tm set] right_inverse @ a @ b @ f @ g) ⇒ surjective @ a @ b @ f ❘ = PROVE  ❙
+
+    // Lemma 6: functions with inverses are bijections❙
+    inverses_bijective: ⊦ ∀ͭ[a:tm set] ∀ͭ[b:tm set] ∀ͭ[f:tm set] (∃ͭ[g:tm set] inverse @ a @ b @ f @ g) ⇒ bijective @ a @ b @ f ❘ = PROVE ❙
+❚

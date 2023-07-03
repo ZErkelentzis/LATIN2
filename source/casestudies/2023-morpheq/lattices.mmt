@@ -37,6 +37,7 @@ view OpSup : ?Supremum → ?Infimum =
   supremum_ax = [x,y] infimum_ax❙
 ❚
 
+// definition of a lattice as the union of Infimum and Supremum❚
 theory LatticeOrder =
   include ?Infimum❙
   include ?Supremum❙
@@ -84,6 +85,7 @@ theory JoinSemilattice =
   ❚
 ❚
 
+// definition of a Lattice based on two copies of Semilattice❚
 theory LatticeAlgebra = 
   include ?MeetSemilattice❙
   include ?JoinSemilattice❙
@@ -100,6 +102,7 @@ theory LatticeAlgebra =
   realize ?Supremum❘ = COMPOSE ?OpSup; ?JoinSemilattice?join/absorb❙ 
 ❚
 
+// proof that the theory morphism absorb; meet is equal to the theory morphism OpSup; absorb; join❚
 morpheq ordersAgree : COMPOSE absorb; meet ≞ COMPOSE OpSup; absorb; join : ?Order ⟶ ?LatticeAlgebra =
   rel = equivI ([x, y, p] meet/comm ttrans p tsym tcongT ([u]y⊔u) ttrans absorbtion_join_meet)
   			  ([x,y,p] join/comm ttrans p tsym tcongT ([u]y⊓u) ttrans absorbtion_meet_join)❙
