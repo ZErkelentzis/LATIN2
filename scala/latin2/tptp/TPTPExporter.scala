@@ -87,15 +87,12 @@ class TPTPExporter extends StructurePresenter with AutomatedProver { //TODO: doe
   }
 
   private def defaultOutFileForModule(path: MPath) = {
-    val baseURI = utils.URI("latin:/casestudies/_2023-cade")
-    val basePath = DPath(baseURI)
-    val CatPath = basePath ? "Cat"
-    val catArchive = controller.backend.findOwningArchive(CatPath)
-    val latin2archive = catArchive.get
+    val latin2archive = controller.backend.getArchive("MMT/LATIN2").get
     val owningArchive = controller.backend.findOwningArchive(path) getOrElse latin2archive
     val outDim = Dim("export", key)
     (owningArchive / outDim / archives.Archive.MMTPathToContentPath(path.mainModule)).setExtension(outExt)
   }
+
   def outFileForModule(path: MPath) = getOutFileForModule(path).getOrElse(defaultOutFileForModule(path))
 
   def exportProblem(problem: Problem, path: MPath) : String = {
