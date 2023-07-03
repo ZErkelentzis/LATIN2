@@ -26,48 +26,82 @@ theory CatExtended : latin:/?DPHOL =
 		areIsomorphic : {x:tm obj, y:tm obj} prop ❘ = [x, y] ∃ͭ [i: tm mor x y] isIsomorphism x y i ❙
 		
 		/T Lemma 1: rather trivial but useful ❙
-		transitiveIsomorphic: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[z] areIsomorphic x y⇒ areIsomorphic y z ⇒ areIsomorphic y z ❙
+		transitiveIsomorphic_conj: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[z] areIsomorphic x y⇒ areIsomorphic y z ⇒ areIsomorphic y z ❙
 		
 		isomorphisms = [u: tm obj] mor u u | ( [m: mor u u] isIsomorphism u u m ) ❙
 
 		prod: {x:tm obj, y:tm obj} tm obj ❙
 		proj1: {x:tm obj, y:tm obj} tm mor (prod x y) x ❙
 		proj2: {x:tm obj, y:tm obj} tm mor (prod x y) y ❙
+		coprod: {x:tm obj, y:tm obj} tm obj ❙
+		inj1: {x:tm obj, y:tm obj} tm mor x (coprod x y) ❙
+		inj2: {x:tm obj, y:tm obj} tm mor y (coprod x y) ❙
 		
 		factorizesProjections: {x, y, z, f:tm mor z x, g:tm mor z y, 
 				xy, projX: tm mor xy x, projY: tm mor xy y, u:tm mor z xy} prop ❘ =
 				[x, y, z, f, g, xy, projX, projY, u] 
 						projX ◦ u =ͭ f ∧ projY ◦ u =ͭ g ❘# factorizesProjs 4 5 7 8 9 ❙
+		injectionsFactorize: {x, y, z, f:tm mor x z, g:tm mor y z, 
+				xy, injX: tm mor x xy, injY: tm mor y xy, u:tm mor xy z} prop ❘ =
+				[x, y, z, f, g, xy, injX, injY, u] 
+						u ◦ injX =ͭ f ∧ u ◦ injY =ͭ g ❘# injsFactorize 4 5 7 8 9 ❙
 		isUniqueMorphismWith: {x, y, p: tm (mor x y) ⟶ prop, m:tm mor x y} prop ❘ =
 				[x, y, p, m] p m ∧ ∀ͭ[u:tm mor x y] p u ⇒ m =ͭ u ❘# 4 isUniqueMorWith 3 ❙
 		isUniversalMorphismOfAProduct: {x, y, z, f:tm mor z x, g:tm mor z y, 
 				xy, projX: tm mor xy x, projY: tm mor xy y, u:tm mor z xy} prop ❘ = 
 				[x, y, z, f, g, xy, projX, projY, u] 
 				u isUniqueMorWith ([m] factorizesProjs f g projX projY m) ❘# isUnivMorProd 4 5 7 8 9 ❙
+		isUniversalMorphismOfACoproduct: {x, y, z, f:tm mor x z, g:tm mor y z, 
+				xy, injX: tm mor x xy, injY: tm mor y xy, u:tm mor xy z} prop ❘ = 
+				[x, y, z, f, g, xy, injX, injY, u] 
+				u isUniqueMorWith ([m] injsFactorize f g injX injY m) ❘# isUnivMorCoprod 4 5 7 8 9 ❙
 		isProduct: {x, y, xy, projX: tm mor xy x, projY: tm mor xy y} prop ❘ = 
 				[x, y, xy, projX, projY] ∀ͭ[z] ∀ͭ[f: tm mor z x] ∀ͭ[g: tm mor z y] 
 						∃ͭ [u] isUnivMorProd f g projX projY u ❘# isProd 3 4 5 ❙
-		prodUnivMorph_ax: ⊦ ∀ͭ[x] ∀ͭ[y] isProduct x y (prod x y) (proj1 x y) (proj2 x y) ❙		
+		isCoproduct: {x, y, xy, injX: tm mor x xy, injY: tm mor y xy} prop ❘ = 
+				[x, y, xy, injX, injY] ∀ͭ[z] ∀ͭ[f: tm mor x z] ∀ͭ[g: tm mor y z] 
+						∃ͭ [u] isUnivMorCoprod f g injX injY u ❘# isCoprod 3 4 5 ❙
+		prodUnivMorph_ax: ⊦ ∀ͭ[x] ∀ͭ[y] isProduct x y (prod x y) (proj1 x y) (proj2 x y) ❙
+		coprodUnivMorph_ax: ⊦ ∀ͭ[x] ∀ͭ[y] isCoproduct x y (coprod x y) (inj1 x y) (inj2 x y) ❙	
 		
 		/T Lemma 2: this cannot be proven by any HOL prover even in the native HOL version ❙
-		uniquenessProd: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[z] ∀ͭ[f: tm mor z x] ∀ͭ[g: tm mor z y] 
+		uniquenessProd_conj: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[z] ∀ͭ[f: tm mor z x] ∀ͭ[g: tm mor z y] 
 				isProduct x y z f g ⇒ areIsomorphic z (prod x y) ❙
 
 		/T Lemma 3, a simpler version and the first step towards proving the 5th lemma ❙ 		
-		symmetricIsProd: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[z] ∀ͭ[f: tm mor z x] ∀ͭ[g: tm mor z y] 
+		symmetricIsProd_conj: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[z] ∀ͭ[f: tm mor z x] ∀ͭ[g: tm mor z y] 
 				isProduct x y z f g ⇒ isProduct y x z g f ❙
 
 		/T Lemma 4, the next step towards proving the symmetry of the product ❙
-		isProdUnique: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[z] ∀ͭ[f: tm mor z x] ∀ͭ[g: tm mor z y] 
+		isProdUnique_conj: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[z] ∀ͭ[f: tm mor z x] ∀ͭ[g: tm mor z y] 
 				∀ͭ[xy] ∀ͭ[projX: tm mor xy x] ∀ͭ[projY: tm mor xy y] 
 				isProduct x y z f g ⇒ isProduct x y xy projX projY ⇒ areIsomorphic z xy ❙
 
 		/T Lemma 5, rather hard to prove on its own (even in the native version only proven by E),
 			 but using the previous lemmas it is much easier ❙
-		symmetricProd: ⊦ ∀ͭ[x] ∀ͭ[y] areIsomorphic (prod x y) (prod y x) ❙
+		symmetricProd_conj: ⊦ ∀ͭ[x] ∀ͭ[y] areIsomorphic (prod x y) (prod y x) ❙
 
 		/T Lemma 6, can be proven by several ATPs in the native HOL version but not in the DHOL version ❙
-		assocProd: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[z] areIsomorphic (prod x (prod y z)) (prod (prod x y) z) ❘ = PROVE ❙
+		assocProd_conj: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[z] areIsomorphic (prod x (prod y z)) (prod (prod x y) z) ❙
+		
+		/T Lemma 7 ❙
+		uniquenessCoprod_conj: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[z] ∀ͭ[f: tm mor x z] ∀ͭ[g: tm mor y z] 
+				isCoproduct x y z f g ⇒ areIsomorphic z (coprod x y) ❙
+
+		/T Lemma 8 ❙ 		
+		symmetricIsCoprod_conj: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[z] ∀ͭ[f: tm mor x z] ∀ͭ[g: tm mor y z] 
+				isCoproduct x y z f g ⇒ isCoproduct y x z g f ❙
+
+		/T Lemma 9 ❙
+		isCoprodUnique_conj: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[z] ∀ͭ[f: tm mor x z] ∀ͭ[g: tm mor y z] 
+				∀ͭ[xy] ∀ͭ[injX: tm mor x xy] ∀ͭ[injY: tm mor y xy] 
+				isCoproduct x y z f g ⇒ isCoproduct x y xy injX injY ⇒ areIsomorphic z xy ❙
+
+		/T Lemma 10 ❙
+		symmetricCoprod_conj: ⊦ ∀ͭ[x] ∀ͭ[y] areIsomorphic (coprod x y) (coprod y x) ❙
+
+		/T Lemma 11 ❙
+		assocCoprod_conj: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[z] areIsomorphic (coprod x (coprod y z)) (coprod (coprod x y) z) ❙
 ❚
 
 theory CatExtendedHOL : latin:/?HOL =
