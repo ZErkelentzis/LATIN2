@@ -17,6 +17,7 @@ import lf.Proofs.ded
 import java.security.DigestInputStream
 import java.util.Base64
 import scala.collection.mutable.ArrayBuffer
+import scala.io.Source
 import scala.sys.process.Process
 
 class TPTPExporter extends StructurePresenter with AutomatedProver { //TODO: does TPTPExporter have to be class (MMT Extension)
@@ -30,6 +31,10 @@ class TPTPExporter extends StructurePresenter with AutomatedProver { //TODO: doe
   override val outExt: String = "ax"
 
   var atpEnabled = true
+  // timeout for HOL ATP in seconds
+  // can be re-set in apply method
+  // this can be useful e.g. to set a shorter timeout for proof obligations generated during type-checking
+  private var timeout = 60
 
   private def select_exporter(path: MPath): Option[logicExporter] = {
     val logicExporters = controller.extman.get(classOf[logicExporter])
@@ -112,24 +117,19 @@ class TPTPExporter extends StructurePresenter with AutomatedProver { //TODO: doe
   }
 
   def callInternalATP(path: String): (Boolean, Option[String]) = {
-    import java.io.{ByteArrayOutputStream, PrintStream}
-    val baos = new ByteArrayOutputStream
-    val printStream = new PrintStream(baos)
-    //System.setOut(printStream)
-    val err = System.err
-    System.setErr(printStream)
-    Console.withOut(printStream) {
-      //Console.withErr(printStream) {
-        leo.Main.main(Array(path, "-p"))
-      //}
+    import java.io.{FileOutputStream, File}
+    // TODO: Check if output already exists?
+    val outputFile = new File(path+".log")
+    val fos = new FileOutputStream(outputFile)
+    Console.withOut(fos) {
+      leo.Main.main(Array(path, "-p", "-t", timeout.toString, "-v", "1"))
     }
-    System.setErr(err)
-    //println("OUT/ERR:\n"+baos.toString)
-    parseResult(baos.toString)
+    fos.close()
+    val outputLines = Source.fromFile(outputFile).getLines.toList
+    parseResult(outputLines)
   }
 
-  def parseResult(log: String): (Boolean, Option[String]) = {
-    val lines = log.split("\\R")
+  def parseResult(lines: List[String]): (Boolean, Option[String]) = {
     val statusIndex = lines.indexWhere((line) => line.startsWith("% SZS status"))
     val status = lines(statusIndex).stripPrefix("% SZS status ").startsWith("Theorem")
     val proofIndexStart = lines.indexWhere((line) => line.startsWith("% SZS output start Refutation")) + 1
@@ -140,14 +140,27 @@ class TPTPExporter extends StructurePresenter with AutomatedProver { //TODO: doe
   }
 
   /**
-    * tries to prove a proof obligation automatically
+   * tries to prove a proof obligation automatically
+   *
+   * @param rules   the proof rules to use
+   * @param levels  the depth of the breadth-first searches
+   * @return true if the goal was solved and possibly a proof term
+   */
+  override def apply(pu: ProvingUnit, rules: RuleSet, levels: Int): (Boolean, Option[Term]) = {
+    this.apply(pu, rules, levels, this.timeout)
+  }
+
+  /**
+    * tries to prove a proof obligation automatically within a given time limit
     *
     * @param rules  the proof rules to use
     * @param levels the depth of the breadth-first searches
+    * @param timeout the timeout in seconds for the underlying HOL ATP
     * @return true if the goal was solved and possibly a proof term
     */
-  override def apply(pu: ProvingUnit, rules: RuleSet, levels: Int): (Boolean, Option[Term]) = {
+  def apply(pu: ProvingUnit, rules: RuleSet, levels: Int, timeout: Int): (Boolean, Option[Term]) = {
     val mod = MPath(pu.component.get.parent.toTriple._1.get, pu.component.get.parent.toTriple._2.get)
+    this.timeout = timeout
 
     //TODO: build stubs, before combining
     val combinedStubs = combineStubs(mod, pu.context, pu.tp)(this.controller)
