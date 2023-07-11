@@ -118,8 +118,8 @@ class DIHOLExporter extends logicExporter {
         translate_var_decl(thy_path, vdNew, ctx)
       case VarDecl(name, None, Some(ded(formula)), _, _) =>
         List(THFAnnotated(vd.name.toString, "axiom", THF.Logical(translate_term(formula)), None))
-      case VarDecl(v, None, Some(TypedTerms.tm(df@DependentFunctionTypes.depfun(s, t))), _, _) => unapplyDepFun(df) match {
-        case Some((dependentArgs, ret)) =>
+      case VarDecl(v, None, Some(TypedTerms.tm(df@DependentFunctionTypes.depfun(s, t))), _, _) => unapplyDepFun(s,t) match {
+        case (dependentArgs, ret) =>
           val varTr = OMS(thy_path ? v)
           assSubstitution ::= v / varTr
           val funDecl = THFAnnotated(type_decl_name(v), "type",
@@ -162,7 +162,6 @@ class DIHOLExporter extends logicExporter {
   def translate_term(t: Term): THF.Formula = {
 		t match {
 		  case Lambda(v, ty, body) =>
-        check_fragment(ty)
 		    THF.QuantifiedFormula(THF.^, Seq((translate_var_name(v), translate_type(ty))), translate_term(body))
 		  case DependentFunctions.deplambda(_, _, f) => translate_term(f)
 		  case DependentFunctions.depapply(_, _, f, x) =>
@@ -175,10 +174,8 @@ class DIHOLExporter extends logicExporter {
 		  // TODO: product types, etc. still needed
 
 		  case tforall((ty, Lambda(v, _, body))) =>
-        check_fragment(ty)
 		    relativized_forall(v, ty, body)
 		  case texists((ty, Lambda(v, _, body))) =>
-        check_fragment(ty)
 				val tpCond = typing_pred(ty, OMV(v))
 		    THFExist(translate_var_name(v), translate_type(ty), THFAnd(tpCond, translate_term(body)))
 		  case tforall(ty, body) =>
@@ -202,7 +199,6 @@ class DIHOLExporter extends logicExporter {
 		  case tequal(ty, left, right) =>
 		    ty match {
 		    case Pi(n, a, b) =>
-          check_fragment(a)
 		      val eqAppls = tequal (b, ApplySpine (left, n), ApplySpine (right, n) )
 		      relativized_forall(n, a, eqAppls)
 		    case FunType(args, body) if args.length > 0 =>
@@ -260,8 +256,8 @@ class DIHOLExporter extends logicExporter {
 
   def translate_type(t: Term): THF.Formula = t match {
     case lf.Booleans.bool(()) | lf.Propositions.prop(()) => THFBool
-    case depFun@lf.DependentFunctionTypes.depfun(_, _) => {
-      val Some((depArgs, bdy)) = unapplyDepFun(depFun)
+    case depFun@lf.DependentFunctionTypes.depfun(tp, lam) => {
+      val (depArgs, bdy) = unapplyDepFun(tp, lam)
       translate_type(FunType(depArgs.map(vd => (Some(vd.name), vd.tp.get)), bdy))
     }
     case FunType(args, ret) if args.nonEmpty =>
@@ -336,7 +332,7 @@ object DIHOLExporterUtil {
    * @param ctrl
    * @return
    */
-  def parseDHOLDeclaration(path: GlobalName, tpO: Option[Term], dfO: Option[Term], ctx: Context, replacer: OMSReplacer)(implicit ctrl: Controller, allowBoolValuedQuantification: Boolean): DHOLAbbreviationOrDeclaration = {
+  def parseDHOLDeclaration(path: GlobalName, tpO: Option[Term], dfO: Option[Term], ctx: Context, replacer: OMSReplacer)(implicit ctrl: Controller): DHOLAbbreviationOrDeclaration = {
     (tpO, dfO) match {
       case (_, Some(df)) if (! df.toString.contains("http://cds.omdoc.org/mmt?Errors?prove")) =>
           // in case of nested abbreviations
@@ -366,7 +362,7 @@ object DIHOLExporterUtil {
    *         (for TermDeclarations) a list of Pi-bound terms,
    *         (for TermDeclarations) a return type, (for Axioms a claim)
    */
-  private def unapplyPis(tp: Term)(implicit allowBoolValuedQuantification: Boolean): DHOLDeclaration = tp match {
+  private def unapplyPis(tp: Term): DHOLDeclaration = tp match {
     case FunType(args, bdy) if args.nonEmpty =>
       val dependentArgs = argContext(args)
 
@@ -375,8 +371,8 @@ object DIHOLExporterUtil {
         case DHOLTermDeclaration(ctxTp, ctxTm, ret) => DHOLTermDeclaration(dependentArgs ++ ctxTp, ctxTm, ret)
         case DHOLAxiom(ctxTp, claim) => DHOLAxiom(dependentArgs ++ ctxTp, claim)
       }
-    case TypedTerms.tm(df@DependentFunctionTypes.depfun(s, t)) => unapplyDepFun(df) match { // declaration of function
-      case Some((dependentArgs, bdy)) =>
+    case TypedTerms.tm(df@DependentFunctionTypes.depfun(s, t)) => unapplyDepFun(s, t) match { // declaration of function
+      case (dependentArgs, bdy) =>
         unapplyPis(TypedTerms.tm(bdy)) match {
           case DHOLTermDeclaration(ctxTp, ctxTm, ret) => DHOLTermDeclaration(ctxTp, dependentArgs ++ ctxTm, ret)
         }
@@ -392,25 +388,18 @@ object DIHOLExporterUtil {
   }
 
   def is_bool_valued(ty: Term): Boolean = ty match {
-    case depFun@lf.DependentFunctionTypes.depfun(_, _) => {
-      val Some((depArgs, bdy)) = unapplyDepFun(depFun)
+    case depFun@lf.DependentFunctionTypes.depfun(tp, lam) => {
+      val (depArgs, bdy) = unapplyDepFun(tp, lam)
       is_bool_valued(bdy)
     }
     case FunType(args, bdy) => is_bool_valued(bdy)
     case Booleans.bool.term => true
     case _ => false
   }
-  def check_fragment(ty: Term)(implicit allowBoolValuedQuantification: Boolean): Unit = {
-    if (!allowBoolValuedQuantification) {
-      if (is_bool_valued(ty))
-        UNSUPPORTED("Quantification over bool-valued typed is unsupported.")
-    }
-  }
-  def argContext(args: List[(Option[LocalName], Term)])(implicit checkInFragment: Boolean): Context = {
+  def argContext(args: List[(Option[LocalName], Term)]): Context = {
     var dependentArgs = Context.empty
     args .zipWithIndex foreach {
       case ((nOpt, t), i) =>
-        check_fragment(t)
         val nameSuggestionO = nOpt
         val ln = Context.pickFresh(dependentArgs, nameSuggestionO getOrElse LocalName("X_"+i))._1
         dependentArgs :+= ln % t
@@ -418,14 +407,15 @@ object DIHOLExporterUtil {
     dependentArgs
   }
   def PiOrEmpty(ctx: Context, tm: Term) = if (ctx.isEmpty) tm else Pi(ctx, tm)
-  def unapplyDepFun(tm: Term)(implicit ctx: Context = Context.empty) : Option[(Context, Term)] = tm match {
-    case lf.DependentFunctionTypes.depfun(tp, Lambda(n, lf.TypedTerms.tm(tp2), x)) => unapplyDepFun(x) match {
-      case Some((ctx, body)) =>
-        val ln = Context.pickFresh(ctx, n)._1
-        Some(OMV(ln) % tp::ctx, body)
-      case None => Some(OMV(n) % tp, x)
+  def unapplyDepFun(tp: Term, lam: Term)(implicit ctx: Context = Context.empty) : (Context, Term) = lam match {
+    case Lambda(n, lf.TypedTerms.tm(tp2), x) => x match {
+      case DependentFunctionTypes.depfun(ty, fun) =>
+        val (ctx2, body) = unapplyDepFun(ty, fun)
+        val ln = Context.pickFresh(ctx2, n)._1
+        (OMV(ln) % tp :: ctx2, body)
+      case _ => (OMV(n) % tp, x)
     }
-    case _ => None
+    case _ => throw GeneralError("Ill-formed dependent function type. Expected lambda as second argument, but found "+lam.toStr(true))
   }
 
   def translated_fun_path(path:GlobalName) = OMS(path.module ? translated_fun_name(path.name))
@@ -497,7 +487,7 @@ object ProverBasedTypeEquality extends TypeBasedEqualityRule(Nil, lf.Types.tp.pa
 
 abstract class ConnectiveTypingRule(path: GlobalName) extends InferenceRule(path, info.kwarc.mmt.lf.OfType.path) {
   def apply(solver: Solver)(tm: Term, covered: Boolean)(implicit stack: Stack, history: History): (Option[Term]) = tm match {
-    case lf.Implication.impl(a, b) =>
+    case ApplyGeneral(OMID(this.path), a :: b :: Nil) =>
       if (!covered) {
         val aTyped = solver.check(Typing(stack, a, lf.Booleans.bool))(history + "Checking first argument of dependent implication.")
         if (aTyped) {
