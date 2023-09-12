@@ -4,6 +4,9 @@ theory Peano : latin:/?HOLND =
     N : tp❙
     successor : tm (N → N)❙
 
+    // simple notation for successor application ❙
+    suc = [n: tm N] (successor @ n) ❙
+
     zero : tm N❙
 
     //No Confusion Axiom❙
