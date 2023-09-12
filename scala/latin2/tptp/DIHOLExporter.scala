@@ -2,14 +2,13 @@ package latin2.tptp
 
 import info.kwarc.mmt.api.frontend.Controller
 import info.kwarc.mmt.api.modules.Theory
-import info.kwarc.mmt.api.objects.Context.{context2list, makeFresh}
+import info.kwarc.mmt.api.objects.Context.context2list
 import info.kwarc.mmt.api.objects._
 import info.kwarc.mmt.api.uom.SimplificationUnit
 import info.kwarc.mmt.api.{GeneralError, GlobalName, LocalName, MPath}
 import info.kwarc.mmt.lf._
 import latin2.sfol.SFOLPatterns.TypeDecl
 import leo.datastructures.TPTP.Comment.{CommentFormat, CommentType}
-import leo.datastructures.TPTP.THF.FunTyConstructor
 import leo.datastructures.TPTP._
 import lf.Conjunction.and
 import lf.Disjunction.or
@@ -21,9 +20,9 @@ import lf.SFOLEQ.notequal
 import lf.TypedEquality.tequal
 import lf.TypedExistentialQuantification.texists
 import lf.TypedUniversalQuantification.tforall
-import lf.{DependentConjunction, DependentFunctionTypes, DependentFunctions, DependentImplication, Falsity, Booleans, SimpleFunctionTypes, Truth, TypedEquality, TypedTerms}
+import lf.{Booleans, DependentConjunction, DependentFunctionTypes, DependentFunctions, DependentImplication, Falsity, Truth, TypedEquality, TypedTerms}
 import info.kwarc.mmt.api
-import info.kwarc.mmt.api.checking.{History, InferenceAndTypingRule, InferenceRule, Solver, TypeBasedEqualityRule}
+import info.kwarc.mmt.api.checking.{History, InferenceRule, Solver, TypeBasedEqualityRule}
 import info.kwarc.mmt.api.objects.Conversions.localName2OMV
 import latin2.tptp.DIHOLExporterUtil._
 import latin2.tptp.THFExporterUtil._
@@ -266,7 +265,11 @@ class DIHOLExporter extends logicExporter {
     case ApplySpine(tp, _) => translate_type(tp)
     case OMS(gn) => THFOMS(translated_type_path(gn).path)
     case OMA(f, Nil) => translate_type(f)
-    case _ => ???
+    // TODO: Should we support this?
+    case OMV(n) => THF.Variable(translate_var_name(n))
+    case _ =>
+      println("unexpected type to translate: "+t.toNode.toString())
+      throw  UNSUPPORTED("unexpected type to translate: "+controller.presenter.asString(t))
   }
 
   def typing_pred(t:Term, x:Term): THF.Formula = {
