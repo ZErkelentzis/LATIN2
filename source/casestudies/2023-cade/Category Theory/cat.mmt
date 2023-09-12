@@ -32,7 +32,7 @@ theory CatExtended : latin:/?DPHOL =
     transitiveIsomorphic: ⊦ ∀ͭ[x] ∀ͭ[y] ∀ͭ[z] areIsomorphic x y⇒ areIsomorphic y z ⇒ areIsomorphic y z ❙
 
     // an example of predicate subtypes: the endo-isomorphisms of an object❙
-    isomorphisms = [u: tm obj] mor u u | ( [m: mor u u] isIsomorphism u u m ) ❙
+    isomorphisms = [u: tm obj] mor u u | ( [m: tm (mor u u)] isIsomorphism u u m ) ❙
 
     // a particular categorical product and projections❙
     prod: tm obj ⟶ tm obj ⟶ tm obj ❙
