@@ -6,27 +6,27 @@ import base latin:/ ❚
 
 
 // A simple example theory that formalizes inductive lists of given length.❚ 
-theory Lists : latin:/?DHOL =
-		include ☞tptp?Peano ❙ 			
- 		// temporary workaround to fix some oneOf errors due to both the dependent-typed
- 			 and simple typed versions being included ❙
- 		deplam: {A,B} ({x: tm A} tm B x) ⟶ tm Πͭ B❘ = deplambda ❘# lam 3 prec 40❙
- 		depappl: {A,B} tm Πͭ B ⟶ {x: tm A} tm B x ❘ = depapply ❘# 3 appl 4 prec 50❙
+theory Lists : latin:/?DIHOL =
+		include ?Peano ❙
 
-    obj : tp ❙
-    list : {n: tm N} tp ❙
-    nil : tm (list zero) ❙
-    cons : tm Πͭ [n : tm N] Πͭ [x : tm obj] Πͭ [l : tm (list n)] (list (suc n)) ❙
+		obj : tp ❙
+		list : {n: tm N} tp ❙
+		nil : tm (list zero) ❙
+		cons : tm Πͭ [n : tm N] Πͭ [x : tm obj] Πͭ [l : tm (list n)] (list (suc n)) ❙
     
  		induction_N: {n: tp, z: tm n, s: tm Πͭ [m: tm n] n} {m: tm N} tm n ❙
  		addition = induction_N 
  			(Πͭ[m: tm N] N)
- 			(lam [x: tm N] x)
- 			(lam [u: tm Πͭ [m: tm N] N] lam [x: tm N] suc (u appl x)) ❙
- 		addn : tm N ⟶ tm N ⟶ tm N ❘ = [m, n] (addition m) appl n ❘# 1 plus 2 ❙
-		predec : {n: tm N} tm N ❘ = induction_N N zero (lam [u] u) ❙
+ 			(λ [x: tm N] x)
+ 			(λ [u: tm Πͭ [m: tm N] N] λ [x: tm N] suc (u @ x)) ❙
+ 		addn : tm N ⟶ tm N ⟶ tm N ❘ = [m, n] (addition m) @ n ❘# 1 plus 2 ❙
+		predec : {n: tm N} tm N ❘ = induction_N N zero (λ [u] u) ❙
 		convert: tm Πͭ [n : tm N] Πͭ [k : tm (list n)] list (zero plus n) ❙
  		
+		// to sidestep the below issues, however we cannot easily express the property
+		that piAppl is just β-reduction ❙
+		// piAppl: {t: tp, fun: {arg: tm t} tp, arg: tm t} tp ❘# 2 piAppl 3 ❙
+		
 		induction_list: {n: tm N, 
  			lst: {mp: tm N} tp, 
  			nl: tm (lst zero), 
@@ -36,23 +36,26 @@ theory Lists : latin:/?DHOL =
  		// For debugging the below errors. The issue is that MMT's type checker/solver 
  			 doesn't definition expand and then simplify types of the form 
  			 tm (lst mp)  to  Πͭ [lp : tm (list n)] list (mp plus n) ❙
+ 		// it should be possible to sidestep the problem using the structural feature 
+ 		for inductive types (see the (directly analogous) definition 
+ 		at MMT/examples/source/induction/basics.mmt),
+ 		but currently that feature doesn't support (inductively-defined) tps ❙
 		n: tm N ❙
 		// k: tm (list n) ❙
-		lst: Πͭ [mp : tm N] Πͭ [lp : tm (list n)] list (mp plus n) ❙
+		lst: {mp : tm N} Πͭ [lp : tm (list n)] list (mp plus n) ❙
 		nl : tm (lst zero) ❘ 
-		= lam [lp: tm (list n)] (convert appl n) appl lp ❙
+		= λ [lp: tm (list n)] (convert @ n) @ lp ❙
 		// cns // : tm Πͭ [m : tm N] Πͭ [x : tm obj] Πͭ [k : tm (lst m)] (lst (suc m)) ❘ = 
-		//	lam [mp: tm N] lam [x: tm obj] lam [concatK : tm Πͭ [lp: tm (list n)] list (mp plus n)] lam [lp: tm (list n)] 
-						(((cons appl (mp plus n)) appl x) appl (concatK appl lp)) ❙		
+		//	λ [mp: tm N] λ [x: tm obj] λ [concatK : tm Πͭ [lp: tm (list n)] list (mp plus n)] λ [lp: tm (list n)] 
+						(((cons @ (mp plus n)) @ x) @ (concatK @ lp)) ❙		
     
  		concat: tm Πͭ [m : tm N] Πͭ [k : tm (list m)] Πͭ [n : tm N] Πͭ [l : tm (list n)] list (m plus n) 
- 			❘ = lam [m] lam [k] lam [n] lam [l] 
+ 			❘ = λ [m] λ [k] λ [n] λ [l] 
 				(((induction_list m 
 					({mp : tm N} Πͭ [lp : tm (list n)] list (mp plus n))
-					(lam [lp: tm (list n)] (convert appl n) appl lp)
-					(lam [mp: tm N] lam [x: tm obj] lam [concatK : tm Πͭ [lp: tm (list n)] list (mp plus n)] lam [lp: tm (list n)] 
-						(((cons appl (mp plus n)) appl x) appl (concatK appl lp))
-					)) k) appl n) appl l
+					(λ [lp: tm (list n)] (convert @ n) @ lp)
+					(λ [mp: tm N] λ [x: tm obj] λ [concatK : tm Πͭ [lp: tm (list n)] list (mp plus n)] λ [lp: tm (list n)] 
+						(((cons @ (mp plus n)) @ x) @ (concatK @ lp))
+					)) k) @ n) @ l
  			❘ # 3 :: 4 ❙
-		
 ❚
