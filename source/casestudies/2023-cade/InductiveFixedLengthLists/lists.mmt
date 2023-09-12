@@ -1,0 +1,58 @@
+namespace latin:/casestudies/_2023-cade❚
+
+import tptp latin:/casestudies/_2022-tptp ❚
+import base latin:/ ❚
+
+
+
+// A simple example theory that formalizes inductive lists of given length.❚ 
+theory Lists : latin:/?DHOL =
+		include ☞tptp?Peano ❙ 			
+ 		// temporary workaround to fix some oneOf errors due to both the dependent-typed
+ 			 and simple typed versions being included ❙
+ 		deplam: {A,B} ({x: tm A} tm B x) ⟶ tm Πͭ B❘ = deplambda ❘# lam 3 prec 40❙
+ 		depappl: {A,B} tm Πͭ B ⟶ {x: tm A} tm B x ❘ = depapply ❘# 3 appl 4 prec 50❙
+
+    obj : tp ❙
+    list : {n: tm N} tp ❙
+    nil : tm (list zero) ❙
+    cons : tm Πͭ [n : tm N] Πͭ [x : tm obj] Πͭ [l : tm (list n)] (list (suc n)) ❙
+    
+ 		induction_N: {n: tp, z: tm n, s: tm Πͭ [m: tm n] n} {m: tm N} tm n ❙
+ 		addition = induction_N 
+ 			(Πͭ[m: tm N] N)
+ 			(lam [x: tm N] x)
+ 			(lam [u: tm Πͭ [m: tm N] N] lam [x: tm N] suc (u appl x)) ❙
+ 		addn : tm N ⟶ tm N ⟶ tm N ❘ = [m, n] (addition m) appl n ❘# 1 plus 2 ❙
+		predec : {n: tm N} tm N ❘ = induction_N N zero (lam [u] u) ❙
+		convert: tm Πͭ [n : tm N] Πͭ [k : tm (list n)] list (zero plus n) ❙
+ 		
+		induction_list: {n: tm N, 
+ 			lst: {mp: tm N} tp, 
+ 			nl: tm (lst zero), 
+ 			cns: tm Πͭ [m : tm N] Πͭ [x : tm obj] Πͭ [k : tm (lst m)] (lst (suc m))}
+ 			{indArg: tm (list n)} tm (lst n) ❙
+ 			
+ 		// For debugging the below errors. The issue is that MMT's type checker/solver 
+ 			 doesn't definition expand and then simplify types of the form 
+ 			 tm (lst mp)  to  Πͭ [lp : tm (list n)] list (mp plus n) ❙
+		n: tm N ❙
+		// k: tm (list n) ❙
+		lst: Πͭ [mp : tm N] Πͭ [lp : tm (list n)] list (mp plus n) ❙
+		nl : tm (lst zero) ❘ 
+		= lam [lp: tm (list n)] (convert appl n) appl lp ❙
+		// cns // : tm Πͭ [m : tm N] Πͭ [x : tm obj] Πͭ [k : tm (lst m)] (lst (suc m)) ❘ = 
+		//	lam [mp: tm N] lam [x: tm obj] lam [concatK : tm Πͭ [lp: tm (list n)] list (mp plus n)] lam [lp: tm (list n)] 
+						(((cons appl (mp plus n)) appl x) appl (concatK appl lp)) ❙		
+    
+ 		concat: tm Πͭ [m : tm N] Πͭ [k : tm (list m)] Πͭ [n : tm N] Πͭ [l : tm (list n)] list (m plus n) 
+ 			❘ = lam [m] lam [k] lam [n] lam [l] 
+				(((induction_list m 
+					({mp : tm N} Πͭ [lp : tm (list n)] list (mp plus n))
+					(lam [lp: tm (list n)] (convert appl n) appl lp)
+					(lam [mp: tm N] lam [x: tm obj] lam [concatK : tm Πͭ [lp: tm (list n)] list (mp plus n)] lam [lp: tm (list n)] 
+						(((cons appl (mp plus n)) appl x) appl (concatK appl lp))
+					)) k) appl n) appl l
+ 			❘ # 3 :: 4 ❙
+		
+❚
