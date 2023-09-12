@@ -503,3 +503,56 @@ abstract class ConnectiveTypingRule(path: GlobalName) extends InferenceRule(path
 
 object DependentImplicationInferenceRule extends ConnectiveTypingRule(lf.Implication.impl.path)
 object DependentConjunctionInferenceRule extends ConnectiveTypingRule(lf.Conjunction.and.path)
+
+object PiApplicationSimplificationRule extends TypeBasedEqualityRule(Nil, TypedTerms.tm.path) {
+  /**
+   * @param check   provides callbacks to the currently solved system of judgments
+   * @param tm1     the first term
+   * @param tm2     the second term
+   * @param tp      their type if known
+   * @param stack   their context
+   * @param history the history so far
+   * @return Some(areEqual) indicating whether the terms are to be considered equal
+   *         None if this rule is not applicable
+   */
+  override def apply(solver: Solver)(tm1: Term, tm2: Term, tp: Term)(implicit stack: Stack, history: History): Option[Boolean] = {
+    (tm1, tm2) match {
+      case (TypedTerms.tm(_), TypedTerms.tm(ApplySpine(funTp, args))) => apply(solver)(tm2, tm1, tp)
+      case (TypedTerms.tm(ApplySpine(funTp, args)), TypedTerms.tm(y)) =>
+        val simplified = solver.simplify(funTp)(stack, history) match {
+          case const@OMS(p) => try {
+            solver.controller.getConstant(p).df.getOrElse(const)
+          } catch {
+            case _: Error => const
+          }
+          case default => default
+        }
+
+        val tm1Simplified: Term = simplified match {
+          case FunType(funArgs, ret) =>
+            val (appliedArgs, unappliedArgs) = funArgs.splitAt(args.length)
+            var subs = Substitution.empty
+            appliedArgs.zip(args) foreach {
+              case ((Some(x), xTp), tm) => subs ::= x / tm
+              case ((None, _), _) =>
+            }
+            FunType(unappliedArgs, ret ^ subs)
+          case default => default
+        }
+
+        val requal = if (tm1Simplified == y) true else {
+          val j = Equality(stack, tm1Simplified, y, Some(tp))
+          if (solver.isDirectlySolvable(j) || solver.isDirectlySolvable(j.swap)) {
+            solver.check(j)
+          } else {
+            val pO = Pi(stack.context, lf.Proofs.ded(TypedEquality.tequal(tp, tm1Simplified, y)))
+            solver.addUnknowns(Context(solver.freshUnknown() % pO), None)
+          }
+        }
+
+        Some(requal)
+    }
+  }
+  // rule doesn't really seem to work anyways
+  override def applicableToTerm(solver: Solver, tm: Term): Boolean = false
+}
