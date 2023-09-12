@@ -253,7 +253,9 @@ trait logicExporter extends Extension {
     for (x <- decls.take(decls.length - 1)) {
       x match {
         case PlainInclude(t) => includes += t._1
-        case c: Constant => formulas ++= translate_constant(c.translate(replacer.toTranslator(), ctx))
+        case c: Constant =>
+          val cReplaced = c.translate(replacer.toTranslator(), c.home, ctx)
+          formulas ++= translate_constant(cReplaced)
       }
     }
     val assumptions = Context(ctx.variables.filter(_.feature.isEmpty):_*).mapVarDecls {//ctx.mapVarDecls {//
