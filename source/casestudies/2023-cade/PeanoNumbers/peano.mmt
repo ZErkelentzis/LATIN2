@@ -13,22 +13,38 @@ theory Peano : latin:/?DHOLND =
     axiom3 : ⊦ ∀ͭ[n: tm N] ¬(successor @ n =ͭ zero)❙
 
     //Injectivity Axiom❙
-    axiom4 : ⊦ ∀ͭ[n: tm N] ∀ͭ[m: tm N] ((successor @ n =ͭ successor @ m) ⇒ (n =ͭ m))❙
+    axiom4 : ⊦ ∀ͭ[n: tm N] ∀ͭ[m: tm N] ((suc n =ͭ suc m) ⇒ (n =ͭ m))❙
 
     //Induction Axiom❙
-    axiom5 : ⊦ ∀ͭ[X: tm N → bool] X @ zero ∧ (∀ͭ[n : tm N] X @ n ⇒ X @ (successor @ n)) ⇒ ∀ͭ[x: tm N] X @ x❙
+    axiom5 : ⊦ ∀ͭ[X: tm N → bool] X @ zero ∧ (∀ͭ[n : tm N] X @ n ⇒ X @ (suc n)) ⇒ ∀ͭ[x: tm N] X @ x❙
 
     // Conjecture❙
-    conj : ⊦ ∀ͭ[x: tm N] (x =ͭ zero) ∨ (∃ͭ[y: tm N] successor @ y =ͭ x) ❘ = PROVE❙
+    conj : ⊦ ∀ͭ[x: tm N] (x =ͭ zero) ∨ (∃ͭ[y: tm N] suc y =ͭ x) ❘ = PROVE❙
 
     // simpler conjecture❙
-    conj2 : ⊦ ∀ͭ[x: tm N] ([z: tm N] z =ͭ x) zero ∨ (∃ͭ[y: tm N] ([z: tm N] z =ͭ x) (successor @ y)) ❘ = PROVE❙
+    conj2 : ⊦ ∀ͭ[x: tm N] ([z: tm N] z =ͭ x) zero ∨ (∃ͭ[y: tm N] ([z: tm N] z =ͭ x) (suc y)) ❘ = PROVE❙
 
     // even simpler conjecture❙
     p = [x: tm N] [z: tm N] z =ͭ x ❙
-    conj3 : ⊦ ∀ͭ[x: tm N] (p x) zero ∨ (∃ͭ[y: tm N] (p x) (successor @ y)) ❘ = PROVE❙
+    conj3 : ⊦ ∀ͭ[x: tm N] (p x) zero ∨ (∃ͭ[y: tm N] (p x) (suc y)) ❘ = PROVE❙
 
-    //decl2 = successor @ (successor @ zero)❙
+    //decl2 = suc (suc zero)❙
 
     //conj2 : ⊦ ¬(decl2 =ͭ zero) ❘ = PROVE❙
+❚
+
+theory PlusMonus : latin:/?DHOLND =
+		include ?Peano ❙
+		induction_N: {n: tp, z: tm n, s: tm Πͭ [m: tm n] n} {m: tm N} tm n ❙
+ 		addition = induction_N 
+ 			(Πͭ[m: tm N] N)
+ 			(λ [x: tm N] x)
+ 			(λ [u: tm Πͭ [m: tm N] N] λ [x: tm N] suc (u @ x)) ❙
+ 		addn : tm N ⟶ tm N ⟶ tm N ❘ = [m, n] (addition m) @ n ❘# 1 plus 2 ❙
+		predec : {n: tm N} tm N ❘ = induction_N N zero (λ [u] u) ❙
+ 		subtraction = induction_N 
+ 			(Πͭ[m: tm N] N)
+ 			(λ [x: tm N] x)
+ 			(λ [u: tm Πͭ [m: tm N] N] λ [x: tm N] predec (u @ x)) ❙
+ 		subn : tm N ⟶ tm N ⟶ tm N ❘ = [m, n] (addition m) @ n ❘# 1 monus 2 ❙
 ❚
