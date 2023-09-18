@@ -56,26 +56,8 @@ theory Lists : latin:/?DIHOL =
 
 // A simple example theory that formalizes inductive lists of given length.❚ 
 theory ListsInduct : http://cds.omdoc.org/examples?LFXI =
-		// include ☞base:?NatInduct ❙
+		include ☞base:?NatInduct ❙
 		include ☞base:?DHOL ❙
-		
-		inductive nat() ❘=
-			n: type  ❙
-			z: n     ❙
-			s: n ⟶ n ❙
-		❚
-	
-		inductive_definition plusn() : nat() ❘=
-			n: type  ❘= (nat/n ⟶ nat/n)     ❙
-			z: n     ❘= ([x] x)             ❙
-			s: n ⟶ n ❘= ([u,x] nat/s (u x)) ❙
-		❚
-	
-		plus: nat/n ⟶ nat/n ⟶ nat/n
-			❘= plusn/n
-			❘# 1 + 2
-		❙
-
 		
 		inductive vector(a: type) ❘ =
 			vec: {n: nat/n} type ❙
@@ -98,28 +80,63 @@ theory ListsInduct : http://cds.omdoc.org/examples?LFXI =
 		   This can be see from the following ill-typed declaration. ❙
 		// concat_vec: {a: type, n: nat/n, m: nat/n, k:vector/vec a m} vector/vec a (m + n) ❘ = [a, n, m, k] concat_vect/vec a n m k ❘ # 3 :: 4 ❙
 
-		obj : type ❙
-		list : {n: nat/n} type ❙
-		nil : list nat/z ❙
-		cons : {n : nat/n, x : obj, l : list n} (list (nat/s n)) ❙
+		list : {a: type, n: nat/n} type ❙
+		nil : {a: type} list a nat/z ❙
+		cons : {a: type, n : nat/n, x : a, l : list a n} (list a (nat/s n)) ❙
 		
 		// The explicit type conversions are necessary as the DHOL hammer/typecheker
 		   is only active for terms of type tm A with a: tp ❙
-		cast1l: {n: nat/n, k: list n} list (nat/z + n) ❙
-		cast2l: {n: nat/n, m: nat/n, xfl:list (nat/s (m + n))} list (nat/s (m) + n) ❙
+		cast1l: {a: type, n: nat/n, k: list a n} list a (nat/z + n) ❙
+		cast2l: {a: type, n: nat/n, m: nat/n, xfl:list a (nat/s (m + n))} list a (nat/s (m) + n) ❙
 
-		induction_list: {n: nat/n, 
+		induction_list: {a: type, n: nat/n, 
  			lst: {mp: nat/n} type, 
  			nl: lst nat/z, 
- 			cns: {m : nat/n, x : obj, k : lst m} (lst (nat/s m))}
- 			{indArg: list n} lst n ❙
+ 			cns: {m : nat/n, x : a, k : lst m} (lst (nat/s m))}
+ 			{indArg: list a n} lst n ❙
 
- 		concat: {m : nat/n, k : list m, n : nat/n, l : list n} list (m + n) 
- 			❘ = [m, k, n, l] 
-				(induction_list m 
-					([mp : nat/n] {lp : list n} list (mp + n))
-					([lp: list n] cast1l n lp)
-					([mp: nat/n, x: obj, f : {lp: list n} list (mp + n)] [lp: list n] 
-						cast2l n mp (cons (mp + n) x (f lp)))
+ 		concat: {a: type, m : nat/n, k : list a m, n : nat/n, l : list a n} list a (m + n) 
+ 			❘ = [a, m, k, n, l] 
+				(induction_list a m 
+					([mp : nat/n] {lp : list a n} list a (mp + n))
+					([lp: list a n] cast1l a n lp)
+					([mp: nat/n, x: a, f : {lp: list a n} list a (mp + n)] [lp: list a n] 
+						cast2l a n mp (cons a (mp + n) x (f lp)))
 					) k l ❘ # 2 ++ 4 ❙
+					
+		map: {a: type, b: type, m: nat/n, k: list a m, f: a ⟶ b} list b m 
+			❘ = [a, b, m, k, f] 
+				(induction_list a m
+					([mp: nat/n] list b mp)
+					(nil b)
+					([mp: nat/n, x: a, kp: list b mp] cons b mp (f x) kp)
+				) k ❘ # lmap 5 4 ❙
+				
+		foldl: {a: type, b:type, m: nat/n, k: list a m, def: b, f: a ⟶ b ⟶ b} b
+			❘ = [a, b, m, k, def, f] 
+				(induction_list a m
+					([mp: nat/n] b)
+					(def)
+					([mp: nat/n, x: a, acc: b] f x acc)
+				) k ❘ # lfoldl 5 4 ❙
+		
+		cast3l: {a: type, n: nat/n, k: list a nat/z} list a (nat/z * n) ❙
+		cast4l: {a: type, m: nat/n, n: nat/n, k: list a (n + (m*n))} list a ((nat/s m)* n) ❙
+		list2: {a: type, m: nat/n, n: nat/n} type ❘ = [a, m, n] list (list a n) m ❙
+		flatten: {a: type, m: nat/n, n: nat/n, k: list2 a m n} list a (m * n) 
+			❘ = [a, m, n, k]
+				(induction_list (list a n) m
+					([mp: nat/n] list a (mp * n))
+					(cast3l a n (nil a))
+					([mp: nat/n, x: list a n, acc: list a (mp * n)] 
+						cast4l a mp n (concat a n x (mp * n) acc))
+				) k ❘ # lflatten 4 ❙
+		
+		flatMap: {a: type, b: type, m: nat/n, n: nat/n, k: list2 a m n, f: a ⟶ b} list b (m * n) 
+			❘ = [a, b, m, n, k, f] lmap f (lflatten k)  ❘ # lflatmap 6 5 ❙
+		
+		// We cannot prove this with the DHOL prover, as that one expects conjectures of shape
+		   ⊦ claim  not DED claim' ❙
+		map_assoc: {a: type, b: type, c: type, m: nat/n, k: list a m, f: a ⟶ b, g: b ⟶ c}
+			DED map b c m (map a b m k f) g EQ lmap ([x] g (f x)) k ❙
 ❚
