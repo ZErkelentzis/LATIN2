@@ -7,20 +7,13 @@ import base latin:/ ❚
 
 // A simple example theory that formalizes inductive lists of given length.❚ 
 theory Lists : latin:/?DIHOL =
-		include ?Peano ❙
+		include ?PlusMonus ❙
 
 		obj : tp ❙
 		list : {n: tm N} tp ❙
 		nil : tm (list zero) ❙
 		cons : tm Πͭ [n : tm N] Πͭ [x : tm obj] Πͭ [l : tm (list n)] (list (suc n)) ❙
     
- 		induction_N: {n: tp, z: tm n, s: tm Πͭ [m: tm n] n} {m: tm N} tm n ❙
- 		addition = induction_N 
- 			(Πͭ[m: tm N] N)
- 			(λ [x: tm N] x)
- 			(λ [u: tm Πͭ [m: tm N] N] λ [x: tm N] suc (u @ x)) ❙
- 		addn : tm N ⟶ tm N ⟶ tm N ❘ = [m, n] (addition m) @ n ❘# 1 plus 2 ❙
-		predec : {n: tm N} tm N ❘ = induction_N N zero (λ [u] u) ❙
 		convert: tm Πͭ [n : tm N] Πͭ [k : tm (list n)] list (zero plus n) ❙
  		
 		// to sidestep the below issues, however we cannot easily express the property
@@ -40,22 +33,93 @@ theory Lists : latin:/?DIHOL =
  		for inductive types (see the (directly analogous) definition 
  		at MMT/examples/source/induction/basics.mmt),
  		but currently that feature doesn't support (inductively-defined) tps ❙
-		n: tm N ❙
+		// n: tm N ❙
 		// k: tm (list n) ❙
-		lst: {mp : tm N} Πͭ [lp : tm (list n)] list (mp plus n) ❙
-		nl : tm (lst zero) ❘ 
-		= λ [lp: tm (list n)] (convert @ n) @ lp ❙
+		// lst: {mp : tm N} Πͭ [lp : tm (list n)] list (mp plus n) ❙
+		// nl : tm (lst zero) ❘ 
+		// = λ [lp: tm (list n)] (convert @ n) @ lp ❙
 		// cns // : tm Πͭ [m : tm N] Πͭ [x : tm obj] Πͭ [k : tm (lst m)] (lst (suc m)) ❘ = 
 		//	λ [mp: tm N] λ [x: tm obj] λ [concatK : tm Πͭ [lp: tm (list n)] list (mp plus n)] λ [lp: tm (list n)] 
 						(((cons @ (mp plus n)) @ x) @ (concatK @ lp)) ❙		
     
- 		concat: tm Πͭ [m : tm N] Πͭ [k : tm (list m)] Πͭ [n : tm N] Πͭ [l : tm (list n)] list (m plus n) 
- 			❘ = λ [m] λ [k] λ [n] λ [l] 
+ 		// concat: tm Πͭ [m : tm N] Πͭ [k : tm (list m)] Πͭ [n : tm N] Πͭ [l : tm (list n)] list (m plus n) 
+ 			❘// = λ [m] λ [k] λ [n] λ [l] 
 				(((induction_list m 
 					({mp : tm N} Πͭ [lp : tm (list n)] list (mp plus n))
 					(λ [lp: tm (list n)] (convert @ n) @ lp)
 					(λ [mp: tm N] λ [x: tm obj] λ [concatK : tm Πͭ [lp: tm (list n)] list (mp plus n)] λ [lp: tm (list n)] 
 						(((cons @ (mp plus n)) @ x) @ (concatK @ lp))
 					)) k) @ n) @ l
- 			❘ # 3 :: 4 ❙
+ 			❘// # 3 :: 4 ❙
+❚
+
+
+// A simple example theory that formalizes inductive lists of given length.❚ 
+theory ListsInduct : http://cds.omdoc.org/examples?LFXI =
+		// include ☞base:?NatInduct ❙
+		include ☞base:?DHOL ❙
+		
+		inductive nat() ❘=
+			n: type  ❙
+			z: n     ❙
+			s: n ⟶ n ❙
+		❚
+	
+		inductive_definition plusn() : nat() ❘=
+			n: type  ❘= (nat/n ⟶ nat/n)     ❙
+			z: n     ❘= ([x] x)             ❙
+			s: n ⟶ n ❘= ([u,x] nat/s (u x)) ❙
+		❚
+	
+		plus: nat/n ⟶ nat/n ⟶ nat/n
+			❘= plusn/n
+			❘# 1 + 2
+		❙
+
+		
+		inductive vector(a: type) ❘ =
+			vec: {n: nat/n} type ❙
+			empty: vec nat/z ❙
+			add: {n: nat/n} vec n ⟶ a ⟶ vec (nat/s n) ❙
+		❚
+		
+		cast1: {a: type, n: nat/n, k: vector/vec a n} vector/vec a (nat/z + n) ❙
+		cast2: {a: type, n: nat/n, m: nat/n, xfl:vector/vec a (nat/s (m + n))} vector/vec a (nat/s (m) + n) ❙
+
+		inductive_definition concat_vect(a: type, n: nat/n) : vector(a) ❘ =
+			vec: {m: nat/n} type ❘ = [m] {l : vector/vec a n} vector/vec a (m + n) ❙
+			empty: vec nat/z ❘ = [l:vector/vec a n] cast1 a n l ❙
+			add: {m: nat/n} vec m ⟶ a ⟶ vec (nat/s m) ❘ = [m: nat/n, f:vec m, x:a] [l: vector/vec a n] 
+			cast2 a n m (vector/add a (m + n) (f l) x) ❙
+		❚
+		// Unfortunately the generated inductive definition has wrong type as n
+		   isn't given as argument to the vector type inductive_definition ... vector (a, n)
+		   so the external exclarations will be ill-typed. 
+		   This can be see from the following ill-typed declaration. ❙
+		// concat_vec: {a: type, n: nat/n, m: nat/n, k:vector/vec a m} vector/vec a (m + n) ❘ = [a, n, m, k] concat_vect/vec a n m k ❘ # 3 :: 4 ❙
+
+		obj : type ❙
+		list : {n: nat/n} type ❙
+		nil : list nat/z ❙
+		cons : {n : nat/n, x : obj, l : list n} (list (nat/s n)) ❙
+		
+		// The explicit type conversions are necessary as the DHOL hammer/typecheker
+		   is only active for terms of type tm A with a: tp ❙
+		cast1l: {n: nat/n, k: list n} list (nat/z + n) ❙
+		cast2l: {n: nat/n, m: nat/n, xfl:list (nat/s (m + n))} list (nat/s (m) + n) ❙
+
+		induction_list: {n: nat/n, 
+ 			lst: {mp: nat/n} type, 
+ 			nl: lst nat/z, 
+ 			cns: {m : nat/n, x : obj, k : lst m} (lst (nat/s m))}
+ 			{indArg: list n} lst n ❙
+
+ 		concat: {m : nat/n, k : list m, n : nat/n, l : list n} list (m + n) 
+ 			❘ = [m, k, n, l] 
+				(induction_list m 
+					([mp : nat/n] {lp : list n} list (mp + n))
+					([lp: list n] cast1l n lp)
+					([mp: nat/n, x: obj, f : {lp: list n} list (mp + n)] [lp: list n] 
+						cast2l n mp (cons (mp + n) x (f lp)))
+					) k l ❘ # 2 ++ 4 ❙
 ❚
