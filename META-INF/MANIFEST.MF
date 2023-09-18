@@ -2,10 +2,9 @@ id: MMT/LATIN2
 narration-base: latin:/
 ns : latin:/
 classpath: bin lib/leo3.jar lib/scala-tptp-parser.jar
-dependencies: MMT/urtheories MMT/LFX
+dependencies: MMT/urtheories
 responsible: florian.rabe@kwarc.info
 title: LATIN logic atlas v.2
 teaser: a modern redesing of the LATIN logic atlas
 description: ../source/desc.html
-scaladep: MMT/LFX
 scala: scala export/lf-scala
