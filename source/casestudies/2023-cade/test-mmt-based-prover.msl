@@ -34,10 +34,10 @@ extension latin2.tptp.DHOLExporter
 extension latin2.tptp.DPHOLExporter
 
 
-mathpath archive ../../../../../MMT/urtheories
-mathpath archive ../../../../../MMT/content/MathHub/MMT/LATIN2
-mathpath archive ../../../../../MMT/content/MathHub/MMT/examples
-mathpath archive ../../../../../MMT/content/MathHub/MMT/LFX
+mathpath archive ../../../../urtheories
+mathpath archive ../../../../LATIN2
+mathpath archive ../../../../examples
+mathpath archive ../../../../LFX
 
 
 define dependencies
@@ -56,6 +56,7 @@ define dependencies
 	build MMT/LATIN2 mmt-omdoc logic/hol_like/hol.mmt
 	build MMT/LATIN2 mmt-omdoc logic/hol_like/dhol.mmt
 	
+	// for using inductively-defined types
 	build MMT/LFX mmt-omdoc TypedHierarchy.mmt
 	build MMT/examples mmt-omdoc induction/lfxi.mmt
 	//	build MMT/LATIN2 mmt-omdoc logic/fol.mmt
