@@ -41,6 +41,10 @@ theory NatInduct : http://cds.omdoc.org/examples?LFXI =
     z: n     ❘= ([x] nat/z)         ❙
     s: n ⟶ n ❘= ([u,x] (x + (u x))) ❙
   ❚
+  mult: nat/n ⟶ nat/n ⟶ nat/n
+    ❘= times/n
+    ❘# 1 * 2
+  ❙
 
   inductive_definition predec() : nat() ❘=
     n: type  ❘= nat/n   ❙
