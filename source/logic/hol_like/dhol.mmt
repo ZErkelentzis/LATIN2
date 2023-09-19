@@ -6,6 +6,7 @@ import rules scala://tptp.latin2 ❚
 
 theory InternalEqualityD =
   include ?InternalLogic❙
+  include ?InternalTruthValues❙
   include ?TypedEquality❙
   include ?DependentFunctions❙
 ❚
@@ -46,7 +47,6 @@ theory DIHOL =
 
 /T HOL with pi-types and predicate subtypes ❚
 theory DHOL =
-  include ?InternalTruthValues❙
   include ?DIHOL ❙
   
   include ?BooleanExtensionality❙
