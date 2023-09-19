@@ -34,10 +34,10 @@ extension latin2.tptp.DHOLExporter
 extension latin2.tptp.DPHOLExporter
 
 
-mathpath archive /home/user/Erlangen/MMT/content/MathHub/MMT/urtheories
-mathpath archive /home/user/Erlangen/MMT/content/MathHub/MMT/LATIN2
-mathpath archive /home/user/Erlangen/MMT/content/MathHub/MMT/examples
-mathpath archive /home/user/Erlangen/MMT/content/MathHub/MMT/LFX
+mathpath archive ../../../../../MMT/urtheories
+mathpath archive ../../../../../MMT/content/MathHub/MMT/LATIN2
+mathpath archive ../../../../../MMT/content/MathHub/MMT/examples
+mathpath archive ../../../../../MMT/content/MathHub/MMT/LFX
 
 
 define dependencies
