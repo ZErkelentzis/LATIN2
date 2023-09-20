@@ -93,15 +93,18 @@ class TPTPExporter extends StructurePresenter with AutomatedProver { //TODO: doe
 
   private def defaultOutFileForModule(path: MPath) = {
     val latin2archive = controller.backend.getArchive("MMT/LATIN2").get
-    val owningArchive = controller.backend.findOwningArchive(path) getOrElse latin2archive
+    val owningArchive = controller.backend.findOwningArchive(path) getOrElse {
+      log ("Cannot find owning archive for file at "+path.toString+", using default archive LATIN2.")
+      latin2archive
+    }
     val outDim = Dim("export", key)
     (owningArchive / outDim / archives.Archive.MMTPathToContentPath(path.mainModule)).setExtension(outExt)
   }
 
   def outFileForModule(path: MPath) = getOutFileForModule(path).getOrElse(defaultOutFileForModule(path))
 
-  def exportProblem(problem: Problem, path: MPath) : String = {
-    val file_path = outFileForModule(path).setExtension("p")
+  private def exportProblem(problem: Problem, path: MPath, postfix: String) : String = {
+    val file_path = outFileForModule(path).setExtension(postfix + "p")
     outputTo(file_path) {
       rh(problem.pretty)
     }
@@ -164,20 +167,23 @@ class TPTPExporter extends StructurePresenter with AutomatedProver { //TODO: doe
 
     //TODO: build stubs, before combining
     val combinedStubs = combineStubs(mod, pu.context, pu.tp)(this.controller)
+    // TODO: Can we always assume that the conjecture is the last formula, currently I think yes
+    val conjectureNameO = combinedStubs.flatMap(_.formulas.lastOption).map(_.name)
+    val pathPostfix = conjectureNameO.map(s => s + ".").getOrElse("")
     val problem_path = combinedStubs match {
-      case Some(problem) => exportProblem(problem, mod)
+      case Some(problem) => exportProblem(problem, mod, pathPostfix)
       case None => return (true, None)
     }
 
     //check if proof cached
-    val proof_path = outFileForModule(mod).setExtension("proof.tptp")
+    val proof_path = outFileForModule(mod).setExtension(pathPostfix + "proof.tptp")
     if (proof_path.exists()) {
       import java.io.BufferedReader
       import java.io.FileReader
       val br = new BufferedReader(new FileReader(proof_path))
       val first_line = br.readLine
       if (first_line == metadata_line(problem_path)) {
-        println("Proof to '" + mod + "' cached. Skipping..")
+        println("Proof for problem in '" + proof_path.toString + "' cached. Skipping..")
         val proof = Iterator.continually(br.readLine()).takeWhile(_ != null).mkString
         return (true, Some(UnknownTerm(OMSemiFormal(Text("tptp", proof)))))
       }
@@ -215,6 +221,8 @@ trait logicExporter extends Extension {
   var assSubstitution: List[Sub] = Nil
   // used for a definition expansions before the translation
   var definitionSubstituents: List[(GlobalName, Term)] = Nil
+
+  // the following line causes definition expansion, replace with trivial replacer to disable
   def replacer: OMSReplacer = OMSReplacer.apply(listmap(definitionSubstituents, _))
 
   val theoryPath: MPath
@@ -271,8 +279,8 @@ trait logicExporter extends Extension {
     val conjecture = replacer.toTranslator().apply(ctx, origConjecture)
     val conjStr = controller.presenter.asString(conjecture)
     log("Trying to prove "+conjStr+" using tptp exporter and HOL prover and in context: "+ctx.toStr(true))
-    if (conjecture != origConjecture)
-      log("The unreplaced conjecture is: " + controller.presenter.asString(origConjecture))
+    // if (conjecture != origConjecture)
+    //  log("The unreplaced conjecture is: " + controller.presenter.asString(origConjecture))
 
     formulas += tptp_conjecture(conjecture)
     add_formula_comment("conjecture")

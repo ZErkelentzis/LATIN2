@@ -9,6 +9,7 @@ import latin2.sfol.SFOLPatterns.TypeDecl
 import latin2.tptp.DHOLExporterUtil._
 import latin2.tptp.DIHOLExporterUtil._
 import latin2.tptp.THFExporterUtil._
+import leo.datastructures.TPTP.THF.Logical
 import leo.datastructures.TPTP._
 import lf.TypedEquality.tequal
 import lf.TypedExistentialQuantification.texists
@@ -35,7 +36,10 @@ class DHOLExporter extends DIHOLExporter {
     val declTranslated = parseDHOLDeclaration(path, tpO, dfO, ctx, replacer) match {
       case DHOLAbbreviation(path, definien) =>
         definitionSubstituents ::= (path, definien)
-        Nil
+        pathMap ::= (path, translated_defn_name(name))
+        val defDecl = THFAnnotated(defn_decl_name(name), "definition",
+          Logical(translate_term(definien)), None)
+        List(defDecl)
       case DHOLTypeDeclaration(ctxTp) =>
         pathMap ::= (path, translated_type_name(name))
         pathMap ::= (type_pred_path(path), type_pred_name(name))
@@ -48,14 +52,14 @@ class DHOLExporter extends DIHOLExporter {
           THF.Typing(translated_fun_name(name), translate_type(PiOrEmpty(ctx, ret))), None)
         val retPred = typing_pred(PiOrEmpty(ctx, ret), OMS(path))
         lazy val tpAx = THFAnnotated(tp_ax_decl_name(name), "axiom",
-          THF.Logical(retPred), None)
+          Logical(retPred), None)
         List(funDecl, tpAx)
       case DHOLAxiom(ctxTp, claim) =>
         pathMap ::= (path, ax_decl_name(name))
         val ax_body = translate_term(claim)
         val tax = ctxTp.variables.foldRight(ax_body)((vd, bdy) =>
           THFUniv(translate_var_name(vd.name), translate_type(vd.tp.get), bdy))
-        List(THFAnnotated(ax_decl_name(name), "axiom", THF.Logical(tax), None))
+        List(THFAnnotated(ax_decl_name(name), "axiom", Logical(tax), None))
     }
     add_formula_comment(name.toString)
     declTranslated

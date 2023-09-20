@@ -53,7 +53,10 @@ class DIHOLExporter extends logicExporter {
     val declTranslated = parseDHOLDeclaration(path, tpO, dfO, ctx, replacer) match {
       case DHOLAbbreviation(path, definien) =>
         definitionSubstituents ::= (path, definien)
-        Nil
+        pathMap ::= (path, translated_defn_name(name))
+        val defDecl = THFAnnotated(defn_decl_name(name), "definition",
+          THF.Logical(translate_term(definien)), None)
+        List(defDecl)
       case DHOLTypeDeclaration(ctxTp) =>
         pathMap ::= (path, translated_type_name(name))
         pathMap ::= (type_pred_path(path), type_pred_name(name))

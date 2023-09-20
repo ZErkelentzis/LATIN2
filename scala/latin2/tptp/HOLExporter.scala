@@ -182,6 +182,13 @@ object THFExporterUtil {
   def translated_fun_path(path:GlobalName) = OMS(path.module ? translated_fun_name(path.name))
   def translated_fun(path:GlobalName) = THFOMS(translated_fun_path(path).path)
 
+  def translated_defn_name(name:LocalName) = translate_var_decl_name(name)
+
+  def translated_defn_path(path: GlobalName) = OMS(path.module ? translated_defn_name(path.name))
+
+  def translated_defn(path: GlobalName) = THFOMS(translated_defn_path(path).path)
+  def defn_decl_name(ln: LocalName) = ln_to_TPTP_identifier(ln)+"_defn"
+
   def type_decl_name(ln: LocalName) = ln_to_TPTP_identifier(ln)+"_type"
 
   def make_name_tptp_compatible(s: String) = s.replace("/", "__")
