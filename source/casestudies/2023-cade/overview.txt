@@ -1,6 +1,6 @@
 Contents of this folder:
 
- * BasicExample: a contrived example for testing the implementation of the translation (rather than the performance of ATPs)
+ * NegativeExample: a contrived example for testing the implementation of the translation (rather than the performance of ATPs)
  * Category Theory: formalization of a category and definition and properties of the product operator
  * FunctionsOnSets: composition of functions and properties of functions
 
