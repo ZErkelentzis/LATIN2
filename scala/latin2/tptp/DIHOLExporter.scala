@@ -214,7 +214,6 @@ trait dependentLogicExporter extends logicExporter {
   }
   def translate_type(t: Term): THF.Formula
 
-
   /**
    * Used to relativize quantifier and variable declarations, may use a typing predicate or relation internally
    * @param t the type to generate the relativization for
@@ -228,6 +227,15 @@ trait dependentLogicExporter extends logicExporter {
 
   def translateTypeDecl(path: GlobalName, dependentArgs: Context)(implicit ctrl: Controller): List[THFAnnotated]
   def translate_equality(tp: Term, left: Term, right: Term): THF.Formula
+  def translate_theory(theory: Theory)(implicit ctrl: Controller): List[THFAnnotated] = {
+    // TODO: typecheck while translating
+    // We need to remember the constants and what kind of constants they are in order to work out the correct
+    // paths in the translation and in order to define the typing predicate for booleans using case distinctions
+    val decls = theory.getConstants
+    pathMap = Nil
+
+    decls.map(c => (c.path, c.tp, c.df)) flatMap { case (p, tp, df) => translate_decl(p, tp, df, Context(p.module)) }
+  }
 }
 
 class DIHOLExporter extends dependentLogicExporter {
@@ -247,16 +255,6 @@ class DIHOLExporter extends dependentLogicExporter {
       THF.Typing(type_pred_name(name), predTp), None)
     List(tpDecl, tpPred)
   }
-  def translate_theory(theory: Theory)(implicit ctrl: Controller): List[THFAnnotated] = {
-    // TODO: typecheck while translating
-    // We need to remember the constants and what kind of constants they are in order to work out the correct
-    // paths in the translation and in order to define the typing predicate for booleans using case distinctions
-    val decls = theory.getConstants
-    pathMap = Nil
-
-    decls .map (c => (c.path, c.tp, c.df)) flatMap { case (p, tp, df) => translate_decl(p, tp, df, Context(p.module))}
-  }
-
   override def translate_equality(tp: Term, left: Term, right: Term): THF.Formula = tp match {
     case Pi (n, a, b) =>
       val eqAppls = tequal (b, ApplySpine (left, n), ApplySpine (right, n) )
