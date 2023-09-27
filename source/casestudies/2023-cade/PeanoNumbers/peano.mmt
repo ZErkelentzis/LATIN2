@@ -32,19 +32,3 @@ theory Peano : latin:/?DHOLND =
 
     //conj2 : ⊦ ¬(decl2 =ͭ zero) ❘ = PROVE❙
 ❚
-
-theory PlusMonus : latin:/?DHOLND =
-		include ?Peano ❙
-		induction_N: {n: tp, z: tm n, s: tm Πͭ [m: tm n] n} {m: tm N} tm n ❙
- 		addition = induction_N 
- 			(Πͭ[m: tm N] N)
- 			(λ [x: tm N] x)
- 			(λ [u: tm Πͭ [m: tm N] N] λ [x: tm N] suc (u @ x)) ❙
- 		addn : tm N ⟶ tm N ⟶ tm N ❘ = [m, n] (addition m) @ n ❘# 1 plus 2 ❙
-		predec : {n: tm N} tm N ❘ = induction_N N zero (λ [u] u) ❙
- 		subtraction = induction_N 
- 			(Πͭ[m: tm N] N)
- 			(λ [x: tm N] x)
- 			(λ [u: tm Πͭ [m: tm N] N] λ [x: tm N] predec (u @ x)) ❙
- 		subn : tm N ⟶ tm N ⟶ tm N ❘ = [m, n] (addition m) @ n ❘# 1 monus 2 ❙
-❚

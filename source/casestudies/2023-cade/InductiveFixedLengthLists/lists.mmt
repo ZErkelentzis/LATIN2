@@ -2,56 +2,7 @@ namespace latin:/casestudies/_2023-cade❚
 
 import tptp latin:/casestudies/_2022-tptp ❚
 import base latin:/ ❚
-
-
-
-// A simple example theory that formalizes inductive lists of given length.❚ 
-theory Lists : latin:/?DIHOL =
-		include ?PlusMonus ❙
-
-		obj : tp ❙
-		list : {n: tm N} tp ❙
-		nil : tm (list zero) ❙
-		cons : tm Πͭ [n : tm N] Πͭ [x : tm obj] Πͭ [l : tm (list n)] (list (suc n)) ❙
-    
-		convert: tm Πͭ [n : tm N] Πͭ [k : tm (list n)] list (zero plus n) ❙
- 		
-		// to sidestep the below issues, however we cannot easily express the property
-		that piAppl is just β-reduction ❙
-		// piAppl: {t: tp, fun: {arg: tm t} tp, arg: tm t} tp ❘# 2 piAppl 3 ❙
-		
-		induction_list: {n: tm N, 
- 			lst: {mp: tm N} tp, 
- 			nl: tm (lst zero), 
- 			cns: tm Πͭ [m : tm N] Πͭ [x : tm obj] Πͭ [k : tm (lst m)] (lst (suc m))}
- 			{indArg: tm (list n)} tm (lst n) ❙
- 			
- 		// For debugging the below errors. The issue is that MMT's type checker/solver 
- 			 doesn't definition expand and then simplify types of the form 
- 			 tm (lst mp)  to  Πͭ [lp : tm (list n)] list (mp plus n) ❙
- 		// it should be possible to sidestep the problem using the structural feature 
- 		for inductive types (see the (directly analogous) definition 
- 		at MMT/examples/source/induction/basics.mmt),
- 		but currently that feature doesn't support (inductively-defined) tps ❙
-		// n: tm N ❙
-		// k: tm (list n) ❙
-		// lst: {mp : tm N} Πͭ [lp : tm (list n)] list (mp plus n) ❙
-		// nl : tm (lst zero) ❘ 
-		// = λ [lp: tm (list n)] (convert @ n) @ lp ❙
-		// cns // : tm Πͭ [m : tm N] Πͭ [x : tm obj] Πͭ [k : tm (lst m)] (lst (suc m)) ❘ = 
-		//	λ [mp: tm N] λ [x: tm obj] λ [concatK : tm Πͭ [lp: tm (list n)] list (mp plus n)] λ [lp: tm (list n)] 
-						(((cons @ (mp plus n)) @ x) @ (concatK @ lp)) ❙		
-    
- 		// concat: tm Πͭ [m : tm N] Πͭ [k : tm (list m)] Πͭ [n : tm N] Πͭ [l : tm (list n)] list (m plus n) 
- 			❘// = λ [m] λ [k] λ [n] λ [l] 
-				(((induction_list m 
-					({mp : tm N} Πͭ [lp : tm (list n)] list (mp plus n))
-					(λ [lp: tm (list n)] (convert @ n) @ lp)
-					(λ [mp: tm N] λ [x: tm obj] λ [concatK : tm Πͭ [lp: tm (list n)] list (mp plus n)] λ [lp: tm (list n)] 
-						(((cons @ (mp plus n)) @ x) @ (concatK @ lp))
-					)) k) @ n) @ l
- 			❘// # 3 :: 4 ❙
-❚
+import examples http://cds.omdoc.org/examples ❚
 
 
 // A simple example theory that formalizes inductive lists of given length.❚ 
@@ -79,6 +30,11 @@ theory ListsInduct : http://cds.omdoc.org/examples?LFXI =
 		   so the external exclarations will be ill-typed. 
 		   This can be see from the following ill-typed declaration. ❙
 		// concat_vec: {a: type, n: nat/n, m: nat/n, k:vector/vec a m} vector/vec a (m + n) ❘ = [a, n, m, k] concat_vect/vec a n m k ❘ # 3 :: 4 ❙
+❚
+		
+// A simple example theory that formalizes inductive lists of given length.❚ 
+theory ListsManually : latin:/?DHOLND =
+		include ☞base:?NatInduct ❙
 
 		list : {a: type, n: nat/n} type ❙
 		nil : {a: type} list a nat/z ❙
