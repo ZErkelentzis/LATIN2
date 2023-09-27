@@ -39,8 +39,8 @@ mathpath archive ../../../../LATIN2
 mathpath archive ../../../../examples
 mathpath archive ../../../../LFX
 
-
-define dependencies
+// basic (mostly) LATIN2 dependencies of fol
+define folDependencies	
 	build MMT/urtheories mmt-omdoc lf.mmt
 	build MMT/LATIN2 mmt-omdoc fundamentals/concepts.mmt
 	build MMT/LATIN2 mmt-omdoc fundamentals/base_languages.mmt
@@ -48,26 +48,34 @@ define dependencies
 	build MMT/LATIN2 mmt-omdoc logic/fol_like/booleans.mmt
 	build MMT/LATIN2 mmt-omdoc logic/fol_like/ifte.mmt
 	build MMT/LATIN2 mmt-omdoc logic/propositional/pl.mmt
-	build MMT/LATIN2 mmt-omdoc type_theory/function_types.mmt
 	build MMT/LATIN2 mmt-omdoc logic/fol_like/sfol.mmt
+	build MMT/LATIN2 mmt-omdoc logic/fol_like/fol.mmt
+end
+
+// dependencies of hol
+define holDependencies
+	do folDependencies
+	build MMT/LATIN2 mmt-omdoc type_theory/function_types.mmt
 	build MMT/LATIN2 mmt-omdoc logic/hol_like/hol.mmt
+end
+
+// basic dependencies of dhol
+define dholDependencies
+	do holDependencies
 	build MMT/LATIN2 mmt-omdoc logic/hol_like/dhol.mmt
-	
-	// for using inductively-defined types
+end
+
+// for using inductively-defined types
+define inductiveNatsDependencies
+	build MMT/urtheories mmt-omdoc lf.mmt
 	build MMT/LFX mmt-omdoc TypedHierarchy.mmt
 	build MMT/examples mmt-omdoc induction/lfxi.mmt
-	
-	// build MMT/urtheories mmt-omdoc sequences.mmt
-	// build MMT/urtheories mmt-omdoc primitive_types/bool.mmt
-	// build MMT/urtheories mmt-omdoc primitive_types/nat.mmt
-	// build MMT/LATIN2 mmt-omdoc logic/pl.mmt
-	// build MMT/LATIN2 mmt-omdoc logic/fol.mmt
-	// build MMT/LATIN2 mmt-omdoc logic/stfol.mmt
-	// build MMT/LATIN2 mmt-omdoc foundations/mizar.mmt
-	// build MMT/LATIN2 mmt-omdoc foundations/mizar-patterns.mmt
-	
-	// builds mmt content dependencies of the scala implementation of the prover
-	// if these are missing run these build commands, then rebuild MMT
+	build MMT/LATIN2 mmt-omdoc domain_theories/numbers/nat_induct.mmt
+end
+
+// builds mmt content dependencies of the scala implementation of the prover
+// if these are missing run these build commands, then rebuild MMT
+define sourceDependencies
 	build MMT/LATIN2 lf-scala fundamentals/concepts.omdoc
 	build MMT/LATIN2 lf-scala fundamentals/base_languages.mmt
 	build MMT/LATIN2 lf-scala fundamentals/equality.mmt
@@ -76,9 +84,28 @@ define dependencies
 	build MMT/LATIN2 lf-scala type_theory/function_types.mmt
 	build MMT/LATIN2 lf-scala logic/fol_like/sfol.mmt
 end
+
+define allDependencies
+	do dholDependencies
+	do inductiveNatsDependencies
+	do sourceDependencies
+end
 	
 
-// do dependencies
+// builds mmt content dependencies of the scala implementation of the prover
+// if these are missing run these build commands, then rebuild MMT
+define mizarDependencies
+	do folDependencies
+	build MMT/urtheories mmt-omdoc sequences.mmt
+	build MMT/urtheories mmt-omdoc primitive_types/bool.mmt
+	build MMT/urtheories mmt-omdoc primitive_types/nat.mmt
+	build MMT/LATIN2 mmt-omdoc foundations/mizar.mmt
+	build MMT/LATIN2 mmt-omdoc foundations/mizar-patterns.mmt
+end
+	
+
+// do allDependencies
+do inductiveNatsDependencies
 
 // test DPHOL exporter examples for CADE 2023 paper
 build MMT/LATIN2 mmt-omdoc casestudies/2023-cade/
