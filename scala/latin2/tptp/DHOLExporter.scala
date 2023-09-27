@@ -102,7 +102,7 @@ class DHOLExporter extends DIHOLExporter {
   override def translate_term(t: Term): THF.Formula = {
     t match {
 		  case Lambda(v, ty, body) =>
-		    THF.QuantifiedFormula(THF.^, Seq((translate_var_name(v), translate_type(ty))), translate_term(body))
+        THF.QuantifiedFormula(THF.^, Seq((translate_var_name(v), translate_type(ty))), translate_term(body))
 		  case tforall((ty, Lambda(v, _, body))) =>
 		    relativized_forall(v, ty, body)
 		  case texists((ty, Lambda(v, _, body))) =>
@@ -115,6 +115,8 @@ class DHOLExporter extends DIHOLExporter {
 		    val varname = Context.pickFresh(body.freeVars.map(VarDecl(_)), LocalName("X"))._1
 		    translate_term(texists(ty, Lambda(varname, ty, ApplySpine(body, OMV(varname)))))
       case tequal(tp, s, t) => type_rel(tp, translate_term(s), translate_term(t))
+      // TODO: This case shouldn't be necessary
+      case ft@FunType(args, bdy) if args.length > 0 => translate_type(ft)
       case _ => super.translate_term(t)
 		}
 	}
@@ -153,6 +155,9 @@ class DHOLExporter extends DIHOLExporter {
           case None => newTypeRelVarName(None, xTp)(controller)
         }
         typeRelFuncType(x, xTp, FunType(tl, codomain))
+      // type variables, not really supported so we fall back to plain equality
+      // TODO: rethink this
+      case ApplyGeneral(OMV(n), args) => THF.BinaryFormula(THF.Eq, left, right)
       case _ =>
         UNSUPPORTED("Typing relation not defined on unsupported type "+controller.presenter.asString(tp))
     }

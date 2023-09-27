@@ -164,7 +164,7 @@ class DIHOLExporter extends logicExporter {
   def translate_term(t: Term): THF.Formula = {
 		t match {
 		  case Lambda(v, ty, body) =>
-		    THF.QuantifiedFormula(THF.^, Seq((translate_var_name(v), translate_type(ty))), translate_term(body))
+        THF.QuantifiedFormula(THF.^, Seq((translate_var_name(v), translate_type(ty))), translate_term(body))
 		  case DependentFunctions.deplambda(_, _, f) => translate_term(f)
 		  case DependentFunctions.depapply(_, _, f, x) =>
         THFApp(translate_term(f), translate_term(x))
@@ -391,6 +391,12 @@ object DIHOLExporterUtil {
       DHOLAxiom(Context.empty, ax)
     case OMBINDC(binder, context, List(scopes)) if binder.toStr(true) == "unknown" => // this case shouldn't be necessary
       unapplyPis(lf.Proofs.ded(scopes))
+    // case of a dependent type with no (further) arguments
+    case depType@ApplyGeneral(fun, args) =>
+      DHOLTermDeclaration(Context.empty, Context.empty, depType)
+    case default =>
+      println ("Unexpected type in declaration: "+default.toStr(true))
+      DHOLTermDeclaration(Context.empty, Context.empty, default)
   }
 
   def is_bool_valued(ty: Term): Boolean = ty match {
