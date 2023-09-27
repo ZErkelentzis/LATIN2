@@ -222,7 +222,7 @@ trait logicExporter extends Extension {
 
   // used to replace assumptions in the conjecture with references to declarations stating them
   var assSubstitution: List[Sub] = Nil
-  // used for a definition expansions before the translation
+  // used for a definition expansions/reference translations before the translation
   var definitionSubstituents: List[(GlobalName, Term)] = Nil
 
   // this treats definition expansion/translation of references to definitions
