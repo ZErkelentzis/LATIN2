@@ -214,6 +214,9 @@ class TPTPExporter extends StructurePresenter with AutomatedProver { //TODO: doe
 }
 
 trait logicExporter extends Extension {
+  val translateDefinitions: Boolean = true
+  val expandDefinitions : Boolean = true
+
   var comments = Map[String, Seq[Comment]]()
   var currentFormulaComments = Seq[Comment]()
 
@@ -222,8 +225,15 @@ trait logicExporter extends Extension {
   // used for a definition expansions before the translation
   var definitionSubstituents: List[(GlobalName, Term)] = Nil
 
-  // the following line causes definition expansion, replace with trivial replacer to disable
-  def replacer: OMSReplacer = OMSReplacer.apply(listmap(definitionSubstituents, _))
+  // this treats definition expansion/translation of references to definitions
+  def replacer: OMSReplacer = if (expandDefinitions || ! translateDefinitions) {
+    OMSReplacer.apply(listmap(definitionSubstituents, _))
+  } else {
+    val definitionSubstitution = definitionSubstituents.map { case (p, _) =>
+      (p, THFExporterUtil.translated_defn_path(p))
+    }
+    OMSReplacer.apply(listmap(definitionSubstitution, _))
+  }
 
   val theoryPath: MPath
   // to ensure the correct exporter is applied at the right time
