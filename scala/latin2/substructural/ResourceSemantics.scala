@@ -5,32 +5,30 @@ import objects._
 import uom._
 import checking._
 
+import lf.linear
+
 import info.kwarc.mmt.lf._
-/*
-commented out because it still needs to be adjusted after copying it over from examples
-
-object Union extends BinaryLFConstantScala(FOL._base ? "Worlds", "union") {
-  def apply(ts: List[Term]) = assoc(OMS(Empty.path), ts)
-}
-
-object Empty {
-  val path = Union.parent ? "empty"
-}
 
 object Common {
   // associate and drop neutral elements
   def collectWorlds(t: Term): List[Term] = t match {
-    case Union(v,w) => collectWorlds(v) ::: collectWorlds(w)
-    case OMS(Empty.path) => Nil 
+    case Worlds.union(v,w) => collectWorlds(v) ::: collectWorlds(w)
+    case Worlds.empty() => Nil
     case _ => List(t)
+  }
+
+  def makeUnion(ts: List[Term]) = ts match {
+    case Nil => Worlds.empty()
+    case hd::Nil => hd
+    case hd::tl => Worlds.union(hd, makeUnion(tl))
   }
   
   def sort(ts: List[Term]) = ts.sortBy(_.hashCode)
-  
+
   // commutativity
   def normalize(t: Term) = {
     val w = sort(collectWorlds(t))
-    Union(w)
+    makeUnion(w)
   }
 
   def isBoundVar(t: Term)(implicit stack: Stack) = t match {
@@ -43,7 +41,7 @@ import Common._
 
 object NormalizeWorlds extends ComputationRule(Union.path) {
   override def applicable(tm: Term) = tm match {
-    case Union(_) => true
+    case Worlds.union(_) => true
     case _ => false
   }
 
@@ -69,8 +67,8 @@ object EquateWorlds extends TypeBasedEqualityRule(Nil, FOL.term.path) {
       w1 = w1 diff cancel
       w2 = w2 diff cancel
     }
-    val tm1N = Union(w1)
-    val tm2N = Union(w2)
+    val tm1N = makeUnion(w1)
+    val tm2N = makeUnion(w2)
     if (sort(w1) == sort(w2)) {
       history += "worlds equal after normalization"
       Some(true)
@@ -86,5 +84,3 @@ object EquateWorlds extends TypeBasedEqualityRule(Nil, FOL.term.path) {
     }
   }
 }
-
- */

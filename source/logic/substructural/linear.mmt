@@ -13,17 +13,19 @@ The same applies to the corresponding Scala rules, which are currently commented
 ❚
 
 theory Syntax : ur:?LF =
-   o : type❙
-   ⊗ : o ⟶ o ⟶ o ❘# 1 ⊗ 2 prec 100❙
-   1 : o❙
-   & : o ⟶ o ⟶ o ❘# 1 & 2 prec 100❙
-   ⊤ : o❙
-   ⊕ : o ⟶ o ⟶ o ❘# 1 ⊕ 2 prec 100❙
-   0 : o❙
-   ⊸ : o ⟶ o ⟶ o ❘# 1 ⊸ 2 prec 80❙
-   ! : o ⟶ o      ❘# ! 1 prec 110❙
+   include ☞latin:/?Propositions❙
+   multrue : prop❘# %D1❙
+   mulfalse : prop ❘# ⊥❙
+   mulconj : prop ⟶ prop ⟶ prop ❘# 1 ⊗ 2 prec 100❙
+   muldisj : prop ⟶ prop ⟶ prop ❘# 1 ⅋ 2 prec 100❙
+   addtrue : prop❘# ⊤❙
+   addfalse : prop❘# %D0❙
+   addconj : prop ⟶ prop ⟶ prop ❘# 1 & 2 prec 100❙
+   adddisj : prop ⟶ prop ⟶ prop ❘# 1 ⊕ 2 prec 100❙
+   linimp : prop ⟶ prop ⟶ prop ❘# 1 ⊸ 2 prec 80❙
+   bang : prop ⟶ prop      ❘# ! 1 prec 110❙
    
-   ⇒ : o ⟶ o ⟶ o ❘# 1 ⇒ 2 prec 80❘
+   imp : prop ⟶ prop ⟶ prop ❘# 1 ⇒ 2 prec 80❘
      = [x,y] !x ⊸ y❙
 ❚
 
@@ -42,15 +44,15 @@ theory Worlds =
    empty : world❘# ε❙
 
    // * is a monoid❙
-   neutL  : {P} ⊦ ε*P ≐ͧ P❙
-   neutR  : {P} ⊦ P*ε ≐ P❙
-   assoc  : {P,Q,R} ⊦ (P*Q)*R ≐ P*(Q*R)❙
+   neutL  : {P} ⊦ ε*P =ͧ P❙
+   neutR  : {P} ⊦ P*ε =ͧ P❙
+   assoc  : {P,Q,R} ⊦ (P*Q)*R =ͧ P*(Q*R)❙
    
    // A @ P: A can be produced by using all resources available in world P❙
-   at : o ⟶ world ⟶ prop❙
-   At : o ⟶ world ⟶ type❘ = [p,w] ⊦ at p w❘# 1 @ 2 prec 50❘role Judgment❙
+   at : prop ⟶ world ⟶ prop❙
+   At : prop ⟶ world ⟶ type❘ = [p,w] ⊦ at p w❘# 1 @ 2 prec 50❘role Judgment❙
    // a formula is valid if it holds in the empty world❙
-   valid : o ⟶ type ❘= [A] A @ ε❘# valid 1 prec -10❙
+   valid : prop ⟶ type ❘= [A] A @ ε❘# valid 1 prec -10❙
 ❚
 
 // Apart from the monoid/multiset structure, there is no way to introduce worlds.
@@ -63,7 +65,7 @@ theory Worlds =
 // Exchange corresponds to commutativity.❚
 theory Exchange =
   include ?Worlds❙
-   comm : {P,Q} ⊦ P*Q ≐ Q*P❙
+   comm : {P,Q} ⊦ P*Q =ͧ Q*P❙
 
    // We add two special type-checking rules that mechanize the monoid+commutativity axiom.
       Their implementations are given in the folder scala (sibling of source).❙
@@ -71,7 +73,7 @@ theory Exchange =
    // A simplification rule for *-terms: it normalizes bracketing of *, drops ε, and reorders the arguments❙
    rule rules?NormalizeWorlds❙
 
-   test : {p,q,r} ⊦ r*(p*q)*ε*r ≐ r*(r*(q*p)) ❘= [p,q,r] refl❙
+   test : {p,q,r} ⊦ r*(p*q)*ε*r =ͧ r*(r*(q*p)) ❘= [p,q,r] urefl❙
 
    // An equality-checking rule for equations involving *: it normalizes both sides and solves meta-variables of type world.
       For example, it can reduce v*w=v*w' to w=w'.
@@ -85,27 +87,27 @@ theory Exchange =
 // Contraction corresponds to idempotence.❚
 theory Contraction =
   include ?Worlds❙
-  idem : {P} ⊦ P*P ≐ P❙
+  idem : {P} ⊦ P*P =ͧ P❙
 ❚
 
 // Weakening corresponds to the empty world being the least element.❚
-theory Weakening : /examples?FOLEQNatDed =
+theory Weakening =
   include ?Worlds❙
    // ordering with monotonicity❙
    weaker : world ⟶ world ⟶ prop ❘ # 1 ≤ 2 prec 80❙
-   ≤_refl   : {P} ⊦ P ≤ P❙
-   ≤_antisym: {P,Q} ⊦ P ≤ Q ⟶ ⊦ Q ≤ P ⟶ ⊦ P≐Q❙
-   ≤_trans  : {P,Q,R} ⊦ P≤Q ⟶ ⊦ Q≤R ⟶ ⊦ P≤R ❙
-   ≤_monotone: {a,b,c,d} ⊦ a ≤ b ⟶ ⊦ c ≤ d ⟶ ⊦ a*c ≤ b*d❙ 
+   wk_refl   : {P} ⊦ P ≤ P❙
+   wk_antisym: {P,Q} ⊦ P ≤ Q ⟶ ⊦ Q ≤ P ⟶ ⊦ P=ͧQ❙
+   wk_trans  : {P,Q,R} ⊦ P≤Q ⟶ ⊦ Q≤R ⟶ ⊦ P≤R ❙
+   wk_monotone: {a,b,c,d} ⊦ a ≤ b ⟶ ⊦ c ≤ d ⟶ ⊦ a*c ≤ b*d❙ 
 
    // least world (without this, the order is trivial, i.e., there is no weakening)❙
-   ≤_least : {P} ⊦ ε ≤ P❙
+   wk_least : {P} ⊦ ε ≤ P❙
 
    // TODO: This should be a subtyping rule so that it does not occur in proofs.❙
    weaken: {A,v,w} A @ v ⟶ ⊦v≤w ⟶ A @ w❙
    
    divisibility: {P,Q} ⊦ P ≤ P*Q ❘
-               = [P,Q] congF neutR ([u]u≤P*Q) (≤_monotone ≤_refl ≤_least)❙ 
+               = [P,Q] eq/congT neutR ([u]u≤P*Q) (wk_monotone wk_refl wk_least)❙ 
 ❚
 
 // Now proofs of the linear sequent A1, ..., An |- A are represented as terms of type
@@ -114,80 +116,80 @@ theory ResourceSemantics =
    include ?Worlds❙
    include ?Exchange❙
 
-   ⊗_R  : {A,B,a,b} A @ a ⟶ B @ b ⟶ A ⊗ B @ a*b❙
-   ⊗_L  : {A,B,C,u,v} A ⊗ B @ u ⟶ ({a}{b} A @ a ⟶ B @ b ⟶ C @ a*b*v) ⟶ C @ u*v❘
-   # ⊗_L 6 7❙
+   mulconj_R  : {A,B,a,b} A @ a ⟶ B @ b ⟶ A ⊗ B @ a*b❙
+   mulconj_L  : {A,B,C,u,v} A ⊗ B @ u ⟶ ({a}{b} A @ a ⟶ B @ b ⟶ C @ a*b*v) ⟶ C @ u*v❘
+   # mulconj_L 6 7❙
 
-   1_R : 1 @ ε❙
-   1_L : {C,u,v} 1 @ u ⟶ C @ v ⟶ C @ u*v❙
+   multrue_R : 1 @ ε❙
+   multrue_L : {C,u,v} 1 @ u ⟶ C @ v ⟶ C @ u*v❙
 
-   &_R  : {A,B,w} A @ w ⟶ B @ w ⟶ A & B @ w❙
-   &_Ll : {A,B,C,u,v} A & B @ u ⟶ ({a} A @ a ⟶ C @ a*v) ⟶ C @ u*v❙
-   &_Lr : {A,B,C,u,v} A & B @ u ⟶ ({b} B @ b ⟶ C @ b*v) ⟶ C @ u*v❙
+   addconj_R  : {A,B,w} A @ w ⟶ B @ w ⟶ A & B @ w❙
+   addconj_Ll : {A,B,C,u,v} A & B @ u ⟶ ({a} A @ a ⟶ C @ a*v) ⟶ C @ u*v❙
+   addconj_Lr : {A,B,C,u,v} A & B @ u ⟶ ({b} B @ b ⟶ C @ b*v) ⟶ C @ u*v❙
 
-   ⊤_R  : {w} ⊤ @ w❙
+   addtrue_R  : {w} ⊤ @ w❙
    
-   ⊕_Rl : {A,B,w} A @ w ⟶ A ⊕ B @ w❙
-   ⊕_Rr : {A,B,w} B @ w ⟶ A ⊕ B @ w❙
-   ⊕_L  : {A,B,C,u,v} A ⊕ B @ u ⟶ ({a} A @ a ⟶ C @ a*v) ⟶ ({b} B @ b ⟶ C @ b*v) ⟶ C @ u*v❙  
+   adddisj_Rl : {A,B,w} A @ w ⟶ A ⊕ B @ w❙
+   adddisj_Rr : {A,B,w} B @ w ⟶ A ⊕ B @ w❙
+   adddisj_L  : {A,B,C,u,v} A ⊕ B @ u ⟶ ({a} A @ a ⟶ C @ a*v) ⟶ ({b} B @ b ⟶ C @ b*v) ⟶ C @ u*v❙  
 
-   0_L  : {C,u,v} 0 @ u ⟶ C @ u*v❙ 
+   addfalse_L  : {C,u,v} 0 @ u ⟶ C @ u*v❙ 
    
-   ⊸_R  : {A,B,w} ({a} A @ a ⟶ B @ a*w) ⟶ A ⊸ B @ w❙
-   ⊸_L  : {A,B,C,u,a,v} A ⊸ B @ u ⟶ A @ a ⟶ ({b} B @ b ⟶ C @ b*v) ⟶ C @ u*a*v❙
+   linimp_R  : {A,B,w} ({a} A @ a ⟶ B @ a*w) ⟶ A ⊸ B @ w❙
+   linimp_L  : {A,B,C,u,a,v} A ⊸ B @ u ⟶ A @ a ⟶ ({b} B @ b ⟶ C @ b*v) ⟶ C @ u*a*v❙
    // alternatively
-   ⊸_E  : A ⊸ B @ P ⟶ A @ Q ⟶ B @ P*Q
-   ⊸_L : A ⊸ B @ H ⟶ A @ P ⟶ ({b} B @ b ⟶ C @ b*Q) ⟶ C @ H*P*Q
+   linimp_E  : A ⊸ B @ P ⟶ A @ Q ⟶ B @ P*Q
+   linimp_L : A ⊸ B @ H ⟶ A @ P ⟶ ({b} B @ b ⟶ C @ b*Q) ⟶ C @ H*P*Q
       = [p][q][f] f (H*P) (⊸E p q)
    ❙
 
-   !_R : {A} A @ ε ⟶ ! A @ ε❙
-   !_L : {A,C,u,v} ! A @ u ⟶ (A @ ε ⟶ C @ v) ⟶ C @ u*v❙
+   bang_R : {A} A @ ε ⟶ ! A @ ε❙
+   bang_L : {A,C,u,v} ! A @ u ⟶ (A @ ε ⟶ C @ v) ⟶ C @ u*v❙
    
    
    // In the remainder, we prove some derivable rules to exercise the calculus.❙
    
-   ⊗_commute : {A,B} valid A⊗B ⊸ B⊗A❘
-      = [A,B] ⊸_R [ab,h] ⊗_L h [a,b,p,q] ⊗_R q p❙
+   mulconj_commute : {A,B} valid A⊗B ⊸ B⊗A❘
+      = [A,B] linimp_R [ab,h] mulconj_L h [a,b,p,q] mulconj_R q p❙
 
    // needs to solve abc * X = abc and ab * Y * X = ab * c, solution: X = epsilon, Y = c❙ 
-   ⊗_assoc1 : {A,B,C} valid (A⊗B)⊗C ⊸ A⊗(B⊗C)❘
-        = [A,B,C] ⊸_R [abc,h] ⊗_L h 
-              [ab,c,pq,r] ⊗_L pq
-                 ([a,b,p,q] ⊗_R p (⊗_R q r))❙
+   mulconj_assoc1 : {A,B,C} valid (A⊗B)⊗C ⊸ A⊗(B⊗C)❘
+        = [A,B,C] linimp_R [abc,h] mulconj_L h 
+              [ab,c,pq,r] mulconj_L pq
+                 ([a,b,p,q] mulconj_R p (mulconj_R q r))❙
       
-   ⊗_assoc2 : {A,B,C} valid A⊗(B⊗C) ⊸ (A⊗B)⊗C❘
-        = [A,B,C] ⊸_R [abc,h] ⊗_L h 
-              [a,bc,p,qr] ⊗_L qr
-                 ([b,c,q,r] ⊗_R (⊗_R p q) r)❙
+   mulconj_assoc2 : {A,B,C} valid A⊗(B⊗C) ⊸ (A⊗B)⊗C❘
+        = [A,B,C] linimp_R [abc,h] mulconj_L h 
+              [a,bc,p,qr] mulconj_L qr
+                 ([b,c,q,r] mulconj_R (mulconj_R p q) r)❙
 
-   ⊗_neutral1 : {A} valid A⊗1 ⊸ A❘
-      = [A] ⊸_R [ao,h] ⊗_L h [a,b,p,q] 1_L q p❙
-   ⊗_neutral2 : {A} valid A ⊸ A⊗1❘
-      = [A] ⊸_R [a,h] ⊗_R h 1_R❙
+   mulconj_neutral1 : {A} valid A⊗1 ⊸ A❘
+      = [A] linimp_R [ao,h] mulconj_L h [a,b,p,q] multrue_L q p❙
+   mulconj_neutral2 : {A} valid A ⊸ A⊗1❘
+      = [A] linimp_R [a,h] mulconj_R h multrue_R❙
       
-   ⊕_commute : {A,B} valid A⊕B ⊸ B⊕A❘
-      = [A,B] ⊸_R [ab,h] ⊕_L h ([a,p] ⊕_Rr p) ([b,q] ⊕_Rl q)❙
+   adddisj_commute : {A,B} valid A⊕B ⊸ B⊕A❘
+      = [A,B] linimp_R [ab,h] adddisj_L h ([a,p] adddisj_Rr p) ([b,q] adddisj_Rl q)❙
 
-   ⊕_neutral1 : {A} valid A⊕0 ⊸ A❘
-    = [A] ⊸_R [az,h] ⊕_L h ([a,p] p) ([z,q] 0_L q)❙
-   ⊕_neutral2 : {A} valid A ⊸ A⊕0❘
-      = [A] ⊸_R [a,h] ⊕_Rl h❙
+   adddisj_neutral1 : {A} valid A⊕0 ⊸ A❘
+    = [A] linimp_R [az,h] adddisj_L h ([a,p] p) ([z,q] addfalse_L q)❙
+   adddisj_neutral2 : {A} valid A ⊸ A⊕0❘
+      = [A] linimp_R [a,h] adddisj_Rl h❙
    
       
-   !_over_⊕ : {A,B} valid (!A⊕!B) ⊸ !(A⊕B)❘
-            = [A,B] ⊸_R [ab,h] ⊕_L h ([a,p] !_L p ([pE] !_R (⊕_Rl pE)))
-                                     ([b,q] !_L q ([qE] !_R (⊕_Rr qE)))❙
-   !_over_& : {A,B} valid !(A&B) ⊸ (!A&!B)❘
+   bang_over_adddisj : {A,B} valid (!A⊕!B) ⊸ !(A⊕B)❘
+            = [A,B] linimp_R [ab,h] adddisj_L h ([a,p] bang_L p ([pE] bang_R (adddisj_Rl pE)))
+                                     ([b,q] bang_L q ([qE] bang_R (adddisj_Rr qE)))❙
+   bang_over_addconj : {A,B} valid !(A&B) ⊸ (!A&!B)❘
           // TODO: This proof unexpectedly does not type-check, eventually failing at a=ε and b=ε.
              Further investigation is needed to determine if the proof is in fact wrong or
              if the type-checker is led astray by the EquateWorlds rule.❙
-          //  = [A,B] ⊸_R [ab,h] &_R (!_L h [pqE] &_Ll pqE ([a,p] !_R p))
-                                   (!_L h [pqE] &_Lr pqE ([b,q] !_R q))❙
-   !_idempotent1 : {A} valid !!A ⊸ !A❘
-                 = [A] ⊸_R [a,h] !_L h [k] !_L k [l] !_R l❙ 
-   !_idempotent2 : {A} valid !A ⊸ !!A❘
-                 = [A] ⊸_R [a,h] !_L h [k] !_R (!_R k)❙
-   !_weaken : {A} valid !A ⊸ A❘
-            = [A] ⊸_R [a,h] !_L h [k] k❙
+          //  = [A,B] linimp_R [ab,h] &_R (bang_L h [pqE] &_Ll pqE ([a,p] bang_R p))
+                                   (bang_L h [pqE] &_Lr pqE ([b,q] bang_R q))❙
+   bang_idempotent1 : {A} valid !!A ⊸ !A❘
+                 = [A] linimp_R [a,h] bang_L h [k] bang_L k [l] bang_R l❙ 
+   bang_idempotent2 : {A} valid !A ⊸ !!A❘
+                 = [A] linimp_R [a,h] bang_L h [k] bang_R (bang_R k)❙
+   bang_weaken : {A} valid !A ⊸ A❘
+            = [A] linimp_R [a,h] bang_L h [k] k❙
 ❚
