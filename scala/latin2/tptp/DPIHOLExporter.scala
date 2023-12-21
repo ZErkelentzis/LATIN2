@@ -20,7 +20,7 @@ class DPIHOLExporter extends DIHOLExporter {
     case _ => super.translate_type(t)
   }
 
-  override def typing_pred(t:Term, x:Term): THF.Formula = {
+  override def typing_pred(t:Term, x:Term)(implicit usedVars: List[String]): THF.Formula = {
     t match {
       case TypedPredicateSubtypes.predsub(tp, pred) =>
         THFAnd(THFApp(translate_term(pred), translate_term(x)), typing_pred(tp, x))

@@ -5,6 +5,7 @@ import info.kwarc.mmt.api.objects._
 import info.kwarc.mmt.api.{GlobalName, LocalName}
 import info.kwarc.mmt.lf._
 import latin2.tptp.DHOLExporterUtil._
+import latin2.tptp.DIHOLExporterUtil.unapplyDepFun
 import latin2.tptp.THFExporterUtil._
 import leo.datastructures.TPTP._
 import lf.TypedTerms
@@ -14,6 +15,7 @@ class DHOLExporter extends DIHOLExporter {
   override val theoryPath: info.kwarc.mmt.api.MPath = lf.DHOL._path
 
   override def translateTypeDecl(path: GlobalName, dependentArgs: Context)(implicit ctrl: Controller) : List[THFAnnotated] = {
+    implicit var usedVars: List[String] = List.empty
     val name = path.name
     val tpDecl = THFAnnotated(type_decl_name(name), "type",
       THF.Typing(translated_type_name(name), THFType), None)
@@ -21,7 +23,8 @@ class DHOLExporter extends DIHOLExporter {
     val relTp = THFArrow(translatedArgs map translate_type, THFBool)
     val tpRel = THFAnnotated(type_rel_name(name), "type",
       THF.Typing(type_rel_name(name), relTp), None)
-    val x = newTypeRelVarName(Some("x"), OMS(path), dependentArgs)
+    val (x, vx) = newTypeRelVarName(Some("x"), OMS(path), dependentArgs)
+    usedVars :+ vx
     val xP = primedName(x)
     val translatedBaseType = THFOMS(translated_type_path(path).path)
     val dependentBaseType = ApplyGeneral(OMS(path), dependentArgs.map(_.toTerm))
@@ -31,7 +34,7 @@ class DHOLExporter extends DIHOLExporter {
           THFEq(THF.Variable(x), THF.Variable(xP)))))
     val perAxClaim = if (dependentArgs.nonEmpty) {
       THF.Logical(THF.QuantifiedFormula(THF.!,
-        dependentArgs.map({ vd => (translate_var_name(vd.name), translate_type(vd.tp.get())) }), perAxClaimBody))
+        dependentArgs.map({ vd => (translate_var_name(vd.name)._1, translate_type(vd.tp.get())) }), perAxClaimBody))
     } else {
       THF.Logical(perAxClaimBody)
     }
@@ -40,11 +43,11 @@ class DHOLExporter extends DIHOLExporter {
     List(tpDecl, tpRel, perAx)
   }
 
-  override def translate_equality(tp: Term, left: Term, right: Term): THF.Formula = type_rel(tp, translate_term(left), translate_term(right))
-  override def typing_pred(tp:Term, s:Term): THF.Formula = {
+  override def translate_equality(tp: Term, left: Term, right: Term)(implicit usedVars: List[String]): THF.Formula = type_rel(tp, translate_term(left), translate_term(right))
+  override def typing_pred(tp:Term, s:Term)(implicit usedVars: List[String]): THF.Formula = {
     type_rel(tp, translate_term(s), translate_term(s))
   }
-  def type_rel(tp:Term, left: THF.Formula, right:THF.Formula): THF.Formula = {
+  def type_rel(tp:Term, left: THF.Formula, right:THF.Formula)(implicit usedVars: List[String]): THF.Formula = {
     def relAppl(tpConstr: GlobalName, tpArgs: List[Term], left: THF.Formula, right:THF.Formula) = {
       THFAppl(THFTerm(type_rel_name(tpConstr.name)), tpArgs .map(translate_term) ::: List(left, right))
     }
@@ -67,12 +70,16 @@ class DHOLExporter extends DIHOLExporter {
     tp match {
       case lf.Booleans.bool(()) => THF.BinaryFormula(THF.Eq, left, right)
       case TypedTerms.tm(tp) => type_rel(tp, left, right)
+      case lf.DependentFunctionTypes.depfun(tp, lam) => {
+        val (depArgs, bdy) = unapplyDepFun(tp, lam)
+        type_rel(Pi(depArgs, bdy), left, right)
+      }
       case ApplyGeneral(OMS(p), args) => optimizedRelAppl(p, args, left, right)
       case FunType((xNameO, xTp)::tl, codomain) =>
-        val x = xNameO match {
+        val x = (xNameO match {
           case Some(ln) => translate_var_name(ln)
-          case None => newTypeRelVarName(None, xTp)(controller)
-        }
+          case None => newTypeRelVarName(None, xTp)(usedVars, controller)
+        })._1
         typeRelFuncType(x, xTp, FunType(tl, codomain))
       // type variables, not really supported so we fall back to plain equality
       // TODO: rethink this
@@ -84,14 +91,14 @@ class DHOLExporter extends DIHOLExporter {
 }
 
 object DHOLExporterUtil {
-  def type_rel_name(name:LocalName) = name.toString + "_rel"
-  def tp_per_ax_name(ln: LocalName) = ln.toString+"_per_ax"
+  def type_rel_name(name:LocalName) = add_TPTP_prefix(name.toString + "_rel")
+  def tp_per_ax_name(ln: LocalName) = add_TPTP_prefix(ln.toString+"_per_ax")
   def type_rel_path(path: GlobalName) = path.module ? type_rel_name(path.name)
   def type_rel(path:GlobalName) = THFOMS(type_rel_path(path))
-  def newTypeRelVarName(nameO: Option[String], tp: Term, ctx: Context = Context.empty)(implicit controller: Controller) = {
+  def newTypeRelVarName(nameO: Option[String], tp: Term, ctx: Context = Context.empty)(implicit usedVars: List[String], controller: Controller) = {
     val preferredName = nameO .getOrElse("x"+controller.presenter.asString(tp))
-    val name = Context.pickFresh(ctx, LocalName(preferredName))._1
-    translate_var_name(name)
+    val name = generate_fresh_var_name_ctx(Some(preferredName))(usedVars, ctx.variables.toList.map(_.name))
+    translate_var_name(LocalName(name))
   }
 
   def primedName(x: String) = x+"_PRIME"

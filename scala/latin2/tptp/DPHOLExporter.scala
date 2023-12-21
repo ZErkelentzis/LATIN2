@@ -17,7 +17,7 @@ class DPHOLExporter extends DHOLExporter {
     case _ => super.translate_type(t)
   }
 
-  override def type_rel(tp: Term, left: THF.Formula, right: THF.Formula): THF.Formula = {
+  override def type_rel(tp: Term, left: THF.Formula, right: THF.Formula)(implicit usedVars: List[String]): THF.Formula = {
     tp match {
       case TypedPredicateSubtypes.predsub(tp, pred) =>
         THFAnd(THFAnd(type_rel(tp, left, right),

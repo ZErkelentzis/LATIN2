@@ -35,6 +35,7 @@ class TPTPExporter extends StructurePresenter with AutomatedProver { //TODO: doe
   // can be re-set in apply method
   // this can be useful e.g. to set a shorter timeout for proof obligations generated during type-checking
   private var timeout = 60
+  private var proverOutputVerbosity = 1
 
   private def select_exporter(path: MPath): Option[logicExporter] = {
     val logicExporters = controller.extman.get(classOf[logicExporter])
@@ -88,7 +89,7 @@ class TPTPExporter extends StructurePresenter with AutomatedProver { //TODO: doe
   def translate_include(home_path: MPath, in: MPath) : Include = {
     val home = outFileForModule(home_path)
     val include = home.relativize(outFileForModule(in)).toString
-    ((include, (Seq(), Seq())))
+    (include, (Seq(), Seq()))
   }
 
   private def defaultOutFileForModule(path: MPath) = {
@@ -125,7 +126,7 @@ class TPTPExporter extends StructurePresenter with AutomatedProver { //TODO: doe
     val outputFile = new File(path+".log")
     val fos = new FileOutputStream(outputFile)
     Console.withOut(fos) {
-      leo.Main.main(Array(path, "-p", "-t", timeout.toString, "-v", "1"))
+      leo.Main.main(Array(path, "-p", "-t", timeout.toString, "-v", proverOutputVerbosity.toString))
     }
     fos.close()
     val outputLines = Source.fromFile(outputFile).getLines.toList
@@ -133,12 +134,13 @@ class TPTPExporter extends StructurePresenter with AutomatedProver { //TODO: doe
   }
 
   def parseResult(lines: List[String]): (Boolean, Option[String]) = {
-    val statusIndex = lines.indexWhere((line) => line.startsWith("% SZS status"))
+    val statusIndex = lines.indexWhere(line => line.startsWith("% SZS status"))
     val status = lines(statusIndex).stripPrefix("% SZS status ").startsWith("Theorem")
-    val proofIndexStart = lines.indexWhere((line) => line.startsWith("% SZS output start Refutation")) + 1
-    val proofIndexEnd = lines.indexWhere((line) => line.startsWith("% SZS output end Refutation")) - 1
+    log (if (status) "Found proof for theorem." else "Unable to prove conjecture.")
+    val proofIndexStart = lines.indexWhere(line => line.startsWith("% SZS output start Refutation")) + 1
+    val proofIndexEnd = lines.indexWhere(line => line.startsWith("% SZS output end Refutation")) - 1
     val proofLines = Option(lines.slice(proofIndexStart, proofIndexEnd)).filter(_.nonEmpty)
-    val proof = proofLines.map((lines) => lines.slice(proofIndexStart, proofIndexEnd).mkString("\n"))
+    val proof = proofLines.map(lines => lines.slice(proofIndexStart, proofIndexEnd).mkString("\n"))
     (status, proof)
   }
 

@@ -32,10 +32,11 @@ import latin2.tptp.THFExporterUtil._
 trait dependentLogicExporter extends logicExporter {
   var pathMap: List[(GlobalName, String)] = Nil
 
-  def translate_term(t: Term): THF.Formula = {
+  def translate_term(t: Term)(implicit usedVars: List[String]): THF.Formula = {
     t match {
       case Lambda(v, ty, body) =>
-        THF.QuantifiedFormula(THF.^, Seq((translate_var_name(v), translate_type(ty))), translate_term(body))
+        val (name, vn) = translate_var_name(v)
+        THF.QuantifiedFormula(THF.^, Seq((name, translate_type(ty))), translate_term(body)(vn::usedVars))
 
       case DependentFunctions.deplambda(_, _, f) => translate_term(f)
       case DependentFunctions.depapply(_, _, f, x) =>
@@ -50,16 +51,18 @@ trait dependentLogicExporter extends logicExporter {
       // TODO: product types, etc. still needed
 
       case tforall((ty, Lambda(v, _, body))) =>
+        val (name, vn) = translate_var_name(v)
         val tpCond = typing_pred(ty, OMV(v))
-        THFUniv(translate_var_name(v), translate_type(ty), THFImpl(tpCond, translate_term(body)))
+        THFUniv(name, translate_type(ty), THFImpl(tpCond, translate_term(body)(vn::usedVars)))
       case texists((ty, Lambda(v, _, body))) =>
+        val (name, vn) = translate_var_name(v)
         val tpCond = typing_pred(ty, OMV(v))
-        THFExist(translate_var_name(v), translate_type(ty), THFAnd(tpCond, translate_term(body)))
+        THFExist(name, translate_type(ty), THFAnd(tpCond, translate_term(body)(vn::usedVars)))
       case tforall(ty, body) =>
-        val varname = Context.pickFresh(body.freeVars.map(VarDecl(_)), LocalName("X"))._1
+        val varname = LocalName(generate_fresh_var_name_ctx(Some("x"))(usedVars, body.freeVars))
         translate_term(tforall(ty, Lambda(varname, ty, ApplySpine(body, OMV(varname)))))
       case texists(ty, body) =>
-        val varname = Context.pickFresh(body.freeVars.map(VarDecl(_)), LocalName("X"))._1
+        val varname = LocalName(generate_fresh_var_name_ctx(Some("x"))(usedVars, body.freeVars))
         translate_term(texists(ty, Lambda(varname, ty, ApplySpine(body, OMV(varname)))))
       case and(left, right) =>
         THFAnd(translate_term(left), translate_term(right))
@@ -87,7 +90,7 @@ trait dependentLogicExporter extends logicExporter {
 
       case OMID(f) => THFTerm(api.utils.listmap(pathMap, f).getOrElse(default_name(f)))
 
-      case OMV(x) => THF.Variable(translate_var_name(x))
+      case OMV(x) => THF.Variable(translate_var_name(x)._1)
 
       // after dependency-erasure dependent application becomes ordinary application
       case ApplyGeneral(DependentFunctions.depapply.term, argTp :: funTp :: fun :: arg :: args) =>
@@ -128,6 +131,7 @@ trait dependentLogicExporter extends logicExporter {
    */
   def translate_decl(path: GlobalName, tpO: Option[Term], dfO: Option[Term], ctx: Context)(implicit ctrl: Controller): List[THFAnnotated] = {
     val name = path.name
+    implicit val usedVars: List[String] = List.empty
     val declTranslated = parseDHOLDeclaration(path, tpO, dfO, ctx, replacer) match {
       case DHOLAbbreviation(path, definien) =>
         definitionSubstituents ::= (path, definien)
@@ -151,9 +155,10 @@ trait dependentLogicExporter extends logicExporter {
         List(funDecl, tpAx)
       case DHOLAxiom(ctxTp, claim) =>
         pathMap ::= (path, ax_decl_name(name))
-        val ax_body = translate_term(claim)
-        val tax = ctxTp.variables.foldRight(ax_body)((vd, bdy) =>
-          THFUniv(translate_var_name(vd.name), translate_type(vd.tp.get), bdy))
+        val translatedVarNames = ctxTp.variables.map(vd => (translate_var_name(vd.name), vd.tp)).toList
+        val ax_body = translate_term(claim)(usedVars++translatedVarNames.map(_._1._2))
+        val tax = translatedVarNames.foldRight(ax_body)((varNameT, bdy) =>
+          THFUniv(varNameT._1._1, translate_type(varNameT._2.get), bdy))
         List(THFAnnotated(ax_decl_name(name), "axiom", THF.Logical(tax), None))
     }
     add_formula_comment(name.toString)
@@ -170,6 +175,7 @@ trait dependentLogicExporter extends logicExporter {
    * @return
    */
   override def translate_var_decl(thy_path: MPath, vd: VarDecl, ctx: Context)(implicit ctrl: Controller): List[AnnotatedFormula] = {
+    implicit var usedVars : List[String] = List.empty
     vd match {
       case VarDecl(v, None, None, Some(df), _) =>
         Nil
@@ -220,13 +226,13 @@ trait dependentLogicExporter extends logicExporter {
    * @param x the term to relativize
    * @return
    */
-  def typing_pred(t:Term, x:Term): THF.Formula
+  def typing_pred(t:Term, x:Term)(implicit usedVars: List[String]): THF.Formula
 
   def tptp_conjecture(conj: info.kwarc.mmt.api.objects.Term) =
-    THFAnnotated("conjecture", "conjecture", THF.Logical(translate_term(conj)), None)
+    THFAnnotated("conjecture", "conjecture", THF.Logical(translate_term(conj)(List.empty)), None)
 
   def translateTypeDecl(path: GlobalName, dependentArgs: Context)(implicit ctrl: Controller): List[THFAnnotated]
-  def translate_equality(tp: Term, left: Term, right: Term): THF.Formula
+  def translate_equality(tp: Term, left: Term, right: Term)(implicit usedVars: List[String]): THF.Formula
   def translate_theory(theory: Theory)(implicit ctrl: Controller): List[THFAnnotated] = {
     // TODO: typecheck while translating
     // We need to remember the constants and what kind of constants they are in order to work out the correct
@@ -255,11 +261,12 @@ class DIHOLExporter extends dependentLogicExporter {
       THF.Typing(type_pred_name(name), predTp), None)
     List(tpDecl, tpPred)
   }
-  override def translate_equality(tp: Term, left: Term, right: Term): THF.Formula = tp match {
+  override def translate_equality(tp: Term, left: Term, right: Term)(implicit usedVars: List[String]): THF.Formula = tp match {
     case Pi (n, a, b) =>
       val eqAppls = tequal (b, ApplySpine (left, n), ApplySpine (right, n) )
       val tpCond = typing_pred(a, OMV(n))
-      THFUniv(translate_var_name(n), translate_type(a), THFImpl(tpCond, translate_term(eqAppls)))
+      val (name, vn) = translate_var_name(n)
+      THFUniv(name, translate_type(a), THFImpl(tpCond, translate_term(eqAppls)(vn::usedVars)))
     case FunType (args, body) if args.length > 0 =>
       val argsCon = argContext (args)
       translate_term (tequal (Pi (argsCon, body), left, right) )
@@ -282,13 +289,13 @@ class DIHOLExporter extends dependentLogicExporter {
     case OMS(gn) => THFOMS(translated_type_path(gn).path)
     case OMA(f, Nil) => translate_type(f)
     // TODO: Should we support this?
-    case OMV(n) => THF.Variable(translate_var_name(n))
+    case OMV(n) => THF.Variable(translate_var_name(n)._1)
     case _ =>
       println("unexpected type to translate: "+t.toNode.toString())
       throw  UNSUPPORTED("unexpected type to translate: "+controller.presenter.asString(t))
   }
 
-  def typing_pred(t:Term, x:Term): THF.Formula = {
+  def typing_pred(t:Term, x:Term)(implicit usedVars: List[String]): THF.Formula = {
     t match {
       /*
       bool? t :=
@@ -306,11 +313,11 @@ class DIHOLExporter extends dependentLogicExporter {
         case tforall((ty, Lambda(v, _, body))) =>
           val ass = typing_pred(ty, OMV(v))
           val tpconcl = typing_pred(lf.Booleans.bool, body)
-          THFUniv(translate_var_name(v), translate_type(ty), THFImpl(ass, tpconcl))
+          THFUniv(translate_var_name(v)._1, translate_type(ty), THFImpl(ass, tpconcl))
         case texists((ty, Lambda(v, _, body))) =>
           val ass = typing_pred(ty, OMV(v))
           val tpconcl = typing_pred(lf.Booleans.bool, body)
-          THFExist(translate_var_name(v), translate_type(ty), THFAnd(ass, tpconcl))
+          THFExist(translate_var_name(v)._1, translate_type(ty), THFAnd(ass, tpconcl))
         case ApplySpine(OMS(a), args) =>
           val argsTr = (args:+x).map(translate_term)
           val pTr = type_pred_path(a).name.toString
@@ -321,7 +328,7 @@ class DIHOLExporter extends dependentLogicExporter {
       case TypedTerms.tm(tp) => typing_pred(tp, x)
       case Pi(n, tp, ret) =>
         val tpCond = typing_pred(tp, OMV(n))
-        THFUniv(translate_var_name(n), translate_type(tp), THFImpl(tpCond, typing_pred(ret, x)))
+        THFUniv(translate_var_name(n)._1, translate_type(tp), THFImpl(tpCond, typing_pred(ret, x)))
       case ApplyGeneral(OMS(a), args) =>
         val argsTr = (args:+x).map(translate_term)
         val pTr = type_pred_path(a).name.toString

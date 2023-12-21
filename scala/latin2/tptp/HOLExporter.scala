@@ -28,7 +28,7 @@ import latin2.tptp.THFExporterUtil._
 class HOLExporter extends logicExporter {
   val priority: Int = 3
   val theoryPath: info.kwarc.mmt.api.MPath = lf.HOL._path
-  def tptp_conjecture(conj: info.kwarc.mmt.api.objects.Term) = THFAnnotated("conjecture", "conjecture", THF.Logical(translate_formula(conj)), None)
+  def tptp_conjecture(conj: info.kwarc.mmt.api.objects.Term) = THFAnnotated("conjecture", "conjecture", THF.Logical(translate_formula(conj)(List.empty)), None)
 
   def translate_theory(theory: Theory)(implicit ctrl: Controller) = {
     theory.getConstants.flatMap(translate_constant)
@@ -60,16 +60,17 @@ class HOLExporter extends logicExporter {
           }
         }
         val nameString = name.toString
-        val ret = List(THFAnnotated(nameString, "axiom", THF.Logical(translate_formula(c)), None))
+        val ret = List(THFAnnotated(nameString, "axiom", THF.Logical(translate_formula(c)(List.empty)), None))
         add_formula_comment(nameString)
         ret
       case Some(TypeDecl(Nil)) =>
-        List(THFAnnotated(type_decl_name(name), "type", THF.Typing("t_" + name.toString, THFType), None)) //is optional
+        List(THFAnnotated(type_decl_name(name), "type", THF.Typing(add_TPTP_prefix(name.toString), THFType), None)) //is optional
       case newTp => definition_builder(newTp, path, name, df, ctx)
     }
   }
 
   def definition_builder(newTp: Option[Term], path: GlobalName, name: LocalName, df: Option[Term], ctx: Context)(implicit ctrl: Controller): List[THFAnnotated] = {
+    implicit val usedVars: List[String] = List.empty
     val (ty, inner) = newTp match {
       case Some(PredDecl(in)) =>
         (THFArrow(in.map(translate_formula), THFTerm("$o")),
@@ -96,8 +97,11 @@ class HOLExporter extends logicExporter {
     tpD :: dfD
   }
 
-  def translate_formula(t: Term): THF.Formula = t match {
-    case Lambda(v, ty, body) => THF.QuantifiedFormula(THF.^, Seq((translate_var_name(v), translate_formula(ty))), translate_formula(body))
+  def translate_formula(t: Term)(implicit usedVars: List[String]): THF.Formula = t match {
+    case Lambda(v, ty, body) => {
+      val (name, vn) = translate_var_name(v)
+      THF.QuantifiedFormula(THF.^, Seq((name, translate_formula(ty)(vn::usedVars))), translate_formula(body)(vn::usedVars))
+    }
     case simplambda(_, _, f) => translate_formula(f)
     case simpapply(_, _, f, x) => translate_formula(ApplySpine(f, x))
 
@@ -106,14 +110,20 @@ class HOLExporter extends logicExporter {
     //TODO: Add term -> $i
     // TODO: product types, etc. still needed
 
-    case tforall((ty, Lambda(v, _, body))) => THFUniv(translate_var_name(v), translate_formula(ty), translate_formula(body))
-    case texists((ty, Lambda(v, _, body))) => THFExist(translate_var_name(v), translate_formula(ty), translate_formula(body))
+    case tforall((ty, Lambda(v, _, body))) => {
+      val (name, vn) = translate_var_name(v)
+      THFUniv(name, translate_formula(ty)(vn::usedVars), translate_formula(body)(vn::usedVars))
+    }
+    case texists((ty, Lambda(v, _, body))) => {
+      val (name, vn) = translate_var_name(v)
+      THFExist(name, translate_formula(ty)(vn::usedVars), translate_formula(body)(vn::usedVars))
+    }
     case tforall(ty, body) =>
-      val varname = Context.pickFresh(body.freeVars.map(VarDecl(_)), LocalName("X"))._1
-      translate_formula(tforall(ty, Lambda(varname, ty, ApplySpine(body, OMV(varname)))))
+      val varname = LocalName(generate_fresh_var_name_ctx(Some("x"))(usedVars, body.freeVars))
+      translate_formula(tforall(ty, Lambda(varname, ty, ApplySpine(body, OMV(varname)))))(varname.toString.toUpperCase::usedVars)
     case texists(ty, body) =>
-      val varname = Context.pickFresh(body.freeVars.map(VarDecl(_)), LocalName("X"))._1
-      translate_formula(texists(ty, Lambda(varname, ty, ApplySpine(body, OMV(varname)))))
+      val varname = LocalName(generate_fresh_var_name_ctx(Some("x"))(usedVars, body.freeVars))
+      translate_formula(texists(ty, Lambda(varname, ty, ApplySpine(body, OMV(varname)))))(varname.toString.toUpperCase::usedVars)
     case and(left, right) =>
       THFAnd(translate_formula(left), translate_formula(right))
     case or(left, right) =>
@@ -140,7 +150,7 @@ class HOLExporter extends logicExporter {
     case OMID(f) => THF.FunctionTerm(translate_var_decl_name(f.name), Nil)
 
     case OMV(x) =>
-      THF.Variable(translate_var_name(x))
+      THF.Variable(translate_var_name(x)._1)
 
     case ApplySpine(f, args) => args.map(translate_formula).foldLeft(translate_formula(f))((g, arg) => THF.BinaryFormula(THF.App, g, arg))
 
@@ -193,8 +203,51 @@ object THFExporterUtil {
 
   def make_name_tptp_compatible(s: String) = s.replace("/", "__")
   def ln_to_TPTP_identifier(ln: LocalName) = make_name_tptp_compatible(ln.toString)
-  def translate_var_name(n:LocalName) = "V_" + ln_to_TPTP_identifier(n).toUpperCase
-  def translate_var_decl_name(n:LocalName) = "t_" + ln_to_TPTP_identifier(n)
+  private def make_unique_var_name(n: String, usedNames: List[String]) = {
+    val name = n.toUpperCase
+    var postfix = 0
+    while (usedNames.contains(name + postfix.toString)) {
+      postfix += 1
+    }
+    name + postfix
+  }
+  private def get_available_func_var_name(usedNames: List[String]) = {
+    val suggestedFuncVarsNames = List ("f", "g", "h")
+    var foundName = true
+    var name = ""
+    suggestedFuncVarsNames.foreach ({suggestedName =>
+      if (!foundName && !usedNames.contains(suggestedName)) {
+        foundName = true
+        name = suggestedName
+      }
+    })
+    if (foundName) name else make_unique_var_name("f", usedNames)
+  }
+  private def get_available_nonfunc_var_name(usedNames: List[String]) = {
+    val suggestedFuncVarsNames = List ("u", "v", "w", "x", "y", "z")
+    var foundName = true
+    var name = ""
+    suggestedFuncVarsNames.foreach ({suggestedName =>
+      if (!foundName && !usedNames.contains(suggestedName)) {
+        foundName = true
+        name = suggestedName
+      }
+    })
+    if (foundName) name else make_unique_var_name("v", usedNames)
+  }
+  def generate_fresh_var_name(nameO : Option[String] = None, useFunctionName: Boolean = false)(implicit usedVars: List[String]): String = nameO match {
+    case Some(name) => if (usedVars.contains(name.toUpperCase)) make_unique_var_name(name, usedVars) else name
+    case None => if (useFunctionName) get_available_func_var_name(usedVars) else get_available_nonfunc_var_name(usedVars)
+  }
+  def generate_fresh_var_name_ctx(nameO : Option[String] = None, useFunctionName: Boolean = false)(implicit usedVars: List[String], usedVarCtx: List[LocalName]): String =
+    generate_fresh_var_name(nameO, useFunctionName)(usedVars++usedVarCtx.map(_.toString.toUpperCase))
+
+  def translate_var_name(n:LocalName, useFunctionName: Boolean = false)(implicit usedVars: List[String] = List.empty) = {
+    val name = ln_to_TPTP_identifier(n)
+    ("V_" + name.toUpperCase, name.toUpperCase)
+  }
+  def add_TPTP_prefix(s:String) = "t_"+s
+  def translate_var_decl_name(n:LocalName) = add_TPTP_prefix (ln_to_TPTP_identifier(n))
   def default_name(p: ContentPath) = translate_var_decl_name(p.name)
   def IMPOSSIBLE = throw ImplementationError("This case should be impossible.")
   def UNSUPPORTED(s:String) = throw ImplementationError("This feature is unsupported: " + s)
