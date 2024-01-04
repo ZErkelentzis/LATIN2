@@ -267,7 +267,6 @@ trait dependentLogicExporter extends logicExporter {
             case (_::argTps, _::args) => dropArgCtx(argTps, args)
             case _ => throw TypeInferrenceError
           }
-          println ("Inferring type of function application of function "++controller.presenter.asString(fun)++" with argument types "++argCtx.variables.toList.toString()++" to the arguments "++args.toString())
           PiOrEmpty(dropArgCtx(argCtx.variables.toList, args), ret)
       }
       case Truth._true(()) | Falsity._false(()) => Booleans.bool.term
@@ -277,22 +276,18 @@ trait dependentLogicExporter extends logicExporter {
       case OMV(v) if ctx.variables.exists(_.name == v) => ctx.variables.find(_.name == v).get.tp.get
       case OMS(p) if controller.localLookup.getO(p).isDefined =>
         val tp = controller.library.getConstant(p).tp.get
-        println ("Looked up type "++controller.presenter.asString(tp)++" of constant "++p.name.toString++". ")
         tp
       case otherwise => throw TypeInferrenceError
     }
   }
   def definition_builder(tpO: Option[Term], path: GlobalName, name: LocalName, df: Term, ctx: Context)(implicit ctrl: Controller): List[THFAnnotated] = {
-    println ("Calling definition builder for definition of type "++(if (tpO.isDefined) controller.presenter.asString(tpO.get) else "not given")++" and definien "++controller.presenter.asString(df))
     def THFPi(args: Context, ret: THF.Formula) = THFArrow(args.map(vd => translate_type(vd.tp.get)), ret)
     try {
       val (argCtx, ret): (Context, Term) = tpO match {
         case Some(DHOLPi(ctx, ret)) => (ctx, ret)
         case None => df match {
           case DHOLLambda(ctx, bdy) =>
-            println("Inferring (implicit) type of body of lambda in definien: ")
             val ret = inferTp(bdy)(ctx)
-            println(controller.presenter.asString(ret))
             (ctx, ret)
         }
       }
@@ -525,7 +520,6 @@ object DIHOLExporterUtil {
         }
         val n = generate_fresh_var_name_ctx(None, false)(Nil, ctx.variables.map(_.name).toList)
         val ln = LocalName(n)
-        println ("Found simple function type. ")
         Some ( (OMV(ln) % dom :: ctx), ret)
       case FunType(args, bdy) if args.nonEmpty =>
         val ctx = argContext(args)
