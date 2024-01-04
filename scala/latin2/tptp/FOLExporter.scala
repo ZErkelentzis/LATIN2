@@ -22,7 +22,7 @@ import scala.collection.mutable.ArrayBuffer
 class FOLExporter  extends logicExporter {
   val priority: Int = 1
   val theoryPath: info.kwarc.mmt.api.MPath = lf.DHOL._path
-  def tptp_conjecture(conj: info.kwarc.mmt.api.objects.Term) = FOFAnnotated("conjecture", "conjecture", FOF.Logical(translate_formula(conj)), None)
+  def tptp_conjecture(conj: info.kwarc.mmt.api.objects.Term, conjName: Option[String]) = FOFAnnotated(conjName getOrElse "conjecture", "conjecture", FOF.Logical(translate_formula(conj)), None)
 
   def translate_theory(theory: Theory)(implicit ctrl: Controller) = {
     theory.getConstants.flatMap(translate_constant)

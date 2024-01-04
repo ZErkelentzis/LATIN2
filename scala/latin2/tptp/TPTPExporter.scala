@@ -9,7 +9,7 @@ import modules.Theory
 import objects.{Context, OMSReplacer, OMSemiFormal, OMV, Obj, Sub, Substitution, Term, Text, VarDecl}
 import presentation.{RenderingHandler, StructurePresenter}
 import proving.{AutomatedProver, ProvingUnit}
-import symbols.{Constant, PlainInclude}
+import symbols.{Constant, Declaration, PlainInclude}
 import utils.listmap
 import leo.datastructures.TPTP.{AnnotatedFormula, Comment, FOFAnnotated, Include, Problem, TFFAnnotated, THFAnnotated}
 import lf.Proofs.ded
@@ -35,7 +35,7 @@ class TPTPExporter extends StructurePresenter with AutomatedProver { //TODO: doe
   // can be re-set in apply method
   // this can be useful e.g. to set a shorter timeout for proof obligations generated during type-checking
   private var timeout = 60
-  private var proverOutputVerbosity = 1
+  private var proverOutputVerbosity = 2
 
   private def select_exporter(path: MPath): Option[logicExporter] = {
     val logicExporters = controller.extman.get(classOf[logicExporter])
@@ -262,7 +262,7 @@ trait logicExporter extends Extension {
     }
   }
 
-  def tptp_conjecture(conj: Term): AnnotatedFormula
+  def tptp_conjecture(conj: Term, conjName: Option[String]): AnnotatedFormula
 
   def combineStubs(p: MPath, ctx: Context, t: Term)(implicit ctrl: Controller): Problem = {
     var includes = ArrayBuffer[MPath]()
@@ -287,14 +287,16 @@ trait logicExporter extends Extension {
 
     formulas ++= assumptions
 
+    val conjName = decls.find({case c: Constant => c.tp == Some (t); case _ => false}).map(_.name.toString)
     val ded(origConjecture) = t ^ assSubstitution
     val conjecture = replacer.toTranslator().apply(ctx, origConjecture)
     val conjStr = controller.presenter.asString(conjecture)
+
     log("Trying to prove "+conjStr+" using tptp exporter and HOL prover and in context: "+ctx.toStr(true))
     // if (conjecture != origConjecture)
     //  log("The unreplaced conjecture is: " + controller.presenter.asString(origConjecture))
 
-    formulas += tptp_conjecture(conjecture)
+    formulas += tptp_conjecture(conjecture, conjName)
     add_formula_comment("conjecture")
 
     /* log("The overall problem is: ")

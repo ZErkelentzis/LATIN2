@@ -16,7 +16,7 @@ theory Peano : latin:/?DHOLND =
     axiom4 : ⊦ ∀ͭ[n: tm N] ∀ͭ[m: tm N] ((suc n =ͭ suc m) ⇒ (n =ͭ m))❙
 
     //Induction Axiom❙
-    axiom5 : ⊦ ∀ͭ[X: tm N → bool] X @ zero ∧ (∀ͭ[n : tm N] X @ n ⇒ X @ (suc n)) ⇒ ∀ͭ[x: tm N] X @ x❙
+    axiom5 : ⊦ ∀ͭ[P: tm N → bool] P @ zero ∧ (∀ͭ[n : tm N] P @ n ⇒ P @ (suc n)) ⇒ ∀ͭ[x: tm N] P @ x❙
 
     // Conjecture❙
     conj : ⊦ ∀ͭ[x: tm N] (x =ͭ zero) ∨ (∃ͭ[y: tm N] suc y =ͭ x) ❘ = PROVE❙

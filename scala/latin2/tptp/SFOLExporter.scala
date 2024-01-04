@@ -28,7 +28,7 @@ import scala.collection.mutable.ArrayBuffer
 class SFOLExporter extends logicExporter {
   val priority: Int = 2
   val theoryPath: info.kwarc.mmt.api.MPath = lf.SFOL._path
-  def tptp_conjecture(conj: info.kwarc.mmt.api.objects.Term) = TFFAnnotated("conjecture", "conjecture", TFF.Logical(translate_formula(conj)), None)
+  def tptp_conjecture(conj: info.kwarc.mmt.api.objects.Term, conjName: Option[String]) = TFFAnnotated(conjName getOrElse "conjecture", "conjecture", TFF.Logical(translate_formula(conj)), None)
 
   def translate_theory(theory: Theory)(implicit ctrl: Controller) = {
     theory.getConstants.flatMap(translate_constant)

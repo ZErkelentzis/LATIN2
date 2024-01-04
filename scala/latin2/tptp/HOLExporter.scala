@@ -28,7 +28,7 @@ import latin2.tptp.THFExporterUtil._
 class HOLExporter extends logicExporter {
   val priority: Int = 3
   val theoryPath: info.kwarc.mmt.api.MPath = lf.HOL._path
-  def tptp_conjecture(conj: info.kwarc.mmt.api.objects.Term) = THFAnnotated("conjecture", "conjecture", THF.Logical(translate_formula(conj)(List.empty)), None)
+  def tptp_conjecture(conj: info.kwarc.mmt.api.objects.Term, conjName: Option[String]) = THFAnnotated(conjName getOrElse "conjecture", "conjecture", THF.Logical(translate_formula(conj)(List.empty)), None)
 
   def translate_theory(theory: Theory)(implicit ctrl: Controller) = {
     theory.getConstants.flatMap(translate_constant)

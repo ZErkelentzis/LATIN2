@@ -23,7 +23,7 @@ class DHOLExporter extends DIHOLExporter {
     val relTp = THFArrow(translatedArgs map translate_type, THFBool)
     val tpRel = THFAnnotated(type_rel_name(name), "type",
       THF.Typing(type_rel_name(name), relTp), None)
-    val (x, vx) = newTypeRelVarName(Some("x"), OMS(path), dependentArgs)
+    val (x, vx) = newTypeRelVarName(None, OMS(path), dependentArgs)
     usedVars :+ vx
     val xP = primedName(x)
     val translatedBaseType = THFOMS(translated_type_path(path).path)
@@ -59,12 +59,14 @@ class DHOLExporter extends DIHOLExporter {
       relAppl(tpConstr, tpArgs, left, right)
     }
 
-    def typeRelFuncType(x: String, tp: Term, codomain: Term) = {
+    def typeRelFuncType(xn: String, tp: Term, codomain: Term) = {
       val convertedTp = translate_type(tp)
-      val innerEq = type_rel(codomain, THFApp(left, THF.Variable(x)), THFApp(right, THF.Variable(primedName(x))))
+      val xpn = primedName(xn)
+      val (x, xp) = (THF.Variable(xn), THF.Variable(xpn))
+      val innerEq = type_rel(codomain, THFApp(left, x), THFApp(right, xp))
 
-      THF.QuantifiedFormula(THF.!, Seq((x, convertedTp), (primedName(x), convertedTp)),
-        THF.BinaryFormula(THF.Impl, type_rel(tp, THF.Variable(x), THF.Variable(primedName(x))),
+      THF.QuantifiedFormula(THF.!, Seq((xn, convertedTp), (xpn, convertedTp)),
+        THF.BinaryFormula(THF.Impl, type_rel(tp, x, xp),
           innerEq))
     }
     tp match {
@@ -76,11 +78,14 @@ class DHOLExporter extends DIHOLExporter {
       }
       case ApplyGeneral(OMS(p), args) => optimizedRelAppl(p, args, left, right)
       case FunType((xNameO, xTp)::tl, codomain) =>
-        val x = (xNameO match {
-          case Some(ln) => translate_var_name(ln)
-          case None => newTypeRelVarName(None, xTp)(usedVars, controller)
-        })._1
-        typeRelFuncType(x, xTp, FunType(tl, codomain))
+        val (x, subst): (String, Substitution) = xNameO match {
+          case Some(ln) =>
+            val name = ln.toString++"_REL"
+            val xNew = translate_var_name(LocalName(name))._1
+            (xNew, Sub(ln, OMV(name)))
+          case None => (newTypeRelVarName(None, xTp)(usedVars, controller)._1, Substitution.empty)
+        }
+        typeRelFuncType(x, xTp ^ subst, FunType(tl.map({case (nO, tm) => (nO, tm ^ subst)}), codomain ^ subst))
       // type variables, not really supported so we fall back to plain equality
       // TODO: rethink this
       case ApplyGeneral(OMV(_), _) => THF.BinaryFormula(THF.Eq, left, right)
@@ -96,7 +101,7 @@ object DHOLExporterUtil {
   def type_rel_path(path: GlobalName) = path.module ? type_rel_name(path.name)
   def type_rel(path:GlobalName) = THFOMS(type_rel_path(path))
   def newTypeRelVarName(nameO: Option[String], tp: Term, ctx: Context = Context.empty)(implicit usedVars: List[String], controller: Controller) = {
-    val preferredName = nameO .getOrElse("x"+controller.presenter.asString(tp))
+    val preferredName = nameO .getOrElse("x_rel"+controller.presenter.asString(tp))
     val name = generate_fresh_var_name_ctx(Some(preferredName))(usedVars, ctx.variables.toList.map(_.name))
     translate_var_name(LocalName(name))
   }

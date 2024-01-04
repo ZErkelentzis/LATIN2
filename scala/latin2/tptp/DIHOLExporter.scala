@@ -5,7 +5,7 @@ import info.kwarc.mmt.api.modules.Theory
 import info.kwarc.mmt.api.objects.Context.context2list
 import info.kwarc.mmt.api.objects._
 import info.kwarc.mmt.api.uom.SimplificationUnit
-import info.kwarc.mmt.api.{GeneralError, GlobalName, LocalName, MPath}
+import info.kwarc.mmt.api.{GeneralError, GlobalName, ImplementationError, LocalName, MPath, checking}
 import info.kwarc.mmt.lf._
 import latin2.sfol.SFOLPatterns.TypeDecl
 import leo.datastructures.TPTP.Comment.{CommentFormat, CommentType}
@@ -20,10 +20,12 @@ import lf.SFOLEQ.notequal
 import lf.TypedEquality.tequal
 import lf.TypedExistentialQuantification.texists
 import lf.TypedUniversalQuantification.tforall
-import lf.{Booleans, DependentConjunction, DependentFunctionTypes, DependentFunctions, DependentImplication, Falsity, Truth, TypedEquality, TypedTerms}
+import lf.{Booleans, DependentConjunction, DependentFunctionTypes, DependentFunctions, DependentImplication, Falsity, SimpleFunctionTypes, Truth, TypedEquality, TypedTerms}
 import info.kwarc.mmt.api
 import info.kwarc.mmt.api.checking.{History, InferenceRule, Solver, TypeBasedEqualityRule}
 import info.kwarc.mmt.api.objects.Conversions.localName2OMV
+import latin2.sfol.CommonSymbols.prop
+import latin2.tptp.DIHOLExporterUtil.DHOLPi.argContext
 import latin2.tptp.DIHOLExporterUtil._
 import latin2.tptp.THFExporterUtil._
 
@@ -31,6 +33,7 @@ import latin2.tptp.THFExporterUtil._
 
 trait dependentLogicExporter extends logicExporter {
   var pathMap: List[(GlobalName, String)] = Nil
+  var numNewVars = 0
 
   def translate_term(t: Term)(implicit usedVars: List[String]): THF.Formula = {
     t match {
@@ -59,10 +62,12 @@ trait dependentLogicExporter extends logicExporter {
         val tpCond = typing_pred(ty, OMV(v))
         THFExist(name, translate_type(ty), THFAnd(tpCond, translate_term(body)(vn::usedVars)))
       case tforall(ty, body) =>
-        val varname = LocalName(generate_fresh_var_name_ctx(Some("x"))(usedVars, body.freeVars))
+        val varname = LocalName(generate_fresh_var_name_ctx(Some("x_"++numNewVars.toString))(usedVars, body.freeVars))
+        numNewVars += 1
         translate_term(tforall(ty, Lambda(varname, ty, ApplySpine(body, OMV(varname)))))
       case texists(ty, body) =>
-        val varname = LocalName(generate_fresh_var_name_ctx(Some("x"))(usedVars, body.freeVars))
+        val varname = LocalName(generate_fresh_var_name_ctx(Some("x_"++numNewVars.toString))(usedVars, body.freeVars))
+        numNewVars += 1
         translate_term(texists(ty, Lambda(varname, ty, ApplySpine(body, OMV(varname)))))
       case and(left, right) =>
         THFAnd(translate_term(left), translate_term(right))
@@ -131,14 +136,16 @@ trait dependentLogicExporter extends logicExporter {
    */
   def translate_decl(path: GlobalName, tpO: Option[Term], dfO: Option[Term], ctx: Context)(implicit ctrl: Controller): List[THFAnnotated] = {
     val name = path.name
-    implicit val usedVars: List[String] = List.empty
+    implicit var usedVars: List[String] = List.empty
     val declTranslated = parseDHOLDeclaration(path, tpO, dfO, ctx, replacer) match {
       case DHOLAbbreviation(path, definien) =>
         definitionSubstituents ::= (path, definien)
         pathMap ::= (path, translated_defn_name(name))
+        definition_builder(None, path, name, definien, ctx)
+        /* val translatedDefinien = definition_builder(LocalName(translated_defn_name(name)), tpO, definien)
         val defDecl = THFAnnotated(defn_decl_name(name), "definition",
-          THF.Logical(translate_term(definien)), None)
-        List(defDecl)
+          THF.Logical(translatedDefinien), None)
+        List(defDecl) */
       case DHOLTypeDeclaration(ctxTp) =>
         pathMap ::= (path, translated_type_name(name))
         pathMap ::= (type_pred_path(path), type_pred_name(name))
@@ -146,6 +153,7 @@ trait dependentLogicExporter extends logicExporter {
       case DHOLTermDeclaration(ctxTp, ctxTm, ret) =>
         // ignore the difference to allow using LF Pis instead of depfun
         val ctx = ctxTp ++ ctxTm
+        usedVars ++= ctx.variables.map(_.name.toString)
         pathMap ::= (path, translated_fun_name(name))
         val funDecl = THFAnnotated(type_decl_name(name), "type",
           THF.Typing(translated_fun_name(name), translate_type(PiOrEmpty(ctx, ret))), None)
@@ -155,6 +163,7 @@ trait dependentLogicExporter extends logicExporter {
         List(funDecl, tpAx)
       case DHOLAxiom(ctxTp, claim) =>
         pathMap ::= (path, ax_decl_name(name))
+        usedVars ++= ctxTp.variables.map(_.name.toString)
         val translatedVarNames = ctxTp.variables.map(vd => (translate_var_name(vd.name), vd.tp)).toList
         val ax_body = translate_term(claim)(usedVars++translatedVarNames.map(_._1._2))
         val tax = translatedVarNames.foldRight(ax_body)((varNameT, bdy) =>
@@ -228,8 +237,10 @@ trait dependentLogicExporter extends logicExporter {
    */
   def typing_pred(t:Term, x:Term)(implicit usedVars: List[String]): THF.Formula
 
-  def tptp_conjecture(conj: info.kwarc.mmt.api.objects.Term) =
-    THFAnnotated("conjecture", "conjecture", THF.Logical(translate_term(conj)(List.empty)), None)
+  def tptp_conjecture(conj: info.kwarc.mmt.api.objects.Term, conjName: Option[String]) = {
+    val conjNm = conjName getOrElse "conjecture"
+    THFAnnotated(conjNm, "conjecture", THF.Logical(translate_term(conj)(List.empty)), None)
+  }
 
   def translateTypeDecl(path: GlobalName, dependentArgs: Context)(implicit ctrl: Controller): List[THFAnnotated]
   def translate_equality(tp: Term, left: Term, right: Term)(implicit usedVars: List[String]): THF.Formula
@@ -241,6 +252,70 @@ trait dependentLogicExporter extends logicExporter {
     pathMap = Nil
 
     decls.map(c => (c.path, c.tp, c.df)) flatMap { case (p, tp, df) => translate_decl(p, tp, df, Context(p.module)) }
+  }
+
+  def inferTp(tm: Term)(implicit ctx:Context): Term = {
+    val TypeInferrenceError = ImplementationError("Cannot infer type of term: "++controller.presenter.asString(tm))
+    tm match {
+      case DHOLLambda(argCtx, bdy) =>
+        PiOrEmpty(argCtx, inferTp(bdy)(ctx++argCtx))
+      case DHOLApply(fun, args) => inferTp(fun) match {
+        case DHOLPi(argCtx, ret) =>
+          def dropArgCtx(argTps: List[VarDecl], args: List[Term]): List[VarDecl] = (argTps, args) match {
+            case (Nil, Nil) => Nil
+            case (argTps, Nil) => argTps
+            case (_::argTps, _::args) => dropArgCtx(argTps, args)
+            case _ => throw TypeInferrenceError
+          }
+          println ("Inferring type of function application of function "++controller.presenter.asString(fun)++" with argument types "++argCtx.variables.toList.toString()++" to the arguments "++args.toString())
+          PiOrEmpty(dropArgCtx(argCtx.variables.toList, args), ret)
+      }
+      case Truth._true(()) | Falsity._false(()) => Booleans.bool.term
+      case tforall((_, _)) | texists((_, _)) | tforall(_, _) | texists(_, _) | and(_, _)
+           | DependentConjunction.dand(_, _) | or(_, _) |  impl(_, _) | DependentImplication.dimpl(_, _)
+           | equiv(_, _) | tequal(_, _, _) | notequal(_, _, _) | not(_) => Booleans.bool.term
+      case OMV(v) if ctx.variables.exists(_.name == v) => ctx.variables.find(_.name == v).get.tp.get
+      case OMS(p) if controller.localLookup.getO(p).isDefined =>
+        val tp = controller.library.getConstant(p).tp.get
+        println ("Looked up type "++controller.presenter.asString(tp)++" of constant "++p.name.toString++". ")
+        tp
+      case otherwise => throw TypeInferrenceError
+    }
+  }
+  def definition_builder(tpO: Option[Term], path: GlobalName, name: LocalName, df: Term, ctx: Context)(implicit ctrl: Controller): List[THFAnnotated] = {
+    println ("Calling definition builder for definition of type "++(if (tpO.isDefined) controller.presenter.asString(tpO.get) else "not given")++" and definien "++controller.presenter.asString(df))
+    def THFPi(args: Context, ret: THF.Formula) = THFArrow(args.map(vd => translate_type(vd.tp.get)), ret)
+    try {
+      val (argCtx, ret): (Context, Term) = tpO match {
+        case Some(DHOLPi(ctx, ret)) => (ctx, ret)
+        case None => df match {
+          case DHOLLambda(ctx, bdy) =>
+            println("Inferring (implicit) type of body of lambda in definien: ")
+            val ret = inferTp(bdy)(ctx)
+            println(controller.presenter.asString(ret))
+            (ctx, ret)
+        }
+      }
+      implicit val usedVars = (ctx++argCtx).variables.map(_.name.toString).toList
+      val (retT, innerBind) = ret match {
+        case prop.term | TypedTerms.tm(Booleans.bool.term) => (THFBool, THFEquiv(_, _))
+        case lf.Types.tp.term | Univ(1) | TypeDecl(Nil) | _ => (translate_type(ret), THFEq(_, _))
+      }
+      val appliedDef = translate_term(ApplyGeneral(OMS(path), argCtx.map(_.toTerm)))
+      val (ty, inner): (THF.Formula, Term => THF.Formula) =
+        (THFPi(argCtx, retT), (d: Term) => innerBind(appliedDef, translate_term(d)))
+      val thfaName = type_decl_name(name)
+      val tpD = THFAnnotated(thfaName, "type", THF.Typing(translated_type_name(name), ty), None)
+      add_formula_comment(thfaName)
+
+      val ax_body = df match {
+        case DHOLLambda(_, d) => argCtx.foldRight(inner(d))((vd, bdy) => THFUniv(translate_var_name(vd.name)._1, translate_type(vd.tp.get), bdy))
+      }
+      val dfD = List(THFAnnotated(ax_decl_name(name / "def"), "definition", THF.Logical(ax_body), None))
+      tpD :: dfD
+    } catch {
+      case typeInfError: ImplementationError => return List.empty
+    }
   }
 }
 
@@ -422,6 +497,115 @@ object DIHOLExporterUtil {
       DHOLTermDeclaration(Context.empty, Context.empty, default)
   }
 
+
+  object DHOLLambda {
+    def apply(name: LocalName, tp: Term, body: Term): Term = Lambda(name, tp, body)
+    def apply(argCtx: Context, scope: Term): Term = argCtx.variables.foldRight(scope)((vd, bd) => apply(vd.name, vd.tp.get, bd))
+    def unapply(tm: Term): Option[(Context, Term)] = tm match {
+      case Lambda(v, ty, body) => Some (Context (v % ty), body)
+      case DependentFunctions.deplambda(_, _, f) => unapply(f)
+      case lf.SimpleFunctions.simplambda(_, _, f) => unapply(f)
+      case _ => None
+    }
+  }
+  object DHOLPi {
+    def apply(name: LocalName, tp: Term, body: Term) = Pi (name, tp, body)
+    def apply(ctx: Context, body: Term) = if (ctx.isEmpty) body else Pi(ctx, body)
+    def unapply(tm: Term): Option[(Context, Term)] = tm match {
+      case DependentFunctionTypes.depfun(s, t) =>
+        val (ctx, bdy) = unapplyDepFun(s, t)
+        unapply(bdy) match {
+          case Some ((ctx2, inner)) => Some (ctx++ctx2, inner)
+          case None => Some (ctx, bdy)
+        }
+      case SimpleFunctionTypes.simpfun(dom, codom) =>
+        val (ctx, ret) = unapply(codom) match {
+          case Some ((ctx, ret)) => (ctx, ret)
+          case None => (Context.empty, codom)
+        }
+        val n = generate_fresh_var_name_ctx(None, false)(Nil, ctx.variables.map(_.name).toList)
+        val ln = LocalName(n)
+        println ("Found simple function type. ")
+        Some ( (OMV(ln) % dom :: ctx), ret)
+      case FunType(args, bdy) if args.nonEmpty =>
+        val ctx = argContext(args)
+        unapply(bdy) match {
+          case Some ((ctx2, inner)) => Some (ctx++ctx2, inner)
+          case None => Some (ctx, bdy)
+        }
+      case TypedTerms.tm(tp) => unapply(tp)
+      case e =>
+        Some (Context.empty, tm)
+    }
+
+    def is_bool_valued(ty: Term): Boolean = ty match {
+      case depFun@lf.DependentFunctionTypes.depfun(tp, lam) => {
+        val (depArgs, bdy) = unapplyDepFun(tp, lam)
+        is_bool_valued(bdy)
+      }
+      case FunType(args, bdy) => is_bool_valued(bdy)
+      case Booleans.bool.term => true
+      case _ => false
+    }
+    def argContext(args: List[(Option[LocalName], Term)]): Context = {
+      var dependentArgs = Context.empty
+      args .zipWithIndex foreach {
+        case ((nOpt, t), i) =>
+          val nameSuggestionO = nOpt
+          val ln = Context.pickFresh(dependentArgs, nameSuggestionO getOrElse LocalName("X_funArg_"+i))._1
+          dependentArgs :+= ln % t
+      }
+      dependentArgs
+    }
+    def PiOrEmpty(ctx: Context, tm: Term) = if (ctx.isEmpty) tm else Pi(ctx, tm)
+    def unapplyDepFun(tp: Term, lam: Term)(implicit ctx: Context = Context.empty) : (Context, Term) = lam match {
+      case Lambda(n, lf.TypedTerms.tm(tp2), x) => x match {
+        case DependentFunctionTypes.depfun(ty, fun) =>
+          val (ctx2, body) = unapplyDepFun(ty, fun)
+          val ln = Context.pickFresh(ctx2, n)._1
+          (OMV(ln) % tp :: ctx2, body)
+        case _ => (OMV(n) % tp, x)
+      }
+      case _ => throw GeneralError("Ill-formed dependent function type. Expected lambda as second argument, but found "+lam.toStr(true))
+    }
+
+    def translated_fun_path(path:GlobalName) = OMS(path.module ? translated_fun_name(path.name))
+    def translated_fun(path:GlobalName) = THFOMS(translated_fun_path(path).path)
+
+    def ax_decl_name(ln: LocalName) = ln.toString+"_ax"
+    def tp_ax_decl_name(ln: LocalName) = ln.toString+"_tp_ax"
+    def type_pred_decl_name(ln:LocalName) = ln.toString+"_pred"
+
+    def type_pred_name(name:LocalName) = name.toString + "_pred"
+    def type_pred_path(path:GlobalName) = path.module ? type_pred_name(path.name)
+    def type_pred(path:GlobalName) = THFOMS(type_pred_path(path))
+  }
+
+  object DHOLApply {
+    def apply(fun: Term, args: List[Term]) = ApplyGeneral(fun, args)
+    def unapply(tm: Term): Option[(Term, List[Term])] = tm match {
+      case DependentFunctions.depapply(_, _, f, x) =>
+        unapply (f) match {
+          case Some ((fun,initArgs)) => Some (fun, initArgs:::List(x))
+          case None => Some (f, List (x))
+        }
+      case lf.SimpleFunctions.simpapply(_, _, f, x) =>
+        unapply (f) match {
+          case Some ((fun,initArgs)) => Some (fun, initArgs:::List(x))
+          case None => Some (f, List (x))
+        }
+      // after dependency-erasure dependent application becomes ordinary application
+      case ApplyGeneral(DependentFunctions.depapply.term, argTp :: funTp :: fun :: arg :: args) =>
+        unapply (ApplyGeneral(fun, arg :: args))
+      case ApplySpine(f, args) =>
+        unapply (f) match {
+          case Some ((fun,initArgs)) => Some (fun, initArgs:::args)
+          case None => Some (f, args)
+        }
+      case _ => None
+    }
+  }
+
   def is_bool_valued(ty: Term): Boolean = ty match {
     case depFun@lf.DependentFunctionTypes.depfun(tp, lam) => {
       val (depArgs, bdy) = unapplyDepFun(tp, lam)
@@ -430,16 +614,6 @@ object DIHOLExporterUtil {
     case FunType(args, bdy) => is_bool_valued(bdy)
     case Booleans.bool.term => true
     case _ => false
-  }
-  def argContext(args: List[(Option[LocalName], Term)]): Context = {
-    var dependentArgs = Context.empty
-    args .zipWithIndex foreach {
-      case ((nOpt, t), i) =>
-        val nameSuggestionO = nOpt
-        val ln = Context.pickFresh(dependentArgs, nameSuggestionO getOrElse LocalName("X_"+i))._1
-        dependentArgs :+= ln % t
-    }
-    dependentArgs
   }
   def PiOrEmpty(ctx: Context, tm: Term) = if (ctx.isEmpty) tm else Pi(ctx, tm)
   def unapplyDepFun(tp: Term, lam: Term)(implicit ctx: Context = Context.empty) : (Context, Term) = lam match {
