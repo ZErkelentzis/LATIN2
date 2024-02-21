@@ -1,7 +1,65 @@
-namespace latin:/❚
+namespace latin:/dhol❚
 
-fixmeta ur:?LF❚
+theory DHOL : ur:?LF =
+  tp: type❙
+  tm: type❙
+  
+  bool: tp❙
+  pi: tp ⟶ (tm ⟶ tp) ⟶ tp❘ # Π 1 2❙
+  spi: tp ⟶ tp ⟶ tp❘ = [a,b] pi a [x] b❘ # 1 → 2 prec 5❙
+  
+  lam: tp ⟶ (tm ⟶ tm) ⟶ tm❘ # λ 1 2❙
+  app: tm ⟶ tm ⟶ tm❘ # 1 @ 2 prec 20❙
 
-theory DHOL =
+  eq: tp ⟶ tm ⟶ tm ⟶ tm❘ # 2 = 1 3 prec 10❙
+  impl: tm ⟶ tm ⟶ tm❘ # 1 ⇒ 2 prec 5❙
+  
+  wftp: tp ⟶ type❘       # $ 1   prec -5❙
+  wftm: tm ⟶ tp ⟶ type❘ # 1 % 2 prec -5❙
+  valid: tm ⟶ type❘      # ⊦ 1   prec -5❙
+  eqtp: tp ⟶ tp ⟶ type❘ # 1 ≡ 2 prec -5❙
+  subtp: tp ⟶ tp ⟶ type❘# 1 < 2 prec -2❘
+       = [A,B] {x} x%A ⟶ x%B❙
 
+  lam_tp: {A,B,T} ({x} x%A ⟶ T x % B x) ⟶ (λ A [x] T x) % (Π A [x] B x)❙
+  pi_tp : {A,B} ({x} x%A ⟶ $ B x) ⟶ $ Π A [x] B x❙
+
+  pi_sub: {A,Aˈ,B,Bˈ} Aˈ < A ⟶ ({x} x%Aˈ ⟶ B x < Bˈ x) ⟶ (Π A [x] B x) < (Π Aˈ [x] Bˈ x)❙
+  
+  impl_tp : {F,G} F%bool ⟶ (⊦ F ⟶ G%bool) ⟶ F⇒G % bool❙
+  impl_I: {F,G} (⊦ F ⟶ ⊦ G) ⟶ ⊦ F⇒G❙
+  impl_E: {F,G} ⊦ F⇒G ⟶ ⊦ F ⟶ ⊦ G❙
+
+  
+  sub_antisym : {A,B} A<B ⟶ B<A ⟶ A≡B❙
+  
+  // refine: tp ⟶ tm ⟶ tp❘# 1 | 2 prec 5❙
+  // refine_tp: {A,p} $ A ⟶ p % A → bool ⟶ $ A|p❙
+  
+  refine: tp ⟶ (tm ⟶ tm) ⟶ tp❘# 1 | 2 prec 5❙
+  refine_tp: {A,p} $ A ⟶ ({x} x%A ⟶ p x % bool) ⟶ $ A|p❙
+  
+  isEqRel: tp ⟶ (tm ⟶ tm ⟶ tm) ⟶ type❙
+  quotient: tp ⟶ (tm ⟶ tm ⟶ tm) ⟶ tp❘# 1 ∕ 2 prec 5❙
+  quotient_tp: {A,r} $ A ⟶ ({x,y} x%A ⟶ y%A ⟶ r x y % bool) ⟶ isEqRel A r ⟶ $ A∕r❙
+❚
+
+/T Example 1❚
+theory Lists : ?DHOL =
+  nat: tp❙
+  obj: tp❙
+
+  zero: tm❙
+  zero_tp: zero % nat❙
+  
+  succ: tm❙
+  succ_tp: succ % nat → nat❙
+  
+  llist: tm ⟶ tp❙
+  llist_tp: {x} x%nat ⟶  $ llist x❙
+
+  
+  lcons: tm❙
+  lcons_tp: lcons % Π nat [n] obj → llist n → llist (succ @ n)❙
+ 
 ❚
