@@ -28,7 +28,7 @@ fixmeta ?Logic❚
 theory ConsLists =
     list : type ⟶ type ❙
     nil  : {a} list a❘ # ∅ %I1❙
-    cons : {a} a ⟶ list a ⟶ list a ❘ # 2 -∶  3❙
+    cons : {a} a ⟶ list a ⟶ list a ❘ # 2 %R-∶  3❙
 
     length : {a} list a ⟶ nat❘# | 2 |❙
     length_nil : {a} |nil a| ≐ zero❙
@@ -56,6 +56,8 @@ theory ArrayLists =
     grow : {a} array a ⟶ nat ⟶ array a❘ # grow 2 by 3❙
     set : {a} array a ⟶ nat ⟶ a ⟶ array a❘ # 2 update 3 as 4❙
 
+    // equational theory???❙
+    
     length : {a} array a ⟶ nat❘# | 2 |❙
     length_make : {a,n,x:a} |make n x| ≐ n❙
     length_grow : {a,l:array a,n} |grow l by n| ≐ |l| + n❙
@@ -74,7 +76,9 @@ theory ArrayLists =
 theory SparseLists = 
     sparse : type ⟶ type❙
     nil  : {a} sparse a❙
-    cons : {a} a ⟶ nat ⟶ sparse a ⟶ sparse a❘ # 2 ^ 3 -: 4❙
+    cons : {a} a ⟶ nat ⟶ sparse a ⟶ sparse a❘ # 2 %R^ 3 -∶ 4 ❙
+   
+    cons_same: {a,x:a, m,n,l} x^m -∶ x^n -∶ l ≐ x^(m+n) -∶ l❙
 ❚
 
 
@@ -82,4 +86,13 @@ theory SparseListsWithDefault =
     sparseD: type ⟶ type❙
     default: {a} a ⟶ sparseD a❙
     cons : {a} nat ⟶ a ⟶ sparseD a ⟶ sparseD a❙
+❚
+
+theory SingletonConcatLists =
+    list : type ⟶ type ❙
+    nil  : {a} list a❘ # ∅ %I1❙
+    singleton : {a} list a❘ # ! 2❙
+    concat : {a} list a ⟶ list a ⟶ list a ❘ # 2 ∶∶ 3❙
+    
+    // concat_associative❙
 ❚
