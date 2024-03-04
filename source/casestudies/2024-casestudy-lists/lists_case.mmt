@@ -1,0 +1,46 @@
+theory lists : ur:?PLF =
+    list : type ⟶ type ❙
+    nat :type ❙
+    z : nat ❙
+    empty : {a} list a ❘ #[]❙
+    cons : {a} a ⟶ list a ⟶ list a ❘ #2 ∷ 3 ❙
+    length : {a} list a ⟶ nat ❙
+    reverse : {a} list a ⟶ list a ❙
+❚
+
+theory array : ur:?PLF =
+    nat : type ❙
+    array : type ⟶ nat ⟶ type ❙
+    z : nat ❘ # Ο ❙
+    null : {a} array a Ο ❘ #⟦⟧ ❙
+    get_element : {a,b} nat ⟶ array a b ⟶ a ❙
+    set_element : {a,b} nat ⟶ array a b ⟶ array a b ❙
+❚
+
+theory sparseLists : ur:?PLF = 
+    nat : type ❙
+    sparse : nat ⟶ type ⟶ type ❘ # [1,2] ❙
+    z : nat ❙ # Ο ❙
+    empty : {a} sparse Ο a ❘#[]❙
+    get_element : {a,b} sparse a b ⟶ b ❙
+❚
+
+theory snocLists : ur:?PLF =
+    list : type ⟶ type ❙
+    nat : type❙
+    z : nat ❙
+    empty : {a} list a ❘ # [] ❙
+    snoc : {a} list a ⟶ a ⟶ list a ❘ # 2 @ 3 ❙
+    length : {a} list a ⟶ nat ❙
+    reverse : {a} list a ⟶ list a ❙
+❚
+
+theory encodedLists : ur:?PLF =
+    nat : type ❙
+    base : nat ⟶ type ⟶ type ❘ # [1,2] ❙
+    en_list : {a,b} nat ⟶ base a b ⟶ base a b ❙
+❚
+
+
+
+
