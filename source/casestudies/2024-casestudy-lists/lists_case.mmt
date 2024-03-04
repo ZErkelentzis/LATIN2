@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 namespace latin:/casestudies/_2024-casestudy-lists ❙
 
 theory lists : ur:?PLF =
@@ -9,40 +10,103 @@ theory lists : ur:?PLF =
     length : {a} list a ⟶ nat ❙
     reverse : {a} list a ⟶ list a ❙
 ❚
+=======
+namespace latin:/casestudies/lists❚
 
-theory array : ur:?PLF =
-    nat : type ❙
-    array : type ⟶ nat ⟶ type ❙
-    z : nat ❘ # Ο ❙
-    null : {a} array a Ο ❘ #⟦⟧ ❙
-    get_element : {a,b} nat ⟶ array a b ⟶ a ❙
-    set_element : {a,b} nat ⟶ array a b ⟶ array a b ❙
+fixmeta ur:?PLF❚
+
+theory Logic =
+  eq: {a:type} a ⟶ a ⟶ type❘# 2 ≐ 3 prec -5❙
+  refl: {a,x:a} x ≐ x❙
+>>>>>>> be145c5e8700c5ffda1b71622554869ae094bdff
+
+  neq: {a:type} a ⟶ a ⟶ type❘# 2 ≠ 3 prec -5❙
+  
+  option: type ⟶ type❙
+  some: {a} a ⟶ option a❘ # some 2❙
+  none: {a} option a❙
+
+  nat :type ❙
+  zero : nat ❙
+  succ: nat ⟶ nat❘ # 1 ' prec 50❙
+  
+  less: nat ⟶ nat ⟶ type❘ # 1 < 2 prec 10❙ 
+
+  plus : nat ⟶ nat ⟶ nat❘ # 1 + 2 prec 20❙
+  plus_zero: {n} n+zero ≐ n❙ 
+  plus_succ: {n,x} n+(x') ≐ (n+x)'❙
 ❚
 
-theory sparseLists : ur:?PLF = 
-    nat : type ❙
-    sparse : nat ⟶ type ⟶ type ❘ # [1,2] ❙
-    z : nat ❙ # Ο ❙
-    empty : {a} sparse Ο a ❘#[]❙
-    get_element : {a,b} sparse a b ⟶ b ❙
-❚
+fixmeta ?Logic❚
 
-theory snocLists : ur:?PLF =
+theory ConsLists =
     list : type ⟶ type ❙
-    nat : type❙
-    z : nat ❙
-    empty : {a} list a ❘ # [] ❙
-    snoc : {a} list a ⟶ a ⟶ list a ❘ # 2 @ 3 ❙
-    length : {a} list a ⟶ nat ❙
-    reverse : {a} list a ⟶ list a ❙
+    nil  : {a} list a❘ # ∅ %I1❙
+    cons : {a} a ⟶ list a ⟶ list a ❘ # 2 %R-∶  3❙
+
+    length : {a} list a ⟶ nat❘# | 2 |❙
+    length_nil : {a} |nil a| ≐ zero❙
+    length_cons : {a,x:a,l} |x-∶l| ≐ |l|'❙
+
+    get : {a} list a ⟶ nat ⟶ option a❘ # 2 get 3❙
+    get_nil: {a,n} (nil a) get n ≐ none a❙
+    get_cons: {a,x:a,l} (x -∶ l) get zero ≐ some x❙
+    get_succ: {a,x:a,l,n} (x -∶ l) get n' ≐ l get n❙
 ❚
 
-theory encodedLists : ur:?PLF =
-    nat : type ❙
-    base : nat ⟶ type ⟶ type ❘ # [1,2] ❙
-    en_list : {a,b} nat ⟶ base a b ⟶ base a b ❙
+theory SnocLists =
+    list : type ⟶ type ❙
+    nil  : {a} list a❙
+    snoc : {a} list a ⟶ a ⟶ list a❘ # 2 ∶- 3 ❙
+
+    length : {a} list a ⟶ nat❘# | 2 |❙
+    length_nil : {a} |nil a| ≐ zero❙
+    length_cons : {a,x:a,l} |l∶-x| ≐ |l|'❙
+❚
+
+theory ArrayLists =
+    array : type ⟶ type ❙
+    make : {a} nat ⟶ a ⟶ array a❘ # make 2 3❙
+    grow : {a} array a ⟶ nat ⟶ array a❘ # grow 2 by 3❙
+    set : {a} array a ⟶ nat ⟶ a ⟶ array a❘ # 2 update 3 as 4❙
+
+    // equational theory???❙
+    
+    length : {a} array a ⟶ nat❘# | 2 |❙
+    length_make : {a,n,x:a} |make n x| ≐ n❙
+    length_grow : {a,l:array a,n} |grow l by n| ≐ |l| + n❙
+    length_set : {a,l: array a, x, n} |l update n as x| ≐ |l|❙
+
+    default: {a} array a ⟶ a❘ # default 2❙
+    
+    get : {a} array a ⟶ nat ⟶ option a❘ # 2 get 3❙
+    get_make: {a,x:a,m,n} m < n ⟶ (make n x) get m ≐ some x❙
+    get_grow_rec : {a,l:array a,m,n} m < |l| ⟶ (grow l by n) get m ≐ l get m❙
+    get_grow_def : {a,l:array a,m,n} |l| < m ⟶ m < |l|+n ⟶ (grow l by n) get m ≐ some (default l)❙
+    get_set_eq: {a,x:a,l,n} (l update n as x) get n ≐ some x❙
+    get_set_neq: {a,x:a,l,m,n} m ≠ n ⟶ (l update n as x) get m ≐ l get m❙
+❚
+
+theory SparseLists = 
+    sparse : type ⟶ type❙
+    nil  : {a} sparse a❙
+    cons : {a} a ⟶ nat ⟶ sparse a ⟶ sparse a❘ # 2 %R^ 3 -∶ 4 ❙
+   
+    cons_same: {a,x:a, m,n,l} x^m -∶ x^n -∶ l ≐ x^(m+n) -∶ l❙
 ❚
 
 
+theory SparseListsWithDefault =
+    sparseD: type ⟶ type❙
+    default: {a} a ⟶ sparseD a❙
+    cons : {a} nat ⟶ a ⟶ sparseD a ⟶ sparseD a❙
+❚
 
-
+theory SingletonConcatLists =
+    list : type ⟶ type ❙
+    nil  : {a} list a❘ # ∅ %I1❙
+    singleton : {a} list a❘ # ! 2❙
+    concat : {a} list a ⟶ list a ⟶ list a ❘ # 2 ∶∶ 3❙
+    
+    // concat_associative❙
+❚
