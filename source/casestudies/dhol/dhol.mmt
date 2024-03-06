@@ -1,47 +1,140 @@
 namespace latin:/dhol❚
 
+/T DHOL Theory All-in-one before factorization❚
 theory DHOL : ur:?LF =
   tp: type❙
-  tm: type❙
-  
-  bool: tp❙
-  pi: tp ⟶ (tm ⟶ tp) ⟶ tp❘ # Π 1 2❙
-  spi: tp ⟶ tp ⟶ tp❘ = [a,b] pi a [x] b❘ # 1 → 2 prec 5❙
-  
-  lam: tp ⟶ (tm ⟶ tm) ⟶ tm❘ # λ 1 2❙
-  app: tm ⟶ tm ⟶ tm❘ # 1 @ 2 prec 20❙
+  tm: type❙ 
 
-  eq: tp ⟶ tm ⟶ tm ⟶ tm❘ # 2 = 1 3 prec 10❙
-  impl: tm ⟶ tm ⟶ tm❘ # 1 ⇒ 2 prec 5❙
-  
-  wftp: tp ⟶ type❘       # $ 1   prec -5❙
-  wftm: tm ⟶ tp ⟶ type❘ # 1 % 2 prec -5❙
-  valid: tm ⟶ type❘      # ⊦ 1   prec -5❙
-  eqtp: tp ⟶ tp ⟶ type❘ # 1 ≡ 2 prec -5❙
-  subtp: tp ⟶ tp ⟶ type❘# 1 < 2 prec -2❘
+  wftp: tp ⟶ type❘        # $ 1   prec -5❘ role Judgment❙
+  wftm: tm ⟶ tp ⟶ type❘  # 1 % 2 prec -5❘ role Judgment❙
+  valid: tm ⟶ type❘       # ⊦ 1   prec -5❘ role Judgment❙
+  eqtp: tp ⟶ tp ⟶ type❘  # 1 ≡ 2 prec -5❘ role Judgment❙
+  subtp: tp ⟶ tp ⟶ type❘ # 1 < 2 prec -2❘ role Judgment❘
        = [A,B] {x} x%A ⟶ x%B❙
 
-  lam_tp: {A,B,T} ({x} x%A ⟶ T x % B x) ⟶ (λ A [x] T x) % (Π A [x] B x)❙
-  pi_tp : {A,B} ({x} x%A ⟶ $ B x) ⟶ $ Π A [x] B x❙
-
-  pi_sub: {A,Aˈ,B,Bˈ} Aˈ < A ⟶ ({x} x%Aˈ ⟶ B x < Bˈ x) ⟶ (Π A [x] B x) < (Π Aˈ [x] Bˈ x)❙
-  
-  impl_tp : {F,G} F%bool ⟶ (⊦ F ⟶ G%bool) ⟶ F⇒G % bool❙
-  impl_I: {F,G} (⊦ F ⟶ ⊦ G) ⟶ ⊦ F⇒G❙
-  impl_E: {F,G} ⊦ F⇒G ⟶ ⊦ F ⟶ ⊦ G❙
-
-  
   sub_antisym : {A,B} A<B ⟶ B<A ⟶ A≡B❙
+
+  contra = {x}⊦ x❘# ↯❙
   
-  // refine: tp ⟶ tm ⟶ tp❘# 1 | 2 prec 5❙
-  // refine_tp: {A,p} $ A ⟶ p % A → bool ⟶ $ A|p❙
+  bool: tp❙
+  bool_tp: $ bool❙
+
+  classical: {F} F%bool ⟶ ((⊦F ⟶ ↯) ⟶ ↯) ⟶ ⊦ F❙
+  
+  eq: tp ⟶ tm ⟶ tm ⟶ tm❘ # 2 = 1 3 prec 10❙
+  eq_tp: {A,s,t} $ A ⟶ s%A ⟶ t%A ⟶ s =A t % bool❙
+  
+  eqtp_refl: {A} $ A ⟶ A ≡ A ❙
+
+  eq_refl: {x,A} x % A ⟶ ⊦ x = A x ❙
+  eq_sym: {x,y,A} ⊦ x = A y ⟶ ⊦ y = A x ❙
+
+  wftp_eq: {A,B} $A ⟶ A≡B ⟶ $B❙ 
+  valid_eq: {F,G} ⊦ F ⟶ ⊦ F = bool G ⟶ ⊦ G ❙
+  wftm_eq: {t,tˈ,A,Aˈ} t % A ⟶ ⊦ t = A tˈ ⟶ A ≡ Aˈ ⟶ tˈ % Aˈ ❙
+  subtp_eq: {A,Aˈ,B,Bˈ} A<B ⟶ A≡Aˈ ⟶ B≡Bˈ ⟶ Aˈ<Bˈ❙ // provable❙
+  
+  prop_ext: {F,G} (⊦ F ⟶ ⊦ G) ⟶ (⊦ G ⟶ ⊦ F) ⟶ ⊦ F = bool G ❙
+
+  pi: tp ⟶ (tm ⟶ tp) ⟶ tp❘ # Π 1 2❙
+  lam: tp ⟶ (tm ⟶ tm) ⟶ tm❘ # λ 1 2❙
+  app: tm ⟶ tm ⟶ tm❘ # 1 @ 2 prec 20❙
+  
+  pi_tp : {A,B} ({x} x%A ⟶ $ B x) ⟶ $ Π A [x] B x ❙
+  lam_tp: {A,B,T} ({x} x%A ⟶ T x % B x) ⟶ (λ A [x] T x) % (Π A [x] B x) ❙
+  app_tp: {A,B,f,t} f % (Π A [x] B x) ⟶ t % A ⟶ f @ t % B t ❙
+
+  pi_eq: {A,Aˈ,B,Bˈ} A ≡ Aˈ ⟶ ({x} x%A ⟶ B x ≡ Bˈ x) ⟶ (Π A [x] B x) ≡ (Π Aˈ [x] Bˈ x) ❙
+  lam_eq: {A,Aˈ,B,T,Tˈ} A ≡ Aˈ ⟶ ({x} x % A ⟶ ⊦ T = B Tˈ) ⟶ ⊦ (λ A [x] T) = (Π A [x] B) (λ Aˈ [x] Tˈ)❙
+  app_eq: {A,B,f,fˈ,t,tˈ} ⊦ f =(Π A B) fˈ ⟶ ⊦ t =A tˈ ⟶ ⊦ (f@t) =(B t) (fˈ@tˈ)❙
+  
+  lam_eta: {A,B,t} t % (Π A [x] B x) ⟶ ⊦ t = (Π A [x] B x) (λ A [x] t @ x) ❙
+  lam_beta: {A,B,t,s} ({x} x % A ⟶ t x % B x) ⟶ ⊦ (t s) = (B s) ((λ A [x] t x) @ s) ❙
+  
+  // provable❙
+  spi: tp ⟶ tp ⟶ tp❘ = [A,B] Π A [x] B❘ # 1 %R→ 2 prec 5❙
+  spi_tp: {A,B} $ A ⟶ $ B ⟶ $ A → B ❙
+  spi_eq: {A,Aˈ,B,Bˈ} A ≡ Aˈ ⟶ B ≡ Bˈ ⟶ (A → B) ≡ (Aˈ → Bˈ) ❙
+
+  // these 3 rules should be provable❙
+  exten_tp: {A,B,f} ({x} x%A ⟶ f@x % B x) ⟶ f % (Π A [x] B x)❘
+          // = [A,B,f,P] eq_repl (lam_tp P) (lam_eta (lam_tp P)) eqtp_def    ❙
+  exten_eq: {A,B,f,fˈ} ({x} x%A ⟶ ⊦ (f@x) =(B x) (fˈ@x)) ⟶ ⊦ f =(Π A B) fˈ❙
+
+  pi_sub: {A,Aˈ,B,Bˈ} Aˈ < A ⟶ ({x} x%Aˈ ⟶ B x < Bˈ x) ⟶ (Π A [x] B x) < (Π Aˈ [x] Bˈ x)❘
+        = [A,Aˈ,B,Bˈ,p,Q,f,r] _ ❙
+  
   
   refine: tp ⟶ (tm ⟶ tm) ⟶ tp❘# 1 | 2 prec 5❙
   refine_tp: {A,p} $ A ⟶ ({x} x%A ⟶ p x % bool) ⟶ $ A|p❙
+  refine_I: {A,p,t} t % A ⟶ ⊦ p t ⟶ t % A|p ❙
+  refine_E1: {A,p,t} t % A|p ⟶ t % A ❙
+  refine_E2: {A,p,t} t % A|p ⟶ ⊦ p t ❙
+  refine_eq_pres: {A,p,s,t} ⊦ s = A t ⟶ ⊦ p s ⟶ ⊦ s = (A|p) t ❙
+  
+  // provable❙
+  refine_eq❙
+  refine_sub❙ 
   
   isEqRel: tp ⟶ (tm ⟶ tm ⟶ tm) ⟶ type❙
   quotient: tp ⟶ (tm ⟶ tm ⟶ tm) ⟶ tp❘# 1 ∕ 2 prec 5❙
-  quotient_tp: {A,r} $ A ⟶ ({x,y} x%A ⟶ y%A ⟶ r x y % bool) ⟶ isEqRel A r ⟶ $ A∕r❙
+  quotient_form: {A,r} $ A ⟶ ({x,y} x%A ⟶ y%A ⟶ r x y % bool) ⟶ isEqRel A r ⟶ $ A∕r❙
+  quotient_I: {A,t,r} t % A ⟶ $ A∕r ⟶ t % A∕r ❙
+  quotient_E: {A,B,s,t,r} s % A∕r ⟶ ({x} x % A ⟶ ⊦ x = (A∕r) s ⟶ (t @ x) % (B x)) ⟶ ({x,xˈ} x % A ⟶ xˈ % A ⟶ ⊦ x = (A∕r) s ⟶ ⊦ xˈ = (A∕r) s ⟶ ⊦ (t @ x) = (B x) (t @ xˈ)) ⟶ (t @ s) % (B s) ❙
+
+  // provable❙
+  quotient_eq❙
+  quotient_sub❙
+  
+  // other laws for subtyping that relate multiple type constructors from the paper, should be provable❙
+  
+  impl: tm ⟶ tm ⟶ tm❘ # 1 ⇒ 2 prec 5❙
+  impl_tp: {F,G} F % bool ⟶ (⊦ F ⟶ G % bool) ⟶ F⇒G % bool ❙
+  impl_tp_nondep: {F,G} F % bool ⟶ G % bool ⟶ F⇒G % bool❘
+         = [F,G,p,q] impl_tp p [r] q❙
+  impl_I: {F,G} (⊦ F ⟶ ⊦ G) ⟶ ⊦ F⇒G ❙
+  impl_E: {F,G} ⊦ F⇒G ⟶ ⊦ F ⟶ ⊦ G ❙
+  
+  // all of the following should be provable❙
+  
+  true: tm ❘ = (λ bool [x] x) = bool (λ bool [x] x) ❙
+  true_tp: true % bool❙
+  trueI : ⊦ true❙
+  
+  false: tm ❘ = (λ bool [x] x) = bool (λ bool [x] true) ❙
+  false_tp: false % bool❙
+  falseE: ⊦ false ⟶ ↯❙
+ 
+  not: tm ⟶ tm ❘ # ¬ 1 ❘ = [F] F = bool false ❙
+  // rules for not❙
+  
+  or: tm ⟶ tm ⟶ tm ❘ # 1 ∨ 2 ❘ = [F,G] ¬F ⇒ G ❙ 
+  or_tp: {F,G} F % bool ⟶ (⊦ ¬ F ⟶ G%bool) ⟶ F∨G % bool ❙
+  or_Il: {F,G} ⊦ F ⟶ ⊦ F ∨ G ❙
+  or_Ir: {F,G} ⊦ G ⟶ ⊦ F ∨ G ❙
+  or_E: {F,G,C} ⊦ F ∨ G ⟶ (⊦ F ⟶ ⊦ C) ⟶ (⊦ G ⟶ ⊦ C) ⟶ ⊦ C ❙
+  
+  and: tm ⟶ tm ⟶ tm ❘ # 1 ∧ 2 ❘ = [F,G] ¬(F ⇒ ¬G) ❙
+  and_tp: {F,G} F % bool ⟶ (⊦ F ⟶ G % bool) ⟶ F∧G % bool ❙
+  and_I: {F,G} ⊦ F ⟶ ⊦ G ⟶ ⊦ F∧G ❙
+  and_El: {F,G} ⊦ F∧G ⟶ ⊦ F ❙
+  and_Er: {F,G} ⊦ F∧G ⟶ ⊦ G ❙
+
+  equivalence: tm ⟶ tm ⟶ tm ❘ # 1 ⇔ 2 ❙
+  // definition and rules❙
+  
+  forall: tp ⟶ (tm ⟶ tm) ⟶ tm ❘ # ∀ 1 2 ❘ = [A,F] (λ A [x] F x) = (A → bool) (λ A [x] true) ❙
+  forall_tp❙
+  forall_I: {A,p} p % (A → bool) ⟶ ({x} x % A ⟶ ⊦ p @ x) ⟶ ⊦ ∀ A [x] p @ x ❙
+  forall_E: {A,p} ⊦ (∀ A [x] p @ x) ⟶ ({x} x % A ⟶ ⊦ p @ x) ❙
+  
+  exists: tp ⟶ (tm ⟶ tm) ⟶ tm ❘ # ∃ 1 2 ❘ = [A,F] ¬∀ A [x] ¬F x ❙
+  exists_tp❙
+  exists_I: {A,p} p % (A → bool) ⟶ {x} x % A ⟶ ⊦ p @ x ⟶ ⊦ ∃ A [x] p @ x ❙
+  exists_E: {A,F,p} ⊦ (∃ A [x] p @ x) ⟶ ({x} x % A ⟶ ⊦ p @ x ⟶ ⊦ F) ⟶ ⊦ F ❙
+
+  TND: {F} F % bool ⟶ ⊦ F ∨ ¬F ❙
+  bool_ext: {p} ⊦ p true ⟶ ⊦ p false ⟶ ({x} x%bool ⟶ ⊦ p x)❙
 ❚
 
 /T Example 1❚
