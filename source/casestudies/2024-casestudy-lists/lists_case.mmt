@@ -1,16 +1,3 @@
-<<<<<<< HEAD
-namespace latin:/casestudies/_2024-casestudy-lists ❙
-
-theory lists : ur:?PLF =
-    list : type ⟶ type ❙
-    nat :type ❙
-    z : nat ❙
-    empty : {a} list a ❘ #[]❙
-    cons : {a} a ⟶ list a ⟶ list a ❘ #2 ∷ 3 ❙
-    length : {a} list a ⟶ nat ❙
-    reverse : {a} list a ⟶ list a ❙
-❚
-=======
 namespace latin:/casestudies/lists❚
 
 fixmeta ur:?PLF❚
@@ -18,8 +5,6 @@ fixmeta ur:?PLF❚
 theory Logic =
   eq: {a:type} a ⟶ a ⟶ type❘# 2 ≐ 3 prec -5❙
   refl: {a,x:a} x ≐ x❙
->>>>>>> be145c5e8700c5ffda1b71622554869ae094bdff
-
   neq: {a:type} a ⟶ a ⟶ type❘# 2 ≠ 3 prec -5❙
   
   option: type ⟶ type❙
