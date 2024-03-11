@@ -93,5 +93,5 @@ theory SingletonConcatLists =
     singleton : {a} list a❘ # ! 2❙
     concat : {a} list a ⟶ list a ⟶ list a ❘ # 2 ∶∶ 3❙
     
-    // concat_associative❙
+    concat_associative : {a,b,c} concat list a (concat list b list c) ≐ concat (concat list a list b) list c❙
 ❚
