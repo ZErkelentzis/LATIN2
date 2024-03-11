@@ -56,6 +56,7 @@ theory ArrayLists =
     set : {a} array a ⟶ nat ⟶ a ⟶ array a❘ # 2 update 3 as 4❙
 
     // equational theory???❙
+    grow_update_eq : {m,l:array m, a,b,c} (grow l by a) update b as c ≐ grow (l update b as c) by a ❙
     
     length : {a} array a ⟶ nat❘# | 2 |❙
     length_make : {a,n,x:a} |make n x| ≐ n❙
@@ -69,7 +70,7 @@ theory ArrayLists =
     get_grow_rec : {a,l:array a,m,n} m < |l| ⟶ (grow l by n) get m ≐ l get m❙
     get_grow_def : {a,l:array a,m,n} |l| < m ⟶ m < |l|+n ⟶ (grow l by n) get m ≐ some (default l)❙
     get_set_eq: {a,x:a,l,n} (l update n as x) get n ≐ some x❙
-    get_set_neq: {a,x:a,l,m,n} m ≠ n ⟶ (l update n as x) get m ≐ l get m❙
+    get_set_neq: {a,x:a,l,m,n} m ≠ n ⟶ (l update n as x) get m ≐ l get m ❙
 ❚
 
 theory SparseLists = 
@@ -92,6 +93,5 @@ theory SingletonConcatLists =
     nil  : {a} list a❘ # ∅ %I1❙
     singleton : {a} list a❘ # ! 2❙
     concat : {a} list a ⟶ list a ⟶ list a ❘ # 2 ∶∶ 3❙
-    
-    concat_associative : {a,b,c} concat list a (concat list b list c) ≐ concat (concat list a list b) list c❙
+    concat_asso : (nil nat ∶∶ nil nat) ∶∶ nil nat ≐ nil nat ∶∶ (nil nat ∶∶ nil nat)❙
 ❚
