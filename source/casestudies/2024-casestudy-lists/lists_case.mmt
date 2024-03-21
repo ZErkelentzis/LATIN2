@@ -53,32 +53,35 @@ theory ArrayLists =
     array : type ⟶ type ❙
     make : {a} nat ⟶ a ⟶ array a❘ # make 2 3❙
     grow : {a} array a ⟶ nat ⟶ array a❘ # grow 2 by 3❙
-    set : {a} array a ⟶ nat ⟶ a ⟶ array a❘ # 2 update 3 as 4❙
+    update : {a} array a ⟶ nat ⟶ a ⟶ array a❘ # 2 update 3 as 4❙
 
-    // equational theory???❙
-    grow_update_eq : {m,l:array m, a,b,c} (grow l by a) update b as c ≐ grow (l update b as c) by a ❙
-    grow_make_eq
-    get_set_eq:
-
-
-    array_same : {a,l : array a, m : array a} length l = length m ⟶ ({n} n<length l ⟶ l get n = m get n) ⟶ l ≐ m  ❙
-    
-    
     length : {a} array a ⟶ nat❘# | 2 |❙
     length_make : {a,n,x:a} |make n x| ≐ n❙
     length_grow : {a,l:array a,n} |grow l by n| ≐ |l| + n❙
     length_set : {a,l: array a, x, n} |l update n as x| ≐ |l|❙
 
+    // equational theory???❙
+    grow_make_eq: {m,a,n,x:a} grow (make n x) by m ≐ make (n+m) x❙
+    grow_grow_eq: {a,m,l: array a,n} grow (grow l by n) by m ≐ grow l by (n+m)❙
+    grow_update_eq : {m,l:array m, a,b,c} grow (l update b as c) by a ≐ (grow l by a) update b as c ❙
+    
+    update_update_eq : {a,l:array a, n,x,y} (l update n as x) update n as y ≐ l update n as y❙
+    update_update_neq : {a,l:array a, m,n,x,y} m ≠ n ⟶
+      (l update n as x) update m as y ≐ (l update m as y) update n as x❙
+    
     default: {a} array a ⟶ a❘ # default 2❙
+    default_make:   {a,n,x:a} default (make n x) ≐ x❙
+    default_grow:   {a,l: array a,n} default (grow l by n) ≐ default l❙
+    default_update: {a,l: array a,n,x} default (l update n as x) ≐ default l❙
     
     get : {a} array a ⟶ nat ⟶ option a❘ # 2 get 3❙
     get_make: {a,x:a,m,n} m < n ⟶ (make n x) get m ≐ some x❙
     get_grow_rec : {a,l:array a,m,n} m < |l| ⟶ (grow l by n) get m ≐ l get m❙
     get_grow_def : {a,l:array a,m,n} |l| < m ⟶ m < |l|+n ⟶ (grow l by n) get m ≐ some (default l)❙
-    get_set_eq: {a,x:a,l,n} (l update n as x) get n ≐ some x❙
-    get_set_neq: {a,x:a,l,m,n} m ≠ n ⟶ (l update n as x) get m ≐ l get m ❙
-    // some thing new from here❙
-    get_noteq : {a, x: a, l: array a, m, n} ((l update m as x) get n) ≠ some x ⟶ m ≠ n ❙
+    get_update_eq: {a,x:a,l,n} (l update n as x) get n ≐ some x❙
+    get_update_neq: {a,x:a,l,m,n} m ≠ n ⟶ (l update n as x) get m ≐ l get m ❙
+
+    array_same: {a,l : array a, m : array a} |l| ≐ |m| ⟶ ({n} n<|l| ⟶ l get n ≐ m get n) ⟶ l ≐ m❙   
 ❚
 
 theory SparseLists = 
@@ -101,5 +104,6 @@ theory SingletonConcatLists =
     nil  : {a} list a❘ # ∅ %I1❙
     singleton : {a} list a❘ # ! 2❙
     concat : {a} list a ⟶ list a ⟶ list a ❘ # 2 ∶∶ 3❙
-    concat_asso : (nil nat ∶∶ nil nat) ∶∶ nil nat ≐ nil nat ∶∶ (nil nat ∶∶ nil nat)❙
+    
+    concat_assoc : {a,l,m,n:list a} (l ∶∶ m) ∶∶ n ≐ l ∶∶ (m ∶∶ n)❙
 ❚
