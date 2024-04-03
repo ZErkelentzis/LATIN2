@@ -217,21 +217,27 @@ theory DHOL : ur:?LF =
 //  isTransRel: tp ⟶ (tm ⟶ tm ⟶ tm) ⟶ tm ❙
 //  is_TransRel: {A,r,x,y,z} ⊦isBinRel A r ⟶ x%A ⟶ y%A ⟶ z%A ⟶ ⊦r x y ⟶ ⊦r y z ⟶ ⊦r x z ⟶ ⊦isTransRel A r ❙ 
   isEqRel: tp ⟶ (tm ⟶ tm ⟶ tm) ⟶ type ❘ role Judgment ❘
-         = [A,r] {x,y,z} x%A ⟶ y%A ⟶ z%A ⟶ ⊦(r x x) ∧ (r x y ⇔ r y x) ∧ ((r x y ∧ r y z) ⇒ r x z)❙
+         = [A,r] {x,y,z} x%A ⟶ y%A ⟶ z%A ⟶ ⊦(r x x) ∧ (r x y ⇒ r y x) ∧ ((r x y ∧ r y z) ⇒ r x z)❙
+  isExtension: tp ⟶ (tm ⟶ tm ⟶ tm) ⟶ (tm ⟶ tm ⟶ tm) ⟶ type ❘ role Judgment ❘
+         = [A,r,e] {x,y} x%A ⟶ y%A ⟶ ⊦ r x y ⟶ ⊦ e x y❙
 
   EqRel_tp: {A,r,x,y} isEqRel A r ⟶ x%A ⟶ y%A ⟶ r x y%bool ❙
   EqRel_refl: {A,r,x} isEqRel A r ⟶ x%A ⟶ ⊦r x x ❘
             = [A,r,x,P,Q] and_El (and_El (P x x x Q Q Q)) ❙
-  EqRel_sym: {A,r,x,y} isEqRel A r ⟶ x%A ⟶ y%A ⟶ ⊦r x y ⇔ r y x ❘
+  EqRel_sym: {A,r,x,y} isEqRel A r ⟶ x%A ⟶ y%A ⟶ ⊦r x y ⟶ ⊦ r y x ❘
            = [A,r,x,y,P,Q,R] and_Er (and_El (P x y x Q R Q)) ❙
-  EqRel_trans: {A,r,x,y,z} isEqRel A r ⟶ x%A ⟶ y%A ⟶ z%A ⟶ ⊦(r x y ∧ r y z) ⇒ r x z ❘
+  EqRel_trans: {A,r,x,y,z} isEqRel A r ⟶ x%A ⟶ y%A ⟶ z%A ⟶ ⊦ r x y ⟶ ⊦ r y z ⟶ ⊦ r x z ❘
              = [A,r,x,y,z,P,Q,R,S] and_Er P x y z Q R S ❙
                   
   quotient: tp ⟶ (tm ⟶ tm ⟶ tm) ⟶ tp❘# 1 ∕ 2 prec 5❙
-  quotient_form: {A,r} isEqRel A r ⟶ $A∕r ❙
+  quotient_form: {A,r} ({x,y} x%A ⟶ y%A ⟶ r x y%bool) ⟶ isEqRel A r ⟶ $A∕r ❙
   quotient_I: {A,t,r} t%A ⟶ $A∕r ⟶ t%A∕r ❙
   quotient_E:  {A,B,s,t,r} s%A∕r ⟶ ({x} x%A ⟶ ⊦x =(A∕r) s ⟶ (t x) % (B x)) ⟶ ({x,xˈ} x%A ⟶ xˈ%A ⟶ ⊦x =(A∕r) s ⟶ ⊦xˈ =(A∕r) s ⟶ ⊦(t x) =(B x) (t xˈ)) ⟶ (t s) % (B s) ❙
   quotient_eq: {A,s,t,r} s%A ⟶ t%A ⟶ isEqRel A r ⟶ ⊦(s =(A∕r) t) =bool (r s t)❙
+  // these two should be used instead of the above if we remove the requirement isEqRel A r from quotient_form❙
+  // quotient_eq_intro: {A,s,t,r} s%A ⟶ t%A ⟶ ⊦ r s t ⟶ ⊦ s =(A∕r) t❙
+  // quotient_eq_elim: {A,s,t,r} s%A ⟶ t%A ⟶ ⊦ s =(A∕r) t ⟶
+     {rˈ} isEqRel A rˈ ⟶ isExtension A r rˈ ⟶ ⊦ rˈ s t❙
 
   quotient_E_quick: {A,B,s,t,r} s%A∕r ⟶ ({x} x%A ⟶ (t x) % (B x)) ⟶ ({x,xˈ} x%A ⟶ xˈ%A ⟶ ⊦ (t x) =(B x) (t xˈ)) ⟶ (t s) % (B s) ❘
                   = [A,B,s,t,r,P,Q,R] quotient_E P ([x, u: x%A, v: ⊦ x =(A∕r) s] Q x u) ([x, xˈ, u: x%A, v: xˈ%A, k: ⊦ x =(A∕r) s, l: ⊦ xˈ =(A∕r) s] R x xˈ u v) ❙
