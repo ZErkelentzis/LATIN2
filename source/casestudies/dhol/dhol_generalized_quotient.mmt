@@ -251,11 +251,6 @@ theory DHOL : ur:?LF =
         ([k:⊦r x y] quo_eq_I P Q (EqRel_isBinRel R) k)
         ([k:⊦x =(A∕r) y] quo_eq_E P Q (prove_Ext (EqRel_isBinRel R) R ([u,v, f:u%A,g:v%A, m] m)) k)
         ❙
-    
-  quo_eq_I_neg: {A,x,y,r} x%A ⟶ y%A ⟶ ⊦isBinRel A r ⟶ ⊦¬(x =(A∕r) y) ⟶ ⊦¬(r x y) ❘
-                   = [A,x,y,r,P,Q,R,S] or_E TND ([k:⊦(r x y)] (contra2 (x =(A∕r) y) (and_I (x =(A∕r) y) (¬(x =(A∕r) y)) (quo_eq_I P Q R k) S)) (¬(r x y))) ([k:⊦¬(r x y)] k)❙
-  quo_eq_E_neg: {A,x,y,r,e} x%A ⟶ y%A ⟶ ⊦isExt A r e ⟶ ⊦¬(e x y) ⟶ ⊦¬(x =(A∕r) y) ❘
-                   = [A,x,y,r,e,P,Q,R,S] or_E TND ([k:⊦(x =(A∕r) y)] (contra2 (e x y) (and_I (e x y) (¬(e x y)) (quo_eq_E P Q R k) S)) (¬(x =(A∕r) y))) ([k:⊦¬(x =(A∕r) y)] k) ❙
 
   app_sub_eq: {A,B,f,t,tˈ} t%A ⟶ tˈ%A ⟶ ⊦t =A tˈ⟶ ({u} u%A ⟶ (f u) % (B t)) ⟶ ⊦(f t) =(B t) (f tˈ)❘   
             = [A,B,f,t,tˈ,P,Q,R,S] eq_trans (S t P) (app_tp (lam_tp eqtp_refl S) Q) (S tˈ Q) (eq_trans (S t P) (app_tp (lam_tp eqtp_refl S) P) (app_tp (lam_tp eqtp_refl S) Q) (eq_sym (lam_beta ([k,l:k%A] app_tp (lam_tp eqtp_refl S) l) P)) (app_eq (eq_refl lam_tp eqtp_refl S) R)) (lam_beta ([k,l:k%A] app_tp (lam_tp eqtp_refl S) l) Q)❙
@@ -372,29 +367,28 @@ theory DHOL : ur:?LF =
                    = [A,r,rˈ,P,Q] prove_BinRel ([x,y, k:x%A,l:y%A] BinRel_tp Q (quo_I k quo_form P) (quo_I l quo_form P))❙
   rep_quo_help2: {A,r,rˈ} ⊦isBinRel A r ⟶ ⊦isBinRel (A∕r) rˈ ⟶ A∕rˈ < (A∕r)∕rˈ ❘
                     = [A,r,rˈ,P,Q] quo_sub (quo_subtp P) (rep_quo_help P Q) Q ([x,y, kˈ:x%A,lˈ:y%A, m:⊦rˈ x y] m )❙
-  rep_quo_help3: {A,r,rˈ} ⊦isBinRel A r ⟶ ⊦isReflBinRel (A∕r) rˈ ⟶ A∕r < A∕rˈ ❘
-            = [A,r,rˈ,P,Q] ([s,l:s%A∕r] quo_E l 
-              ([y,n:y%A,o] quo_I n quo_form (rep_quo_help P (ReflBinRel_isBinRel Q)))
-              ([y,z, n:y%A,o:z%A, p,q] quo_eq_I n o (rep_quo_help P (ReflBinRel_isBinRel Q)) (valid_eq_flip
-              (ReflBinRel_refl (A∕r) rˈ y Q (quo_I n quo_form P))
-              (app_sub_eq (A∕r) ([t] bool) ([t] rˈ y t) y z (quo_I n quo_form P) (quo_I o quo_form P) (eq_trans (quo_I n quo_form P) l (quo_I o quo_form P) p (eq_sym q)) 
-              ([u,v:u%A∕r] BinRel_tp (ReflBinRel_isBinRel Q) (quo_I n quo_form P) v))
-              )))❙
+  rep_quo_help3: {A,r,rˈ} ⊦isBinRel A r ⟶ ⊦isBinRel (A∕r) rˈ ⟶ ({x,y} x%A ⟶ y%A ⟶ ⊦r x y ⟶ ⊦rˈ x y) ⟶ A∕r < A∕rˈ ❘
+            = [A,r,rˈ,P,Q,R] ([s,l:s%A∕r] quo_Ev l 
+              ([y,n:y%A,o] quo_I n quo_form (rep_quo_help P Q))
+              ([y,z, n:y%A,o:z%A, p,q, w] quo_eq_I n o (rep_quo_help P Q) 
+              (R y z n o w)))❙
               
-  rep_quo_help4: {A,r,rˈ} ⊦isBinRel A r ⟶ ⊦isReflBinRel (A∕r) rˈ ⟶ ⊦isExt (A∕r) rˈ ([u,v] u =(A∕rˈ) v) ❘
-                    = [A,r,rˈ,P,Q] quo_min_impl (A∕r) (A∕rˈ) rˈ ([u,v] u =(A∕rˈ) v) ([u,v] u =(A∕rˈ) v) (rep_quo_help3 P Q) (ReflBinRel_isBinRel Q) 
+// (A∕r) (A∕rˈ) rˈ ([u,v] u =(A∕rˈ) v) ([u,v] u =(A∕rˈ) v)❙
+              
+  rep_quo_help4: {A,r,rˈ} ⊦isBinRel A r ⟶ ⊦isBinRel (A∕r) rˈ ⟶ ({x,y} x%A ⟶ y%A ⟶ ⊦r x y ⟶ ⊦rˈ x y) ⟶ ⊦isExt (A∕r) rˈ ([u,v] u =(A∕rˈ) v) ❘
+                    = [A,r,rˈ,P,Q,R] quo_min_impl (rep_quo_help3 P Q R) Q 
                     (prove_BinRel ([f,g,k:f%(A∕rˈ),l:g%(A∕rˈ)] eq_tp k l))
-                    ([u,v, f:u%A∕r,g:v%A∕r, h] impl_E (props_in_true (quo_eq_Iv ((rep_quo_help3 P Q) u f) ((rep_quo_help3 P Q) v g) (rep_quo_help P (ReflBinRel_isBinRel Q)))) h
+                    ([u,v, f:u%A∕r,g:v%A∕r, h] impl_E (props_in_true (quo_eq_Iv ((rep_quo_help3 P Q R) u f) ((rep_quo_help3 P Q R) v g) (rep_quo_help P Q))) h
                     ) 
                     quo_triv_Ext prove_BinRel ([u,v, f,g] eq_tp f g)❙
                     
-  rep_quo: {A,r,rˈ} ⊦isBinRel A r ⟶ ⊦isReflBinRel (A∕r) rˈ ⟶ (A∕r)∕rˈ ≡ A∕rˈ ❘
-            = [A,r,rˈ,P,Q] subtp_antisym ([s,l:s%(A∕r)∕rˈ] quo_E l 
-              ([y,n:y%(A∕r),o] (rep_quo_help3 P Q) y n)
-              ([y,z, n:y%(A∕r),o:z%(A∕r), p,q] quo_eq_E n o (rep_quo_help4 P Q)
-              eq_trans (quo_I n quo_form ReflBinRel_isBinRel Q) l (quo_I o quo_form ReflBinRel_isBinRel Q) p (eq_sym q))
+  rep_quo: {A,r,rˈ} ⊦isBinRel A r ⟶ ⊦isBinRel (A∕r) rˈ ⟶ ({x,y} x%A ⟶ y%A ⟶ ⊦r x y ⟶ ⊦rˈ x y) ⟶ (A∕r)∕rˈ ≡ A∕rˈ ❘
+            = [A,r,rˈ,P,Q,R] subtp_antisym ([s,l:s%(A∕r)∕rˈ] quo_E l 
+              ([y,n:y%(A∕r),o] (rep_quo_help3 P Q R) y n)
+              ([y,z, n:y%(A∕r),o:z%(A∕r), p,q] quo_eq_E n o (rep_quo_help4 P Q R)
+              eq_trans (quo_I n quo_form Q) l (quo_I o quo_form Q) p (eq_sym q))
               )
-              (rep_quo_help2 P (ReflBinRel_isBinRel Q))
+              (rep_quo_help2 P Q)
               ❙
               
   quo_in_ref_subtp: {A,r,p} ⊦isBinRel A r ⟶ ({x} x%A ⟶ p x%bool) ⟶ ⊦isBinRel (A|p) r ❘
