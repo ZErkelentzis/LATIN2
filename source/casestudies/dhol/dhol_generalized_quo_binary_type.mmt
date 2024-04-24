@@ -1,0 +1,563 @@
+namespace latin:/dhol❚
+
+/T DHOL Theory All-in-one before factorization❚
+theory DHOL : ur:?LF =
+  tp: type❙
+  tm: type❙ 
+
+  wftp: tp ⟶ type❘        # $ 1   prec -5❘ role Judgment❙
+  wftm: tm ⟶ tp ⟶ type❘  # 1 % 2 prec -5❘ role Judgment❙
+  valid: tm ⟶ type❘       # ⊦ 1   prec -5❘ role Judgment❙
+  eqtp: tp ⟶ tp ⟶ type❘  # 1 ≡ 2 prec -5❘ role Judgment❙
+  subtp: tp ⟶ tp ⟶ type❘ # 1 < 2 prec -2❘ role Judgment❘ 
+       = [A,B] {t} t%A ⟶ t%B❙ 
+  subtp_antisym: {A,B} A<B ⟶ B<A ⟶ A≡B ❘ role Judgment ❙
+  wftm_eq: {t,A,Aˈ} t%A ⟶ A≡Aˈ ⟶ t%Aˈ ❙
+  eqtp_subtp: {A,B} A≡B ⟶ A<B ❘
+            = [A,B,P] [t,k:t%A] wftm_eq k P ❙
+           
+  subtp_trans: {A,B,C} A<B ⟶ B<C ⟶ A<C ❘
+             = [A,B,C,P,Q] [t, r: t%A] (Q t (P t r))❙
+              
+  bool: tp❙
+  bool_tp: $bool❙
+  contra = {F} ⊦F ❘# ↯❙
+  classical: {F} ((⊦F ⟶ ↯) ⟶ ↯) ⟶ ⊦F❙
+               
+  eq: tp ⟶ tm ⟶ tm ⟶ tm❘ # 2 = 1 3 prec 10❙
+  eq_tp: {A,s,t} s%A ⟶ t%A ⟶ s =A t % bool❙
+ 
+  dep_type_ext: {A,B,t,tˈ} t%A ⟶ tˈ%A ⟶ ⊦t =A tˈ ⟶ B t ≡ B tˈ❙
+
+  eqtp_refl: {A} A≡A ❘
+           = [A] subtp_antisym ([x,k:x%A] k) ([x,k:x%A] k)❙
+ 
+  eq_refl: {x,A} x%A ⟶ ⊦x =A x ❙
+  eq_sym: {x,y,A} ⊦x =A y ⟶ ⊦y =A x ❙
+  eqtp_sym: {A,Aˈ} A≡Aˈ ⟶ Aˈ≡A ❙
+  eqtp_trans: {A,B,C} A≡B ⟶ B≡C ⟶ A≡C ❘
+            = [A,B,C,P,Q] subtp_antisym (subtp_trans (eqtp_subtp P) (eqtp_subtp Q)) (subtp_trans (eqtp_subtp eqtp_sym Q) (eqtp_subtp eqtp_sym P)) ❙
+
+  valid_eq: {F,G} ⊦G ⟶ ⊦F =bool G ⟶ ⊦F ❙
+  valid_eq_flip: {F,G} ⊦F ⟶ ⊦F =bool G ⟶ ⊦G ❘
+               = [F,G,P,Q] valid_eq P (eq_sym Q)❙
+  
+  prop_ext: {F,G} (⊦F ⟶ ⊦G) ⟶ (⊦G ⟶ ⊦F) ⟶ ⊦F =bool G ❙
+
+  pi: tp ⟶ (tm ⟶ tp) ⟶ tp❘ # Π 1 2❙
+  lam: tp ⟶ (tm ⟶ tm) ⟶ tm❘ # λ 1 2❙
+  app: tm ⟶ tm ⟶ tm❘ # 1 @ 2 prec 20❙
+  
+  pi_tp : {A,B} ({x} x%A ⟶ $B x) ⟶ $ Π A [x] B x ❙
+  lam_tp: {A,Aˈ,B,T} A≡Aˈ ⟶ ({x} x%A ⟶ T x % B x) ⟶ (λ A [x] T x) % (Π Aˈ [x] B x) ❙
+  lam_eq: {A,Aˈ,B,T,Tˈ} A≡Aˈ ⟶ ({x} x%A ⟶ ⊦(T x) =(B x) (Tˈ x)) ⟶ ⊦(λ A [x] T x) =(Π A [x] B x) (λ Aˈ [x] Tˈ x)❙
+  lam_eta: {A,B,f} f%(Π A [x] B x) ⟶ ⊦f =(Π A [x] B x) (λ A [x] f @ x) ❙
+  lam_beta: {A,B,s,t} ({u} u%A ⟶ ((λ A [x] s x) @ u) % (B u)) ⟶ t%A ⟶ ⊦((λ A [x] s x) @ t) =(B t) (s t) ❙
+  
+  exten_tp: {A,B,f} ({x} x%A ⟶ (f@x)%B x) ⟶ f%(Π A [x] B x) ❙
+  exten_eq: {A,B,f,fˈ} ({x} x%A ⟶ ⊦ (f@x) =(B x) (fˈ@x)) ⟶ ⊦f =(Π A B) fˈ❙
+  app_tp: {A,B,f,t} f%(Π A [x] B x) ⟶ t%A ⟶ (f@t)%(B t) ❙
+  app_eq: {A,B,f,fˈ,t,tˈ} ⊦f =(Π A B) fˈ ⟶ ⊦t =A tˈ ⟶ ⊦(f@t) =(B t) (fˈ@tˈ) ❙
+
+  spi: tp ⟶ tp ⟶ tp❘ = [A,B] Π A [x] B❘ # 1 %R→ 2 prec 5❙
+  spi_tp: {A,B} $A ⟶ $B ⟶ $(A→B) ❘
+        = [A,B,P,Q] pi_tp ([x,k:x%A] Q)❙
+  spi_exten_tp: {A,B,f} ({x} x%A ⟶ (f@x)%B) ⟶ f%(A→B) ❘
+              = [A,B,f,P] exten_tp P ❙
+  spi_app_tp: {A,B,f,x} f%(A→B) ⟶ x%A ⟶ (f@x)%B ❘
+            = [A,B,f,x,P,Q] app_tp P Q❙
+  spi_app_eq: {A,B,f,fˈ,t,tˈ} ⊦f =(A→B) fˈ ⟶ ⊦t =A tˈ ⟶ ⊦(f@t) =B (fˈ@tˈ) ❘
+            = [A,B,f,fˈ,t,tˈ,P,Q] app_eq P Q❙
+
+  spi_eq: {A,Aˈ,B,Bˈ} A≡Aˈ ⟶ B≡Bˈ ⟶ (A→B) ≡ (Aˈ→Bˈ) ❘
+           = [A,Aˈ,B,Bˈ,P,Q] subtp_antisym
+           ([f, r:f%(A→B)] spi_exten_tp [u, v: u%Aˈ] (eqtp_subtp Q) (f@u) (spi_app_tp r ((eqtp_subtp eqtp_sym P) u v)))
+           ([f, r:f%(Aˈ→Bˈ)] spi_exten_tp [u, v: u%A] (eqtp_subtp (eqtp_sym Q)) (f@u) (spi_app_tp r ((eqtp_subtp P) u v)))
+           ❙
+
+  pi_eq: {A,Aˈ,B,Bˈ} A≡Aˈ ⟶ ({x} x%A ⟶ B x ≡ Bˈ x) ⟶ (Π A [x] B x) ≡ (Π Aˈ [x] Bˈ x) ❘
+       =  [A,Aˈ,B,Bˈ,P,Q] subtp_antisym
+           ([f, r:f%Π A [x] B x] exten_tp ([u, v: u%Aˈ] (eqtp_subtp (Q u ((eqtp_subtp eqtp_sym P) u v))) (f@u) (app_tp r ((eqtp_subtp (eqtp_sym P)) u v))))
+           ([f, r:f%Π Aˈ [x] Bˈ x] exten_tp [u, v: u%A] (eqtp_subtp (eqtp_sym (Q u v))) (f@u) (app_tp r ((eqtp_subtp P) u v))) ❙
+  
+  refine: tp ⟶ (tm ⟶ tm) ⟶ tp❘# 1 | 2 prec 5❙
+  refine_tp: {A,p} $A ⟶ ({x} x%A ⟶ p x % bool) ⟶ $A|p❙
+  refine_I: {A,p,t} t%A ⟶ ⊦p t ⟶ t%A|p❙
+  refine_E1: {A,p,t} t%A|p ⟶ t%A❙
+  refine_E2: {A,p,t} t%A|p ⟶ ⊦p t❙
+
+  refine_sub: {A,p} $A|p ⟶ A|p < A ❘
+            = [A,p,P] [x, r: x%A|p] refine_E1 r ❙
+  refine_eq: {A,Aˈ,p,pˈ} A≡Aˈ ⟶ ({x} x%A ⟶ ⊦(p x) =bool (pˈ x)) ⟶ A|p ≡ Aˈ|pˈ ❘
+           = [A,Aˈ,p,pˈ,P,Q] subtp_antisym 
+           ([f, r:f%A|p] refine_I ((eqtp_subtp P) f (refine_E1 r)) 
+           (valid_eq_flip (refine_E2 r) (Q f (refine_E1 r))))
+           ([f, r:f%Aˈ|pˈ] refine_I ((eqtp_subtp eqtp_sym P) f (refine_E1 r)) 
+           (valid_eq (refine_E2 r) (Q f ((eqtp_subtp eqtp_sym P) f (refine_E1 r)))))
+           ❙
+           
+  impl: tm ⟶ tm ⟶ tm❘ # 1 ⇒ 2 prec 5❙
+  impl_tp: {F,G} F%bool ⟶ (⊦F ⟶ G%bool) ⟶ F⇒G % bool ❙
+  impl_tp_nondep: {F,G} F%bool ⟶ G%bool ⟶ F⇒G % bool ❘
+         = [F,G,P,Q] impl_tp P [r] Q❙
+  impl_I: {F,G} (⊦F ⟶ ⊦G) ⟶ ⊦F⇒G ❙
+  impl_E: {F,G} ⊦F⇒G ⟶ ⊦F ⟶ ⊦G ❙
+    
+  true: tm ❘ = (λ bool [x] x) =bool (λ bool [x] x) ❙
+  true_tp: true%bool❙
+  trueI : ⊦true❙
+   
+  false: tm ❘ = (λ bool [x] x) =bool (λ bool [x] true) ❙
+  false_tp: false%bool❙
+  falseE: ⊦false ⟶ ↯❙
+   
+  not: tm ⟶ tm ❘ # ¬ 1 ❘ = [F] F =bool false ❙
+  not_tp: {F} F%bool ⟶ ¬F%bool ❘
+    = [F,P] eq_tp P false_tp❙
+  not_I: {F,G} (⊦F ⟶ ⊦G) ⟶ (⊦F ⟶ ⊦¬G) ⟶ ⊦¬F ❙
+  not_E: {F} ⊦¬¬F ⟶ ⊦F ❙
+   
+  or: tm ⟶ tm ⟶ tm ❘ # 1 ∨ 2 ❙ 
+  // = [F,G] ¬F ⇒ G ❙ 
+  or_tp: {F,G} F%bool ⟶ (⊦¬F ⟶ G%bool) ⟶ F∨G % bool ❙
+  or_tp_nodep: {F,G} F%bool ⟶ G%bool ⟶ F∨G % bool ❘
+             = [F,G,P,Q] or_tp P [r] Q❙
+  or_Il: {F,G} G%bool ⟶ ⊦F ⟶ ⊦F∨G ❙
+  or_Ir: {F,G} F%bool ⟶ ⊦G ⟶ ⊦F∨G ❙
+  or_E: {F,G,C} ⊦F∨G ⟶ (⊦F ⟶ ⊦C) ⟶ (⊦G ⟶ ⊦C) ⟶ ⊦C ❙
+  
+  and: tm ⟶ tm ⟶ tm ❘ # 1 ∧ 2 ❙
+  // = [F,G] ¬(F ⇒ ¬G) ❙
+  and_tp: {F,G} F%bool ⟶ (⊦F ⟶ G%bool) ⟶ F∧G % bool ❙
+  and_I: {F,G} ⊦F ⟶ ⊦G ⟶ ⊦F∧G ❙
+  and_El: {F,G} ⊦F∧G ⟶ ⊦F ❙
+  and_Er: {F,G} ⊦F∧G ⟶ ⊦G ❙
+   
+  equi: tm ⟶ tm ⟶ tm ❘ # 1 ⇔ 2 ❙
+  // = [F,G] (F ⇒ G) ∧ (G ⇒ F)❙
+  equi_tp: {F,G} F%bool ⟶ G%bool ⟶ F⇔G % bool❙
+  equi_I: {F,G} (⊦F ⟶ ⊦G) ⟶ (⊦G ⟶ ⊦F) ⟶ ⊦F⇔G ❙
+  equi_El: {F,G} ⊦F⇔G ⟶ ⊦F⇒G ❙
+  equi_Er: {F,G} ⊦F⇔G ⟶ ⊦G⇒F ❙
+  
+  forall: tp ⟶ (tm ⟶ tm) ⟶ tm ❘ # ∀ 1 2 ❙
+  // = [A,F] (λ A [x] F x) =(A→bool) (λ A [x] true) ❙
+  forall_tp: {A,p} ({x} x%A ⟶ p x % bool) ⟶ (∀ A [y] p y) % bool ❙
+  forall_I: {A,p} ({x} x%A ⟶ ⊦p x) ⟶ ⊦∀ A [x] p x ❙
+  forall_E: {A,p,x} ⊦(∀ A [x] p x) ⟶ x%A ⟶ ⊦p x ❙
+  
+  exists: tp ⟶ (tm ⟶ tm) ⟶ tm ❘ # ∃ 1 2 ❙
+  // = [A,F] ¬(∀ A [x] ¬(F x)) ❙
+  exists_tp: {A,p} ({x} x%A ⟶ p x % bool) ⟶ (∃ A [y] p y) % bool ❙
+  exists_I: {A,p,x} x%A ⟶ ⊦p x ⟶ ⊦∃ A [y] p y ❙
+  exists_E: {A,F,p} ⊦(∃ A [x] p x) ⟶ ({x} x%A ⟶ ⊦p x ⟶ ⊦F) ⟶ ⊦F ❙
+
+  TND: {F} ⊦F∨¬F ❙
+  bool_ext: {p} ⊦p true ⟶ ⊦p false ⟶ ({x} x%bool ⟶ ⊦p x)❙
+  
+  contra2: {F} ⊦F∧¬F ⟶ ↯ ❘
+         = [F,P] falseE valid_eq_flip (and_El P) (and_Er P)❙
+  classical_neg: {F} (⊦F ⟶ ↯) ⟶ ⊦¬F ❘
+               = [F,P] or_E TND ([k:⊦F] (P k) ¬F) ([k:⊦¬F] k) ❙
+
+  eq_trans: {A,s,t,u} s%A ⟶ t%A ⟶ u%A ⟶ ⊦s =A t ⟶ ⊦t =A u ⟶ ⊦s =A u ❘
+            = [A,s,t,u,P,Q,R,S,T] valid_eq_flip (valid_eq (valid_eq T (lam_beta ([k,l:k%A] (app_tp (lam_tp A A ([y] bool) ([y] (y =A u)) eqtp_refl ([y,m:y%A] eq_tp m R)) l)) Q)) (app_eq A ([x] bool) (λ A [x] (x =A u)) (λ A [x] (x =A u)) s t (eq_refl (lam_tp A A ([y] bool) ([y] (y =A u)) eqtp_refl ([y,k:y%A] eq_tp k R))) S)) (lam_beta ([k,l:k%A] (app_tp (lam_tp A A ([y] bool) ([y] (y =A u)) eqtp_refl ([y,m:y%A] eq_tp m R)) l)) P) ❙
+                                
+  BinRel: tp ⟶ tp ❘ = [A] Π A [x] (Π A [y] bool)❙
+  p_BinRel: {A,r} ({x,y} x%A ⟶ y%A ⟶ r@x@y%bool) ⟶ r%BinRel A ❘
+       = [A,r,P] spi_exten_tp ([u,v] spi_exten_tp ([w,x] P u w v x))❙
+  EqRel: tp ⟶ tp ❘ = [A] (BinRel A)|([r] ∀ A ([x] ∀ A ([y] ∀ A ([z] (r@x@x) ∧ (r@x@y ⇒ r@y@x) ∧ ((r@x@y ∧ r@y@z) ⇒ r@x@z)))))❙
+  p_EqRel: {A,r} r%BinRel A ⟶ ({x,y,z} x%A ⟶ y%A ⟶ z%A ⟶ ⊦(r@x@x) ∧ (r@x@y ⇒ r@y@x) ∧ ((r@x@y ∧ r@y@z) ⇒ r@x@z)) ⟶ r%EqRel A❘
+    = [A,r,P,Q] refine_I P (forall_I ([u,v] forall_I ([w,x] forall_I ([y,z] Q u w y v x z))))❙
+  Ext: tp ⟶ tm ⟶ tp ❘ = [A,r] (EqRel A)|([e] ∀ A ([x] ∀ A ([y] r@x@y ⇒ e@x@y)))❙ 
+  p_Ext: {A,r,e} e%EqRel A ⟶ ({x,y} x%A ⟶ y%A ⟶ ⊦r@x@y ⟶ ⊦e@x@y) ⟶ e%(Ext A r)❘
+       = [A,r,e,P,Q] refine_I P (forall_I ([u,v] forall_I ([w,x] impl_I([y] (Q u w v x y)))))❙
+                      
+  BinRel_tp: {A,r,x,y} r%BinRel A ⟶ x%A ⟶ y%A ⟶ r@x@y%bool ❘
+      = [A,r,x,y,P,Q,R] app_tp (app_tp P Q) R❙
+  EqRel_isBinRel: {A,r} r%EqRel A ⟶ r%BinRel A ❘
+      = [A,r,P] refine_E1 P❙
+  EqRel_refl: {A,r,x} r%EqRel A ⟶ x%A ⟶ ⊦r@x@x ❘
+      = [A,r,x,P,Q] and_El (and_El (forall_E (forall_E (forall_E (refine_E2 P) Q) Q) Q)) ❙
+  EqRel_sym: {A,r,x,y} r%EqRel A ⟶ x%A ⟶ y%A ⟶ ⊦r@x@y ⟶ ⊦r@y@x ❘
+      = [A,r,x,y,P,Q,R,S] impl_E (and_Er (and_El (forall_E (forall_E (forall_E (refine_E2 P) Q) R) Q))) S❙
+  EqRel_trans: {A,r,x,y,z} r%EqRel A ⟶ x%A ⟶ y%A ⟶ z%A ⟶ ⊦r@x@y ∧ r@y@z ⟶ ⊦r@x@z ❘
+      = [A,r,x,y,z,P,Q,R,S,T] impl_E (and_Er (forall_E (forall_E (forall_E (refine_E2 P) Q) R) S)) T❙
+  Ext_isEqRel: {A,r,e} e%Ext A r ⟶ e%EqRel A ❘
+     = [A,r,e,P] refine_E1 P❙
+  EqRel_isExt: {A,e} e%EqRel A ⟶ e%Ext A e ❘
+     = [A,e,P] p_Ext P ([x,y,u,v,w] w)❙
+  Ext_property: {A,r,e,x,y} e%Ext A r ⟶ x%A ⟶ y%A ⟶ ⊦r@x@y ⟶ ⊦e@x@y ❘
+     = [A,r,e,x,y,P,Q,R,S] impl_E (forall_E (forall_E (refine_E2 P) Q) R) S❙
+  
+  quo: tp ⟶ tm ⟶ tp❘# 1 ∕ 2 prec 5❙
+  quo_form: {A,r} r%BinRel A ⟶ $A∕r ❙
+  quo_I: {A,x,r} x%A ⟶ $A∕r ⟶ x%A∕r ❙
+  quo_Ev: {A,B,s,t,r} s%A∕r ⟶ ({x} x%A ⟶ ⊦x =(A∕r) s ⟶ (t x) % (B x)) ⟶ ({x,xˈ} x%A ⟶ xˈ%A ⟶ ⊦x =(A∕r) s ⟶ ⊦xˈ =(A∕r) s ⟶ ⊦r@x@xˈ ⟶ ⊦(t x) =(B x) (t xˈ)) ⟶ (t s) % (B s) ❙
+  quo_E:  {A,B,s,t,r} s%A∕r ⟶ ({x} x%A ⟶ ⊦x =(A∕r) s ⟶ (t x) % (B x)) ⟶ ({x,xˈ} x%A ⟶ xˈ%A ⟶ ⊦x =(A∕r) s ⟶ ⊦xˈ =(A∕r) s ⟶            ⊦(t x) =(B x) (t xˈ)) ⟶ (t s) % (B s) ❘
+    = [A,B,s,t,r,P,Q,R] quo_Ev P Q ([u,v,w,x,y,z,a] R u v w x y z)❙
+  
+  // these two should be used instead of the above if we remove the requirement isEqRel A r from quo_form❙
+  quo_eq_I: {A,x,y,r} x%A ⟶ y%A ⟶ r%BinRel A ⟶ ⊦r@x@y ⟶ ⊦x =(A∕r) y ❙
+  quo_eq_E: {A,x,y,r,e} x%A ⟶ y%A ⟶ e%Ext A r ⟶ ⊦x =(A∕r) y ⟶ ⊦e@x@y❙
+  
+  quo_eq: {A,x,y,r} x%A ⟶ y%A ⟶ r%EqRel A ⟶ ⊦(r@x@y) =bool (x =(A∕r) y)❘
+        = [A,x,y,r,P,Q,R] prop_ext 
+        ([k:⊦r@x@y] quo_eq_I P Q (EqRel_isBinRel R) k)
+        ([k:⊦x =(A∕r) y] quo_eq_E P Q (p_Ext R ([u,v, f:u%A,g:v%A, m] m)) k)
+        ❙
+
+  app_sub_eq_simple: {A,B,f,t,tˈ} t%A ⟶ tˈ%A ⟶ ⊦t =A tˈ⟶ ({u} u%A ⟶ (f u) % B) ⟶ ⊦(f t) =B (f tˈ)❘   
+            = [A,B,f,t,tˈ,P,Q,R,S] 
+            eq_trans 
+            (S t P) 
+            (app_tp (lam_tp eqtp_refl S) Q) 
+            (S tˈ Q) 
+            (eq_trans 
+            (S t P) 
+            (app_tp (lam_tp eqtp_refl S) P) 
+            (app_tp (lam_tp eqtp_refl S) Q) 
+            (eq_sym (lam_beta ([k,l:k%A] app_tp (lam_tp eqtp_refl S) l) P)) (app_eq (eq_refl lam_tp eqtp_refl S) R)) (lam_beta ([k,l:k%A] app_tp (lam_tp eqtp_refl S) l) Q)❙
+              
+  refine_eq_pres: {A,s,t,p} s%A ⟶ t%A ⟶ ⊦s =A t ⟶ ({x} x%A ⟶ p x % bool) ⟶ ⊦p s ⟶ ⊦s =(A|p) t ❘
+                = [A,s,t,p,P,Q,R,S,T] eq_sym and_Er (valid_eq_flip (and_I T (eq_refl (refine_I P T))) (app_sub_eq_simple P Q R ([x,k:x%A] and_tp (S x k) ([l:⊦p x] eq_tp (refine_I k l) (refine_I P T))))) ❙            
+     
+  eq_conservation_up: {A,B,x,y} x%A ⟶ y%A ⟶ A<B ⟶ ⊦x =A y ⟶ ⊦x =B y ❘
+                    = [A,B,x,y,P,Q,R,S] app_sub_eq_simple A B ([x] x) x y P Q S ([u,v:u%A] R u v)❙
+                    
+  app_sub_eq: {A,B,f,t,tˈ} t%A ⟶ tˈ%A ⟶ ⊦t =A tˈ⟶ ({u} u%A ⟶ (f u) % (B u)) ⟶ ⊦(f t) =(B t) (f tˈ)❘
+            = [A,B,f,t,tˈ,P,Q,R,S] app_sub_eq_simple 
+            (refine_I A ([x] t=A x) t P (eq_refl P))
+            (refine_I A ([x] t=A x) tˈ Q R)
+            (refine_eq_pres P Q R ([a,b] eq_tp P b) (eq_refl P))
+            ([u,v:u%A|([x] t=A x)] wftm_eq (S u refine_E1 v) eqtp_sym (dep_type_ext (refine_I P (eq_refl P)) v 
+            (
+            refine_eq_pres 
+            P
+            (refine_E1 v)
+            (refine_E2 v)
+            ([a,b] eq_tp P b)
+            (eq_refl P)
+            )
+            ))
+            ❙
+            
+  props_in_true: {F} F%(bool|[x] x =bool true) ⟶ ⊦F ❘
+               = [F,P] valid_eq trueI (refine_E2 P)❙                         
+  true_props_at_true: {F} F%(bool|[x] x =bool true) ⟶ ⊦F =(bool|[x] x =bool true) true ❘
+                    = [F,P] eq_sym refine_eq_pres true_tp (refine_E1 P) (eq_sym (refine_E2 P)) ([k,l:k%bool] eq_tp l true_tp) (eq_refl true_tp)❙                                      
+  props_in_true2: {F} F%bool ⟶ ⊦F ⟶ F%(bool|[x] x =bool true) ❘
+               = [F,P,Q] refine_I P (prop_ext F true ([k:⊦F] trueI) ([l:⊦true] Q))❙
+               
+  both_true_equals: {F,G} F%bool ⟶ G%bool ⟶ ⊦F ⟶ ⊦G ⟶ ⊦F =(bool|[x] x =bool true) G ❘
+                  = [F,G,P,Q,R,S] eq_trans (props_in_true2 F P R) (props_in_true2 true true_tp trueI) (props_in_true2 G Q S) (true_props_at_true (props_in_true2 F P R)) (eq_sym (true_props_at_true (props_in_true2 G Q S)))❙
+                  
+  both_true_equalsv: {F,G} F%(bool|[x] x =bool true) ⟶ G%(bool|[x] x =bool true) ⟶ ⊦F =(bool|[x] x =bool true) G ❘
+                   = [F,G,P,Q] both_true_equals (refine_E1 P) (refine_E1 Q) (props_in_true P) (props_in_true Q)❙
+          
+  in_class_bool: {A,r} r%(BinRel A) ⟶ ({x} x%A ⟶ (∃ A [y] y=(A∕r) x)%bool) ❘
+               = [A,r,P] [x,k:x%A] (exists_tp ([y,l:y%A] (eq_tp (A∕r) y x (quo_I A y r l quo_form P) (quo_I A x r k quo_form P))))❙         
+  in_class_valid: {A,r} r%(BinRel A) ⟶ ({x} x%A ⟶ ⊦ ∃ A [y] y=(A∕r) x) ❘
+               = [A,r,P] [x,k:x%A] exists_I A ([y] y =(A∕r) x) x k eq_refl (quo_I A x r k quo_form P)❙
+  in_class_bool_true: {A,r,x} r%(BinRel A) ⟶ x%A ⟶ (∃ A [y] y=(A∕r) x)%(bool|[x] x =bool true) ❘
+                    = [A,r,x,P,Q] props_in_true2 (in_class_bool P x Q) (in_class_valid P x Q) ❙         
+  ground_type_in_class: {A,r,x,xˈ} r%(BinRel A) ⟶ x%A ⟶ xˈ%A ⟶ ⊦(∃ A [y] (y =(A∕r) x)) =(bool|[x] x =bool true) (∃ A [y] (y =(A∕r) xˈ)) ❘
+                      = [A,r,x,xˈ,P,Q,R] both_true_equals (in_class_bool P x Q) (in_class_bool P xˈ R) (in_class_valid P x Q) (in_class_valid P xˈ R)❙  
+  in_class_quo: {A,r,s} r%(BinRel A) ⟶ s%A∕r ⟶ ⊦ ∃ A [y] (y =(A∕r) s) ❘
+              = [A,r,s,P,Q] props_in_true (quo_E Q ([z,k:z%A, l] in_class_bool_true A r z P k) ([z,zˈ,k:z%A,l:zˈ%A, m,n] ground_type_in_class P k l)) ❙
+
+  lemma_double_lam: {A,x,y} x%A ⟶ y%A ⟶ ⊦((λ A ([s] λ A ([t] (s =A t))))@x@y) =bool (x =A y) ❘
+   = [A,x,y,P,Q] eq_trans
+   (app_tp (app_tp (lam_tp eqtp_refl ([a,b] lam_tp eqtp_refl ([c,d] eq_tp b d))) P) Q)
+   (app_tp (lam_tp eqtp_refl ([c,d] eq_tp P d)) Q) 
+   (eq_tp P Q) 
+   (app_eq (lam_beta ([u,v] app_tp (lam_tp eqtp_refl ([a,b] lam_tp eqtp_refl ([c,d] eq_tp b d ))) v) P) (eq_refl Q))
+   (lam_beta ([u,v] app_tp (lam_tp eqtp_refl ([c,d] eq_tp P d)) v) Q)❙
+   
+
+  quo_triv: {A} (λ A ([x] λ A ([y] x =A y)))%EqRel A  ❘
+               = [A] p_EqRel (p_BinRel ([xˈ,yˈ,k:xˈ%A,l:yˈ%A] app_tp (app_tp (lam_tp eqtp_refl ([u,v] lam_tp eqtp_refl ([a,b] eq_tp v b))) k) l)) 
+               ([xˈ,yˈ,zˈ,k:xˈ%A,l:yˈ%A,m:zˈ%A] 
+               and_I (and_I
+               (valid_eq (eq_refl k) (lemma_double_lam k k))
+               (impl_I ([u:⊦(λ A ([u] λ A ([v] u =A v)))@xˈ@yˈ]
+               valid_eq_flip
+               (eq_sym (valid_eq_flip u (lemma_double_lam k l)))
+               (eq_sym (lemma_double_lam l k))))) 
+               (impl_I ([u:⊦((λ A ([u] λ A ([v] u =A v)))@xˈ@yˈ)∧((λ A ([u] λ A ([v] u =A v)))@yˈ@zˈ)]
+               valid_eq
+               (eq_trans k l m
+               (valid_eq_flip (and_El u) (lemma_double_lam k l))
+               (valid_eq_flip (and_Er u) (lemma_double_lam l m))
+               )
+               (lemma_double_lam k m)
+               )))
+               ❙
+ 
+  lemma_double_lam_quo: {A,x,y,r} r%BinRel A ⟶ x%A ⟶ y%A ⟶ ⊦((λ A ([s] λ A ([t] (s =(A∕r) t))))@x@y) =bool (x =(A∕r) y) ❘
+   = [A,x,y,r,P,Q,R] eq_trans
+   (app_tp (app_tp (lam_tp eqtp_refl ([a,b] lam_tp eqtp_refl ([c,d] eq_tp (quo_I b quo_form P) (quo_I d quo_form P)))) Q) R)
+   (app_tp (lam_tp eqtp_refl ([c,d] eq_tp (quo_I Q quo_form P) (quo_I d quo_form P))) R) 
+   (eq_tp (quo_I Q quo_form P) (quo_I R quo_form P)) 
+   (app_eq (lam_beta ([u,v] app_tp (lam_tp eqtp_refl ([a,b] lam_tp eqtp_refl ([c,d] eq_tp (quo_I b quo_form P) (quo_I d quo_form P) ))) v) Q) (eq_refl R))
+   (lam_beta ([u,v] app_tp (lam_tp eqtp_refl ([c,d] eq_tp (quo_I Q quo_form P) (quo_I d quo_form P))) v) R)❙
+               
+  quo_triv_quo: {A,r} r%BinRel A ⟶ (λ A ([x] λ A ([y] x =(A∕r) y)))%EqRel A ❘
+              = [A,r,P] p_EqRel (p_BinRel ([xˈ,yˈ,k:xˈ%A,l:yˈ%A] app_tp (app_tp (lam_tp eqtp_refl ([u,v] lam_tp eqtp_refl ([a,b] eq_tp (quo_I v quo_form P) (quo_I b quo_form P)))) k) l))
+              ([xˈ,yˈ,zˈ,k:xˈ%A,l:yˈ%A,m:zˈ%A] 
+              and_I (and_I
+             (valid_eq (eq_refl quo_I k quo_form P) (lemma_double_lam_quo P k k))
+             (impl_I ([u:⊦(λ A ([u] λ A ([v] u =(A∕r) v)))@xˈ@yˈ]
+              valid_eq_flip
+             (eq_sym (valid_eq_flip u (lemma_double_lam_quo P k l)))
+             (eq_sym (lemma_double_lam_quo P l k))))) 
+             (impl_I ([u:⊦((λ A ([u] λ A ([v] u =(A∕r) v)))@xˈ@yˈ)∧((λ A ([u] λ A ([v] u =(A∕r) v)))@yˈ@zˈ)]
+              valid_eq
+              (eq_trans (quo_I k quo_form P) (quo_I l quo_form P) (quo_I m quo_form P)
+              (valid_eq_flip (and_El u) (lemma_double_lam_quo P k l))
+              (valid_eq_flip (and_Er u) (lemma_double_lam_quo P l m))
+              )
+              (lemma_double_lam_quo P k m)
+              )))
+              ❙
+                             
+  eq_is_Ext: {A,r} r%BinRel A ⟶ (λ A ([x] λ A ([y] x =(A∕r) y)))%Ext A r ❘
+           = [A,r,P] p_Ext (quo_triv_quo P) ([x,y,k,l,m] valid_eq (quo_eq_I k l P m) (lemma_double_lam_quo P k l)) ❙
+                        
+  quo_min_impl: {A,Aˈ,r,rˈ,s} A<Aˈ ⟶ r%BinRel A ⟶ rˈ%BinRel Aˈ ⟶ ({x,y} x%A ⟶ y%A ⟶ ⊦r@x@y ⟶ ⊦rˈ@x@y) ⟶ s%Ext Aˈ rˈ ⟶ s%Ext A r ❘
+                   = [A,Aˈ,r,rˈ,s,P,Q,R,S,T] p_Ext
+                   (p_EqRel (p_BinRel ([xˈ,yˈ,k,l] BinRel_tp (EqRel_isBinRel Ext_isEqRel T) (P xˈ k) (P yˈ l))) 
+									([xˈ,yˈ,zˈ,k,l,m] 
+									and_I (and_I
+								 (EqRel_refl (Ext_isEqRel T) (P xˈ k))
+								 (impl_I ([u:⊦s@xˈ@yˈ] (EqRel_sym (Ext_isEqRel T) (P xˈ k) (P yˈ l) u))))
+								 (impl_I ([u:⊦s@xˈ@yˈ ∧ s@yˈ@zˈ] (EqRel_trans (Ext_isEqRel T) (P xˈ k) (P yˈ l) (P zˈ m) u)))))
+								 ([u,v,w,a,b] Ext_property T (P u w) (P v a) (S u v w a b))
+                  ❙
+   
+  quo_subtp: {A,r} r%BinRel A ⟶ A < A∕r ❘
+                = [A,r,P] [x, s: x%A] (quo_I A x r) s (quo_form P) ❙
+                
+  quo_sub: {A,Aˈ,r,rˈ} A<Aˈ ⟶ r%BinRel A ⟶ rˈ%BinRel Aˈ ⟶ ({x,y} x%A ⟶ y%A ⟶ ⊦r@x@y ⟶ ⊦rˈ@x@y) ⟶ A∕r < Aˈ∕rˈ ❘
+              = [A,Aˈ,r,rˈ,P,Q,R,S] [s,k:s%A∕r] quo_E k 
+              ([x, l:x%A, m] quo_I (P x l) (quo_form R)) 
+              ([x, xˈ, l:x%A, m:xˈ%A, n, o]
+              valid_eq_flip
+              (quo_eq_E l m (quo_min_impl P Q R S (eq_is_Ext R)) (eq_trans (quo_I l quo_form Q) k (quo_I m quo_form Q) n eq_sym o))
+              (lemma_double_lam_quo R (P x l) (P xˈ m)))
+              ❙
+              
+  quo_eq_Iv_helper: {A,r,x,y} r%BinRel A ⟶ x%A ⟶ y%A ⟶ (r@x@y ⇒ x =(A∕r) y)%(bool|[v] v =bool true) ❘
+  = [A,r,x,y,P,Q,R] props_in_true2 (impl_tp_nondep (BinRel_tp P Q R) (eq_tp (quo_I Q quo_form P) (quo_I R quo_form P))) (impl_I ([o] quo_eq_I Q R P o))❙
+              
+  quo_eq_Iv: {A,s,t,r} s%A∕r ⟶ t%A∕r ⟶ r%BinRel A ⟶ (r@s@t ⇒ s =(A∕r) t)%(bool|[x] x =bool true) ❘
+        = [A,s,t,r,P,Q,R] quo_E Q
+        ([k,l,m] quo_E P
+        ([x,y,z] quo_eq_Iv_helper R y l)
+        ([x,xˈ,y,yˈ, z,zˈ] both_true_equalsv (quo_eq_Iv_helper R y l) (quo_eq_Iv_helper R yˈ l)))
+        ([k,kˈ,l,lˈ,m,mˈ] both_true_equalsv 
+        (quo_E P
+        ([x,y,z] quo_eq_Iv_helper R y l)
+        ([x,xˈ,y,yˈ, z,zˈ] both_true_equalsv (quo_eq_Iv_helper R y l) (quo_eq_Iv_helper R yˈ l)))
+        (quo_E P
+        ([x,y,z] quo_eq_Iv_helper R y lˈ)
+        ([x,xˈ,y,yˈ, z,zˈ] both_true_equalsv (quo_eq_Iv_helper R y lˈ) (quo_eq_Iv_helper R yˈ lˈ))))
+        ❙
+
+  quo_eq_rel: {A,Aˈ,r,rˈ} A≡Aˈ ⟶ r%(BinRel A) ⟶ rˈ%BinRel Aˈ ⟶ ({x,y} x%A ⟶ y%A ⟶ ⊦(r@x@y) =bool (rˈ@x@y)) ⟶ A∕r ≡ Aˈ∕rˈ ❘
+                 = [A,Aˈ,r,rˈ,P,Q,R,S] subtp_antisym 
+                 (quo_sub (eqtp_subtp P) Q R ([k,l, m,n, o] valid_eq_flip o (S k l m n))) 
+                 (quo_sub (eqtp_subtp (eqtp_sym P)) R Q ([k,l, m,n, o] valid_eq o (S k l (wftm_eq m (eqtp_sym P)) (wftm_eq n (eqtp_sym P)))))  ❙
+                 
+  quo_eq_triv_quo: {A} A ≡ A∕(λ A ([x] λ A ([y] (x=A y)))) ❘
+                 = [A] subtp_antisym (quo_subtp EqRel_isBinRel quo_triv) 
+                 ([s,k] quo_E k 
+                 ([kˈ,l, m] l) 
+                 ([kˈ,lˈ, m,n, o,p] valid_eq_flip 
+                 (quo_eq_E m n (EqRel_isExt quo_triv) (eq_trans (quo_I m quo_form EqRel_isBinRel quo_triv) k (quo_I n quo_form EqRel_isBinRel quo_triv) o (eq_sym p)))
+                 (lemma_double_lam m n))) ❙
+                 
+  rep_ref: {A,p,pˈ} (A|p)|pˈ ≡ A|([x] p x ∧ pˈ x) ❘
+              = [A,p,pˈ] subtp_antisym ([k,l:k%(A|p)|pˈ] refine_I (refine_E1 refine_E1 l) (and_I (refine_E2 refine_E1 l) (refine_E2 l))) ([k,l:k%A|([x] p x ∧ pˈ x)] refine_I (refine_I (refine_E1 l) (and_El refine_E2 l)) (and_Er refine_E2 l))❙
+              
+  rep_quo_help: {A,r,rˈ} r%(BinRel A) ⟶ rˈ%BinRel (A∕r) ⟶ ({x,y} x%A ⟶ y%A ⟶ ⊦r@x@y ⟶ ⊦rˈ@x@y) ⟶ A∕r < A∕rˈ ❘
+            = [A,r,rˈ,P,Q,R] ([s,l:s%A∕r] quo_Ev l 
+              ([y,n:y%A,o] quo_I n quo_form (p_BinRel ([x,z, k:x%A,m:z%A] BinRel_tp Q (quo_I k quo_form P) (quo_I m quo_form P))))
+              ([y,z, n:y%A,o:z%A, p,q, w] quo_eq_I n o (p_BinRel ([a,b, kˈ:a%A,lˈ:b%A] BinRel_tp Q (quo_I kˈ quo_form P) (quo_I lˈ quo_form P))) 
+              (R y z n o w)))❙
+              
+  rep_quo: {A,r,rˈ} r%BinRel A ⟶ rˈ%BinRel (A∕r) ⟶ ({x,y} x%A ⟶ y%A ⟶ ⊦r@x@y ⟶ ⊦rˈ@x@y) ⟶ (A∕r)∕rˈ ≡ A∕rˈ ❘
+            = [A,r,rˈ,P,Q,R] subtp_antisym ([s,l:s%(A∕r)∕rˈ] quo_E l 
+              ([y,n:y%(A∕r),o] (rep_quo_help P Q R) y n)
+              ([y,z, n:y%(A∕r),o:z%(A∕r), p,q] valid_eq_flip
+              (quo_eq_E n o
+              (quo_min_impl (rep_quo_help P Q R) Q 
+              (EqRel_isBinRel quo_triv)
+              ([u:tm,v:tm, f:u%A∕r,g:v%A∕r, h:⊦rˈ@u@v] valid_eq 
+              (impl_E (props_in_true (quo_eq_Iv ((rep_quo_help P Q R) u f) ((rep_quo_help P Q R) v g) (p_BinRel ([a,b, k:a%A,m:b%A] BinRel_tp Q (quo_I k quo_form P) (quo_I m quo_form P))))) 
+              h)
+              (lemma_double_lam ((rep_quo_help P Q R) u f) ((rep_quo_help P Q R) v g))
+              ) 
+              (EqRel_isExt quo_triv))
+              eq_trans (quo_I n quo_form Q) l (quo_I o quo_form Q) p (eq_sym q))
+              (lemma_double_lam ((rep_quo_help P Q R) y n) ((rep_quo_help P Q R) z o))
+              ))
+              (quo_sub (quo_subtp P) (p_BinRel ([x,y, k:x%A,l:y%A] BinRel_tp Q (quo_I k quo_form P) (quo_I l quo_form P))) Q ([x,y, kˈ,lˈ, m] m ))
+              ❙
+                           
+  quo_in_ref_subtp: {A,r,p} r%BinRel A ⟶ ({x} x%A ⟶ p x%bool) ⟶ r%BinRel (A|p) ❘
+                  = [A,r,p,P,Q] p_BinRel ([x,y, k:x%A|p,l:y%A|p] BinRel_tp P (refine_E1 k) (refine_E1 l))❙ 
+
+  lemma_double_lam_quo_ref: {A,x,y,r,p} r%BinRel A ⟶ ({x} x%A∕r ⟶ p x%bool) ⟶ x%A|p ⟶ y%A|p ⟶ ⊦((λ (A|p) ([s] λ (A|p) ([t] (s =((A∕r)|p) t))))@x@y) =bool (x =((A∕r)|p) y) ❘
+   = [A,x,y,r,p,P,Q,R,S] eq_trans
+   (app_tp (app_tp (lam_tp eqtp_refl ([a,b] lam_tp eqtp_refl ([c,d] eq_tp (refine_I (quo_I (refine_E1 b) quo_form P) (refine_E2 b)) (refine_I (quo_I (refine_E1 d) quo_form P) (refine_E2 d))))) R) S)
+   (app_tp (lam_tp eqtp_refl ([c,d] eq_tp (refine_I (quo_I (refine_E1 R) quo_form P) (refine_E2 R)) (refine_I (quo_I (refine_E1 d) quo_form P) (refine_E2 d)))) S) 
+   (eq_tp (refine_I (quo_I (refine_E1 R) quo_form P) (refine_E2 R)) (refine_I (quo_I (refine_E1 S) quo_form P) (refine_E2 S))) 
+   (app_eq (lam_beta ([u,v] app_tp (lam_tp eqtp_refl ([a,b] lam_tp eqtp_refl ([c,d] eq_tp (refine_I (quo_I (refine_E1 b) quo_form P) (refine_E2 b)) (refine_I (quo_I (refine_E1 d) quo_form P) (refine_E2 d)) ))) v) R) (eq_refl S))
+   (lam_beta ([u,v] app_tp (lam_tp eqtp_refl ([c,d] eq_tp (refine_I (quo_I (refine_E1 R) quo_form P) (refine_E2 R)) (refine_I (quo_I (refine_E1 d) quo_form P) (refine_E2 d)))) v) S)❙
+               
+  quo_triv_quo_ref: {A,r,p} r%BinRel A ⟶ ({x} x%A∕r ⟶ p x%bool) ⟶ (λ (A|p) ([x] λ (A|p) ([y] x =((A∕r)|p) y)))%EqRel (A|p) ❘
+              = [A,r,p,P,Q] p_EqRel (p_BinRel ([xˈ,yˈ,k,l] app_tp (app_tp (lam_tp eqtp_refl ([u,v] lam_tp eqtp_refl ([a,b] eq_tp (refine_I (quo_I (refine_E1 v) quo_form P) (refine_E2 v)) (refine_I (quo_I (refine_E1 b) quo_form P) (refine_E2 b))))) k) l))
+              ([xˈ,yˈ,zˈ,k,l,m] 
+              and_I (and_I
+             (valid_eq (eq_refl (refine_I (quo_I (refine_E1 k) quo_form P) (refine_E2 k))) (lemma_double_lam_quo_ref P Q k k))
+             (impl_I ([u]
+              valid_eq_flip
+             (eq_sym (valid_eq_flip u (lemma_double_lam_quo_ref P Q k l)))
+             (eq_sym (lemma_double_lam_quo_ref P Q l k))))) 
+             (impl_I ([u]
+              valid_eq
+              (eq_trans (refine_I (quo_I (refine_E1 k) quo_form P) (refine_E2 k)) (refine_I (quo_I (refine_E1 l) quo_form P) (refine_E2 l)) (refine_I (quo_I (refine_E1 m) quo_form P) (refine_E2 m))
+              (valid_eq_flip (and_El u) (lemma_double_lam_quo_ref P Q k l))
+              (valid_eq_flip (and_Er u) (lemma_double_lam_quo_ref P Q l m))
+              )
+              (lemma_double_lam_quo_ref P Q k m)
+              )))
+              ❙
+                  
+  rep_ref_quo_back_help: {A,r,p} r%BinRel A ⟶ ({x} x%A∕r ⟶ p x%bool) ⟶ (λ (A|p) ([x] λ (A|p) ([y] x=((A∕r)|p) y)))%Ext (A|p) r ❘
+              = [A,r,p,P,Q] p_Ext (quo_triv_quo_ref P Q) 
+              ([u,v, f,g, n] valid_eq 
+              (refine_eq_pres 
+              (quo_I (refine_E1 f) quo_form P) 
+              (quo_I (refine_E1 g) quo_form P) 
+              (quo_eq_I (refine_E1 f) (refine_E1 g) P n)
+              Q
+              (refine_E2 f))
+              (lemma_double_lam_quo_ref P Q f g))
+              ❙
+     
+  rep_ref_quo_back: {A,r,p} r%BinRel A ⟶ ({x} x%A∕r ⟶ p x%bool) ⟶ (A|p)∕r < (A∕r)|p ❘
+    = [A,r,p,P,Q] [x,k:x%(A|p)∕r] quo_E k 
+    ([y,l:y%A|p, m] refine_I (quo_I (refine_E1 l) (quo_form P)) (refine_E2 l)) 
+    ([y,z, l,m, n,o]
+    valid_eq_flip
+    (quo_eq_E l m 
+    (rep_ref_quo_back_help P Q)
+    (eq_trans (quo_I l quo_form (quo_in_ref_subtp P ([u,v] Q u (quo_I v quo_form P)))) k (quo_I m quo_form (quo_in_ref_subtp P ([u,v] Q u (quo_I v quo_form P)))) n (eq_sym o))
+    )
+    (lemma_double_lam_quo_ref P Q l m)
+    )
+    ❙
+    
+  rep_ref_quo: {A,r,p} r%BinRel A ⟶ ({x} x%A∕r ⟶ p x%bool) ⟶ (A∕r)|p < (A|p)∕r ❘
+         = [A,r,p,P,Q] [x,k:x%(A∕r)|p] quo_Ev (refine_E1 k)
+         ([y,l,m] quo_I 
+         (
+         refine_I l 
+         (valid_eq
+         (refine_E2 k)
+         (app_sub_eq (A∕r) ([t] bool) p y x (quo_I l quo_form P) (refine_E1 k) m ([u,v] Q u v)) 
+         )) 
+         (quo_form (quo_in_ref_subtp P ([u,v] Q u quo_I v quo_form P))
+         ))
+         ([y,z, l,m, n,o, q] quo_eq_I 
+         (refine_I l 
+         (valid_eq
+         (refine_E2 k)
+         (app_sub_eq (A∕r) ([t] bool) p y x (quo_I l quo_form P) (refine_E1 k) n ([u,v] Q u v)) 
+         ))
+         (refine_I m 
+         (valid_eq
+         (refine_E2 k)
+         (app_sub_eq  (A∕r) ([t] bool) p z x (quo_I m quo_form P) (refine_E1 k) o ([u,v] Q u v))
+         ))
+         (quo_in_ref_subtp P ([u,v] Q u quo_I v quo_form P))
+         q)
+         ❙
+         
+  repeated_ref_quo: {A,r,p} r%BinRel A ⟶ ({x} x%A∕r ⟶ p x%bool) ⟶ (A∕r)|p ≡ (A|p)∕r ❘
+  = [A,r,p,P,Q] subtp_antisym (rep_ref_quo P Q) (rep_ref_quo_back P Q)❙
+  
+  refined_codomain: {A,B,p} (Π A [x] ((B x)|p)) ≡ (Π A [x] B x)|([f] ∀ A [x] p (f@x)) ❘ 
+                  = [A,B,p] subtp_antisym ([f,k:f%(Π A [x] ((B x)|p))]
+                    refine_I 
+                    (exten_tp ([x,l:x%A] (refine_E1 (app_tp k l))))
+                    (forall_I ([x,l:x%A] (refine_E2 (app_tp k l))))
+                    )
+                    ([f, k:f%(Π A [x] B x)|([g] ∀ A [x] p (g@x))]
+                    (exten_tp ([x,l:x%A] refine_I (app_tp (refine_E1 k) l)
+                    (forall_E (refine_E2 k) l))
+                    ))
+                    ❙
+                    
+  quoed_domain: {A,B,r} r%BinRel A ⟶ (Π (A∕r) [x] B x) ≡ (Π A [x] B x)|([f] ∀ A [x] (∀ A [y] (r@x@y ⇒ (f@x) =(B x) (f@y)))) ❘
+    = [A,B,r,P] subtp_antisym ([f,k:f%(Π (A∕r) [x] B x)]
+             refine_I 
+            (exten_tp ([y,l:y%A] app_tp k quo_I l quo_form P))
+            (forall_I ([x,l:x%A] 
+             forall_I ([y,m:y%A]
+             impl_I [n] (app_eq (eq_refl k) (quo_eq_I l m P n))))))
+            ([f,k:f%(Π A [x] B x)|([g] ∀ A [x] (∀ A [y] (r@x@y ⇒ (g@x) =(B x) (g@y))))]     exten_tp
+            ([s,l:s%A∕r] quo_Ev l 
+            ([x,m:x%A,n:⊦x=(A∕r)s] app_tp (refine_E1 k) m)
+            ([x,y, m:x%A,n:y%A, o:⊦x=(A∕r)s,p:⊦y=(A∕r)s, q]
+             impl_E
+            (forall_E (forall_E (refine_E2 k) m) n)
+            q)))
+             ❙
+
+  quoed_codomain_ax: {A,B,r} (Π A ([x] (B x)∕r)) < (Π A [x] B x)∕(λ (Π A [x] B x) ([f] λ (Π A [x] B x) ([g] ∀ A [x] r@(f@x)@(g@x)))) ❙
+  
+  quoed_codomain_l: {A,B,r} ({x} x%A ⟶ r%BinRel (B x)) ⟶ (Π A [x] B x)∕(λ (Π A [x] B x) ([f] λ (Π A [x] B x) ([g] ∀ A [x] r@(f@x)@(g@x)))) < (Π A ([x] (B x)∕r)) ❘
+                       = [A,B,r,P] [f,k]
+                       quo_Ev k 
+                       ([g,l,m]
+                       exten_tp ([x,n:x%A] quo_I (app_tp l n) (quo_form P x n))
+                       )
+                       ([g,h, l,m, n,o, q]
+                       exten_eq ([z,p:z%A]
+                       quo_eq_I (app_tp l p) (app_tp m p) (P z p) (forall_E 
+                       (valid_eq_flip q 
+                       (eq_trans
+											 (app_tp (app_tp (lam_tp eqtp_refl ([a,b] lam_tp eqtp_refl ([c,d] forall_tp ([u,v] BinRel_tp (P u v) (app_tp b v) (app_tp d v))))) l) m)
+											 (app_tp (lam_tp eqtp_refl ([c,d] forall_tp ([u,v] BinRel_tp (P u v) (app_tp l v) (app_tp d v)))) m)
+											 (forall_tp ([u,v] BinRel_tp (P u v) (app_tp l v) (app_tp m v)))
+											 (app_eq (lam_beta ([uˈ,vˈ] app_tp (lam_tp eqtp_refl ([a,b] lam_tp eqtp_refl ([c,d] forall_tp ([u,v] BinRel_tp (P u v) (app_tp b v) (app_tp d v))))) vˈ) l) (eq_refl m))
+											 (lam_beta ([uˈ,vˈ] app_tp (lam_tp eqtp_refl ([c,d] forall_tp ([u,v] BinRel_tp (P u v) (app_tp l v) (app_tp d v)))) vˈ) m)))
+                       p)))                       
+                       ❙
+                       
+  quoed_codomain: {A,B,r} ({x} x%A ⟶ r%BinRel (B x)) ⟶ (Π A ([x] (B x)∕r)) ≡ (Π A [x] B x)∕(λ (Π A [x] B x) ([f] λ (Π A [x] B x) ([g] ∀ A [x] r@(f@x)@(g@x)))) ❘
+                     = [A,B,r,P] subtp_antisym (quoed_codomain_ax) (quoed_codomain_l P)❙
+
+  refined_domain: {A,B,p} ({x} x%A ⟶ p x%bool) ⟶ (λ (Π A [x] B x) ([f] λ (Π A [x] B x) ([g] ∀ A [x] (p x ⇒ (f@x) =(B x) (g@x)))))%BinRel (Π A [x] B x) ⟶ (Π A [x] B x)∕(λ (Π A [x] B x) ([f] λ (Π A [x] B x) ([g] ∀ A [x] (p x ⇒ (f@x) =(B x) (g@x))))) < (Π (A|p) [x] B x) ❘
+                = [A,B,p,P,Q] [f,k]
+                quo_Ev k ([g,m, u] exten_tp ([x,l] app_tp m (refine_E1 l)))
+                ([g,h, m,n, o,q, w]
+                exten_eq ([x,l:x%A|p]
+                impl_E
+                (forall_E 
+                (valid_eq_flip w 
+								 (eq_trans
+								 (app_tp (app_tp (lam_tp eqtp_refl ([a,b] lam_tp eqtp_refl ([c,d] forall_tp ([u,v] impl_tp_nondep (P u v) (eq_tp (app_tp b v) (app_tp d v)))))) m) n)
+								 (app_tp (lam_tp eqtp_refl ([c,d] forall_tp ([u,v] impl_tp_nondep (P u v) (eq_tp (app_tp m v) (app_tp d v))))) n)
+								 (forall_tp ([u,v] impl_tp_nondep (P u v) (eq_tp (app_tp m v) (app_tp n v))))
+								 (app_eq (lam_beta ([uˈ,vˈ] app_tp (lam_tp eqtp_refl ([a,b] lam_tp eqtp_refl ([c,d] forall_tp ([u,v] impl_tp_nondep (P u v) (eq_tp (app_tp b v) (app_tp d v)))))) vˈ) m) (eq_refl n))
+								 (lam_beta ([uˈ,vˈ] app_tp (lam_tp eqtp_refl ([c,d] forall_tp ([u,v] impl_tp_nondep (P u v) (eq_tp (app_tp m v) (app_tp d v))))) vˈ) n)))
+                (refine_E1 l))
+                (refine_E2 l)
+                ))
+                ❙
+    
+❚
