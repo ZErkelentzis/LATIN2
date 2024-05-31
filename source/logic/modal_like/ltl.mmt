@@ -1,0 +1,50 @@
+namespace latin:/❚
+
+fixmeta ur:?LF❚
+
+/T Linear Temporal Logic
+   LTL propositions are meant to be evaluated relative to a trace in a state transition system.
+   Atomic formulas are meant to be evaluated in the first state of the path.❚
+
+/T basic modality (corresponds to box/diamond)❚
+theory Next =
+  include ?Propositions❙
+  /T $◯ p$ means [p:prop] holds in the next state, i.e., relative to the tail of the path.❙
+  next: prop ⟶ prop❘# ◯ 1 prec 20❙
+❚
+
+theory Finally =
+  include ?Propositions❙
+  /T $◇ p$ means [p:prop] holds in some state on the path.❙
+  finally: prop ⟶ prop❘# ◇ 1 prec 20❙
+❚
+
+/T dual of Finally❚
+theory Always =
+  include ?Propositions❙
+  /T $□ p$ means [p:prop] holds everywhere on the path.❙
+  always: prop ⟶ prop❘# □ 1 prec 20❙
+❚
+
+theory Until =
+  include ?Propositions❙
+  /T $p U q$ means [p:prop] holds on a prefix of the path up followed by a state in which [q:prop] holds.❙
+  until: prop ⟶ prop ⟶ prop❘# 1 U 2 prec 20❙
+❚
+
+/T dual of until❚
+theory Release =
+  include ?Propositions❙
+  /T $p R q$ means [q:prop] holds longer than [p:prop] doesn't hold.❙
+  release: prop ⟶ prop ⟶ prop❘# 1 R 2 prec 20❙
+❚
+
+theory LTL =
+  include ?PL❙
+  include ?Next❙
+  include ?Finally❙
+  include ?Always❙
+  include ?Until❙
+  include ?Release❙
+❚
+

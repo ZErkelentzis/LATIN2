@@ -1,0 +1,21 @@
+file ../../../build_config.msl
+
+// syntax
+
+build MMT/LATIN2 mmt-omdoc ./modal.mmt
+build MMT/LATIN2 mmt-omdoc ./multimodal.mmt
+build MMT/LATIN2 mmt-omdoc ./dynamic.mmt
+build MMT/LATIN2 mmt-omdoc ./ltl.mmt
+build MMT/LATIN2 mmt-omdoc ./ctl.mmt
+
+
+// semantics
+
+// needed for all of the others
+build MMT/LATIN2 mmt-omdoc ./parametric_evaluation.mmt
+
+build MMT/LATIN2 mmt-omdoc ./kripke.mmt
+build MMT/LATIN2 mmt-omdoc ./kripke_multimodal.mmt
+build MMT/LATIN2 mmt-omdoc ./kripke_dynamic.mmt
+build MMT/LATIN2 mmt-omdoc ./kripke/ltl.mmt
+build MMT/LATIN2 mmt-omdoc ./kripke/ctl.mmt

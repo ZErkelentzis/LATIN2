@@ -1,0 +1,22 @@
+namespace latin:/kripkemodels❚
+
+/T A CTL model is a Kripke model in which a proposition is evaluated at a state/world w yielding a property of traces.
+   The operators A and E then reduce those to a property of states by quantifying over all traces starting at w.
+❚
+
+theory CTLModel : latin:/?SFOLEQND =
+  include ?KripkeTraces❙
+  include ?EvaluationInWorlds❙
+❚
+
+view CTLSemantics : latin:/?CTL → ?CTLModel =
+  include ?ParametricPLSemantics❙
+  traceprop = tm trace ⟶ prop❙
+  foralltraces = [r,w] ∀ͭ[t] t'0 =ͭ w ⇒ r t❙
+  forsometrace = [r,w] ∃ͭ[t] t'0 =ͭ w ∧ r t❙
+  next = [f,t] f (t'1)❙
+  finally = [f,t] ∃ͭ [i] f(t'i)❙
+  always  = [f,t] ∀ͭ [i] f(t'i)❙
+  until = [f,g,t] ∃ͭ [i] ∀ͭ[j] (j<i ⇒ f(t'j)) ∧ g(t'i)❙
+  release = [f,g,t] ∃ͭ [i] ∀ͭ[j] (j≤i ⇒ g(t'j)) ∧ f(t'i) ∨ ∀ͭ[j] g(t'j)❙
+❚

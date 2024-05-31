@@ -89,7 +89,7 @@ theory Nat =
 
   greater: tm num ⟶ tm num⟶ prop ❘# 1 > 2 prec 30❘
   	= [x,y] y < x❙
-  lesserequal: tm num ⟶ tm num ⟶ prop ❘# 1 %n 2 prec 30❘
+  lesserequal: tm num ⟶ tm num ⟶ prop ❘# 1 ≤ 2 prec 30❘
     	= [x,y] ¬ (x < y) ❙
   greaterequal:  tm num ⟶ tm num ⟶ prop ❘# 1 ≥ 2 prec 30❘
   	= [x,y] ¬ (x < y ) ❙

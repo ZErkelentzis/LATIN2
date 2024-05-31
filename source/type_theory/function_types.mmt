@@ -41,6 +41,11 @@ theory SimpleFunctions =
   apply1 : {a,b} tm a→b ⟶ (tm a ⟶ tm b)❘
          = [a,b,f] [x] f@x❘# %%prefix 2 1❙
   applyTo : {a,b} tm a ⟶ tm (a→b)→b❘= [a,b,x] λ[f]f@x❘# applyTo 3❙
+        
+  liftbind : {S} ({T}  (        tm T            ⟶ prop)  ⟶          prop) ⟶
+                  {T} ((tm S ⟶ tm T) ⟶ (tm S ⟶ prop)) ⟶ (tm S ⟶ prop)❘
+           = [S][B][T][F][x] B (S→T) [f] F (apply1 f) x❘
+           # liftbind 2❙
 ❚
 
 theory DependentFunctions =

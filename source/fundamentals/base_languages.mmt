@@ -21,6 +21,20 @@ theory UntypedLogic =
 theory TypedLogic =
   include ?Logic❙
   include ?TypedTerms❙
+  liftPred2: {S,A,B} (          tm A ⟶           tm B  ⟶          prop)
+                   ⟶ (tm S ⟶ tm A) ⟶ (tm S ⟶ tm B) ⟶ (tm S ⟶ prop)❘
+      = [S,A,B,o,f,g] [x] o (f x) (g x)❘
+      # liftFun2 4❙
+
+  lift0: {S} prop ⟶ (tm S ⟶ prop)❘
+      = [S,o] [x]o❘
+      # lift0 2❙
+  lift1: {S} (prop ⟶ prop) ⟶ (tm S ⟶ prop) ⟶ (tm S ⟶ prop)❘
+      = [S,o,f] [x]o (f x)❘
+      # lift1 2❙
+  lift2: {S} (prop ⟶ prop ⟶ prop) ⟶ (tm S ⟶ prop) ⟶ (tm S ⟶ prop) ⟶ (tm S ⟶ prop)❘
+      = [S,o,f,g] [x]o (f x) (g x)❘
+      # lift2 2❙
 ❚
 
 /T logics with flexible type systems

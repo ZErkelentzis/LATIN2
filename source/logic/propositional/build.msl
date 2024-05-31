@@ -14,6 +14,3 @@ build MMT/LATIN2 mmt-omdoc logic/propositional/pl_hilbert.mmt
 build MMT/LATIN2 mmt-omdoc logic/propositional/pl_derived.mmt
 build MMT/LATIN2 mmt-omdoc logic/propositional/pl-tableaux.mmt
 build MMT/LATIN2 mmt-omdoc logic/propositional/pl-views.mmt
-
-// dependent on pl and pl_hilbert
-build MMT/LATIN2 mmt-omdoc logic/propositional/modal.mmt

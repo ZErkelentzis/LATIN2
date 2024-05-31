@@ -1,0 +1,58 @@
+namespace latin:/kripkemodels❚
+
+fixmeta latin:/?TypedLogic❚
+
+/T the set of worlds of a Kripke frame❚
+theory Worlds =
+  world: tp❘# W❙
+❚
+
+/T a Kripe frame consists of a set of worlds and an accessibility relation on them❚
+theory KripkeFrame =
+  include ?Worlds❙
+  accessible : tm W ⟶ tm W ⟶ prop❘ # 1 acc 2 prec 30❙
+❚
+
+/T like a Kripke frame, but adds operations for working with paths/traces of worlds❚ 
+theory KripkeTraces =
+  include ?KripkeFrame❙
+  include ?KripkeFrame❙
+  trace: tp❙
+  include ☞latin:/?Nat❙
+  
+  worldAt: tm trace ⟶ ℕ ⟶ tm W❘ # 1 ' 2 prec 50❙
+  suffixAt: tm trace ⟶ ℕ ⟶ tm trace❘# 1 ^ 2 prec 50❙
+❚
+
+/T This should be mixed into Kripke models if propositions are interpreted as world-indexed Booleans.❚
+theory EvaluationInWorlds =
+  include ?Worlds❙
+  realize ?EvaluationParameter❙
+  param = world❙
+❚
+
+/T This should be mixed into Kripke models if propositions are interpreted as trace-indexed Booleans.❚
+theory EvaluationInTraces =
+  include ?KripkeTraces❙
+  realize ?EvaluationParameter❙
+  param = trace❙
+❚
+
+/T an abbreviation for a Kripke model with HOL as an expressive meta-language.❚
+theory KripkeModelHOL : latin:/?HOLND =
+  include ?KripkeFrame❙
+  include ?EvaluationInWorlds❙
+❚
+
+/T the semantics of the modal operators❚
+view MLSemantics : latin:/?ML → ?KripkeModelHOL =
+  include ?ParametricPLSemantics❙
+  include ?ParametricLogicSemantics❙
+  box = [p] [v] ∀ͭ [w] v acc w ⇒ p w❙
+  diamond = [p] [v] ∃ͭ [w] v acc w ∧ p w❙ 
+❚
+
+view MLHilbertSemantics : latin:/?MLHilbert → ?KripkeModelHOL =
+  include ?MLSemantics❙
+  include ?ParametricPLHilbertSemantics❙
+❚

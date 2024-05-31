@@ -3,8 +3,9 @@ namespace latin:/kripkemodels❚
 fixmeta ur:?LF❚
 
 /T a theory of states, i.e. assignments to program variables ❚
-theory State : latin:/?HOL =
-  include ?Worlds❙
+theory State : latin:/?HOLND =
+  include ?KripkeModelHOL❙
+  
   cell : tp ⟶ tp❙
   state: tm W ⟶ {S} tm cell S ⟶ tm S❘ # 3 * 1 prec 50 ❙
   
@@ -24,7 +25,7 @@ view DynamicLogicSemantics : latin:/?DynamicLogic → ?State =
 
 view NonDetProgSemantics : latin:/?NonDetProg → ?State =
   include ☞latin:/?Programs❘ = ?DynamicLogicSemantics❙
-  include ?PLSemantics❙
+  include ?ParametricPLSemantics❙
   comp = [p,q] [u,w] ∃ͭ [v] p u v ∧ q v w❙
   distrib = [p,q] [v,w] p v w ∨ q v w❙
   iteration = [p] [v,w] trclos p v w❙
@@ -41,7 +42,7 @@ view PropDynamicLogicSemantics : latin:/?PropDynamicLogic → ?State =
 
 view TypedDynamicSemantics : latin:/?TypedDynamicLogic → ?State =
   include ?PropDynamicLogicSemantics❙
-  include ?SFOLSemantics❙
+  include ?ParametricSFOLSemantics❙
   var = [S] tm cell S❙
   retrieve = [S,n] [w] n*w❙
   assign = [S,n,x] [v,w] extends v w n x❙ 

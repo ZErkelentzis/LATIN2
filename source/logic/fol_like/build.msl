@@ -29,7 +29,3 @@ build MMT/LATIN2 mmt-omdoc ./booleans.mmt
 // depends on sfol and booleans
 build MMT/LATIN2 mmt-omdoc ./pl-sfol.mmt
 
-// depend on some of the above
-build MMT/LATIN2 mmt-omdoc ./multimodal.mmt
-build MMT/LATIN2 mmt-omdoc ./dynamic.mmt
-

@@ -1,0 +1,53 @@
+namespace latin:/❚
+
+fixmeta ur:?LF❚
+
+/T Computation Tree Logic
+   CTL propositions are meant to be evaluated relative to a state by quantifying over all traces emanating from it.
+   All CTL operators occur in two variants (e.g., AX and EX) depending on how we quantify over those traces.
+   We use an auxiliary type of trace-propositions in order to formalize A and E as separate operators that are composed with X.❚
+
+theory CTLBase =
+  include ?Propositions❙
+  traceprop : type❙
+  foralltraces : traceprop ⟶ prop❘ # A 1 prec 20❙
+  forsometrace : traceprop ⟶ prop❘ # E 1 prec 20❙
+❚
+
+theory TraceNext = 
+  include ?CTLBase❙
+  next: prop ⟶ traceprop❘ # X 1 prec 20❙
+❚
+
+theory TraceFinally =
+  include ?CTLBase❙
+  finally: prop ⟶ traceprop❘# F 1 prec 20❙
+❚
+
+/T dual of TraceFinally❚
+theory TraceAlways =
+  include ?CTLBase❙
+  always: prop ⟶ traceprop❘# G 1 prec 20❙
+❚
+
+theory TraceUntil =
+  include ?CTLBase❙
+  until: prop ⟶ prop ⟶ traceprop❘# 1 U 2 prec 20❙
+❚
+
+/T dual of until❚
+theory TraceRelease =
+  include ?CTLBase❙
+  release: prop ⟶ prop ⟶ traceprop❘# 1 R 2 prec 20❙
+❚
+
+theory CTL =
+  include ?CTLBase❙
+  include ?PL❙
+  include ?TraceNext❙
+  include ?TraceFinally❙
+  include ?TraceAlways❙
+  include ?TraceUntil❙
+  include ?TraceRelease❙
+❚
+

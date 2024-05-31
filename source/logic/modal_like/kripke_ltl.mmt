@@ -1,0 +1,21 @@
+namespace latin:/kripkemodels❚
+
+// An LTL model is a Kripke model in which a proposition is evaluated at a trace.
+   
+   Atomic formulas are evaluated at the head of the trace.
+   This is not formalized here and must instead be formalized in the translation of the pattern for atom-constructors. E.g., p:prop must be translated to {pW: tm W ⟶ prop, p = [t] pW (t'0)}. 
+❚
+
+theory LTLModel : latin:/?SFOLND =
+  include ?KripkeFrame❙
+  include ?EvaluationInTraces❙
+❚
+
+view LTLSemantics : latin:/?LTL → ?LTLModel =
+  include ?ParametricPLSemantics❙
+  next = [f,t] f (t^1)❙
+  finally = [f,t] ∃ͭ [i] f(t^i)❙
+  always  = [f,t] ∀ͭ [i] f(t^i)❙
+  until = [f,g,t] ∃ͭ [i] ∀ͭ[j] (j<i ⇒ f(t^j)) ∧ g(t^i)❙
+  release = [f,g,t] ∃ͭ [i] ∀ͭ[j] (j≤i ⇒ g(t^j)) ∧ f(t^i) ∨ ∀ͭ[j] g(t^j)❙
+❚

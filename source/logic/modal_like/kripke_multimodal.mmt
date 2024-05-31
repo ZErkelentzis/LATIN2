@@ -1,0 +1,21 @@
+namespace latin:/kripkemodels❚
+
+fixmeta ur:?LF❚
+
+/T Kripke models for multi-modal logics must provide an accessibility relation for every modal operator.
+❚
+
+view MMLSemantics : latin:/?MML → ?EvaluationInWorlds + latin:/?SFOL =
+  include ?ParametricLogicSemantics❙
+  /T one accessibility per modality❚
+  modality = tm W ⟶ tm W ⟶ prop❙
+  /T universal quantification over accessible states❙
+  box = [m,p] [v] ∀ͭ [w] m v w ⇒ p w❙
+  /T existential quantification over accessible states❙
+  diamond = [m,p] [v] ∃ͭ [w] m v w ∧ p w❙
+❚
+
+view SMMLSemantics : latin:/?SMML → ?EvaluationInWorlds + latin:/?HOLND =
+  include ?MMLSemantics❙
+  include ?ParametricSFOLSemantics❙
+❚
