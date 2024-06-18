@@ -4,11 +4,11 @@ fixmeta latin:/?SFOLEQND❚
 
 theory Numbers =
   num   : tp❙
-  
   zero  : tm num❙
   succ  : tm num ⟶ tm num❘ # 1 ' prec 100❙
   one = zero'❙
   two = one'❙
+  nonzero = [n] ¬ n=ͭzero❙
 ❚
 
 theory Plus =
@@ -16,12 +16,227 @@ theory Plus =
   plus : tm num ⟶ tm num ⟶ tm num❘ # 1 + 2 prec 50❙
 ❚
 
+theory Minus =
+  include ?Numbers❙
+  include ?Plus❙
+  uminus : tm num ⟶ tm num❘ # - 1 prec 55❙
+  minus : tm num ⟶ tm num ⟶ tm num❘ # 1 - 2 prec 50❘
+        = [m,n] m + -n❙
+  uminus_uminus: {n} ⊦ -(-n) =ͭ n❙
+❚
+
 theory Times =
   include ?Numbers❙
   times : tm num ⟶ tm num ⟶ tm num❘ # 1 * 2 prec 60❙
 ❚
 
+theory Divide =
+  include ?Numbers❙
+  include ?Times❙
+  invert : tm num ⟶ tm num❘ # 1 ⁻ prec 100❙ 
+  divide : tm num ⟶ tm num ⟶ tm num❘ # 1 ∕ 2 prec 60❘
+         = [m,n] m*n⁻❙
+  invert_invert: {n} ⊦ n⁻⁻ =ͭ n❙
+❚
+
+theory Complex =
+  include ?Numbers❙
+  implus : tm num ⟶ tm num ⟶ tm num❘ # 1 ⓘ 2 prec 70❙
+  imaginary_unit = zeroⓘone❘# ℹ❙
+❚
+
+theory Compare =
+  include ?Numbers❙
+  leq : tm num ⟶ tm num ⟶ prop❘ # 1 ≤ 2 prec 30❙
+  less : tm num ⟶ tm num ⟶ prop❘ # 1 < 2 prec 30❘
+       = [x,y] x≤y ∧ ¬x=ͭy❙
+  geq : tm num ⟶ tm num ⟶ prop❘ # 1 ≥ 2 prec 30❘
+       = [x,y] y<x❙
+  greater : tm num ⟶ tm num ⟶ prop❘ # 1 > 2 prec 30❘
+       = [x,y] x≥y ∧ ¬ x=ͭy❙
+   
+  leq_reflexive: {n} ⊦ n≤n❙
+  leq_transitive: {l,m,n} ⊦ l≤m ⟶ ⊦ m≤n ⟶ ⊦ l≤n❙
+❚
+
 theory PlusTimes =
   include ?Plus❙
   include ?Times❙
+❚
+
+theory Arithmetic =
+  include ?Plus❙
+  include ?Times❙
+  include ?Minus❙
+  include ?Divide❙
+❚
+
+theory NaturalNumbers =
+  include ?Numbers❙
+  nat : tm num ⟶ prop❘# %n 1 prec 30❙
+  pnat = [n] nat n ∧ nonzero n❙
+  nat_zero : ⊦ nat zero❙
+  nat_succ : {n} ⊦ nat n ⟶ ⊦ nat n'❙
+  
+  zero_no_succ: ⊦ ¬ ∃ͭ [n] nat n ∧ n' =ͭ zero❙
+  succ_injective : {m,n} ⊦ m'=ͭn ⟶ ⊦ m=ͭn❙
+  nat_induct: {P} ⊦ P zero ⟶ ({n} ⊦ nat n ⟶ ⊦ P n ⟶ ⊦ P (n'))
+           ⟶ {n} ⊦ nat n ⟶ ⊦ P n❙
+❚
+
+theory NaturalPlus =
+  include ?NaturalNumbers❙
+  include ?Plus❙
+  nat_plus : {m,n} ⊦ nat m ⟶ ⊦ nat n ⟶ ⊦ nat (m+n)❙
+  
+  plus_zero: {m} ⊦ m+zero =ͭ m❙
+  plus_succ: {m,n} ⊦ m+n' =ͭ (m+n)'❙
+❚
+
+theory NaturalTimes =
+  include ?NaturalPlus❙
+  include ?Times❙
+  nat_times : {m,n} ⊦ nat m ⟶ ⊦ nat n ⟶ ⊦ nat (m*n)❙ 
+  
+  times_zero: {m} ⊦ m*zero =ͭ zero❙
+  times_succ: {m,n} ⊦ m*n' =ͭ (m*n)+m❙
+❚
+
+theory NaturalCompare =
+  include ?NaturalNumbers❙
+  include ?Compare❙
+  less_succ: {n} ⊦ n ≤ n'❙ 
+  less_zero: {n} ⊦ nat n ⟶ ⊦ zero ≤ n ❘// =❘❙
+  // prove totality, antisymmetry❙
+❚
+
+theory IntegerNumbers = 
+  include ?NaturalNumbers❙
+  pred : tm num ⟶ tm num❘ # %n 1 prec 50❙
+  int : tm num ⟶ prop❘ # %n 1 prec 30❙
+  int_zero : ⊦ int zero❙
+  int_succ : {n} ⊦ int n ⟶ ⊦ int n'❙
+  int_pred : {n} ⊦ int n ⟶ ⊦ int pred n❙
+  
+  succ_pred: {n} ⊦ succ (pred n) =ͭ n❙
+  pred_succ: {n} ⊦ pred (succ n) =ͭ n❙
+  pred_injective : {m,n} ⊦ (pred m)=ͭ(pred n) ⟶ ⊦ m=ͭn❙
+
+  int_nat : {n} ⊦ nat n ⟶ ⊦ int n❘
+          // = [n,p] nat_induct int_zero int_succ❘❙
+          
+  int_induct : {P} ⊦ P zero ⟶ ({n} ⊦ int n ⟶ ⊦ P n ⟶ ⊦ P (n'))
+                            ⟶ ({n} ⊦ int n ⟶ ⊦ P n ⟶ ⊦ P (pred n))
+           ⟶ {n} ⊦ int n ⟶ ⊦ P n❙
+❚
+
+theory IntegerPlus =
+  include ?IntegerNumbers❙
+  include ?NaturalPlus❙
+  int_plus : {m,n} ⊦ int m ⟶ ⊦ int n ⟶ ⊦ int m+n❙
+  plus_pred: {m,n} ⊦ m+(pred n) =ͭ pred (m+n)❙
+❚
+
+theory IntegerMinus =
+  include ?IntegerNumbers❙
+  include ?Minus❙
+  int_uminus : {n} ⊦ int n ⟶ ⊦ int -n❙
+  
+  uminus_zero: ⊦ -zero =ͭ zero❙
+  uminus_succ: {n} ⊦ -(succ n) =ͭ pred (-n)❙
+  uminus_pred: {n} ⊦ -(pred n) =ͭ succ (-n)❙
+❚
+
+theory IntegerTimes =
+  include ?IntegerPlus❙
+  include ?IntegerMinus❙
+  include ?Times❙
+  int_times : {m,n} ⊦ int m ⟶ ⊦ int n ⟶ ⊦ int m*n❙
+  
+  times_pred: {m,n} ⊦ m*(pred n) =ͭ (m*n)+-m❙
+❚
+
+theory IntegerCompare =
+  include ?IntegerNumbers❙
+  include ?Compare❙
+  less_pred: {n} ⊦ (pred n) ≤ n❙
+  // prove totality, antisymmetry❙ 
+❚
+
+theory NaturalMinus =
+  include ?IntegerCompare❙
+  include ?IntegerMinus❙ 
+  nat_minus: {m,n} ⊦ nat m ⟶ ⊦ nat n ⟶ ⊦ n≤m ⟶ ⊦ nat m-n❘ // = ❘❙
+❚
+
+theory RationalNumbers = 
+  include ?IntegerNumbers❙
+  include ?Arithmetic❙
+  
+  rat : tm num ⟶ prop❘ # %n 1 prec 30❙
+
+  rat_make : {m,n} ⊦ int m ⟶ ⊦ pnat n ⟶ ⊦ rat m∕n❙
+  rat_induct: {P} ({m,n} ⊦ int m ⟶ ⊦ pnat n ⟶ ⊦ P (m∕n)) ⟶ {n} ⊦ rat n ⟶ ⊦ P n❙
+  
+  rat_succ_def : {e,d} ⊦ succ (e∕d) =ͭ (e+d)∕d❙
+  rat_pred_def : {e,d} ⊦ pred (e∕d) =ͭ (e-d)∕d❙
+  rat_plus_def : {e,d,eˈ,dˈ} ⊦ e∕d + eˈ∕dˈ =ͭ (e*dˈ+eˈ*d)∕(d*dˈ)❙
+  rat_uminus_def : {e,d} ⊦ -(e∕d) =ͭ (-e)∕d❙
+  rat_times_def : {e,d,eˈ,dˈ} ⊦ (e∕d) * (eˈ∕dˈ) =ͭ (e*eˈ)∕(d*dˈ)❙
+  rat_invert_def : {e,d} ⊦ (e∕d)⁻ =ͭ d∕e❙
+  rat_equal_def : {e,d,eˈ,dˈ} ⊦ e*dˈ =ͭ eˈ*d ⟶ ⊦ e∕d =ͭ eˈ∕dˈ❙
+
+  rat_int_embed: {n} ⊦ int n ⟶ ⊦ n =ͭ n∕one❙
+
+  // provable:❙
+  rat_zero: ⊦ rat zero❙
+  rat_succ: {r} ⊦ rat r ⟶ ⊦ rat (succ r)❙
+  rat_pred: {r} ⊦ rat r ⟶ ⊦ rat (pred r)❙
+  rat_plus: {r,s} ⊦ rat r ⟶ ⊦ rat s ⟶ ⊦ rat r+s❙
+  rat_uminus: {r} ⊦ rat r ⟶ ⊦ rat -r❙
+  rat_times: {r,s} ⊦ rat r ⟶ ⊦ rat s ⟶ ⊦ rat r*s❙
+  rat_invert: {r} ⊦ rat r ⟶ ⊦ nonzero r ⟶ ⊦ rat r⁻❙
+  
+  succ_divide : {e,d} ⊦ succ (e∕d) =ͭ (e+d)∕d❙
+  pred_divide : {e,d} ⊦ pred (e∕d) =ͭ (e+-d)∕d❙
+  plus_divide_left  : {m,e,d} ⊦ (e∕d)+m =ͭ (e+d*m)∕d❙
+  plus_divide_right : {m,e,d} ⊦ m+(e∕d) =ͭ (d*m+e)∕d❙
+  uminus_divide : {e,d} ⊦ -(e∕d) =ͭ (-e)∕d❙
+  minus_divide_left  : {m,e,d} ⊦ (e∕d)-m =ͭ (e-d*m)∕d❙
+  minus_divide_right : {m,e,d} ⊦ m-(e∕d) =ͭ (d*m-e)∕d❙
+  times_divide_left  : {m,e,d} ⊦ (e∕d)*m =ͭ (e*m)∕d❙
+  times_divide_right  : {m,e,d} ⊦ m*(e∕d) =ͭ (m*e)∕d❙
+  invert_divide : {e,d} ⊦ (e∕d)⁻ =ͭ d∕e❙
+  divide_divide_left  : {m,e,d} ⊦ m∕(e∕d) =ͭ (m*d)∕e❙
+  divide_divide_right : {m,e,d} ⊦ (e∕d)∕m =ͭ e∕(d*m)❙
+  
+  invert_as_divide : {n} ⊦ n⁻ =ͭ one∕n❙
+  divide_one : {n} ⊦ n∕one =ͭ n❙
+❚
+
+theory RationalCompare =
+  include ?RationalNumbers❙
+  include ?Compare❙
+  rat_leq_def : {e,d,eˈ,dˈ} ⊦ pnat d ⟶ ⊦ pnat dˈ ⟶ ⊦ e*dˈ ≤ eˈ*d ⟶ ⊦ e∕d ≤ eˈ∕dˈ❙
+  // prove totality, antisymmetry❙
+❚
+
+theory ComplexNumbers =
+  include ?Complex❙
+  include ?RationalNumbers❙
+ 
+  complex: tm num ⟶ prop❘# %n 1❙
+  complex_make: {r,s} ⊦ rat r ⟶ ⊦ rat s ⟶ ⊦ complex rⓘs❙ 
+
+  complex_succ_def : {a,b} ⊦ succ (aⓘb) =ͭ (succ a)ⓘb❙
+  complex_pred_def : {a,b} ⊦ pred (aⓘb) =ͭ (pred a)ⓘb❙
+  complex_plus_def : {a,b,aˈ,bˈ} ⊦ aⓘb + aˈ∕bˈ =ͭ (a*aˈ)ⓘ(b*bˈ)❙
+  complex_uminus_def : {a,b} ⊦ -(aⓘb) =ͭ (-a)ⓘ(-b)❙
+  complex_times_def : {a,b,aˈ,bˈ} ⊦ (aⓘb) * (aˈ∕bˈ) =ͭ (a*aˈ-b*bˈ)ⓘ(a*bˈ+aˈ*b)❙
+  complex_invert_def : {a,b} ⊦ (aⓘb)⁻ =ͭ (aⓘ(-b))∕(a*a-b*b)❙
+ 
+  rat_complex_embed: {r} ⊦ r =ͭ rⓘzero❙
+  implus_def : {a,b} ⊦ aⓘb =ͭ a+b*ℹ❙
+  
+  complex_equal_def : {a,b,aˈ,bˈ} ⊦ aⓘb =ͭ aˈⓘbˈ ⟶ ⊦ a=ͭaˈ ∧ b=ͭbˈ❙
 ❚
