@@ -1,0 +1,23 @@
+namespace latin:/❚
+
+fixmeta ur:?LF❚
+
+theory SimplePartialFunctionTypes =
+  include ?Types❙
+  psimpfun : tp ⟶ tp ⟶ tp❘# 1 %R⇀ 2 prec 50❙
+❚
+
+theory SimplePartialFunctions =
+  include ?SimplePartialFunctionTypes❙
+  include ?TypedEqualityND❙
+  include ?UndefinedTypedTerms❙
+  psimpfundom: {A,B} tm A⇀B ⟶ tm A ⟶ prop❘ # 3 $ 4 prec 50❙
+  
+  simplambda: {A,B} ({x:tm A} ⊦ x↓ͭ ⟶ tm B) ⟶ tm A⇀B❘# λ 3 prec 40❙
+  simplambda_den: {A,B,T: {x:tm A} ⊦ x↓ͭ ⟶ tm B} ⊦ (λ T)↓ͭ❙
+  
+  simpapply: {A,B} tm A⇀B ⟶ tm A ⟶ tm B❘# 3 @ 4 prec 50❙
+  simpapply_den: {A,B,f:tm A⇀B,a} ⊦ f↓ͭ ⟶ ⊦ f$a ⟶ ⊦ (f@a)↓ͭ❙
+  
+  simpbeta : {A,B,F: {x:tm A} ⊦ x↓ͭ ⟶ tm B, X, p: ⊦ X↓ͭ} ⊦ (λ F) @ X =ͭ F X p❘ role Simplify❙
+❚
