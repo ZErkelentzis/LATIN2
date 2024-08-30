@@ -162,7 +162,7 @@ theory DHOL : ur:?LF =
 
   eq_trans: {A,s,t,u} s%A ⟶ t%A ⟶ u%A ⟶ ⊦s =A t ⟶ ⊦t =A u ⟶ ⊦s =A u ❘
             = [A,s,t,u,P,Q,R,S,T] valid_eq_flip (valid_eq (valid_eq T (lam_beta ([k,l:k%A] (app_tp (lam_tp A A ([y] bool) ([y] (y =A u)) eqtp_refl ([y,m:y%A] eq_tp m R)) l)) Q)) (app_eq A ([x] bool) (λ A [x] (x =A u)) (λ A [x] (x =A u)) s t (eq_refl (lam_tp A A ([y] bool) ([y] (y =A u)) eqtp_refl ([y,k:y%A] eq_tp k R))) S)) (lam_beta ([k,l:k%A] (app_tp (lam_tp A A ([y] bool) ([y] (y =A u)) eqtp_refl ([y,m:y%A] eq_tp m R)) l)) P) ❙
-                                
+                                 
   BinRel: tp ⟶ tp ❘ = [A] Π A [x] (Π A [y] bool)❙
   p_BinRel: {A,r} ({x,y} x%A ⟶ y%A ⟶ r@x@y%bool) ⟶ r%BinRel A ❘
        = [A,r,P] spi_exten_tp ([u,v] spi_exten_tp ([w,x] P u w v x))❙
@@ -194,7 +194,7 @@ theory DHOL : ur:?LF =
   quo_form: {A,r} r%BinRel A ⟶ $A∕r ❙
   quo_I: {A,x,r} x%A ⟶ $A∕r ⟶ x%A∕r ❙
   quo_Ev: {A,B,s,t,r} s%A∕r ⟶ ({x} x%A ⟶ ⊦x =(A∕r) s ⟶ (t x) % (B x)) ⟶ ({x,xˈ} x%A ⟶ xˈ%A ⟶ ⊦x =(A∕r) s ⟶ ⊦xˈ =(A∕r) s ⟶ ⊦r@x@xˈ ⟶ ⊦(t x) =(B x) (t xˈ)) ⟶ (t s) % (B s) ❙
-  quo_E:  {A,B,s,t,r} s%A∕r ⟶ ({x} x%A ⟶ ⊦x =(A∕r) s ⟶ (t x) % (B x)) ⟶ ({x,xˈ} x%A ⟶ xˈ%A ⟶ ⊦x =(A∕r) s ⟶ ⊦xˈ =(A∕r) s ⟶            ⊦(t x) =(B x) (t xˈ)) ⟶ (t s) % (B s) ❘
+  quo_E:  {A,B,s,t,r} s%A∕r ⟶ ({x} x%A ⟶ ⊦x =(A∕r) s ⟶ (t x) % (B x)) ⟶ ({x,xˈ} x%A ⟶ xˈ%A ⟶ ⊦x =(A∕r) s ⟶ ⊦xˈ =(A∕r) s ⟶           ⊦(t x) =(B x) (t xˈ)) ⟶ (t s) % (B s) ❘
     = [A,B,s,t,r,P,Q,R] quo_Ev P Q ([u,v,w,x,y,z,a] R u v w x y z)❙
   
   // these two should be used instead of the above if we remove the requirement isEqRel A r from quo_form❙
@@ -489,13 +489,13 @@ theory DHOL : ur:?LF =
   repeated_ref_quo: {A,r,p} r%BinRel A ⟶ ({x} x%A∕r ⟶ p x%bool) ⟶ (A∕r)|p ≡ (A|p)∕r ❘
   = [A,r,p,P,Q] subtp_antisym (rep_ref_quo P Q) (rep_ref_quo_back P Q)❙
   
-  refined_codomain: {A,B,p} (Π A [x] ((B x)|p)) ≡ (Π A [x] B x)|([f] ∀ A [x] p (f@x)) ❘ 
-                  = [A,B,p] subtp_antisym ([f,k:f%(Π A [x] ((B x)|p))]
+  refined_codomain: {A,B,p} (Π A [x] ((B x)|p x)) ≡ (Π A [x] B x)|([f] ∀ A [x] (p x) (f@x)) ❘ 
+                  = [A,B,p] subtp_antisym ([f,k:f%(Π A [x] ((B x)|p x))]
                     refine_I 
                     (exten_tp ([x,l:x%A] (refine_E1 (app_tp k l))))
                     (forall_I ([x,l:x%A] (refine_E2 (app_tp k l))))
                     )
-                    ([f, k:f%(Π A [x] B x)|([g] ∀ A [x] p (g@x))]
+                    ([f, k:f%(Π A [x] B x)|([g] ∀ A [x] p x (g@x))]
                     (exten_tp ([x,l:x%A] refine_I (app_tp (refine_E1 k) l)
                     (forall_E (refine_E2 k) l))
                     ))
@@ -517,9 +517,9 @@ theory DHOL : ur:?LF =
             q)))
              ❙
 
-  quoed_codomain_ax: {A,B,r} (Π A ([x] (B x)∕r)) < (Π A [x] B x)∕(λ (Π A [x] B x) ([f] λ (Π A [x] B x) ([g] ∀ A [x] r@(f@x)@(g@x)))) ❙
+  quoed_codomain_ax: {A,B,r} (Π A ([x] (B x)∕(r x))) < (Π A [x] B x)∕(λ (Π A [x] B x) ([f] λ (Π A [x] B x) ([g] ∀ A [x] (r x)@(f@x)@(g@x)))) ❙
   
-  quoed_codomain_l: {A,B,r} ({x} x%A ⟶ r%BinRel (B x)) ⟶ (Π A [x] B x)∕(λ (Π A [x] B x) ([f] λ (Π A [x] B x) ([g] ∀ A [x] r@(f@x)@(g@x)))) < (Π A ([x] (B x)∕r)) ❘
+  quoed_codomain_l: {A,B,r} ({x} x%A ⟶ (r x)%BinRel (B x)) ⟶ (Π A [x] B x)∕(λ (Π A [x] B x) ([f] λ (Π A [x] B x) ([g] ∀ A [x] (r x)@(f@x)@(g@x)))) < (Π A ([x] (B x)∕(r x))) ❘
                        = [A,B,r,P] [f,k]
                        quo_Ev k 
                        ([g,l,m]
@@ -538,7 +538,7 @@ theory DHOL : ur:?LF =
                        p)))                       
                        ❙
                        
-  quoed_codomain: {A,B,r} ({x} x%A ⟶ r%BinRel (B x)) ⟶ (Π A ([x] (B x)∕r)) ≡ (Π A [x] B x)∕(λ (Π A [x] B x) ([f] λ (Π A [x] B x) ([g] ∀ A [x] r@(f@x)@(g@x)))) ❘
+  quoed_codomain: {A,B,r} ({x} x%A ⟶ (r x)%BinRel (B x)) ⟶ (Π A ([x] (B x)∕(r x))) ≡ (Π A [x] B x)∕(λ (Π A [x] B x) ([f] λ (Π A [x] B x) ([g] ∀ A [x] (r x)@(f@x)@(g@x)))) ❘
                      = [A,B,r,P] subtp_antisym (quoed_codomain_ax) (quoed_codomain_l P)❙
 
   refined_domain: {A,B,p} ({x} x%A ⟶ p x%bool) ⟶ (λ (Π A [x] B x) ([f] λ (Π A [x] B x) ([g] ∀ A [x] (p x ⇒ (f@x) =(B x) (g@x)))))%BinRel (Π A [x] B x) ⟶ (Π A [x] B x)∕(λ (Π A [x] B x) ([f] λ (Π A [x] B x) ([g] ∀ A [x] (p x ⇒ (f@x) =(B x) (g@x))))) < (Π (A|p) [x] B x) ❘
@@ -560,4 +560,24 @@ theory DHOL : ur:?LF =
                 ))
                 ❙
     
+❚
+
+/T Example 1❚
+theory Lists : ?DHOL =
+  nat: tp❙
+  obj: tp❙
+
+  zero: tm❙
+  zero_tp: zero % nat❙
+  
+  succ: tm❙
+  succ_tp: succ % nat → nat❙
+  
+  llist: tm ⟶ tp❙
+  llist_tp: {x} x%nat ⟶  $ llist x❙
+
+  
+  lcons: tm❙
+  lcons_tp: lcons % Π nat [n] obj → llist n → llist (succ @ n)❙
+ 
 ❚
