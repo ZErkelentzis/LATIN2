@@ -23,7 +23,7 @@ theory DHOL : ur:?LF =
   bool_tp: $bool❙
   contra = {F} ⊦F ❘# ↯❙
   classical: {F} ((⊦F ⟶ ↯) ⟶ ↯) ⟶ ⊦F❙
-               
+
   eq: tp ⟶ tm ⟶ tm ⟶ tm❘ # 2 = 1 3 prec 10❙
   eq_tp: {A,s,t} s%A ⟶ t%A ⟶ s =A t % bool❙
  
@@ -55,7 +55,7 @@ theory DHOL : ur:?LF =
   lam_beta: {A,B,s,t} ({u} u%A ⟶ ((λ A [x] s x) @ u) % (B u)) ⟶ t%A ⟶ ⊦((λ A [x] s x) @ t) =(B t) (s t) ❙
   
   exten_tp: {A,B,f} ({x} x%A ⟶ (f@x)%B x) ⟶ f%(Π A [x] B x) ❙
-  exten_eq: {A,B,f,fˈ} ({x} x%A ⟶ ⊦ (f@x) =(B x) (fˈ@x)) ⟶ ⊦f =(Π A B) fˈ❙
+  exten_eq: {A,B,f,fˈ} ({x} x%A ⟶ ⊦(f@x) =(B x) (fˈ@x)) ⟶ ⊦f =(Π A B) fˈ❙
   app_tp: {A,B,f,t} f%(Π A [x] B x) ⟶ t%A ⟶ (f@t)%(B t) ❙
   app_eq: {A,B,f,fˈ,t,tˈ} ⊦f =(Π A B) fˈ ⟶ ⊦t =A tˈ ⟶ ⊦(f@t) =(B t) (fˈ@tˈ) ❙
 
@@ -64,6 +64,8 @@ theory DHOL : ur:?LF =
         = [A,B,P,Q] pi_tp ([x,k:x%A] Q)❙
   spi_exten_tp: {A,B,f} ({x} x%A ⟶ (f@x)%B) ⟶ f%(A→B) ❘
               = [A,B,f,P] exten_tp P ❙
+  spi_exten_eq: {A,B,f,g} ({x} x%A ⟶ ⊦(f@x) =B (g@x)) ⟶ ⊦f=(A→B)g ❘
+              = [A,B,f,g,P] exten_eq P ❙
   spi_app_tp: {A,B,f,x} f%(A→B) ⟶ x%A ⟶ (f@x)%B ❘
             = [A,B,f,x,P,Q] app_tp P Q❙
   spi_app_eq: {A,B,f,fˈ,t,tˈ} ⊦f =(A→B) fˈ ⟶ ⊦t =A tˈ ⟶ ⊦(f@t) =B (fˈ@tˈ) ❘
@@ -95,17 +97,19 @@ theory DHOL : ur:?LF =
            ([f, r:f%Aˈ|pˈ] refine_I ((eqtp_subtp eqtp_sym P) f (refine_E1 r)) 
            (valid_eq (refine_E2 r) (Q f ((eqtp_subtp eqtp_sym P) f (refine_E1 r)))))
            ❙
-           
+          
   impl: tm ⟶ tm ⟶ tm❘ # 1 ⇒ 2 prec 5❙
   impl_tp: {F,G} F%bool ⟶ (⊦F ⟶ G%bool) ⟶ F⇒G % bool ❙
   impl_tp_nondep: {F,G} F%bool ⟶ G%bool ⟶ F⇒G % bool ❘
          = [F,G,P,Q] impl_tp P [r] Q❙
   impl_I: {F,G} (⊦F ⟶ ⊦G) ⟶ ⊦F⇒G ❙
   impl_E: {F,G} ⊦F⇒G ⟶ ⊦F ⟶ ⊦G ❙
-    
+ 
   true: tm ❘ = (λ bool [x] x) =bool (λ bool [x] x) ❙
   true_tp: true%bool❙
-  trueI : ⊦true❙
+  trueI: ⊦true❙
+  valid_eq_true: {F} ⊦F ⟶ ⊦F =bool true ❘
+    = [F,P] prop_ext ([k] trueI) ([k] P)❙ 
    
   false: tm ❘ = (λ bool [x] x) =bool (λ bool [x] true) ❙
   false_tp: false%bool❙
@@ -115,7 +119,7 @@ theory DHOL : ur:?LF =
   not_tp: {F} F%bool ⟶ ¬F%bool ❘
     = [F,P] eq_tp P false_tp❙
   not_I: {F,G} (⊦F ⟶ ⊦G) ⟶ (⊦F ⟶ ⊦¬G) ⟶ ⊦¬F ❙
-  not_E: {F} ⊦¬¬F ⟶ ⊦F ❙
+  not_E: {F} F%bool ⟶ ⊦¬¬F ⟶ ⊦F ❙
    
   or: tm ⟶ tm ⟶ tm ❘ # 1 ∨ 2 ❙ 
   // = [F,G] ¬F ⇒ G ❙ 
@@ -152,16 +156,24 @@ theory DHOL : ur:?LF =
   exists_I: {A,p,x} x%A ⟶ ⊦p x ⟶ ⊦∃ A [y] p y ❙
   exists_E: {A,F,p} ⊦(∃ A [x] p x) ⟶ ({x} x%A ⟶ ⊦p x ⟶ ⊦F) ⟶ ⊦F ❙
 
-  TND: {F} ⊦F∨¬F ❙
+  eq_trans: {A,s,t,u} s%A ⟶ t%A ⟶ u%A ⟶ ⊦s =A t ⟶ ⊦t =A u ⟶ ⊦s =A u ❘
+            = [A,s,t,u,P,Q,R,S,T] valid_eq_flip (valid_eq (valid_eq T (lam_beta ([k,l:k%A] (app_tp (lam_tp A A ([y] bool) ([y] (y =A u)) eqtp_refl ([y,m:y%A] eq_tp m R)) l)) Q)) (app_eq A ([x] bool) (λ A [x] (x =A u)) (λ A [x] (x =A u)) s t (eq_refl (lam_tp A A ([y] bool) ([y] (y =A u)) eqtp_refl ([y,k:y%A] eq_tp k R))) S)) (lam_beta ([k,l:k%A] (app_tp (lam_tp A A ([y] bool) ([y] (y =A u)) eqtp_refl ([y,m:y%A] eq_tp m R)) l)) P) ❙
+
   bool_ext: {p} ⊦p true ⟶ ⊦p false ⟶ ({x} x%bool ⟶ ⊦p x)❙
+  TND: {F} ⊦F∨¬F ❙
+
+  empty: tp ❘ = bool|[F] F∧¬F ❙
   
   contra2: {F} ⊦F∧¬F ⟶ ↯ ❘
          = [F,P] falseE valid_eq_flip (and_El P) (and_Er P)❙
   classical_neg: {F} (⊦F ⟶ ↯) ⟶ ⊦¬F ❘
                = [F,P] or_E TND ([k:⊦F] (P k) ¬F) ([k:⊦¬F] k) ❙
 
-  eq_trans: {A,s,t,u} s%A ⟶ t%A ⟶ u%A ⟶ ⊦s =A t ⟶ ⊦t =A u ⟶ ⊦s =A u ❘
-            = [A,s,t,u,P,Q,R,S,T] valid_eq_flip (valid_eq (valid_eq T (lam_beta ([k,l:k%A] (app_tp (lam_tp A A ([y] bool) ([y] (y =A u)) eqtp_refl ([y,m:y%A] eq_tp m R)) l)) Q)) (app_eq A ([x] bool) (λ A [x] (x =A u)) (λ A [x] (x =A u)) s t (eq_refl (lam_tp A A ([y] bool) ([y] (y =A u)) eqtp_refl ([y,k:y%A] eq_tp k R))) S)) (lam_beta ([k,l:k%A] (app_tp (lam_tp A A ([y] bool) ([y] (y =A u)) eqtp_refl ([y,m:y%A] eq_tp m R)) l)) P) ❙
+  empty_is_empty: {x} x%empty ⟶ ↯ ❘
+    = [x,P] contra2 x (refine_E2 P) ❙
+
+  maps_out_of_empty: {A,f,g} f%(empty→A) ⟶ g%(empty→A) ⟶ ⊦f=(empty→A)g ❘
+            = [A,f,g,P,Q] spi_exten_eq ([u,v:u%empty] (empty_is_empty u v) ((f@u)=A(g@u))) ❙
                                  
   BinRel: tp ⟶ tp ❘ = [A] A→A→bool❙
   p_BinRel: {A,r} ({x,y} x%A ⟶ y%A ⟶ r@x@y%bool) ⟶ r%BinRel A ❘
@@ -170,14 +182,16 @@ theory DHOL : ur:?LF =
   isSymm: tp ⟶ tm ⟶ tm ❘ = [A,r] ∀ A [x] ∀ A [y] r@x@y ⇒ r@y@x❙
   isTrans: tp ⟶ tm ⟶ tm ❘ = [A,r] ∀ A [x] ∀ A [y] ∀ A [z] (r@x@y ∧ r@y@z) ⇒ r@x@z❙
   isEqRel: tp ⟶ tm ⟶ tm ❘ = [A,r] isRefl A r ∧ isSymm A r ∧ isTrans A r❙
+  isParEqRel: tp ⟶ tm ⟶ tm ❘ = [A,r] isSymm A r ∧ isTrans A r ∧ ∀ A [x] ∀ A [y] r@x@y ⇒ r@x@x❙
   EqRel: tp ⟶ tp ❘ = [A] (BinRel A)|([r] isEqRel A r)❙
+  ParEqRel: tp ⟶ tp ❘ = [A] (BinRel A)|([r] isEqRel A r)❙
   isExt: tp ⟶ tm ⟶ tm ⟶ tm ❘ = [A,r,e] ∀ A [x] ∀ A [y] r@x@y ⇒ e@x@y ❙
-  Ext: tp ⟶ tm ⟶ tp ❘ = [A,r] (EqRel A)|([e] isExt A r e)❙ 
-                      
+  Ext: tp ⟶ tm ⟶ tp ❘ = [A,r] (EqRel A)|([e] isExt A r e)❙
+
   BinRel_tp: {A,r,x,y} r%BinRel A ⟶ x%A ⟶ y%A ⟶ r@x@y%bool ❘
       = [A,r,x,y,P,Q,R] app_tp (app_tp P Q) R❙
   EqRel_isBinRel: {A,r} r%EqRel A ⟶ r%BinRel A ❘
-      = [A,r,P] refine_E1 P❙
+      = [A,r,P] refine_E1 P❙                                      
   EqRel_refl: {A,r} r%EqRel A ⟶ ⊦isRefl A r ❘
       = [A,r,P] and_El (and_El (refine_E2 P)) ❙
   EqRel_sym: {A,r} r%EqRel A ⟶ ⊦isSymm A r ❘
@@ -565,20 +579,23 @@ theory DHOL : ur:?LF =
 
 /T Example 1❚
 theory Lists : ?DHOL =
-  nat: tp❙
-  obj: tp❙
+nat: tp❙
+obj: tp❙
 
-  zero: tm❙
-  zero_tp: zero % nat❙
+zero: tm❙
+zero_tp: zero % nat❙
   
-  succ: tm❙
-  succ_tp: succ % nat → nat❙
+succ: tm❙
+succ_tp: succ % nat → nat❙
+
+soft_prop: {A,p} p % A ⟶ p % A→bool❙
+trans_prop: {A,p} p % A→bool ⟶ p % A❙
   
-  llist: tm ⟶ tp❙
-  llist_tp: {x} x%nat ⟶  $ llist x❙
+llist: tm ⟶ tp❙
+llist_tp: {x} x%nat ⟶  $ llist x❙
 
   
-  lcons: tm❙
-  lcons_tp: lcons % Π nat [n] obj → llist n → llist (succ @ n)❙
- 
+lcons: tm❙
+lcons_tp: lcons % Π nat [n] obj → llist n → llist (succ @ n)❙
+  
 ❚

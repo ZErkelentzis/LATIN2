@@ -1,0 +1,205 @@
+namespace latin:/soft_experiment❚
+
+/T Experimentation with Soft Types: What if a Complex Type should be derived from two instances of the same, like Field from its additive Group and its multiplicative Group (also since the carrier overlaps)? What can we learn from such cases?❚
+theory SoftT : ur:?LF =
+  tp: type❙
+  tm: type❙ 
+
+  wftp: tp ⟶ type❘        # $ 1   prec -5❘ role Judgment❙
+  wftm: tm ⟶ tp ⟶ type❘  # 1 % 2 prec -5❘ role Judgment❙
+  valid: tm ⟶ type❘       # ⊦ 1   prec -5❘ role Judgment❙
+  eqtp: tp ⟶ tp ⟶ type❘  # 1 ≡ 2 prec -5❘ role Judgment❙
+  subtp: tp ⟶ tp ⟶ type❘ # 1 < 2 prec -2❘ role Judgment❘ 
+       = [A,B] {t} t%A ⟶ t%B❙ 
+  subtp_antisym: {A,B} A<B ⟶ B<A ⟶ A≡B ❘ role Judgment ❙
+  wftm_eq: {t,A,Aˈ} t%A ⟶ A≡Aˈ ⟶ t%Aˈ ❙
+  eqtp_subtp: {A,B} A≡B ⟶ A<B ❘
+            = [A,B,P] [t,k:t%A] wftm_eq k P ❙
+           
+  subtp_trans: {A,B,C} A<B ⟶ B<C ⟶ A<C ❘
+             = [A,B,C,P,Q] [t, r: t%A] (Q t (P t r))❙
+              
+  bool: tp❙
+  bool_tp: $bool❙
+  contra = {F} ⊦F ❘# ↯❙
+  classical: {F} ((⊦F ⟶ ↯) ⟶ ↯) ⟶ ⊦F❙
+
+  eq: tp ⟶ tm ⟶ tm ⟶ tm❘ # 2 = 1 3 prec 10❙
+  eq_tp: {A,s,t} s%A ⟶ t%A ⟶ s =A t % bool❙
+
+  dep_type_ext: {A,B,t,tˈ} t%A ⟶ tˈ%A ⟶ ⊦t =A tˈ ⟶ B t ≡ B tˈ❙
+
+  eqtp_refl: {A} A≡A ❘
+           = [A] subtp_antisym ([x,k:x%A] k) ([x,k:x%A] k)❙
+ 
+  eq_refl: {x,A} x%A ⟶ ⊦x =A x ❙
+  eq_sym: {x,y,A} ⊦x =A y ⟶ ⊦y =A x ❙
+  eqtp_sym: {A,Aˈ} A≡Aˈ ⟶ Aˈ≡A ❙
+  eqtp_trans: {A,B,C} A≡B ⟶ B≡C ⟶ A≡C ❘
+            = [A,B,C,P,Q] subtp_antisym (subtp_trans (eqtp_subtp P) (eqtp_subtp Q)) (subtp_trans (eqtp_subtp eqtp_sym Q) (eqtp_subtp eqtp_sym P)) ❙
+
+  valid_eq: {F,G} ⊦G ⟶ ⊦F =bool G ⟶ ⊦F ❙
+  valid_eq_flip: {F,G} ⊦F ⟶ ⊦F =bool G ⟶ ⊦G ❘
+               = [F,G,P,Q] valid_eq P (eq_sym Q)❙
+  
+  prop_ext: {F,G} (⊦F ⟶ ⊦G) ⟶ (⊦G ⟶ ⊦F) ⟶ ⊦F =bool G ❙
+
+  pi: tp ⟶ (tm ⟶ tp) ⟶ tp❘ # Π 1 2❙
+  lam: tp ⟶ (tm ⟶ tm) ⟶ tm❘ # λ 1 2❙
+  app: tm ⟶ tm ⟶ tm❘ # 1 @ 2 prec 20❙
+  
+  pi_tp : {A,B} ({x} x%A ⟶ $B x) ⟶ $ Π A [x] B x ❙
+  lam_tp: {A,Aˈ,B,T} A≡Aˈ ⟶ ({x} x%A ⟶ T x % B x) ⟶ (λ A [x] T x) % (Π Aˈ [x] B x) ❙
+  lam_eq: {A,Aˈ,B,T,Tˈ} A≡Aˈ ⟶ ({x} x%A ⟶ ⊦(T x) =(B x) (Tˈ x)) ⟶ ⊦(λ A [x] T x) =(Π A [x] B x) (λ Aˈ [x] Tˈ x)❙
+  lam_eta: {A,B,f} f%(Π A [x] B x) ⟶ ⊦f =(Π A [x] B x) (λ A [x] f @ x) ❙
+  lam_beta: {A,B,s,t} ({u} u%A ⟶ ((λ A [x] s x) @ u) % (B u)) ⟶ t%A ⟶ ⊦((λ A [x] s x) @ t) =(B t) (s t) ❙
+  
+  exten_tp: {A,B,f} ({x} x%A ⟶ (f@x)%B x) ⟶ f%(Π A [x] B x) ❙
+  exten_eq: {A,B,f,fˈ} ({x} x%A ⟶ ⊦(f@x) =(B x) (fˈ@x)) ⟶ ⊦f =(Π A B) fˈ❙
+  app_tp: {A,B,f,t} f%(Π A [x] B x) ⟶ t%A ⟶ (f@t)%(B t) ❙
+  app_eq: {A,B,f,fˈ,t,tˈ} ⊦f =(Π A B) fˈ ⟶ ⊦t =A tˈ ⟶ ⊦(f@t) =(B t) (fˈ@tˈ) ❙
+
+  spi: tp ⟶ tp ⟶ tp❘ = [A,B] Π A [x] B❘ # 1 %R→ 2 prec 5❙
+  spi_tp: {A,B} $A ⟶ $B ⟶ $(A→B) ❘
+        = [A,B,P,Q] pi_tp ([x,k:x%A] Q)❙
+  spi_exten_tp: {A,B,f} ({x} x%A ⟶ (f@x)%B) ⟶ f%(A→B) ❘
+              = [A,B,f,P] exten_tp P ❙
+  spi_exten_eq: {A,B,f,g} ({x} x%A ⟶ ⊦(f@x) =B (g@x)) ⟶ ⊦f=(A→B)g ❘
+              = [A,B,f,g,P] exten_eq P ❙
+  spi_app_tp: {A,B,f,x} f%(A→B) ⟶ x%A ⟶ (f@x)%B ❘
+            = [A,B,f,x,P,Q] app_tp P Q❙
+  spi_app_eq: {A,B,f,fˈ,t,tˈ} ⊦f =(A→B) fˈ ⟶ ⊦t =A tˈ ⟶ ⊦(f@t) =B (fˈ@tˈ) ❘
+            = [A,B,f,fˈ,t,tˈ,P,Q] app_eq P Q❙
+
+  spi_eq: {A,Aˈ,B,Bˈ} A≡Aˈ ⟶ B≡Bˈ ⟶ (A→B) ≡ (Aˈ→Bˈ) ❘
+           = [A,Aˈ,B,Bˈ,P,Q] subtp_antisym
+           ([f, r:f%(A→B)] spi_exten_tp [u, v: u%Aˈ] (eqtp_subtp Q) (f@u) (spi_app_tp r ((eqtp_subtp eqtp_sym P) u v)))
+           ([f, r:f%(Aˈ→Bˈ)] spi_exten_tp [u, v: u%A] (eqtp_subtp (eqtp_sym Q)) (f@u) (spi_app_tp r ((eqtp_subtp P) u v)))
+           ❙
+
+  pi_eq: {A,Aˈ,B,Bˈ} A≡Aˈ ⟶ ({x} x%A ⟶ B x ≡ Bˈ x) ⟶ (Π A [x] B x) ≡ (Π Aˈ [x] Bˈ x) ❘
+       =  [A,Aˈ,B,Bˈ,P,Q] subtp_antisym
+           ([f, r:f%Π A [x] B x] exten_tp ([u, v: u%Aˈ] (eqtp_subtp (Q u ((eqtp_subtp eqtp_sym P) u v))) (f@u) (app_tp r ((eqtp_subtp (eqtp_sym P)) u v))))
+           ([f, r:f%Π Aˈ [x] Bˈ x] exten_tp [u, v: u%A] (eqtp_subtp (eqtp_sym (Q u v))) (f@u) (app_tp r ((eqtp_subtp P) u v))) ❙
+  
+  refine: tp ⟶ tm ⟶ tp❘# 1 | 2 prec 500❙
+  refine_tp: {A,p} $A ⟶ p%A→bool ⟶ $A|p❙
+  refine_I: {A,p,t} t%A ⟶ ⊦p@t ⟶ t%A|p❙
+  refine_E1: {A,p,t} t%A|p ⟶ t%A❙
+  refine_E2: {A,p,t} t%A|p ⟶ ⊦p@t❙
+
+  refine_sub: {A,p} $A|p ⟶ A|p < A ❘
+            = [A,p,P] [x, r: x%A|p] refine_E1 r ❙
+  refine_eq: {A,Aˈ,p,pˈ} A≡Aˈ ⟶ ({x} x%A ⟶ ⊦(p@x) =bool (pˈ@x)) ⟶ A|p ≡ Aˈ|pˈ ❘
+           = [A,Aˈ,p,pˈ,P,Q] subtp_antisym 
+           ([f, r:f%A|p] refine_I ((eqtp_subtp P) f (refine_E1 r)) 
+           (valid_eq_flip (refine_E2 r) (Q f (refine_E1 r))))
+           ([f, r:f%Aˈ|pˈ] refine_I ((eqtp_subtp eqtp_sym P) f (refine_E1 r)) 
+           (valid_eq (refine_E2 r) (Q f ((eqtp_subtp eqtp_sym P) f (refine_E1 r)))))
+           ❙
+          
+  impl: tm ⟶ tm ⟶ tm❘ # 1 ⇒ 2 prec 5❙
+  impl_tp: {F,G} F%bool ⟶ (⊦F ⟶ G%bool) ⟶ F⇒G % bool ❙
+  impl_tp_nondep: {F,G} F%bool ⟶ G%bool ⟶ F⇒G % bool ❘
+         = [F,G,P,Q] impl_tp P [r] Q❙
+  impl_I: {F,G} (⊦F ⟶ ⊦G) ⟶ ⊦F⇒G ❙
+  impl_E: {F,G} ⊦F⇒G ⟶ ⊦F ⟶ ⊦G ❙
+ 
+  true: tm ❘ = (λ bool [x] x) =bool (λ bool [x] x) ❙
+  true_tp: true%bool❙
+  trueI: ⊦true❙
+  valid_eq_true: {F} ⊦F ⟶ ⊦F =bool true ❘
+    = [F,P] prop_ext ([k] trueI) ([k] P)❙ 
+   
+  false: tm ❘ = (λ bool [x] x) =bool (λ bool [x] true) ❙
+  false_tp: false%bool❙
+  falseE: ⊦false ⟶ ↯❙
+   
+  not: tm ⟶ tm ❘ # ¬ 1 ❘ = [F] F =bool false ❙
+  not_tp: {F} F%bool ⟶ ¬F%bool ❘
+    = [F,P] eq_tp P false_tp❙
+  not_I: {F,G} (⊦F ⟶ ⊦G) ⟶ (⊦F ⟶ ⊦¬G) ⟶ ⊦¬F ❙
+  not_E: {F} F%bool ⟶ ⊦¬¬F ⟶ ⊦F ❙
+   
+  or: tm ⟶ tm ⟶ tm ❘ # 1 ∨ 2 ❙ 
+  // = [F,G] ¬F ⇒ G ❙ 
+  or_tp: {F,G} F%bool ⟶ (⊦¬F ⟶ G%bool) ⟶ F∨G % bool ❙
+  or_tp_nodep: {F,G} F%bool ⟶ G%bool ⟶ F∨G % bool ❘
+             = [F,G,P,Q] or_tp P [r] Q❙
+  or_Il: {F,G} G%bool ⟶ ⊦F ⟶ ⊦F∨G ❙
+  or_Ir: {F,G} F%bool ⟶ ⊦G ⟶ ⊦F∨G ❙
+  or_E: {F,G,C} ⊦F∨G ⟶ (⊦F ⟶ ⊦C) ⟶ (⊦G ⟶ ⊦C) ⟶ ⊦C ❙
+  
+  and: tm ⟶ tm ⟶ tm ❘ # 1 ∧ 2 ❙
+  // = [F,G] ¬(F ⇒ ¬G) ❙
+  and_tp: {F,G} F%bool ⟶ (⊦F ⟶ G%bool) ⟶ F∧G % bool ❙
+  and_I: {F,G} ⊦F ⟶ ⊦G ⟶ ⊦F∧G ❙
+  and_El: {F,G} ⊦F∧G ⟶ ⊦F ❙
+  and_Er: {F,G} ⊦F∧G ⟶ ⊦G ❙
+   
+  equi: tm ⟶ tm ⟶ tm ❘ # 1 ⇔ 2 ❙
+  // = [F,G] (F ⇒ G) ∧ (G ⇒ F)❙
+  equi_tp: {F,G} F%bool ⟶ G%bool ⟶ F⇔G % bool❙
+  equi_I: {F,G} (⊦F ⟶ ⊦G) ⟶ (⊦G ⟶ ⊦F) ⟶ ⊦F⇔G ❙
+  equi_El: {F,G} ⊦F⇔G ⟶ ⊦F⇒G ❙
+  equi_Er: {F,G} ⊦F⇔G ⟶ ⊦G⇒F ❙
+  
+  forall: tp ⟶ (tm ⟶ tm) ⟶ tm ❘ # ∀ 1 2❙
+  // = [A,F] (λ A [x] F x) =(A→bool) (λ A [x] true) ❙
+  forall_tp: {A,p} ({x} x%A ⟶ p x % bool) ⟶ (∀ A [y] p y) % bool ❙
+  forall_I: {A,p} ({x} x%A ⟶ ⊦p x) ⟶ ⊦∀ A [x] p x ❙
+  forall_E: {A,p,x} ⊦(∀ A [x] p x) ⟶ x%A ⟶ ⊦p x ❙
+  
+  exists: tp ⟶ (tm ⟶ tm) ⟶ tm ❘ # ∃ 1 2 ❙
+  // = [A,F] ¬(∀ A [x] ¬(F x)) ❙
+  exists_tp: {A,p} ({x} x%A ⟶ p x % bool) ⟶ (∃ A [y] p y) % bool ❙
+  exists_I: {A,p,x} x%A ⟶ ⊦p x ⟶ ⊦∃ A [y] p y ❙
+  exists_E: {A,F,p} ⊦(∃ A [x] p x) ⟶ ({x} x%A ⟶ ⊦p x ⟶ ⊦F) ⟶ ⊦F ❙
+
+  eq_trans: {A,s,t,u} s%A ⟶ t%A ⟶ u%A ⟶ ⊦s =A t ⟶ ⊦t =A u ⟶ ⊦s =A u ❘
+            = [A,s,t,u,P,Q,R,S,T] valid_eq_flip (valid_eq (valid_eq T (lam_beta ([k,l:k%A] (app_tp (lam_tp A A ([y] bool) ([y] (y =A u)) eqtp_refl ([y,m:y%A] eq_tp m R)) l)) Q)) (app_eq A ([x] bool) (λ A [x] (x =A u)) (λ A [x] (x =A u)) s t (eq_refl (lam_tp A A ([y] bool) ([y] (y =A u)) eqtp_refl ([y,k:y%A] eq_tp k R))) S)) (lam_beta ([k,l:k%A] (app_tp (lam_tp A A ([y] bool) ([y] (y =A u)) eqtp_refl ([y,m:y%A] eq_tp m R)) l)) P) ❙
+
+  bool_ext: {p} ⊦p true ⟶ ⊦p false ⟶ ({x} x%bool ⟶ ⊦p x)❙
+  TND: {F} ⊦F∨¬F ❙
+
+  empty: tp ❘ = bool|λ bool [F] F∧¬F ❙
+  
+  contra2: {F} ⊦F∧¬F ⟶ ↯ ❘
+         = [F,P] falseE valid_eq_flip (and_El P) (and_Er P)❙
+  classical_neg: {F} (⊦F ⟶ ↯) ⟶ ⊦¬F ❘
+               = [F,P] or_E TND ([k:⊦F] (P k) ¬F) ([k:⊦¬F] k) ❙
+❚
+
+/T Example 1❚
+theory Fields : ?SoftT =
+  
+  Sigma_tp: tp ⟶ (tm ⟶ tp) ⟶ tp ❘ # Σ 1 2 ❙
+  Sigma_wt: {A,B} $A ⟶ ({a} a%A ⟶ $B a) ⟶ $(Σ A B) ❙
+  pair_tp: tp ⟶ (tm ⟶ tp) ⟶ tm ⟶ tm ⟶ tm ❘ # pr 1 2 3 4 ❙
+  pair_I: {A,B,a,b} a%A ⟶ b%B a ⟶ pr A B a b%Σ A B ❙
+  pi1: tm ⟶ tm ❙
+  pi1_app: {A,B,a,b} pr A B a b%Σ A B ⟶ ⊦pi1 (pr A B a b) =A a ❙
+  pi2: tm ⟶ tm ❙
+  pi2_app: {A,B,a,b} pr A B a b%Σ A B ⟶ ⊦pi2 (pr A B a b) =(B a) b ❙
+
+  Obj:tp ❙
+  Obj_preds:tp ❘ = Obj→bool❙
+
+  EndoOps: tm ⟶ tp ❘ = [p] Obj|p→Obj|p ❙
+  MagmaOps: tm ⟶ tp ❘ = [p] Obj|p→Obj|p→Obj|p ❙
+  isAssoc: tm ⟶ tm ⟶ tm ❘ = [p,add] ∀ (Obj|p) [x] ∀ (Obj|p) [y] ∀ (Obj|p) [z] (add@x@(add@y@z)) =(Obj|p) (add@(add@x@y)@z) ❙
+  isComm: tm ⟶ tm ⟶ tm ❘ = [p,add] ∀ (Obj|p) [x] ∀ (Obj|p) [y] (add@x@y) =(Obj|p) (add@y@x) ❙
+  isNeutrElem: tm ⟶ tm ⟶ tm ⟶ tm ❘ = [p,add,zero] ∀ (Obj|p) [x] add@zero@x =(Obj|p) zero ∧ add@x@zero =(Obj|p) zero ❙
+  isInverse: tm ⟶ tm ⟶ tm ⟶ tm ⟶ tm ❘ = [p,add,zero,addInv] ∀ (Obj|p) [x] add@x@(addInv@x) =(Obj|p) zero ∧ add@(addInv@x)@x =(Obj|p) zero❙
+  isAbelGrpOp: tm ⟶ tm ⟶ tm ⟶ tm ⟶ tm ❘ = [p,add,zero,addInv] isAssoc p add ∧ isNeutrElem p add zero ∧ isInverse p add zero addInv ∧ isComm p add ❙
+  pointed: tm ⟶ tm ⟶ tm ❘ = [p,zero] λ (Obj|p) [x] p@x ∧ ¬x =(Obj|p) zero ❙
+  isLDistr: tm ⟶ tm ⟶ tm ⟶ tm ❘ = [p,add,mul] ∀ (Obj|p) [x] ∀ (Obj|p) [y] ∀ (Obj|p) [z] (mul@(add@x@y)@z) =(Obj|p) (add@(mul@x@z)@(mul@y@z)) ❙
+
+  AbelGrpStruct = (Σ (Σ (Σ Obj_preds [p] (MagmaOps p)) [p_add] (Obj|pi1 p_add)) [p_add_zero] (EndoOps (pi1 (pi1 p_add_zero)))) | λ (Σ (Σ (Σ Obj_preds [p] (MagmaOps p)) [p_add] (Obj|pi1 p_add)) [p_add_zero] (EndoOps (pi1 (pi1 p_add_zero)))) [p_add_zero_addInv] isAbelGrpOp (pi1 (pi1 (pi1 p_add_zero_addInv))) (pi2 (pi1 (pi1 p_add_zero_addInv))) (pi2 (pi1 p_add_zero_addInv)) (pi2 p_add_zero_addInv) ❙  
+
+  AbelMultGrpStruct = [abelGrpStruct] AbelGrpStruct | λ AbelGrpStruct [q_mul_one_mulInv] isAbelGrpOp (pointed (pi1 (pi1 (pi1 abelGrpStruct))) (pi2 (pi1 abelGrpStruct))) (pi2 (pi1 (pi1 q_mul_one_mulInv))) (pi2 (pi1 q_mul_one_mulInv)) (pi2 q_mul_one_mulInv) ∧ ∀ (Obj|(pi1 (pi1 (pi1 abelGrpStruct)))) [x] (pi2 (pi1 (pi1 q_mul_one_mulInv)))@(pi2 (pi1 abelGrpStruct))@x =(Obj|(pi1 (pi1 (pi1 abelGrpStruct)))) (pi2 (pi1 abelGrpStruct)) ∧ ∀ (Obj|(pi1 (pi1 (pi1 abelGrpStruct)))) [x] (pi2 (pi1 (pi1 q_mul_one_mulInv)))@x@(pi2 (pi1 abelGrpStruct)) =(Obj|(pi1 (pi1 (pi1 abelGrpStruct)))) (pi2 (pi1 abelGrpStruct)) ❙
+  AbelMultGrpStruct_wt: {abelGrp,abelMultGrp} abelGrp%AbelGrpStruct ⟶ abelMultGrp%AbelGrpStruct ⟶ (pi2 (pi1 (pi1 abelMultGrp)))%(MagmaOps (pi1 (pi1 (pi1 abelGrp)))) ⟶ (pi2 abelMultGrp)%(EndoOps (pi1 (pi1 (pi1 abelGrp)))) ⟶ abelMultGrp%AbelMultGrpStruct abelGrp❙
+
+  FieldStruct = Σ AbelGrpStruct [abelGrp] (AbelMultGrpStruct abelGrp) | λ (Σ AbelGrpStruct [abelGrp] (AbelMultGrpStruct abelGrp)) [abelGrpAbelMultGrp] isLDistr (pi1 (pi1 (pi1 (pi1 abelGrpAbelMultGrp)))) (pi2 (pi1 (pi1 (pi1 abelGrpAbelMultGrp)))) (pi1 (pi1 (pi2 abelGrpAbelMultGrp)))❙
+  
+❚
