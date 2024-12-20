@@ -1,6 +1,6 @@
 namespace latin:/soft_experiment❚
 
-/T Experimentation with Soft Types: What if a Complex Type should be derived from two instances of the same, like Field from its additive Group and its multiplicative Group (also since the carrier overlaps)? What can we learn from such cases?❚
+/T Experimentation with Soft Types: What, if a structure has the property, that a subset of its carrier and some of its fields yield another structure like R\0 with multiplication? Can we think of some kind of View? ❚
 theory SoftT : ur:?LF =
   tp: type❙
   tm: type❙ 
@@ -190,16 +190,30 @@ theory Fields : ?SoftT =
   isAssoc: tm ⟶ tm ⟶ tm ❘ = [p,add] ∀ (Obj|p) [x] ∀ (Obj|p) [y] ∀ (Obj|p) [z] (add@x@(add@y@z)) =(Obj|p) (add@(add@x@y)@z) ❙
   isComm: tm ⟶ tm ⟶ tm ❘ = [p,add] ∀ (Obj|p) [x] ∀ (Obj|p) [y] (add@x@y) =(Obj|p) (add@y@x) ❙
   isNeutrElem: tm ⟶ tm ⟶ tm ⟶ tm ❘ = [p,add,zero] ∀ (Obj|p) [x] add@zero@x =(Obj|p) zero ∧ add@x@zero =(Obj|p) zero ❙
+  isLatinSquare: tm ⟶ tm ⟶ tm ❘ = [p,add] ∀ (Obj|p) [a] ∀ (Obj|p) [b] ∃ (Obj|p) [x] ∃ (Obj|p) [y] (add@a@x =(Obj|p) b ∧ add@y@b =(Obj|p) a ∧ (∀ (Obj|p) [xˈ] ∀ (Obj|p) [yˈ] (add@a@xˈ =(Obj|p) b ∧ add@yˈ@b =(Obj|p) a) ⇒ (x =(Obj|p) xˈ ∧ y =(Obj|p) yˈ))) ❙   
   isInverse: tm ⟶ tm ⟶ tm ⟶ tm ⟶ tm ❘ = [p,add,zero,addInv] ∀ (Obj|p) [x] add@x@(addInv@x) =(Obj|p) zero ∧ add@(addInv@x)@x =(Obj|p) zero❙
   isAbelGrpOp: tm ⟶ tm ⟶ tm ⟶ tm ⟶ tm ❘ = [p,add,zero,addInv] isAssoc p add ∧ isNeutrElem p add zero ∧ isInverse p add zero addInv ∧ isComm p add ❙
   pointed: tm ⟶ tm ⟶ tm ❘ = [p,zero] λ (Obj|p) [x] p@x ∧ ¬x =(Obj|p) zero ❙
   isLDistr: tm ⟶ tm ⟶ tm ⟶ tm ❘ = [p,add,mul] ∀ (Obj|p) [x] ∀ (Obj|p) [y] ∀ (Obj|p) [z] (mul@(add@x@y)@z) =(Obj|p) (add@(mul@x@z)@(mul@y@z)) ❙
 
-  AbelGrpStruct = (Σ (Σ (Σ Obj_preds [p] (MagmaOps p)) [p_add] (Obj|pi1 p_add)) [p_add_zero] (EndoOps (pi1 (pi1 p_add_zero)))) | λ (Σ (Σ (Σ Obj_preds [p] (MagmaOps p)) [p_add] (Obj|pi1 p_add)) [p_add_zero] (EndoOps (pi1 (pi1 p_add_zero)))) [p_add_zero_addInv] isAbelGrpOp (pi1 (pi1 (pi1 p_add_zero_addInv))) (pi2 (pi1 (pi1 p_add_zero_addInv))) (pi2 (pi1 p_add_zero_addInv)) (pi2 p_add_zero_addInv) ❙  
+  MagmaStruct = Σ Obj_preds [p] MagmaOps p ❙
 
-  AbelMultGrpStruct = [abelGrpStruct] AbelGrpStruct | λ AbelGrpStruct [q_mul_one_mulInv] isAbelGrpOp (pointed (pi1 (pi1 (pi1 abelGrpStruct))) (pi2 (pi1 abelGrpStruct))) (pi2 (pi1 (pi1 q_mul_one_mulInv))) (pi2 (pi1 q_mul_one_mulInv)) (pi2 q_mul_one_mulInv) ∧ ∀ (Obj|(pi1 (pi1 (pi1 abelGrpStruct)))) [x] (pi2 (pi1 (pi1 q_mul_one_mulInv)))@(pi2 (pi1 abelGrpStruct))@x =(Obj|(pi1 (pi1 (pi1 abelGrpStruct)))) (pi2 (pi1 abelGrpStruct)) ∧ ∀ (Obj|(pi1 (pi1 (pi1 abelGrpStruct)))) [x] (pi2 (pi1 (pi1 q_mul_one_mulInv)))@x@(pi2 (pi1 abelGrpStruct)) =(Obj|(pi1 (pi1 (pi1 abelGrpStruct)))) (pi2 (pi1 abelGrpStruct)) ❙
-  AbelMultGrpStruct_wt: {abelGrp,abelMultGrp} abelGrp%AbelGrpStruct ⟶ abelMultGrp%AbelGrpStruct ⟶ (pi2 (pi1 (pi1 abelMultGrp)))%(MagmaOps (pi1 (pi1 (pi1 abelGrp)))) ⟶ (pi2 abelMultGrp)%(EndoOps (pi1 (pi1 (pi1 abelGrp)))) ⟶ abelMultGrp%AbelMultGrpStruct abelGrp❙
+  SemiGrpStruct = MagmaStruct | λ MagmaStruct [p_add] isAssoc (pi1 p_add) (pi2 p_add) ❙
+  UnitalMagmaStruct = Σ MagmaStruct [p_add] (Obj|(pi2 p_add)) | λ (Σ MagmaStruct [p_add] (Obj|(pi2 p_add))) [p_add_zero] isNeutrElem (pi1 (pi1 p_add_zero)) (pi2 (pi1 p_add_zero)) (pi2 p_add_zero) ❙
+  QuasiGrpStruct = MagmaStruct | λ MagmaStruct [p_add] isLatinSquare (pi1 p_add) (pi2 p_add) ❙
 
-  FieldStruct = Σ AbelGrpStruct [abelGrp] (AbelMultGrpStruct abelGrp) | λ (Σ AbelGrpStruct [abelGrp] (AbelMultGrpStruct abelGrp)) [abelGrpAbelMultGrp] isLDistr (pi1 (pi1 (pi1 (pi1 abelGrpAbelMultGrp)))) (pi2 (pi1 (pi1 (pi1 abelGrpAbelMultGrp)))) (pi1 (pi1 (pi2 abelGrpAbelMultGrp)))❙
+  LoopStruct = Σ QuasiGrpStruct [p_add] (Obj|(pi2 p_add)) | λ (Σ QuasiGrpStruct [p_add] (Obj|(pi2 p_add))) [p_add_zero] isNeutrElem (pi1 (pi1 p_add_zero)) (pi2 (pi1 p_add_zero)) (pi2 p_add_zero) ❙
+  MonoidStruct = UnitalMagmaStruct | λ UnitalMagmaStruct [p_add_zero] isAssoc (pi1 (pi1 p_add_zero)) (pi2 (pi1 p_add_zero)) ❙
+  AssocQuasiGrpStruct = QuasiGrpStruct | λ QuasiGrpStruct [p_add] isAssoc (pi1 p_add) (pi2 p_add) ❙
+
+  GrpStruct = Σ MonoidStruct [p_add_zero] (EndoOps (pi1 (pi1 p_add_zero))) | λ (Σ MonoidStruct [p_add_zero] (EndoOps (pi1 (pi1 p_add_zero)))) [p_add_zero_addInv] isInverse (pi1 (pi1 (pi1 p_add_zero_addInv))) (pi2 (pi1 (pi1 p_add_zero_addInv))) (pi2 (pi1 p_add_zero_addInv)) (pi2 p_add_zero_addInv)❙
+
+  PointedGrpStruct = [zero] Σ MonoidStruct [p_mul_one] (EndoOps (pointed (pi1 (pi1 p_mul_one)) zero)) | λ (Σ MonoidStruct [p_mul_one] (EndoOps (pointed (pi1 (pi1 p_mul_one)) zero))) [p_mul_one_pMulInv] isInverse (pointed (pi1 (pi1 (pi1 p_mul_one_pMulInv))) zero) (pi2 (pi1 (pi1 p_mul_one_pMulInv))) (pi2 (pi1 p_mul_one_pMulInv)) (pi2 p_mul_one_pMulInv) ∧ ∀ (Obj|(pi1 (pi1 (pi1 p_mul_one_pMulInv)))) [x] (pi2 (pi1 (pi1 p_mul_one_pMulInv)))@zero@x =(Obj|(pi1 (pi1 (pi1 p_mul_one_pMulInv)))) zero ∧ ∀ (Obj|(pi1 (pi1 (pi1 p_mul_one_pMulInv)))) [x] (pi2 (pi1 (pi1 p_mul_one_pMulInv)))@x@zero =(Obj|(pi1 (pi1 (pi1 p_mul_one_pMulInv)))) zero❙
+
+  AbelGrpStruct = GrpStruct | λ GrpStruct [p_add_zero_addInv] isComm (pi1 (pi1 (pi1 p_add_zero_addInv))) (pi2 (pi1 (pi1 p_add_zero_addInv)))❙
+
+  PointedAbelGrpStruct = [zero] PointedGrpStruct zero | λ (PointedGrpStruct zero) [p_mul_one_pMulInv] isComm (pi1 (pi1 (pi1 p_mul_one_pMulInv))) (pi2 (pi1 (pi1 p_mul_one_pMulInv)))❙
+
+  FieldStruct = Σ AbelGrpStruct [abelGrp] (PointedAbelGrpStruct (pi1 (pi1 (pi1 abelGrp)))) | λ (Σ AbelGrpStruct [abelGrp] (PointedAbelGrpStruct (pi1 (pi1 (pi1 abelGrp))))) [abelGrpPointedAbelGrp] isLDistr (pi1 (pi1 (pi1 (pi1 abelGrpPointedAbelGrp)))) (pi2 (pi1 (pi1 (pi1 abelGrpPointedAbelGrp)))) (pi2 (pi1 (pi1 (pi2 abelGrpPointedAbelGrp))))❙
   
 ❚
