@@ -3,9 +3,6 @@ file ../../build_config.msl
 build MMT/LATIN2 mmt-omdoc fundamentals/concepts.mmt
 build MMT/LATIN2 mmt-omdoc fundamentals/relations.mmt
 
-// depends on concepts, ur:?DiagramOperators, which yields an error
-// build MMT/LATIN2 mmt-omdoc fundamentals/base_language_translations.mmt
-
 build MMT/LATIN2 mmt-omdoc fundamentals/base_languages.mmt
 // also depends on ur?Strings
 build MMT/LATIN2 mmt-omdoc fundamentals/informal.mmt

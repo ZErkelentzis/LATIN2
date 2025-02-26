@@ -149,3 +149,13 @@ theory InternalTypes =
   tp = term❙
   of = iin❙
 ❚
+
+/T a mixin for soft-typed languages that includes and then axiomatizes (as opposed to: realizes) hard typing.
+
+The axiomatization effectively pairs every term with its typing proof.❚ 
+theory QuasiTypedTerms =
+  include ?SoftTypedLogic❙
+  include ?TypedTerms❙
+  qterm: {A} {x, xͬ: ⊦ x∶A} tm A❘# 2 via 3❙
+  qwhich: {A} tm A ⟶ term❘ # %n 2❙
+  qwhy: {A} {x:tm A} ⊦ (qwhich x)∶ A❘ # %n 2❙ 
