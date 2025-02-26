@@ -7,9 +7,10 @@ file ../../../build_config.msl
 build MMT/LATIN2 mmt-omdoc ./nonempty.mmt
 
 // basics, depend only on nonempty
-build MMT/LATIN2 mmt-omdoc ./fol.mmt
+build MMT/LATIN2 mmt-omdoc ./untyped.mmt
 build MMT/LATIN2 mmt-omdoc ./ifte.mmt
-build MMT/LATIN2 mmt-omdoc ./sfol.mmt
+build MMT/LATIN2 mmt-omdoc ./typed.mmt
+build MMT/LATIN2 mmt-omdoc ./softtyped.mmt
 
 // depend on fol
 build MMT/LATIN2 mmt-omdoc ./stfol.mmt

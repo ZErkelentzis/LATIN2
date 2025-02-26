@@ -1,0 +1,74 @@
+namespace latin:/❚
+fixmeta ur:?LF❚
+
+theory SoftTypedUniversalQuantification =
+  include ?SoftTypedLogic❙
+  stforall : {A} ({x} ⊦ x∶A ⟶ prop) ⟶ prop❘# ∀ͬ 2❙
+❚
+
+theory SoftTypedUniversalQuantificationND =
+  include ?SoftTypedUniversalQuantification❙
+  stforallI  : {A,P} ({x,xͬ: ⊦ x∶A} ⊦ P x xͬ) ⟶ ⊦ ∀ͬ P❙
+  stforallE  : {A,P} ⊦ ∀ͬ P ⟶ {x,xͬ: ⊦ x∶A} ⊦ P x xͬ❘# 3 tforallE 4 5❘role ForwardRule❙
+❚
+
+theory SoftTypedExistentialQuantification =
+  include ?SoftTypedLogic❙
+  stexists : {A} ({x} ⊦ x∶A ⟶ prop) ⟶ prop❘# ∃ͬ 2❙
+❚
+
+theory SoftTypedExistentialQuantificationND =
+  include ?SoftTypedExistentialQuantification❙
+  stexistsI  : {A,P} {x,xͬ:⊦ x∶A} ⊦ P x xͬ ⟶ ⊦ ∃ͬ P❘# texistsI 3 4 5❙
+  stexistsE  : {A,P,C} ⊦ ∃ͬ P ⟶ ({x,xͬ:⊦ x∶A} ⊦ P x xͬ ⟶ ⊦ C) ⟶ ⊦ C❘# 4 texistsE 5❙
+❚
+
+theory SoftTypedUniqueExistentialQuantification =
+  include ?SoftTypedExistentialQuantification❙
+  include ?SoftTypedEquality❙
+  stexistsUnique  : {A} ({x} ⊦ x∶A ⟶ prop) ⟶ prop❘# ∃ ꜝͬ 2❙
+❚
+
+theory SoftTypedUniqueExistentialQuantificationND =
+  include ?SoftTypedUniqueExistentialQuantification❙
+  stexistsUniqueI : {A,P} {x,xͬ:⊦ x∶A} ⊦ P x xͬ ⟶ ({y,yͬ: ⊦ y∶A} ⊦ P y yͬ ⟶ ⊦ x =ͬ A y) ⟶ ⊦ ∃ꜝͬ P❘# texistsUniqueI 3 4 5❙
+  texistsUniqueE : {A,P,C} ⊦ ∃ꜝͬ P ⟶ ({x,xͬ:⊦ x∶A} ⊦ P x xͬ ⟶ ({y,yͬ: ⊦ y∶A} ⊦ P y yͬ ⟶ ⊦ x =ͬ A y) ⟶ ⊦ C) ⟶ ⊦ C❘# 4 texistsUniqueE 5❙
+❚
+
+theory SoftTypedDescription =
+  include ?SoftTypedLogic❙
+  include ?SoftTypedUniqueExistentialQuantification❙
+  stthe : {A} {P:{x}⊦ x∶A ⟶ prop} ⊦ ∃ꜝͬ P ⟶ term❘# %n 2 3 prec 50❙
+  stthe_tp: {A,P:{x}⊦ x∶A ⟶ prop, p} ⊦ stthe P p ∶ A❘# %n 2 3❙ 
+  stthe_ax : {A,P:{x}⊦ x∶A ⟶ prop, p} ⊦ P (stthe P p) (stthe_tp P p)❘# %n 2 3❙
+❚
+
+theory SoftTypedChoice =
+  include ?SoftTypedLogic❙
+  include ?SoftTypedExistentialQuantification❙
+  include ?SoftTypedEquality❙
+  stsome : {A} {P:{x}⊦ x∶A ⟶ prop} ⊦ ∃ͬ P ⟶ term❘# %n 2 3 prec 50❙
+  stsome_tp: {A,P:{x}⊦ x∶A ⟶ prop, p} ⊦ stsome P p ∶ A❘# %n 2 3❙ 
+  stsome_ax : {A,P: {x}⊦ x∶A ⟶ prop,p} ⊦ P (stsome P p) (stsome_tp P p)❘# %n 2 3❙
+  stsome_eq: {A,P,Q,p,q} ({x,xͬ:⊦ x∶A} ⊦ P x xͬ ⟶ ⊦ Q x xͬ) ⟶ ({x,xͬ:⊦ x∶A} ⊦ Q x xͬ ⟶ ⊦ P x xͬ) ⟶
+            ⊦ (stsome P p) =ͬ A (stsome Q q)❙
+❚
+
+// The variant of choice that always returns a value and whose defining axiom is relativized by existence; only sound if types are guaranteed to be non-empty.❚
+theory SoftTypedTotalChoice =
+  include ?SoftTypedLogic❙
+  include ?SoftTypedExistentialQuantification❙
+  include ?SoftTypedEquality❙
+  stany : {A} {P:{x}⊦ x∶A ⟶ prop} term❘# %n 2 prec 50❙
+  stany_tp: {A, P:{x} ⊦ x∶A ⟶ prop} ⊦ stany P ∶ A❘# %n 2❙ 
+  stany_ax : {A,P: {x}⊦ x∶A ⟶ prop} ⊦ ∃ͬ P ⟶ ⊦ P (stany P) (stany_tp P)❘# %n 2 3❙
+  stany_eq : {A,P,Q} ({x,xͬ: ⊦x∶A} ⊦ P x xͬ ⟶ ⊦ Q x xͬ) ⟶ ({x,xͬ:⊦ x∶A} ⊦ Q x xͬ ⟶ ⊦ P x xͬ) ⟶
+            ⊦ (stany P) =ͬ A (stany Q)❙
+  
+  realize ?SoftTypedChoice❙
+  stsome = [A,P,p] stany P❙
+  stsome_tp = [A,P,p] stany_tp P❙
+  stsome_ax = [A,P,p] stany_ax P p❙
+  stsome_eq = [A,P,Q,p,q,r,s] stany_eq r s❙
+❚
+
