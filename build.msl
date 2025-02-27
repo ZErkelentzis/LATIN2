@@ -28,9 +28,6 @@ file source/type_theory/buildNoEndo.msl
 // HOL-like logics extend FOL-like logics with simple function types.
 file source/logic/hol_like/build.msl
 
-// Model theory describes base languages needed for model-theoretical semantics such as Kripke models in FOL.
-file source/logic/model_theory/build.msl
-
 // Category theory introduces the basic notions of categories.
 // This is used in particular to obtain the theory of types and inherit abbreviations from it into typed languages.
 build MMT/LATIN2 mmt-omdoc category_theory
@@ -56,6 +53,9 @@ file source/type_theory/endofunctors/build.msl
 
 // Meta-theorems stating the algebraic properties of logic, formalized as theory morphisms from algebraic to logical theories.
 build MMT/LATIN2 mmt-omdoc algebraic_logic/pl_semilattice.mmt
+
+// modal-like logics use FOL, HOL, and other parts for the Kripke models
+file source/logic/modal_like/build.msl
 
 // The set-theoretical semantics of logical and type-theoretical features, formalized as theory morphisms into set theory.
 file source/set-theoretical_semantics/build.msl
