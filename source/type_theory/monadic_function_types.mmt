@@ -12,7 +12,12 @@ theory PurityLambdaCalculus =
   // beta is restricted to pure terms❙
   pbeta : {A,B,T:{x:tm A} ⊦ x↓ͭ ⟶ tm B,a, ap} ⊦ (λ T) @ a =ͭ T a ap❙
 ❚
-// there could now be a view LambdaCalculus → PurityLambdaCalculus+Monad❚
+
+// there could now be a view LambdaCalculus → PurityLambdaCalculus+Monad
+   it would maps tp to Sigma x:tm &A. pure x
+   
+   A second view can map PurityLambdaCalculus → MonadicLambdaCalculus
+   It would map pure to exists y.x=Return y❚
 
 theory MonadicLambdaCalculus =
   include ?SimpleFunctions❙
@@ -25,7 +30,7 @@ theory MonadicLambdaCalculus =
   monapply: {A,B} tm &(A→ͫB) ⟶ tm &A ⟶ tm &B❘ # 3 @ͫ 4 prec 50❘
     = [A,B,fM,aM] fM >>= [f] aM >>= [a] f@a❙
 
-  // We do not get a view from SimpleFunctions with tm = [A] tm &A because beta-reduction is restricted to pure terms, i.e., those in the image of Return.❙
+  // We do not get a view from SimpleFunctions with tm = [A] tm &A because beta-reduction is restricted to pure terms, i.e., those in the image of Return. We can fix that by using Sigma types as indicated above.❙
   monbeta : {A,B,T:tm A ⟶ tm &B,a} ⊦ (λͫ T) @ͫ (Return a) =ͭ T a❘
     = [A,B,T,a] identLeft ttrans identLeft❙
     
