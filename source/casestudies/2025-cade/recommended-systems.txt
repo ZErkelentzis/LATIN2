@@ -1,0 +1,9 @@
+Vampire---4.9        recommended  0.95
+E---3.2.5            recommended  0.87
+Satallax---3.5       recommended  0.82
+Leo-III---1.7.16     recommended  0.77
+Lash---1.13          recommended  0.60
+HOLyHammer---0.21    recommended  0.34
+LEO-II---1.7.0       recommended  0.33
+Leo-III-SAT---1.7.16 subsumed     0.43
+Vampire-SAT-

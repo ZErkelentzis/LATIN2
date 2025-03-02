@@ -1,0 +1,717 @@
+ % Checking upload ... % Checker ran ... % No errors ...
+
+% START OF SYSTEM OUTPUT
+Running higher-order theorem proving
+Running: /home/tptp/Systems/E---3.2.5/eprover-ho --delete-bad-limit=2000000000 --definitional-cnf=24 -s --print-statistics -R --print-version --proof-object --auto-schedule=8 --cpu-limit=60 /tmp/tmp.Mz20X5QBRm/E---3.1_903030.p
+# Version: 3.2.5-ho
+# Preprocessing class: HSMSSMSSSSSNSSN.
+# Scheduled 4 strats onto 8 cores with 60 seconds (480 total)
+# Starting new_ho_11 with 300s (5) cores
+# Starting sh5l with 60s (1) cores
+# Starting new_ho_9 with 60s (1) cores
+# Starting ho_unfolding_4 with 60s (1) cores
+# new_ho_9 with pid 903045 completed with status 0
+# Result found by new_ho_9
+# Preprocessing class: HSMSSMSSSSSNSSN.
+# Scheduled 4 strats onto 8 cores with 60 seconds (480 total)
+# Starting new_ho_11 with 300s (5) cores
+# Starting sh5l with 60s (1) cores
+# Starting new_ho_9 with 60s (1) cores
+# No SInE strategy applied
+# Search class: HHUSF-FFSM00-MSSFFFNN
+# partial match(2): HHUSF-FFSF00-SSSFFFNN
+# Scheduled 6 strats onto 1 cores with 60 seconds (60 total)
+# Starting new_ho_10 with 33s (1) cores
+# new_ho_10 with pid 903047 completed with status 0
+# Result found by new_ho_10
+# Preprocessing class: HSMSSMSSSSSNSSN.
+# Scheduled 4 strats onto 8 cores with 60 seconds (480 total)
+# Starting new_ho_11 with 300s (5) cores
+# Starting sh5l with 60s (1) cores
+# Starting new_ho_9 with 60s (1) cores
+# No SInE strategy applied
+# Search class: HHUSF-FFSM00-MSSFFFNN
+# partial match(2): HHUSF-FFSF00-SSSFFFNN
+# Scheduled 6 strats onto 1 cores with 60 seconds (60 total)
+# Starting new_ho_10 with 33s (1) cores
+# Preprocessing time       : 0.001 s
+# Presaturation interreduction done
+
+# Proof found!
+# SZS status Theorem
+# SZS output start CNFRefutation
+thf(decl_sort1, type, t_set: $tType).
+thf(decl_23, type, set_rel: t_set > t_set > $o).
+thf(decl_24, type, t_in: t_set > t_set > $o).
+thf(decl_25, type, esk1_0: t_set).
+thf(decl_26, type, esk2_0: t_set).
+thf(decl_27, type, esk3_0: t_set).
+thf(decl_28, type, esk4_0: t_set).
+thf(decl_29, type, esk5_0: t_set > t_set).
+thf(decl_30, type, esk6_0: t_set > t_set).
+thf(decl_31, type, esk7_0: t_set > t_set).
+thf(decl_32, type, esk8_0: t_set).
+thf(conj, conjecture, ![X5:t_set]:(((set_rel @ X5 @ X5)=>![X6:t_set]:(((set_rel @ X6 @ X6)=>![X7:t_set]:(((set_rel @ X7 @ X7)=>![X8:t_set]:(((set_rel @ X8 @ X8)=>![X9:t_set > t_set]:(((![X10:t_set]:(((t_in @ X10 @ X5)=>(set_rel @ (X9 @ X10) @ (X9 @ X10))))&![X10:t_set]:(((t_in @ X10 @ X5)=>(t_in @ (X9 @ X10) @ X6))))=>![X11:t_set > t_set]:(((![X10:t_set]:(((t_in @ X10 @ X6)=>(set_rel @ (X11 @ X10) @ (X11 @ X10))))&![X10:t_set]:(((t_in @ X10 @ X6)=>(t_in @ (X11 @ X10) @ X7))))=>![X12:t_set > t_set]:(((![X10:t_set]:(((t_in @ X10 @ X7)=>(set_rel @ (X12 @ X10) @ (X12 @ X10))))&![X10:t_set]:(((t_in @ X10 @ X7)=>(t_in @ (X12 @ X10) @ X8))))=>![X10:t_set]:(((set_rel @ X7 @ X7)=>((t_in @ X10 @ X5)=>(set_rel @ (X12 @ (X11 @ (X9 @ X10))) @ (X12 @ (X11 @ (X9 @ X10))))))))))))))))))))), file('/tmp/tmp.Mz20X5QBRm/E---3.1_903030.p', conj)).
+thf(c_0_1, negated_conjecture, ~(![X5:t_set]:(((set_rel @ X5 @ X5)=>![X6:t_set]:(((set_rel @ X6 @ X6)=>![X7:t_set]:(((set_rel @ X7 @ X7)=>![X8:t_set]:(((set_rel @ X8 @ X8)=>![X9:t_set > t_set]:(((![X10:t_set]:(((t_in @ X10 @ X5)=>(set_rel @ (X9 @ X10) @ (X9 @ X10))))&![X10:t_set]:(((t_in @ X10 @ X5)=>(t_in @ (X9 @ X10) @ X6))))=>![X11:t_set > t_set]:(((![X10:t_set]:(((t_in @ X10 @ X6)=>(set_rel @ (X11 @ X10) @ (X11 @ X10))))&![X10:t_set]:(((t_in @ X10 @ X6)=>(t_in @ (X11 @ X10) @ X7))))=>![X12:t_set > t_set]:(((![X10:t_set]:(((t_in @ X10 @ X7)=>(set_rel @ (X12 @ X10) @ (X12 @ X10))))&![X10:t_set]:(((t_in @ X10 @ X7)=>(t_in @ (X12 @ X10) @ X8))))=>![X10:t_set]:(((set_rel @ X7 @ X7)=>((t_in @ X10 @ X5)=>(set_rel @ (X12 @ (X11 @ (X9 @ X10))) @ (X12 @ (X11 @ (X9 @ X10)))))))))))))))))))))), inference(assume_negation,[status(cth)],[conj])).
+thf(c_0_2, negated_conjecture, ![X40:t_set, X41:t_set, X43:t_set, X44:t_set, X46:t_set, X47:t_set]:(((set_rel @ esk1_0 @ esk1_0)&((set_rel @ esk2_0 @ esk2_0)&((set_rel @ esk3_0 @ esk3_0)&((set_rel @ esk4_0 @ esk4_0)&(((~(t_in @ X40 @ esk1_0)|(set_rel @ (esk5_0 @ X40) @ (esk5_0 @ X40)))&(~(t_in @ X41 @ esk1_0)|(t_in @ (esk5_0 @ X41) @ esk2_0)))&(((~(t_in @ X43 @ esk2_0)|(set_rel @ (esk6_0 @ X43) @ (esk6_0 @ X43)))&(~(t_in @ X44 @ esk2_0)|(t_in @ (esk6_0 @ X44) @ esk3_0)))&(((~(t_in @ X46 @ esk3_0)|(set_rel @ (esk7_0 @ X46) @ (esk7_0 @ X46)))&(~(t_in @ X47 @ esk3_0)|(t_in @ (esk7_0 @ X47) @ esk4_0)))&((set_rel @ esk3_0 @ esk3_0)&((t_in @ esk8_0 @ esk1_0)&~(set_rel @ (esk7_0 @ (esk6_0 @ (esk5_0 @ esk8_0))) @ (esk7_0 @ (esk6_0 @ (esk5_0 @ esk8_0)))))))))))))), inference(fof_nnf,[status(thm)],[inference(shift_quantors,[status(thm)],[inference(skolemize,[status(esa)],[inference(variable_rename,[status(thm)],[inference(fof_nnf,[status(thm)],[c_0_1])])])])])).
+thf(c_0_3, negated_conjecture, ~((set_rel @ (esk7_0 @ (esk6_0 @ (esk5_0 @ esk8_0))) @ (esk7_0 @ (esk6_0 @ (esk5_0 @ esk8_0))))), inference(split_conjunct,[status(thm)],[c_0_2])).
+thf(c_0_4, negated_conjecture, ![X1:t_set]:(((set_rel @ (esk7_0 @ X1) @ (esk7_0 @ X1))|~((t_in @ X1 @ esk3_0)))), inference(split_conjunct,[status(thm)],[c_0_2])).
+thf(c_0_5, negated_conjecture, ~((t_in @ (esk6_0 @ (esk5_0 @ esk8_0)) @ esk3_0)), inference(spm,[status(thm)],[c_0_3, c_0_4])).
+thf(c_0_6, negated_conjecture, ![X1:t_set]:(((t_in @ (esk6_0 @ X1) @ esk3_0)|~((t_in @ X1 @ esk2_0)))), inference(split_conjunct,[status(thm)],[c_0_2])).
+thf(c_0_7, negated_conjecture, ~((t_in @ (esk5_0 @ esk8_0) @ esk2_0)), inference(spm,[status(thm)],[c_0_5, c_0_6])).
+thf(c_0_8, negated_conjecture, ![X1:t_set]:(((t_in @ (esk5_0 @ X1) @ esk2_0)|~((t_in @ X1 @ esk1_0)))), inference(split_conjunct,[status(thm)],[c_0_2])).
+thf(c_0_9, negated_conjecture, (t_in @ esk8_0 @ esk1_0), inference(split_conjunct,[status(thm)],[c_0_2])).
+thf(c_0_10, negated_conjecture, ($false), inference(cn,[status(thm)],[inference(rw,[status(thm)],[inference(spm,[status(thm)],[c_0_7, c_0_8]), c_0_9])]), ['proof']).
+# SZS output end CNFRefutation
+# Parsed axioms                        : 6
+# Removed by relevancy pruning/SinE    : 0
+# Initial clauses                      : 18
+# Removed in clause preprocessing      : 4
+# Initial clauses in saturation        : 14
+# Processed clauses                    : 29
+# ...of these trivial                  : 1
+# ...subsumed                          : 0
+# ...remaining for further processing  : 28
+# Other redundant clauses eliminated   : 0
+# Clauses deleted for lack of memory   : 0
+# Backward-subsumed                    : 0
+# Backward-rewritten                   : 0
+# Generated clauses                    : 3
+# ...of the previous two non-redundant : 2
+# ...aggressively subsumed             : 0
+# Contextual simplify-reflections      : 0
+# Paramodulations                      : 3
+# Factorizations                       : 0
+# NegExts                              : 0
+# Equation resolutions                 : 0
+# Disequality decompositions           : 0
+# Total rewrite steps                  : 2
+# ...of those cached                   : 0
+# Propositional unsat checks           : 0
+#    Propositional check models        : 0
+#    Propositional check unsatisfiable : 0
+#    Propositional clauses             : 0
+#    Propositional clauses after purity: 0
+#    Propositional unsat core size     : 0
+#    Propositional preprocessing time  : 0.000
+#    Propositional encoding time       : 0.000
+#    Propositional solver time         : 0.000
+#    Success case prop preproc time    : 0.000
+#    Success case prop encoding time   : 0.000
+#    Success case prop solver time     : 0.000
+# Current number of processed clauses  : 15
+#    Positive orientable unit clauses  : 5
+#    Positive unorientable unit clauses: 0
+#    Negative unit clauses             : 3
+#    Non-unit-clauses                  : 7
+# Current number of unprocessed clauses: 0
+# ...number of literals in the above   : 0
+# Current number of archived formulas  : 0
+# Current number of archived clauses   : 13
+# Clause-clause subsumption calls (NU) : 12
+# Rec. Clause-clause subsumption calls : 12
+# Non-unit clause-clause subsumptions  : 0
+# Unit Clause-clause subsumption calls : 1
+# Rewrite failures with RHS unbound    : 0
+# BW rewrite match attempts            : 0
+# BW rewrite match successes           : 0
+# Condensation attempts                : 29
+# Condensation successes               : 0
+# Termbank termtop insertions          : 1402
+# Search garbage collected termcells   : 474
+
+# -------------------------------------------------
+# User time                : 0.005 s
+# System time              : 0.001 s
+# Total time               : 0.006 s
+# Maximum resident set size: 3596 pages
+
+# -------------------------------------------------
+# User time                : 0.005 s
+# System time              : 0.006 s
+# Total time               : 0.012 s
+# Maximum resident set size: 4608 pages
+% E exiting
+
+% END OF SYSTEM OUTPUT
+% RESULT: SOT_j6zA2f - E---3.2.5 says Theorem - CPU = 0.01 WC = 0.07 
+% OUTPUT: SOT_j6zA2f - E---3.2.5 says CNFRefutation - CPU = 0.01 WC = 0.07 
+
+% START OF SYSTEM OUTPUT
+% Parsing objects 
+% types: 8 
+% constants: 13 
+% theorems: 3
+
+SZS status Theorem
+SZS core 
+HolyHammer ended
+
+% END OF SYSTEM OUTPUT
+% RESULT: SOT_j6zA2f - HOLyHammer---0.21 says Theorem - CPU = 0.00 WC = 0.08 
+% OUTPUT: SOT_j6zA2f - HOLyHammer---0.21 says Assurance - CPU = 0.00 WC = 0.08 
+
+% START OF SYSTEM OUTPUT
+/home/tptp/Systems/Lash---1.13/lash -P /home/tptp/Systems/Lash---1.13/picomus -M /home/tptp/Systems/Lash---1.13/modes -p tstp -t 60 /tmp/R7nPiizMDf/SOT_j6zA2f
+% SZS status Theorem
+% Mode: cade22grackle2xfee4
+% Steps: 4714
+% SZS output start Proof
+thf(ty_t_set, type, t_set : $tType).
+thf(ty_set_rel, type, set_rel : (t_set>t_set>$o)).
+thf(ty_eigen__3, type, eigen__3 : t_set).
+thf(ty_eigen__6, type, eigen__6 : (t_set>t_set)).
+thf(ty_eigen__1, type, eigen__1 : t_set).
+thf(ty_eigen__2, type, eigen__2 : t_set).
+thf(ty_eigen__5, type, eigen__5 : (t_set>t_set)).
+thf(ty_eigen__7, type, eigen__7 : t_set).
+thf(ty_t_in, type, t_in : (t_set>t_set>$o)).
+thf(ty_eigen__4, type, eigen__4 : (t_set>t_set)).
+thf(ty_eigen__0, type, eigen__0 : t_set).
+thf(sP1,plain,sP1 <=> ((set_rel @ (eigen__6 @ (eigen__5 @ (eigen__4 @ eigen__7)))) @ (eigen__6 @ (eigen__5 @ (eigen__4 @ eigen__7)))),introduced(definition,[new_symbols(definition,[sP1])])).
+thf(sP2,plain,sP2 <=> (![X1:t_set]:(((t_in @ X1) @ eigen__1) => ((t_in @ (eigen__5 @ X1)) @ eigen__2))),introduced(definition,[new_symbols(definition,[sP2])])).
+thf(sP3,plain,sP3 <=> (((t_in @ (eigen__4 @ eigen__7)) @ eigen__1) => ((t_in @ (eigen__5 @ (eigen__4 @ eigen__7))) @ eigen__2)),introduced(definition,[new_symbols(definition,[sP3])])).
+thf(sP4,plain,sP4 <=> (![X1:t_set]:(((t_in @ X1) @ eigen__2) => ((set_rel @ (eigen__6 @ X1)) @ (eigen__6 @ X1)))),introduced(definition,[new_symbols(definition,[sP4])])).
+thf(sP5,plain,sP5 <=> (((t_in @ eigen__7) @ eigen__0) => ((t_in @ (eigen__4 @ eigen__7)) @ eigen__1)),introduced(definition,[new_symbols(definition,[sP5])])).
+thf(sP6,plain,sP6 <=> (![X1:t_set]:(((t_in @ X1) @ eigen__0) => ((t_in @ (eigen__4 @ X1)) @ eigen__1))),introduced(definition,[new_symbols(definition,[sP6])])).
+thf(sP7,plain,sP7 <=> ((t_in @ (eigen__4 @ eigen__7)) @ eigen__1),introduced(definition,[new_symbols(definition,[sP7])])).
+thf(sP8,plain,sP8 <=> ((t_in @ eigen__7) @ eigen__0),introduced(definition,[new_symbols(definition,[sP8])])).
+thf(sP9,plain,sP9 <=> (((t_in @ (eigen__5 @ (eigen__4 @ eigen__7))) @ eigen__2) => sP1),introduced(definition,[new_symbols(definition,[sP9])])).
+thf(sP10,plain,sP10 <=> ((t_in @ (eigen__5 @ (eigen__4 @ eigen__7))) @ eigen__2),introduced(definition,[new_symbols(definition,[sP10])])).
+thf(conj,conjecture,(![X1:t_set]:(((set_rel @ X1) @ X1) => (![X2:t_set]:(((set_rel @ X2) @ X2) => (![X3:t_set]:(((set_rel @ X3) @ X3) => (![X4:t_set]:(((set_rel @ X4) @ X4) => (![X5:t_set>t_set]:((~(((![X6:t_set]:(((t_in @ X6) @ X1) => ((set_rel @ (X5 @ X6)) @ (X5 @ X6)))) => (~((![X6:t_set]:(((t_in @ X6) @ X1) => ((t_in @ (X5 @ X6)) @ X2)))))))) => (![X6:t_set>t_set]:((~(((![X7:t_set]:(((t_in @ X7) @ X2) => ((set_rel @ (X6 @ X7)) @ (X6 @ X7)))) => (~((![X7:t_set]:(((t_in @ X7) @ X2) => ((t_in @ (X6 @ X7)) @ X3)))))))) => (![X7:t_set>t_set]:((~(((![X8:t_set]:(((t_in @ X8) @ X3) => ((set_rel @ (X7 @ X8)) @ (X7 @ X8)))) => (~((![X8:t_set]:(((t_in @ X8) @ X3) => ((t_in @ (X7 @ X8)) @ X4)))))))) => (![X8:t_set]:(((set_rel @ X3) @ X3) => (((t_in @ X8) @ X1) => ((set_rel @ (X7 @ (X6 @ (X5 @ X8)))) @ (X7 @ (X6 @ (X5 @ X8)))))))))))))))))))))).
+thf(h0,negated_conjecture,(~((![X1:t_set]:(((set_rel @ X1) @ X1) => (![X2:t_set]:(((set_rel @ X2) @ X2) => (![X3:t_set]:(((set_rel @ X3) @ X3) => (![X4:t_set]:(((set_rel @ X4) @ X4) => (![X5:t_set>t_set]:((~(((![X6:t_set]:(((t_in @ X6) @ X1) => ((set_rel @ (X5 @ X6)) @ (X5 @ X6)))) => (~((![X6:t_set]:(((t_in @ X6) @ X1) => ((t_in @ (X5 @ X6)) @ X2)))))))) => (![X6:t_set>t_set]:((~(((![X7:t_set]:(((t_in @ X7) @ X2) => ((set_rel @ (X6 @ X7)) @ (X6 @ X7)))) => (~((![X7:t_set]:(((t_in @ X7) @ X2) => ((t_in @ (X6 @ X7)) @ X3)))))))) => (![X7:t_set>t_set]:((~(((![X8:t_set]:(((t_in @ X8) @ X3) => ((set_rel @ (X7 @ X8)) @ (X7 @ X8)))) => (~((![X8:t_set]:(((t_in @ X8) @ X3) => ((t_in @ (X7 @ X8)) @ X4)))))))) => (![X8:t_set]:(((set_rel @ X3) @ X3) => (((t_in @ X8) @ X1) => ((set_rel @ (X7 @ (X6 @ (X5 @ X8)))) @ (X7 @ (X6 @ (X5 @ X8))))))))))))))))))))))),inference(assume_negation,[status(cth)],[conj])).
+thf(h1,assumption,(~((((set_rel @ eigen__0) @ eigen__0) => (![X1:t_set]:(((set_rel @ X1) @ X1) => (![X2:t_set]:(((set_rel @ X2) @ X2) => (![X3:t_set]:(((set_rel @ X3) @ X3) => (![X4:t_set>t_set]:((~(((![X5:t_set]:(((t_in @ X5) @ eigen__0) => ((set_rel @ (X4 @ X5)) @ (X4 @ X5)))) => (~((![X5:t_set]:(((t_in @ X5) @ eigen__0) => ((t_in @ (X4 @ X5)) @ X1)))))))) => (![X5:t_set>t_set]:((~(((![X6:t_set]:(((t_in @ X6) @ X1) => ((set_rel @ (X5 @ X6)) @ (X5 @ X6)))) => (~((![X6:t_set]:(((t_in @ X6) @ X1) => ((t_in @ (X5 @ X6)) @ X2)))))))) => (![X6:t_set>t_set]:((~(((![X7:t_set]:(((t_in @ X7) @ X2) => ((set_rel @ (X6 @ X7)) @ (X6 @ X7)))) => (~((![X7:t_set]:(((t_in @ X7) @ X2) => ((t_in @ (X6 @ X7)) @ X3)))))))) => (![X7:t_set]:(((set_rel @ X2) @ X2) => (((t_in @ X7) @ eigen__0) => ((set_rel @ (X6 @ (X5 @ (X4 @ X7)))) @ (X6 @ (X5 @ (X4 @ X7)))))))))))))))))))))),introduced(assumption,[])).
+thf(h2,assumption,((set_rel @ eigen__0) @ eigen__0),introduced(assumption,[])).
+thf(h3,assumption,(~((![X1:t_set]:(((set_rel @ X1) @ X1) => (![X2:t_set]:(((set_rel @ X2) @ X2) => (![X3:t_set]:(((set_rel @ X3) @ X3) => (![X4:t_set>t_set]:((~(((![X5:t_set]:(((t_in @ X5) @ eigen__0) => ((set_rel @ (X4 @ X5)) @ (X4 @ X5)))) => (~((![X5:t_set]:(((t_in @ X5) @ eigen__0) => ((t_in @ (X4 @ X5)) @ X1)))))))) => (![X5:t_set>t_set]:((~(((![X6:t_set]:(((t_in @ X6) @ X1) => ((set_rel @ (X5 @ X6)) @ (X5 @ X6)))) => (~((![X6:t_set]:(((t_in @ X6) @ X1) => ((t_in @ (X5 @ X6)) @ X2)))))))) => (![X6:t_set>t_set]:((~(((![X7:t_set]:(((t_in @ X7) @ X2) => ((set_rel @ (X6 @ X7)) @ (X6 @ X7)))) => (~((![X7:t_set]:(((t_in @ X7) @ X2) => ((t_in @ (X6 @ X7)) @ X3)))))))) => (![X7:t_set]:(((set_rel @ X2) @ X2) => (((t_in @ X7) @ eigen__0) => ((set_rel @ (X6 @ (X5 @ (X4 @ X7)))) @ (X6 @ (X5 @ (X4 @ X7))))))))))))))))))))),introduced(assumption,[])).
+thf(h4,assumption,(~((((set_rel @ eigen__1) @ eigen__1) => (![X1:t_set]:(((set_rel @ X1) @ X1) => (![X2:t_set]:(((set_rel @ X2) @ X2) => (![X3:t_set>t_set]:((~(((![X4:t_set]:(((t_in @ X4) @ eigen__0) => ((set_rel @ (X3 @ X4)) @ (X3 @ X4)))) => (~((![X4:t_set]:(((t_in @ X4) @ eigen__0) => ((t_in @ (X3 @ X4)) @ eigen__1)))))))) => (![X4:t_set>t_set]:((~(((![X5:t_set]:(((t_in @ X5) @ eigen__1) => ((set_rel @ (X4 @ X5)) @ (X4 @ X5)))) => (~((![X5:t_set]:(((t_in @ X5) @ eigen__1) => ((t_in @ (X4 @ X5)) @ X1)))))))) => (![X5:t_set>t_set]:((~(((![X6:t_set]:(((t_in @ X6) @ X1) => ((set_rel @ (X5 @ X6)) @ (X5 @ X6)))) => (~((![X6:t_set]:(((t_in @ X6) @ X1) => ((t_in @ (X5 @ X6)) @ X2)))))))) => (![X6:t_set]:(((set_rel @ X1) @ X1) => (((t_in @ X6) @ eigen__0) => ((set_rel @ (X5 @ (X4 @ (X3 @ X6)))) @ (X5 @ (X4 @ (X3 @ X6)))))))))))))))))))),introduced(assumption,[])).
+thf(h5,assumption,((set_rel @ eigen__1) @ eigen__1),introduced(assumption,[])).
+thf(h6,assumption,(~((![X1:t_set]:(((set_rel @ X1) @ X1) => (![X2:t_set]:(((set_rel @ X2) @ X2) => (![X3:t_set>t_set]:((~(((![X4:t_set]:(((t_in @ X4) @ eigen__0) => ((set_rel @ (X3 @ X4)) @ (X3 @ X4)))) => (~((![X4:t_set]:(((t_in @ X4) @ eigen__0) => ((t_in @ (X3 @ X4)) @ eigen__1)))))))) => (![X4:t_set>t_set]:((~(((![X5:t_set]:(((t_in @ X5) @ eigen__1) => ((set_rel @ (X4 @ X5)) @ (X4 @ X5)))) => (~((![X5:t_set]:(((t_in @ X5) @ eigen__1) => ((t_in @ (X4 @ X5)) @ X1)))))))) => (![X5:t_set>t_set]:((~(((![X6:t_set]:(((t_in @ X6) @ X1) => ((set_rel @ (X5 @ X6)) @ (X5 @ X6)))) => (~((![X6:t_set]:(((t_in @ X6) @ X1) => ((t_in @ (X5 @ X6)) @ X2)))))))) => (![X6:t_set]:(((set_rel @ X1) @ X1) => (((t_in @ X6) @ eigen__0) => ((set_rel @ (X5 @ (X4 @ (X3 @ X6)))) @ (X5 @ (X4 @ (X3 @ X6))))))))))))))))))),introduced(assumption,[])).
+thf(h7,assumption,(~((((set_rel @ eigen__2) @ eigen__2) => (![X1:t_set]:(((set_rel @ X1) @ X1) => (![X2:t_set>t_set]:((~(((![X3:t_set]:(((t_in @ X3) @ eigen__0) => ((set_rel @ (X2 @ X3)) @ (X2 @ X3)))) => (~((![X3:t_set]:(((t_in @ X3) @ eigen__0) => ((t_in @ (X2 @ X3)) @ eigen__1)))))))) => (![X3:t_set>t_set]:((~(((![X4:t_set]:(((t_in @ X4) @ eigen__1) => ((set_rel @ (X3 @ X4)) @ (X3 @ X4)))) => (~((![X4:t_set]:(((t_in @ X4) @ eigen__1) => ((t_in @ (X3 @ X4)) @ eigen__2)))))))) => (![X4:t_set>t_set]:((~(((![X5:t_set]:(((t_in @ X5) @ eigen__2) => ((set_rel @ (X4 @ X5)) @ (X4 @ X5)))) => (~((![X5:t_set]:(((t_in @ X5) @ eigen__2) => ((t_in @ (X4 @ X5)) @ X1)))))))) => (![X5:t_set]:(((set_rel @ eigen__2) @ eigen__2) => (((t_in @ X5) @ eigen__0) => ((set_rel @ (X4 @ (X3 @ (X2 @ X5)))) @ (X4 @ (X3 @ (X2 @ X5)))))))))))))))))),introduced(assumption,[])).
+thf(h8,assumption,((set_rel @ eigen__2) @ eigen__2),introduced(assumption,[])).
+thf(h9,assumption,(~((![X1:t_set]:(((set_rel @ X1) @ X1) => (![X2:t_set>t_set]:((~(((![X3:t_set]:(((t_in @ X3) @ eigen__0) => ((set_rel @ (X2 @ X3)) @ (X2 @ X3)))) => (~((![X3:t_set]:(((t_in @ X3) @ eigen__0) => ((t_in @ (X2 @ X3)) @ eigen__1)))))))) => (![X3:t_set>t_set]:((~(((![X4:t_set]:(((t_in @ X4) @ eigen__1) => ((set_rel @ (X3 @ X4)) @ (X3 @ X4)))) => (~((![X4:t_set]:(((t_in @ X4) @ eigen__1) => ((t_in @ (X3 @ X4)) @ eigen__2)))))))) => (![X4:t_set>t_set]:((~(((![X5:t_set]:(((t_in @ X5) @ eigen__2) => ((set_rel @ (X4 @ X5)) @ (X4 @ X5)))) => (~((![X5:t_set]:(((t_in @ X5) @ eigen__2) => ((t_in @ (X4 @ X5)) @ X1)))))))) => (![X5:t_set]:(((set_rel @ eigen__2) @ eigen__2) => (((t_in @ X5) @ eigen__0) => ((set_rel @ (X4 @ (X3 @ (X2 @ X5)))) @ (X4 @ (X3 @ (X2 @ X5))))))))))))))))),introduced(assumption,[])).
+thf(h10,assumption,(~((((set_rel @ eigen__3) @ eigen__3) => (![X1:t_set>t_set]:((~(((![X2:t_set]:(((t_in @ X2) @ eigen__0) => ((set_rel @ (X1 @ X2)) @ (X1 @ X2)))) => (~((![X2:t_set]:(((t_in @ X2) @ eigen__0) => ((t_in @ (X1 @ X2)) @ eigen__1)))))))) => (![X2:t_set>t_set]:((~(((![X3:t_set]:(((t_in @ X3) @ eigen__1) => ((set_rel @ (X2 @ X3)) @ (X2 @ X3)))) => (~((![X3:t_set]:(((t_in @ X3) @ eigen__1) => ((t_in @ (X2 @ X3)) @ eigen__2)))))))) => (![X3:t_set>t_set]:((~(((![X4:t_set]:(((t_in @ X4) @ eigen__2) => ((set_rel @ (X3 @ X4)) @ (X3 @ X4)))) => (~((![X4:t_set]:(((t_in @ X4) @ eigen__2) => ((t_in @ (X3 @ X4)) @ eigen__3)))))))) => (![X4:t_set]:(((set_rel @ eigen__2) @ eigen__2) => (((t_in @ X4) @ eigen__0) => ((set_rel @ (X3 @ (X2 @ (X1 @ X4)))) @ (X3 @ (X2 @ (X1 @ X4)))))))))))))))),introduced(assumption,[])).
+thf(h11,assumption,((set_rel @ eigen__3) @ eigen__3),introduced(assumption,[])).
+thf(h12,assumption,(~((![X1:t_set>t_set]:((~(((![X2:t_set]:(((t_in @ X2) @ eigen__0) => ((set_rel @ (X1 @ X2)) @ (X1 @ X2)))) => (~((![X2:t_set]:(((t_in @ X2) @ eigen__0) => ((t_in @ (X1 @ X2)) @ eigen__1)))))))) => (![X2:t_set>t_set]:((~(((![X3:t_set]:(((t_in @ X3) @ eigen__1) => ((set_rel @ (X2 @ X3)) @ (X2 @ X3)))) => (~((![X3:t_set]:(((t_in @ X3) @ eigen__1) => ((t_in @ (X2 @ X3)) @ eigen__2)))))))) => (![X3:t_set>t_set]:((~(((![X4:t_set]:(((t_in @ X4) @ eigen__2) => ((set_rel @ (X3 @ X4)) @ (X3 @ X4)))) => (~((![X4:t_set]:(((t_in @ X4) @ eigen__2) => ((t_in @ (X3 @ X4)) @ eigen__3)))))))) => (![X4:t_set]:(((set_rel @ eigen__2) @ eigen__2) => (((t_in @ X4) @ eigen__0) => ((set_rel @ (X3 @ (X2 @ (X1 @ X4)))) @ (X3 @ (X2 @ (X1 @ X4))))))))))))))),introduced(assumption,[])).
+thf(h13,assumption,(~(((~(((![X1:t_set]:(((t_in @ X1) @ eigen__0) => ((set_rel @ (eigen__4 @ X1)) @ (eigen__4 @ X1)))) => (~(sP6))))) => (![X1:t_set>t_set]:((~(((![X2:t_set]:(((t_in @ X2) @ eigen__1) => ((set_rel @ (X1 @ X2)) @ (X1 @ X2)))) => (~((![X2:t_set]:(((t_in @ X2) @ eigen__1) => ((t_in @ (X1 @ X2)) @ eigen__2)))))))) => (![X2:t_set>t_set]:((~(((![X3:t_set]:(((t_in @ X3) @ eigen__2) => ((set_rel @ (X2 @ X3)) @ (X2 @ X3)))) => (~((![X3:t_set]:(((t_in @ X3) @ eigen__2) => ((t_in @ (X2 @ X3)) @ eigen__3)))))))) => (![X3:t_set]:(((set_rel @ eigen__2) @ eigen__2) => (((t_in @ X3) @ eigen__0) => ((set_rel @ (X2 @ (X1 @ (eigen__4 @ X3)))) @ (X2 @ (X1 @ (eigen__4 @ X3)))))))))))))),introduced(assumption,[])).
+thf(h14,assumption,(~(((![X1:t_set]:(((t_in @ X1) @ eigen__0) => ((set_rel @ (eigen__4 @ X1)) @ (eigen__4 @ X1)))) => (~(sP6))))),introduced(assumption,[])).
+thf(h15,assumption,(~((![X1:t_set>t_set]:((~(((![X2:t_set]:(((t_in @ X2) @ eigen__1) => ((set_rel @ (X1 @ X2)) @ (X1 @ X2)))) => (~((![X2:t_set]:(((t_in @ X2) @ eigen__1) => ((t_in @ (X1 @ X2)) @ eigen__2)))))))) => (![X2:t_set>t_set]:((~(((![X3:t_set]:(((t_in @ X3) @ eigen__2) => ((set_rel @ (X2 @ X3)) @ (X2 @ X3)))) => (~((![X3:t_set]:(((t_in @ X3) @ eigen__2) => ((t_in @ (X2 @ X3)) @ eigen__3)))))))) => (![X3:t_set]:(((set_rel @ eigen__2) @ eigen__2) => (((t_in @ X3) @ eigen__0) => ((set_rel @ (X2 @ (X1 @ (eigen__4 @ X3)))) @ (X2 @ (X1 @ (eigen__4 @ X3))))))))))))),introduced(assumption,[])).
+thf(h16,assumption,(![X1:t_set]:(((t_in @ X1) @ eigen__0) => ((set_rel @ (eigen__4 @ X1)) @ (eigen__4 @ X1)))),introduced(assumption,[])).
+thf(h17,assumption,sP6,introduced(assumption,[])).
+thf(h18,assumption,(~(((~(((![X1:t_set]:(((t_in @ X1) @ eigen__1) => ((set_rel @ (eigen__5 @ X1)) @ (eigen__5 @ X1)))) => (~(sP2))))) => (![X1:t_set>t_set]:((~(((![X2:t_set]:(((t_in @ X2) @ eigen__2) => ((set_rel @ (X1 @ X2)) @ (X1 @ X2)))) => (~((![X2:t_set]:(((t_in @ X2) @ eigen__2) => ((t_in @ (X1 @ X2)) @ eigen__3)))))))) => (![X2:t_set]:(((set_rel @ eigen__2) @ eigen__2) => (((t_in @ X2) @ eigen__0) => ((set_rel @ (X1 @ (eigen__5 @ (eigen__4 @ X2)))) @ (X1 @ (eigen__5 @ (eigen__4 @ X2)))))))))))),introduced(assumption,[])).
+thf(h19,assumption,(~(((![X1:t_set]:(((t_in @ X1) @ eigen__1) => ((set_rel @ (eigen__5 @ X1)) @ (eigen__5 @ X1)))) => (~(sP2))))),introduced(assumption,[])).
+thf(h20,assumption,(~((![X1:t_set>t_set]:((~(((![X2:t_set]:(((t_in @ X2) @ eigen__2) => ((set_rel @ (X1 @ X2)) @ (X1 @ X2)))) => (~((![X2:t_set]:(((t_in @ X2) @ eigen__2) => ((t_in @ (X1 @ X2)) @ eigen__3)))))))) => (![X2:t_set]:(((set_rel @ eigen__2) @ eigen__2) => (((t_in @ X2) @ eigen__0) => ((set_rel @ (X1 @ (eigen__5 @ (eigen__4 @ X2)))) @ (X1 @ (eigen__5 @ (eigen__4 @ X2))))))))))),introduced(assumption,[])).
+thf(h21,assumption,(![X1:t_set]:(((t_in @ X1) @ eigen__1) => ((set_rel @ (eigen__5 @ X1)) @ (eigen__5 @ X1)))),introduced(assumption,[])).
+thf(h22,assumption,sP2,introduced(assumption,[])).
+thf(h23,assumption,(~(((~((sP4 => (~((![X1:t_set]:(((t_in @ X1) @ eigen__2) => ((t_in @ (eigen__6 @ X1)) @ eigen__3)))))))) => (![X1:t_set]:(((set_rel @ eigen__2) @ eigen__2) => (((t_in @ X1) @ eigen__0) => ((set_rel @ (eigen__6 @ (eigen__5 @ (eigen__4 @ X1)))) @ (eigen__6 @ (eigen__5 @ (eigen__4 @ X1)))))))))),introduced(assumption,[])).
+thf(h24,assumption,(~((sP4 => (~((![X1:t_set]:(((t_in @ X1) @ eigen__2) => ((t_in @ (eigen__6 @ X1)) @ eigen__3)))))))),introduced(assumption,[])).
+thf(h25,assumption,(~((![X1:t_set]:(((set_rel @ eigen__2) @ eigen__2) => (((t_in @ X1) @ eigen__0) => ((set_rel @ (eigen__6 @ (eigen__5 @ (eigen__4 @ X1)))) @ (eigen__6 @ (eigen__5 @ (eigen__4 @ X1))))))))),introduced(assumption,[])).
+thf(h26,assumption,sP4,introduced(assumption,[])).
+thf(h27,assumption,(![X1:t_set]:(((t_in @ X1) @ eigen__2) => ((t_in @ (eigen__6 @ X1)) @ eigen__3))),introduced(assumption,[])).
+thf(h28,assumption,(~((((set_rel @ eigen__2) @ eigen__2) => (sP8 => sP1)))),introduced(assumption,[])).
+thf(h29,assumption,(~((sP8 => sP1))),introduced(assumption,[])).
+thf(h30,assumption,sP8,introduced(assumption,[])).
+thf(h31,assumption,(~(sP1)),introduced(assumption,[])).
+thf(1,plain,((~(sP9) | ~(sP10)) | sP1),inference(prop_rule,[status(thm)],[])).
+thf(2,plain,(~(sP4) | sP9),inference(all_rule,[status(thm)],[])).
+thf(3,plain,((~(sP3) | ~(sP7)) | sP10),inference(prop_rule,[status(thm)],[])).
+thf(4,plain,(~(sP2) | sP3),inference(all_rule,[status(thm)],[])).
+thf(5,plain,((~(sP5) | ~(sP8)) | sP7),inference(prop_rule,[status(thm)],[])).
+thf(6,plain,(~(sP6) | sP5),inference(all_rule,[status(thm)],[])).
+thf(7,plain,$false,inference(prop_unsat,[status(thm),assumptions([h30,h31,h8,h29,h28,h26,h27,h24,h25,h23,h21,h22,h19,h20,h18,h16,h17,h14,h15,h13,h11,h12,h10,h8,h9,h7,h5,h6,h4,h2,h3,h1,h0])],[1,2,3,4,5,6,h17,h22,h26,h30,h31])).
+thf(8,plain,$false,inference(tab_negimp,[status(thm),assumptions([h8,h29,h28,h26,h27,h24,h25,h23,h21,h22,h19,h20,h18,h16,h17,h14,h15,h13,h11,h12,h10,h8,h9,h7,h5,h6,h4,h2,h3,h1,h0]),tab_negimp(discharge,[h30,h31])],[h29,7,h30,h31])).
+thf(9,plain,$false,inference(tab_negimp,[status(thm),assumptions([h28,h26,h27,h24,h25,h23,h21,h22,h19,h20,h18,h16,h17,h14,h15,h13,h11,h12,h10,h8,h9,h7,h5,h6,h4,h2,h3,h1,h0]),tab_negimp(discharge,[h8,h29])],[h28,8,h8,h29])).
+thf(10,plain,$false,inference(tab_negall,[status(thm),assumptions([h26,h27,h24,h25,h23,h21,h22,h19,h20,h18,h16,h17,h14,h15,h13,h11,h12,h10,h8,h9,h7,h5,h6,h4,h2,h3,h1,h0]),tab_negall(discharge,[h28]),tab_negall(eigenvar,eigen__7)],[h25,9,h28])).
+thf(11,plain,$false,inference(tab_negimp,[status(thm),assumptions([h24,h25,h23,h21,h22,h19,h20,h18,h16,h17,h14,h15,h13,h11,h12,h10,h8,h9,h7,h5,h6,h4,h2,h3,h1,h0]),tab_negimp(discharge,[h26,h27])],[h24,10,h26,h27])).
+thf(12,plain,$false,inference(tab_negimp,[status(thm),assumptions([h23,h21,h22,h19,h20,h18,h16,h17,h14,h15,h13,h11,h12,h10,h8,h9,h7,h5,h6,h4,h2,h3,h1,h0]),tab_negimp(discharge,[h24,h25])],[h23,11,h24,h25])).
+thf(13,plain,$false,inference(tab_negall,[status(thm),assumptions([h21,h22,h19,h20,h18,h16,h17,h14,h15,h13,h11,h12,h10,h8,h9,h7,h5,h6,h4,h2,h3,h1,h0]),tab_negall(discharge,[h23]),tab_negall(eigenvar,eigen__6)],[h20,12,h23])).
+thf(14,plain,$false,inference(tab_negimp,[status(thm),assumptions([h19,h20,h18,h16,h17,h14,h15,h13,h11,h12,h10,h8,h9,h7,h5,h6,h4,h2,h3,h1,h0]),tab_negimp(discharge,[h21,h22])],[h19,13,h21,h22])).
+thf(15,plain,$false,inference(tab_negimp,[status(thm),assumptions([h18,h16,h17,h14,h15,h13,h11,h12,h10,h8,h9,h7,h5,h6,h4,h2,h3,h1,h0]),tab_negimp(discharge,[h19,h20])],[h18,14,h19,h20])).
+thf(16,plain,$false,inference(tab_negall,[status(thm),assumptions([h16,h17,h14,h15,h13,h11,h12,h10,h8,h9,h7,h5,h6,h4,h2,h3,h1,h0]),tab_negall(discharge,[h18]),tab_negall(eigenvar,eigen__5)],[h15,15,h18])).
+thf(17,plain,$false,inference(tab_negimp,[status(thm),assumptions([h14,h15,h13,h11,h12,h10,h8,h9,h7,h5,h6,h4,h2,h3,h1,h0]),tab_negimp(discharge,[h16,h17])],[h14,16,h16,h17])).
+thf(18,plain,$false,inference(tab_negimp,[status(thm),assumptions([h13,h11,h12,h10,h8,h9,h7,h5,h6,h4,h2,h3,h1,h0]),tab_negimp(discharge,[h14,h15])],[h13,17,h14,h15])).
+thf(19,plain,$false,inference(tab_negall,[status(thm),assumptions([h11,h12,h10,h8,h9,h7,h5,h6,h4,h2,h3,h1,h0]),tab_negall(discharge,[h13]),tab_negall(eigenvar,eigen__4)],[h12,18,h13])).
+thf(20,plain,$false,inference(tab_negimp,[status(thm),assumptions([h10,h8,h9,h7,h5,h6,h4,h2,h3,h1,h0]),tab_negimp(discharge,[h11,h12])],[h10,19,h11,h12])).
+thf(21,plain,$false,inference(tab_negall,[status(thm),assumptions([h8,h9,h7,h5,h6,h4,h2,h3,h1,h0]),tab_negall(discharge,[h10]),tab_negall(eigenvar,eigen__3)],[h9,20,h10])).
+thf(22,plain,$false,inference(tab_negimp,[status(thm),assumptions([h7,h5,h6,h4,h2,h3,h1,h0]),tab_negimp(discharge,[h8,h9])],[h7,21,h8,h9])).
+thf(23,plain,$false,inference(tab_negall,[status(thm),assumptions([h5,h6,h4,h2,h3,h1,h0]),tab_negall(discharge,[h7]),tab_negall(eigenvar,eigen__2)],[h6,22,h7])).
+thf(24,plain,$false,inference(tab_negimp,[status(thm),assumptions([h4,h2,h3,h1,h0]),tab_negimp(discharge,[h5,h6])],[h4,23,h5,h6])).
+thf(25,plain,$false,inference(tab_negall,[status(thm),assumptions([h2,h3,h1,h0]),tab_negall(discharge,[h4]),tab_negall(eigenvar,eigen__1)],[h3,24,h4])).
+thf(26,plain,$false,inference(tab_negimp,[status(thm),assumptions([h1,h0]),tab_negimp(discharge,[h2,h3])],[h1,25,h2,h3])).
+thf(27,plain,$false,inference(tab_negall,[status(thm),assumptions([h0]),tab_negall(discharge,[h1]),tab_negall(eigenvar,eigen__0)],[h0,26,h1])).
+thf(0,theorem,(![X1:t_set]:(((set_rel @ X1) @ X1) => (![X2:t_set]:(((set_rel @ X2) @ X2) => (![X3:t_set]:(((set_rel @ X3) @ X3) => (![X4:t_set]:(((set_rel @ X4) @ X4) => (![X5:t_set>t_set]:((~(((![X6:t_set]:(((t_in @ X6) @ X1) => ((set_rel @ (X5 @ X6)) @ (X5 @ X6)))) => (~((![X6:t_set]:(((t_in @ X6) @ X1) => ((t_in @ (X5 @ X6)) @ X2)))))))) => (![X6:t_set>t_set]:((~(((![X7:t_set]:(((t_in @ X7) @ X2) => ((set_rel @ (X6 @ X7)) @ (X6 @ X7)))) => (~((![X7:t_set]:(((t_in @ X7) @ X2) => ((t_in @ (X6 @ X7)) @ X3)))))))) => (![X7:t_set>t_set]:((~(((![X8:t_set]:(((t_in @ X8) @ X3) => ((set_rel @ (X7 @ X8)) @ (X7 @ X8)))) => (~((![X8:t_set]:(((t_in @ X8) @ X3) => ((t_in @ (X7 @ X8)) @ X4)))))))) => (![X8:t_set]:(((set_rel @ X3) @ X3) => (((t_in @ X8) @ X1) => ((set_rel @ (X7 @ (X6 @ (X5 @ X8)))) @ (X7 @ (X6 @ (X5 @ X8))))))))))))))))))))),inference(contra,[status(thm),contra(discharge,[h0])],[27,h0])).
+% SZS output end Proof
+
+% END OF SYSTEM OUTPUT
+% RESULT: SOT_j6zA2f - Lash---1.13 says Theorem - CPU = 0.54 WC = 0.57 
+% OUTPUT: SOT_j6zA2f - Lash---1.13 says Proof - CPU = 0.54 WC = 0.57 
+
+% START OF SYSTEM OUTPUT
+
+ No.of.Axioms: 2
+
+ Length.of.Defs: 0
+
+ Contains.Choice.Funs: false
+(rf:0,axioms:2,ps:3,u:6,ude:true,rLeibEQ:true,rAndEQ:true,use_choice:true,use_extuni:true,use_extcnf_combined:true,expand_extuni:false,foatp:e,atp_timeout:7,atp_calls_frequency:10,ordering:none,proof_output:1,protocol_output:false,clause_count:4,loop_count:0,foatp_calls:0,translation:fof_full)...........
+
+********************************
+*   All subproblems solved!    *
+********************************
+% SZS status Theorem for /tmp/SystemOnTPTP903154/SOT_j6zA2f.tptp : (rf:0,axioms:3,ps:3,u:6,ude:true,rLeibEQ:true,rAndEQ:true,use_choice:true,use_extuni:true,use_extcnf_combined:true,expand_extuni:false,foatp:e,atp_timeout:7,atp_calls_frequency:10,ordering:none,proof_output:1,protocol_output:false,clause_count:100,loop_count:0,foatp_calls:1,translation:fof_full)
+
+%**** Beginning of derivation protocol ****
+% SZS output start CNFRefutation
+ thf(tp_t_set,type,(t_set: $tType)).
+ thf(tp_sK1_V_s,type,(sK1_V_s: t_set)).
+ thf(tp_sK2_SY18,type,(sK2_SY18: t_set)).
+ thf(tp_sK3_SY31,type,(sK3_SY31: t_set)).
+ thf(tp_sK4_SY43,type,(sK4_SY43: t_set)).
+ thf(tp_sK5_SY54,type,(sK5_SY54: (t_set>t_set))).
+ thf(tp_sK6_SY66,type,(sK6_SY66: (t_set>t_set))).
+ thf(tp_sK7_SY75,type,(sK7_SY75: (t_set>t_set))).
+ thf(tp_sK8_SY81,type,(sK8_SY81: t_set)).
+ thf(tp_set_rel,type,(set_rel: (t_set>(t_set>$o)))).
+ thf(tp_t_in,type,(t_in: (t_set>(t_set>$o)))).
+ thf(1,axiom,(![V_A:t_set,V_A_PRIME:t_set]: (((set_rel@V_A)@V_A_PRIME) => $true)),file('/tmp/SystemOnTPTP903154/SOT_j6zA2f.tptp',in_tp_ax)).
+ thf(2,axiom,(![V_X:t_set,V_X_PRIME:t_set]: (((set_rel@V_X)@V_X_PRIME) => (V_X = V_X_PRIME))),file('/tmp/SystemOnTPTP903154/SOT_j6zA2f.tptp',set_per_ax)).
+ thf(3,conjecture,(![V_s:t_set]: (((set_rel@V_s)@V_s) => (![V_t:t_set]: (((set_rel@V_t)@V_t) => (![V_u:t_set]: (((set_rel@V_u)@V_u) => (![V_v:t_set]: (((set_rel@V_v)@V_v) => (![V_f:(t_set>t_set)]: (((![V_x:t_set]: (((t_in@V_x)@V_s) => ((set_rel@(V_f@V_x))@(V_f@V_x)))) & (![V_x:t_set]: (((t_in@V_x)@V_s) => ((t_in@(V_f@V_x))@V_t)))) => (![V_g:(t_set>t_set)]: (((![V_x:t_set]: (((t_in@V_x)@V_t) => ((set_rel@(V_g@V_x))@(V_g@V_x)))) & (![V_x:t_set]: (((t_in@V_x)@V_t) => ((t_in@(V_g@V_x))@V_u)))) => (![V_h:(t_set>t_set)]: (((![V_x:t_set]: (((t_in@V_x)@V_u) => ((set_rel@(V_h@V_x))@(V_h@V_x)))) & (![V_x:t_set]: (((t_in@V_x)@V_u) => ((t_in@(V_h@V_x))@V_v)))) => (![V_x:t_set]: (((set_rel@V_u)@V_u) => (((t_in@V_x)@V_s) => ((set_rel@(V_h@(V_g@(V_f@V_x))))@(V_h@(V_g@(V_f@V_x))))))))))))))))))))),file('/tmp/SystemOnTPTP903154/SOT_j6zA2f.tptp',conj)).
+ thf(4,negated_conjecture,(((![V_s:t_set]: (((set_rel@V_s)@V_s) => (![V_t:t_set]: (((set_rel@V_t)@V_t) => (![V_u:t_set]: (((set_rel@V_u)@V_u) => (![V_v:t_set]: (((set_rel@V_v)@V_v) => (![V_f:(t_set>t_set)]: (((![V_x:t_set]: (((t_in@V_x)@V_s) => ((set_rel@(V_f@V_x))@(V_f@V_x)))) & (![V_x:t_set]: (((t_in@V_x)@V_s) => ((t_in@(V_f@V_x))@V_t)))) => (![V_g:(t_set>t_set)]: (((![V_x:t_set]: (((t_in@V_x)@V_t) => ((set_rel@(V_g@V_x))@(V_g@V_x)))) & (![V_x:t_set]: (((t_in@V_x)@V_t) => ((t_in@(V_g@V_x))@V_u)))) => (![V_h:(t_set>t_set)]: (((![V_x:t_set]: (((t_in@V_x)@V_u) => ((set_rel@(V_h@V_x))@(V_h@V_x)))) & (![V_x:t_set]: (((t_in@V_x)@V_u) => ((t_in@(V_h@V_x))@V_v)))) => (![V_x:t_set]: (((set_rel@V_u)@V_u) => (((t_in@V_x)@V_s) => ((set_rel@(V_h@(V_g@(V_f@V_x))))@(V_h@(V_g@(V_f@V_x)))))))))))))))))))))=$false)),inference(negate_conjecture,[status(cth)],[3])).
+ thf(5,plain,(((![V_s:t_set]: (((set_rel@V_s)@V_s) => (![V_t:t_set]: (((set_rel@V_t)@V_t) => (![V_u:t_set]: (((set_rel@V_u)@V_u) => (![V_v:t_set]: (((set_rel@V_v)@V_v) => (![V_f:(t_set>t_set)]: (((![V_x:t_set]: (((t_in@V_x)@V_s) => ((set_rel@(V_f@V_x))@(V_f@V_x)))) & (![V_x:t_set]: (((t_in@V_x)@V_s) => ((t_in@(V_f@V_x))@V_t)))) => (![V_g:(t_set>t_set)]: (((![V_x:t_set]: (((t_in@V_x)@V_t) => ((set_rel@(V_g@V_x))@(V_g@V_x)))) & (![V_x:t_set]: (((t_in@V_x)@V_t) => ((t_in@(V_g@V_x))@V_u)))) => (![V_h:(t_set>t_set)]: (((![V_x:t_set]: (((t_in@V_x)@V_u) => ((set_rel@(V_h@V_x))@(V_h@V_x)))) & (![V_x:t_set]: (((t_in@V_x)@V_u) => ((t_in@(V_h@V_x))@V_v)))) => (![V_x:t_set]: (((set_rel@V_u)@V_u) => (((t_in@V_x)@V_s) => ((set_rel@(V_h@(V_g@(V_f@V_x))))@(V_h@(V_g@(V_f@V_x)))))))))))))))))))))=$false)),inference(unfold_def,[status(thm)],[4])).
+ thf(6,plain,(((![V_A:t_set,V_A_PRIME:t_set]: (((set_rel@V_A)@V_A_PRIME) => $true))=$true)),inference(unfold_def,[status(thm)],[1])).
+ thf(7,plain,(((![V_X:t_set,V_X_PRIME:t_set]: (((set_rel@V_X)@V_X_PRIME) => (V_X = V_X_PRIME)))=$true)),inference(unfold_def,[status(thm)],[2])).
+ thf(8,plain,(((((set_rel@sK1_V_s)@sK1_V_s) => (![SY18:t_set]: (((set_rel@SY18)@SY18) => (![SY19:t_set]: (((set_rel@SY19)@SY19) => (![SY20:t_set]: (((set_rel@SY20)@SY20) => (![SY21:(t_set>t_set)]: (((![SY22:t_set]: (((t_in@SY22)@sK1_V_s) => ((set_rel@(SY21@SY22))@(SY21@SY22)))) & (![SY23:t_set]: (((t_in@SY23)@sK1_V_s) => ((t_in@(SY21@SY23))@SY18)))) => (![SY24:(t_set>t_set)]: (((![V_x:t_set]: (((t_in@V_x)@SY18) => ((set_rel@(SY24@V_x))@(SY24@V_x)))) & (![V_x:t_set]: (((t_in@V_x)@SY18) => ((t_in@(SY24@V_x))@SY19)))) => (![SY27:(t_set>t_set)]: (((![V_x:t_set]: (((t_in@V_x)@SY19) => ((set_rel@(SY27@V_x))@(SY27@V_x)))) & (![V_x:t_set]: (((t_in@V_x)@SY19) => ((t_in@(SY27@V_x))@SY20)))) => (![SY30:t_set]: (((set_rel@SY19)@SY19) => (((t_in@SY30)@sK1_V_s) => ((set_rel@(SY27@(SY24@(SY21@SY30))))@(SY27@(SY24@(SY21@SY30))))))))))))))))))))=$false)),inference(extcnf_forall_neg,[status(esa)],[5])).
+ thf(9,plain,((((set_rel@sK1_V_s)@sK1_V_s)=$true)),inference(standard_cnf,[status(thm)],[8])).
+ thf(10,plain,(((![SY18:t_set]: (((set_rel@SY18)@SY18) => (![SY19:t_set]: (((set_rel@SY19)@SY19) => (![SY20:t_set]: (((set_rel@SY20)@SY20) => (![SY21:(t_set>t_set)]: (((![SY22:t_set]: (((t_in@SY22)@sK1_V_s) => ((set_rel@(SY21@SY22))@(SY21@SY22)))) & (![SY23:t_set]: (((t_in@SY23)@sK1_V_s) => ((t_in@(SY21@SY23))@SY18)))) => (![SY24:(t_set>t_set)]: (((![V_x:t_set]: (((t_in@V_x)@SY18) => ((set_rel@(SY24@V_x))@(SY24@V_x)))) & (![V_x:t_set]: (((t_in@V_x)@SY18) => ((t_in@(SY24@V_x))@SY19)))) => (![SY27:(t_set>t_set)]: (((![V_x:t_set]: (((t_in@V_x)@SY19) => ((set_rel@(SY27@V_x))@(SY27@V_x)))) & (![V_x:t_set]: (((t_in@V_x)@SY19) => ((t_in@(SY27@V_x))@SY20)))) => (![SY30:t_set]: (((set_rel@SY19)@SY19) => (((t_in@SY30)@sK1_V_s) => ((set_rel@(SY27@(SY24@(SY21@SY30))))@(SY27@(SY24@(SY21@SY30)))))))))))))))))))=$false)),inference(standard_cnf,[status(thm)],[8])).
+ thf(11,plain,(((~ (![SY18:t_set]: (((set_rel@SY18)@SY18) => (![SY19:t_set]: (((set_rel@SY19)@SY19) => (![SY20:t_set]: (((set_rel@SY20)@SY20) => (![SY21:(t_set>t_set)]: (((![SY22:t_set]: (((t_in@SY22)@sK1_V_s) => ((set_rel@(SY21@SY22))@(SY21@SY22)))) & (![SY23:t_set]: (((t_in@SY23)@sK1_V_s) => ((t_in@(SY21@SY23))@SY18)))) => (![SY24:(t_set>t_set)]: (((![V_x:t_set]: (((t_in@V_x)@SY18) => ((set_rel@(SY24@V_x))@(SY24@V_x)))) & (![V_x:t_set]: (((t_in@V_x)@SY18) => ((t_in@(SY24@V_x))@SY19)))) => (![SY27:(t_set>t_set)]: (((![V_x:t_set]: (((t_in@V_x)@SY19) => ((set_rel@(SY27@V_x))@(SY27@V_x)))) & (![V_x:t_set]: (((t_in@V_x)@SY19) => ((t_in@(SY27@V_x))@SY20)))) => (![SY30:t_set]: (((set_rel@SY19)@SY19) => (((t_in@SY30)@sK1_V_s) => ((set_rel@(SY27@(SY24@(SY21@SY30))))@(SY27@(SY24@(SY21@SY30))))))))))))))))))))=$true)),inference(polarity_switch,[status(thm)],[10])).
+ thf(12,plain,(((((set_rel@sK2_SY18)@sK2_SY18) & (((set_rel@sK3_SY31)@sK3_SY31) & (((set_rel@sK4_SY43)@sK4_SY43) & (((![SY64:t_set]: ((~ ((t_in@SY64)@sK1_V_s)) | ((set_rel@(sK5_SY54@SY64))@(sK5_SY54@SY64)))) & (![SY65:t_set]: ((~ ((t_in@SY65)@sK1_V_s)) | ((t_in@(sK5_SY54@SY65))@sK2_SY18)))) & (((![SY73:t_set]: ((~ ((t_in@SY73)@sK2_SY18)) | ((set_rel@(sK6_SY66@SY73))@(sK6_SY66@SY73)))) & (![SY74:t_set]: ((~ ((t_in@SY74)@sK2_SY18)) | ((t_in@(sK6_SY66@SY74))@sK3_SY31)))) & (((![SY79:t_set]: ((~ ((t_in@SY79)@sK3_SY31)) | ((set_rel@(sK7_SY75@SY79))@(sK7_SY75@SY79)))) & (![SY80:t_set]: ((~ ((t_in@SY80)@sK3_SY31)) | ((t_in@(sK7_SY75@SY80))@sK4_SY43)))) & (((set_rel@sK3_SY31)@sK3_SY31) & (((t_in@sK8_SY81)@sK1_V_s) & (~ ((set_rel@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81))))@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81)))))))))))))=$true)),inference(extcnf_combined,[status(esa)],[11])).
+ thf(13,plain,(((![V_A:t_set,V_A_PRIME:t_set]: $true)=$true)),inference(extcnf_combined,[status(esa)],[6])).
+ thf(14,plain,(((![V_X:t_set,V_X_PRIME:t_set]: ((~ ((set_rel@V_X)@V_X_PRIME)) | (V_X = V_X_PRIME)))=$true)),inference(extcnf_combined,[status(esa)],[7])).
+ thf(15,plain,(((![V_X:t_set,V_X_PRIME:t_set]: ((~ ((set_rel@V_X)@V_X_PRIME)) | (V_X = V_X_PRIME)))=$true)),inference(copy,[status(thm)],[14])).
+ thf(16,plain,(((![V_A:t_set,V_A_PRIME:t_set]: $true)=$true)),inference(copy,[status(thm)],[13])).
+ thf(17,plain,((((set_rel@sK1_V_s)@sK1_V_s)=$true)),inference(copy,[status(thm)],[9])).
+ thf(18,plain,(((((set_rel@sK2_SY18)@sK2_SY18) & (((set_rel@sK3_SY31)@sK3_SY31) & (((set_rel@sK4_SY43)@sK4_SY43) & (((![SY64:t_set]: ((~ ((t_in@SY64)@sK1_V_s)) | ((set_rel@(sK5_SY54@SY64))@(sK5_SY54@SY64)))) & (![SY65:t_set]: ((~ ((t_in@SY65)@sK1_V_s)) | ((t_in@(sK5_SY54@SY65))@sK2_SY18)))) & (((![SY73:t_set]: ((~ ((t_in@SY73)@sK2_SY18)) | ((set_rel@(sK6_SY66@SY73))@(sK6_SY66@SY73)))) & (![SY74:t_set]: ((~ ((t_in@SY74)@sK2_SY18)) | ((t_in@(sK6_SY66@SY74))@sK3_SY31)))) & (((![SY79:t_set]: ((~ ((t_in@SY79)@sK3_SY31)) | ((set_rel@(sK7_SY75@SY79))@(sK7_SY75@SY79)))) & (![SY80:t_set]: ((~ ((t_in@SY80)@sK3_SY31)) | ((t_in@(sK7_SY75@SY80))@sK4_SY43)))) & (((set_rel@sK3_SY31)@sK3_SY31) & (((t_in@sK8_SY81)@sK1_V_s) & (~ ((set_rel@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81))))@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81)))))))))))))=$true)),inference(copy,[status(thm)],[12])).
+ thf(19,plain,(((~ ((~ ((set_rel@sK2_SY18)@sK2_SY18)) | (~ (~ ((~ ((set_rel@sK3_SY31)@sK3_SY31)) | (~ (~ ((~ ((set_rel@sK4_SY43)@sK4_SY43)) | (~ (~ ((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK1_V_s)) | ((set_rel@(sK5_SY54@SX0))@(sK5_SY54@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK1_V_s)) | ((t_in@(sK5_SY54@SX0))@sK2_SY18))))))) | (~ (~ ((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK2_SY18)) | ((set_rel@(sK6_SY66@SX0))@(sK6_SY66@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK2_SY18)) | ((t_in@(sK6_SY66@SX0))@sK3_SY31))))))) | (~ (~ ((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((set_rel@(sK7_SY75@SX0))@(sK7_SY75@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((t_in@(sK7_SY75@SX0))@sK4_SY43))))))) | (~ (~ ((~ ((set_rel@sK3_SY31)@sK3_SY31)) | (~ (~ ((~ ((t_in@sK8_SY81)@sK1_V_s)) | (~ (~ ((set_rel@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81))))@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81)))))))))))))))))))))))))))))=$true)),inference(unfold_def,[status(thm)],[18])).
+ thf(20,plain,(![SV1:t_set]: (((![SY82:t_set]: ((~ ((set_rel@SV1)@SY82)) | (SV1 = SY82)))=$true))),inference(extcnf_forall_pos,[status(thm)],[15])).
+ thf(21,plain,(((![V_A_PRIME:t_set]: $true)=$true)),inference(extcnf_forall_pos,[status(thm)],[16])).
+ thf(22,plain,((((~ ((set_rel@sK2_SY18)@sK2_SY18)) | (~ (~ ((~ ((set_rel@sK3_SY31)@sK3_SY31)) | (~ (~ ((~ ((set_rel@sK4_SY43)@sK4_SY43)) | (~ (~ ((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK1_V_s)) | ((set_rel@(sK5_SY54@SX0))@(sK5_SY54@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK1_V_s)) | ((t_in@(sK5_SY54@SX0))@sK2_SY18))))))) | (~ (~ ((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK2_SY18)) | ((set_rel@(sK6_SY66@SX0))@(sK6_SY66@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK2_SY18)) | ((t_in@(sK6_SY66@SX0))@sK3_SY31))))))) | (~ (~ ((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((set_rel@(sK7_SY75@SX0))@(sK7_SY75@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((t_in@(sK7_SY75@SX0))@sK4_SY43))))))) | (~ (~ ((~ ((set_rel@sK3_SY31)@sK3_SY31)) | (~ (~ ((~ ((t_in@sK8_SY81)@sK1_V_s)) | (~ (~ ((set_rel@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81))))@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81))))))))))))))))))))))))))))=$false)),inference(extcnf_not_pos,[status(thm)],[19])).
+ thf(23,plain,(![SV3:t_set,SV1:t_set]: ((((~ ((set_rel@SV1)@SV3)) | (SV1 = SV3))=$true))),inference(extcnf_forall_pos,[status(thm)],[20])).
+ thf(24,plain,((($true)=$true)),inference(extcnf_forall_pos,[status(thm)],[21])).
+ thf(25,plain,(((~ ((set_rel@sK2_SY18)@sK2_SY18))=$false)),inference(extcnf_or_neg,[status(thm)],[22])).
+ thf(26,plain,(((~ (~ ((~ ((set_rel@sK3_SY31)@sK3_SY31)) | (~ (~ ((~ ((set_rel@sK4_SY43)@sK4_SY43)) | (~ (~ ((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK1_V_s)) | ((set_rel@(sK5_SY54@SX0))@(sK5_SY54@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK1_V_s)) | ((t_in@(sK5_SY54@SX0))@sK2_SY18))))))) | (~ (~ ((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK2_SY18)) | ((set_rel@(sK6_SY66@SX0))@(sK6_SY66@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK2_SY18)) | ((t_in@(sK6_SY66@SX0))@sK3_SY31))))))) | (~ (~ ((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((set_rel@(sK7_SY75@SX0))@(sK7_SY75@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((t_in@(sK7_SY75@SX0))@sK4_SY43))))))) | (~ (~ ((~ ((set_rel@sK3_SY31)@sK3_SY31)) | (~ (~ ((~ ((t_in@sK8_SY81)@sK1_V_s)) | (~ (~ ((set_rel@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81))))@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81)))))))))))))))))))))))))))=$false)),inference(extcnf_or_neg,[status(thm)],[22])).
+ thf(27,plain,(![SV3:t_set,SV1:t_set]: (((~ ((set_rel@SV1)@SV3))=$true) | ((SV1 = SV3)=$true))),inference(extcnf_or_pos,[status(thm)],[23])).
+ thf(28,plain,((((set_rel@sK2_SY18)@sK2_SY18)=$true)),inference(extcnf_not_neg,[status(thm)],[25])).
+ thf(29,plain,(((~ ((~ ((set_rel@sK3_SY31)@sK3_SY31)) | (~ (~ ((~ ((set_rel@sK4_SY43)@sK4_SY43)) | (~ (~ ((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK1_V_s)) | ((set_rel@(sK5_SY54@SX0))@(sK5_SY54@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK1_V_s)) | ((t_in@(sK5_SY54@SX0))@sK2_SY18))))))) | (~ (~ ((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK2_SY18)) | ((set_rel@(sK6_SY66@SX0))@(sK6_SY66@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK2_SY18)) | ((t_in@(sK6_SY66@SX0))@sK3_SY31))))))) | (~ (~ ((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((set_rel@(sK7_SY75@SX0))@(sK7_SY75@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((t_in@(sK7_SY75@SX0))@sK4_SY43))))))) | (~ (~ ((~ ((set_rel@sK3_SY31)@sK3_SY31)) | (~ (~ ((~ ((t_in@sK8_SY81)@sK1_V_s)) | (~ (~ ((set_rel@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81))))@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81))))))))))))))))))))))))))=$true)),inference(extcnf_not_neg,[status(thm)],[26])).
+ thf(30,plain,(![SV3:t_set,SV1:t_set]: ((((set_rel@SV1)@SV3)=$false) | ((SV1 = SV3)=$true))),inference(extcnf_not_pos,[status(thm)],[27])).
+ thf(31,plain,((((~ ((set_rel@sK3_SY31)@sK3_SY31)) | (~ (~ ((~ ((set_rel@sK4_SY43)@sK4_SY43)) | (~ (~ ((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK1_V_s)) | ((set_rel@(sK5_SY54@SX0))@(sK5_SY54@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK1_V_s)) | ((t_in@(sK5_SY54@SX0))@sK2_SY18))))))) | (~ (~ ((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK2_SY18)) | ((set_rel@(sK6_SY66@SX0))@(sK6_SY66@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK2_SY18)) | ((t_in@(sK6_SY66@SX0))@sK3_SY31))))))) | (~ (~ ((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((set_rel@(sK7_SY75@SX0))@(sK7_SY75@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((t_in@(sK7_SY75@SX0))@sK4_SY43))))))) | (~ (~ ((~ ((set_rel@sK3_SY31)@sK3_SY31)) | (~ (~ ((~ ((t_in@sK8_SY81)@sK1_V_s)) | (~ (~ ((set_rel@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81))))@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81)))))))))))))))))))))))))=$false)),inference(extcnf_not_pos,[status(thm)],[29])).
+ thf(32,plain,(((~ ((set_rel@sK3_SY31)@sK3_SY31))=$false)),inference(extcnf_or_neg,[status(thm)],[31])).
+ thf(33,plain,(((~ (~ ((~ ((set_rel@sK4_SY43)@sK4_SY43)) | (~ (~ ((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK1_V_s)) | ((set_rel@(sK5_SY54@SX0))@(sK5_SY54@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK1_V_s)) | ((t_in@(sK5_SY54@SX0))@sK2_SY18))))))) | (~ (~ ((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK2_SY18)) | ((set_rel@(sK6_SY66@SX0))@(sK6_SY66@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK2_SY18)) | ((t_in@(sK6_SY66@SX0))@sK3_SY31))))))) | (~ (~ ((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((set_rel@(sK7_SY75@SX0))@(sK7_SY75@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((t_in@(sK7_SY75@SX0))@sK4_SY43))))))) | (~ (~ ((~ ((set_rel@sK3_SY31)@sK3_SY31)) | (~ (~ ((~ ((t_in@sK8_SY81)@sK1_V_s)) | (~ (~ ((set_rel@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81))))@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81))))))))))))))))))))))))=$false)),inference(extcnf_or_neg,[status(thm)],[31])).
+ thf(34,plain,((((set_rel@sK3_SY31)@sK3_SY31)=$true)),inference(extcnf_not_neg,[status(thm)],[32])).
+ thf(35,plain,(((~ ((~ ((set_rel@sK4_SY43)@sK4_SY43)) | (~ (~ ((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK1_V_s)) | ((set_rel@(sK5_SY54@SX0))@(sK5_SY54@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK1_V_s)) | ((t_in@(sK5_SY54@SX0))@sK2_SY18))))))) | (~ (~ ((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK2_SY18)) | ((set_rel@(sK6_SY66@SX0))@(sK6_SY66@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK2_SY18)) | ((t_in@(sK6_SY66@SX0))@sK3_SY31))))))) | (~ (~ ((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((set_rel@(sK7_SY75@SX0))@(sK7_SY75@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((t_in@(sK7_SY75@SX0))@sK4_SY43))))))) | (~ (~ ((~ ((set_rel@sK3_SY31)@sK3_SY31)) | (~ (~ ((~ ((t_in@sK8_SY81)@sK1_V_s)) | (~ (~ ((set_rel@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81))))@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81)))))))))))))))))))))))=$true)),inference(extcnf_not_neg,[status(thm)],[33])).
+ thf(36,plain,((((~ ((set_rel@sK4_SY43)@sK4_SY43)) | (~ (~ ((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK1_V_s)) | ((set_rel@(sK5_SY54@SX0))@(sK5_SY54@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK1_V_s)) | ((t_in@(sK5_SY54@SX0))@sK2_SY18))))))) | (~ (~ ((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK2_SY18)) | ((set_rel@(sK6_SY66@SX0))@(sK6_SY66@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK2_SY18)) | ((t_in@(sK6_SY66@SX0))@sK3_SY31))))))) | (~ (~ ((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((set_rel@(sK7_SY75@SX0))@(sK7_SY75@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((t_in@(sK7_SY75@SX0))@sK4_SY43))))))) | (~ (~ ((~ ((set_rel@sK3_SY31)@sK3_SY31)) | (~ (~ ((~ ((t_in@sK8_SY81)@sK1_V_s)) | (~ (~ ((set_rel@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81))))@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81))))))))))))))))))))))=$false)),inference(extcnf_not_pos,[status(thm)],[35])).
+ thf(37,plain,(((~ ((set_rel@sK4_SY43)@sK4_SY43))=$false)),inference(extcnf_or_neg,[status(thm)],[36])).
+ thf(38,plain,(((~ (~ ((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK1_V_s)) | ((set_rel@(sK5_SY54@SX0))@(sK5_SY54@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK1_V_s)) | ((t_in@(sK5_SY54@SX0))@sK2_SY18))))))) | (~ (~ ((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK2_SY18)) | ((set_rel@(sK6_SY66@SX0))@(sK6_SY66@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK2_SY18)) | ((t_in@(sK6_SY66@SX0))@sK3_SY31))))))) | (~ (~ ((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((set_rel@(sK7_SY75@SX0))@(sK7_SY75@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((t_in@(sK7_SY75@SX0))@sK4_SY43))))))) | (~ (~ ((~ ((set_rel@sK3_SY31)@sK3_SY31)) | (~ (~ ((~ ((t_in@sK8_SY81)@sK1_V_s)) | (~ (~ ((set_rel@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81))))@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81)))))))))))))))))))))=$false)),inference(extcnf_or_neg,[status(thm)],[36])).
+ thf(39,plain,((((set_rel@sK4_SY43)@sK4_SY43)=$true)),inference(extcnf_not_neg,[status(thm)],[37])).
+ thf(40,plain,(((~ ((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK1_V_s)) | ((set_rel@(sK5_SY54@SX0))@(sK5_SY54@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK1_V_s)) | ((t_in@(sK5_SY54@SX0))@sK2_SY18))))))) | (~ (~ ((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK2_SY18)) | ((set_rel@(sK6_SY66@SX0))@(sK6_SY66@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK2_SY18)) | ((t_in@(sK6_SY66@SX0))@sK3_SY31))))))) | (~ (~ ((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((set_rel@(sK7_SY75@SX0))@(sK7_SY75@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((t_in@(sK7_SY75@SX0))@sK4_SY43))))))) | (~ (~ ((~ ((set_rel@sK3_SY31)@sK3_SY31)) | (~ (~ ((~ ((t_in@sK8_SY81)@sK1_V_s)) | (~ (~ ((set_rel@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81))))@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81))))))))))))))))))))=$true)),inference(extcnf_not_neg,[status(thm)],[38])).
+ thf(41,plain,((((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK1_V_s)) | ((set_rel@(sK5_SY54@SX0))@(sK5_SY54@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK1_V_s)) | ((t_in@(sK5_SY54@SX0))@sK2_SY18))))))) | (~ (~ ((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK2_SY18)) | ((set_rel@(sK6_SY66@SX0))@(sK6_SY66@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK2_SY18)) | ((t_in@(sK6_SY66@SX0))@sK3_SY31))))))) | (~ (~ ((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((set_rel@(sK7_SY75@SX0))@(sK7_SY75@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((t_in@(sK7_SY75@SX0))@sK4_SY43))))))) | (~ (~ ((~ ((set_rel@sK3_SY31)@sK3_SY31)) | (~ (~ ((~ ((t_in@sK8_SY81)@sK1_V_s)) | (~ (~ ((set_rel@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81))))@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81)))))))))))))))))))=$false)),inference(extcnf_not_pos,[status(thm)],[40])).
+ thf(42,plain,(((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK1_V_s)) | ((set_rel@(sK5_SY54@SX0))@(sK5_SY54@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK1_V_s)) | ((t_in@(sK5_SY54@SX0))@sK2_SY18)))))))=$false)),inference(extcnf_or_neg,[status(thm)],[41])).
+ thf(43,plain,(((~ (~ ((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK2_SY18)) | ((set_rel@(sK6_SY66@SX0))@(sK6_SY66@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK2_SY18)) | ((t_in@(sK6_SY66@SX0))@sK3_SY31))))))) | (~ (~ ((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((set_rel@(sK7_SY75@SX0))@(sK7_SY75@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((t_in@(sK7_SY75@SX0))@sK4_SY43))))))) | (~ (~ ((~ ((set_rel@sK3_SY31)@sK3_SY31)) | (~ (~ ((~ ((t_in@sK8_SY81)@sK1_V_s)) | (~ (~ ((set_rel@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81))))@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81))))))))))))))))))=$false)),inference(extcnf_or_neg,[status(thm)],[41])).
+ thf(44,plain,(((~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK1_V_s)) | ((set_rel@(sK5_SY54@SX0))@(sK5_SY54@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK1_V_s)) | ((t_in@(sK5_SY54@SX0))@sK2_SY18))))))=$true)),inference(extcnf_not_neg,[status(thm)],[42])).
+ thf(45,plain,(((~ ((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK2_SY18)) | ((set_rel@(sK6_SY66@SX0))@(sK6_SY66@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK2_SY18)) | ((t_in@(sK6_SY66@SX0))@sK3_SY31))))))) | (~ (~ ((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((set_rel@(sK7_SY75@SX0))@(sK7_SY75@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((t_in@(sK7_SY75@SX0))@sK4_SY43))))))) | (~ (~ ((~ ((set_rel@sK3_SY31)@sK3_SY31)) | (~ (~ ((~ ((t_in@sK8_SY81)@sK1_V_s)) | (~ (~ ((set_rel@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81))))@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81)))))))))))))))))=$true)),inference(extcnf_not_neg,[status(thm)],[43])).
+ thf(46,plain,((((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK1_V_s)) | ((set_rel@(sK5_SY54@SX0))@(sK5_SY54@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK1_V_s)) | ((t_in@(sK5_SY54@SX0))@sK2_SY18)))))=$false)),inference(extcnf_not_pos,[status(thm)],[44])).
+ thf(47,plain,((((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK2_SY18)) | ((set_rel@(sK6_SY66@SX0))@(sK6_SY66@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK2_SY18)) | ((t_in@(sK6_SY66@SX0))@sK3_SY31))))))) | (~ (~ ((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((set_rel@(sK7_SY75@SX0))@(sK7_SY75@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((t_in@(sK7_SY75@SX0))@sK4_SY43))))))) | (~ (~ ((~ ((set_rel@sK3_SY31)@sK3_SY31)) | (~ (~ ((~ ((t_in@sK8_SY81)@sK1_V_s)) | (~ (~ ((set_rel@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81))))@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81))))))))))))))))=$false)),inference(extcnf_not_pos,[status(thm)],[45])).
+ thf(48,plain,(((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK1_V_s)) | ((set_rel@(sK5_SY54@SX0))@(sK5_SY54@SX0)))))=$false)),inference(extcnf_or_neg,[status(thm)],[46])).
+ thf(49,plain,(((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK1_V_s)) | ((t_in@(sK5_SY54@SX0))@sK2_SY18))))=$false)),inference(extcnf_or_neg,[status(thm)],[46])).
+ thf(50,plain,(((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK2_SY18)) | ((set_rel@(sK6_SY66@SX0))@(sK6_SY66@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK2_SY18)) | ((t_in@(sK6_SY66@SX0))@sK3_SY31)))))))=$false)),inference(extcnf_or_neg,[status(thm)],[47])).
+ thf(51,plain,(((~ (~ ((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((set_rel@(sK7_SY75@SX0))@(sK7_SY75@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((t_in@(sK7_SY75@SX0))@sK4_SY43))))))) | (~ (~ ((~ ((set_rel@sK3_SY31)@sK3_SY31)) | (~ (~ ((~ ((t_in@sK8_SY81)@sK1_V_s)) | (~ (~ ((set_rel@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81))))@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81)))))))))))))))=$false)),inference(extcnf_or_neg,[status(thm)],[47])).
+ thf(52,plain,(((![SX0:t_set]: ((~ ((t_in@SX0)@sK1_V_s)) | ((set_rel@(sK5_SY54@SX0))@(sK5_SY54@SX0))))=$true)),inference(extcnf_not_neg,[status(thm)],[48])).
+ thf(53,plain,(((![SX0:t_set]: ((~ ((t_in@SX0)@sK1_V_s)) | ((t_in@(sK5_SY54@SX0))@sK2_SY18)))=$true)),inference(extcnf_not_neg,[status(thm)],[49])).
+ thf(54,plain,(((~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK2_SY18)) | ((set_rel@(sK6_SY66@SX0))@(sK6_SY66@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK2_SY18)) | ((t_in@(sK6_SY66@SX0))@sK3_SY31))))))=$true)),inference(extcnf_not_neg,[status(thm)],[50])).
+ thf(55,plain,(((~ ((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((set_rel@(sK7_SY75@SX0))@(sK7_SY75@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((t_in@(sK7_SY75@SX0))@sK4_SY43))))))) | (~ (~ ((~ ((set_rel@sK3_SY31)@sK3_SY31)) | (~ (~ ((~ ((t_in@sK8_SY81)@sK1_V_s)) | (~ (~ ((set_rel@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81))))@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81))))))))))))))=$true)),inference(extcnf_not_neg,[status(thm)],[51])).
+ thf(56,plain,(![SV5:t_set]: ((((~ ((t_in@SV5)@sK1_V_s)) | ((set_rel@(sK5_SY54@SV5))@(sK5_SY54@SV5)))=$true))),inference(extcnf_forall_pos,[status(thm)],[52])).
+ thf(57,plain,(![SV6:t_set]: ((((~ ((t_in@SV6)@sK1_V_s)) | ((t_in@(sK5_SY54@SV6))@sK2_SY18))=$true))),inference(extcnf_forall_pos,[status(thm)],[53])).
+ thf(58,plain,((((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK2_SY18)) | ((set_rel@(sK6_SY66@SX0))@(sK6_SY66@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK2_SY18)) | ((t_in@(sK6_SY66@SX0))@sK3_SY31)))))=$false)),inference(extcnf_not_pos,[status(thm)],[54])).
+ thf(59,plain,((((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((set_rel@(sK7_SY75@SX0))@(sK7_SY75@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((t_in@(sK7_SY75@SX0))@sK4_SY43))))))) | (~ (~ ((~ ((set_rel@sK3_SY31)@sK3_SY31)) | (~ (~ ((~ ((t_in@sK8_SY81)@sK1_V_s)) | (~ (~ ((set_rel@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81))))@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81)))))))))))))=$false)),inference(extcnf_not_pos,[status(thm)],[55])).
+ thf(60,plain,(![SV5:t_set]: (((~ ((t_in@SV5)@sK1_V_s))=$true) | (((set_rel@(sK5_SY54@SV5))@(sK5_SY54@SV5))=$true))),inference(extcnf_or_pos,[status(thm)],[56])).
+ thf(61,plain,(![SV6:t_set]: (((~ ((t_in@SV6)@sK1_V_s))=$true) | (((t_in@(sK5_SY54@SV6))@sK2_SY18)=$true))),inference(extcnf_or_pos,[status(thm)],[57])).
+ thf(62,plain,(((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK2_SY18)) | ((set_rel@(sK6_SY66@SX0))@(sK6_SY66@SX0)))))=$false)),inference(extcnf_or_neg,[status(thm)],[58])).
+ thf(63,plain,(((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK2_SY18)) | ((t_in@(sK6_SY66@SX0))@sK3_SY31))))=$false)),inference(extcnf_or_neg,[status(thm)],[58])).
+ thf(64,plain,(((~ (~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((set_rel@(sK7_SY75@SX0))@(sK7_SY75@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((t_in@(sK7_SY75@SX0))@sK4_SY43)))))))=$false)),inference(extcnf_or_neg,[status(thm)],[59])).
+ thf(65,plain,(((~ (~ ((~ ((set_rel@sK3_SY31)@sK3_SY31)) | (~ (~ ((~ ((t_in@sK8_SY81)@sK1_V_s)) | (~ (~ ((set_rel@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81))))@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81))))))))))))=$false)),inference(extcnf_or_neg,[status(thm)],[59])).
+ thf(66,plain,(![SV5:t_set]: ((((t_in@SV5)@sK1_V_s)=$false) | (((set_rel@(sK5_SY54@SV5))@(sK5_SY54@SV5))=$true))),inference(extcnf_not_pos,[status(thm)],[60])).
+ thf(67,plain,(![SV6:t_set]: ((((t_in@SV6)@sK1_V_s)=$false) | (((t_in@(sK5_SY54@SV6))@sK2_SY18)=$true))),inference(extcnf_not_pos,[status(thm)],[61])).
+ thf(68,plain,(((![SX0:t_set]: ((~ ((t_in@SX0)@sK2_SY18)) | ((set_rel@(sK6_SY66@SX0))@(sK6_SY66@SX0))))=$true)),inference(extcnf_not_neg,[status(thm)],[62])).
+ thf(69,plain,(((![SX0:t_set]: ((~ ((t_in@SX0)@sK2_SY18)) | ((t_in@(sK6_SY66@SX0))@sK3_SY31)))=$true)),inference(extcnf_not_neg,[status(thm)],[63])).
+ thf(70,plain,(((~ ((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((set_rel@(sK7_SY75@SX0))@(sK7_SY75@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((t_in@(sK7_SY75@SX0))@sK4_SY43))))))=$true)),inference(extcnf_not_neg,[status(thm)],[64])).
+ thf(71,plain,(((~ ((~ ((set_rel@sK3_SY31)@sK3_SY31)) | (~ (~ ((~ ((t_in@sK8_SY81)@sK1_V_s)) | (~ (~ ((set_rel@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81))))@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81)))))))))))=$true)),inference(extcnf_not_neg,[status(thm)],[65])).
+ thf(72,plain,(![SV7:t_set]: ((((~ ((t_in@SV7)@sK2_SY18)) | ((set_rel@(sK6_SY66@SV7))@(sK6_SY66@SV7)))=$true))),inference(extcnf_forall_pos,[status(thm)],[68])).
+ thf(73,plain,(![SV8:t_set]: ((((~ ((t_in@SV8)@sK2_SY18)) | ((t_in@(sK6_SY66@SV8))@sK3_SY31))=$true))),inference(extcnf_forall_pos,[status(thm)],[69])).
+ thf(74,plain,((((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((set_rel@(sK7_SY75@SX0))@(sK7_SY75@SX0))))) | (~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((t_in@(sK7_SY75@SX0))@sK4_SY43)))))=$false)),inference(extcnf_not_pos,[status(thm)],[70])).
+ thf(75,plain,((((~ ((set_rel@sK3_SY31)@sK3_SY31)) | (~ (~ ((~ ((t_in@sK8_SY81)@sK1_V_s)) | (~ (~ ((set_rel@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81))))@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81))))))))))=$false)),inference(extcnf_not_pos,[status(thm)],[71])).
+ thf(76,plain,(![SV7:t_set]: (((~ ((t_in@SV7)@sK2_SY18))=$true) | (((set_rel@(sK6_SY66@SV7))@(sK6_SY66@SV7))=$true))),inference(extcnf_or_pos,[status(thm)],[72])).
+ thf(77,plain,(![SV8:t_set]: (((~ ((t_in@SV8)@sK2_SY18))=$true) | (((t_in@(sK6_SY66@SV8))@sK3_SY31)=$true))),inference(extcnf_or_pos,[status(thm)],[73])).
+ thf(78,plain,(((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((set_rel@(sK7_SY75@SX0))@(sK7_SY75@SX0)))))=$false)),inference(extcnf_or_neg,[status(thm)],[74])).
+ thf(79,plain,(((~ (![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((t_in@(sK7_SY75@SX0))@sK4_SY43))))=$false)),inference(extcnf_or_neg,[status(thm)],[74])).
+ thf(80,plain,(((~ ((set_rel@sK3_SY31)@sK3_SY31))=$false)),inference(extcnf_or_neg,[status(thm)],[75])).
+ thf(81,plain,(((~ (~ ((~ ((t_in@sK8_SY81)@sK1_V_s)) | (~ (~ ((set_rel@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81))))@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81)))))))))=$false)),inference(extcnf_or_neg,[status(thm)],[75])).
+ thf(82,plain,(![SV7:t_set]: ((((t_in@SV7)@sK2_SY18)=$false) | (((set_rel@(sK6_SY66@SV7))@(sK6_SY66@SV7))=$true))),inference(extcnf_not_pos,[status(thm)],[76])).
+ thf(83,plain,(![SV8:t_set]: ((((t_in@SV8)@sK2_SY18)=$false) | (((t_in@(sK6_SY66@SV8))@sK3_SY31)=$true))),inference(extcnf_not_pos,[status(thm)],[77])).
+ thf(84,plain,(((![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((set_rel@(sK7_SY75@SX0))@(sK7_SY75@SX0))))=$true)),inference(extcnf_not_neg,[status(thm)],[78])).
+ thf(85,plain,(((![SX0:t_set]: ((~ ((t_in@SX0)@sK3_SY31)) | ((t_in@(sK7_SY75@SX0))@sK4_SY43)))=$true)),inference(extcnf_not_neg,[status(thm)],[79])).
+ thf(86,plain,((((set_rel@sK3_SY31)@sK3_SY31)=$true)),inference(extcnf_not_neg,[status(thm)],[80])).
+ thf(87,plain,(((~ ((~ ((t_in@sK8_SY81)@sK1_V_s)) | (~ (~ ((set_rel@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81))))@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81))))))))=$true)),inference(extcnf_not_neg,[status(thm)],[81])).
+ thf(88,plain,(![SV9:t_set]: ((((~ ((t_in@SV9)@sK3_SY31)) | ((set_rel@(sK7_SY75@SV9))@(sK7_SY75@SV9)))=$true))),inference(extcnf_forall_pos,[status(thm)],[84])).
+ thf(89,plain,(![SV10:t_set]: ((((~ ((t_in@SV10)@sK3_SY31)) | ((t_in@(sK7_SY75@SV10))@sK4_SY43))=$true))),inference(extcnf_forall_pos,[status(thm)],[85])).
+ thf(90,plain,((((~ ((t_in@sK8_SY81)@sK1_V_s)) | (~ (~ ((set_rel@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81))))@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81)))))))=$false)),inference(extcnf_not_pos,[status(thm)],[87])).
+ thf(91,plain,(![SV9:t_set]: (((~ ((t_in@SV9)@sK3_SY31))=$true) | (((set_rel@(sK7_SY75@SV9))@(sK7_SY75@SV9))=$true))),inference(extcnf_or_pos,[status(thm)],[88])).
+ thf(92,plain,(![SV10:t_set]: (((~ ((t_in@SV10)@sK3_SY31))=$true) | (((t_in@(sK7_SY75@SV10))@sK4_SY43)=$true))),inference(extcnf_or_pos,[status(thm)],[89])).
+ thf(93,plain,(((~ ((t_in@sK8_SY81)@sK1_V_s))=$false)),inference(extcnf_or_neg,[status(thm)],[90])).
+ thf(94,plain,(((~ (~ ((set_rel@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81))))@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81))))))=$false)),inference(extcnf_or_neg,[status(thm)],[90])).
+ thf(95,plain,(![SV9:t_set]: ((((t_in@SV9)@sK3_SY31)=$false) | (((set_rel@(sK7_SY75@SV9))@(sK7_SY75@SV9))=$true))),inference(extcnf_not_pos,[status(thm)],[91])).
+ thf(96,plain,(![SV10:t_set]: ((((t_in@SV10)@sK3_SY31)=$false) | (((t_in@(sK7_SY75@SV10))@sK4_SY43)=$true))),inference(extcnf_not_pos,[status(thm)],[92])).
+ thf(97,plain,((((t_in@sK8_SY81)@sK1_V_s)=$true)),inference(extcnf_not_neg,[status(thm)],[93])).
+ thf(98,plain,(((~ ((set_rel@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81))))@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81)))))=$true)),inference(extcnf_not_neg,[status(thm)],[94])).
+ thf(99,plain,((((set_rel@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81))))@(sK7_SY75@(sK6_SY66@(sK5_SY54@sK8_SY81))))=$false)),inference(extcnf_not_pos,[status(thm)],[98])).
+ thf(100,plain,((($false)=$true)),inference(fo_atp_e,[status(thm)],[17,99,97,96,95,86,83,82,67,66,39,34,30,28,24])).
+ thf(101,plain,($false),inference(solved_all_splits,[solved_all_splits(join,[])],[100])).
+% SZS output end CNFRefutation
+
+%**** End of derivation protocol ****
+%**** no. of clauses in derivation: 101 ****
+%**** clause counter: 100 ****
+
+% SZS status Theorem for /tmp/SystemOnTPTP903154/SOT_j6zA2f.tptp : (rf:0,axioms:3,ps:3,u:6,ude:true,rLeibEQ:true,rAndEQ:true,use_choice:true,use_extuni:true,use_extcnf_combined:true,expand_extuni:false,foatp:e,atp_timeout:7,atp_calls_frequency:10,ordering:none,proof_output:1,protocol_output:false,clause_count:100,loop_count:0,foatp_calls:1,translation:fof_full)
+
+% END OF SYSTEM OUTPUT
+% RESULT: SOT_j6zA2f - LEO-II---1.7.0 says Theorem - CPU = 0.07 WC = 0.10 
+% OUTPUT: SOT_j6zA2f - LEO-II---1.7.0 says CNFRefutation - CPU = 0.07 WC = 0.11 
+
+% START OF SYSTEM OUTPUT
+% [INFO] 	 Parsing problem /tmp/R7nPiizMDf/SOT_j6zA2f ... 
+% [INFO] 	 Parsing done (145ms). 
+% [INFO] 	 Running in sequential loop mode. 
+% [INFO] 	 eprover registered as external prover. 
+% [INFO] 	 cvc4 registered as external prover. 
+% [INFO] 	 Scanning for conjecture ... 
+% [INFO] 	 Found a conjecture (or negated_conjecture) and 2 axioms. Running axiom selection ... 
+% [INFO] 	 Axiom selection finished. Selected 2 axioms (removed 0 axioms). 
+% [INFO] 	 Problem is higher-order (TPTP THF). 
+% [INFO] 	 Type checking passed. 
+% [CONFIG] 	 Using configuration: timeout(60) with strategy<name(default),share(1.0),primSubst(3),sos(false),unifierCount(4),uniDepth(8),boolExt(true),choice(true),renaming(true),funcspec(false), domConstr(0),specialInstances(39),restrictUniAttempts(true),termOrdering(CPO)>.  Searching for refutation ... 
+% External prover 'cvc4' found a proof!
+% [INFO] 	 Killing All external provers ... 
+% Time passed: 1660ms (effective reasoning time: 1099ms)
+% Solved by strategy<name(default),share(1.0),primSubst(3),sos(false),unifierCount(4),uniDepth(8),boolExt(true),choice(true),renaming(true),funcspec(false), domConstr(0),specialInstances(39),restrictUniAttempts(true),termOrdering(CPO)>
+% Axioms used in derivation (2): set_per_ax, in_tp_ax
+% No. of inferences in proof: 8
+% SZS status Theorem for /tmp/R7nPiizMDf/SOT_j6zA2f : 1660 ms resp. 1099 ms w/o parsing
+% SZS output start Refutation for /tmp/R7nPiizMDf/SOT_j6zA2f
+thf(t_set_type, type, t_set: $tType).
+thf(set_rel_type, type, set_rel: (t_set > (t_set > $o))).
+thf(t_in_type, type, t_in: (t_set > (t_set > $o))).
+thf(1,conjecture,((! [A:t_set]: ((set_rel @ A @ A) => (! [B:t_set]: ((set_rel @ B @ B) => (! [C:t_set]: ((set_rel @ C @ C) => (! [D:t_set]: ((set_rel @ D @ D) => (! [E:(t_set > t_set)]: ((! [F:t_set]: ((t_in @ F @ A) => (set_rel @ (E @ F) @ (E @ F))) & ! [F:t_set]: ((t_in @ F @ A) => (t_in @ (E @ F) @ B))) => (! [F:(t_set > t_set)]: ((! [G:t_set]: ((t_in @ G @ B) => (set_rel @ (F @ G) @ (F @ G))) & ! [G:t_set]: ((t_in @ G @ B) => (t_in @ (F @ G) @ C))) => (! [G:(t_set > t_set)]: ((! [H:t_set]: ((t_in @ H @ C) => (set_rel @ (G @ H) @ (G @ H))) & ! [H:t_set]: ((t_in @ H @ C) => (t_in @ (G @ H) @ D))) => (! [H:t_set]: ((set_rel @ C @ C) => ((t_in @ H @ A) => (set_rel @ (G @ (F @ (E @ H))) @ (G @ (F @ (E @ H)))))))))))))))))))))),file('/tmp/R7nPiizMDf/SOT_j6zA2f',conj)).
+thf(2,negated_conjecture,((~ (! [A:t_set]: ((set_rel @ A @ A) => (! [B:t_set]: ((set_rel @ B @ B) => (! [C:t_set]: ((set_rel @ C @ C) => (! [D:t_set]: ((set_rel @ D @ D) => (! [E:(t_set > t_set)]: ((! [F:t_set]: ((t_in @ F @ A) => (set_rel @ (E @ F) @ (E @ F))) & ! [F:t_set]: ((t_in @ F @ A) => (t_in @ (E @ F) @ B))) => (! [F:(t_set > t_set)]: ((! [G:t_set]: ((t_in @ G @ B) => (set_rel @ (F @ G) @ (F @ G))) & ! [G:t_set]: ((t_in @ G @ B) => (t_in @ (F @ G) @ C))) => (! [G:(t_set > t_set)]: ((! [H:t_set]: ((t_in @ H @ C) => (set_rel @ (G @ H) @ (G @ H))) & ! [H:t_set]: ((t_in @ H @ C) => (t_in @ (G @ H) @ D))) => (! [H:t_set]: ((set_rel @ C @ C) => ((t_in @ H @ A) => (set_rel @ (G @ (F @ (E @ H))) @ (G @ (F @ (E @ H))))))))))))))))))))))),inference(neg_conjecture,[status(cth)],[1])).
+thf(5,plain,((~ (! [A:t_set]: ((set_rel @ A @ A) => (! [B:t_set]: ((set_rel @ B @ B) => (! [C:t_set]: ((set_rel @ C @ C) => (! [D:t_set]: ((set_rel @ D @ D) => (! [E:(t_set > t_set)]: ((! [F:t_set]: ((t_in @ F @ A) => (set_rel @ (E @ F) @ (E @ F))) & ! [F:t_set]: ((t_in @ F @ A) => (t_in @ (E @ F) @ B))) => (! [F:(t_set > t_set)]: ((! [G:t_set]: ((t_in @ G @ B) => (set_rel @ (F @ G) @ (F @ G))) & ! [G:t_set]: ((t_in @ G @ B) => (t_in @ (F @ G) @ C))) => (! [G:(t_set > t_set)]: ((! [H:t_set]: ((t_in @ H @ C) => (set_rel @ (G @ H) @ (G @ H))) & ! [H:t_set]: ((t_in @ H @ C) => (t_in @ (G @ H) @ D))) => (! [H:t_set]: ((set_rel @ C @ C) => ((t_in @ H @ A) => (set_rel @ (G @ (F @ (E @ H))) @ (G @ (F @ (E @ H))))))))))))))))))))))),inference(defexp_and_simp_and_etaexpand,[status(thm)],[2])).
+thf(3,axiom,((! [A:t_set,B:t_set]: ((set_rel @ A @ B) => (A = B)))),file('/tmp/R7nPiizMDf/SOT_j6zA2f',set_per_ax)).
+thf(24,plain,((! [A:t_set,B:t_set]: ((set_rel @ A @ B) => (A = B)))),inference(defexp_and_simp_and_etaexpand,[status(thm)],[3])).
+thf(4,axiom,((! [A:t_set,B:t_set]: ((set_rel @ A @ B) => (($true))))),file('/tmp/R7nPiizMDf/SOT_j6zA2f',in_tp_ax)).
+thf(27,plain,(($true)),inference(defexp_and_simp_and_etaexpand,[status(thm)],[4])).
+thf(40,plain,(($false)),inference(cvc4,[status(thm)],[5,24,27])).
+% SZS output end Refutation for /tmp/R7nPiizMDf/SOT_j6zA2f
+% [INFO] 	 Killing All external provers ... 
+
+% END OF SYSTEM OUTPUT
+% RESULT: SOT_j6zA2f - Leo-III---1.7.16 says Theorem - CPU = 4.98 WC = 1.84 
+% OUTPUT: SOT_j6zA2f - Leo-III---1.7.16 says Refutation - CPU = 4.98 WC = 1.90 
+
+% START OF SYSTEM OUTPUT
+% [INFO] 	 Parsing problem /tmp/R7nPiizMDf/SOT_j6zA2f ... 
+% [INFO] 	 Parsing done (144ms). 
+% [INFO] 	 Running in sequential loop mode. 
+% [INFO] 	 nitpick registered as external prover. 
+% [INFO] 	 Scanning for conjecture ... 
+% [INFO] 	 Found a conjecture (or negated_conjecture) and 2 axioms. Running axiom selection ... 
+% [INFO] 	 Axiom selection finished. Selected 2 axioms (removed 0 axioms). 
+% [INFO] 	 Problem is higher-order (TPTP THF). 
+% [INFO] 	 Type checking passed. 
+% [CONFIG] 	 Using configuration: timeout(60) with strategy<name(default),share(1.0),primSubst(3),sos(false),unifierCount(4),uniDepth(8),boolExt(true),choice(true),renaming(true),funcspec(false), domConstr(0),specialInstances(39),restrictUniAttempts(true),termOrdering(CPO)>.  Searching for refutation ... 
+% [INFO] 	 Killing All external provers ... 
+% Time passed: 2227ms (effective reasoning time: 1678ms)
+% Solved by strategy<name(default),share(1.0),primSubst(3),sos(false),unifierCount(4),uniDepth(8),boolExt(true),choice(true),renaming(true),funcspec(false), domConstr(0),specialInstances(39),restrictUniAttempts(true),termOrdering(CPO)>
+% Axioms used in derivation (0): 
+% No. of inferences in proof: 20
+% SZS status Theorem for /tmp/R7nPiizMDf/SOT_j6zA2f : 2227 ms resp. 1678 ms w/o parsing
+% SZS output start Refutation for /tmp/R7nPiizMDf/SOT_j6zA2f
+thf(t_set_type, type, t_set: $tType).
+thf(set_rel_type, type, set_rel: (t_set > (t_set > $o))).
+thf(t_in_type, type, t_in: (t_set > (t_set > $o))).
+thf(sk1_type, type, sk1: t_set).
+thf(sk2_type, type, sk2: t_set).
+thf(sk3_type, type, sk3: t_set).
+thf(sk5_type, type, sk5: (t_set > t_set)).
+thf(sk6_type, type, sk6: (t_set > t_set)).
+thf(sk7_type, type, sk7: (t_set > t_set)).
+thf(sk8_type, type, sk8: t_set).
+thf(1,conjecture,((! [A:t_set]: ((set_rel @ A @ A) => (! [B:t_set]: ((set_rel @ B @ B) => (! [C:t_set]: ((set_rel @ C @ C) => (! [D:t_set]: ((set_rel @ D @ D) => (! [E:(t_set > t_set)]: ((! [F:t_set]: ((t_in @ F @ A) => (set_rel @ (E @ F) @ (E @ F))) & ! [F:t_set]: ((t_in @ F @ A) => (t_in @ (E @ F) @ B))) => (! [F:(t_set > t_set)]: ((! [G:t_set]: ((t_in @ G @ B) => (set_rel @ (F @ G) @ (F @ G))) & ! [G:t_set]: ((t_in @ G @ B) => (t_in @ (F @ G) @ C))) => (! [G:(t_set > t_set)]: ((! [H:t_set]: ((t_in @ H @ C) => (set_rel @ (G @ H) @ (G @ H))) & ! [H:t_set]: ((t_in @ H @ C) => (t_in @ (G @ H) @ D))) => (! [H:t_set]: ((set_rel @ C @ C) => ((t_in @ H @ A) => (set_rel @ (G @ (F @ (E @ H))) @ (G @ (F @ (E @ H)))))))))))))))))))))),file('/tmp/R7nPiizMDf/SOT_j6zA2f',conj)).
+thf(2,negated_conjecture,((~ (! [A:t_set]: ((set_rel @ A @ A) => (! [B:t_set]: ((set_rel @ B @ B) => (! [C:t_set]: ((set_rel @ C @ C) => (! [D:t_set]: ((set_rel @ D @ D) => (! [E:(t_set > t_set)]: ((! [F:t_set]: ((t_in @ F @ A) => (set_rel @ (E @ F) @ (E @ F))) & ! [F:t_set]: ((t_in @ F @ A) => (t_in @ (E @ F) @ B))) => (! [F:(t_set > t_set)]: ((! [G:t_set]: ((t_in @ G @ B) => (set_rel @ (F @ G) @ (F @ G))) & ! [G:t_set]: ((t_in @ G @ B) => (t_in @ (F @ G) @ C))) => (! [G:(t_set > t_set)]: ((! [H:t_set]: ((t_in @ H @ C) => (set_rel @ (G @ H) @ (G @ H))) & ! [H:t_set]: ((t_in @ H @ C) => (t_in @ (G @ H) @ D))) => (! [H:t_set]: ((set_rel @ C @ C) => ((t_in @ H @ A) => (set_rel @ (G @ (F @ (E @ H))) @ (G @ (F @ (E @ H))))))))))))))))))))))),inference(neg_conjecture,[status(cth)],[1])).
+thf(5,plain,((~ (! [A:t_set]: ((set_rel @ A @ A) => (! [B:t_set]: ((set_rel @ B @ B) => (! [C:t_set]: ((set_rel @ C @ C) => (! [D:t_set]: ((set_rel @ D @ D) => (! [E:(t_set > t_set)]: ((! [F:t_set]: ((t_in @ F @ A) => (set_rel @ (E @ F) @ (E @ F))) & ! [F:t_set]: ((t_in @ F @ A) => (t_in @ (E @ F) @ B))) => (! [F:(t_set > t_set)]: ((! [G:t_set]: ((t_in @ G @ B) => (set_rel @ (F @ G) @ (F @ G))) & ! [G:t_set]: ((t_in @ G @ B) => (t_in @ (F @ G) @ C))) => (! [G:(t_set > t_set)]: ((! [H:t_set]: ((t_in @ H @ C) => (set_rel @ (G @ H) @ (G @ H))) & ! [H:t_set]: ((t_in @ H @ C) => (t_in @ (G @ H) @ D))) => (! [H:t_set]: ((set_rel @ C @ C) => ((t_in @ H @ A) => (set_rel @ (G @ (F @ (E @ H))) @ (G @ (F @ (E @ H))))))))))))))))))))))),inference(defexp_and_simp_and_etaexpand,[status(thm)],[2])).
+thf(6,plain,((~ (! [A:t_set]: ((set_rel @ A @ A) => (! [B:t_set]: ((set_rel @ B @ B) => (! [C:t_set]: ((set_rel @ C @ C) => (! [D:t_set]: ((set_rel @ D @ D) => (! [E:(t_set > t_set)]: ((! [F:t_set]: ((t_in @ F @ A) => (set_rel @ (E @ F) @ (E @ F))) & ! [F:t_set]: ((t_in @ F @ A) => (t_in @ (E @ F) @ B))) => (! [F:(t_set > t_set)]: ((! [G:t_set]: ((t_in @ G @ B) => (set_rel @ (F @ G) @ (F @ G))) & ! [G:t_set]: ((t_in @ G @ B) => (t_in @ (F @ G) @ C))) => (! [G:(t_set > t_set)]: ((! [H:t_set]: ((t_in @ H @ C) => (set_rel @ (G @ H) @ (G @ H))) & ! [H:t_set]: ((t_in @ H @ C) => (t_in @ (G @ H) @ D))) => ((set_rel @ C @ C) => (! [H:t_set]: ((t_in @ H @ A) => (set_rel @ (G @ (F @ (E @ H))) @ (G @ (F @ (E @ H))))))))))))))))))))))),inference(miniscope,[status(thm)],[5])).
+thf(17,plain,((t_in @ sk8 @ sk1)),inference(cnf,[status(esa)],[6])).
+thf(18,plain,(! [A:t_set] : ((~ (t_in @ A @ sk1)) | (t_in @ (sk5 @ A) @ sk2))),inference(cnf,[status(esa)],[6])).
+thf(23,plain,(! [A:t_set] : ((~ (t_in @ A @ sk1)) | (t_in @ (sk5 @ A) @ sk2))),inference(simp,[status(thm)],[18])).
+thf(183,plain,(! [A:t_set] : ((t_in @ (sk5 @ A) @ sk2) | ((t_in @ sk8 @ sk1) != (t_in @ A @ sk1)))),inference(paramod_ordered,[status(thm)],[17,23])).
+thf(184,plain,((t_in @ (sk5 @ sk8) @ sk2)),inference(pattern_uni,[status(thm)],[183:[bind(A, $thf(sk8))]])).
+thf(9,plain,(! [A:t_set] : ((~ (t_in @ A @ sk2)) | (t_in @ (sk6 @ A) @ sk3))),inference(cnf,[status(esa)],[6])).
+thf(20,plain,(! [A:t_set] : ((~ (t_in @ A @ sk2)) | (t_in @ (sk6 @ A) @ sk3))),inference(simp,[status(thm)],[9])).
+thf(217,plain,(! [A:t_set] : ((t_in @ (sk6 @ A) @ sk3) | ((t_in @ (sk5 @ sk8) @ sk2) != (t_in @ A @ sk2)))),inference(paramod_ordered,[status(thm)],[184,20])).
+thf(218,plain,((t_in @ (sk6 @ (sk5 @ sk8)) @ sk3)),inference(pattern_uni,[status(thm)],[217:[bind(A, $thf(sk5 @ sk8))]])).
+thf(14,plain,(! [A:t_set] : ((~ (t_in @ A @ sk3)) | (set_rel @ (sk7 @ A) @ (sk7 @ A)))),inference(cnf,[status(esa)],[6])).
+thf(19,plain,(! [A:t_set] : ((~ (t_in @ A @ sk3)) | (set_rel @ (sk7 @ A) @ (sk7 @ A)))),inference(simp,[status(thm)],[14])).
+thf(269,plain,(! [A:t_set] : ((set_rel @ (sk7 @ A) @ (sk7 @ A)) | ((t_in @ (sk6 @ (sk5 @ sk8)) @ sk3) != (t_in @ A @ sk3)))),inference(paramod_ordered,[status(thm)],[218,19])).
+thf(270,plain,((set_rel @ (sk7 @ (sk6 @ (sk5 @ sk8))) @ (sk7 @ (sk6 @ (sk5 @ sk8))))),inference(pattern_uni,[status(thm)],[269:[bind(A, $thf(sk6 @ (sk5 @ sk8)))]])).
+thf(8,plain,((~ (set_rel @ (sk7 @ (sk6 @ (sk5 @ sk8))) @ (sk7 @ (sk6 @ (sk5 @ sk8)))))),inference(cnf,[status(esa)],[6])).
+thf(312,plain,(($false)),inference(rewrite,[status(thm)],[270,8])).
+thf(313,plain,(($false)),inference(simp,[status(thm)],[312])).
+% SZS output end Refutation for /tmp/R7nPiizMDf/SOT_j6zA2f
+% [INFO] 	 Killing All external provers ... 
+
+% END OF SYSTEM OUTPUT
+% RESULT: SOT_j6zA2f - Leo-III-SAT---1.7.16 says Theorem - CPU = 8.96 WC = 2.40 
+% OUTPUT: SOT_j6zA2f - Leo-III-SAT---1.7.16 says Refutation - CPU = 8.96 WC = 2.45 
+
+% START OF SYSTEM OUTPUT
+/home/tptp/Systems/Satallax---3.5/satallax -E /home/tptp/Systems/Satallax---3.5/eprover-ho -P /home/tptp/Systems/Satallax---3.5/picomus -M /home/tptp/Systems/Satallax---3.5/modes -p tstp -t 60 /tmp/R7nPiizMDf/SOT_j6zA2f
+% SZS status Theorem
+% Mode: mode213
+% Inferences: 17
+% SZS output start Proof
+thf(ty_t_set, type, t_set : $tType).
+thf(ty_eigen__6, type, eigen__6 : (t_set>t_set)).
+thf(ty_eigen__2, type, eigen__2 : t_set).
+thf(ty_eigen__7, type, eigen__7 : t_set).
+thf(ty_eigen__1, type, eigen__1 : t_set).
+thf(ty_set_rel, type, set_rel : (t_set>t_set>$o)).
+thf(ty_eigen__0, type, eigen__0 : t_set).
+thf(ty_eigen__4, type, eigen__4 : (t_set>t_set)).
+thf(ty_eigen__5, type, eigen__5 : (t_set>t_set)).
+thf(ty_eigen__3, type, eigen__3 : t_set).
+thf(ty_t_in, type, t_in : (t_set>t_set>$o)).
+thf(sP1,plain,sP1 <=> ((t_in @ eigen__7) @ eigen__0),introduced(definition,[new_symbols(definition,[sP1])])).
+thf(sP2,plain,sP2 <=> (![X1:t_set]:(((t_in @ X1) @ eigen__2) => ((set_rel @ (eigen__6 @ X1)) @ (eigen__6 @ X1)))),introduced(definition,[new_symbols(definition,[sP2])])).
+thf(sP3,plain,sP3 <=> (((t_in @ (eigen__4 @ eigen__7)) @ eigen__1) => ((t_in @ (eigen__5 @ (eigen__4 @ eigen__7))) @ eigen__2)),introduced(definition,[new_symbols(definition,[sP3])])).
+thf(sP4,plain,sP4 <=> (![X1:t_set]:(((t_in @ X1) @ eigen__1) => ((t_in @ (eigen__5 @ X1)) @ eigen__2))),introduced(definition,[new_symbols(definition,[sP4])])).
+thf(sP5,plain,sP5 <=> ((t_in @ (eigen__4 @ eigen__7)) @ eigen__1),introduced(definition,[new_symbols(definition,[sP5])])).
+thf(sP6,plain,sP6 <=> (((t_in @ (eigen__5 @ (eigen__4 @ eigen__7))) @ eigen__2) => ((set_rel @ (eigen__6 @ (eigen__5 @ (eigen__4 @ eigen__7)))) @ (eigen__6 @ (eigen__5 @ (eigen__4 @ eigen__7))))),introduced(definition,[new_symbols(definition,[sP6])])).
+thf(sP7,plain,sP7 <=> ((set_rel @ (eigen__6 @ (eigen__5 @ (eigen__4 @ eigen__7)))) @ (eigen__6 @ (eigen__5 @ (eigen__4 @ eigen__7)))),introduced(definition,[new_symbols(definition,[sP7])])).
+thf(sP8,plain,sP8 <=> (![X1:t_set]:(((t_in @ X1) @ eigen__0) => ((t_in @ (eigen__4 @ X1)) @ eigen__1))),introduced(definition,[new_symbols(definition,[sP8])])).
+thf(sP9,plain,sP9 <=> ((t_in @ (eigen__5 @ (eigen__4 @ eigen__7))) @ eigen__2),introduced(definition,[new_symbols(definition,[sP9])])).
+thf(sP10,plain,sP10 <=> (sP1 => sP5),introduced(definition,[new_symbols(definition,[sP10])])).
+thf(conj,conjecture,(![X1:t_set]:(((set_rel @ X1) @ X1) => (![X2:t_set]:(((set_rel @ X2) @ X2) => (![X3:t_set]:(((set_rel @ X3) @ X3) => (![X4:t_set]:(((set_rel @ X4) @ X4) => (![X5:t_set>t_set]:((~(((![X6:t_set]:(((t_in @ X6) @ X1) => ((set_rel @ (X5 @ X6)) @ (X5 @ X6)))) => (~((![X6:t_set]:(((t_in @ X6) @ X1) => ((t_in @ (X5 @ X6)) @ X2)))))))) => (![X6:t_set>t_set]:((~(((![X7:t_set]:(((t_in @ X7) @ X2) => ((set_rel @ (X6 @ X7)) @ (X6 @ X7)))) => (~((![X7:t_set]:(((t_in @ X7) @ X2) => ((t_in @ (X6 @ X7)) @ X3)))))))) => (![X7:t_set>t_set]:((~(((![X8:t_set]:(((t_in @ X8) @ X3) => ((set_rel @ (X7 @ X8)) @ (X7 @ X8)))) => (~((![X8:t_set]:(((t_in @ X8) @ X3) => ((t_in @ (X7 @ X8)) @ X4)))))))) => (![X8:t_set]:(((set_rel @ X3) @ X3) => (((t_in @ X8) @ X1) => ((set_rel @ (X7 @ (X6 @ (X5 @ X8)))) @ (X7 @ (X6 @ (X5 @ X8)))))))))))))))))))))).
+thf(h0,negated_conjecture,(~((![X1:t_set]:(((set_rel @ X1) @ X1) => (![X2:t_set]:(((set_rel @ X2) @ X2) => (![X3:t_set]:(((set_rel @ X3) @ X3) => (![X4:t_set]:(((set_rel @ X4) @ X4) => (![X5:t_set>t_set]:((~(((![X6:t_set]:(((t_in @ X6) @ X1) => ((set_rel @ (X5 @ X6)) @ (X5 @ X6)))) => (~((![X6:t_set]:(((t_in @ X6) @ X1) => ((t_in @ (X5 @ X6)) @ X2)))))))) => (![X6:t_set>t_set]:((~(((![X7:t_set]:(((t_in @ X7) @ X2) => ((set_rel @ (X6 @ X7)) @ (X6 @ X7)))) => (~((![X7:t_set]:(((t_in @ X7) @ X2) => ((t_in @ (X6 @ X7)) @ X3)))))))) => (![X7:t_set>t_set]:((~(((![X8:t_set]:(((t_in @ X8) @ X3) => ((set_rel @ (X7 @ X8)) @ (X7 @ X8)))) => (~((![X8:t_set]:(((t_in @ X8) @ X3) => ((t_in @ (X7 @ X8)) @ X4)))))))) => (![X8:t_set]:(((set_rel @ X3) @ X3) => (((t_in @ X8) @ X1) => ((set_rel @ (X7 @ (X6 @ (X5 @ X8)))) @ (X7 @ (X6 @ (X5 @ X8))))))))))))))))))))))),inference(assume_negation,[status(cth)],[conj])).
+thf(h1,assumption,(~((((set_rel @ eigen__0) @ eigen__0) => (![X1:t_set]:(((set_rel @ X1) @ X1) => (![X2:t_set]:(((set_rel @ X2) @ X2) => (![X3:t_set]:(((set_rel @ X3) @ X3) => (![X4:t_set>t_set]:((~(((![X5:t_set]:(((t_in @ X5) @ eigen__0) => ((set_rel @ (X4 @ X5)) @ (X4 @ X5)))) => (~((![X5:t_set]:(((t_in @ X5) @ eigen__0) => ((t_in @ (X4 @ X5)) @ X1)))))))) => (![X5:t_set>t_set]:((~(((![X6:t_set]:(((t_in @ X6) @ X1) => ((set_rel @ (X5 @ X6)) @ (X5 @ X6)))) => (~((![X6:t_set]:(((t_in @ X6) @ X1) => ((t_in @ (X5 @ X6)) @ X2)))))))) => (![X6:t_set>t_set]:((~(((![X7:t_set]:(((t_in @ X7) @ X2) => ((set_rel @ (X6 @ X7)) @ (X6 @ X7)))) => (~((![X7:t_set]:(((t_in @ X7) @ X2) => ((t_in @ (X6 @ X7)) @ X3)))))))) => (![X7:t_set]:(((set_rel @ X2) @ X2) => (((t_in @ X7) @ eigen__0) => ((set_rel @ (X6 @ (X5 @ (X4 @ X7)))) @ (X6 @ (X5 @ (X4 @ X7)))))))))))))))))))))),introduced(assumption,[])).
+thf(h2,assumption,((set_rel @ eigen__0) @ eigen__0),introduced(assumption,[])).
+thf(h3,assumption,(~((![X1:t_set]:(((set_rel @ X1) @ X1) => (![X2:t_set]:(((set_rel @ X2) @ X2) => (![X3:t_set]:(((set_rel @ X3) @ X3) => (![X4:t_set>t_set]:((~(((![X5:t_set]:(((t_in @ X5) @ eigen__0) => ((set_rel @ (X4 @ X5)) @ (X4 @ X5)))) => (~((![X5:t_set]:(((t_in @ X5) @ eigen__0) => ((t_in @ (X4 @ X5)) @ X1)))))))) => (![X5:t_set>t_set]:((~(((![X6:t_set]:(((t_in @ X6) @ X1) => ((set_rel @ (X5 @ X6)) @ (X5 @ X6)))) => (~((![X6:t_set]:(((t_in @ X6) @ X1) => ((t_in @ (X5 @ X6)) @ X2)))))))) => (![X6:t_set>t_set]:((~(((![X7:t_set]:(((t_in @ X7) @ X2) => ((set_rel @ (X6 @ X7)) @ (X6 @ X7)))) => (~((![X7:t_set]:(((t_in @ X7) @ X2) => ((t_in @ (X6 @ X7)) @ X3)))))))) => (![X7:t_set]:(((set_rel @ X2) @ X2) => (((t_in @ X7) @ eigen__0) => ((set_rel @ (X6 @ (X5 @ (X4 @ X7)))) @ (X6 @ (X5 @ (X4 @ X7))))))))))))))))))))),introduced(assumption,[])).
+thf(h4,assumption,(~((((set_rel @ eigen__1) @ eigen__1) => (![X1:t_set]:(((set_rel @ X1) @ X1) => (![X2:t_set]:(((set_rel @ X2) @ X2) => (![X3:t_set>t_set]:((~(((![X4:t_set]:(((t_in @ X4) @ eigen__0) => ((set_rel @ (X3 @ X4)) @ (X3 @ X4)))) => (~((![X4:t_set]:(((t_in @ X4) @ eigen__0) => ((t_in @ (X3 @ X4)) @ eigen__1)))))))) => (![X4:t_set>t_set]:((~(((![X5:t_set]:(((t_in @ X5) @ eigen__1) => ((set_rel @ (X4 @ X5)) @ (X4 @ X5)))) => (~((![X5:t_set]:(((t_in @ X5) @ eigen__1) => ((t_in @ (X4 @ X5)) @ X1)))))))) => (![X5:t_set>t_set]:((~(((![X6:t_set]:(((t_in @ X6) @ X1) => ((set_rel @ (X5 @ X6)) @ (X5 @ X6)))) => (~((![X6:t_set]:(((t_in @ X6) @ X1) => ((t_in @ (X5 @ X6)) @ X2)))))))) => (![X6:t_set]:(((set_rel @ X1) @ X1) => (((t_in @ X6) @ eigen__0) => ((set_rel @ (X5 @ (X4 @ (X3 @ X6)))) @ (X5 @ (X4 @ (X3 @ X6)))))))))))))))))))),introduced(assumption,[])).
+thf(h5,assumption,((set_rel @ eigen__1) @ eigen__1),introduced(assumption,[])).
+thf(h6,assumption,(~((![X1:t_set]:(((set_rel @ X1) @ X1) => (![X2:t_set]:(((set_rel @ X2) @ X2) => (![X3:t_set>t_set]:((~(((![X4:t_set]:(((t_in @ X4) @ eigen__0) => ((set_rel @ (X3 @ X4)) @ (X3 @ X4)))) => (~((![X4:t_set]:(((t_in @ X4) @ eigen__0) => ((t_in @ (X3 @ X4)) @ eigen__1)))))))) => (![X4:t_set>t_set]:((~(((![X5:t_set]:(((t_in @ X5) @ eigen__1) => ((set_rel @ (X4 @ X5)) @ (X4 @ X5)))) => (~((![X5:t_set]:(((t_in @ X5) @ eigen__1) => ((t_in @ (X4 @ X5)) @ X1)))))))) => (![X5:t_set>t_set]:((~(((![X6:t_set]:(((t_in @ X6) @ X1) => ((set_rel @ (X5 @ X6)) @ (X5 @ X6)))) => (~((![X6:t_set]:(((t_in @ X6) @ X1) => ((t_in @ (X5 @ X6)) @ X2)))))))) => (![X6:t_set]:(((set_rel @ X1) @ X1) => (((t_in @ X6) @ eigen__0) => ((set_rel @ (X5 @ (X4 @ (X3 @ X6)))) @ (X5 @ (X4 @ (X3 @ X6))))))))))))))))))),introduced(assumption,[])).
+thf(h7,assumption,(~((((set_rel @ eigen__2) @ eigen__2) => (![X1:t_set]:(((set_rel @ X1) @ X1) => (![X2:t_set>t_set]:((~(((![X3:t_set]:(((t_in @ X3) @ eigen__0) => ((set_rel @ (X2 @ X3)) @ (X2 @ X3)))) => (~((![X3:t_set]:(((t_in @ X3) @ eigen__0) => ((t_in @ (X2 @ X3)) @ eigen__1)))))))) => (![X3:t_set>t_set]:((~(((![X4:t_set]:(((t_in @ X4) @ eigen__1) => ((set_rel @ (X3 @ X4)) @ (X3 @ X4)))) => (~((![X4:t_set]:(((t_in @ X4) @ eigen__1) => ((t_in @ (X3 @ X4)) @ eigen__2)))))))) => (![X4:t_set>t_set]:((~(((![X5:t_set]:(((t_in @ X5) @ eigen__2) => ((set_rel @ (X4 @ X5)) @ (X4 @ X5)))) => (~((![X5:t_set]:(((t_in @ X5) @ eigen__2) => ((t_in @ (X4 @ X5)) @ X1)))))))) => (![X5:t_set]:(((set_rel @ eigen__2) @ eigen__2) => (((t_in @ X5) @ eigen__0) => ((set_rel @ (X4 @ (X3 @ (X2 @ X5)))) @ (X4 @ (X3 @ (X2 @ X5)))))))))))))))))),introduced(assumption,[])).
+thf(h8,assumption,((set_rel @ eigen__2) @ eigen__2),introduced(assumption,[])).
+thf(h9,assumption,(~((![X1:t_set]:(((set_rel @ X1) @ X1) => (![X2:t_set>t_set]:((~(((![X3:t_set]:(((t_in @ X3) @ eigen__0) => ((set_rel @ (X2 @ X3)) @ (X2 @ X3)))) => (~((![X3:t_set]:(((t_in @ X3) @ eigen__0) => ((t_in @ (X2 @ X3)) @ eigen__1)))))))) => (![X3:t_set>t_set]:((~(((![X4:t_set]:(((t_in @ X4) @ eigen__1) => ((set_rel @ (X3 @ X4)) @ (X3 @ X4)))) => (~((![X4:t_set]:(((t_in @ X4) @ eigen__1) => ((t_in @ (X3 @ X4)) @ eigen__2)))))))) => (![X4:t_set>t_set]:((~(((![X5:t_set]:(((t_in @ X5) @ eigen__2) => ((set_rel @ (X4 @ X5)) @ (X4 @ X5)))) => (~((![X5:t_set]:(((t_in @ X5) @ eigen__2) => ((t_in @ (X4 @ X5)) @ X1)))))))) => (![X5:t_set]:(((set_rel @ eigen__2) @ eigen__2) => (((t_in @ X5) @ eigen__0) => ((set_rel @ (X4 @ (X3 @ (X2 @ X5)))) @ (X4 @ (X3 @ (X2 @ X5))))))))))))))))),introduced(assumption,[])).
+thf(h10,assumption,(~((((set_rel @ eigen__3) @ eigen__3) => (![X1:t_set>t_set]:((~(((![X2:t_set]:(((t_in @ X2) @ eigen__0) => ((set_rel @ (X1 @ X2)) @ (X1 @ X2)))) => (~((![X2:t_set]:(((t_in @ X2) @ eigen__0) => ((t_in @ (X1 @ X2)) @ eigen__1)))))))) => (![X2:t_set>t_set]:((~(((![X3:t_set]:(((t_in @ X3) @ eigen__1) => ((set_rel @ (X2 @ X3)) @ (X2 @ X3)))) => (~((![X3:t_set]:(((t_in @ X3) @ eigen__1) => ((t_in @ (X2 @ X3)) @ eigen__2)))))))) => (![X3:t_set>t_set]:((~(((![X4:t_set]:(((t_in @ X4) @ eigen__2) => ((set_rel @ (X3 @ X4)) @ (X3 @ X4)))) => (~((![X4:t_set]:(((t_in @ X4) @ eigen__2) => ((t_in @ (X3 @ X4)) @ eigen__3)))))))) => (![X4:t_set]:(((set_rel @ eigen__2) @ eigen__2) => (((t_in @ X4) @ eigen__0) => ((set_rel @ (X3 @ (X2 @ (X1 @ X4)))) @ (X3 @ (X2 @ (X1 @ X4)))))))))))))))),introduced(assumption,[])).
+thf(h11,assumption,((set_rel @ eigen__3) @ eigen__3),introduced(assumption,[])).
+thf(h12,assumption,(~((![X1:t_set>t_set]:((~(((![X2:t_set]:(((t_in @ X2) @ eigen__0) => ((set_rel @ (X1 @ X2)) @ (X1 @ X2)))) => (~((![X2:t_set]:(((t_in @ X2) @ eigen__0) => ((t_in @ (X1 @ X2)) @ eigen__1)))))))) => (![X2:t_set>t_set]:((~(((![X3:t_set]:(((t_in @ X3) @ eigen__1) => ((set_rel @ (X2 @ X3)) @ (X2 @ X3)))) => (~((![X3:t_set]:(((t_in @ X3) @ eigen__1) => ((t_in @ (X2 @ X3)) @ eigen__2)))))))) => (![X3:t_set>t_set]:((~(((![X4:t_set]:(((t_in @ X4) @ eigen__2) => ((set_rel @ (X3 @ X4)) @ (X3 @ X4)))) => (~((![X4:t_set]:(((t_in @ X4) @ eigen__2) => ((t_in @ (X3 @ X4)) @ eigen__3)))))))) => (![X4:t_set]:(((set_rel @ eigen__2) @ eigen__2) => (((t_in @ X4) @ eigen__0) => ((set_rel @ (X3 @ (X2 @ (X1 @ X4)))) @ (X3 @ (X2 @ (X1 @ X4))))))))))))))),introduced(assumption,[])).
+thf(h13,assumption,(~(((~(((![X1:t_set]:(((t_in @ X1) @ eigen__0) => ((set_rel @ (eigen__4 @ X1)) @ (eigen__4 @ X1)))) => (~(sP8))))) => (![X1:t_set>t_set]:((~(((![X2:t_set]:(((t_in @ X2) @ eigen__1) => ((set_rel @ (X1 @ X2)) @ (X1 @ X2)))) => (~((![X2:t_set]:(((t_in @ X2) @ eigen__1) => ((t_in @ (X1 @ X2)) @ eigen__2)))))))) => (![X2:t_set>t_set]:((~(((![X3:t_set]:(((t_in @ X3) @ eigen__2) => ((set_rel @ (X2 @ X3)) @ (X2 @ X3)))) => (~((![X3:t_set]:(((t_in @ X3) @ eigen__2) => ((t_in @ (X2 @ X3)) @ eigen__3)))))))) => (![X3:t_set]:(((set_rel @ eigen__2) @ eigen__2) => (((t_in @ X3) @ eigen__0) => ((set_rel @ (X2 @ (X1 @ (eigen__4 @ X3)))) @ (X2 @ (X1 @ (eigen__4 @ X3)))))))))))))),introduced(assumption,[])).
+thf(h14,assumption,(~(((![X1:t_set]:(((t_in @ X1) @ eigen__0) => ((set_rel @ (eigen__4 @ X1)) @ (eigen__4 @ X1)))) => (~(sP8))))),introduced(assumption,[])).
+thf(h15,assumption,(~((![X1:t_set>t_set]:((~(((![X2:t_set]:(((t_in @ X2) @ eigen__1) => ((set_rel @ (X1 @ X2)) @ (X1 @ X2)))) => (~((![X2:t_set]:(((t_in @ X2) @ eigen__1) => ((t_in @ (X1 @ X2)) @ eigen__2)))))))) => (![X2:t_set>t_set]:((~(((![X3:t_set]:(((t_in @ X3) @ eigen__2) => ((set_rel @ (X2 @ X3)) @ (X2 @ X3)))) => (~((![X3:t_set]:(((t_in @ X3) @ eigen__2) => ((t_in @ (X2 @ X3)) @ eigen__3)))))))) => (![X3:t_set]:(((set_rel @ eigen__2) @ eigen__2) => (((t_in @ X3) @ eigen__0) => ((set_rel @ (X2 @ (X1 @ (eigen__4 @ X3)))) @ (X2 @ (X1 @ (eigen__4 @ X3))))))))))))),introduced(assumption,[])).
+thf(h16,assumption,(![X1:t_set]:(((t_in @ X1) @ eigen__0) => ((set_rel @ (eigen__4 @ X1)) @ (eigen__4 @ X1)))),introduced(assumption,[])).
+thf(h17,assumption,sP8,introduced(assumption,[])).
+thf(h18,assumption,(~(((~(((![X1:t_set]:(((t_in @ X1) @ eigen__1) => ((set_rel @ (eigen__5 @ X1)) @ (eigen__5 @ X1)))) => (~(sP4))))) => (![X1:t_set>t_set]:((~(((![X2:t_set]:(((t_in @ X2) @ eigen__2) => ((set_rel @ (X1 @ X2)) @ (X1 @ X2)))) => (~((![X2:t_set]:(((t_in @ X2) @ eigen__2) => ((t_in @ (X1 @ X2)) @ eigen__3)))))))) => (![X2:t_set]:(((set_rel @ eigen__2) @ eigen__2) => (((t_in @ X2) @ eigen__0) => ((set_rel @ (X1 @ (eigen__5 @ (eigen__4 @ X2)))) @ (X1 @ (eigen__5 @ (eigen__4 @ X2)))))))))))),introduced(assumption,[])).
+thf(h19,assumption,(~(((![X1:t_set]:(((t_in @ X1) @ eigen__1) => ((set_rel @ (eigen__5 @ X1)) @ (eigen__5 @ X1)))) => (~(sP4))))),introduced(assumption,[])).
+thf(h20,assumption,(~((![X1:t_set>t_set]:((~(((![X2:t_set]:(((t_in @ X2) @ eigen__2) => ((set_rel @ (X1 @ X2)) @ (X1 @ X2)))) => (~((![X2:t_set]:(((t_in @ X2) @ eigen__2) => ((t_in @ (X1 @ X2)) @ eigen__3)))))))) => (![X2:t_set]:(((set_rel @ eigen__2) @ eigen__2) => (((t_in @ X2) @ eigen__0) => ((set_rel @ (X1 @ (eigen__5 @ (eigen__4 @ X2)))) @ (X1 @ (eigen__5 @ (eigen__4 @ X2))))))))))),introduced(assumption,[])).
+thf(h21,assumption,(![X1:t_set]:(((t_in @ X1) @ eigen__1) => ((set_rel @ (eigen__5 @ X1)) @ (eigen__5 @ X1)))),introduced(assumption,[])).
+thf(h22,assumption,sP4,introduced(assumption,[])).
+thf(h23,assumption,(~(((~((sP2 => (~((![X1:t_set]:(((t_in @ X1) @ eigen__2) => ((t_in @ (eigen__6 @ X1)) @ eigen__3)))))))) => (![X1:t_set]:(((set_rel @ eigen__2) @ eigen__2) => (((t_in @ X1) @ eigen__0) => ((set_rel @ (eigen__6 @ (eigen__5 @ (eigen__4 @ X1)))) @ (eigen__6 @ (eigen__5 @ (eigen__4 @ X1)))))))))),introduced(assumption,[])).
+thf(h24,assumption,(~((sP2 => (~((![X1:t_set]:(((t_in @ X1) @ eigen__2) => ((t_in @ (eigen__6 @ X1)) @ eigen__3)))))))),introduced(assumption,[])).
+thf(h25,assumption,(~((![X1:t_set]:(((set_rel @ eigen__2) @ eigen__2) => (((t_in @ X1) @ eigen__0) => ((set_rel @ (eigen__6 @ (eigen__5 @ (eigen__4 @ X1)))) @ (eigen__6 @ (eigen__5 @ (eigen__4 @ X1))))))))),introduced(assumption,[])).
+thf(h26,assumption,sP2,introduced(assumption,[])).
+thf(h27,assumption,(![X1:t_set]:(((t_in @ X1) @ eigen__2) => ((t_in @ (eigen__6 @ X1)) @ eigen__3))),introduced(assumption,[])).
+thf(h28,assumption,(~((((set_rel @ eigen__2) @ eigen__2) => (sP1 => sP7)))),introduced(assumption,[])).
+thf(h29,assumption,(~((sP1 => sP7))),introduced(assumption,[])).
+thf(h30,assumption,sP1,introduced(assumption,[])).
+thf(h31,assumption,(~(sP7)),introduced(assumption,[])).
+thf(1,plain,(~(sP4) | sP3),inference(all_rule,[status(thm)],[])).
+thf(2,plain,((~(sP3) | ~(sP5)) | sP9),inference(prop_rule,[status(thm)],[])).
+thf(3,plain,(~(sP8) | sP10),inference(all_rule,[status(thm)],[])).
+thf(4,plain,((~(sP10) | ~(sP1)) | sP5),inference(prop_rule,[status(thm)],[])).
+thf(5,plain,(~(sP2) | sP6),inference(all_rule,[status(thm)],[])).
+thf(6,plain,((~(sP6) | ~(sP9)) | sP7),inference(prop_rule,[status(thm)],[])).
+thf(7,plain,$false,inference(prop_unsat,[status(thm),assumptions([h30,h31,h8,h29,h28,h26,h27,h24,h25,h23,h21,h22,h19,h20,h18,h16,h17,h14,h15,h13,h11,h12,h10,h8,h9,h7,h5,h6,h4,h2,h3,h1,h0])],[1,2,3,4,5,6,h17,h22,h26,h30,h31])).
+thf(8,plain,$false,inference(tab_negimp,[status(thm),assumptions([h8,h29,h28,h26,h27,h24,h25,h23,h21,h22,h19,h20,h18,h16,h17,h14,h15,h13,h11,h12,h10,h8,h9,h7,h5,h6,h4,h2,h3,h1,h0]),tab_negimp(discharge,[h30,h31])],[h29,7,h30,h31])).
+thf(9,plain,$false,inference(tab_negimp,[status(thm),assumptions([h28,h26,h27,h24,h25,h23,h21,h22,h19,h20,h18,h16,h17,h14,h15,h13,h11,h12,h10,h8,h9,h7,h5,h6,h4,h2,h3,h1,h0]),tab_negimp(discharge,[h8,h29])],[h28,8,h8,h29])).
+thf(10,plain,$false,inference(tab_negall,[status(thm),assumptions([h26,h27,h24,h25,h23,h21,h22,h19,h20,h18,h16,h17,h14,h15,h13,h11,h12,h10,h8,h9,h7,h5,h6,h4,h2,h3,h1,h0]),tab_negall(discharge,[h28]),tab_negall(eigenvar,eigen__7)],[h25,9,h28])).
+thf(11,plain,$false,inference(tab_negimp,[status(thm),assumptions([h24,h25,h23,h21,h22,h19,h20,h18,h16,h17,h14,h15,h13,h11,h12,h10,h8,h9,h7,h5,h6,h4,h2,h3,h1,h0]),tab_negimp(discharge,[h26,h27])],[h24,10,h26,h27])).
+thf(12,plain,$false,inference(tab_negimp,[status(thm),assumptions([h23,h21,h22,h19,h20,h18,h16,h17,h14,h15,h13,h11,h12,h10,h8,h9,h7,h5,h6,h4,h2,h3,h1,h0]),tab_negimp(discharge,[h24,h25])],[h23,11,h24,h25])).
+thf(13,plain,$false,inference(tab_negall,[status(thm),assumptions([h21,h22,h19,h20,h18,h16,h17,h14,h15,h13,h11,h12,h10,h8,h9,h7,h5,h6,h4,h2,h3,h1,h0]),tab_negall(discharge,[h23]),tab_negall(eigenvar,eigen__6)],[h20,12,h23])).
+thf(14,plain,$false,inference(tab_negimp,[status(thm),assumptions([h19,h20,h18,h16,h17,h14,h15,h13,h11,h12,h10,h8,h9,h7,h5,h6,h4,h2,h3,h1,h0]),tab_negimp(discharge,[h21,h22])],[h19,13,h21,h22])).
+thf(15,plain,$false,inference(tab_negimp,[status(thm),assumptions([h18,h16,h17,h14,h15,h13,h11,h12,h10,h8,h9,h7,h5,h6,h4,h2,h3,h1,h0]),tab_negimp(discharge,[h19,h20])],[h18,14,h19,h20])).
+thf(16,plain,$false,inference(tab_negall,[status(thm),assumptions([h16,h17,h14,h15,h13,h11,h12,h10,h8,h9,h7,h5,h6,h4,h2,h3,h1,h0]),tab_negall(discharge,[h18]),tab_negall(eigenvar,eigen__5)],[h15,15,h18])).
+thf(17,plain,$false,inference(tab_negimp,[status(thm),assumptions([h14,h15,h13,h11,h12,h10,h8,h9,h7,h5,h6,h4,h2,h3,h1,h0]),tab_negimp(discharge,[h16,h17])],[h14,16,h16,h17])).
+thf(18,plain,$false,inference(tab_negimp,[status(thm),assumptions([h13,h11,h12,h10,h8,h9,h7,h5,h6,h4,h2,h3,h1,h0]),tab_negimp(discharge,[h14,h15])],[h13,17,h14,h15])).
+thf(19,plain,$false,inference(tab_negall,[status(thm),assumptions([h11,h12,h10,h8,h9,h7,h5,h6,h4,h2,h3,h1,h0]),tab_negall(discharge,[h13]),tab_negall(eigenvar,eigen__4)],[h12,18,h13])).
+thf(20,plain,$false,inference(tab_negimp,[status(thm),assumptions([h10,h8,h9,h7,h5,h6,h4,h2,h3,h1,h0]),tab_negimp(discharge,[h11,h12])],[h10,19,h11,h12])).
+thf(21,plain,$false,inference(tab_negall,[status(thm),assumptions([h8,h9,h7,h5,h6,h4,h2,h3,h1,h0]),tab_negall(discharge,[h10]),tab_negall(eigenvar,eigen__3)],[h9,20,h10])).
+thf(22,plain,$false,inference(tab_negimp,[status(thm),assumptions([h7,h5,h6,h4,h2,h3,h1,h0]),tab_negimp(discharge,[h8,h9])],[h7,21,h8,h9])).
+thf(23,plain,$false,inference(tab_negall,[status(thm),assumptions([h5,h6,h4,h2,h3,h1,h0]),tab_negall(discharge,[h7]),tab_negall(eigenvar,eigen__2)],[h6,22,h7])).
+thf(24,plain,$false,inference(tab_negimp,[status(thm),assumptions([h4,h2,h3,h1,h0]),tab_negimp(discharge,[h5,h6])],[h4,23,h5,h6])).
+thf(25,plain,$false,inference(tab_negall,[status(thm),assumptions([h2,h3,h1,h0]),tab_negall(discharge,[h4]),tab_negall(eigenvar,eigen__1)],[h3,24,h4])).
+thf(26,plain,$false,inference(tab_negimp,[status(thm),assumptions([h1,h0]),tab_negimp(discharge,[h2,h3])],[h1,25,h2,h3])).
+thf(27,plain,$false,inference(tab_negall,[status(thm),assumptions([h0]),tab_negall(discharge,[h1]),tab_negall(eigenvar,eigen__0)],[h0,26,h1])).
+thf(0,theorem,(![X1:t_set]:(((set_rel @ X1) @ X1) => (![X2:t_set]:(((set_rel @ X2) @ X2) => (![X3:t_set]:(((set_rel @ X3) @ X3) => (![X4:t_set]:(((set_rel @ X4) @ X4) => (![X5:t_set>t_set]:((~(((![X6:t_set]:(((t_in @ X6) @ X1) => ((set_rel @ (X5 @ X6)) @ (X5 @ X6)))) => (~((![X6:t_set]:(((t_in @ X6) @ X1) => ((t_in @ (X5 @ X6)) @ X2)))))))) => (![X6:t_set>t_set]:((~(((![X7:t_set]:(((t_in @ X7) @ X2) => ((set_rel @ (X6 @ X7)) @ (X6 @ X7)))) => (~((![X7:t_set]:(((t_in @ X7) @ X2) => ((t_in @ (X6 @ X7)) @ X3)))))))) => (![X7:t_set>t_set]:((~(((![X8:t_set]:(((t_in @ X8) @ X3) => ((set_rel @ (X7 @ X8)) @ (X7 @ X8)))) => (~((![X8:t_set]:(((t_in @ X8) @ X3) => ((t_in @ (X7 @ X8)) @ X4)))))))) => (![X8:t_set]:(((set_rel @ X3) @ X3) => (((t_in @ X8) @ X1) => ((set_rel @ (X7 @ (X6 @ (X5 @ X8)))) @ (X7 @ (X6 @ (X5 @ X8))))))))))))))))))))),inference(contra,[status(thm),contra(discharge,[h0])],[27,h0])).
+% SZS output end Proof
+
+% END OF SYSTEM OUTPUT
+% RESULT: SOT_j6zA2f - Satallax---3.5 says Theorem - CPU = 0.00 WC = 0.03 
+% OUTPUT: SOT_j6zA2f - Satallax---3.5 says Proof - CPU = 0.00 WC = 0.03 
+
+% START OF SYSTEM OUTPUT
+Running higher-order theorem proving
+Running: /home/tptp/Systems/Vampire---4.9/vampire_ho --cores 7 --input_syntax tptp --proof tptp --output_axiom_names on --mode portfolio --schedule snake_tptp_hol /tmp/tmp.a3Xf5LFqm4/E---3.1_903541.p -m 16384 -t 60
+% (903551)WARNING: time unlimited strategy and instruction limiting not in place - attemping to translate instructions to time
+% (903552)WARNING: time unlimited strategy and instruction limiting not in place - attemping to translate instructions to time
+% (903554)WARNING: time unlimited strategy and instruction limiting not in place - attemping to translate instructions to time
+% (903553)WARNING: time unlimited strategy and instruction limiting not in place - attemping to translate instructions to time
+% (903555)WARNING: time unlimited strategy and instruction limiting not in place - attemping to translate instructions to time
+% (903556)WARNING: time unlimited strategy and instruction limiting not in place - attemping to translate instructions to time
+% (903557)WARNING: time unlimited strategy and instruction limiting not in place - attemping to translate instructions to time
+% (903553)dis+1010_1:1_au=on:cbe=off:chr=on:fsr=off:hfsq=on:nm=64:sos=theory:sp=weighted_frequency:i=27:si=on:rtra=on_0 on E---3.1_903541 for (1ds/27Mi)
+% (903555)lrs+1002_1:128_aac=none:au=on:cnfonf=lazy_not_gen_be_off:sos=all:i=2:si=on:rtra=on_0 on E---3.1_903541 for (1ds/2Mi)
+perf_event_open failed (instruction limiting will be disabled): Permission denied
+% (903551)lrs+1002_1:8_bd=off:fd=off:hud=10:tnu=1:i=183:si=on:rtra=on_0 on E---3.1_903541 for (1ds/183Mi)
+% (903554)lrs+10_1:1_au=on:inj=on:i=2:si=on:rtra=on_0 on E---3.1_903541 for (1ds/2Mi)
+% (903556)lrs+1002_1:1_au=on:bd=off:e2e=on:sd=2:sos=on:ss=axioms:i=275:si=on:rtra=on_0 on E---3.1_903541 for (1ds/275Mi)
+% (903552)lrs+10_1:1_c=on:cnfonf=conj_eager:fd=off:fe=off:kws=frequency:spb=intro:i=4:si=on:rtra=on_0 on E---3.1_903541 for (1ds/4Mi)
+perf_event_open failed (instruction limiting will be disabled): Permission denied
+perf_event_open failed (instruction limiting will be disabled): Permission denied
+% (903557)lrs+1004_1:128_cond=on:e2e=on:sp=weighted_frequency:i=18:si=on:rtra=on_0 on E---3.1_903541 for (1ds/18Mi)
+perf_event_open failed (instruction limiting will be disabled): Permission denied
+perf_event_open failed (instruction limiting will be disabled): Permission denied
+perf_event_open failed (instruction limiting will be disabled): Permission denied
+perf_event_open failed (instruction limiting will be disabled): Permission denied
+% (903554)First to succeed.
+% (903551)Also succeeded, but the first one will report.
+% (903555)Also succeeded, but the first one will report.
+% (903554)Refutation found. Thanks to Tanya!
+% SZS status Theorem for E---3.1_903541
+% SZS output start Proof for E---3.1_903541
+thf(type_def_5, type, t_set: $tType).
+thf(func_def_0, type, t_set: $tType).
+thf(func_def_1, type, set_rel: t_set > t_set > $o).
+thf(func_def_3, type, t_in: t_set > t_set > $o).
+thf(func_def_6, type, sK0: t_set).
+thf(func_def_7, type, sK1: t_set).
+thf(func_def_8, type, sK2: t_set).
+thf(func_def_9, type, sK3: t_set).
+thf(func_def_10, type, sK4: t_set > t_set).
+thf(func_def_11, type, sK5: t_set > t_set).
+thf(func_def_12, type, sK6: t_set > t_set).
+thf(func_def_13, type, sK7: t_set).
+thf(f55,plain,(
+  $false),
+  inference(subsumption_resolution,[],[f54,f34])).
+thf(f34,plain,(
+  ((set_rel @ (sK6 @ (sK5 @ (sK4 @ sK7))) @ (sK6 @ (sK5 @ (sK4 @ sK7)))) != $true)),
+  inference(cnf_transformation,[],[f25])).
+thf(f25,plain,(
+  (($true = (set_rel @ sK1 @ sK1)) & ((((set_rel @ sK3 @ sK3) = $true) & (! [X5 : t_set] : (($true != (t_in @ X5 @ sK0)) | ((set_rel @ (sK4 @ X5) @ (sK4 @ X5)) = $true)) & ! [X6 : t_set] : (((t_in @ (sK4 @ X6) @ sK1) = $true) | ((t_in @ X6 @ sK0) != $true)) & ((! [X9 : t_set] : (($true = (set_rel @ (sK6 @ X9) @ (sK6 @ X9))) | ((t_in @ X9 @ sK2) != $true)) & (((set_rel @ (sK6 @ (sK5 @ (sK4 @ sK7))) @ (sK6 @ (sK5 @ (sK4 @ sK7)))) != $true) & ($true = (set_rel @ sK2 @ sK2)) & ($true = (t_in @ sK7 @ sK0))) & ! [X11 : t_set] : (((t_in @ X11 @ sK2) != $true) | ((t_in @ (sK6 @ X11) @ sK3) = $true))) & ! [X12 : t_set] : (($true = (t_in @ (sK5 @ X12) @ sK2)) | ((t_in @ X12 @ sK1) != $true)) & ! [X13 : t_set] : (((t_in @ X13 @ sK1) != $true) | ((set_rel @ (sK5 @ X13) @ (sK5 @ X13)) = $true))))) & ($true = (set_rel @ sK2 @ sK2)))) & ($true = (set_rel @ sK0 @ sK0))),
+  inference(skolemisation,[status(esa),new_symbols(skolem,[sK0,sK1,sK2,sK3,sK4,sK5,sK6,sK7])],[f16,f24,f23,f22,f21,f20,f19,f18,f17])).
+thf(f17,plain,(
+  ? [X0 : t_set] : (? [X1 : t_set] : (((set_rel @ X1 @ X1) = $true) & ? [X2 : t_set] : (? [X3 : t_set] : (((set_rel @ X3 @ X3) = $true) & ? [X4 : t_set > t_set] : (! [X5 : t_set] : (((t_in @ X5 @ X0) != $true) | ((set_rel @ (X4 @ X5) @ (X4 @ X5)) = $true)) & ! [X6 : t_set] : (((t_in @ (X4 @ X6) @ X1) = $true) | ((t_in @ X6 @ X0) != $true)) & ? [X7 : t_set > t_set] : (? [X8 : t_set > t_set] : (! [X9 : t_set] : (((set_rel @ (X8 @ X9) @ (X8 @ X9)) = $true) | ((t_in @ X9 @ X2) != $true)) & ? [X10 : t_set] : (($true != (set_rel @ (X8 @ (X7 @ (X4 @ X10))) @ (X8 @ (X7 @ (X4 @ X10))))) & ((set_rel @ X2 @ X2) = $true) & ((t_in @ X10 @ X0) = $true)) & ! [X11 : t_set] : (($true != (t_in @ X11 @ X2)) | ((t_in @ (X8 @ X11) @ X3) = $true))) & ! [X12 : t_set] : (((t_in @ (X7 @ X12) @ X2) = $true) | ($true != (t_in @ X12 @ X1))) & ! [X13 : t_set] : (((t_in @ X13 @ X1) != $true) | ((set_rel @ (X7 @ X13) @ (X7 @ X13)) = $true))))) & ((set_rel @ X2 @ X2) = $true))) & ($true = (set_rel @ X0 @ X0))) => (? [X1 : t_set] : (((set_rel @ X1 @ X1) = $true) & ? [X2 : t_set] : (? [X3 : t_set] : (((set_rel @ X3 @ X3) = $true) & ? [X4 : t_set > t_set] : (! [X5 : t_set] : (($true != (t_in @ X5 @ sK0)) | ((set_rel @ (X4 @ X5) @ (X4 @ X5)) = $true)) & ! [X6 : t_set] : (((t_in @ (X4 @ X6) @ X1) = $true) | ((t_in @ X6 @ sK0) != $true)) & ? [X7 : t_set > t_set] : (? [X8 : t_set > t_set] : (! [X9 : t_set] : (((set_rel @ (X8 @ X9) @ (X8 @ X9)) = $true) | ((t_in @ X9 @ X2) != $true)) & ? [X10 : t_set] : (($true != (set_rel @ (X8 @ (X7 @ (X4 @ X10))) @ (X8 @ (X7 @ (X4 @ X10))))) & ((set_rel @ X2 @ X2) = $true) & ((t_in @ X10 @ sK0) = $true)) & ! [X11 : t_set] : (($true != (t_in @ X11 @ X2)) | ((t_in @ (X8 @ X11) @ X3) = $true))) & ! [X12 : t_set] : (((t_in @ (X7 @ X12) @ X2) = $true) | ($true != (t_in @ X12 @ X1))) & ! [X13 : t_set] : (((t_in @ X13 @ X1) != $true) | ((set_rel @ (X7 @ X13) @ (X7 @ X13)) = $true))))) & ((set_rel @ X2 @ X2) = $true))) & ($true = (set_rel @ sK0 @ sK0)))),
+  introduced(choice_axiom,[])).
+thf(f18,plain,(
+  ? [X1 : t_set] : (((set_rel @ X1 @ X1) = $true) & ? [X2 : t_set] : (? [X3 : t_set] : (((set_rel @ X3 @ X3) = $true) & ? [X4 : t_set > t_set] : (! [X5 : t_set] : (($true != (t_in @ X5 @ sK0)) | ((set_rel @ (X4 @ X5) @ (X4 @ X5)) = $true)) & ! [X6 : t_set] : (((t_in @ (X4 @ X6) @ X1) = $true) | ((t_in @ X6 @ sK0) != $true)) & ? [X7 : t_set > t_set] : (? [X8 : t_set > t_set] : (! [X9 : t_set] : (((set_rel @ (X8 @ X9) @ (X8 @ X9)) = $true) | ((t_in @ X9 @ X2) != $true)) & ? [X10 : t_set] : (($true != (set_rel @ (X8 @ (X7 @ (X4 @ X10))) @ (X8 @ (X7 @ (X4 @ X10))))) & ((set_rel @ X2 @ X2) = $true) & ((t_in @ X10 @ sK0) = $true)) & ! [X11 : t_set] : (($true != (t_in @ X11 @ X2)) | ((t_in @ (X8 @ X11) @ X3) = $true))) & ! [X12 : t_set] : (((t_in @ (X7 @ X12) @ X2) = $true) | ($true != (t_in @ X12 @ X1))) & ! [X13 : t_set] : (((t_in @ X13 @ X1) != $true) | ((set_rel @ (X7 @ X13) @ (X7 @ X13)) = $true))))) & ((set_rel @ X2 @ X2) = $true))) => (($true = (set_rel @ sK1 @ sK1)) & ? [X2 : t_set] : (? [X3 : t_set] : (((set_rel @ X3 @ X3) = $true) & ? [X4 : t_set > t_set] : (! [X5 : t_set] : (($true != (t_in @ X5 @ sK0)) | ((set_rel @ (X4 @ X5) @ (X4 @ X5)) = $true)) & ! [X6 : t_set] : (((t_in @ (X4 @ X6) @ sK1) = $true) | ((t_in @ X6 @ sK0) != $true)) & ? [X7 : t_set > t_set] : (? [X8 : t_set > t_set] : (! [X9 : t_set] : (((set_rel @ (X8 @ X9) @ (X8 @ X9)) = $true) | ((t_in @ X9 @ X2) != $true)) & ? [X10 : t_set] : (($true != (set_rel @ (X8 @ (X7 @ (X4 @ X10))) @ (X8 @ (X7 @ (X4 @ X10))))) & ((set_rel @ X2 @ X2) = $true) & ((t_in @ X10 @ sK0) = $true)) & ! [X11 : t_set] : (($true != (t_in @ X11 @ X2)) | ((t_in @ (X8 @ X11) @ X3) = $true))) & ! [X12 : t_set] : (((t_in @ (X7 @ X12) @ X2) = $true) | ((t_in @ X12 @ sK1) != $true)) & ! [X13 : t_set] : (((t_in @ X13 @ sK1) != $true) | ((set_rel @ (X7 @ X13) @ (X7 @ X13)) = $true))))) & ((set_rel @ X2 @ X2) = $true)))),
+  introduced(choice_axiom,[])).
+thf(f19,plain,(
+  ? [X2 : t_set] : (? [X3 : t_set] : (((set_rel @ X3 @ X3) = $true) & ? [X4 : t_set > t_set] : (! [X5 : t_set] : (($true != (t_in @ X5 @ sK0)) | ((set_rel @ (X4 @ X5) @ (X4 @ X5)) = $true)) & ! [X6 : t_set] : (((t_in @ (X4 @ X6) @ sK1) = $true) | ((t_in @ X6 @ sK0) != $true)) & ? [X7 : t_set > t_set] : (? [X8 : t_set > t_set] : (! [X9 : t_set] : (((set_rel @ (X8 @ X9) @ (X8 @ X9)) = $true) | ((t_in @ X9 @ X2) != $true)) & ? [X10 : t_set] : (($true != (set_rel @ (X8 @ (X7 @ (X4 @ X10))) @ (X8 @ (X7 @ (X4 @ X10))))) & ((set_rel @ X2 @ X2) = $true) & ((t_in @ X10 @ sK0) = $true)) & ! [X11 : t_set] : (($true != (t_in @ X11 @ X2)) | ((t_in @ (X8 @ X11) @ X3) = $true))) & ! [X12 : t_set] : (((t_in @ (X7 @ X12) @ X2) = $true) | ((t_in @ X12 @ sK1) != $true)) & ! [X13 : t_set] : (((t_in @ X13 @ sK1) != $true) | ((set_rel @ (X7 @ X13) @ (X7 @ X13)) = $true))))) & ((set_rel @ X2 @ X2) = $true)) => (? [X3 : t_set] : (((set_rel @ X3 @ X3) = $true) & ? [X4 : t_set > t_set] : (! [X5 : t_set] : (($true != (t_in @ X5 @ sK0)) | ((set_rel @ (X4 @ X5) @ (X4 @ X5)) = $true)) & ! [X6 : t_set] : (((t_in @ (X4 @ X6) @ sK1) = $true) | ((t_in @ X6 @ sK0) != $true)) & ? [X7 : t_set > t_set] : (? [X8 : t_set > t_set] : (! [X9 : t_set] : (((set_rel @ (X8 @ X9) @ (X8 @ X9)) = $true) | ((t_in @ X9 @ sK2) != $true)) & ? [X10 : t_set] : (($true != (set_rel @ (X8 @ (X7 @ (X4 @ X10))) @ (X8 @ (X7 @ (X4 @ X10))))) & ($true = (set_rel @ sK2 @ sK2)) & ((t_in @ X10 @ sK0) = $true)) & ! [X11 : t_set] : (((t_in @ X11 @ sK2) != $true) | ((t_in @ (X8 @ X11) @ X3) = $true))) & ! [X12 : t_set] : (($true = (t_in @ (X7 @ X12) @ sK2)) | ((t_in @ X12 @ sK1) != $true)) & ! [X13 : t_set] : (((t_in @ X13 @ sK1) != $true) | ((set_rel @ (X7 @ X13) @ (X7 @ X13)) = $true))))) & ($true = (set_rel @ sK2 @ sK2)))),
+  introduced(choice_axiom,[])).
+thf(f20,plain,(
+  ? [X3 : t_set] : (((set_rel @ X3 @ X3) = $true) & ? [X4 : t_set > t_set] : (! [X5 : t_set] : (($true != (t_in @ X5 @ sK0)) | ((set_rel @ (X4 @ X5) @ (X4 @ X5)) = $true)) & ! [X6 : t_set] : (((t_in @ (X4 @ X6) @ sK1) = $true) | ((t_in @ X6 @ sK0) != $true)) & ? [X7 : t_set > t_set] : (? [X8 : t_set > t_set] : (! [X9 : t_set] : (((set_rel @ (X8 @ X9) @ (X8 @ X9)) = $true) | ((t_in @ X9 @ sK2) != $true)) & ? [X10 : t_set] : (($true != (set_rel @ (X8 @ (X7 @ (X4 @ X10))) @ (X8 @ (X7 @ (X4 @ X10))))) & ($true = (set_rel @ sK2 @ sK2)) & ((t_in @ X10 @ sK0) = $true)) & ! [X11 : t_set] : (((t_in @ X11 @ sK2) != $true) | ((t_in @ (X8 @ X11) @ X3) = $true))) & ! [X12 : t_set] : (($true = (t_in @ (X7 @ X12) @ sK2)) | ((t_in @ X12 @ sK1) != $true)) & ! [X13 : t_set] : (((t_in @ X13 @ sK1) != $true) | ((set_rel @ (X7 @ X13) @ (X7 @ X13)) = $true))))) => (((set_rel @ sK3 @ sK3) = $true) & ? [X4 : t_set > t_set] : (! [X5 : t_set] : (($true != (t_in @ X5 @ sK0)) | ((set_rel @ (X4 @ X5) @ (X4 @ X5)) = $true)) & ! [X6 : t_set] : (((t_in @ (X4 @ X6) @ sK1) = $true) | ((t_in @ X6 @ sK0) != $true)) & ? [X7 : t_set > t_set] : (? [X8 : t_set > t_set] : (! [X9 : t_set] : (((set_rel @ (X8 @ X9) @ (X8 @ X9)) = $true) | ((t_in @ X9 @ sK2) != $true)) & ? [X10 : t_set] : (($true != (set_rel @ (X8 @ (X7 @ (X4 @ X10))) @ (X8 @ (X7 @ (X4 @ X10))))) & ($true = (set_rel @ sK2 @ sK2)) & ((t_in @ X10 @ sK0) = $true)) & ! [X11 : t_set] : (((t_in @ X11 @ sK2) != $true) | ((t_in @ (X8 @ X11) @ sK3) = $true))) & ! [X12 : t_set] : (($true = (t_in @ (X7 @ X12) @ sK2)) | ((t_in @ X12 @ sK1) != $true)) & ! [X13 : t_set] : (((t_in @ X13 @ sK1) != $true) | ((set_rel @ (X7 @ X13) @ (X7 @ X13)) = $true)))))),
+  introduced(choice_axiom,[])).
+thf(f21,plain,(
+  ? [X4 : t_set > t_set] : (! [X5 : t_set] : (($true != (t_in @ X5 @ sK0)) | ((set_rel @ (X4 @ X5) @ (X4 @ X5)) = $true)) & ! [X6 : t_set] : (((t_in @ (X4 @ X6) @ sK1) = $true) | ((t_in @ X6 @ sK0) != $true)) & ? [X7 : t_set > t_set] : (? [X8 : t_set > t_set] : (! [X9 : t_set] : (((set_rel @ (X8 @ X9) @ (X8 @ X9)) = $true) | ((t_in @ X9 @ sK2) != $true)) & ? [X10 : t_set] : (($true != (set_rel @ (X8 @ (X7 @ (X4 @ X10))) @ (X8 @ (X7 @ (X4 @ X10))))) & ($true = (set_rel @ sK2 @ sK2)) & ((t_in @ X10 @ sK0) = $true)) & ! [X11 : t_set] : (((t_in @ X11 @ sK2) != $true) | ((t_in @ (X8 @ X11) @ sK3) = $true))) & ! [X12 : t_set] : (($true = (t_in @ (X7 @ X12) @ sK2)) | ((t_in @ X12 @ sK1) != $true)) & ! [X13 : t_set] : (((t_in @ X13 @ sK1) != $true) | ((set_rel @ (X7 @ X13) @ (X7 @ X13)) = $true)))) => (! [X5 : t_set] : (($true != (t_in @ X5 @ sK0)) | ((set_rel @ (sK4 @ X5) @ (sK4 @ X5)) = $true)) & ! [X6 : t_set] : (((t_in @ (sK4 @ X6) @ sK1) = $true) | ((t_in @ X6 @ sK0) != $true)) & ? [X7 : t_set > t_set] : (? [X8 : t_set > t_set] : (! [X9 : t_set] : (((set_rel @ (X8 @ X9) @ (X8 @ X9)) = $true) | ((t_in @ X9 @ sK2) != $true)) & ? [X10 : t_set] : (((set_rel @ (X8 @ (X7 @ (sK4 @ X10))) @ (X8 @ (X7 @ (sK4 @ X10)))) != $true) & ($true = (set_rel @ sK2 @ sK2)) & ((t_in @ X10 @ sK0) = $true)) & ! [X11 : t_set] : (((t_in @ X11 @ sK2) != $true) | ((t_in @ (X8 @ X11) @ sK3) = $true))) & ! [X12 : t_set] : (($true = (t_in @ (X7 @ X12) @ sK2)) | ((t_in @ X12 @ sK1) != $true)) & ! [X13 : t_set] : (((t_in @ X13 @ sK1) != $true) | ((set_rel @ (X7 @ X13) @ (X7 @ X13)) = $true))))),
+  introduced(choice_axiom,[])).
+thf(f22,plain,(
+  ? [X7 : t_set > t_set] : (? [X8 : t_set > t_set] : (! [X9 : t_set] : (((set_rel @ (X8 @ X9) @ (X8 @ X9)) = $true) | ((t_in @ X9 @ sK2) != $true)) & ? [X10 : t_set] : (((set_rel @ (X8 @ (X7 @ (sK4 @ X10))) @ (X8 @ (X7 @ (sK4 @ X10)))) != $true) & ($true = (set_rel @ sK2 @ sK2)) & ((t_in @ X10 @ sK0) = $true)) & ! [X11 : t_set] : (((t_in @ X11 @ sK2) != $true) | ((t_in @ (X8 @ X11) @ sK3) = $true))) & ! [X12 : t_set] : (($true = (t_in @ (X7 @ X12) @ sK2)) | ((t_in @ X12 @ sK1) != $true)) & ! [X13 : t_set] : (((t_in @ X13 @ sK1) != $true) | ((set_rel @ (X7 @ X13) @ (X7 @ X13)) = $true))) => (? [X8 : t_set > t_set] : (! [X9 : t_set] : (((set_rel @ (X8 @ X9) @ (X8 @ X9)) = $true) | ((t_in @ X9 @ sK2) != $true)) & ? [X10 : t_set] : (((set_rel @ (X8 @ (sK5 @ (sK4 @ X10))) @ (X8 @ (sK5 @ (sK4 @ X10)))) != $true) & ($true = (set_rel @ sK2 @ sK2)) & ((t_in @ X10 @ sK0) = $true)) & ! [X11 : t_set] : (((t_in @ X11 @ sK2) != $true) | ((t_in @ (X8 @ X11) @ sK3) = $true))) & ! [X12 : t_set] : (($true = (t_in @ (sK5 @ X12) @ sK2)) | ((t_in @ X12 @ sK1) != $true)) & ! [X13 : t_set] : (((t_in @ X13 @ sK1) != $true) | ((set_rel @ (sK5 @ X13) @ (sK5 @ X13)) = $true)))),
+  introduced(choice_axiom,[])).
+thf(f23,plain,(
+  ? [X8 : t_set > t_set] : (! [X9 : t_set] : (((set_rel @ (X8 @ X9) @ (X8 @ X9)) = $true) | ((t_in @ X9 @ sK2) != $true)) & ? [X10 : t_set] : (((set_rel @ (X8 @ (sK5 @ (sK4 @ X10))) @ (X8 @ (sK5 @ (sK4 @ X10)))) != $true) & ($true = (set_rel @ sK2 @ sK2)) & ((t_in @ X10 @ sK0) = $true)) & ! [X11 : t_set] : (((t_in @ X11 @ sK2) != $true) | ((t_in @ (X8 @ X11) @ sK3) = $true))) => (! [X9 : t_set] : (($true = (set_rel @ (sK6 @ X9) @ (sK6 @ X9))) | ((t_in @ X9 @ sK2) != $true)) & ? [X10 : t_set] : (((set_rel @ (sK6 @ (sK5 @ (sK4 @ X10))) @ (sK6 @ (sK5 @ (sK4 @ X10)))) != $true) & ($true = (set_rel @ sK2 @ sK2)) & ((t_in @ X10 @ sK0) = $true)) & ! [X11 : t_set] : (((t_in @ X11 @ sK2) != $true) | ((t_in @ (sK6 @ X11) @ sK3) = $true)))),
+  introduced(choice_axiom,[])).
+thf(f24,plain,(
+  ? [X10 : t_set] : (((set_rel @ (sK6 @ (sK5 @ (sK4 @ X10))) @ (sK6 @ (sK5 @ (sK4 @ X10)))) != $true) & ($true = (set_rel @ sK2 @ sK2)) & ((t_in @ X10 @ sK0) = $true)) => (((set_rel @ (sK6 @ (sK5 @ (sK4 @ sK7))) @ (sK6 @ (sK5 @ (sK4 @ sK7)))) != $true) & ($true = (set_rel @ sK2 @ sK2)) & ($true = (t_in @ sK7 @ sK0)))),
+  introduced(choice_axiom,[])).
+thf(f16,plain,(
+  ? [X0 : t_set] : (? [X1 : t_set] : (((set_rel @ X1 @ X1) = $true) & ? [X2 : t_set] : (? [X3 : t_set] : (((set_rel @ X3 @ X3) = $true) & ? [X4 : t_set > t_set] : (! [X5 : t_set] : (((t_in @ X5 @ X0) != $true) | ((set_rel @ (X4 @ X5) @ (X4 @ X5)) = $true)) & ! [X6 : t_set] : (((t_in @ (X4 @ X6) @ X1) = $true) | ((t_in @ X6 @ X0) != $true)) & ? [X7 : t_set > t_set] : (? [X8 : t_set > t_set] : (! [X9 : t_set] : (((set_rel @ (X8 @ X9) @ (X8 @ X9)) = $true) | ((t_in @ X9 @ X2) != $true)) & ? [X10 : t_set] : (($true != (set_rel @ (X8 @ (X7 @ (X4 @ X10))) @ (X8 @ (X7 @ (X4 @ X10))))) & ((set_rel @ X2 @ X2) = $true) & ((t_in @ X10 @ X0) = $true)) & ! [X11 : t_set] : (($true != (t_in @ X11 @ X2)) | ((t_in @ (X8 @ X11) @ X3) = $true))) & ! [X12 : t_set] : (((t_in @ (X7 @ X12) @ X2) = $true) | ($true != (t_in @ X12 @ X1))) & ! [X13 : t_set] : (((t_in @ X13 @ X1) != $true) | ((set_rel @ (X7 @ X13) @ (X7 @ X13)) = $true))))) & ((set_rel @ X2 @ X2) = $true))) & ($true = (set_rel @ X0 @ X0)))),
+  inference(rectify,[],[f15])).
+thf(f15,plain,(
+  ? [X0 : t_set] : (? [X1 : t_set] : (((set_rel @ X1 @ X1) = $true) & ? [X2 : t_set] : (? [X3 : t_set] : (((set_rel @ X3 @ X3) = $true) & ? [X4 : t_set > t_set] : (! [X6 : t_set] : (((t_in @ X6 @ X0) != $true) | ($true = (set_rel @ (X4 @ X6) @ (X4 @ X6)))) & ! [X5 : t_set] : (($true = (t_in @ (X4 @ X5) @ X1)) | ((t_in @ X5 @ X0) != $true)) & ? [X7 : t_set > t_set] : (? [X10 : t_set > t_set] : (! [X11 : t_set] : (($true = (set_rel @ (X10 @ X11) @ (X10 @ X11))) | ($true != (t_in @ X11 @ X2))) & ? [X13 : t_set] : (((set_rel @ (X10 @ (X7 @ (X4 @ X13))) @ (X10 @ (X7 @ (X4 @ X13)))) != $true) & ((set_rel @ X2 @ X2) = $true) & ((t_in @ X13 @ X0) = $true)) & ! [X12 : t_set] : (((t_in @ X12 @ X2) != $true) | ((t_in @ (X10 @ X12) @ X3) = $true))) & ! [X8 : t_set] : (((t_in @ (X7 @ X8) @ X2) = $true) | ((t_in @ X8 @ X1) != $true)) & ! [X9 : t_set] : (((t_in @ X9 @ X1) != $true) | ((set_rel @ (X7 @ X9) @ (X7 @ X9)) = $true))))) & ((set_rel @ X2 @ X2) = $true))) & ($true = (set_rel @ X0 @ X0)))),
+  inference(flattening,[],[f14])).
+thf(f14,plain,(
+  ? [X0 : t_set] : (? [X1 : t_set] : (? [X2 : t_set] : (? [X3 : t_set] : (? [X4 : t_set > t_set] : (? [X7 : t_set > t_set] : (? [X10 : t_set > t_set] : (? [X13 : t_set] : ((((set_rel @ (X10 @ (X7 @ (X4 @ X13))) @ (X10 @ (X7 @ (X4 @ X13)))) != $true) & ((t_in @ X13 @ X0) = $true)) & ((set_rel @ X2 @ X2) = $true)) & (! [X12 : t_set] : (((t_in @ X12 @ X2) != $true) | ((t_in @ (X10 @ X12) @ X3) = $true)) & ! [X11 : t_set] : (($true = (set_rel @ (X10 @ X11) @ (X10 @ X11))) | ($true != (t_in @ X11 @ X2))))) & (! [X9 : t_set] : (((t_in @ X9 @ X1) != $true) | ((set_rel @ (X7 @ X9) @ (X7 @ X9)) = $true)) & ! [X8 : t_set] : (((t_in @ (X7 @ X8) @ X2) = $true) | ((t_in @ X8 @ X1) != $true)))) & (! [X5 : t_set] : (($true = (t_in @ (X4 @ X5) @ X1)) | ((t_in @ X5 @ X0) != $true)) & ! [X6 : t_set] : (((t_in @ X6 @ X0) != $true) | ($true = (set_rel @ (X4 @ X6) @ (X4 @ X6)))))) & ((set_rel @ X3 @ X3) = $true)) & ((set_rel @ X2 @ X2) = $true)) & ((set_rel @ X1 @ X1) = $true)) & ($true = (set_rel @ X0 @ X0)))),
+  inference(ennf_transformation,[],[f7])).
+thf(f7,plain,(
+  ~! [X0 : t_set] : (($true = (set_rel @ X0 @ X0)) => ! [X1 : t_set] : (((set_rel @ X1 @ X1) = $true) => ! [X2 : t_set] : (((set_rel @ X2 @ X2) = $true) => ! [X3 : t_set] : (((set_rel @ X3 @ X3) = $true) => ! [X4 : t_set > t_set] : ((! [X5 : t_set] : (((t_in @ X5 @ X0) = $true) => ($true = (t_in @ (X4 @ X5) @ X1))) & ! [X6 : t_set] : (((t_in @ X6 @ X0) = $true) => ($true = (set_rel @ (X4 @ X6) @ (X4 @ X6))))) => ! [X7 : t_set > t_set] : ((! [X9 : t_set] : (((t_in @ X9 @ X1) = $true) => ((set_rel @ (X7 @ X9) @ (X7 @ X9)) = $true)) & ! [X8 : t_set] : (((t_in @ X8 @ X1) = $true) => ((t_in @ (X7 @ X8) @ X2) = $true))) => ! [X10 : t_set > t_set] : ((! [X12 : t_set] : (((t_in @ X12 @ X2) = $true) => ((t_in @ (X10 @ X12) @ X3) = $true)) & ! [X11 : t_set] : (($true = (t_in @ X11 @ X2)) => ($true = (set_rel @ (X10 @ X11) @ (X10 @ X11))))) => ! [X13 : t_set] : (((set_rel @ X2 @ X2) = $true) => (((t_in @ X13 @ X0) = $true) => ((set_rel @ (X10 @ (X7 @ (X4 @ X13))) @ (X10 @ (X7 @ (X4 @ X13)))) = $true))))))))))),
+  inference(fool_elimination,[],[f6])).
+thf(f6,plain,(
+  ~! [X0 : t_set] : ((set_rel @ X0 @ X0) => ! [X1 : t_set] : ((set_rel @ X1 @ X1) => ! [X2 : t_set] : ((set_rel @ X2 @ X2) => ! [X3 : t_set] : ((set_rel @ X3 @ X3) => ! [X4 : t_set > t_set] : ((! [X5 : t_set] : ((t_in @ X5 @ X0) => (t_in @ (X4 @ X5) @ X1)) & ! [X6 : t_set] : ((t_in @ X6 @ X0) => (set_rel @ (X4 @ X6) @ (X4 @ X6)))) => ! [X7 : t_set > t_set] : ((! [X8 : t_set] : ((t_in @ X8 @ X1) => (t_in @ (X7 @ X8) @ X2)) & ! [X9 : t_set] : ((t_in @ X9 @ X1) => (set_rel @ (X7 @ X9) @ (X7 @ X9)))) => ! [X10 : t_set > t_set] : ((! [X11 : t_set] : ((t_in @ X11 @ X2) => (set_rel @ (X10 @ X11) @ (X10 @ X11))) & ! [X12 : t_set] : ((t_in @ X12 @ X2) => (t_in @ (X10 @ X12) @ X3))) => ! [X13 : t_set] : ((set_rel @ X2 @ X2) => ((t_in @ X13 @ X0) => (set_rel @ (X10 @ (X7 @ (X4 @ X13))) @ (X10 @ (X7 @ (X4 @ X13)))))))))))))),
+  inference(rectify,[],[f4])).
+thf(f4,negated_conjecture,(
+  ~! [X4 : t_set] : ((set_rel @ X4 @ X4) => ! [X5 : t_set] : ((set_rel @ X5 @ X5) => ! [X6 : t_set] : ((set_rel @ X6 @ X6) => ! [X7 : t_set] : ((set_rel @ X7 @ X7) => ! [X8 : t_set > t_set] : ((! [X9 : t_set] : ((t_in @ X9 @ X4) => (t_in @ (X8 @ X9) @ X5)) & ! [X9 : t_set] : ((t_in @ X9 @ X4) => (set_rel @ (X8 @ X9) @ (X8 @ X9)))) => ! [X10 : t_set > t_set] : ((! [X9 : t_set] : ((t_in @ X9 @ X5) => (t_in @ (X10 @ X9) @ X6)) & ! [X9 : t_set] : ((t_in @ X9 @ X5) => (set_rel @ (X10 @ X9) @ (X10 @ X9)))) => ! [X11 : t_set > t_set] : ((! [X9 : t_set] : ((t_in @ X9 @ X6) => (set_rel @ (X11 @ X9) @ (X11 @ X9))) & ! [X9 : t_set] : ((t_in @ X9 @ X6) => (t_in @ (X11 @ X9) @ X7))) => ! [X9 : t_set] : ((set_rel @ X6 @ X6) => ((t_in @ X9 @ X4) => (set_rel @ (X11 @ (X10 @ (X8 @ X9))) @ (X11 @ (X10 @ (X8 @ X9)))))))))))))),
+  inference(negated_conjecture,[],[f3])).
+thf(f3,conjecture,(
+  ! [X4 : t_set] : ((set_rel @ X4 @ X4) => ! [X5 : t_set] : ((set_rel @ X5 @ X5) => ! [X6 : t_set] : ((set_rel @ X6 @ X6) => ! [X7 : t_set] : ((set_rel @ X7 @ X7) => ! [X8 : t_set > t_set] : ((! [X9 : t_set] : ((t_in @ X9 @ X4) => (t_in @ (X8 @ X9) @ X5)) & ! [X9 : t_set] : ((t_in @ X9 @ X4) => (set_rel @ (X8 @ X9) @ (X8 @ X9)))) => ! [X10 : t_set > t_set] : ((! [X9 : t_set] : ((t_in @ X9 @ X5) => (t_in @ (X10 @ X9) @ X6)) & ! [X9 : t_set] : ((t_in @ X9 @ X5) => (set_rel @ (X10 @ X9) @ (X10 @ X9)))) => ! [X11 : t_set > t_set] : ((! [X9 : t_set] : ((t_in @ X9 @ X6) => (set_rel @ (X11 @ X9) @ (X11 @ X9))) & ! [X9 : t_set] : ((t_in @ X9 @ X6) => (t_in @ (X11 @ X9) @ X7))) => ! [X9 : t_set] : ((set_rel @ X6 @ X6) => ((t_in @ X9 @ X4) => (set_rel @ (X11 @ (X10 @ (X8 @ X9))) @ (X11 @ (X10 @ (X8 @ X9)))))))))))))),
+  file('/tmp/tmp.a3Xf5LFqm4/E---3.1_903541.p',conj)).
+thf(f54,plain,(
+  ((set_rel @ (sK6 @ (sK5 @ (sK4 @ sK7))) @ (sK6 @ (sK5 @ (sK4 @ sK7)))) = $true)),
+  inference(trivial_inequality_removal,[],[f53])).
+thf(f53,plain,(
+  ((set_rel @ (sK6 @ (sK5 @ (sK4 @ sK7))) @ (sK6 @ (sK5 @ (sK4 @ sK7)))) = $true) | ($true != $true)),
+  inference(superposition,[],[f35,f48])).
+thf(f48,plain,(
+  ((t_in @ (sK5 @ (sK4 @ sK7)) @ sK2) = $true)),
+  inference(trivial_inequality_removal,[],[f47])).
+thf(f47,plain,(
+  ($true != $true) | ((t_in @ (sK5 @ (sK4 @ sK7)) @ sK2) = $true)),
+  inference(superposition,[],[f30,f46])).
+thf(f46,plain,(
+  ((t_in @ (sK4 @ sK7) @ sK1) = $true)),
+  inference(trivial_inequality_removal,[],[f45])).
+thf(f45,plain,(
+  ($true != $true) | ((t_in @ (sK4 @ sK7) @ sK1) = $true)),
+  inference(superposition,[],[f36,f32])).
+thf(f32,plain,(
+  ($true = (t_in @ sK7 @ sK0))),
+  inference(cnf_transformation,[],[f25])).
+thf(f36,plain,(
+  ( ! [X6 : t_set] : (((t_in @ X6 @ sK0) != $true) | ((t_in @ (sK4 @ X6) @ sK1) = $true)) )),
+  inference(cnf_transformation,[],[f25])).
+thf(f30,plain,(
+  ( ! [X12 : t_set] : (((t_in @ X12 @ sK1) != $true) | ($true = (t_in @ (sK5 @ X12) @ sK2))) )),
+  inference(cnf_transformation,[],[f25])).
+thf(f35,plain,(
+  ( ! [X9 : t_set] : (((t_in @ X9 @ sK2) != $true) | ($true = (set_rel @ (sK6 @ X9) @ (sK6 @ X9)))) )),
+  inference(cnf_transformation,[],[f25])).
+% SZS output end Proof for E---3.1_903541
+% (903554)------------------------------
+% (903554)Version: Vampire 4.8 (commit 11aac991b on 2023-10-04 16:26:07 +0200)
+% (903554)Termination reason: Refutation
+
+% (903554)Memory used [KB]: 5628
+% (903554)Time elapsed: 0.008 s
+% (903554)------------------------------
+% (903554)------------------------------
+% (903550)Success in time 0.021 s
+% Vampire exiting
+
+% END OF SYSTEM OUTPUT
+% RESULT: SOT_j6zA2f - Vampire---4.9 says Theorem - CPU = 0.02 WC = 0.06 
+% OUTPUT: SOT_j6zA2f - Vampire---4.9 says Refutation - CPU = 0.02 WC = 0.06 
+
+
