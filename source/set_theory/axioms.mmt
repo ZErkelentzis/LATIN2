@@ -77,7 +77,7 @@ theory ReplacementAx =
   include ?RelationDefinitions❙
   
   // The resulting set is a replacement for A regarding function f❙
-  isreplacement = [f,A,Z] ∀ͧ[y] y∈Z ⇔ (∃ͧ[x] x∈A ∧ f x y)❙  
+  isreplacement = [f,A,Z] ∀ͧ[y] y∈Z ⇔ (∃ͧ[x] x∈A ∧ f x y)❙
 
   replacement_axiom : {f} ⊦ ∀ͧ[A] isfunction f A ⇒ ∃ͧ[Z] isreplacement f A Z❙
   replacement_unique : {f,A} ⊦ isfunction f A ⟶ ⊦ ∃ꜝͧ[Z] isreplacement f A Z❘

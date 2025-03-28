@@ -116,7 +116,7 @@ theory MultisetSpec =
   include ?ListSpec❙
   include ?EndoCommutative❙
 
-  	intersect: {a} tm &a ⟶ tm &a ⟶ tm &a❘# %n 2 3 prec 30❙ 
+  intersect: {a} tm &a ⟶ tm &a ⟶ tm &a❘# %n 2 3 prec 30❙ 
 	intersect_neutral1 : {a, xs: tm &a} ⊦ intersect neutral xs =ͭ neutral❙
 	intersect_neutral2 : {a, xs: tm &a} ⊦ intersect xs neutral =ͭ neutral❙
 	intersect_cons1: {a,x: tm a, xs,ys: tm &a} 
