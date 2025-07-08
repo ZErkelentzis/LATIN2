@@ -2,33 +2,20 @@ namespace latin:/❚
 
 fixmeta ?DependentFOLEQDescND❚
 
-theory SimpleFunctionTypesSet =
-  include ?TypesSet❙
-  include ?Functions❙
-  
-  realize ?SimpleFunctionTypes❙
-  simpfun = func❙
+view SimpleFunctionTypesSet : ?SimpleFunctionTypes → ?TypeBase + ?Functions =
+	include ?TypesSet❙
+	simpfun = func❙
 ❚
 
 // AS: I don't think I can do this❚
-theory DependentFunctionTypesSet =
-  include ?TypedTermsSet❙
-  
-  realize ?DependentFunctionTypes❙
+view DependentFunctionTypesSet : ?DependentFunctionTypes → ?TypeBase =
+	include ?TypedTermsSet❙
   // TODO❙
 ❚
 
-theory SimpleFunctionsSet =
-  // AS: Propositions and Proofs are part of the fixmeta❙
-  include ?Propositions❙
-  include ?Proofs❙
-  
-  include ?SimpleFunctionTypesSet❙
+view SimpleFunctionsSet : ?SimpleFunctions → ?TypeBase + ?Functions + ?LambdaFunction =
+	include ?SimpleFunctionTypesSet❙
   include ?TypedEqualityNDSet❙
-  
-  include ?LambdaFunction❙
-  
-  realize ?SimpleFunctions❙
   // TODO❙
   // AS: I lack the proofs of ⊦ a∈A and ⊦ b∈B❙
   // simplambda = [A,B,F: Elem A ⟶ Elem B] elem (theRel A B ([a,b] ))

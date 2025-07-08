@@ -2,7 +2,7 @@ namespace latin:/❚
 
 fixmeta ?DependentFOLEQDescND❚
 
-theory TypedUniversalQuantificationSet =
+// theory TypedUniversalQuantificationSet =
   include ?Propositions❙
   include ?Proofs❙
   include ?TypedLogicSet❙
@@ -12,7 +12,12 @@ theory TypedUniversalQuantificationSet =
   tforall = [A,P: Elem A ⟶ prop] uforall [x] (x∈A) ⇒ͩ ([p] P (elem x p))❙
 ❚
 
-theory TypedUniversalQuantificationNDSet =
+view TypedUniversalQuantificationSet : ?TypedUniversalQuantification → ?TypeBase + ?Propositions + ?Proofs =
+	include ?TypedLogicSet❙	
+	tforall = [A,P: Elem A ⟶ prop] uforall [x] (x∈A) ⇒ͩ ([p] P (elem x p))❙
+❚
+
+// theory TypedUniversalQuantificationNDSet =
   include ?Propositions❙
   include ?Proofs❙
   include ?TypedUniversalQuantificationSet❙
@@ -22,7 +27,13 @@ theory TypedUniversalQuantificationNDSet =
   tforallE = [A,P,p,e: Elem A] simpP P equivEr ((p uforallE (which e)) dimplE (why e))❙
 ❚
 
-theory TypedExistentialQuantificationSet =
+view TypedUniversalQuantificationNDSet : ?TypedUniversalQuantificationND → ?TypeBase + ?Propositions + ?Proofs =
+	include ?TypedUniversalQuantificationSet❙
+  tforallI = [A,P,p] uforallI [x] dimplI ([q] p (elem x q))❙
+  tforallE = [A,P,p,e: Elem A] simpP P equivEr ((p uforallE (which e)) dimplE (why e))❙
+❚
+
+// theory TypedExistentialQuantificationSet =
   include ?Propositions❙
   include ?Proofs❙  
   include ?TypedLogicSet❙
@@ -32,12 +43,23 @@ theory TypedExistentialQuantificationSet =
   texists = [A,P: Elem A ⟶ prop] uexists [x] (x∈A) ∧ͩ ([p] P (elem x p))❙
 ❚
 
-theory TypedExistentialQuantificationNDSet =
+view TypedExistentialQuantificationSet : ?TypedExistentialQuantification → ?TypeBase + ?Propositions + ?Proofs =
+	include ?TypedLogicSet❙
+  texists = [A,P: Elem A ⟶ prop] uexists [x] (x∈A) ∧ͩ ([p] P (elem x p))❙
+❚
+
+// theory TypedExistentialQuantificationNDSet =
   include ?Propositions❙
   include ?Proofs❙  
   include ?TypedExistentialQuantificationSet❙
 	
   realize ?TypedExistentialQuantificationND❙
+  texistsI = [A,P: Elem A ⟶ prop,e: Elem A,p] uexistsI (which e) (dandI (why e) (simpP P equivEl p))❙
+  texistsE = [A,P,C,p,Q] p uexistsE ([x,px] Q (elem x (px dandEl)) (px dandEr))❙
+❚
+
+view TypedExistentialQuantificationNDSet : ?TypedExistentialQuantificationND → ?TypeBase + ?Propositions + ?Proofs =
+	include ?TypedExistentialQuantificationSet❙
   texistsI = [A,P: Elem A ⟶ prop,e: Elem A,p] uexistsI (which e) (dandI (why e) (simpP P equivEl p))❙
   texistsE = [A,P,C,p,Q] p uexistsE ([x,px] Q (elem x (px dandEl)) (px dandEr))❙
 ❚

@@ -6,18 +6,13 @@ fixmeta ?DependentFOLEQDescND❚
   forces us to provide spurious named theories. This should be refactored when
   multi-theory domains and codomains are possible.❚
   
+  
 // Views for TheRelation❚
 // AS: to keep consistency with ordered pairs, it might be wanted to realize TheRelation instead. 
   These views can be changed easily into a realize❚
-theory CartFilter =
-  include ?CartesianProduct❙
-  include ?Filter❙
-  include ?RelationDefinitions❙
-❚
 
-view TheCartFilter : ?TheRelation → ?CartFilter =
+view TheCartFilter : ?TheRelation → ?CartesianProduct + ?Filter =
   include ?SetBase❙
-  include ?RelationDefinitions❙
   
   theRel = [A,B,P] (A ×ͧ B) | ([p] P (p₁ͧ) (p₂ͧ))❙
   inRel = [R,a,b] (a,ͧb) ∈ R❙
@@ -44,13 +39,10 @@ view TheCartFilter : ?TheRelation → ?CartFilter =
       (Q (x₁ͧ) (x₂ͧ) equivEr (repr (q subsetE rs prodE) ucongP ([u] u∈S) q))))❙
 ❚
 
-// Views for Relations❚
-theory CartFilterPower =
-  include ?CartFilter❙
-  include ?Powersets❙
-❚
 
-view RelCartFilter : ?Relations → ?CartFilterPower =
+// Views for Relations❚
+
+view RelCartFilter : ?Relations → ?CartesianProduct + ?Filter + ?Powersets =
   include ?TheRelation❘ = ?TheCartFilter❙
 
   rel = [A,B] ℘ (A ×ͧ B)❙
@@ -61,13 +53,10 @@ view RelCartFilter : ?Relations → ?CartFilterPower =
       subsetE (prod_sub pa pb)))❙
 ❚
 
-// Views for PartialFunctions❚
-theory RelFilter =
-  include ?Relations❙
-  include ?Filter❙
-❚
 
-view PFuncRelFilter : ?PartialFunctions → ?RelFilter =
+// Views for PartialFunctions❚
+
+view PFuncRelFilter : ?PartialFunctions → ?Relations + ?Filter =
   // AS: TheRelation should have the same definition as in relations, but
     how can this be stated here?❙
   include ?TheRelation❙
@@ -77,7 +66,7 @@ view PFuncRelFilter : ?PartialFunctions → ?RelFilter =
   pfuncE = [A,B,R,p] andI (p filterEl relE) (p filterEr)❙
 ❚
 
-view PFuncCartFilter : ?PartialFunctions → ?CartFilterPower =
+view PFuncCartFilter : ?PartialFunctions → ?CartesianProduct + ?Filter + ?Powersets + ?RelationDefinitions =
   include ?TheRelation❘ = ?TheCartFilter❙
   
   pfunc = [A,B] ℘ (A ×ͧ B) | ([R] isrightunique ([a,b] (a,ͧb) ∈ R))❙
@@ -85,8 +74,10 @@ view PFuncCartFilter : ?PartialFunctions → ?CartFilterPower =
   pfuncE = [A,B,R,p] andI (p filterEl vpowersetE) (p filterEr)❙
 ❚
 
+
 // Views for Functions❚
-view FuncRelFilter : ?Functions → ?RelFilter =
+
+view FuncRelFilter : ?Functions → ?Relations + ?Filter =
   // AS: TheRelation should have the same definition as in relations, 
     but how can this be stated here?❙
   include ?TheRelation❙
@@ -98,12 +89,7 @@ view FuncRelFilter : ?Functions → ?RelFilter =
     (p filterEr andEr)❙
 ❚
 
-theory PFuncFilter =
-  include ?PartialFunctions❙
-  include ?Filter❙
-❚
-
-view FuncPFuncFilter : ?Functions → ?PFuncFilter =
+view FuncPFuncFilter : ?Functions → ?PartialFunctions + ?Filter =
   // AS: TheRelation should have the same definition as in partial functions, 
   but how can this be stated here?❙
   include ?TheRelation❙
@@ -113,7 +99,7 @@ view FuncPFuncFilter : ?Functions → ?PFuncFilter =
   funcE = [A,B,R,p] andI (p filterEl pfuncE) (p filterEr)❙
 ❚
 
-view FuncCartFilter : ?Functions → ?CartFilterPower =
+view FuncCartFilter : ?Functions → ?CartesianProduct + ?Filter + ?Powersets + ?RelationDefinitions =
   include ?TheRelation❘ = ?TheCartFilter❙ 
   
   func = [A,B] ℘ (A ×ͧ B) | ([R] isrightunique ([a,b] (a,ͧb) ∈ R) ∧
@@ -124,15 +110,10 @@ view FuncCartFilter : ?Functions → ?CartFilterPower =
     (p filterEr andEr)❙
 ❚
 
-// Views for LambdaFunction❚
-theory TheBigCartFilterImage =
-  include ?CartFilter❙
-  include ?BigUnion❙
-  include ?Image❙
-  include ?Img❙
-❚
 
-view LambdaCartFilter : ?LambdaFunction → ?TheBigCartFilterImage =
+// Views for LambdaFunction❚
+
+view LambdaCartFilter : ?LambdaFunction → ?CartesianProduct + ?Filter + ?BigUnion + ?Image + ?Img =
   include ?TheRelation❘ = ?TheCartFilter❙
   
   lambda = [A,f] image ([x] x,ͧ f x) A❙
@@ -147,12 +128,7 @@ view LambdaCartFilter : ?LambdaFunction → ?TheBigCartFilterImage =
   // ext = _ ❙
 ❚
 
-theory BigLambda =
-  include ?TheBigCartFilterImage❙
-  include ?LambdaFunction❙
-❚
-
-view TheLambda : ?LambdaImage → ?BigLambda =
+view TheLambda : ?LambdaImage → ?CartesianProduct + ?Filter + ?BigUnion + ?Image + ?Img + ?LambdaFunction =
   include ?LambdaFunction❘ = ?LambdaCartFilter❙
   include ?Image❙
   

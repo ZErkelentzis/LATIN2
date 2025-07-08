@@ -5,52 +5,37 @@ fixmeta ?DependentFOLEQDescND❚
 /T   The views currently still need single theories as a domain and codomain, which 
   forces us to provide spurious named theories. This should be refactored when
   multi-theory domains and codomains are possible. ❚
+
   
 // Views for EmptySet❚
-theory ExistFilter =
-  include ?Filter❙
-  include ?EmptyDefinitions❙
-❚
 
-view EmptyExistFilter : ?EmptySet → ?ExistFilter =
+view EmptyExistFilter : ?EmptySet → ?Filter =
   include ?SetBase❙
-  include ?EmptyDefinitions❙
   
   isempty_exists = univ_nonempty ([X] dne notI ([pf] tnd orE
     ([pa] pa uexistsE ([y,py] py filterEr notE urefl inconE))
     ([pb] pf notE (uexistsI (filter X ([z] ¬z =ͧ z)) pb) inconE) falseE))❙ 
 ❚
 
-theory ComplementIntersection =
- 	include ?Complement❙
- 	include ?Intersection❙
- 	include ?EmptyDefinitions❙
-❚
-
-view EmptyIntersection : ?EmptySet → ?ComplementIntersection =
+view EmptyIntersection : ?EmptySet → ?Complement + ?Intersection =
   include ?SetBase❙
-  include ?EmptyDefinitions❙
   
   isempty_exists = univ_nonempty ([X] univ_nonempty ([U] 
     dne notI ([pf] tnd orE ([pa] pa uexistsE ([y,py] (py interEr) compEr notE (py interEl) inconE))
     ([pb] pf notE (uexistsI (X ∩ (∁ U X)) pb) inconE) falseE)))❙ 
 ❚
 
-theory ExistDifference =
-  include ?Difference❙
-  include ?EmptyDefinitions❙
-❚
-
-view SelfDifference : ?EmptySet → ?ExistDifference =
+view SelfDifference : ?EmptySet → ?Difference =
   include ?SetBase❙
-  include ?EmptyDefinitions❙
   
   isempty_exists = univ_nonempty ([X] dne notI ([pf] tnd orE
     ([pa] pa uexistsE ([y,py] (py difEr) notE (py difEl) inconE))
     ([pb] pf notE (uexistsI (dif X X) pb) inconE) falseE))❙
 ❚
 
+
 // Views for Singletons❚
+
 view SelfPair : ?Singletons → ?UnorderedPairs =
   include ?SetBase❙
   
@@ -59,12 +44,7 @@ view SelfPair : ?Singletons → ?UnorderedPairs =
   singletonE = [A,x,p] p uopairE ([q] q) ([q] q)❙
 ❚
 
-theory EmptyAdjoin =
-  include ?Adjoin❙
-  include ?EmptySet❙
-❚
-
-view SingleAdjoin : ?Singletons → ?EmptyAdjoin =
+view SingleAdjoin : ?Singletons → ?Adjoin + ?EmptySet =
   include ?SetBase❙
   
   singleton = [A] adjoin ∅ A❙
@@ -72,7 +52,9 @@ view SingleAdjoin : ?Singletons → ?EmptyAdjoin =
   singletonE = [A,x,p] p adjoinE ([pa] empty_prop notE (uexistsI x pa) inconE) ([pb] pb)❙
 ❚
 
+
 // Views for Uopairs❚
+
 view UopairFromAxiom : ?UnorderedPairs → ?PairingAx =
   include ?SetBase❙
   
@@ -82,12 +64,7 @@ view UopairFromAxiom : ?UnorderedPairs → ?PairingAx =
   uopairE = [A,B,x,C,p,pa,pb] p pairingAxE (the_ax ([Z] isuopair A B Z) pairing_unique) pa pb❙
 ❚
 
-theory SingletonUnion =
-  include ?Singletons❙
-  include ?Union❙
-❚
-
-view UopairUnion : ?UnorderedPairs → ?SingletonUnion =
+view UopairUnion : ?UnorderedPairs → ?Singletons + ?Union =
   include ?SetBase❙
   
   uopair = [A,B] (singleton A) ∪ (singleton B)❙
@@ -96,12 +73,7 @@ view UopairUnion : ?UnorderedPairs → ?SingletonUnion =
   uopairE = [A,B,x,C,p,pa,pb] p unionE ([qa] pa (qa singletonE)) ([qb] pb (qb singletonE))❙
 ❚
 
-theory AdjoinSingletons =
-  include ?Adjoin❙
-  include ?Singletons❙
-❚
-
-view UopairAdjointSingleton : ?UnorderedPairs → ?AdjoinSingletons =
+view UopairAdjointSingleton : ?UnorderedPairs → ?Singletons + ?Adjoin =
   include ?SetBase❙
   
   uopair = [A,B] adjoin (singleton A) B❙

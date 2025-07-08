@@ -2,7 +2,7 @@ namespace latin:/❚
 
 fixmeta ?DependentFOLEQDescND❚
 
-theory PowerTypesSet =
+// theory PowerTypesSet =
   // AS: Propositions and Proofs are part of the fixmeta❙
   include ?Propositions❙
   include ?Proofs❙
@@ -33,19 +33,27 @@ theory PowerTypesSet =
   // expand = [A,S: Powerset A] _❙
 ❚
 
-// AS: powertypes/?Map is defined already. Therefore I skipped it❚
+view PowerTypesSet : powertypes/?PowerTypes → ?TypeBase + ?Powersets + ?Filter =
+	include ?TypedEqualityNDSet❙	
+	include ?EquivalenceND❙
 
-theory ExtensionalitySet =
-  // AS: Propositions and Proofs are part of the fixmeta❙
-  include ?Propositions❙
-  include ?Proofs❙
-  // AS: part of fixmeta❙
-  include ?Equivalence❙
-  include ?EquivalenceNDI❙
-  include ?EquivalenceNDE❙
+	power = powerset❙
+    
+  in = [A,a,b] which a ∈ which b❙
   
+  pfilter = [A,P: Elem A ⟶ prop] elem (A|([x] x∈A ∧ͩ ([p] P (elem x p))))
+      (vpowersetI filter_sub)❙
+      
+  compute = [A,P: Elem A ⟶ prop,e: Elem A] equivI 
+    ([p] simpP P equivEr (p filterEr dandEr))
+    ([q] filterI (why e) (dandI (why e) (simpP P equivEl q)))❙
+    
+  // expand = [A,S: Powerset A] _❙	
+❚
+
+// AS: powertypes/?Map is defined already. Therefore I skipped it❚
+view ExtensionalitySet : powertypes/?Extensionality → ?TypeBase + ?Powersets + ?Filter = 
   include ?PowerTypesSet❙
   include ?TypedUniversalQuantificationNDSet❙
-  
-  realize powertypes/?Extensionality❙
   // extensionality = [A,S,T: Elem Powerset A,p] extensionality_axiom equivEl ❙
+❚

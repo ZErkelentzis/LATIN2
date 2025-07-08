@@ -2,7 +2,7 @@ namespace latin:/❚
 
 fixmeta ?DependentFOLEQDescND❚
 
-theory NatZF =
+// theory NatZF =
   include ?Nats❙
   include ?TypedUniversalQuantificationNDSet❙
   
@@ -23,11 +23,37 @@ theory NatZF =
          Class_repr EqcongEl P (lem uforallE (which n) implE (why n) dimplE (why n))❙
 ❚
 
-theory NatPlusZF =
+view NatZF : ?NatUnary → ?TypeBase + ?Propositions + ?Proofs + ?Nats + ?SFOLEQND =
+	include ?TypedUniversalQuantificationNDSet❙
+	
+  num = nats❙
+  
+  nat = nats❙
+  zero = elem uzero peano_zero❙
+  succ = [e] elem (usucc (which e)) (peano_succ uforallE (which e) implE (why e))❙
+  
+  peano_induction : {P} ⊦ P zero ⟶ ({m} ⊦ P m ⟶ ⊦ P (succ m)) ⟶ {n} ⊦ P n❘
+       = [P,p,Q,n] lemma (∀ͧ[x] x∈nats ⇒ (x∈nats ⇒ͩ[q] P (elem x q)))
+          (peano_induction
+            (dimplI [d] p)
+            ([m,q,r] dimplI [d] Q (elem m q) (r dimplE q)))
+         [lem]
+         Class_repr EqcongEl P (lem uforallE (which n) implE (why n) dimplE (why n))❙
+❚
+
+// theory NatPlusZF =
   include ?NatZF❙
   
   realize ?NatPlus❙
   // plus = [e: Elem nats, d: Elem nats] _ ❙
+  plus = _ ❙
+  plus_zero = _ ❙
+  plus_succ = _ ❙
+❚
+
+view NatPlusZF : ?NatPlus → ?TypeBase + ?Propositions + ?Proofs + ?Nats + ?SFOLEQND =
+	include ?NatZF❙
+	// plus = [e: Elem nats, d: Elem nats] _ ❙
   plus = _ ❙
   plus_zero = _ ❙
   plus_succ = _ ❙

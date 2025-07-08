@@ -6,14 +6,10 @@ fixmeta ?DependentFOLEQDescND❚
   forces us to provide spurious named theories. This should be refactored when
   multi-theory domains and codomains are possible.❚
 
-// Views for Img❚
-theory OrderedImageFilter =
-  include ?OrderedPairs❙
-  include ?Image❙
-  include ?Filter❙
-❚
 
-view ImgOrderedImageFilter : ?Img → ?OrderedImageFilter =
+// Views for Img❚
+
+view ImgOrderedImageFilter : ?Img → ?OrderedPairs + ?Image + ?Filter =
   include ?OrderedPairs❙
   img = [R,a] image ([p] p₂ͧ) (R|([x] ispair x ∧ (x₁ͧ)=ͧa))❙
   imgI = [R,a,b,p] compR ucongP ([x] x∈(image ([p] p₂ͧ) (R|([z] ispair z ∧ (z₁ͧ)=ͧa)))) 
@@ -23,14 +19,10 @@ view ImgOrderedImageFilter : ?Img → ?OrderedImageFilter =
       (eq_in (eq/sym repr (px andEl filterEr andEl)) (px andEl filterEl))))❙
 ❚
 
-// Views for CartesianProduct❚
-theory OrderedBigUnionImage =
-  include ?OrderedPairs❙
-  include ?BigUnion❙
-  include ?Image❙
-❚
 
-view CartImage : ?CartesianProduct → ?OrderedBigUnionImage =
+// Views for CartesianProduct❚
+
+view CartImage : ?CartesianProduct → ?OrderedPairs + ?BigUnion + ?Image =
   include ?OrderedPairs❙
   prod = [A,B] ⋃(image ([x] image ([y] x,ͧy) B) A)❙
   prodI = [A,B,a,b,pa,pb] bigunionI (imageI pa) (imageI pb)❙
@@ -54,8 +46,10 @@ view SigmaCart : ?CartesianProduct → ?Sigma =
   prodE = [A,B,p,pp] pp sigmaE❙
 ❚
 
+
 // Views for Sigma❚
-view SigmaUnion : ?Sigma → ?OrderedBigUnionImage =
+
+view SigmaUnion : ?Sigma → ?OrderedPairs + ?BigUnion + ?Image =
   include ?OrderedPairs❙
   // AS: This is nearly the same as for the CartesianProduct❙
   sigma = [A,B] ⋃(image ([x] image ([y] x,ͧy) (B x)) A)❙

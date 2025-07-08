@@ -10,12 +10,7 @@ fixmeta ?DependentFOLEQDescND❚
   multi-theory domains and codomains are possible.❚
 
 // AS: This would belong in another file, but I cannot move it now❚
-theory RegularityUopair =
-  include ?RegularityAx❙
-  include ?UnorderedPairs❙
-❚
-
-view AcyclicUopair : ?Acyclic → ?RegularityUopair =
+view AcyclicUopair : ?Acyclic → ?RegularityAx + ?UnorderedPairs =
   include ?SetBase❙
   
   in_acyclic = [A,B,p,q] regularity_axiom uforallE (uopair A B) implE (uexistsI A uopairIl)
@@ -24,7 +19,9 @@ view AcyclicUopair : ?Acyclic → ?RegularityUopair =
       ([pb] (pz andEr) notE (uexistsI A (andI uopairIl (in_eq p (eq/sym pb)))) inconE))❙
 ❚
 
+
 // Views for Filter❚
+
 view FilterFromAxiom : ?Filter → ?ComprehensionAx =
   include ?SetBase❙
   
@@ -34,7 +31,9 @@ view FilterFromAxiom : ?Filter → ?ComprehensionAx =
   filterEr = [A,P,x,p] p comprehensionAxEr (the_ax ([Z] iscomprehension A P Z) comprehension_unique)❙
 ❚
 
+
 // Views for Replace❚
+
 view ReplaceFromAxiom : ?Replace → ?ReplacementAx =
   include ?SetBase❙
   include ?RelationDefinitions❙
@@ -46,7 +45,9 @@ view ReplaceFromAxiom : ?Replace → ?ReplacementAx =
     replacement_unique isfun_fun2rel) Q❙
 ❚
 
+
 // Views for Image❚
+
 view ImageReplace : ?Image → ?Replace =
   include ?SetBase❙
   
@@ -55,13 +56,10 @@ view ImageReplace : ?Image → ?Replace =
   imageE = [A,f,y,p] p replaceE ([x,pa,pb] uexistsI x (andI pa pb))❙
 ❚
 
-// Views for SymmetricDifference❚
-theory UnionDifference =
-  include ?Difference❙
-  include ?Union❙
-❚
 
-view SymUnion : ?SymmetricDifference → ?UnionDifference =	
+// Views for SymmetricDifference❚
+
+view SymUnion : ?SymmetricDifference → ?Union + ?Difference =	
   include ?SetBase❙
   
   symdif = [A,B] (A∖B) ∪ (B∖A)❙
@@ -72,12 +70,7 @@ view SymUnion : ?SymmetricDifference → ?UnionDifference =
     ([qb] pb (andI (qb difEr) (qb difEl)))❙
 ❚
 
-theory UnionIntersectionDifference =
-  include ?UnionDifference❙
-  include ?Intersection❙
-❚
-
-view SymDifference : ?SymmetricDifference → ?UnionIntersectionDifference =
+// view SymDifference : ?SymmetricDifference → ?Union + ?Difference + ?Intersection =
   // AS: this might not be needed since Intersection could be left out❙
   include ?SetBase❙
   
@@ -89,7 +82,7 @@ view SymDifference : ?SymmetricDifference → ?UnionIntersectionDifference =
     ([qb] pb andI (notI ([pf] (p difEr) notE (interI pf qb))) qb)❙
 ❚
 
-view SymFilter : ?SymmetricDifference → ?UnionFilter =
+view SymFilter : ?SymmetricDifference → ?Union + ?Filter =
   include ?SetBase❙
   
   symdif = [A,B] (A∪B) | ([x] (x∈A ∧ ¬ x∈B) ∨ (¬ x∈A ∧ x∈B))❙
@@ -98,13 +91,10 @@ view SymFilter : ?SymmetricDifference → ?UnionFilter =
   symdifE = [A,B,x,C,p,pa,pb] p filterEr orE ([qa] pa qa) ([qb] pb qb)❙
 ❚
 
-// Views for Adjoin❚
-theory UnionSingleton =
-  include ?Union❙
-  include ?Singletons❙
-❚
 
-view AdjoinUnion : ?Adjoin → ?UnionSingleton =
+// Views for Adjoin❚
+
+view AdjoinUnion : ?Adjoin → ?Union + ?Singletons =
   include ?SetBase❙
   
   adjoin = [A,b] A ∪ (singleton b)❙
@@ -113,7 +103,9 @@ view AdjoinUnion : ?Adjoin → ?UnionSingleton =
   adjoinE = [A,b,x,C,p,pa,pb] p unionE pa ([q] pb (q singletonE))❙
 ❚
 
+
 // Views for Remove❚
+
 view RemoveFilter : ?Remove → ?Filter =
   include ?SetBase❙
   
@@ -122,12 +114,7 @@ view RemoveFilter : ?Remove → ?Filter =
   removeE = [A,b,x,p] andI (p filterEl) (p filterEr)❙
 ❚
 
-theory SingletonDifference =
-  include ?Difference❙
-  include ?Singletons❙
-❚
-
-view RemoveDifference : ?Remove → ?SingletonDifference =
+view RemoveDifference : ?Remove → ?Singletons + ?Difference =
   include ?SetBase❙
   
   remove = [A,b] A∖(singleton b)❙

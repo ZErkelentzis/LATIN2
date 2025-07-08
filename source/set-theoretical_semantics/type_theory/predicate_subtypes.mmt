@@ -2,18 +2,11 @@ namespace latin:/❚
 
 fixmeta ?DependentFOLEQDescND❚
 
-theory TypedPredicateSubtypesSet =
-  // AS: Propositions and Proofs are part of the fixmeta❙
-  include ?Propositions❙
-  include ?Proofs❙
-  
-  include ?TypedLogicSet❙
-  include ?TypedEqualitySet❙  
-  include ?Filter❙
+view TypedPredicateSubtypesSet : ?TypedPredicateSubtypes → ?TypeBase + ?Filter =
+	include ?TypedLogicSet❙
+  include ?TypedEqualitySet❙ 
 
-  realize ?TypedPredicateSubtypes❙
-  
-  predsub = [A,P: Elem A ⟶ prop] filter A ([x] x∈A ∧ͩ ([p] P (elem x p)))❙
+	predsub = [A,P: Elem A ⟶ prop] filter A ([x] x∈A ∧ͩ ([p] P (elem x p)))❙
   // predsubI = [A,P,e: Elem A,p] elem (which e) filterI (why e) (dandI (why e) (ceq_which EqcongEr P p))❙
   predsubI = [A,P,e: Elem A,p] elem (which e) filterI (why e) (dandI (why e) (simpP P equivEl p))❙
   predsubEl = [A,P,e] elem (which e) ((why e) filterEl)❙
@@ -27,17 +20,9 @@ theory TypedPredicateSubtypesSet =
   // AS: Simplify is missing❙
 ❚
 
-theory SoftTypedPredicateSubtypesSet =
-  // AS: Propositions, Terms and Proofs are part of the fixmeta❙
-  include ?Propositions❙
-  include ?Terms❙
-  include ?Proofs❙
-  
-  include ?SoftTypedLogicSet❙
-  include ?Filter❙
-  
-  realize ?SoftTypedPredicateSubtypes❙
-  // AS: not sure, if this is really just filter❙
+view SoftTypedPredicateSubtypesSet : ?SoftTypedPredicateSubtypes → ?TypeBase + ?Filter =
+	include ?SoftTypedLogicSet❙
+	// AS: not sure, if this is really just filter❙
   predsub = [A,P] filter A P❙
   predsubI = [A,P,x,p: ⊦ x∈A,q] filterI p q❙
   predsubEl = [A,P,x,p] p filterEl❙
